@@ -30,6 +30,8 @@ using std::cerr;
 		#define OPENCITY_DEBUG( msg ) { \
 			cout << "<DEBUG> " << __FILE__ << " " << __LINE__ << " : " << msg << endl; \
 		}
+	#else
+		#define OPENCITY_DEBUG(msg)
 	#endif
 
 // Information message macro
