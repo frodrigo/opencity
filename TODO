@@ -1,0 +1,183 @@
+==============================================================================
+OpenCity TODO version 0.0.4 BETA
+----------------------------------
+$Id: TODO,v 1.58 2006/04/17 09:37:32 neoneurone Exp $
+
+Implement the MAS library             (done)
+MAS integration                       (done)
+Review the debug macros               (done)
+Reduce the number of threads          (done)
+Terrain save/load feature             (done)
+City save/load feature                (WIP)
+Clean up the MAS library
+Fix the 0, 0 coordinates bug
+Fix the raise/lower terrain cost
+Review the agent creation process
+Review the message system
+Terrain modelling
+Hospital model
+Trees
+Convert OCM files to AC
+Convert the terrain to display list
+CodingStyle                           (WIP)
+
+
+
+==============================================================================
+Planed for future version
+-------------------------
+Subdivide map for better performance  (0.0.3 +)
+Settings GUI                          (0.0.3 +)
+Hospital
+Help system
+Internationalization
+Zone density
+Sea-port
+Air-port
+Water
+Gas
+Rail-road
+Highway
+Subway
+Arcologies
+Land-mark
+Shanties
+Rendering plugins:
+        Snow, rain, fall, night
+Event plugin:
+        French attitude ...
+
+
+
+
+==============================================================================
+OpenCity TODO version 0.0.3 BETA - STABLE
+--------------------------------
+Last updated jan 24th, 2006
+
+Create autopackage                    (done)
+Improve grass texture                 (done)
+Add first level RCI models            (done)
+Update PDF                            (done)
+Fix near plan in orthogonal mode      (done)
+Build over roads and electric lines   (done)
+Add BinReloc routines                 (done)
+Disable hospital icon                 (done)
+Disable "a" toolcircle                (done)
+Handle " (double-quote) in --homedir  (done)
+Disable 32bits requirement            (done)
+Customize installation path under win32 (done)
+Ship necessary docs for end users     (done)
+Domain transfert                      (done)
+1024x768 fullscreen mode              (done)
+Splashscreen rewrite                  (done)
+New OpenGL font system                (done)
+Simulation code retouch               (done)
+Build over the existing RCI zones     (done)
+New selection method                  (done)
+Low video quality mode support        (done)
+Show the structure while building     (done)
+Improve structure placement algorithm (done)
+Improve win32 compilation support     (done)
+Memory leaks fix                      (done)
+Win32 starting crash fix              (done)
+AC3D internal structure rewrite       (done)
+AC3D rendering rewrite                (done)
+Auto-triangulating loader             (done)
+Autoheader                            (done)
+HomeDir config variable               (done)
+One texture file per model            (done)
+
+Code cleaning up
+    mapGetSquareHeight2               (done)
+    debug message                     (done)
+    enumeration                       (done)
+Update the UML design                 (done)
+Update the OpenCity design draft      (done)
+NURBS surface                         (held over)
+Improve electricity transmission      (held over)
+New algorithm for moving object       (held over)
+-
+Doxygen it                            (done)
+AC3D file support                     (done)
+Texture mirroring                     (done)
+Trim out the space around = in .conf  (done)
+Dynanimize structure's size           (done)
+Park                                  (done)
+Splash screen                         (done)
+Buffer for textures loading           (done)
+School                                (done)
+Fire station                          (done)
+Police station                        (done)
+Dynanimize OC_SIMULATOR_LAG           (done)
+Design networking protocole v0.0.3    (done)
+Frodrigo's models integration         (done)
+Auto-scaling texture                  (done)
+Terrain texturing                     (done)
+
+
+
+==============================================================================
+OpenCity TODO version 0.0.2 BETA - STABLE
+-----------------------------------------
+Last updated on thu sep 7th, 2004
+
+Improve win32 support                 (done)
+Config file .conf support             (done)
+Compass                               (done)
+Improve graphics                      (done)
+Codes cleaning up                     (done)
+-
+Destroy tool                          (done)
+Electricity sim rewrite               (done)
+GUI                                   (done)
+Blender mouse's wheel's behaviour     (done)
+AM_PATH_SDL                           (done)
+Tool circle                           (done)
+Query tool                            (done)
+Traffic simulator                     (done)
+Improve rendering for selection       (done)
+Improve rendering for highlighting    (done)
+Lighting                              (done)
+OpenCity Models (OCM) minimal support (done)
+Improve debugging macros              (done)
+Dijkstra algorithm                    (done)
+Euclidian heuristic                   (done)
+Minimal vehicule animation            (done)
+Floating point vehicule coordinates   (done)
+Inaccurate normals if negative zoom ratio (done)
+Move #define from main.h to appropriate files (done)
+Better vehicule display algo          (done)
+DIY cool sound effects ;)             (done)
+Review GUIButton algo                 (done)
+Remove pcMap from graphicmanager      (done)
+OCM texture aware                     (done)
+
+
+==============================================================================
+OpenCity TODO version 0.0.1 BETA - STABLE
+-----------------------------------------
+Last updated on thu feb 21th, 2004
+
+RCI zoning                            (done)
+Ctrl cancels the dragging action      (done)
+Sound & Music support                 (done)
+Terraforming                          (done)
+Road                                  (done)
+Electricity:
+        Powerline, powerplant         (done)
+RCI simulator                         (done)
+WEG simulator (Electricity)           (done)
+-
+Optimization of the rendering engine  (done)
+Bugs fix                              (done)
+Simulator tuning                      (done)
+Classic orthogonal projection         (done)
+MacOS X port                          (held over)
+
+
+
+
+
+
+

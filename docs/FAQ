@@ -1,0 +1,41 @@
+OpenCity's FAQ
+=====================================================================
+Last modified: $Id: FAQ,v 1.5 2005/12/11 16:32:26 neoneurone Exp $
+
+
+Performance
+=====================================================================
+Q: OpenCity runs very slowly on my machine, what can I do ?
+A: OpenCity is a 3D game, that's why you probably need a 3D video
+card ;) OpenCity is also known to be "fill-limited". It means that you can
+have better graphic performance if you reduce the game window's size.
+You can also disable the grid with the "g" key and/or run OpenCity in
+fullscreen mode.
+
+
+Q: When I launch OpenCity, a window shows up then disappears, what's wrong ?
+A: Please check the content of the files "stderr.txt" and "stdout.txt".
+Often it's because OpenCity couldn't find its data. You can use the
+command-line option "--homedir" to specify the right path to OpenCity.
+Please refer to the README file for more information concerning the
+command-line options.
+
+
+Q: I have some compilation troubles, can someone help me ?
+A: If you are not a developer who is familar with Linux application compilation
+process then the answer is _NO_. Otherwise, you must be able to help yourself.
+
+
+SDL, SDL_mixer, SDL_image, SDL_net errors:
+=====================================================================
+Please download and install those libraries from
+        http://www.libsdl.org
+
+If you compile OpenCity from sources, you will need the development
+packages of those libraries. They contain the header files which
+are necessary for the compilation process.
+
+If you have those libraries intalled already somewhere on you system,
+then try to indicate the correct path to those libraries to the linker.
+
+

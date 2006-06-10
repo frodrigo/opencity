@@ -1,0 +1,236 @@
+------------------------------------------------------------------------------
+OpenCity's README (version 0.0.3stable)
+------------------------------------------------------------------------------
+Last modified:
+        $Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
+
+Description:
+        This is just another city simulation. The idea is simple: you have
+to build a city with 3 types of "zones" Residential, Commercial and
+Industrial. They depend on each other during their development.
+Try to give them what they need and watch your city growing up.
+
+
+
+------------------------------------------------------------------------------
+Hardware requirements:
+------------------------------------------------------------------------------
+Processor:
+        never mind
+
+Speed:
+        whatever
+
+Graphic card:
+        3D accelerated card required. OpenCity needs 32, 24 or 16 bits per pixel
+color depth in order to operate correctly.
+
+Sound card:
+        anything that can work with SDL_mixer
+
+Network:
+        experimental support
+
+
+------------------------------------------------------------------------------
+Software requirements:
+------------------------------------------------------------------------------
+Operating System:
+        Linux
+        or Win32
+        or Wine
+
+Graphic User Interface:
+        X Windows with DRI activated (recommended)
+        or MS Windows
+        or Wine
+
+Libraries:
+        GL
+        GLU
+        SDL
+        SDL_image
+        SDL_net
+        SDL_mixer (optional)
+
+
+------------------------------------------------------------------------------
+Linux autopackage release's notes:
+------------------------------------------------------------------------------
+	Have you just downloaded the "something.package" stuff ? Install OpenCity
+by running it from the console or in a file browser like Konqueror. OpenCity
+will be installed on your computer, and an icon will be created inside the
+"Game" group.
+
+
+------------------------------------------------------------------------------
+Windows binary release's notes:
+------------------------------------------------------------------------------
+	In order to play the game, you must install it first. Once it's done,
+click on the OpenCity's icon in the start menu to begin.
+
+
+------------------------------------------------------------------------------
+Keys' description
+------------------------------------------------------------------------------
+        'n': "Blank" tool
+        'r': Zone Residential tool
+        'c': Zone Commercial tool
+        'i': Zone Industrial tool
+        'p': Lay Paths tool
+        'l': Lay electric Lines tool
+        'x': Destroy tool
+        'q': Query tool
+        'e': Build a coal power plant
+        'ctrl': cancel the zoning tool action
+
+        'u' / 'd': raise / lower cells tool
+
+        'g': Toggle grid on/off
+        'k': Toggle compass on/off
+        'f': Toggle wire frame mode on/off
+        'o': Toggle perspective/orthogonal projection
+
+        up/down/left/right: translate the map
+        pageup/pagedown: rotate the map
+        insert/delete: zoom in/out
+        'alt': multiply the effects of the buttons above by 10
+
+        'h': as Home
+        'escape': quit immediately
+
+        'z' / 'b': play previous / next music
+        'v': stop music
+        'm': music on / off
+        's': sound on / off
+
+
+Undocumented features, try it at your own risks:
+        'a': various test codes menu
+        't': connect to local ZeN server
+
+
+
+------------------------------------------------------------------------------
+Autoscrolling
+------------------------------------------------------------------------------
+	Simple autoscrolling now comes with OpenCity. Just move your mouse
+near to the window's edges and OpenCity will scroll the map
+automatically for you.
+
+	Autorotating is also implemented. Put your mouse cursor either
+in the upper left or right corner to see how it works.
+
+	For the moment, you can not disable them. I know, not everybody
+like auto stuff.
+
+
+
+------------------------------------------------------------------------------
+Sound & music
+------------------------------------------------------------------------------
+	OpenCity uses SDL_mixer for playing sound & music. Thus, it supports
+all file types that SDL_mixer supports.
+
+	If you don't hear any sound, try to modify "sound.m3u" and
+set the path accordingly to the "opencity" executable file. Please note
+that OpenCity automatically appends a prefix to all the sound filenames.
+The prefix is where the installation procedure has put all OpenCity's data
+files.
+
+	However, you can put a file called "music.m3u" in the "music" directory
+and OpenCity will load and play your favorite musics. If you don't find
+any "music" directory just create it then put your list "music.m3u" in it.
+
+	I'd like to warn you that SDL_mixer is not that stable. It can hang
+OpenCity while playing few kinds of ".mp3" song. Blame the SDL_mixer's 
+guys not me ;) If you experience such a problem, just turn the music 
+off (key 'm').
+
+
+
+------------------------------------------------------------------------------
+Mouse action
+------------------------------------------------------------------------------
+	From OpenCity 0.0.2, whenever you click the RMB
+(Right Mouse Button), you will open the last toolcircle.
+Click RMB again to hide the opened toolcircle. I try to
+make everything simple and handy. But sometimes you still
+need your keyboard.
+
+	OpenCity now understand the mouse's wheel ! Push
+the wheel forward does a zoom in (as 'Insert' key) and roll
+the wheel backward does a zoom out (as 'Delete' key).
+
+	When you hold 'Shift' and play with your mouse's wheel
+you'll notice that it translates the map in some direction.
+Whereas the 'Ctrl' button translates the map along another
+axis.
+
+
+
+------------------------------------------------------------------------------
+Main config file "opencity.conf"
+------------------------------------------------------------------------------
+	See the in-line comments for more details.
+
+
+
+------------------------------------------------------------------------------
+Command-line options
+------------------------------------------------------------------------------
+NOTE: command-line options overwrite config file's options.
+
+	--no-dl: 
+	Don't use OpenGL display list for the grid. Sometimes, it's useful when
+you play OpenCity under Windows which supports badly 
+OpenGL (hmm, I wonder why ?)
+
+	--gl-version:
+	Show the informations of the current available OpenGL implementation
+on your machine
+
+	--homedir newHomePath
+	Specify to new path to OpenCity's data. For example:
+		Under linux: --homedir /home/foo/bar/share/opencity/"
+		Under win32: --homedir "C:/Program Files/OpenCity/share"
+
+	--server: (experimental, work in progress feature)
+	Launch the server version of OpenCity. Type Ctrl-C to quit. If you 
+want to test the server on your computer, launch another OpenCity without
+"--server" then type 't' to connect to the local OpenCity server.
+
+
+
+------------------------------------------------------------------------------
+Troubleshootings
+------------------------------------------------------------------------------
+	1) I have a ATI Radeon 9000 M video card on my machine.
+When I tested the game with "EnablePageFlip" ( see man radeon )
+the game works weirdly. If you encounter the same problem,
+try to disable this feature of the XFree server ( see man XF86Config )
+
+	2) With ATI Radeon 9000M video card, the SmoothVision(tm)
+must be deactivated in order to run OpenCity correctly.
+
+	3) Here is the version of my X server
+
+ - XFree86 Version 4.3.0
+ - Release Date: 9 May 2003
+ - X Protocol Version 11, Revision 0, Release 6.6
+ - Build Operating System: Linux 2.4.18-23mdksmp i686 [ELF]
+ - Build Date: 10 September 2003
+
+	It seems that the driver for my ATI Radeon 9000 M is
+very buggy. If you experience any trouble, try to type this
+in the shell (bash) before launching OpenCity.
+		"export R200_NO_VTXFMT="
+
+	Or you should try a newer XFree.
+
+
+
+------------------------------------------------------------------------------
+Duong-Khang (neoneurone) NGUYEN
+
+

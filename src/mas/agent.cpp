@@ -1,0 +1,374 @@
+/***************************************************************************
+                          agent.cpp  -  description
+         $Id: agent.cpp,v 1.10 2006/06/05 09:58:06 neoneurone Exp $
+                             -------------------
+    begin                : nov 29th 2005
+    copyright            : (C) 2005 by Duong-Khang NGUYEN
+    email                : neoneurone @ users sourceforge net
+    author               : Victor STINNER
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   any later version.                                                    *
+ *                                                                         *
+ ***************************************************************************/
+
+
+#include "agent.h"
+#include "kernel.h"
+#include "environment.h"
+#include "message.h"
+#include <cassert>
+#include "structure.h"
+
+
+   /*=====================================================================*/
+#ifndef NDEBUG
+#  include <iostream>
+#  define DBG(os, something) os << something
+#else
+#  define DBG(os, something)
+#endif
+
+
+   /*=====================================================================*/
+Agent::Agent(Kernel& kernel, Environment &env, int x, int y, Role_t role):
+m_kernel(kernel),
+m_environment(env),
+m_x(x),
+m_y(y),
+m_role(role),    
+m_enumGC( OC_EMPTY ),				// OpenCity's specifics
+m_id(kernel.getAgentUniqId())
+{
+    m_move_speed = 1;
+    m_direction = (direction_t)randomInt(0, 3);
+#ifndef OC_MAS_NDEBUG
+	std::cout << "Create " << *this << std::endl;
+#endif
+}
+
+
+   /*=====================================================================*/
+Agent::~Agent()
+{
+}
+
+
+   /*=====================================================================*/
+Role_t Agent::getRole() const
+{
+    return m_role;
+}
+
+
+   /*=====================================================================*/
+void Agent::receiveMessage(const Message& msg)
+{
+#ifndef OC_MAS_NDEBUG
+	std::cout << *this << " receive " << msg << std::endl;
+#endif	
+	m_messages.push_back(msg);
+}
+
+
+   /*=====================================================================*/
+void Agent::processMessage()
+{
+}
+
+
+   /*=====================================================================*/
+void Agent::sendMessage(Role_t role, const Message& msg)
+{
+	m_kernel.sendMessage(role, msg);
+}
+
+
+   /*=====================================================================*/
+void Agent::sendMessageToAgent(AgentID_t agent, const Message& msg)
+{
+	m_kernel.sendMessageToAgent(agent, msg);
+}
+
+
+   /*=====================================================================*/
+Agent* Agent::lookForAgent(direction_t dir, unsigned long max_distance)
+{
+    int x = m_x, y = m_y;
+    int dx=0, dy=0;
+    switch (dir)
+    {
+        case NORTH: dy = 1; break;
+        case SOUTH: dy = -1; break;
+        case EAST:  dx = 1; break;
+        case WEST:  dx = -1; break;
+    }
+    for (unsigned int step=1; step<=max_distance; step++)
+    {
+        x += dx;
+        y += dy;
+        if (x < 0 || y < 0 || (int)m_environment.getWidth() <= x || (int)m_environment.getHeight() <= y)
+        {
+            break;
+        }
+        if (m_environment.hasAgentAt(this, x, y))
+        {
+            return m_environment.getAgentAt(x,y);
+        }
+    }
+    return NULL; 
+}
+
+
+   /*=====================================================================*/
+bool Agent::randomMove(int turn_percent)
+{
+    bool ok = doRandomMove(turn_percent);
+    if (ok)
+    {
+        ok = moveDirection();
+// debug
+//		std::cerr << "Agent " << getId() << ", move to direction " << m_direction
+//			<< " at x: " << x << " / y: " << y << std::endl;
+    }
+    return ok;
+}
+
+bool Agent::doRandomMove(int turn_percent)
+{
+    bool ok = canMove(m_direction);
+    if (ok) {
+        if (turn_percent < randomInt(0,99))
+                return true;
+
+        // Try left/right
+        direction_t dir;
+        unsigned char rotate = randomBool();
+        if (rotate)
+            dir = rotateLeft(m_direction);
+        else
+            dir = rotateRight(m_direction);
+        if (canMove(dir))
+        {
+            m_direction = dir;
+            return true;
+        }
+        
+        // Try right/left (the opposite)
+        if (rotate)
+            dir = rotateRight(m_direction);
+        else
+            dir = rotateLeft(m_direction);
+        if (canMove(dir))
+            m_direction = dir;
+        return true;
+    } else {
+        // Try left/right
+        unsigned char rotate = randomBool();
+        direction_t dir;
+        if (rotate)
+            dir = rotateLeft(m_direction);
+        else
+            dir = rotateRight(m_direction);
+        if (canMove(dir))
+        {
+            m_direction = dir;
+            return true;
+        }
+
+        // Try right/left (the opposite)
+        if (rotate)
+            dir = rotateRight(m_direction);
+        else
+            dir = rotateLeft(m_direction);
+        if (canMove(dir))
+        {
+            m_direction = dir;
+            return true;
+        }
+
+        // try turn backward
+        if (rotate)
+            m_direction = rotate180(m_direction);
+        else
+            m_direction = rotate180(m_direction);
+        return canMove(m_direction);
+    }
+}
+
+
+
+   /*=====================================================================*/
+void Agent::born()
+{
+	m_agent_state = AGENT_BORN;
+	m_kernel.registerAgent(this);
+	m_environment.registerAgent(this, m_x, m_y);
+}
+
+
+   /*=====================================================================*/
+void Agent::live()
+{}
+
+
+   /*=====================================================================*/
+void Agent::die()
+{
+	m_agent_state = AGENT_DIE;
+	m_kernel.unregisterAgent(this);
+	m_environment.unregisterAgent(this);
+}
+
+
+   /*=====================================================================*/
+AgentID_t Agent::getId() const
+{
+	return m_id;
+}
+	
+
+   /*=====================================================================*/
+unsigned int Agent::getX() const
+{
+    return m_x;
+}
+	
+
+   /*=====================================================================*/
+unsigned int Agent::getY() const
+{
+    return m_y;
+}
+
+
+   /*=====================================================================*/
+void Agent::output (std::ostream& os) const
+{
+	os << "Agent " << m_id;
+}
+
+
+   /*=====================================================================*/
+std::ostream& operator<< (std::ostream& os, const Agent &agent)
+{
+	agent.output(os);
+	return os;
+}
+
+
+   /*=====================================================================*/
+const OPENCITY_GRAPHIC_CODE
+Agent::GetGraphicCode() const
+{
+	return m_enumGC;
+}
+
+
+   /*=====================================================================*/
+bool Agent::move(int x, int y)
+{
+    assert (0 <= x && 0 <= y && x < (int)m_environment.getWidth() && y < (int)m_environment.getHeight());
+    if (m_environment.moveAgent(this, x, y))
+    {
+        m_x = static_cast<unsigned int>(x);
+        m_y = static_cast<unsigned int>(y);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+   /*=====================================================================*/
+bool
+Agent::moveDirection()
+{
+	int x, y;
+	return (canMove(m_direction, x, y) and move(x,y));
+}
+
+
+   /*=====================================================================*/
+bool
+Agent::canMove(int x, int y) const
+{
+    if ((int)m_environment.getWidth() <= x || (int)m_environment.getHeight() <= y)
+		return false;
+
+	Structure* building = m_environment.getBuildingXY(x, y);
+    if (building == NULL)
+        return false;
+
+    bool ok = building->GetCode() == OC_STRUCTURE_ROAD;
+    if (ok) {
+        ok = !m_environment.hasAgentAt(this, x, y);
+    }
+    return ok;
+}
+
+
+   /*=====================================================================*/
+bool
+Agent::canMove(direction_t dir) const
+{
+    int x, y;
+    return canMove(dir, x, y);    
+}
+
+
+   /*=====================================================================*/
+bool
+Agent::canMove(direction_t dir, int &x, int &y) const
+{
+    x = static_cast<int>(m_x);
+    y = static_cast<int>(m_y);
+    switch (dir)
+    {
+        case NORTH: y += m_move_speed; break;
+        case SOUTH: y -= m_move_speed; break;
+        case EAST: x += m_move_speed; break;
+        case WEST: x -= m_move_speed; break;
+    }
+    return canMove(x, y);
+}
+
+
+   /*=====================================================================*/
+void
+Agent::SetGraphicCode( const OPENCITY_GRAPHIC_CODE gc )
+{
+	m_enumGC = gc;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

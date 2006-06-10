@@ -1,0 +1,38 @@
+-------------------------------------------
+INSTALL instructions for OpenCity 0.0.3stabe
+-------------------------------------------
+Last modified on june 29th, 05
+
+
+Open a console and type at the prompt the following
+commands in order to install OpenCity on your
+computer:
+
+
+	mkdir obj
+	cd obj
+	../configure --enable-debug
+	make
+	make install
+
+
+In case you don't have a configure script, the following
+commands will creat one:
+
+
+	aclocal
+	automake
+	autoconf
+
+
+When the installation procedure have finished, you
+can launch OpenCity from command-line with the
+instructions below:
+
+
+	cd $HOME/bin/opencity/bin
+	./opencity
+
+
+Have fun !
+Duong-Khang (neoneurone) NGUYEN.

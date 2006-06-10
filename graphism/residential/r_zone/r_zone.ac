@@ -1,0 +1,24 @@
+AC3Db
+MATERIAL "DefaultWhite" rgb 1 1 1  amb 1 1 1  emis 0 0 0  spec 0.5 0.5 0.5  shi 64  trans 0
+MATERIAL "Material.001" rgb 0.2 0.4 0.2 amb 0.5 0.5 0.5 emis 0 0 0 spec 1 1 1 shi 32 trans 0.25
+OBJECT world
+kids 1
+OBJECT poly
+name "Plane"
+data 5
+Plane
+crease 30
+numvert 4
+1 1e-06 0
+1 -1e-06 1
+0 -1e-06 1
+0 1e-06 0
+numsurf 1
+SURF 0x00
+mat 1
+refs 4
+0 0 0
+3 0 0
+2 0 0
+1 0 0
+kids 0

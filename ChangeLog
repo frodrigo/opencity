@@ -1,0 +1,408 @@
+jan 24th, 05:
+	-fix: near plan in the orthogonal mode
+
+
+dec 11th, 05
+	-new: BinReloc from AutoPackage has been imported
+	-new: audiomanager.*: can automatically add the prefix to the filename while loading
+	-remove: HomeDir variable from opencity.conf
+	-change: buildinglayer.cpp: now the player can build over existing roads or electric lines
+	-change: main.cpp: now use BinReloc routines to find the prefix if they're available
+	-change: city.cpp: hospital icon in tool-circle has been disabled
+
+
+nov 12th, 05:
+	-new: internal OpenGL font system
+	-remove: SDL_ttf
+	-change: SDL_OPENGLBLIT has been changed to SDL_OPENGL
+
+
+nov 7th, 05:
+	-change: Micro simulator's codes have been improved
+	-fix: DestroyStructure() now handles big RCI structures
+
+
+nov 2nd, 05:
+	-change: Build over existing RCI zones
+	-change: OC now uses GL_SELECT mode for selection
+	-new: 16bpp mode support
+
+
+oct 28th, 05:
+	-change: When LMB is pressed and the mouse is over a "guimain" object. The object is
+considered as "cliked" and "mouseover"
+
+
+oct 27th, 05:
+	-change: graphic and structure code correspondence is moved to "propertymanager"
+	-remove: "layer" and "persistence" interface prefixes
+	-new: show WEG building preview
+
+
+oct 25th, 05:
+	-change: clean up renderer's OpenGL code for better performance
+
+
+oct 14th, 05:
+	-new: the RCI building placement algorithm has been improved
+
+
+oct 11th, 05:
+	-change: layerDestroyStructure() now works on the whole specified surface
+	-fix: AC3D renderer's translation bug
+
+
+jul 20th, 05:
+	-fix: build out of map
+	-new: AC3D simple auto-triangulation on load
+
+
+jul 15th, 05:
+	-change: now use "false", "true" and "bool"
+	-new: AC3D loader and renderer
+
+
+apr 22th, 05:
+	-add: "--homedir" command-line options
+	-remove: hard code "cout" debug messages
+	-fix: include problem with Dev-C++
+
+
+apr 11th, 05:
+	-release: OpenCity-0.0.3beta with renderer's bugs :)
+	-remove: audio open retry, this segfaults. I don't know why.
+
+
+apr 2nd, 05:
+	-add: textured and lighted terrain, wow ;)
+
+
+mar 31th, 05:
+	-add: texture auto-scaling load method
+
+
+mar 27th, 05:
+	-add: non-blocking server data processing method. Thanks to freed ;)
+
+
+mar 13th, 05
+	-add: Simulator::RCIWait(), gfMsSimDelayMax.
+
+
+mar 12th, 05
+	-change: all structure enums now have "OC_STRUCTURE" as prefix
+	-fix: police, fire, education departments' maintenance & destroy costs
+
+
+mar 10th, 05
+	-change: OpenCity now uses 10ms delay by default instead of 50ms between each frame
+	-add: "MsPerFrame" config file option.
+
+
+feb 26th, 05
+	-add: school, fire and police departments
+	-change: pguicontainer -> pctr; pguibutton -> pbtn
+	-remove: 3 spaces in front of "//"
+
+
+feb 19th, 05:
+	-add: texture loading cache
+
+
+sep 26th, 04:
+	-fix: wrong city's width & height as map object parameters.
+
+
+sep 22th, 04:
+	-add: GetLint
+	-add: "config/opencity.conf"
+
+
+sep 20th, 04:
+	-add: GetBool
+
+
+sep 10th, 04:
+	-add: road slope
+
+
+aug 22th, 04:
+	-add: few road graphics
+
+
+aug 1st, 04:
+	-add: "conf.[h|cpp]" which handles .conf files
+
+
+jul 2nd, 04:
+	-add: "modelloader.cpp", "model.cpp", "ocm.h" now can load
+	-add: "texture.[h|cpp]"
+	-add: 3 images stolen from another "opencity" ;)
+	-change: move "LoadTexture()" from GUIMain to Texture
+and display textured structure. However, it's a bit dirty at the moment.
+	-fix: damned ATI 9M card glColorMaterial() bug.
+
+
+jun 28th, 04:
+	-change: RCISims no more check for E bit, it's the ESim's job.
+	-change: global "gpGraphicMgr"
+
+
+jun 27th, 04
+	-change: global "gpMapMgr"
+	-remove: "datamanager.*" see notes on feb 25th, 04
+
+
+jun 26th, 04
+	-fix: silly "floating point exception" in audiomanager.cpp
+	-fix: "income" calculation
+
+
+jun 25th, 04
+	-add: "audiomanager" integrated. However, there's
+a bug with SDL_mixer, that's why it can hang the game while playing
+music. Blame him ! not me !
+	-add: some DIY sound effects. It was really fun :D
+	-change: "audiomanager" method's name's prefix removed
+
+
+jun 20th, 04
+	-change: all simulators are moved to 'src/simulator/'
+
+
+jun 19th, 04:
+	-add: static OC_INT Simulator::ThreadWrapper(void*);
+	-change: removed "simulator" methods' name prefix
+
+
+jun 17th, 04:
+	-add: TrafficSim now generate vehicules depending on the traffic.
+	-add: few assignments now use dynamic_cast<>. This can help
+to avoid segfault ;)
+
+
+jun 13th, 04:
+	-add: 'MovementManager' is currently in use.
+It handles up to OC_MOVEMENT_MAX movements, and automatically
+deletes stoped movements.
+
+
+jun 13th, 04:
+	-add: query button
+	-change: remove "guimain", "guicontainer", "guibutton" method prefix
+
+
+jun 9th, 04:
+	-fix: zoom doesn't use negative ratio any more
+	-change: floating point vehicule WH coordinates
+
+
+jun 5th, 04:
+	-change: from now on, class's methods' prototype won't have the
+class name as prefix
+
+
+may 23th, 04:
+	-fix: direction keys now update the screen while the player
+is building something
+	-change: use "ctor" and "dtor" in debugging message. Wow,
+it looks more professionnal now LOL :D
+	-add: AC_CANONICAL_HOST, this will ensure that the "automake"
+has to install the "config.guess" and "config.sub" files
+	-add: --enable-nodebug, this disables ALL the debugging codes
+including those important assert().
+
+
+may 22th, 04:
+	-fix: cityHandleMouseXY(), auto map rotation minor bug fixed
+	-add: ModelLoader, Model and OCM
+	-add: res_9.ocm, com_9.ocm, ind_9.ocm
+	-change: debugging macros now use "printf" instead of "cout"
+
+
+may 13th, 04
+	-fix: call glColor4ub( 255, 255, 255, 255 ) before calling
+glEnable( GL_COLOR_MATERIAL ) and make glColorMaterial() work as
+expected. Is this a driver's bug or a ATI video card's bug ?
+	-add: FPS counting. Is this really useful ?
+	-change: improving rendererDisplaySelection() and
+rendererDisplayHighlight(). They now use only one call to glBegin()
+and glEnd() pair.
+
+
+may 9th, 04
+	-add: work in progress OpenGL lighting. The glColorMaterial()
+is really buggy so does my driver for ATI Radeon 9000 M. Setting
+R200_NO_VTXFMT as bash variable can help debugging in some cases. I
+replace the glColorMaterial() by many glMaterial*() and this costs
+me a lot of time.
+
+
+apr 28th, 04
+	-change: ESim now uses std::find()
+
+
+apr 18th, 04
+	-add: query tool
+	-fix: multiple bits check in structureIsSet() and guimainIsSet()
+	-fix: un initialized variable "cost" in cityDoTool()
+
+
+apr 17th, 04
+	-change: structureIsWEGBitSet() is now structureIsSet().
+
+
+mar 30th, 04
+	-add: text buffer in "Renderer"
+	-add: now support "make dist"
+
+
+mar 26th, 04
+	-fix: uiResize() was not called for each containers
+	-add: GUI now remembers last selected item
+
+
+mar 25th, 04
+	-add: classes GUIMain, GUIContainer, GUIButton, GUI3DView
+	-add: some pics stolen from TheCity
+	-add: AM_PATH_SDL(), hmmm don't know how this works
+	-add: RMB opens toolcircle
+	-add: blender's wheel's behaviour
+	-add: detect the top source dir, thanks to "configure"
+	-change: it takes less time to quit now
+
+
+mar 2nd, 04
+	-change: electricity sim v. 0.0.2
+	-change: it takes up to 5 OC days to transmit Electricity
+
+
+feb 25th, 04
+	-change: codes cleaning up
+	-remove: class datamanager
+	-remove: some TOKILL
+	-change: now compile with -Wall without any warning (phew...)
+	-add   : command-line option --no-dl: no display list
+
+
+feb 21th, 04 (OpenCity 0.0.1 stable released)
+---------------------------------------------
+	-change: low CPU usage, 0% in some case !
+	-add   : classic orthogonal projection mode, 'o' key
+
+
+feb 8th, 04
+-----------
+        -fixed: E sim processes the R zones first
+        -add: use GL_DEPTH_TEST, wow it works perfectly :-)
+        -add: use SDL_ttf which is really CPU hungry
+        -add: "configure" now understands "--enable-gprof"
+        -add: tiny status bar
+
+
+feb 3rd, 04
+------------
+        -RCI simulators 0.0.1 done
+        -files suffix ".hxx" now are ".h"
+        -KDevelop sucks ! Let's use the old KWrite
+
+
+jan 30th, 04
+------------
+        -clean up Renderer, GraphicManager, Layer, BuildingLayer classes
+        -road, electric lines added
+
+
+jan 25th, 04
+------------
+        -added "Map" class
+        -"layer" now use std::map for storing the built structures
+        -class "Square" will be removed in the near future
+        -cell's height is now handle by the "Map" class
+        -new, but slow and CPU hungry method for getting selected W,H
+
+
+jan 20th, 04
+------------
+        -zoom in/out implemented
+        -cleaning ups few classes
+        -height up ?
+
+
+jan 16th, 04
+------------
+        -better keys handling, user can now translate the map in the
+up-right direction by pressing both up and right at the same time
+for example.
+
+
+dec 27th, 03
+------------
+        -added: "audiomanager". It can read M3U list and produce stereo
+sound, terrible ! :-)
+
+
+dec 13th, 03
+------------
+        -document and clean up "graphicmanager" and "renderer"
+
+
+dec 9th, 03
+------------
+        -cleaned up the class "renderer"
+
+
+dec 8th, 03
+------------
+        -new version of "rendererGetSelectedWHFromLayer" which works by
+dividing the map size by 2 (hence, the map surface by 4). It runs smoothly
+and can deal with a 4000x4000 map. With the old method, it takes up to thirdty
+seconds or more on my 2,4Ghz laptop (DRI activated in AGP4x speed) to
+calculate the selected WH !
+
+
+dec 7th, 03
+------------
+        -a little bit of "experimental" codes were inserted in order to
+fast render a big big map. The renderer now considers a row of same structures
+as a big rectangular polygon instead of multiple seperate squares.
+
+
+dec 6th, 03
+------------
+        -graphicmanagerDisplaySelection modified, it now supports up to
+16777216 differents object. Have you ever seen a 4096x4096 unit^2 map ? :-D
+        -speed up graphicmanagerDisplaySelection
+        -improved City::uiMouseButton, don't update the screen if the mouse
+doesn't move -> save CPU
+        -press ALT to multiply the translation and the rotation affects by 10
+        -"configure" now checks for SDL, GL, and GLU library
+        -"configure" now understands "--with-gl-prefix" (default=/usr/X11R6)
+
+
+nov 30th, 03
+------------
+        -fix right mouse button (RMB) dragging
+        -Ctrl or dragging out of map cancel zoning
+
+
+nov 29th, 03
+------------
+        -move the defines from main.hxx to the appropriate classes
+        -added zone COM, and IND (just for fun, no simulation yet)
+
+nov 15th, 03
+------------
+        -replace OPENCITY_* "defines" by OC_*. Macros and enums still have the
+same prefix.
+
+
+nov 12th, 03
+------------
+        -clean up the Square class
+        -clean up the Structure class
+        -clean up the Layer class
+        -clean up the WEGStructure class
+        -clean up the PathStructure class
+        -clean up the RCIStructure class
+        

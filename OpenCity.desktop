@@ -1,0 +1,12 @@
+[Desktop Entry]
+Categories=Game;Simulation;
+Comment=OpenCity, 3D another city simulator
+Comment[fr]=OpenCity, un autre jeu de simulation de ville en 3D
+Encoding=UTF-8
+Exec=opencity
+Icon=OpenCity.png
+Name=OpenCity
+Name[fr]=OpenCity
+ServiceTypes=
+Terminal=false
+Type=Application
