@@ -1,6 +1,6 @@
 /***************************************************************************
                     agentdemonstrator.cpp  -  description
-         $Id: agentdemonstrator.cpp,v 1.10 2006/06/05 09:58:06 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : nov 29th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN

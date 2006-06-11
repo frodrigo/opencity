@@ -1,6 +1,6 @@
 /***************************************************************************
                         networking.h  -  description
-         $Id: networking.h,v 1.8 2006/03/12 23:14:18 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : jeu dec 23 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

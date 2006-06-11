@@ -1,6 +1,6 @@
 /***************************************************************************
                           propertymanager.h  -  description
-     $Id: propertymanager.h,v 1.14 2006/06/05 09:58:06 neoneurone Exp $
+     $Id$
                              -------------------
     begin                : feb 06th, 2004
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

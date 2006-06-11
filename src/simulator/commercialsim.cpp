@@ -1,6 +1,6 @@
 /***************************************************************************
                           commercialsim.cpp  -  description
-      $Id: commercialsim.cpp,v 1.9 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : 31th jan, 2004
     copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
@@ -101,7 +101,7 @@ CommercialSim::Main()
 					if ((this->CheckLevelUp(w, l, pstruct) == true)
 					&&  (pstruct->LevelUp() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
-						this->iValue++;
+						_iValue++;
 					}
 				}
 			}  // end if levelup
@@ -111,7 +111,7 @@ CommercialSim::Main()
 					if ((this->CheckLevelDown(w, l, pstruct) == true)
 					&&  (pstruct->LevelDown() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
-						this->iValue--;
+						_iValue--;
 					}
 			}
 
@@ -138,7 +138,7 @@ CommercialSim::RemoveStructure(
    // then we remove its value from the sim.
 	if (pstruct != NULL)
 	if (pstruct->GetCode() == OC_STRUCTURE_COM)
-		this->iValue -= pstruct->GetLevel()-1;
+		_iValue -= pstruct->GetLevel()-1;
 }
 
 

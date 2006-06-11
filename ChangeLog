@@ -1,4 +1,9 @@
-jan 24th, 05:
+jun 10th, 06:
+	-fix: Undefined OPENCITY_DEBUG in NDEBUG mode
+	-chg: Source tree has been moved to SVN
+
+
+jan 24th, 06:
 	-fix: near plan in the orthogonal mode
 
 

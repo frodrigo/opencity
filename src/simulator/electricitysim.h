@@ -1,6 +1,6 @@
 /***************************************************************************
                           electricitysim.h  -  description
-      $Id: electricitysim.h,v 1.7 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : mar fev 3 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN
@@ -39,6 +39,23 @@ public:
 		Map* pmap );
 	~ElectricitySim();
 
+
+//========================================================================
+/** Overload the base method in order to save our properties
+	\param rfs A reference to a file stream which is ready for writing
+*/
+	void
+	SaveTo( std::fstream& rfs );
+
+
+//========================================================================
+/** Overload the base method in order to load our properties
+	\param rfs A reference to a file stream which is ready for reading
+*/
+	void
+	LoadFrom( std::fstream& rfs );
+
+
 	int
 	Main();
 
@@ -58,10 +75,10 @@ public:
 
 
 private:
-	uint uiNumberEPlant;
-	int iValueMax;
-	deque<pair<uint, uint> > dequepairui;
-	vector<pair<uint, uint> > vectorpairuiEPlant;
+	uint	_uiNumberEPlant;
+	int		_iValueMax;
+	deque<pair<uint, uint> >	dequepairui;
+	vector<pair<uint, uint> >	vectorpairuiEPlant;
 
    /*=====================================================================*/
 	bool

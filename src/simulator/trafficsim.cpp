@@ -1,6 +1,6 @@
 /***************************************************************************
                           trafficsim.cpp  -  description
-       $Id: trafficsim.cpp,v 1.13 2006/03/12 23:14:18 neoneurone Exp $
+       $Id$
                              -------------------
     begin                : sam mai 01 2004
     copyright            : (C) 2003-2004 by Duong-Khang NGUYEN

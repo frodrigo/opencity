@@ -1,6 +1,6 @@
 /***************************************************************************
                           guimain.cpp    -  description
-          $Id: guimain.cpp,v 1.9 2005/05/21 06:20:30 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : lun 22 mar 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

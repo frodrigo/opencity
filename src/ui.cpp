@@ -1,6 +1,6 @@
 /***************************************************************************
                           ui.cpp  -  description
-          $Id: ui.cpp,v 1.7 2006/03/12 23:14:18 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : ven jun 6 2003
     copyright            : (C) 2003 by Duong-Khang NGUYEN

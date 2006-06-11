@@ -1,6 +1,6 @@
 /***************************************************************************
                           AC3DSurface.cpp  -  description
-          $Id: ac3dsurface.cpp,v 1.6 2006/03/12 23:14:18 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : mer juin 29 05
     copyright            : (C) 2005 by Duong-Khang NGUYEN

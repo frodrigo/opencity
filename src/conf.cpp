@@ -1,6 +1,6 @@
 /***************************************************************************
                           conf.cpp    -  description
-        $Id: conf.cpp,v 1.14 2006/03/12 23:14:18 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : dim 1 août 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

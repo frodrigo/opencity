@@ -1,6 +1,6 @@
 /***************************************************************************
                           modelloader.cpp  -  description
-      $Id: modelloader.cpp,v 1.14 2006/06/05 09:58:06 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : sam mai 22 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

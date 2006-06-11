@@ -1,6 +1,6 @@
 /***************************************************************************
                           rcistructure.cpp  -  description
-     $Id: rcistructure.cpp,v 1.20 2006/06/05 09:58:06 neoneurone Exp $
+     $Id$
                              -------------------
     begin                : mar jun 17 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

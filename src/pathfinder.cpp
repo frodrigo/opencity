@@ -1,6 +1,6 @@
 /***************************************************************************
                           pathfinder.cpp  -  description
-      $Id: pathfinder.cpp,v 1.18 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : lun mai 17 2004
     copyright            : (C) 2004-2005 by Duong-Khang NGUYEN

@@ -1,11 +1,11 @@
 ------------------------------------------------------------------------------
-OpenCity's README (version 0.0.3stable)
+OpenCity's README (version 0.0.4beta)
 ------------------------------------------------------------------------------
 Last modified:
-        $Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
+	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
 
 Description:
-        This is just another city simulation. The idea is simple: you have
+	This is just another city simulation. The idea is simple: you have
 to build a city with 3 types of "zones" Residential, Commercial and
 Industrial. They depend on each other during their development.
 Try to give them what they need and watch your city growing up.
@@ -16,42 +16,43 @@ Try to give them what they need and watch your city growing up.
 Hardware requirements:
 ------------------------------------------------------------------------------
 Processor:
-        never mind
+	never mind
 
 Speed:
-        whatever
+	whatever
 
 Graphic card:
-        3D accelerated card required. OpenCity needs 32, 24 or 16 bits per pixel
-color depth in order to operate correctly.
+	3D accelerated card required.
 
 Sound card:
-        anything that can work with SDL_mixer
+	anything that can work with SDL_mixer
 
 Network:
-        experimental support
+	experimental support
 
 
 ------------------------------------------------------------------------------
 Software requirements:
 ------------------------------------------------------------------------------
 Operating System:
-        Linux
-        or Win32
-        or Wine
+	Linux
+	or Mac OS
+	or Win32
+	or Wine
 
 Graphic User Interface:
-        X Windows with DRI activated (recommended)
-        or MS Windows
-        or Wine
+	X Windows with DRI activated (recommended)
+	or Darwin
+	or MS Windows
+	or Wine
 
 Libraries:
-        GL
-        GLU
-        SDL
-        SDL_image
-        SDL_net
-        SDL_mixer (optional)
+	GL (OpenGL)
+	GLU
+	SDL
+	SDL_image
+	SDL_net
+	SDL_mixer (optional)
 
 
 ------------------------------------------------------------------------------
@@ -73,41 +74,48 @@ click on the OpenCity's icon in the start menu to begin.
 ------------------------------------------------------------------------------
 Keys' description
 ------------------------------------------------------------------------------
-        'n': "Blank" tool
-        'r': Zone Residential tool
-        'c': Zone Commercial tool
-        'i': Zone Industrial tool
-        'p': Lay Paths tool
-        'l': Lay electric Lines tool
-        'x': Destroy tool
-        'q': Query tool
-        'e': Build a coal power plant
-        'ctrl': cancel the zoning tool action
+Hotkey:
+		n: "Blank" tool
+		r: Zone Residential tool
+		c: Zone Commercial tool
+		i: Zone Industrial tool
+		p: Lay Paths tool
+		l: Lay electric Lines tool
+		x: Destroy tool
+		q: Query tool
+		e: Build a coal power plant
+		ctrl: cancel the zoning tool action
+	
+		u / d: raise / lower cells tool
 
-        'u' / 'd': raise / lower cells tool
+Navigation:
+		up / down / left / right: translate the map
+		pageup / pagedown: rotate the map
+		insert / delete: zoom in/out
+		alt: multiply the effects of the buttons above by 10
+	
+		h: as Home
+		escape: quit immediately
 
-        'g': Toggle grid on/off
-        'k': Toggle compass on/off
-        'f': Toggle wire frame mode on/off
-        'o': Toggle perspective/orthogonal projection
+Option:
+		g: Toggle grid on/off
+		k: Toggle compass on/off
+		f: Toggle wire frame mode on/off
+		o: Toggle perspective/orthogonal projection
 
-        up/down/left/right: translate the map
-        pageup/pagedown: rotate the map
-        insert/delete: zoom in/out
-        'alt': multiply the effects of the buttons above by 10
+Sound & music:
+		z / b: play previous / next music
+		v: stop music
+		m: music on / off
+		s: sound on / off
 
-        'h': as Home
-        'escape': quit immediately
-
-        'z' / 'b': play previous / next music
-        'v': stop music
-        'm': music on / off
-        's': sound on / off
-
+Experimental:
+		F2: Save
+		F6: Load
 
 Undocumented features, try it at your own risks:
-        'a': various test codes menu
-        't': connect to local ZeN server
+		'a': various test codes menu
+		't': connect to local ZeN server
 
 
 
@@ -152,20 +160,18 @@ off (key 'm').
 ------------------------------------------------------------------------------
 Mouse action
 ------------------------------------------------------------------------------
-	From OpenCity 0.0.2, whenever you click the RMB
-(Right Mouse Button), you will open the last toolcircle.
-Click RMB again to hide the opened toolcircle. I try to
-make everything simple and handy. But sometimes you still
-need your keyboard.
+	From OpenCity 0.0.2, whenever you click the RMB (Right Mouse Button),
+you will open the last toolcircle. Click RMB again to hide the opened
+toolcircle. I try to make everything simple and handy. But sometimes you
+still need your keyboard.
 
-	OpenCity now understand the mouse's wheel ! Push
-the wheel forward does a zoom in (as 'Insert' key) and roll
-the wheel backward does a zoom out (as 'Delete' key).
+	OpenCity now understand the mouse's wheel ! Push the wheel forward
+does a zoom in (as 'Insert' key) and roll the wheel backward does a
+zoom out (as 'Delete' key).
 
-	When you hold 'Shift' and play with your mouse's wheel
-you'll notice that it translates the map in some direction.
-Whereas the 'Ctrl' button translates the map along another
-axis.
+	When you hold 'Shift' and play with your mouse's wheel you'll notice
+that it translates the map in some direction. Whereas the 'Ctrl' button
+translates the map along another axis.
 
 
 

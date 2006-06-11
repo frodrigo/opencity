@@ -1,6 +1,6 @@
 /***************************************************************************
                           commercialsim.h  -  description
-      $Id: commercialsim.h,v 1.5 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : sam jan 31 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

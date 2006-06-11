@@ -1,6 +1,6 @@
 /***************************************************************************
                           font_8x8.h  -  description
-        $Id: font_8x8.h,v 1.1 2005/11/13 21:29:49 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : nov 13th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN

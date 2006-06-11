@@ -1,6 +1,6 @@
 /***************************************************************************
                           audiomanager.cpp  -  description
-      $Id: audiomanager.cpp,v 1.14 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : ven déc 26 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN

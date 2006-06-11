@@ -1,6 +1,6 @@
 /***************************************************************************
                           residentialsim.cpp  -  description
-     $Id: residentialsim.cpp,v 1.11 2006/03/12 23:14:18 neoneurone Exp $
+     $Id$
                              -------------------
     begin                : dim sep 21 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
@@ -119,7 +119,7 @@ ResidentialSim::Main()
 					if ((this->CheckLevelUp(w, l, pstruct) == true)
 					&&  (pstruct->LevelUp() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
-						this->iValue++;
+						_iValue++;
 					}
 				}
 			}  // end if levelup
@@ -129,7 +129,7 @@ ResidentialSim::Main()
 					if ((this->CheckLevelDown(w, l, pstruct) == true)
 					&&  (pstruct->LevelDown() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
-						this->iValue--;
+						_iValue--;
 					}
 			}
 
@@ -158,7 +158,7 @@ ResidentialSim::RemoveStructure(
 	if (pstruct != NULL)
 	if (pstruct->GetCode() == OC_STRUCTURE_RES)
 	if (pstruct->GetLevel() - 1 > 0)
-		this->iValue -= pstruct->GetLevel()-1;
+		_iValue -= pstruct->GetLevel()-1;
 }
 
 

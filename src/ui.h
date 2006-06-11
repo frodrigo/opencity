@@ -1,6 +1,6 @@
 /***************************************************************************
                           ui.h  -  description
-          $Id: ui.h,v 1.5 2005/05/21 06:20:31 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : ven jun 6 2003
     copyright            : (C) 2003 by Duong-Khang NGUYEN

@@ -1,6 +1,6 @@
 /***************************************************************************
                           electricitysim.cpp  -  description
-      $Id: electricitysim.cpp,v 1.12 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : mar 2nd, 2004
     copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
@@ -35,8 +35,8 @@ ElectricitySim::ElectricitySim(
 	BuildingLayer* pblayer,
 	Map* pmap ):
 Simulator( mutex, pblayer, pmap ),
-uiNumberEPlant( 0 ),
-iValueMax( 0 )
+_uiNumberEPlant( 0 ),
+_iValueMax( 0 )
 {
 	OPENCITY_DEBUG( "ESim param ctor" );
 }
@@ -46,6 +46,29 @@ iValueMax( 0 )
 ElectricitySim::~ElectricitySim()
 {
 	OPENCITY_DEBUG( "ESim dtor" );
+}
+
+
+   /*=====================================================================*/
+void
+ElectricitySim::SaveTo( std::fstream& rfs )
+{
+// Call the base class method
+	Simulator::SaveTo( rfs );
+}
+
+
+   /*=====================================================================*/
+void
+ElectricitySim::LoadFrom( std::fstream& rfs )
+{
+// Call the base class method
+	Simulator::LoadFrom( rfs );
+
+// Member variable reinitialization
+	_uiNumberEPlant = 0;
+	_iValueMax = 0;
+	vectorpairuiEPlant.clear();
 }
 
 
@@ -74,7 +97,7 @@ ElectricitySim::Main()
 
 	if (this->enumSimState == SIMULATOR_RUNNING) {
 		SDL_LockMutex( this->mutexMain );
-		this->iValue = iValueMax;
+		_iValue = _iValueMax;
 
 		// clear the mark and E bit of ALL structure
 		pbuildlayer->StructureUnset( OC_STRUCTURE_MARK | OC_STRUCTURE_E );
@@ -83,8 +106,7 @@ ElectricitySim::Main()
 		iter = vectorpairuiEPlant.begin();
 		while ( iter != vectorpairuiEPlant.end() ) {
 			pairstructWH = *iter;
-			pstruct = pbuildlayer->GetStructure(
-				pairstructWH.first, pairstructWH.second );
+			pstruct = pbuildlayer->GetStructure( pairstructWH.first, pairstructWH.second );
 
 			// only process the EPLANT if it is not marked yet
 			if (pstruct != NULL)
@@ -121,7 +143,7 @@ ElectricitySim::Main()
 							OC_STRUCTURE_ELECTRIC )
 							== true) {
 							pstruct->Set(OC_STRUCTURE_E);
-							this->iValue--;
+							_iValue--;
 						}
 						break;
 
@@ -134,7 +156,7 @@ ElectricitySim::Main()
 							OC_STRUCTURE_ELECTRIC )
 							== true) {
 							pstruct->Set(OC_STRUCTURE_E);
-							this->iValue--;
+							_iValue--;
 						}
 						break;
 
@@ -216,8 +238,8 @@ ElectricitySim::AddStructure(
 	if ( pstruct != NULL )
 		switch( pstruct->GetCode() ) {
 			case OC_STRUCTURE_EPLANT_COAL:
-				this->iValueMax += OC_EPLANT_COAL_POWER;
-				this->uiNumberEPlant++;
+				_iValueMax += OC_EPLANT_COAL_POWER;
+				_uiNumberEPlant++;
 				vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
 				break;
 			default: // keep gcc happy
@@ -284,7 +306,7 @@ ElectricitySim::RemoveStructure(
 			case OC_STRUCTURE_POLICEDEPT:
 			case OC_STRUCTURE_EDUCATIONDEPT:
 				if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
-					this->iValue++;
+					_iValue++;
 				break;
 
 			default: // keep gcc happy
@@ -293,8 +315,8 @@ ElectricitySim::RemoveStructure(
 
 		switch ( enumStructCode ) {
 			case OC_STRUCTURE_EPLANT_COAL:
-				this->iValueMax -= OC_EPLANT_COAL_POWER;
-				this->uiNumberEPlant--;
+				_iValueMax -= OC_EPLANT_COAL_POWER;
+				_uiNumberEPlant--;
 
 			   // search for the pair of mainW, mainH in
 			   // the "vectorpairuiEPlant"
@@ -318,9 +340,8 @@ ElectricitySim::RemoveStructure(
 bool
 ElectricitySim::dequeContain( const pair<uint, uint> & pairui )
 {
-	if (find( this->dequepairui.begin(),
-		  this->dequepairui.end(),
-		  pairui ) != this->dequepairui.end())
+	if (find( this->dequepairui.begin(),  this->dequepairui.end(), pairui )
+		!= this->dequepairui.end())
 		return true;
 	else
 		return false;

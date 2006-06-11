@@ -1,6 +1,6 @@
 /***************************************************************************
                           residentialsim.h  -  description
-      $Id: residentialsim.h,v 1.6 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : dim sep 21 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN

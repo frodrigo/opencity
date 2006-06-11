@@ -1,6 +1,6 @@
 /***************************************************************************
                           message.cpp  -  description
-         $Id: message.cpp,v 1.4 2006/01/11 14:59:27 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : nov 29th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN

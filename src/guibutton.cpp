@@ -1,6 +1,6 @@
 /***************************************************************************
                           guibutton.cpp    -  description
-       $Id: guibutton.cpp,v 1.18 2006/04/17 10:13:44 neoneurone Exp $
+       $Id$
                              -------------------
     begin                : lun 22 mar 2004
     copyright            : (C) 2004-2005 by Duong-Khang NGUYEN

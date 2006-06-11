@@ -1,6 +1,6 @@
 /***************************************************************************
                           environment.h  -  description
-         $Id: environment.cpp,v 1.9 2006/01/11 14:59:27 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : dec 11th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN

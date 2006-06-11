@@ -1,6 +1,6 @@
 /***************************************************************************
                           structure.cpp  -  description
-       $Id: structure.cpp,v 1.25 2006/06/05 09:58:06 neoneurone Exp $
+       $Id$
                              -------------------
     begin                : june 16th, 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
@@ -80,46 +80,6 @@ _pstructureMain( pMain )
 	OPENCITY_DEBUG( "ctor 2" );
 	uiNumberStructure++;
 }
-
-
-   /*======================================================================*/
-/* TOKILL
-Structure::Structure( const Structure & rcSource )
-{
-	OPENCITY_DEBUG( "ctor copy" );
-
-	this->enumGraphicCode = rcSource.enumGraphicCode;
-	this->enumStructureCode = rcSource.enumStructureCode;
-	_enumType = rcSource._enumType;
-	_pstructureMain = rcSource._pstructureMain;
-	_uiStatus = rcSource._uiStatus;
-
-	uiNumberStructure++;
-	assert( 0 );
-}
-*/
-
-
-   /*======================================================================*/
-/* TOKILL
-Structure
-Structure::operator=( const Structure & rcSource )
-{
-	OPENCITY_DEBUG( "operator =" );
-
-   // check for something like x = x;
-	if (this == &rcSource) {
-		return (*this);
-	}
-	this->enumGraphicCode = rcSource.enumGraphicCode;
-	this->enumStructureCode = rcSource.enumStructureCode;
-	_enumType = rcSource._enumType;
-	_pstructureMain = rcSource._pstructureMain;
-	_uiStatus = rcSource._uiStatus;
-
-	return (*this);
-}
-*/
 
 
    /*======================================================================*/

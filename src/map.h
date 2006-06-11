@@ -1,6 +1,6 @@
 /***************************************************************************
                           map.h  -  description
-             $Id: map.h,v 1.10 2006/03/12 23:14:18 neoneurone Exp $
+             $Id$
                              -------------------
     begin                : january 24th, 2004
     copyright            : (C) 2004-2006 Duong-Khang NGUYEN

@@ -1,6 +1,6 @@
 /***************************************************************************
                           main.h  -  description
-          $Id: main.h,v 1.46 2006/06/05 09:58:06 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : mer mai 28 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN

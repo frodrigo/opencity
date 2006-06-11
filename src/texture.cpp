@@ -1,6 +1,6 @@
 /***************************************************************************
                           texture.cpp    -  description
-       $Id: texture.cpp,v 1.15 2006/03/12 23:14:18 neoneurone Exp $
+       $Id$
                              -------------------
     begin                : ven 2 jui 2004
     copyright            : (C) 2004-2005 by Duong-Khang NGUYEN

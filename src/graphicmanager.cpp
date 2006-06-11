@@ -1,6 +1,6 @@
 /***************************************************************************
                           graphicmanager.cpp  -  description
-    $Id: graphicmanager.cpp,v 1.49 2006/04/17 15:49:15 neoneurone Exp $
+    $Id$
                              -------------------
     begin                : dim sep 21 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN

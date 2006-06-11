@@ -1,6 +1,6 @@
 /***************************************************************************
                           pathfinder.h  -  description
-       $Id: pathfinder.h,v 1.11 2006/03/12 23:14:18 neoneurone Exp $
+       $Id$
                              -------------------
     begin                : may 17th, 2004
     copyright            : (C) 2004-2006 by Duong-Khang NGUYEN

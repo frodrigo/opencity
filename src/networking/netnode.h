@@ -1,6 +1,6 @@
 /***************************************************************************
                           netnode.h  -  description
-         $Id: netnode.h,v 1.4 2005/05/21 06:20:31 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : jeu dec 23 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

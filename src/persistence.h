@@ -1,6 +1,6 @@
 /***************************************************************************
                           persistence.h  -  description
-        $Id: persistence.h,v 1.5 2006/03/12 23:14:18 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : jun 6th, 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

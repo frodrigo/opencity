@@ -1,6 +1,6 @@
 /***************************************************************************
                           buildinglayer.h  -  description
-      $Id: buildinglayer.h,v 1.21 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : sam sep 20 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
@@ -221,6 +221,7 @@ public:
 	/*------ END: attributes inherited from Layer ------*/
 
 private:
+	/** All the buildings are here */
 	Structure** _tabpStructure;
 
 

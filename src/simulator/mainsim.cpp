@@ -1,6 +1,6 @@
 /***************************************************************************
                           mainsim.cpp  -  description
-      $Id: mainsim.cpp,v 1.2 2006/06/05 09:58:06 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : 21 feb 2006
     copyright            : (C) 2006 by Duong-Khang NGUYEN
@@ -53,6 +53,26 @@ MainSim::~MainSim()
 
 	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
 		delete _tpSimulator[ui];
+	}
+}
+
+
+   /*======================================================================*/
+void
+MainSim::SaveTo( std::fstream& rfs )
+{
+	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+		_tpSimulator[ui]->SaveTo(rfs);
+	}
+}
+
+
+   /*======================================================================*/
+void
+MainSim::LoadFrom( std::fstream& rfs )
+{
+	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+		_tpSimulator[ui]->LoadFrom(rfs);
 	}
 }
 

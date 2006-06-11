@@ -1,6 +1,6 @@
 /***************************************************************************
                           renderer.h  -  description
-          $Id: renderer.h,v 1.24 2006/03/12 23:14:18 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : jeu mai 29 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN

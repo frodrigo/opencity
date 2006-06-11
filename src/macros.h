@@ -1,6 +1,6 @@
 /***************************************************************************
                           macros.h  -  description
-      $Id: macros.h,v 1.14 2006/06/05 09:58:06 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : dim sep 21 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

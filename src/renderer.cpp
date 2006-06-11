@@ -1,6 +1,6 @@
 /***************************************************************************
                           renderer.cpp  -  description
-        $Id: renderer.cpp,v 1.48 2006/06/05 09:58:06 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : jeu mai 29 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

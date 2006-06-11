@@ -1,6 +1,6 @@
 /***************************************************************************
                           mainsim.h  -  description
-      $Id: mainsim.h,v 1.1 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : 21 feb 2006
     copyright            : (C) 2006 by Duong-Khang NGUYEN
@@ -57,6 +57,22 @@ that the gobal simulator's data is overwritten by multiple micro simulators
 /** Destructs a MainSim object.
 */
 	~MainSim();
+
+
+//========================================================================
+/** Overload the base method in order to call all other microsims' method
+	\param rfs A reference to a file stream which is ready for writing
+*/
+	void
+	SaveTo( std::fstream& rfs );
+
+
+//========================================================================
+/** Overload the base method in order to call all other microsims' method
+	\param rfs A reference to a file stream which is ready for reading
+*/
+	void
+	LoadFrom( std::fstream& rfs );
 
 
 //========================================================================

@@ -1,6 +1,6 @@
 /***************************************************************************
                           persistence.cpp  -  description
-       $Id: persistence.cpp,v 1.6 2005/10/27 22:02:48 neoneurone Exp $
+       $Id$
                              -------------------
     begin                : ven jun 6 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN

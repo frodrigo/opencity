@@ -1,7 +1,7 @@
 -------------------------------------------
-INSTALL instructions for OpenCity 0.0.3stabe
+INSTALL instructions for OpenCity 0.0.3beta
 -------------------------------------------
-Last modified on june 29th, 05
+Last modified on june 11th, 06
 
 
 Open a console and type at the prompt the following
@@ -17,21 +17,18 @@ computer:
 
 
 In case you don't have a configure script, the following
-commands will creat one:
+command will creat one:
 
 
-	aclocal
-	automake
-	autoconf
+	./autogen.sh
 
 
 When the installation procedure have finished, you
 can launch OpenCity from command-line with the
-instructions below:
+instruction below:
 
 
-	cd $HOME/bin/opencity/bin
-	./opencity
+	opencity
 
 
 Have fun !

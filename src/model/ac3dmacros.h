@@ -1,6 +1,6 @@
 /***************************************************************************
                           AC3DMacros.h  -  description
-          $Id: ac3dmacros.h,v 1.2 2005/07/01 23:54:07 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : mer juin 30 05
     copyright            : (C) 2005 by Duong-Khang NGUYEN

@@ -1,6 +1,6 @@
 /***************************************************************************
                           texture.h    -  description
-            $Id: texture.h,v 1.10 2006/03/12 23:14:18 neoneurone Exp $
+            $Id$
                              -------------------
     begin                : 2 jul 2004
     copyright            : (C) 2004-2005 by Duong-Khang NGUYEN

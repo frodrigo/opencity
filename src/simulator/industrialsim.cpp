@@ -1,6 +1,6 @@
 /***************************************************************************
                           industrialsim.cpp  -  description
-      $Id: industrialsim.cpp,v 1.9 2006/03/12 23:14:18 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : dim fév  1 2004
     copyright            : (C) 2004-2005 by Duong-Khang NGUYEN
@@ -92,7 +92,7 @@ IndustrialSim::Main()
 
 
 //debug
-//cout << "IndustrialSim speaking: " << iValue
+//cout << "IndustrialSim speaking: " << _iValue
 //     << " / w: " << w << " / l: " << l << endl;
 
 			iRandom = rand() % 100;
@@ -103,7 +103,7 @@ IndustrialSim::Main()
 					if ((this->CheckLevelUp(w, l, pstruct) == true)
 					&&  (pstruct->LevelUp() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
-						this->iValue++;
+						_iValue++;
 					}
 				}
 			}  // end if levelup
@@ -113,7 +113,7 @@ IndustrialSim::Main()
 					if ((this->CheckLevelDown(w, l, pstruct) == true)
 					&&  (pstruct->LevelDown() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
-						this->iValue--;
+						_iValue--;
 					}
 			}
 
@@ -141,7 +141,7 @@ IndustrialSim::RemoveStructure(
 	if (pstruct != NULL)
 	if (pstruct->GetCode() == OC_STRUCTURE_IND)
 	if (pstruct->GetLevel() - 1 > 0)
-		this->iValue -= pstruct->GetLevel()-1;
+		_iValue -= pstruct->GetLevel()-1;
 }
 
 

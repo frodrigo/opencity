@@ -1,6 +1,6 @@
 /***************************************************************************
                           layer.cpp  -  description
-          $Id: layer.cpp,v 1.14 2006/03/12 23:14:18 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : september 20th, 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

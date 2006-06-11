@@ -1,6 +1,6 @@
 /***************************************************************************
                           wegstructure.h  -  description
-        $Id: wegstructure.h,v 1.5 2006/03/12 23:14:18 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : june 17th, 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

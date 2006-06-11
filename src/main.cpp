@@ -1,6 +1,6 @@
 /***************************************************************************
                           main.cpp  -  description
-         $Id: main.cpp,v 1.54 2006/03/12 23:14:18 neoneurone Exp $
+         $Id$
                              -------------------
     project              : OpenCity
     begin                : mer mai 28 2003

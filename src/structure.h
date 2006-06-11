@@ -1,6 +1,6 @@
 /***************************************************************************
                           structure.h  -  description
-        $Id: structure.h,v 1.16 2006/06/05 09:58:06 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : june 16th, 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

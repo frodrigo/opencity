@@ -1,6 +1,6 @@
 /***************************************************************************
                           AC3DModel.h  -  description
-          $Id: ac3dobject.h,v 1.5 2005/09/13 16:31:32 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : mer juin 29 05
     copyright            : (C) 2005 by Duong-Khang NGUYEN

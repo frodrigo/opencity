@@ -1,6 +1,6 @@
 /***************************************************************************
                           city.cpp  -  description
-          $Id: city.cpp,v 1.73 2006/06/05 09:58:06 neoneurone Exp $
+          $Id$
                              -------------------
     begin                : mer mai 28 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
@@ -80,7 +80,7 @@ strCityName("OpenCity"),
 iDifficulty( difficulty ),
 strFileName(""),
 cityFoundedDate( foundedDate ),
-liCityFund( OC_FUND_START ),
+_liCityFund( OC_FUND_START ),
 boolModified( false ),
 
 _uiDay( 1 ),
@@ -184,11 +184,12 @@ City::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
-	rfs << _uiWidth << std::endl;
-	rfs << _uiHeight << std::endl;
+	rfs << _liCityFund << std::endl;
 	rfs << _uiDay << std::endl;
 	rfs << _uiMonth << std::endl;
 	rfs << _uiYear << std::endl;
+	rfs << _uiWidth << std::endl;
+	rfs << _uiHeight << std::endl;
 }
 
 
@@ -198,11 +199,12 @@ City::LoadFrom( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
 
-	rfs >> _uiWidth; rfs.ignore();
-	rfs >> _uiHeight; rfs.ignore();
+	rfs >> _liCityFund; rfs.ignore();
 	rfs >> _uiDay; rfs.ignore();
 	rfs >> _uiMonth; rfs.ignore();
 	rfs >> _uiYear; rfs.ignore();
+	rfs >> _uiWidth; rfs.ignore();
+	rfs >> _uiHeight; rfs.ignore();
 }
 
 
@@ -266,7 +268,7 @@ cityrun_swap:
 
 // Display the city's funds
 	ossStatus.str("");
-	ossStatus << liCityFund << " @";
+	ossStatus << _liCityFund << " @";
 	gpRenderer->DisplayText( 10, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 // Display the R value
 	ossStatus.str("");
@@ -1042,7 +1044,7 @@ City::_DoTool(
 */
 
 // we return if we don't have enough funds
-	if (liCityFund < 0)
+	if (_liCityFund < 0)
 		return;
 
 
@@ -1226,7 +1228,7 @@ City::_DoTool(
 	SDL_UnlockMutex( gpmutexSim );
 
 	if (enumErrCode == OC_ERR_FREE) {
-		liCityFund -= cost;
+		_liCityFund -= cost;
 	}
 }
 
@@ -1310,7 +1312,7 @@ City::_DoBill(
 				OC_MAINTENANCE_COST, pStruct->GetCode() );
 	}
 
-	liCityFund -= maintenance;
+	_liCityFund -= maintenance;
 
 // accumulate the income each month
 	income += (_pMSim->GetValue(MainSim::OC_MICROSIM_RES) * OC_R_INCOME_TAX / 100)
@@ -1322,7 +1324,7 @@ City::_DoBill(
 	// here is the gouvernment's help for this year :D
 		income += income * OC_INCOME_HELP / 100;
 
-		liCityFund += income;
+		_liCityFund += income;
 		income = 0;
 	}
 }
@@ -1724,6 +1726,8 @@ City::_Save( const string& strFilename )
 	gpMapMgr->SaveTo( fs );
 	ptabLayer[ BUILDING_LAYER ]->SaveTo( fs );
 
+	_pMSim->SaveTo( fs );
+
 // Unlock the simulator
 	SDL_UnlockMutex( gpmutexSim );
 
@@ -1753,11 +1757,13 @@ City::_Load( const string& strFilename )
 	gpRenderer->boolHeightChange = true;
 	ptabLayer[ BUILDING_LAYER ]->LoadFrom( fs );
 
+// TOKILL, old code, june 11th, 06
 // Recreate the simulator
-	_DeleteSimulator();
-	_CreateSimulator();
+//	_DeleteSimulator();
+//	_CreateSimulator();
+	_pMSim->LoadFrom( fs );
 
-// Add the structures to the simulators
+// Manually add the structures to the simulators
 	for ( w = 0; w < _uiWidth; w++ ) {
 		for ( l = 0; l < _uiHeight; l++ ) {
 			_pMSim->AddStructure( w, l, w, l );

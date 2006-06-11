@@ -1,6 +1,6 @@
 /***************************************************************************
                     agentrobber.cpp  -  description
-         $Id: agentrobber.cpp,v 1.3 2006/01/06 11:39:22 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : nov 29th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN

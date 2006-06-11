@@ -1,6 +1,6 @@
 /***************************************************************************
                            main.cpp  -  description
-         $Id: main.cpp,v 1.3 2005/12/11 17:38:09 haypo Exp $
+         $Id$
                              -------------------
     begin                : nov 29th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN

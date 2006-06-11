@@ -1,6 +1,6 @@
 /***************************************************************************
                           simulator.cpp  -  description
-      $Id: simulator.cpp,v 1.13 2006/06/05 09:58:06 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : dim sep 21 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
@@ -21,20 +21,19 @@
 #include "buildinglayer.h"
 #include "../map.h"				// We need to specify the path because we want our own map.h
 #include "structure.h"
-
 #include "propertymanager.h"
 
 #include <cmath>				// For log10
 
 
-	extern OC_FLOAT gfMsSimDelayMax;
-	extern PropertyManager* gpPropertyMgr;
+extern OC_FLOAT gfMsSimDelayMax;
+extern PropertyManager* gpPropertyMgr;
 
 
    /*=====================================================================*/
 Simulator::Simulator():
-iVariation( 0 ),
-iValue( 0 ),
+_iVariation( 0 ),
+_iValue( 0 ),
 enumSimState( SIMULATOR_STOPED ),
 mutexMain( NULL )
 {
@@ -44,8 +43,8 @@ mutexMain( NULL )
 
    /*=====================================================================*/
 Simulator::Simulator( SDL_mutex* mutex, BuildingLayer* pblayer, Map* pmap ):
-iVariation( 0 ),
-iValue( 0 ),
+_iVariation( 0 ),
+_iValue( 0 ),
 enumSimState( SIMULATOR_STOPED ),
 mutexMain( mutex ),
 pbuildlayer( pblayer ),
@@ -63,6 +62,28 @@ Simulator::~Simulator()
 {
 	OPENCITY_DEBUG( "Sim dtor" );
 	mutexMain = NULL;
+}
+
+
+   /*======================================================================*/
+void
+Simulator::SaveTo( std::fstream& rfs )
+{
+	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
+
+	rfs << _iVariation << std::endl;
+	rfs << _iValue << std::endl;
+}
+
+
+   /*======================================================================*/
+void
+Simulator::LoadFrom( std::fstream& rfs )
+{
+	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
+
+	rfs >> _iVariation; rfs.ignore();
+	rfs >> _iValue; rfs.ignore();
 }
 
 
@@ -237,7 +258,7 @@ Simulator::CheckLevelDown(
 const int &
 Simulator::GetVariation() const
 {
-	return this->iVariation;
+	return this->_iVariation;
 }
 
 
@@ -245,25 +266,25 @@ Simulator::GetVariation() const
 const int &
 Simulator::GetValue() const
 {
-	return this->iValue;
+	return this->_iValue;
 }
 
 
    /*======================================================================*/
 void
 Simulator::SetVariation(
-	const int & rciVariation )
+	const int & rc_iVariation )
 {
-	this->iVariation = rciVariation;
+	this->_iVariation = rc_iVariation;
 }
 
 
    /*======================================================================*/
 void
 Simulator::SetValue(
-	const int & rciValue )
+	const int & rc_iValue )
 {
-	this->iValue = rciValue;
+	this->_iValue = rc_iValue;
 }
 
 

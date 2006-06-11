@@ -1,6 +1,6 @@
 /***************************************************************************
                           guibutton.h    -  description
-    $Id: guibutton.h,v 1.9 2006/03/12 23:14:18 neoneurone Exp $
+    $Id$
                              -------------------
     begin                : lun 22 mar 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN

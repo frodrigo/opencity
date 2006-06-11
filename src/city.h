@@ -1,6 +1,6 @@
 /***************************************************************************
                           city.h    -  description
-         $Id: city.h,v 1.31 2006/06/05 09:58:06 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : mer mai 28 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
@@ -108,11 +108,11 @@ public:
 
 private:
 // Current city's informations
-	string		strCityName;		///< the name of the city
-	int			iDifficulty;		///< the difficulty of current game
-	string		strFileName;		///< the fileName of current city
+	string		strCityName;		///< The name of the city
+	int			iDifficulty;		///< The difficulty of current game
+	string		strFileName;		///< The fileName of current city
 	OC_DATE		cityFoundedDate;
-	OC_LINT		liCityFund;
+	OC_LINT		_liCityFund;		///< Money, money, money !
 	bool		boolModified;
 /* not used
 	uint		uiPoliceDpt;
@@ -120,30 +120,30 @@ private:
 	uint		uiPark;
 */
 
-	uint	_uiDay;
-	uint	_uiMonth;
-	uint	_uiYear;
+	uint		_uiDay;
+	uint		_uiMonth;
+	uint		_uiYear;
 
-	OC_CHAR		_cTool;
+	OC_CHAR		_cTool;				///< Tool hotkey
 
-	uint	_uiWidth;			///< City's width, height
-	uint	_uiHeight;
+	uint		_uiWidth;			///< City's width, height
+	uint		_uiHeight;
 
-	int		iWinWidth;			///< Windows' width, height
-	int		iWinHeight;
+	int			iWinWidth;			///< Windows' width, height
+	int			iWinHeight;
 
 // Some GL options
-	bool boolUseDisplayList;
+	bool		boolUseDisplayList;
 
 // Dragging mode and mouse click
-	bool boolLMBPressed;
-	uint uiMapW1;
-	uint uiMapL1;
-	uint uiMapW2;
-	uint uiMapL2;
+	bool		boolLMBPressed;
+	uint		uiMapW1;
+	uint		uiMapL1;
+	uint		uiMapW2;
+	uint		uiMapL2;
 
 // Handle pressed keyboards
-	bool booltabKeyPressed [KEY_NUMBER];
+	bool		booltabKeyPressed [KEY_NUMBER];
 
 // Current city's layer
 	OPENCITY_CITY_LAYER enumCurrentLayer;
@@ -156,34 +156,34 @@ private:
 
 
 // Others classes
-	Layer* ptabLayer [4];			// table of our 4 differents layer
+	Layer*		ptabLayer [4];			// table of our 4 differents layer
 
 // Testing pathfinder, TODO maybe we need to move it to main.cpp
-	bool boolPathGo;
-	uint uiPathStartW, uiPathStartH;
-	uint uiPathStopW, uiPathStopH;
+	bool		boolPathGo;
+	uint		uiPathStartW, uiPathStartH;
+	uint		uiPathStopW, uiPathStopH;
 	GUIContainer* pctrPath;
-	GUIButton* pbtnPathStart;
-	GUIButton* pbtnPathStop1;
-	GUIButton* pbtnPathStop2;
-	GUIButton* pbtnTestBuilding;		// Used by graphists
-	Vehicle* pvehicle;
-	uint uiVehicleType;
+	GUIButton*	pbtnPathStart;
+	GUIButton*	pbtnPathStop1;
+	GUIButton*	pbtnPathStop2;
+	GUIButton*	pbtnTestBuilding;		// Used by graphists
+	Vehicle*	pvehicle;
+	uint		uiVehicleType;
 
 // Testing MAS
 	GUIContainer* pctrMAS;
-	GUIButton* pbtnMAS;
-	GUIButton* pbtnMASPolice;
-	GUIButton* pbtnMASDemonstrator;
-	GUIButton* pbtnMASRobber;
+	GUIButton*	pbtnMAS;
+	GUIButton*	pbtnMASPolice;
+	GUIButton*	pbtnMASDemonstrator;
+	GUIButton*	pbtnMASRobber;
 
 // Simulator
-	MainSim* _pMSim;
-	SDL_Thread* _pthreadMSim;
+	MainSim*	_pMSim;
+	SDL_Thread*	_pthreadMSim;
 
 // GUI Splash screen
 //debug, test
-	GUIButton* pbtnSplash;
+	GUIButton*	pbtnSplash;
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
 	GUIContainer* pctr;

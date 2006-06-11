@@ -1,6 +1,6 @@
 /***************************************************************************
                           simulator.h  -  description
-        $Id: simulator.h,v 1.13 2006/06/05 09:58:06 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : dim sep 21 2003
     copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
@@ -17,35 +17,37 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_SIMULATOR_H_
-	#define _OPENCITY_SIMULATOR_H_ 1
+#define _OPENCITY_SIMULATOR_H_ 1
 
-	#include "main.h"
+#include "main.h"
 
-   // the maximum range of other structures
-	#define OC_R_C_RANGE 4
-	#define OC_R_I_RANGE 7
-	#define OC_R_P_RANGE 3
+#include "persistence.h"
 
-	#define OC_C_R_RANGE 4
-	#define OC_C_I_RANGE 8
-	#define OC_C_P_RANGE 2
+// the maximum range of other structures
+#define OC_R_C_RANGE 4
+#define OC_R_I_RANGE 7
+#define OC_R_P_RANGE 3
 
-	#define OC_I_R_RANGE 7
-	#define OC_I_C_RANGE 8
-	#define OC_I_P_RANGE 4
+#define OC_C_R_RANGE 4
+#define OC_C_I_RANGE 8
+#define OC_C_P_RANGE 2
 
-	#define OC_E_E_RANGE   1	// for electricity simulation
-	#define OC_E_RCI_RANGE 2
+#define OC_I_R_RANGE 7
+#define OC_I_C_RANGE 8
+#define OC_I_P_RANGE 4
 
-	#define OC_P_RCIP_RANGE 2	// for traffic simulation
+#define OC_E_E_RANGE   1	// for electricity simulation
+#define OC_E_RCI_RANGE 2
 
-   // simulators' defines.
-   // bad values can block your system, don't change them !
-	#define OC_SIMULATOR_UP   70			///< 70% of levelup will be done 30% left mean leveldown
-	#define OC_SIMULATOR_DOWN 40			///< 40% of leveldown will be done only
+#define OC_P_RCIP_RANGE 2	// for traffic simulation
 
-	#define OC_EPLANT_COAL_POWER 1000		///< The power you get when you build it
-	#define OC_EPLANT_COAL_RANGE 2			///< For building and destroying
+// simulators' defines.
+// bad values can block your system, don't change them !
+#define OC_SIMULATOR_UP   70			///< 70% of levelup will be done 30% left mean leveldown
+#define OC_SIMULATOR_DOWN 40			///< 40% of leveldown will be done only
+
+#define OC_EPLANT_COAL_POWER 1000		///< The power you get when you build it
+#define OC_EPLANT_COAL_RANGE 2			///< For building and destroying
 
 
 enum OPENCITY_STRUCTURE_CODE;
@@ -57,7 +59,7 @@ class Structure;
 /** The class from which all the simulators derive. It contains common
 	tests used by the micro simulators
 */
-class Simulator {
+class Simulator : public Persistence {
 public:
 	enum SIMULATOR_STATE {
 		SIMULATOR_RUNNING,
@@ -71,6 +73,22 @@ public:
 		BuildingLayer* pblayer,
 		Map* pmap );
 	virtual ~Simulator();
+
+
+//========================================================================
+/** Save the data to the specified fstream
+	\param rfs A reference to a file stream which is ready for writing
+*/
+	void
+	SaveTo( std::fstream& rfs );
+
+
+//========================================================================
+/** Load the data from the specified stream
+	\param rfs A reference to a file stream which is ready for reading
+*/
+	void
+	LoadFrom( std::fstream& rfs );
 
 
 	virtual int
@@ -190,8 +208,8 @@ Given the surface (w, l, w2, l2) this method checks if it contains
 
 
 protected:
-	int iVariation;	///< The average variation of the structures stimulated
-	int iValue;		///< The current global value of the simulator
+	int _iVariation;	///< The average variation of the structures stimulated
+	int _iValue;		///< The current global value of the simulator
 
 	SIMULATOR_STATE enumSimState;			///< The current state of the simulator
 	SDL_mutex* mutexMain;					///< Points to the global mutex

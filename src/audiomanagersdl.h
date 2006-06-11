@@ -1,6 +1,6 @@
 /***************************************************************************
                           audiomanagersdl.h  -  description
-        $Id: audiomanagersdl.h,v 1.6 2006/03/12 23:14:18 neoneurone Exp $
+        $Id$
                              -------------------
     begin                : ven déc 26 2003
     copyright            : (C) 2003 by Duong-Khang NGUYEN

@@ -1,6 +1,6 @@
 /***************************************************************************
                           propertymanager.cpp  -  description
-      $Id: propertymanager.cpp,v 1.17 2006/06/05 09:58:06 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : feb 6th, 2004
     copyright            : (C) 2004-2006 by Duong-Khang NGUYEN

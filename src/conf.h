@@ -1,6 +1,6 @@
 /***************************************************************************
                           conf.h    -  description
-         $Id: conf.h,v 1.13 2006/03/12 23:14:18 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : dim 1 août 2004
     copyright            : (C) by Duong-Khang NGUYEN

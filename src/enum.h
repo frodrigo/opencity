@@ -1,6 +1,6 @@
 /***************************************************************************
                           enum.h  -  description
-      $Id: enum.h,v 1.1 2006/06/05 09:58:06 neoneurone Exp $
+      $Id$
                              -------------------
     begin                : may 8th, 2006
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

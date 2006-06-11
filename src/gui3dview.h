@@ -1,6 +1,6 @@
 /***************************************************************************
                           gui3dview.h    -  description
-    $Id: gui3dview.h,v 1.3 2005/05/21 06:20:30 neoneurone Exp $
+    $Id$
                              -------------------
     begin                : lun 22 mar 2004
     copyright            : (C) 2004 by Duong-Khang NGUYEN
