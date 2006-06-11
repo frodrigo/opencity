@@ -1,6 +1,6 @@
 /***************************************************************************
                           CodingStyle.h    -  description
-         $Id: CodingStyle.h,v 1.5 2006/03/12 23:14:18 neoneurone Exp $
+         $Id$
 
                              -------------------
     begin                : nov 10th 2005
@@ -22,11 +22,11 @@
 
 #include "main.h"
 
-#include <vector>
+#include <vector>					///< Standard headers come after our headers
 
 #define OC_CODINGSTYLE_SOMECONST	1
 
-class GUIContainer;		///< Forward class declaration
+class GUIContainer;					///< Forward class declaration
 
 
 /** Here is the description of the class.
@@ -47,21 +47,21 @@ public:
 	~CodingStyle(  );
 
 	bool GetBool() const;			///< One line for short declaration
-	OC_UINT GetSize() const;
+	uint GetSize() const;
 	bool IsBig() const;
 
 	int
 	GetLongLongProperty(
 		const int& rciA,
-		const int& rciB) const;		///< Multi-line for long declaration
+		const int& rciB ) const;		///< Multi-line for long declaration
 
 
 private:
-	bool _boolABool;		///< _ (underscore) means something private
-	string _strAString;		///< A member std::string
-	int _iAnInt;
-	OC_UINT _uiAnUInt;
-	uint _uiAnotherUInt;
+	bool	_bABool;				///< _ (underscore) means something private
+	string	_strAString;			///< A member std::string
+	int		_iAnInt;
+	uint	_uiAnotherUInt;
+	OPENCITY_ENUM	_eAnEnum;
 
 
    /*=====================================================================*/

@@ -181,9 +181,9 @@ structure type
 
 
 protected:
-	OPENCITY_GRAPHIC_CODE enumGraphicCode;
-	OPENCITY_STRUCTURE_CODE enumStructureCode;
-	OPENCITY_STRUCTURE_TYPE _enumType;			///< Structure type
+	OPENCITY_GRAPHIC_CODE	_eGC;			///< Graphic code
+	OPENCITY_STRUCTURE_CODE	_eSC;			///< Structure code
+	OPENCITY_STRUCTURE_TYPE _eType;			///< Structure type
 	uint _uiStatus;
 	uint _uiLevel;
 

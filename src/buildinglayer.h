@@ -289,6 +289,24 @@ method returns without generating any error
 		const OPENCITY_STRUCTURE_CODE & enumStructCode,
 		uint& rCost );
 
+
+//========================================================================
+/** Fast load a structure at the specified coordinates. If the
+structure is bigger than 1x1, then extra structures part will be built
+automatically. There is not any "Constructive" test.
+	\note If there's already a structure at the specified coordinates, this
+method returns without generating any error
+	\param w1,l1	The structure upper-left map coordinates
+	\param pStruct	The pointer to the structure which will be deleted
+automatically when the program ends
+*/
+	void
+	_LoadStructure(
+		const uint & w1,
+		const uint & l1,
+		Structure* pStruct );
+
+
 //========================================================================
 /** Destroy the structure built at the specified coordinates
 	\param w = OpenGL Ox

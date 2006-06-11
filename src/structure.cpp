@@ -17,7 +17,10 @@
  ***************************************************************************/
 
 #include "structure.h"
+#include "propertymanager.h"
 
+
+extern PropertyManager* gpPropertyMgr;		///< global property manager
 uint Structure::uiNumberStructure = 0;		///< Number of structures created so far
 
 
@@ -38,15 +41,15 @@ Structure::SetNumber( const uint & rcuiNb )
 
 
    /*======================================================================*/
-Structure::Structure(  ):
-enumGraphicCode( OC_EMPTY ),
-enumStructureCode( OC_STRUCTURE_UNDEFINED ),
-_enumType( OC_STRUCTURE_UNUSEDTYPE ),
+Structure::Structure():
+_eGC( OC_EMPTY ),
+_eSC( OC_STRUCTURE_UNDEFINED ),
+_eType( OC_STRUCTURE_UNUSEDTYPE ),
 _uiStatus( 0 ),
 _uiLevel( OC_STRUCTURE_LEVEL_START ),
 _pstructureMain( NULL )
 {
-	OPENCITY_DEBUG( "ctor, warning undefined structure code" );
+	OPENCITY_DEBUG( "ctor 0" );
 	uiNumberStructure++;
 }
 
@@ -56,12 +59,15 @@ Structure::Structure
 (
 	const OPENCITY_STRUCTURE_CODE enumStructCode
 ):
-enumStructureCode( enumStructCode ),
+_eGC( OC_EMPTY ),
+_eSC( enumStructCode ),
 _uiStatus( 0 ),
 _uiLevel( OC_STRUCTURE_LEVEL_START ),
 _pstructureMain( NULL )
 {
 	OPENCITY_DEBUG( "ctor 1" );
+
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 	uiNumberStructure++;
 }
 
@@ -72,12 +78,15 @@ Structure::Structure
 	const OPENCITY_STRUCTURE_CODE enumStructCode,
 	Structure* pMain
 ):
-enumStructureCode( enumStructCode ),
+_eGC( OC_EMPTY ),
+_eSC( enumStructCode ),
 _uiStatus( 0 ),
 _uiLevel( OC_STRUCTURE_LEVEL_START ),
 _pstructureMain( pMain )
 {
 	OPENCITY_DEBUG( "ctor 2" );
+
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 	uiNumberStructure++;
 }
 
@@ -97,9 +106,9 @@ Structure::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
-	rfs << enumGraphicCode << std::endl;
-	rfs << enumStructureCode << std::endl;
-	rfs << _enumType << std::endl;
+	rfs << _eGC << std::endl;
+	rfs << _eSC << std::endl;
+	rfs << _eType << std::endl;
 	rfs << _uiStatus << std::endl;
 	rfs << _uiLevel << std::endl;
 }
@@ -112,9 +121,9 @@ Structure::LoadFrom( std::fstream& rfs )
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
 	uint t;
 
-	rfs >> t; rfs.ignore(); enumGraphicCode = (OPENCITY_GRAPHIC_CODE)t;
-	rfs >> t; rfs.ignore(); enumStructureCode = (OPENCITY_STRUCTURE_CODE)t;
-	rfs >> t; rfs.ignore(); _enumType= (OPENCITY_STRUCTURE_TYPE)t;
+	rfs >> t; rfs.ignore(); _eGC = (OPENCITY_GRAPHIC_CODE)t;
+	rfs >> t; rfs.ignore(); _eSC = (OPENCITY_STRUCTURE_CODE)t;
+	rfs >> t; rfs.ignore(); _eType= (OPENCITY_STRUCTURE_TYPE)t;
 	rfs >> _uiStatus; rfs.ignore();
 	rfs >> _uiLevel; rfs.ignore();
 }
@@ -154,7 +163,7 @@ Structure::IsSet(
 const OPENCITY_GRAPHIC_CODE
 Structure::GetGraphicCode() const
 {
-	return this->enumGraphicCode;
+	return _eGC;
 }
 
 
@@ -164,7 +173,7 @@ Structure::GetBaseGraphicCode() const
 {
 	OPENCITY_GRAPHIC_CODE tempGC;
 
-	switch (this->enumStructureCode) {
+	switch (_eSC) {
 		case OC_STRUCTURE_RES:
 			tempGC = OC_RES_ZONE0;
 			break;
@@ -193,7 +202,7 @@ Structure::GetNextLevelGraphicCode() const
 {
 //	OPENCITY_DEBUG("WARNING: Inside Structure");
 // WARNING: we don't have such information in a general structure
-	return this->enumGraphicCode;
+	return _eGC;
 }
 
 
@@ -202,7 +211,7 @@ const OPENCITY_GRAPHIC_CODE
 Structure::GetPreviousLevelGraphicCode() const
 {
 // WARNING: we don't have such information in a general structure
-	return this->enumGraphicCode;
+	return _eGC;
 }
 
 
@@ -210,7 +219,7 @@ Structure::GetPreviousLevelGraphicCode() const
 const OPENCITY_STRUCTURE_CODE
 Structure::GetCode() const
 {
-	return this->enumStructureCode;
+	return _eSC;
 }
 
 
@@ -278,19 +287,11 @@ Structure::SetLevel(
 const OPENCITY_STRUCTURE_TYPE
 Structure::GetType() const
 {
-	return _enumType;
+	return _eType;
 }
 
 
-   /*======================================================================*/
-/* TOKILL
-void
-Structure::SetType(
-	const uint & rcuiType )
-{
-	_enumType = rcuiType;
-}
-*/
+
 
 
 

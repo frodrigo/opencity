@@ -1,6 +1,6 @@
 /***************************************************************************
                       CodingStyle.cpp    -  description
-         $Id: CodingStyle.cpp,v 1.2 2006/03/12 23:14:18 neoneurone Exp $
+         $Id$
                              -------------------
     begin                : nov 14th 2005
     copyright            : (C) 2005 by Duong-Khang NGUYEN
@@ -49,6 +49,8 @@ CodingStyle::GetBool() const
 void
 CodingStyle::_PrivateMethod()
 {
+	uint uiMyUInt = 0;			///< Variables are _always_ initialized
+	int* piMyPInt = NULL;
 }
 
 

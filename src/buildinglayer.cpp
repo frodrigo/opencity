@@ -108,9 +108,8 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
 	Structure* p = NULL;
 	void* t = NULL;
-	uint w, l, rCost, anUint, linear;
-	OPENCITY_STRUCTURE_TYPE type;		///< Structure's object type
-	OPENCITY_ERR_CODE errCode;
+	uint w = 0, l = 0, anUint = 0, linear = 0;
+	OPENCITY_STRUCTURE_TYPE type = OC_STRUCTURE_UNUSEDTYPE;		///< Structure's object type
 
 // Remove the old structures
 	uint citySurface = _uiLayerHeight * _uiLayerWidth;
@@ -144,8 +143,6 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 				case OC_STRUCTURE_COMMERCE:
 				case OC_STRUCTURE_INDUSTRY:
 					p = new RCIStructure();
-					p->LoadFrom( rfs );
-					errCode = _BuildRCIStructure( w, l, w, l, p->GetCode(), rCost );
 					break;
 
 				case OC_STRUCTURE_WATER:
@@ -153,15 +150,10 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 				case OC_STRUCTURE_GAS:
 				case OC_STRUCTURE_GOVERNMENT:		// hack
 					p = new WEGStructure();
-					p->LoadFrom( rfs );
-					OPENCITY_DEBUG( "code: " << p->GetCode() );
-					errCode = _BuildWEGStructure( w, l, p->GetCode(), rCost );
 					break;
 
 				case OC_STRUCTURE_PATH:
 					p = new PathStructure();
-					p->LoadFrom( rfs );
-					errCode = _BuildPathStructure( w, l, w, l, p->GetCode(), rCost );
 					break;
 
 				default:
@@ -169,7 +161,8 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 					assert( 0 );
 			}
 
-			delete p;
+			p->LoadFrom( rfs );
+			_LoadStructure( w, l, p );
 		} // if (p != NULL)
 	} // for
 }
@@ -849,7 +842,6 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 
-
 // it's OK, let's GO !
 	uint linearIndex;
 
@@ -978,89 +970,6 @@ BuildingLayer::_BuildPathStructure(
 
 
    /*=====================================================================*/
-/* TODO: next version
-const OPENCITY_ERR_CODE
-BuildingLayer::_BuildRCIStructure(
-	uint W1, uint L1,
-	const OPENCITY_STRUCTURE_CODE & enumStructCode,
-	uint& rCost )
-{
-	OPENCITY_DEBUG( "I'm building some RCI structures" );
-
-	uint W2, L2;
-	uint sw, sl, sh;				// Structure's width, length and height
-	OPENCITY_GRAPHIC_CODE gcode;
-
-// Get the graphic code of the structure
-	gcode = gpPropertyMgr->GetGC( enumStructCode );
-	if ( gcode == OC_EMPTY ) {
-		OPENCITY_DEBUG( "WARNING: not implemented" );
-		assert(0);
-	}
-
-// Get the corresponding WLH and calculate the range
-// NOTE: An coal electric plant is 4x4 size by default
-	gpPropertyMgr->GetWLH( gcode, sw, 4, sl, 4, sh, 1 );
-	W2 = W1 + sw - 1;
-	L2 = L1 + sl - 1;
-
-// Isn't there enough space ?
-// OR is there already something on the surface ?
-	if (IsConstructive(W1, L1, W2, L2, enumStructCode) == false) {
-		return OC_ERR_SOMETHING;
-	}
-
-// Let's do it
-	_BuildRCIStructure( W1, L1, W2, L2, enumStructCode, rCost );
-
-	return OC_ERR_FREE;
-}
-*/
-
-
-   /*=====================================================================*/
-/* TODO: next version
-void
-BuildingLayer::_BuildRCIStructure(
-	uint W1, uint L1,
-	uint W2, uint L2,
-	const OPENCITY_STRUCTURE_CODE & enumStructCode,
-	uint& rCost )
-{
-	uint w, l;
-	Structure* pNewStructure, *pMainStructure;
-	uint linearIndex;
-
-// Create the main structure first, but we don't insert it
-	pMainStructure = new RCIStructure( enumStructCode );
-	rCost = gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
-
-// Create all the area as parts of a bigger main structure
-	l = L1;
-	while (l <= L2) {
-		linearIndex = (l*_uiLayerWidth) + W1;
-		w = W1;
-		while (w <= W2) {
-		// Build new WEG as a structure part
-			_tabpStructure[ linearIndex++ ] =
-				new RCIStructure( OC_STRUCTURE_PART, pMainStructure);
-			w++;
-			// linearIndex++; already done
-		}
-		l++;
-	}
-
-// Delete the part structure at the coordinates W1,L1
-	linearIndex = (L1*_uiLayerWidth) + W1;
-	pNewStructure = _tabpStructure[ linearIndex ];
-	delete pNewStructure;
-// Put the main structure upon it
-	_tabpStructure[ linearIndex ] = pMainStructure;
-}
-*/
-
-
-   /*=====================================================================*/
 const OPENCITY_ERR_CODE
 BuildingLayer::_BuildRCIStructure(
 	uint W1, uint L1,
@@ -1168,7 +1077,8 @@ BuildingLayer::_BuildWEGStructure(
 		while (w <= W2) {
 		// Build new WEG as a structure part
 			_tabpStructure[ linearIndex++ ] =
-				new WEGStructure( OC_STRUCTURE_PART, pMainStructure );
+				new Structure( OC_STRUCTURE_PART, pMainStructure );
+//				new WEGStructure( OC_STRUCTURE_PART, pMainStructure );
 			w++;
 			// linearIndex++; already done
 		}
@@ -1181,6 +1091,58 @@ BuildingLayer::_BuildWEGStructure(
 	delete pNewStructure;
 // Put the main structure upon it
 	_tabpStructure[ linearIndex ] = pMainStructure;
+}
+
+
+   /*=====================================================================*/
+void
+BuildingLayer::_LoadStructure(
+	const uint & w1,
+	const uint & l1,
+	Structure* pMainStruct )
+{
+	OPENCITY_DEBUG( "Loading some structures" );
+
+	uint w = 0, l = 0, w2 = 0, l2 = 0;
+	uint sw = 0, sl = 0, sh = 0;				// Structure's width, length and height
+	OPENCITY_GRAPHIC_CODE gcode = OC_EMPTY;
+	uint linearIndex = 0;
+
+// Get the graphic code of the structure
+	gcode = pMainStruct->GetGraphicCode();
+	if ( gcode == OC_EMPTY ) {
+		OPENCITY_DEBUG( "WARNING: not implemented" );
+		assert(0);
+	}
+
+// Get the corresponding WLH and calculate the range
+// NOTE: An coal electric plant is 4x4 size by default
+	gpPropertyMgr->GetWLH( gcode, sw, 1, sl, 1, sh, 1 );
+	w2 = w1 + sw - 1;
+	l2 = l1 + sl - 1;
+
+// Create all the area as parts of a bigger main structure
+	if (sw > 1 || sl > 1 || sh > 1) {
+		l = l1;
+		while (l <= l2) {
+			linearIndex = (l*_uiLayerWidth) + w1;
+			w = w1;
+			while (w <= w2) {
+			// Build new WEG as a structure part
+				_tabpStructure[ linearIndex++ ] =
+					new Structure( OC_STRUCTURE_PART, pMainStruct );
+				w++;
+				// linearIndex++; already done
+			}
+			l++;
+		}
+	
+	// Delete the part structure at the coordinates W1, L1
+		delete _tabpStructure[ (l1*_uiLayerWidth) + w1 ];
+	}
+
+// Put the main structure at W1, L1
+	_tabpStructure[ (l1*_uiLayerWidth) + w1 ] = pMainStruct;
 }
 
 

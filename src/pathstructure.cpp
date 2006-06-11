@@ -25,7 +25,7 @@ extern PropertyManager* gpPropertyMgr;	// global property manager
 
    /*======================================================================*/
 PathStructure::PathStructure():
-Structure( OC_STRUCTURE_UNDEFINED ),
+Structure(),
 ubNumberNeighbour( 0 ),
 ubTraffic( 0 )
 {
@@ -44,12 +44,12 @@ ubTraffic( 0 )
 {
 	OPENCITY_DEBUG( "ctor param" );
 
-	this->enumGraphicCode = gpPropertyMgr->GetGC( enumStructCode );
-	_enumType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 
 //debug
 //cout << "struct: " << (int)enumStructCode
-//     << "/ graphic: " << (int)enumGraphicCode << endl;
+//     << "/ graphic: " << (int)_eGC << endl;
 
 }
 
@@ -94,7 +94,7 @@ PathStructure::AddNeighbour(
 
 //debug cout << "adding 1 neighbour" << endl;
 
-	switch (enumStructureCode) {
+	switch (_eSC) {
 		case OC_STRUCTURE_ROAD:
 			baseGC = OC_ROAD_O_N;
 			break;
@@ -106,12 +106,12 @@ PathStructure::AddNeighbour(
 			break;
 	}
 
-   // we will update the enumGraphicCode with the newGC value
+   // we will update the _eGC with the newGC value
    // when we return, so we keep with this
-	newGC = enumGraphicCode;
+	newGC = _eGC;
 
 	if (ubNumberNeighbour == 0) {
-	   // the current enumGraphicCode is already OC_ROAD_O_N
+	   // the current _eGC is already OC_ROAD_O_N
 	   // we don't process further in such case
 		if (enumDir == OC_DIR_E)
 			newGC = baseGC + 1;
@@ -126,11 +126,11 @@ PathStructure::AddNeighbour(
 //debug cout << "number neighbour == 1" << endl;
 		if (enumDir == OC_DIR_N) {
 		   // we don't process the case OC_ROAD_O_N
-			if (enumGraphicCode == baseGC + 1)
+			if (_eGC == baseGC + 1)
 				newGC = baseGC + 6;
-			else if (enumGraphicCode == baseGC + 2)
+			else if (_eGC == baseGC + 2)
 				newGC = baseGC + 4;
-			else if (enumGraphicCode == baseGC + 3)
+			else if (_eGC == baseGC + 3)
 				newGC = baseGC + 7;
 			else
 				return;
@@ -138,11 +138,11 @@ PathStructure::AddNeighbour(
 
 		if (enumDir == OC_DIR_E) {
 		   // we don't process the case OC_ROAD_O_E
-			if (enumGraphicCode == baseGC)
+			if (_eGC == baseGC)
 				newGC = baseGC + 6;
-			else if (enumGraphicCode == baseGC + 2)
+			else if (_eGC == baseGC + 2)
 				newGC = baseGC + 8;
-			else if (enumGraphicCode == baseGC + 3)
+			else if (_eGC == baseGC + 3)
 				newGC = baseGC + 5;
 			else
 				return;
@@ -150,11 +150,11 @@ PathStructure::AddNeighbour(
 
 		if (enumDir == OC_DIR_S) {
 		   // we don't process the case OC_ROAD_O_S
-			if (enumGraphicCode == baseGC)
+			if (_eGC == baseGC)
 				newGC = baseGC + 4;
-			else if (enumGraphicCode == baseGC + 1)
+			else if (_eGC == baseGC + 1)
 				newGC = baseGC + 8;
-			else if (enumGraphicCode == baseGC + 3)
+			else if (_eGC == baseGC + 3)
 				newGC = baseGC + 9;
 			else
 				return;
@@ -162,11 +162,11 @@ PathStructure::AddNeighbour(
 
 		if (enumDir == OC_DIR_W) {
 		   // we don't process the case OC_ROAD_O_W
-			if (enumGraphicCode == baseGC)
+			if (_eGC == baseGC)
 				newGC = baseGC + 7;
-			else if (enumGraphicCode == baseGC + 1)
+			else if (_eGC == baseGC + 1)
 				newGC = baseGC + 5;
-			else if (enumGraphicCode == baseGC + 2)
+			else if (_eGC == baseGC + 2)
 				newGC = baseGC + 9;
 			else
 				return;
@@ -177,11 +177,11 @@ PathStructure::AddNeighbour(
 	if (ubNumberNeighbour == 2) {
 		if (enumDir == OC_DIR_N) {
 		   // we don't process the case OC_ROAD_S_N, N_E, N_W
-			if (enumGraphicCode == baseGC + 8)
+			if (_eGC == baseGC + 8)
 				newGC = baseGC + 10;
-			else if (enumGraphicCode == baseGC + 9)
+			else if (_eGC == baseGC + 9)
 				newGC = baseGC + 11;
-			else if (enumGraphicCode == baseGC + 5)
+			else if (_eGC == baseGC + 5)
 				newGC = baseGC + 13;
 			else
 				return;
@@ -189,11 +189,11 @@ PathStructure::AddNeighbour(
 
 		if (enumDir == OC_DIR_E) {
 		   // we don't process the case OC_ROAD_W_E, N_E, S_E
-			if (enumGraphicCode == baseGC + 9)
+			if (_eGC == baseGC + 9)
 				newGC = baseGC + 11;
-			else if (enumGraphicCode == baseGC + 7)
+			else if (_eGC == baseGC + 7)
 				newGC = baseGC + 13;
-			else if (enumGraphicCode == baseGC + 4)
+			else if (_eGC == baseGC + 4)
 				newGC = baseGC + 10;
 			else
 				return;
@@ -201,11 +201,11 @@ PathStructure::AddNeighbour(
 
 		if (enumDir == OC_DIR_S) {
 		   // we don't process the case OC_ROAD_S_N, S_E, S_W
-			if (enumGraphicCode == baseGC + 6)
+			if (_eGC == baseGC + 6)
 				newGC = baseGC + 10;
-			else if (enumGraphicCode == baseGC + 7)
+			else if (_eGC == baseGC + 7)
 				newGC = baseGC + 12;
-			else if (enumGraphicCode == baseGC + 5)
+			else if (_eGC == baseGC + 5)
 				newGC = baseGC + 11;
 			else
 				return;
@@ -213,11 +213,11 @@ PathStructure::AddNeighbour(
 
 		if (enumDir == OC_DIR_W) {
 		   // we don't process the case OC_ROAD_W_E, N_W, S_W
-			if (enumGraphicCode == baseGC + 8)
+			if (_eGC == baseGC + 8)
 				newGC = baseGC + 11;
-			else if (enumGraphicCode == baseGC + 6)
+			else if (_eGC == baseGC + 6)
 				newGC = baseGC + 13;
-			else if (enumGraphicCode == baseGC + 4)
+			else if (_eGC == baseGC + 4)
 				newGC = baseGC + 12;
 			else
 				return;
@@ -227,25 +227,25 @@ PathStructure::AddNeighbour(
 		//-----------------------------------------
 	if (ubNumberNeighbour == 3) {
 		if (enumDir == OC_DIR_N) {
-			if (enumGraphicCode == baseGC + 11)
+			if (_eGC == baseGC + 11)
 				newGC = baseGC + 14;
 			else
 				return;
 		} else
 		if (enumDir == OC_DIR_E) {
-			if (enumGraphicCode == baseGC + 12)
+			if (_eGC == baseGC + 12)
 				newGC = baseGC + 14;
 			else
 				return;
 		} else
 		if (enumDir == OC_DIR_S) {
-			if (enumGraphicCode == baseGC + 13)
+			if (_eGC == baseGC + 13)
 				newGC = baseGC + 14;
 			else
 				return;
 		} else
 		if (enumDir == OC_DIR_W) {
-			if (enumGraphicCode == baseGC + 10)
+			if (_eGC == baseGC + 10)
 				newGC = baseGC + 14;
 			else
 				return;
@@ -257,7 +257,7 @@ PathStructure::AddNeighbour(
 		return;
 	}
 
-	enumGraphicCode = (OPENCITY_GRAPHIC_CODE)newGC;
+	_eGC = (OPENCITY_GRAPHIC_CODE)newGC;
 	ubNumberNeighbour++;
 
 //debug
@@ -281,7 +281,7 @@ PathStructure::RemoveNeighbour(
 		return;
 	}
 
-	switch (this->enumStructureCode) {
+	switch (_eSC) {
 		case OC_STRUCTURE_ROAD:
 			baseGC = OC_ROAD_O_N;
 			break;
@@ -293,9 +293,9 @@ PathStructure::RemoveNeighbour(
 			break;
 	}
 
-   // we will update the enumGraphicCode with the newGC value
+   // we will update the _eGC with the newGC value
    // when we return, so we keep with this
-	newGC = enumGraphicCode;
+	newGC = _eGC;
 
 	if (ubNumberNeighbour == 1) {
 	   // we have no neighbour so the default path structure
@@ -308,44 +308,44 @@ PathStructure::RemoveNeighbour(
 	if (ubNumberNeighbour == 2) {
 //debug cout << "number neighbour == 1" << endl;
 		if (enumDir == OC_DIR_N) {
-			if (enumGraphicCode == baseGC + 4)
+			if (_eGC == baseGC + 4)
 				newGC = baseGC + 2;
-			else if (enumGraphicCode == baseGC + 6)
+			else if (_eGC == baseGC + 6)
 				newGC = baseGC + 1;
-			else if (enumGraphicCode == baseGC + 7)
+			else if (_eGC == baseGC + 7)
 				newGC = baseGC + 3;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_E) {
-			if (enumGraphicCode == baseGC + 6)
+			if (_eGC == baseGC + 6)
 				newGC = baseGC;
-			else if (enumGraphicCode == baseGC + 8)
+			else if (_eGC == baseGC + 8)
 				newGC = baseGC + 2;
-			else if (enumGraphicCode == baseGC + 5)
+			else if (_eGC == baseGC + 5)
 				newGC = baseGC + 3;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_S) {
-			if (enumGraphicCode == baseGC + 4)
+			if (_eGC == baseGC + 4)
 				newGC = baseGC;
-			else if (enumGraphicCode == baseGC + 8)
+			else if (_eGC == baseGC + 8)
 				newGC = baseGC + 1;
-			else if (enumGraphicCode == baseGC + 9)
+			else if (_eGC == baseGC + 9)
 				newGC = baseGC + 3;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_W) {
-			if (enumGraphicCode == baseGC + 7)
+			if (_eGC == baseGC + 7)
 				newGC = baseGC;
-			else if (enumGraphicCode == baseGC + 5)
+			else if (_eGC == baseGC + 5)
 				newGC = baseGC + 1;
-			else if (enumGraphicCode == baseGC + 9)
+			else if (_eGC == baseGC + 9)
 				newGC = baseGC + 2;
 			else
 				return;
@@ -355,44 +355,44 @@ PathStructure::RemoveNeighbour(
 		//-----------------------------------------
 	if (ubNumberNeighbour == 3) {
 		if (enumDir == OC_DIR_N) {
-			if (enumGraphicCode == baseGC + 10)
+			if (_eGC == baseGC + 10)
 				newGC = baseGC + 8;
-			else if (enumGraphicCode == baseGC + 11)
+			else if (_eGC == baseGC + 11)
 				newGC = baseGC + 9;
-			else if (enumGraphicCode == baseGC + 13)
+			else if (_eGC == baseGC + 13)
 				newGC = baseGC + 5;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_E) {
-			if (enumGraphicCode == baseGC + 11)
+			if (_eGC == baseGC + 11)
 				newGC = baseGC + 9;
-			else if (enumGraphicCode == baseGC + 13)
+			else if (_eGC == baseGC + 13)
 				newGC = baseGC + 7;
-			else if (enumGraphicCode == baseGC + 10)
+			else if (_eGC == baseGC + 10)
 				newGC = baseGC + 4;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_S) {
-			if (enumGraphicCode == baseGC + 10)
+			if (_eGC == baseGC + 10)
 				newGC = baseGC + 6;
-			else if (enumGraphicCode == baseGC + 12)
+			else if (_eGC == baseGC + 12)
 				newGC = baseGC + 7;
-			else if (enumGraphicCode == baseGC + 11)
+			else if (_eGC == baseGC + 11)
 				newGC = baseGC + 5;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_W) {
-			if (enumGraphicCode == baseGC + 11)
+			if (_eGC == baseGC + 11)
 				newGC = baseGC + 8;
-			else if (enumGraphicCode == baseGC + 13)
+			else if (_eGC == baseGC + 13)
 				newGC = baseGC + 6;
-			else if (enumGraphicCode == baseGC + 12)
+			else if (_eGC == baseGC + 12)
 				newGC = baseGC + 4;
 			else
 				return;
@@ -415,7 +415,7 @@ PathStructure::RemoveNeighbour(
 		}
 	}
 
-	enumGraphicCode = (OPENCITY_GRAPHIC_CODE)newGC;
+	_eGC = (OPENCITY_GRAPHIC_CODE)newGC;
 	ubNumberNeighbour--;
 }
 
@@ -432,14 +432,14 @@ pathstructureAddNeighbour2(
 cout << "adding 1 neighbour" << endl;
 
 	if (ubNumberNeighbour == 0) {
-	   // the current enumGraphicCode is already OC_ROAD_O_N
+	   // the current _eGC is already OC_ROAD_O_N
 	   // we don't process further in such case
 		if (enumDir == OC_DIR_E)
-			enumGraphicCode = OC_ROAD_O_E;
+			_eGC = OC_ROAD_O_E;
 		else if (enumDir == OC_DIR_S)
-			enumGraphicCode = OC_ROAD_O_S;
+			_eGC = OC_ROAD_O_S;
 		else if (enumDir == OC_DIR_W)
-			enumGraphicCode = OC_ROAD_O_W;
+			_eGC = OC_ROAD_O_W;
 	} else
 
 		*-----------------------------------------*
@@ -448,48 +448,48 @@ cout << "adding 1 neighbour" << endl;
 cout << "number neighbour == 1" << endl;
 		if (enumDir == OC_DIR_N) {
 		   // we don't process the case OC_ROAD_O_N
-			if (enumGraphicCode == OC_ROAD_O_E)
-				enumGraphicCode = OC_ROAD_N_E;
-			else if (enumGraphicCode == OC_ROAD_O_S)
-				enumGraphicCode = OC_ROAD_S_N;
-			else if (enumGraphicCode == OC_ROAD_O_W)
-				enumGraphicCode = OC_ROAD_N_W;
+			if (_eGC == OC_ROAD_O_E)
+				_eGC = OC_ROAD_N_E;
+			else if (_eGC == OC_ROAD_O_S)
+				_eGC = OC_ROAD_S_N;
+			else if (_eGC == OC_ROAD_O_W)
+				_eGC = OC_ROAD_N_W;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_E) {
 		   // we don't process the case OC_ROAD_O_E
-			if (enumGraphicCode == OC_ROAD_O_N)
-				enumGraphicCode = OC_ROAD_N_E;
-			else if (enumGraphicCode == OC_ROAD_O_S)
-				enumGraphicCode = OC_ROAD_S_E;
-			else if (enumGraphicCode == OC_ROAD_O_W)
-				enumGraphicCode = OC_ROAD_W_E;
+			if (_eGC == OC_ROAD_O_N)
+				_eGC = OC_ROAD_N_E;
+			else if (_eGC == OC_ROAD_O_S)
+				_eGC = OC_ROAD_S_E;
+			else if (_eGC == OC_ROAD_O_W)
+				_eGC = OC_ROAD_W_E;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_S) {
 		   // we don't process the case OC_ROAD_O_S
-			if (enumGraphicCode == OC_ROAD_O_N)
-				enumGraphicCode = OC_ROAD_S_N;
-			else if (enumGraphicCode == OC_ROAD_O_E)
-				enumGraphicCode = OC_ROAD_S_E;
-			else if (enumGraphicCode == OC_ROAD_O_W)
-				enumGraphicCode = OC_ROAD_S_W;
+			if (_eGC == OC_ROAD_O_N)
+				_eGC = OC_ROAD_S_N;
+			else if (_eGC == OC_ROAD_O_E)
+				_eGC = OC_ROAD_S_E;
+			else if (_eGC == OC_ROAD_O_W)
+				_eGC = OC_ROAD_S_W;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_W) {
 		   // we don't process the case OC_ROAD_O_W
-			if (enumGraphicCode == OC_ROAD_O_N)
-				enumGraphicCode = OC_ROAD_N_W;
-			else if (enumGraphicCode == OC_ROAD_O_E)
-				enumGraphicCode = OC_ROAD_W_E;
-			else if (enumGraphicCode == OC_ROAD_O_S)
-				enumGraphicCode = OC_ROAD_S_W;
+			if (_eGC == OC_ROAD_O_N)
+				_eGC = OC_ROAD_N_W;
+			else if (_eGC == OC_ROAD_O_E)
+				_eGC = OC_ROAD_W_E;
+			else if (_eGC == OC_ROAD_O_S)
+				_eGC = OC_ROAD_S_W;
 			else
 				return;
 		}
@@ -499,48 +499,48 @@ cout << "number neighbour == 1" << endl;
 	if (ubNumberNeighbour == 2) {
 		if (enumDir == OC_DIR_N) {
 		   // we don't process the case OC_ROAD_S_N, N_E, N_W
-			if (enumGraphicCode == OC_ROAD_S_E)
-				enumGraphicCode = OC_ROAD_S_N_E;
-			else if (enumGraphicCode == OC_ROAD_S_W)
-				enumGraphicCode = OC_ROAD_S_W_E;
-			else if (enumGraphicCode == OC_ROAD_W_E)
-				enumGraphicCode = OC_ROAD_N_W_E;
+			if (_eGC == OC_ROAD_S_E)
+				_eGC = OC_ROAD_S_N_E;
+			else if (_eGC == OC_ROAD_S_W)
+				_eGC = OC_ROAD_S_W_E;
+			else if (_eGC == OC_ROAD_W_E)
+				_eGC = OC_ROAD_N_W_E;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_E) {
 		   // we don't process the case OC_ROAD_W_E, N_E, S_E
-			if (enumGraphicCode == OC_ROAD_S_W)
-				enumGraphicCode = OC_ROAD_S_W_E;
-			else if (enumGraphicCode == OC_ROAD_N_W)
-				enumGraphicCode = OC_ROAD_N_W_E;
-			else if (enumGraphicCode == OC_ROAD_S_N)
-				enumGraphicCode = OC_ROAD_S_N_E;
+			if (_eGC == OC_ROAD_S_W)
+				_eGC = OC_ROAD_S_W_E;
+			else if (_eGC == OC_ROAD_N_W)
+				_eGC = OC_ROAD_N_W_E;
+			else if (_eGC == OC_ROAD_S_N)
+				_eGC = OC_ROAD_S_N_E;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_S) {
 		   // we don't process the case OC_ROAD_S_N, S_E, S_W
-			if (enumGraphicCode == OC_ROAD_N_E)
-				enumGraphicCode = OC_ROAD_S_N_E;
-			else if (enumGraphicCode == OC_ROAD_N_W)
-				enumGraphicCode = OC_ROAD_S_N_W;
-			else if (enumGraphicCode == OC_ROAD_W_E)
-				enumGraphicCode = OC_ROAD_S_W_E;
+			if (_eGC == OC_ROAD_N_E)
+				_eGC = OC_ROAD_S_N_E;
+			else if (_eGC == OC_ROAD_N_W)
+				_eGC = OC_ROAD_S_N_W;
+			else if (_eGC == OC_ROAD_W_E)
+				_eGC = OC_ROAD_S_W_E;
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_W) {
 		   // we don't process the case OC_ROAD_W_E, N_W, S_W
-			if (enumGraphicCode == OC_ROAD_S_E)
-				enumGraphicCode = OC_ROAD_S_W_E;
-			else if (enumGraphicCode == OC_ROAD_N_E)
-				enumGraphicCode = OC_ROAD_N_W_E;
-			else if (enumGraphicCode == OC_ROAD_S_N)
-				enumGraphicCode = OC_ROAD_S_N_W;
+			if (_eGC == OC_ROAD_S_E)
+				_eGC = OC_ROAD_S_W_E;
+			else if (_eGC == OC_ROAD_N_E)
+				_eGC = OC_ROAD_N_W_E;
+			else if (_eGC == OC_ROAD_S_N)
+				_eGC = OC_ROAD_S_N_W;
 			else
 				return;
 		}
@@ -549,26 +549,26 @@ cout << "number neighbour == 1" << endl;
 		*-----------------------------------------*
 	if (ubNumberNeighbour == 3) {
 		if (enumDir == OC_DIR_N) {
-			if (enumGraphicCode == OC_ROAD_S_W_E)
-				enumGraphicCode = OC_ROAD_S_N_W_E;
+			if (_eGC == OC_ROAD_S_W_E)
+				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		} else
 		if (enumDir == OC_DIR_E) {
-			if (enumGraphicCode == OC_ROAD_S_N_W)
-				enumGraphicCode = OC_ROAD_S_N_W_E;
+			if (_eGC == OC_ROAD_S_N_W)
+				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		} else
 		if (enumDir == OC_DIR_S) {
-			if (enumGraphicCode == OC_ROAD_N_W_E)
-				enumGraphicCode = OC_ROAD_S_N_W_E;
+			if (_eGC == OC_ROAD_N_W_E)
+				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		} else
 		if (enumDir == OC_DIR_W) {
-			if (enumGraphicCode == OC_ROAD_S_N_E)
-				enumGraphicCode = OC_ROAD_S_N_W_E;
+			if (_eGC == OC_ROAD_S_N_E)
+				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		}

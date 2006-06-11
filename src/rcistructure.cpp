@@ -24,7 +24,8 @@ extern PropertyManager* gpPropertyMgr;	// global property manager
 
 
    /*=====================================================================*/
-RCIStructure::RCIStructure()
+RCIStructure::RCIStructure():
+Structure()
 {
 	OPENCITY_DEBUG( "ctor" );
 }
@@ -37,8 +38,8 @@ Structure( enumStructCode )
 {
 	OPENCITY_DEBUG( "ctor param" );
 
-	this->enumGraphicCode = gpPropertyMgr->GetGC( enumStructCode );
-	_enumType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 }
 
 
@@ -50,8 +51,8 @@ Structure( enumStructCode, pMain )
 {
 	assert( pMain != NULL );
 
-	this->enumGraphicCode = gpPropertyMgr->GetGC( enumStructCode );
-	_enumType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 }
 
 
@@ -69,7 +70,7 @@ RCIStructure::GetNextLevelGraphicCode() const
 	if (_uiLevel < OC_STRUCTURE_LEVEL_MAX)
 		return (OPENCITY_GRAPHIC_CODE)(this->GetBaseGraphicCode() + ((_uiLevel+1) / 10));
 	else
-		return this->enumGraphicCode;
+		return _eGC;
 }
 
 
@@ -80,7 +81,7 @@ RCIStructure::GetPreviousLevelGraphicCode() const
 	if (_uiLevel > OC_STRUCTURE_LEVEL_MIN)
 		return (OPENCITY_GRAPHIC_CODE)(this->GetBaseGraphicCode() + ((_uiLevel-1) / 10));
 	else
-		return this->enumGraphicCode;
+		return _eGC;
 }
 
 
@@ -93,7 +94,7 @@ RCIStructure::LevelUp()
 	newGC = this->GetNextLevelGraphicCode();
 
 	if (this->Structure::LevelUp() == true) {
-		this->enumGraphicCode = newGC;
+		_eGC = newGC;
 		return true;
 	}
 	else {
@@ -111,7 +112,7 @@ RCIStructure::LevelDown()
 	newGC = this->GetPreviousLevelGraphicCode();
 
 	if (this->Structure::LevelDown() == true) {
-		this->enumGraphicCode = newGC;
+		_eGC = newGC;
 		return true;
 	}
 	else {

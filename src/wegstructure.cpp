@@ -20,11 +20,12 @@
 #include "propertymanager.h"
 
 
-extern PropertyManager* gpPropertyMgr;	// global property manager
+extern PropertyManager* gpPropertyMgr;		///< global property manager
 
 
    /*=====================================================================*/
-WEGStructure::WEGStructure()
+WEGStructure::WEGStructure():
+Structure()
 {
 	OPENCITY_DEBUG( "ctor" );
 }
@@ -35,8 +36,8 @@ WEGStructure::WEGStructure(
 	const OPENCITY_STRUCTURE_CODE & enumStructCode ):
 Structure( enumStructCode )
 {
-	this->enumGraphicCode = gpPropertyMgr->GetGC( enumStructCode );
-	_enumType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 
 // IF this is an electric plant THEN turn on the electricity bit
 	if (enumStructCode == OC_STRUCTURE_EPLANT_COAL) {
@@ -55,21 +56,12 @@ Structure( enumStructCode, pMain )
 
 	switch (enumStructCode) {
 		case OC_STRUCTURE_PART:
-			this->enumGraphicCode = OC_EMPTY;
+			_eGC = OC_EMPTY;
 		   // If this is part of an electric plant
 		   // Then turn the E bit on
 			if ( (pMain!= NULL) && (pMain->GetCode() == OC_STRUCTURE_EPLANT_COAL) )
 				this->Set( OC_STRUCTURE_E );
 			break;
-
-/* TOKILL
-// NOTE: do we need this ? oct 14th, 05
-		case OC_STRUCTURE_EPLANT_COAL:
-			this->enumGraphicCode = OC_EPLANT_COAL_BOX;
-		   // turn on the electricity bit
-			Set( OC_STRUCTURE_E );
-			break;
-*/
 
 		default:
 			OPENCITY_DEBUG( "Unknown structure" );
@@ -77,7 +69,7 @@ Structure( enumStructCode, pMain )
 			break;
 	}
 
-	_enumType = gpPropertyMgr->GetST( enumStructCode );
+	_eType = gpPropertyMgr->GetST( enumStructCode );
 }
 
 
