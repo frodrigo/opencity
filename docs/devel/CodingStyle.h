@@ -1,11 +1,11 @@
 /***************************************************************************
-                          CodingStyle.h    -  description
-         $Id$
-
-                             -------------------
-    begin                : nov 10th 2005
-    copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							CodingStyle.h    -  description
+								-------------------
+	begin                : nov 10th 2005
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -42,30 +42,46 @@ public:
 	};
 
 	CodingStyle(
-		const bool& rcboolUseDL = true );
+		const bool& rcboolUseDL = true );		///< One parameter, two lines version method
 
 	~CodingStyle(  );
 
-	bool GetBool() const;			///< One line for short declaration
+	bool GetBool() const;				///< One line for short declaration
 	uint GetSize() const;
 	bool IsBig() const;
+	long GetLong( uint uiX ) const;		///< One parameter, one line version method
 
+
+//========================================================================
+/** This line describes the method's role and goal.
+The second line of description goes here.
+	\param rciA A constant integer reference
+	\param rciB Another constant integer reference
+	\return An int
+*/
 	int
 	GetLongLongProperty(
 		const int& rciA,
 		const int& rciB ) const;		///< Multi-line for long declaration
 
 
+   /*=====================================================================*/
+   /*                          STATIC    METHODS                          */
+   /*=====================================================================*/
+	static void
+	DoStaticThing();
+
+
 private:
-	bool	_bABool;				///< _ (underscore) means something private
-	string	_strAString;			///< A member std::string
+	bool	_bABool;					///< _ (underscore) means something private
+	string	_strAString;				///< A member std::string
 	int		_iAnInt;
 	uint	_uiAnotherUInt;
 	OPENCITY_ENUM	_eAnEnum;
 
 
    /*=====================================================================*/
-   /*                        PRIVATE     METHODS                          */
+   /*                         PRIVATE     METHODS                         */
    /*=====================================================================*/
 
 //========================================================================

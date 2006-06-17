@@ -3,7 +3,7 @@
          $Id$
                              -------------------
     begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
+    copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
     email                : neoneurone @ users sourceforge net
     author               : Victor STINNER
  ***************************************************************************/
@@ -33,10 +33,10 @@ typedef enum {
    /*=====================================================================*/
 typedef enum
 {
-    NORTH=0,
-    WEST,
-    SOUTH,
-    EAST
+	NORTH=0,
+	WEST,
+	SOUTH,
+	EAST
 } direction_t;
 #endif
 

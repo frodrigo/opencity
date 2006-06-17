@@ -322,6 +322,15 @@ Model::DisplayPoly(
 
    /*=====================================================================*/
 void
+Model::DisplayList() const
+{
+	assert( this->uiDisplayList != 0 );
+	glCallList( this->uiDisplayList );
+}
+
+
+   /*=====================================================================*/
+void
 Model::DisplayList(
 	const OC_FLOAT & rcfW,
 	const OC_FLOAT & rcfL,
@@ -329,7 +338,9 @@ Model::DisplayList(
 	) const
 {
 	assert( tabY != NULL );
-	glMatrixMode( GL_MODELVIEW );
+	assert( this->uiDisplayList != 0 );
+
+//	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 	glTranslatef( rcfW, tabY[0], rcfL );
 	glCallList( this->uiDisplayList );

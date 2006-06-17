@@ -152,7 +152,7 @@ uiHeight( rcuiCityHeight )
 {
 	OPENCITY_DEBUG( "ctor" );
 
-   // some assert for programming errors checking
+// some assert for programming errors checking
 	assert( mutex != NULL );
 	assert( pblayer != NULL );
 	assert( map != NULL );
@@ -227,15 +227,15 @@ PathFinder::findShortestPath(
 	std::vector<OPENCITY_PATHFINDER_NODE> vDone;
 	bool boolFound;
 
-   // compare functor
+// Dynamic compare functor
 	bool (*pFunctor)(const OPENCITY_PATHFINDER_NODE&, const OPENCITY_PATHFINDER_NODE&);
 
-   // used to rebuild the "destination vector" from start to stop
+// Variables used to rebuild the "destination vector" from start to stop
 	int iFatherLinear;
-	Destination destTemp;
+	Destination destLast, destTemp;
 
-   // WARNING the Start point is a PathStructure
-   // do we need dynamic casting for automatic checking ?
+// WARNING the Start point is a PathStructure
+// do we need dynamic casting for automatic checking ?
 	ppathstruct = dynamic_cast<PathStructure*>
 		(pbuildlayer->GetStructure( rcuiW1, rcuiH1 ));
 	if ( ppathstruct == NULL ) {
@@ -303,13 +303,9 @@ for (unsigned int i = 0; i < vProcessing.size(); i++) {
 cout << "Processing list end" << endl << endl;
 */
 
-	   // sort the list so that the node with
-	   // minimum "length" value
-	   // and not "marked" is placed at the bottom (back)
-		std::sort(
-			vProcessing.begin(),
-			vProcessing.end(),
-			pFunctor );
+	// sort the list so that the node with minimum "length" value
+	// and not "marked" is placed at the bottom (back)
+		std::sort( vProcessing.begin(), vProcessing.end(), pFunctor );
 
 //debug
 /*
@@ -327,9 +323,8 @@ for (unsigned int i = 0; i < vProcessing.size(); i++) {
 cout << "Processing list end" << endl << endl;
 */
 
-	   // get the sorted node
-	   // with minimum length, and not marked
-	   // NOTE: everything contained in the vProcessing is not marked !
+	// get the sorted node with minimum length, and not marked
+	// NOTE: everything contained in the vProcessing is not marked !
 		node = vProcessing.back();
 		vProcessing.pop_back();
 
@@ -353,20 +348,18 @@ cout << endl;
 		}
 
 	   //---------------------- WARNING: repeated procedure begin ---------------------
-	   // get the neighbour in the NORTH
+	// Get the neighbour in the NORTH
 		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_N ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
 //debug cout << "NORTH " << endl;
 			ppathstruct = (PathStructure*)pstruct;
-			uiLength = node.ppath->GetLength() +
-				(uint)ppathstruct->GetTraffic();
-		   // treatment
-		   // is the new path shorter ?
+			uiLength = node.ppath->GetLength() + (uint)ppathstruct->GetTraffic();
+		// Is the new path shorter ?
 			if (ppathstruct->GetLength() > uiLength) {
 				ppathstruct->SetLength( uiLength );
-			   // now push the neighbour to the processing list
+			// Now push the neighbour to the processing list
 				nodeDone.iOwnLinear = uiHN * uiWidth + uiWN;
 				nodeDone.iFatherLinear = node.iOwnLinear;
 				nodeDone.uiEvaluation = pathfinderEvaluate(uiWN, uiHN, rcuiW2, rcuiH2);
@@ -375,17 +368,15 @@ cout << endl;
 			}
 		}
 
-	   // get the neighbour in the EAST
+	// Get the neighbour in the EAST
 		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_E ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
 //debug cout << "EAST " << endl;
 			ppathstruct = (PathStructure*)pstruct;
-			uiLength = node.ppath->GetLength() +
-				(uint)ppathstruct->GetTraffic();
-		   // treatment
-		   // is the new path shorter ?
+			uiLength = node.ppath->GetLength() + (uint)ppathstruct->GetTraffic();
+		// Is the new path shorter ?
 			if (ppathstruct->GetLength() > uiLength) {
 				ppathstruct->SetLength( uiLength );
 			   // now push the neighbour to the processing list
@@ -397,17 +388,15 @@ cout << endl;
 			}
 		}
 
-	   // get the neighbour in the SOUTH
+	// Get the neighbour in the SOUTH
 		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_S ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
 //debug cout << "SOUTH " << endl;
 			ppathstruct = (PathStructure*)pstruct;
-			uiLength = node.ppath->GetLength() +
-				(uint)ppathstruct->GetTraffic();
-		   // treatment
-		   // is the new path shorter ?
+			uiLength = node.ppath->GetLength() + (uint)ppathstruct->GetTraffic();
+		// Is the new path shorter ?
 			if (ppathstruct->GetLength() > uiLength) {
 				ppathstruct->SetLength( uiLength );
 			   // now push the neighbour to the processing list
@@ -419,17 +408,15 @@ cout << endl;
 			}
 		}
 
-	   // get the neighbour in the WEST
+	// Get the neighbour in the WEST
 		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_W ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
 //debug cout << "WEST " << endl;
 			ppathstruct = (PathStructure*)pstruct;
-			uiLength = node.ppath->GetLength() +
-				(uint)ppathstruct->GetTraffic();
-		   // treatment
-		   // is the new path shorter ?
+			uiLength = node.ppath->GetLength() + (uint)ppathstruct->GetTraffic();
+		// Is the new path shorter ?
 			if (ppathstruct->GetLength() > uiLength) {
 				ppathstruct->SetLength( uiLength );
 			   // now push the neighbour to the processing list
@@ -442,48 +429,80 @@ cout << endl;
 		}
 	   //---------------------- repeated procedure end ---------------------
 
-	   // mark this node as "done"
+	// mark this node as "done"
 		node.ppath->Set( OC_STRUCTURE_MARK );
 
-	   // then insert it into the "done" list
+	// then insert it into the "done" list
 		vDone.push_back( node );
 	}
 
 
-   // build the destination vector from start to stop
+// Build the destination vector from start to stop
 	if ((boolFound == true) or (vDone.size() >= uiMaxLength)) {
-	   // initialize the "iFatherLinear" variable
-	   // as the stop point's linear index
+	// Put the last node to the list
+		int i = vDone.size()-1;
+		node = vDone[ i ];
+		iFatherLinear = node.iFatherLinear;
+		destLast._uiW = node.iOwnLinear % uiWidth;
+		destLast._uiL = node.iOwnLinear / uiWidth;
+		destLast._uiTime = 1;
+		destLast._ubTraffic =
+			((PathStructure*)pbuildlayer->
+			GetLinearStructure( node.iOwnLinear ))->GetTraffic();
+
+		rvdest.push_back( destLast );
+
+		while (--i >= 0) {
+			node = vDone[i];
+		// Is this node is the father of the precedent node ?
+			if (node.iOwnLinear == iFatherLinear) {
+				iFatherLinear = node.iFatherLinear;
+				destTemp._uiW = node.iOwnLinear % uiWidth;
+				destTemp._uiL = node.iOwnLinear / uiWidth;
+				destTemp._uiTime = 1;
+				destTemp._ubTraffic =
+					((PathStructure*)pbuildlayer->
+					GetLinearStructure( node.iOwnLinear ))->GetTraffic();
+			// NOTE: we're going from the back to the front
+				destTemp._eDir = Destination::GetDir( destTemp, destLast );
+
+				rvdest.push_back( destTemp );
+				destLast = destTemp;
+			}
+		}
+
+/* old code, for reference, june 18th, 06
+	// Initialize the "iFatherLinear" variable as the stop point's linear index
 		node = vDone[ vDone.size()-1 ];
 		iFatherLinear = node.iOwnLinear;
 		for (int i = vDone.size()-1; i > -1; i--) {
 			node = vDone[i];
-		   // is this node is the father of the precedent node ?
+		// Is this node is the father of the precedent node ?
 			if (node.iOwnLinear == iFatherLinear) {
 				iFatherLinear = node.iFatherLinear;
 				destTemp.uiW = node.iOwnLinear % uiWidth;
 				destTemp.uiH = node.iOwnLinear / uiWidth;
 				destTemp.uiTime = 1;
-			   // save the local traffic
+			// Save the local traffic
 				destTemp.ubTraffic =
 					((PathStructure*)pbuildlayer->
 					GetLinearStructure( node.iOwnLinear ))->
 					GetTraffic();
 				rvdest.push_back( destTemp );
-			   // WARNING: this one is not specified
+			// FIXME: this one is not specified
 				//destTemp.enumDirection;
 			}
 		}
-	   // reverse the destination vector so that
-	   // the starting point is at the beginning
+*/
+
+	// Reverse the destination vector so that the starting point is at the beginning
 		reverse( rvdest.begin(), rvdest.end() );
 	} // if boolFound
 
-//#ifndef NDEBUG
-#if (1 == 1)
+#ifndef PATHFINDER_NDEBUG
 //debug, print out the found path
 	if ((boolFound == true) or (vDone.size() >= uiMaxLength)) {
-		cout << "Shortest path found, number of nodes: " << rvdest.size() << endl;
+		PATHFINDER_DEBUG( "Shortest path found, number of nodes: " << rvdest.size() );
 	   // initialize the "iFatherLinear" variable
 	   // as the stop point's linear index
 		iFatherLinear = vDone[ vDone.size()-1 ].iOwnLinear;
@@ -502,7 +521,7 @@ cout << endl;
 			}
 		}
 //debug: print out all the processed WH
-		cout << "All processed nodes, number of nodes : " << vDone.size() << endl;
+		PATHFINDER_DEBUG( "All processed nodes, number of nodes : " << vDone.size() );
 		for (unsigned int i = 0; i < vDone.size(); i++) {
 			node = vDone[i];
 		   // convert Linear <-> WH

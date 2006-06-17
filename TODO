@@ -8,10 +8,11 @@ MAS integration                       (done)
 Review the debug macros               (done)
 Reduce the number of threads          (done)
 Terrain save/load feature             (done)
-City save/load feature                (WIP)
-Clean up the MAS library
-Fix the 0, 0 coordinates bug
+City save/load feature                (experimental)
+Create MAS debug macro                (done)
+Fix the MAS 0, 0 coordinates bug      (done)
 Fix the raise/lower terrain cost
+Clean up the MAS library              (WIP)
 Review the agent creation process
 Review the message system
 Terrain modelling

@@ -82,6 +82,13 @@ public:
 
 
 //========================================================================
+/** Simply call the internal OpenGL display list
+*/
+	void
+	DisplayList() const;
+
+
+//========================================================================
 /** Call the internal OpenGL display list after modifying the MODELVIEW
 	matrix according to the given parameters
 \param rcfW = GL x

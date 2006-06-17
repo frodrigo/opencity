@@ -58,7 +58,7 @@ unsigned long Kernel::getStep() const
     return m_step;
 }
 
-    
+
    /*=====================================================================*/
 void Kernel::live()
 {
@@ -70,9 +70,7 @@ void Kernel::live()
 // Die and Kill
 	m_agent_dying_it a_it=m_agent_dying.begin(), a_end=m_agent_dying.end();
 	for (; a_it != a_end; ++a_it) {
-#ifndef OC_MAS_NDEBUG
-	cout << "Agent: " << (*a_it)->getId() << " has been killed " << endl;
-#endif
+		MAS_DEBUG( "Agent: " << (*a_it)->getId() << " has been killed " );
 		(*a_it)->die();
 		delete *a_it;
 	}
@@ -81,7 +79,8 @@ void Kernel::live()
 
 // Live
 	m_white_pages_it it=m_white_pages.begin(), end=m_white_pages.end();
-	for (; it != end; ++it) (*it->second).live();
+	for (; it != end; ++it)
+		(*it->second).live();
 }
 
 

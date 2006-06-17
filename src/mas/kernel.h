@@ -21,8 +21,6 @@
 #ifndef _OPENCITY_KERNEL_H_
 #define _OPENCITY_KERNEL_H_ 1
 
-#define OC_MAS_NDEBUG 1					// Debugging off
-
 #include "agent.h"
 
 #include <map>

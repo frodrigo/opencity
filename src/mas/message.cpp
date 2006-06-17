@@ -3,7 +3,7 @@
          $Id$
                              -------------------
     begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
+    copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
     email                : neoneurone @ users sourceforge net
     author               : Victor STINNER
  ***************************************************************************/
@@ -22,14 +22,6 @@
 #include "agent.h"
 
 #include <cassert>
-
-#ifdef DEBUG
-#  include <iostream>
-#  define DBG(os, something) os << something
-#else
-#  define DBG(os, something)
-#endif
-
 
 
    /*=====================================================================*/

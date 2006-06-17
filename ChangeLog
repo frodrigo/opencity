@@ -1,4 +1,8 @@
 jun 10th, 06:
+	-new: The vehicle models are now rotated and translated correctly
+
+
+jun 10th, 06:
 	-fix: Undefined OPENCITY_DEBUG in NDEBUG mode
 	-chg: Source tree has been moved to SVN
 

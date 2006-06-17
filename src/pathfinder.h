@@ -1,10 +1,11 @@
 /***************************************************************************
-                          pathfinder.h  -  description
-       $Id$
-                             -------------------
-    begin                : may 17th, 2004
-    copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							pathfinder.h  -  description
+								-------------------
+	begin                : may 17th, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,24 +20,33 @@
 #ifndef _OPENCITY_PATHFINDER_H_
 #define _OPENCITY_PATHFINDER_H_ 1
 
+#define PATHFINDER_NDEBUG 1			// Debugging off
+
 #include "main.h"
+
+#ifndef PATHFINDER_NDEBUG
+	#define PATHFINDER_DEBUG( msg ) OPENCITY_DEBUG( msg )
+#else
+	#define PATHFINDER_DEBUG( msg )
+#endif
 
 #include <vector>
 
 
 class BuildingLayer;
 class Map;
-
 class Destination;
 
-   /** This class implements few famous algorithms in pathfinding problems
-   */
+
+/** This class implements few famous algorithms in path finding problems
+*/
 class PathFinder {
 public:
 	enum PATH_TYPE {
 		OC_DISTANCE,
 		OC_TRAFFIC
 	};
+
 
 	PathFinder(
 		SDL_mutex* const mutex,
@@ -61,8 +71,8 @@ private:
 	SDL_mutex* pmutex;
 	BuildingLayer* pbuildlayer;
 	Map* pmap;
-	uint uiWidth;		// the city's width and height
-	uint uiHeight;
+	uint uiWidth;				///< The city's width
+	uint uiHeight;				///< The city's height
 };
 
 

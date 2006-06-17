@@ -3,7 +3,7 @@
          $Id$
                              -------------------
     begin                : dim mai 16 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
+    copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
     email                : neoneurone @ users sourceforge net
  ***************************************************************************/
 
@@ -23,9 +23,10 @@
 
 #define OC_VEHICLE_DEFAULT_SPEED	10
 
-   //========================================================================
-   /** Euh, can a Vehicle do any Movement ?
-   */
+
+//========================================================================
+/** Represent a vehicle object
+*/
 class Vehicle: public Movement {
 public:
 	enum VEHICLE_TYPE {
@@ -53,7 +54,7 @@ protected:
 
 
 private:
-	void vehicleCalculateDelta();
+	void _CalculateDelta();
 
 };
 

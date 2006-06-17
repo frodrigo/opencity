@@ -105,7 +105,6 @@ Option:
 
 Sound & music:
 		z / b: play previous / next music
-		v: stop music
 		m: music on / off
 		s: sound on / off
 
@@ -114,8 +113,9 @@ Experimental:
 		F6: Load
 
 Undocumented features, try it at your own risks:
-		'a': various test codes menu
-		't': connect to local ZeN server
+		a: various test codes menu
+		v: MAS test menu
+		t: connect to local ZeN server
 
 
 

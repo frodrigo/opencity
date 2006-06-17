@@ -403,55 +403,6 @@ void City::uiKeyboard(
 			this->booltabKeyPressed[KEY_LEFT] = true;
 			break;
 
-#ifndef NDEBUG
-	// Testing PathFinder
-		case SDLK_a:
-			pctr->ResetAttribute(
-				OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
-		// Avoid possible memory leak
-			if ( pctr == pctrQ ) {
-				pctr = NULL;
-				delete pctrQ;
-				pctrQ = NULL;
-			}
-
-		// Toggle Main <-> Pathfinding toolcircle
-			if ( pctr == pctrPath ) {
-				pctr = pctrMain;
-			}
-			else {
-				pctr = pctrPath;
-			}
-			if ( pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
-				pctr->Set( OC_GUIMAIN_VISIBLE );
-			}
-			break;
-#endif
-
-	// MAS toolcircle
-		case SDLK_v:
-			pctr->ResetAttribute(
-				OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
-		// Avoid possible memory leak
-			if ( pctr == pctrQ ) {
-				pctr = NULL;
-				delete pctrQ;
-				pctrQ = NULL;
-			}
-
-		// Toggle Main <-> MAS toolcircle
-			if ( pctr == pctrMAS ) {
-				pctr = pctrMain;
-			}
-			else {
-				pctr = pctrMAS;
-			}
-			if ( pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
-				pctr->Set( OC_GUIMAIN_VISIBLE );
-			}
-			break;
-
-
 	// test networking support, connect to the localhost
 		case SDLK_t:
 			OPENCITY_NET_CODE netCode;
@@ -575,6 +526,53 @@ void City::uiKeyboard(
 			ocQuit();
 			break;
 
+#ifndef NDEBUG
+	// Testing PathFinder
+		case SDLK_a:
+			pctr->ResetAttribute(
+				OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+		// Avoid possible memory leak
+			if ( pctr == pctrQ ) {
+				pctr = NULL;
+				delete pctrQ;
+				pctrQ = NULL;
+			}
+
+		// Toggle Main <-> Pathfinding toolcircle
+			if ( pctr == pctrPath ) {
+				pctr = pctrMain;
+			}
+			else {
+				pctr = pctrPath;
+			}
+			if ( pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
+				pctr->Set( OC_GUIMAIN_VISIBLE );
+			}
+			break;
+
+	// MAS test toolcircle
+		case SDLK_v:
+			pctr->ResetAttribute(
+				OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+		// Avoid possible memory leak
+			if ( pctr == pctrQ ) {
+				pctr = NULL;
+				delete pctrQ;
+				pctrQ = NULL;
+			}
+
+		// Toggle Main <-> MAS toolcircle
+			if ( pctr == pctrMAS ) {
+				pctr = pctrMain;
+			}
+			else {
+				pctr = pctrMAS;
+			}
+			if ( pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
+				pctr->Set( OC_GUIMAIN_VISIBLE );
+			}
+			break;
+#endif
 
 		default:
 			break;

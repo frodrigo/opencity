@@ -19,15 +19,10 @@
 
 
 #include "any.h"
+#include "agent.h"				///< For debug macros
 
 #include <cassert>
 #include <iostream>
-
-#ifndef NDEBUG
-#  define DBG(os, something) os << something
-#else
-#  define DBG(os, something)
-#endif
 
 
    /*=====================================================================*/
@@ -104,19 +99,19 @@ operator<< (std::ostream &os, const Any &any)
 	switch (any.getType())
 	{
 		case ANY_INT:
-			DBG(os, "(int)");
+			MAS_DEBUG( "(int)" );
 			os << any.getInt();
 			break;
 		case ANY_UINT:
-			DBG(os, "(uint)");
+			MAS_DEBUG( "(uint)" );
 			os << any.getUInt();
 			break;
 		case ANY_DOUBLE:
-			DBG(os, "(double)");
+			MAS_DEBUG( "(double)" );
 			os << any.getDouble();
 			break;
 		case ANY_STRING:
-			DBG(os, "(str)");
+			MAS_DEBUG( "(str)" );
 			os << '"' << any.getString() << '"';
 			break;
 	}

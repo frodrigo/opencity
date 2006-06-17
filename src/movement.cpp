@@ -21,7 +21,10 @@
 
 
    /*=====================================================================*/
-Movement::Movement()
+Movement::Movement():
+_fAngle( 0 ),
+_fTX( 0 ), _fTY( 0 ), _fTZ( 0 ), 
+_eDir( OC_DIR_S )
 {
 	OPENCITY_DEBUG("ctor");
 }
@@ -48,7 +51,46 @@ Movement::SetPath(
 const OPENCITY_GRAPHIC_CODE &
 Movement::GetGraphicCode() const
 {
-	return this->enumGraphicCode;
+	return _eGC;
+}
+
+
+   /*=====================================================================*/
+void
+Movement::SetAngle( const Destination & rD )
+{
+	_eDir = rD._eDir;
+
+	switch (_eDir) {
+		case OC_DIR_N:
+			_fAngle = 180;
+			_fTX = 1; _fTY = 0; _fTZ = 1;
+			break;
+
+		case OC_DIR_E:
+			_fAngle =  90;
+			_fTX = 0; _fTY = 0; _fTZ = 1;
+			break;
+
+		case OC_DIR_S:
+			_fAngle = 0;
+			_fTX = 0; _fTY = 0; _fTZ = 0;
+			break;
+
+		case OC_DIR_W:
+			_fAngle = -90;
+			_fTX = 1; _fTY = 0; _fTZ = 0;
+			break;
+
+		case OC_DIR_SE:
+		case OC_DIR_SW:
+		case OC_DIR_NW:
+		case OC_DIR_NE:
+			OPENCITY_DEBUG( "Game design error" );
+			assert( 0 );
+			break;
+		default: break;
+	}
 }
 
 
@@ -61,16 +103,16 @@ Movement::Move2Dir(
 {
 	OPENCITY_DEBUG("called");
 
-   // move to the indicated direction
-	switch (rD.enumDirection) {
-		case OC_DIR_N:  rD.uiH--;      break;
-		case OC_DIR_NE: rD.uiH--; rD.uiW++; break;
-		case OC_DIR_E:  rD.uiW++;      break;
-		case OC_DIR_SE: rD.uiW++; rD.uiH++; break;
-		case OC_DIR_S:  rD.uiH++;      break;
-		case OC_DIR_SW: rD.uiH++; rD.uiW--; break;
-		case OC_DIR_W:  rD.uiW--;      break;
-		case OC_DIR_NW: rD.uiW--; rD.uiH--; break;
+// Move to the indicated direction
+	switch (rD._eDir) {
+		case OC_DIR_N:	rD._uiL--;				break;
+		case OC_DIR_NE:	rD._uiL--;	rD._uiW++;	break;
+		case OC_DIR_E:	rD._uiW++;				break;
+		case OC_DIR_SE:	rD._uiW++;	rD._uiL++;	break;
+		case OC_DIR_S:	rD._uiL++;				break;
+		case OC_DIR_SW:	rD._uiL++;	rD._uiW--;	break;
+		case OC_DIR_W:	rD._uiW--;				break;
+		case OC_DIR_NW:	rD._uiW--;	rD._uiL--;	break;
 		default: break;
 	}
 }

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          graphicmanager.cpp  -  description
-    $Id$
-                             -------------------
-    begin                : dim sep 21 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							graphicmanager.cpp  -  description
+								-------------------
+	begin                : dim sep 21 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -33,7 +34,7 @@
 #include <sstream>				// We use std::stringstream for data conversion
 
 
-	extern const Map* gpMapMgr;	// global map height manager, see main.cpp
+extern const Map* gpMapMgr;		// global map height manager, see main.cpp
 
 static GLfloat red, green, blue;
 
@@ -531,21 +532,27 @@ GraphicManager::Display(
 	const OC_FLOAT & rcfH,
 	const Movement* const pm ) const
 {
+	assert( pm != NULL );
 	static OC_BYTE tabH [4];
 
 // warning: see warning in DisplayTerrain
 	gpMapMgr->GetSquareHeight( (uint)floorf(rcfW), (uint)floorf(rcfH), tabH );
 
+	glPushMatrix();
+	glTranslatef( rcfW+pm->_fTX, tabH[0]+pm->_fTY, rcfH+pm->_fTZ );
+	glRotatef( pm->_fAngle, 0, 1, 0 );
+	tabpModel[pm->GetGraphicCode()]->DisplayList();
+	glPopMatrix();
+
+/*
 // FIXME: testing new AC3D vehicle models
 	if (pm->GetGraphicCode() == OC_VEHICLE_STD) {
 		tabpModel[OC_VEHICLE_STD]->DisplayPoly( rcfW, rcfH, tabH );
 	}
 	else {
-		assert( pm != NULL );
-		if (pm != NULL) {
-			tabpModel[pm->GetGraphicCode()]->Display( rcfW, rcfH, tabH[0] );
-		}
+		tabpModel[pm->GetGraphicCode()]->Display( rcfW, rcfH, tabH[0] );
 	}
+*/
 }
 
 

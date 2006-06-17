@@ -24,7 +24,7 @@ uiCapacity( 0 ),
 enumType( VEHICLE_BUS )
 {
 	OPENCITY_DEBUG("ctor");
-	this->enumGraphicCode = OC_VEHICLE_BUS;
+	_eGC = OC_VEHICLE_BUS;
 }
 
 
@@ -38,16 +38,17 @@ enumType( type )
 
 	switch (type) {
 		case VEHICLE_STD:
-			this->enumGraphicCode = OC_VEHICLE_STD;
+			_eGC = OC_VEHICLE_STD;
 			break;
 		case VEHICLE_BUS:
-			this->enumGraphicCode = OC_VEHICLE_BUS;
+			_eGC = OC_VEHICLE_PICKUP;
 			break;
 		case VEHICLE_SPORT:
-			this->enumGraphicCode = OC_VEHICLE_SPORT;
+			_eGC = OC_VEHICLE_ROBBER;
 			break;
 		default:
 			OPENCITY_DEBUG("Error game design");
+			assert( 0 );
 			break;
 	}
 }
@@ -71,8 +72,8 @@ Vehicle::Move()
    // move to next WH unit if we have counted "uiFramePerUnit" times
 	if (++uiNumberOfFrame == uiFramePerUnit) {
 	   // move to direction as much time as specified by "uiTime"
-		if (this->destCurrent.uiTime > 1) {
-			--this->destCurrent.uiTime;
+		if (this->destCurrent._uiTime > 1) {
+			--this->destCurrent._uiTime;
 			Movement::Move2Dir( this->destCurrent );
 		}
 		else {
@@ -80,9 +81,9 @@ Vehicle::Move()
 			if (uiCurrentIndex < vdest.size()-1) {
 				++uiCurrentIndex;
 				this->destCurrent = vdest[ uiCurrentIndex ];
-				fCurrentW = destCurrent.uiW;
-				fCurrentH = destCurrent.uiH;
-				this->vehicleCalculateDelta();
+				fCurrentW = destCurrent._uiW;
+				fCurrentH = destCurrent._uiL;
+				_CalculateDelta();
 			}
 			else {
 			   // finished, notify the caller
@@ -110,33 +111,35 @@ cout << "vehicle gogogo, W: " << fCurrentW << " / H: " << fCurrentH
 void
 Vehicle::Start()
 {
-   // reset the counted number of frame
+// reset the counted number of frame
 	this->uiNumberOfFrame = 0;
 
-   // set the current destination to the first element of
-   // the vector
+// set the current destination to the first element of the vector
 	this->uiCurrentIndex = 0;
 	this->destCurrent = this->vdest[ this->uiCurrentIndex ];
-	this->fCurrentW = destCurrent.uiW;
-	this->fCurrentH = destCurrent.uiH;
+	this->fCurrentW = destCurrent._uiW;
+	this->fCurrentH = destCurrent._uiL;
 
-	this->vehicleCalculateDelta();
+	_CalculateDelta();
 }
 
 
    /*=====================================================================*/
 void
-Vehicle::vehicleCalculateDelta()
+Vehicle::_CalculateDelta()
 {
-   // calculate the WH variations to go to next destination if applicable
+// calculate the WH variations to go to next destination if applicable
 	if (uiCurrentIndex+1 < vdest.size()) {
-	   // calculate the frame per unit
-		this->uiFramePerUnit = (uint)(vdest[ uiCurrentIndex+1 ].ubTraffic+5);
+	// calculate the frame per unit
+		this->uiFramePerUnit = (uint)(vdest[ uiCurrentIndex+1 ]._ubTraffic+5);
 
-		this->fDeltaW = (vdest[ uiCurrentIndex+1 ].uiW - fCurrentW)
+		this->fDeltaW = (vdest[ uiCurrentIndex+1 ]._uiW - fCurrentW)
 			/ uiFramePerUnit;
-		this->fDeltaH = (vdest[ uiCurrentIndex+1 ].uiH - fCurrentH)
+		this->fDeltaH = (vdest[ uiCurrentIndex+1 ]._uiL - fCurrentH)
 			/ uiFramePerUnit;
+
+	// Set the model's rotation angle according to the next destination
+		SetAngle( this->destCurrent );
 	}
 	else {
 		this->uiFramePerUnit = OC_VEHICLE_DEFAULT_SPEED;

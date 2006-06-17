@@ -3,7 +3,7 @@
          $Id$
                              -------------------
     begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
+    copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
     email                : neoneurone @ users sourceforge net
     author               : Victor STINNER
  ***************************************************************************/
@@ -51,9 +51,8 @@ void AgentDemonstrator::processMessage()
 // Process all the messages
 	while (!m_messages.empty()) {
 		msg = m_messages.front();
-#ifndef OC_MAS_NDEBUG
-	std::cout << *this << " processes " << msg << std::endl;
-#endif
+		MAS_DEBUG( *this << " processes " << msg );
+
 		if (msg.getType() == Message::MSG_AGENT_DIE)
 			m_agent_state = AGENT_DIE;
 		m_messages.pop_front();
@@ -113,7 +112,7 @@ void AgentDemonstrator::die()
 
 
    /*=====================================================================*/
-void AgentDemonstrator::output (std::ostream& os) const
+void AgentDemonstrator::output(std::ostream& os) const
 {
 	os << "AgentDemonstrator " << getId();
 }
