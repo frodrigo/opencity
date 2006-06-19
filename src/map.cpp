@@ -1,10 +1,11 @@
 /***************************************************************************
-                          map.cpp  -  description
-           $Id$
-                             -------------------
-    begin                : january 24th, 2004
-    copyright            : (C) 2004-2006 Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							map.cpp  -  description
+								-------------------
+	begin                : january 24th, 2004
+	copyright            : (C) 2004-2006 Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "map.h"
 
+#include "map.h"
 #include "layer.h"
 
 
@@ -186,14 +187,15 @@ Map::GetSquareHeight(
 
 
    /*=====================================================================*/
-const OC_BYTE
-Map::GetSquareMinHeight( const uint & rcuiW,
-			    const uint & rcuiH ) const
+const signed char
+Map::GetSquareMinHeight(
+	const uint & rcuiW,
+	const uint & rcuiL ) const
 {
 	OC_BYTE btabH [4];
 	OC_BYTE minH = 127;
 
-	GetSquareHeight( rcuiW, rcuiH, btabH );
+	GetSquareHeight( rcuiW, rcuiL, btabH );
 	for (uint i = 0; i < 4; i++)
 		if (btabH[i] < minH)
 			minH = btabH[i];
@@ -203,13 +205,13 @@ Map::GetSquareMinHeight( const uint & rcuiW,
 
 
    /*=====================================================================*/
-const OC_BYTE
+const signed char
 Map::GetSquareMaxHeight(
 	const uint & rcuiW,
 	const uint & rcuiH ) const
 {
 	OC_BYTE btabH [4];
-	OC_BYTE maxH = -127;
+	signed char maxH = -127;
 
 	GetSquareHeight( rcuiW, rcuiH, btabH );
 	for (uint i = 0; i < 4; i++)

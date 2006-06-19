@@ -1,4 +1,8 @@
-jun 10th, 06:
+jun 20th, 06:
+	-new: The ModelLoader and Model classes now handle translucent objects correctly
+
+
+jun 18th, 06:
 	-new: The vehicle models are now rotated and translated correctly
 
 

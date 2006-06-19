@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DModel.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							AC3DModel.h  -  description
+								-------------------
+	begin                : mer juin 29 05
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -29,6 +30,7 @@ namespace AC3D {
 
    /*=====================================================================*/
 AC3DObject::AC3DObject():
+strName(""),
 fCrease(45),
 uiNumVert(0),
 uiNumSurf(0),
@@ -46,6 +48,7 @@ AC3DObject::AC3DObject
 (
 	stringstream& data
 ):
+strName(""),
 fCrease(45),
 uiNumVert(0),
 uiNumSurf(0),
@@ -76,14 +79,6 @@ AC3DObject::~AC3DObject()
 
 
    /*=====================================================================*/
-unsigned int
-AC3DObject::GetNumberKid() const
-{
-	return this->uiKids;
-}
-
-
-   /*=====================================================================*/
 void
 AC3DObject::AddKid
 (
@@ -91,6 +86,30 @@ AC3DObject::AddKid
 )
 {
 	this->vpObject.push_back( kid );
+}
+
+
+   /*=====================================================================*/
+bool
+AC3DObject::IsTranslucent() const
+{
+	return (this->strName.find("alpha") != string::npos);
+}
+
+
+   /*=====================================================================*/
+string
+AC3DObject::GetName() const
+{
+	return this->strName;
+}
+
+
+   /*=====================================================================*/
+unsigned int
+AC3DObject::GetNumberKid() const
+{
+	return this->uiKids;
 }
 
 

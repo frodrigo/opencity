@@ -1,10 +1,11 @@
 /***************************************************************************
-                          modelloader.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : sam mai 22 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							modelloader.cpp  -  description
+								-------------------
+	begin                : sam mai 22 2004
+	copyright            : (C) 2004 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -39,7 +40,8 @@ using namespace AC3D;
 
 
 // Accumulate the locations command
-	float locAccu[3];
+float locAccu[3];
+bool bNeedAlpha;
 
 // Debug variables
 //	unsigned int nbPoly;
@@ -200,7 +202,7 @@ ModelLoader::LoadAC3D(
 	AC3DModel ac3dmodel = AC3DModel( rcsFileName );
 	vector<AC3DMaterial> vMaterial;
 	map<string, GLuint> mapTexture;
-	GLuint list = 0;
+	GLuint list = 0, listAlpha = 0;
 	string strPath = "";
 
 	if (!ac3dmodel.IsGood())
@@ -221,7 +223,6 @@ ModelLoader::LoadAC3D(
 //debug	cout << "path: " << strPath << endl;
 
 	vMaterial = ac3dmodel.GetVMaterial();
-	list = glGenLists( 1 );
 
 // Initialize the model view matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -232,55 +233,86 @@ ModelLoader::LoadAC3D(
 	locAccu[1] = .0;
 	locAccu[2] = .0;
 
+// Initialize the alpha state
+	bNeedAlpha = false;
+
 // Debug: count the number of polys and vertex
 //	nbPoly = 0;
 //	nbVertex = 0;
 
 // Load all the texture used by the model
-	modelloaderAC3DTextureToGL( strPath, pObject, mapTexture );
+	_AC3DTextureToGL( strPath, pObject, mapTexture );
 
 // Debug
 	if (mapTexture.size() > 1) {
 		OPENCITY_DEBUG("WARNING: more than 1 texture used by the model");
+		assert( 0 );
 	}
 
-// Recursively load all the objects into the display list
+   /*=====================================================================*/
+// Recursively load all the objects into the _opaque_ display list
+	list = glGenLists( 1 );
 	glNewList( list, GL_COMPILE );
 // Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
 // Enable the texture target and bind the _first_ texture only
 	if (mapTexture.size() > 0) {
 		glEnable( GL_TEXTURE_2D );
-//		glEnable( GL_BLEND );
-	// Already activated in render.cpp
-//		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
-//		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND );
-		GLfloat env_color [] = { 0, 0, 0, 0 };
-		GLfloat obj_color [] = { 01, 01, 01, 01 };
-		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );
-		glColor4fv( obj_color );
 		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
 	}
 	else {
-//		glDisable( GL_BLEND );
 		glDisable( GL_TEXTURE_2D );
 	}
 
 // Load all the vertex
 	glBegin( GL_TRIANGLES );
-	modelloaderAC3DVertexToGL( strPath, vMaterial, pObject );
+	_AC3DVertexToGL( strPath, vMaterial, pObject, false );
 	glEnd();
 
 // Restore all enabled bits
 	glPopAttrib();
 	glEndList();
 
+   /*=====================================================================*/
+	if (bNeedAlpha) {
+// Recursively load all the objects into the _alpha_ display list
+	listAlpha = glGenLists( 1 );
+	glNewList( listAlpha, GL_COMPILE );
+// Save the all enabled GL bits
+	glPushAttrib( GL_ENABLE_BIT );
+	glEnable( GL_BLEND );
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
+// Enable the texture target and bind the _first_ texture only
+	if (mapTexture.size() > 0) {
+		glEnable( GL_TEXTURE_2D );
+		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND );
+		GLfloat env_color [] = { 0, 0, 0, 0 };
+		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );
+//		GLfloat obj_color [] = { 01, 01, 01, 01 };
+//		glColor4fv( obj_color );
+		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
+	}
+	else {
+		glDisable( GL_TEXTURE_2D );
+	}
+
+// Load all the vertex
+	glBegin( GL_TRIANGLES );
+	_AC3DVertexToGL( strPath, vMaterial, pObject, true );
+	glEnd();
+
+// Restore all enabled bits
+	glPopAttrib();
+	glEndList();
+	}		// if (bNeedAlpha)
+
+
 // Debug: print out the number of polys
 //	cout << "Number of polygons: " << nbPoly
 //		 << " / vertex: " << nbVertex << endl;
 
-	return new Model( list, mapTexture );
+	return new Model( list, listAlpha, mapTexture );
 }
 
 
@@ -289,7 +321,7 @@ ModelLoader::LoadAC3D(
    /*=====================================================================*/
 /* POLYGON version
 void
-ModelLoader::modelloaderAC3DToGL(
+ModelLoader::_AC3DToGL(
 	const string& strPath,
 	const vector<AC3DMaterial>& vMaterial,
 	const AC3DObject* const pObject,
@@ -385,7 +417,7 @@ ModelLoader::modelloaderAC3DToGL(
 	vpObj = pObject->GetVPObject();
 	sizeObj = vpObj.size();
 	for (posObj = 0; posObj < sizeObj; posObj++) {
-		modelloaderAC3DToGL( strPath, vMaterial, vpObj[posObj], mapTexture );
+		_AC3DToGL( strPath, vMaterial, vpObj[posObj], mapTexture );
 	}
 
 	locAccu[0] -= loc[0];
@@ -397,7 +429,7 @@ ModelLoader::modelloaderAC3DToGL(
 
    /*=====================================================================*/
 void
-ModelLoader::modelloaderAC3DTextureToGL
+ModelLoader::_AC3DTextureToGL
 (
 	const string& strPath,
 	const AC3DObject* const pObject,
@@ -431,7 +463,7 @@ ModelLoader::modelloaderAC3DTextureToGL
 	vpObj = pObject->GetVPObject();
 	sizeObj = vpObj.size();
 	for (posObj = 0; posObj < sizeObj; posObj++) {
-		modelloaderAC3DTextureToGL( strPath, vpObj[posObj], mapTexture );
+		_AC3DTextureToGL( strPath, vpObj[posObj], mapTexture );
 	}
 }
 
@@ -439,11 +471,12 @@ ModelLoader::modelloaderAC3DTextureToGL
    /*=====================================================================*/
 // TRIANGLES version
 void
-ModelLoader::modelloaderAC3DVertexToGL
+ModelLoader::_AC3DVertexToGL
 (
 	const string& strPath,
 	const vector<AC3DMaterial>& vMaterial,
-	const AC3DObject* const pObject
+	const AC3DObject* const pObject,
+	const bool bProcessTranslucent
 )
 {
 	const float* loc;
@@ -464,6 +497,7 @@ ModelLoader::modelloaderAC3DVertexToGL
 
 	assert( pObject != NULL );
 
+
 // debug, location calculation
 //cout << "in  : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
 
@@ -471,6 +505,15 @@ ModelLoader::modelloaderAC3DVertexToGL
 	locAccu[0] += loc[0];
 	locAccu[1] += loc[1];
 	locAccu[2] += loc[2];
+
+// Does this object need alpha processing ?
+	if (pObject->IsTranslucent()) {
+		bNeedAlpha = true;
+	}
+
+// Process only objects that we are asked to do
+	if (bProcessTranslucent xor pObject->IsTranslucent())
+		goto process_child_objects;
 
 	vVertex = pObject->GetVVertex();
 	vpSurface = pObject->GetVPSurface();
@@ -518,13 +561,15 @@ ModelLoader::modelloaderAC3DVertexToGL
 		}
 	} // For each surface
 
+process_child_objects:
+
 // Parse all the child objects
 	vpObj = pObject->GetVPObject();
 	sizeObj = vpObj.size();
 //debug
 //cout << "kids: " << pObject->GetNumberKid() << " / objects: " << sizeObj << endl;
 	for (posObj = 0; posObj < sizeObj; posObj++) {
-		modelloaderAC3DVertexToGL( strPath, vMaterial, vpObj[posObj] );
+		_AC3DVertexToGL( strPath, vMaterial, vpObj[posObj], bProcessTranslucent );
 	}
 
 	locAccu[0] -= loc[0];
@@ -534,7 +579,6 @@ ModelLoader::modelloaderAC3DVertexToGL
 // debug, location calculation
 //cout << "out : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
 }
-
 
 
 

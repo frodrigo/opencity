@@ -65,28 +65,30 @@ Vehicle::~Vehicle()
 const bool
 Vehicle::Move()
 {
-   // animate the vehicle each frame;
-	this->fCurrentW += this->fDeltaW;
-	this->fCurrentH += this->fDeltaH;
+// Animate the vehicle each frame;
+	_fCurrentW += _fDeltaW;
+	_fCurrentL += _fDeltaL;
+	_fCurrentH += _fDeltaH;
 
-   // move to next WH unit if we have counted "uiFramePerUnit" times
+// Move to next WH unit if we have counted "uiFramePerUnit" times
 	if (++uiNumberOfFrame == uiFramePerUnit) {
-	   // move to direction as much time as specified by "uiTime"
+	// Move to direction as much time as specified by "uiTime"
 		if (this->destCurrent._uiTime > 1) {
 			--this->destCurrent._uiTime;
-			Movement::Move2Dir( this->destCurrent );
+		//	Movement::Move2Dir( this->destCurrent );
 		}
 		else {
-		   // use next destination
+		// Use next destination
 			if (uiCurrentIndex < vdest.size()-1) {
 				++uiCurrentIndex;
 				this->destCurrent = vdest[ uiCurrentIndex ];
-				fCurrentW = destCurrent._uiW;
-				fCurrentH = destCurrent._uiL;
+				_fCurrentW = destCurrent._uiW;
+				_fCurrentL = destCurrent._uiL;
+				_fCurrentH = destCurrent._iHMin;
 				_CalculateDelta();
 			}
 			else {
-			   // finished, notify the caller
+			// Finished, notify the caller
 				OPENCITY_DEBUG("done");
 				return false;
 			}
@@ -117,8 +119,12 @@ Vehicle::Start()
 // set the current destination to the first element of the vector
 	this->uiCurrentIndex = 0;
 	this->destCurrent = this->vdest[ this->uiCurrentIndex ];
-	this->fCurrentW = destCurrent._uiW;
-	this->fCurrentH = destCurrent._uiL;
+	_fCurrentW = destCurrent._uiW;
+	_fCurrentL = destCurrent._uiL;
+	_fCurrentH = destCurrent._iHMin;
+	OPENCITY_DEBUG( "W: " << destCurrent._uiW << " / L: " << destCurrent._uiL <<
+					"/ H: " << _fCurrentH << " / delta: " << _fDeltaH <<
+					"/ Min: " << destCurrent._iHMin << " / Max: " << destCurrent._iHMax );
 
 	_CalculateDelta();
 }
@@ -128,23 +134,35 @@ Vehicle::Start()
 void
 Vehicle::_CalculateDelta()
 {
-// calculate the WH variations to go to next destination if applicable
-	if (uiCurrentIndex+1 < vdest.size()) {
-	// calculate the frame per unit
-		this->uiFramePerUnit = (uint)(vdest[ uiCurrentIndex+1 ]._ubTraffic+5);
+	static Destination destNext;		// Static to reduce memory manipulation
 
-		this->fDeltaW = (vdest[ uiCurrentIndex+1 ]._uiW - fCurrentW)
-			/ uiFramePerUnit;
-		this->fDeltaH = (vdest[ uiCurrentIndex+1 ]._uiL - fCurrentH)
-			/ uiFramePerUnit;
+// Calculate the WH variations to go to next destination if applicable
+	if (uiCurrentIndex+1 < vdest.size()) {
+		destNext = vdest[ uiCurrentIndex+1 ];
+
+	// Calculate the frame per unit
+		this->uiFramePerUnit = (uint)(destNext._ubTraffic+50);
+
+	// Calculate the differences of coordinates between each frame
+		_fDeltaW = (destNext._uiW - _fCurrentW) / uiFramePerUnit;
+		_fDeltaL = (destNext._uiL - _fCurrentL) / uiFramePerUnit;
+		_fDeltaH = (float)(this->destCurrent._iHMax - this->destCurrent._iHMin) / uiFramePerUnit;
 
 	// Set the model's rotation angle according to the next destination
 		SetAngle( this->destCurrent );
+
+	// Set the slope according to the next destination
+		SetSlope( this->destCurrent, destNext );
+
+		OPENCITY_DEBUG( "W: " << destCurrent._uiW << " / L: " << destCurrent._uiL <<
+						"/ H: " << _fCurrentH << " / delta: " << _fDeltaH <<
+						"/ Min: " << destCurrent._iHMin << " / Max: " << destCurrent._iHMax );
 	}
 	else {
 		this->uiFramePerUnit = OC_VEHICLE_DEFAULT_SPEED;
-		this->fDeltaW = 0;
-		this->fDeltaH = 0;
+		_fDeltaW = 0;
+		_fDeltaL = 0;
+		_fDeltaH = 0;
 	}
 }
 

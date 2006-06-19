@@ -95,13 +95,13 @@ left-up, left-down, right-down, right-up
 		OC_BYTE tabH [] ) const;
 
 
-	const OC_BYTE
+	const signed char
 	GetSquareMinHeight(
 		const uint & rcuiW,
-		const uint & rcuiH ) const;
+		const uint & rcuiL ) const;
 
 
-	const OC_BYTE
+	const signed char
 	GetSquareMaxHeight(
 		const uint & rcuiW,
 		const uint & rcuiH ) const;

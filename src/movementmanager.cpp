@@ -114,8 +114,9 @@ MovementManager::Display(
 	if ((rciIndex > -1) && (rciIndex < OC_MOVEMENT_MAX )) {
 		if (tabmvt[ rciIndex ] != NULL)
 			this->pcGraphicMgr->Display(
-				tabmvt[ rciIndex ]->fCurrentW,
-				tabmvt[ rciIndex ]->fCurrentH,
+				tabmvt[ rciIndex ]->_fCurrentW,
+				tabmvt[ rciIndex ]->_fCurrentL,
+				tabmvt[ rciIndex ]->_fCurrentH,
 				tabmvt[ rciIndex ] );
 		return;
 	}
@@ -124,8 +125,9 @@ MovementManager::Display(
 	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
 		if (tabmvt[ i ] != NULL)
 			this->pcGraphicMgr->Display(
-				tabmvt[ i ]->fCurrentW,
-				tabmvt[ i ]->fCurrentH,
+				tabmvt[ i ]->_fCurrentW,
+				tabmvt[ i ]->_fCurrentL,
+				tabmvt[ i ]->_fCurrentH,
 				tabmvt[ i ] );
 	}
 }

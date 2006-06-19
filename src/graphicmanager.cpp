@@ -523,24 +523,25 @@ GraphicManager::DisplayStructureSelection(
 
 
    /*======================================================================*/
-
-/* WARNING: this is a special function used for movement (vehicle) rendering */
-
 void
 GraphicManager::Display(
 	const OC_FLOAT & rcfW,
+	const OC_FLOAT & rcfL,
 	const OC_FLOAT & rcfH,
 	const Movement* const pm ) const
 {
 	assert( pm != NULL );
-	static OC_BYTE tabH [4];
+//	static OC_BYTE tabH [4];
 
 // warning: see warning in DisplayTerrain
-	gpMapMgr->GetSquareHeight( (uint)floorf(rcfW), (uint)floorf(rcfH), tabH );
+//	gpMapMgr->GetSquareHeight( (uint)floorf(rcfW), (uint)floorf(rcfH), tabH );
 
 	glPushMatrix();
-	glTranslatef( rcfW+pm->_fTX, tabH[0]+pm->_fTY, rcfH+pm->_fTZ );
-	glRotatef( pm->_fAngle, 0, 1, 0 );
+// Rotation translation compensation
+	glTranslatef( rcfW+pm->_fTX, rcfH+pm->_fTY, rcfL+pm->_fTZ );
+	glRotatef( pm->_fRY, 0, 1, 0 );			// Model rotation
+	glRotatef( pm->_fRX, 1, 0, 0 );			// Slope
+	glRotatef( pm->_fRZ, 0, 0, 1 );
 	tabpModel[pm->GetGraphicCode()]->DisplayList();
 	glPopMatrix();
 

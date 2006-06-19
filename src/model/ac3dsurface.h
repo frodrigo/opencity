@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DSurface.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							AC3DSurface.h  -  description
+								-------------------
+	begin                : mer juin 29 05
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,12 +24,12 @@
 #include <string>
 #include <sstream>
 
+
+namespace AC3D {
+
 using std::vector;
 using std::string;
 using std::stringstream;
-
-
-namespace AC3D {
 
 enum SURFACE_TYPE {
 	SURFACE_POLYGON,
@@ -42,8 +43,9 @@ struct Ref {
 	float fTexT;
 };
 
+
 /**
-@author Duong-Khang NGUYEN
+	\author Duong-Khang NGUYEN
 */
 class AC3DSurface{
 public:
@@ -76,12 +78,12 @@ public:
 
 
 private:
-	unsigned int uiAttribute;
+	uint	uiAttribute;
 	SURFACE_TYPE type;
-	bool bShaded;
-	bool bTwoSide;
-	unsigned int uiMat;			///< Index of the material used
-	unsigned int uiNumRef;		///< Number of references
+	bool	bShaded;
+	bool	bTwoSide;
+	uint	uiMat;			///< Index of the material used
+	uint	uiNumRef;		///< Number of references
 	vector<Ref> vRef;			///< Table of references
 };
 

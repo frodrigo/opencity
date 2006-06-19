@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DMaterial.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							AC3DMaterial.h  -  description
+								-------------------
+	begin                : mer juin 29 05
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

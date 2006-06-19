@@ -24,8 +24,8 @@
    /*=====================================================================*/
 Destination::Destination():
 _eDir( OC_DIR_S ),
-_uiW( 0 ),
-_uiL( 0 ),
+_uiW( 0 ), _uiL( 0 ),
+_iHMin( 0 ), _iHMax( 0 ),
 _uiTime( 0 ),
 _ubTraffic( 0 )
 {

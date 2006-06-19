@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DMacros.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 30 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							AC3DMacros.h  -  description
+								-------------------
+	begin                : mer juin 30 05
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

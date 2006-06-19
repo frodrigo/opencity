@@ -1,10 +1,11 @@
 /***************************************************************************
-                          model.h  -  description
-          $Id$
-                             -------------------
-    begin                : sam mai 22 2004
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							model.h  -  description
+								-------------------
+	begin                : sam mai 22 2004
+	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -41,7 +42,8 @@ public:
 		const GLuint  tname [] );
 
 	Model(
-		GLuint dl,
+		GLuint dlOpaque,
+		GLuint dlAlpha,
 		std::map<string, GLuint> mapTex );
 
 	~Model();
@@ -110,8 +112,9 @@ private:
 	const GLuint*  uitabTexName;
 	GLuint uiTabSize;
 
-// Test display list with AC3D
-	GLuint uiDisplayList;
+// Display list used with AC3D model
+	GLuint uiOpaqueList;
+	GLuint uiAlphaList;
 	std::map<string, GLuint> mapTexture;
 };
 

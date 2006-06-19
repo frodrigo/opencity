@@ -33,7 +33,8 @@ ftabData( data ),
 ftabRGB( NULL ),
 ftabTexCoord( NULL ),
 uitabTexName( NULL ),
-uiDisplayList( 0 )
+uiOpaqueList( 0 ),
+uiAlphaList( 0 )
 {
 	OPENCITY_DEBUG( "ctor1" );
 
@@ -52,7 +53,8 @@ ftabData( data ),
 ftabRGB( rgb ),
 ftabTexCoord( tcoord ),
 uitabTexName( tname ),
-uiDisplayList( 0 )
+uiOpaqueList( 0 ),
+uiAlphaList( 0 )
 {
 	OPENCITY_DEBUG( "ctor2" );
 
@@ -63,7 +65,8 @@ uiDisplayList( 0 )
    /*=====================================================================*/
 Model::Model
 (
-	GLuint dl,
+	GLuint dlOpaque,
+	GLuint dlAlpha,
 	std::map<string, GLuint> mapTex
 ):
 ftabData( NULL ),
@@ -71,7 +74,8 @@ ftabRGB( NULL ),
 ftabTexCoord( NULL ),
 uitabTexName( NULL ),
 uiTabSize( 0 ),
-uiDisplayList( dl ),
+uiOpaqueList( dlOpaque ),
+uiAlphaList( dlAlpha ),
 mapTexture( mapTex )
 {
 	OPENCITY_DEBUG( "ctor3" );
@@ -91,9 +95,13 @@ Model::~Model()
 	delete [] ftabTexCoord;
 	delete [] uitabTexName;
 
-	if (glIsList( this->uiDisplayList ) == GL_TRUE)
-		glDeleteLists( this->uiDisplayList, 1 );
+// Delete display lists
+	if (glIsList( this->uiOpaqueList ))
+		glDeleteLists( this->uiOpaqueList, 1 );
+	if (glIsList( this->uiAlphaList ))
+		glDeleteLists( this->uiAlphaList, 1 );
 
+// Delete texture
 	end = this->mapTexture.end();
 	for (iter = this->mapTexture.begin(); iter != end; iter++)
 		glDeleteTextures( 1, &(iter->second) );
@@ -324,8 +332,9 @@ Model::DisplayPoly(
 void
 Model::DisplayList() const
 {
-	assert( this->uiDisplayList != 0 );
-	glCallList( this->uiDisplayList );
+	assert( 0 );
+	assert( this->uiOpaqueList != 0 );
+	glCallList( this->uiOpaqueList );
 }
 
 
@@ -338,12 +347,15 @@ Model::DisplayList(
 	) const
 {
 	assert( tabY != NULL );
-	assert( this->uiDisplayList != 0 );
+	assert( this->uiOpaqueList != 0 );
 
+// Call the opaque list first, then the alpha list
 //	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 	glTranslatef( rcfW, tabY[0], rcfL );
-	glCallList( this->uiDisplayList );
+	glCallList( this->uiOpaqueList );
+	if (glIsList( this->uiAlphaList ))
+		glCallList( this->uiAlphaList );
 	glPopMatrix();
 }
 

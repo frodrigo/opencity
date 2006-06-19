@@ -30,11 +30,12 @@
 */
 class Destination {
 public:
-	OPENCITY_DIRECTION _eDir	;	///< which direction ?
-	uint _uiW;					///< the OC W, L coordinates
+	OPENCITY_DIRECTION _eDir	;	///< Which direction ?
+	uint _uiW;						///< The OC W, L coordinates
 	uint _uiL;
-	uint _uiTime;				///< how many time do I have to move in this direction ?
-	OC_UBYTE _ubTraffic;			///< local traffic at this WL
+	int _iHMin, _iHMax;				///< The height of the current square (on the Oy axis)
+	uint _uiTime;					///< How many time do I have to move in this direction ?
+	OC_UBYTE _ubTraffic;			///< Local traffic at this WL
 
 
 	Destination();

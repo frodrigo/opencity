@@ -445,6 +445,8 @@ cout << endl;
 		iFatherLinear = node.iFatherLinear;
 		destLast._uiW = node.iOwnLinear % uiWidth;
 		destLast._uiL = node.iOwnLinear / uiWidth;
+		destLast._iHMin = pmap->GetSquareMinHeight( destLast._uiW, destLast._uiL );
+		destLast._iHMax = pmap->GetSquareMaxHeight( destLast._uiW, destLast._uiL );
 		destLast._uiTime = 1;
 		destLast._ubTraffic =
 			((PathStructure*)pbuildlayer->
@@ -459,6 +461,8 @@ cout << endl;
 				iFatherLinear = node.iFatherLinear;
 				destTemp._uiW = node.iOwnLinear % uiWidth;
 				destTemp._uiL = node.iOwnLinear / uiWidth;
+				destTemp._iHMin = pmap->GetSquareMinHeight( destTemp._uiW, destTemp._uiL );
+				destTemp._iHMax = pmap->GetSquareMaxHeight( destTemp._uiW, destTemp._uiL );
 				destTemp._uiTime = 1;
 				destTemp._ubTraffic =
 					((PathStructure*)pbuildlayer->

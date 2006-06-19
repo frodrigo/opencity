@@ -113,9 +113,13 @@ public:
 		const uint & rcuiID ) const;
 
 
+//========================================================================
+/** This is a special function used for movement (vehicle) rendering
+*/
 	void
 	Display(
 		const OC_FLOAT & rcfW,
+		const OC_FLOAT & rcfL,
 		const OC_FLOAT & rcfH,
 		const Movement* const pm ) const;
 

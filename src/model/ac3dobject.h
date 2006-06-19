@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DModel.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							AC3DModel.h  -  description
+								-------------------
+	begin                : mer juin 29 05
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -25,12 +26,11 @@
 #include <string>
 #include <sstream>
 
+namespace AC3D {
+
 using std::vector;
 using std::string;
 using std::stringstream;
-
-namespace AC3D {
-
 
 enum OBJECT_TYPE {
 	OBJECT_WORLD,
@@ -46,7 +46,7 @@ struct Vertex {
 
 //========================================================================
 /**
-@author Duong-Khang NGUYEN
+	\author Duong-Khang NGUYEN
 */
 class AC3DObject{
 public:
@@ -57,20 +57,35 @@ public:
 
 
 //========================================================================
-/**
-	\return The number of kids which may differ from the size of the vector
-	returned by GetVPObject() during loading process.
+/** Add a new kid to this object
 */
-    unsigned int
-    GetNumberKid() const;
+	void
+	AddKid( AC3DObject* kid );
+
+
+//========================================================================
+/** Decode the "name" to determine whether the object is translucent or not
+	\return True if the object is translucent
+*/
+	bool
+	IsTranslucent() const;
 
 
 //========================================================================
 /**
-	Add a new kid to this object
+	\return The content of the name command
 */
-	void
-	AddKid( AC3DObject* kid );
+	string
+	GetName() const;
+
+
+//========================================================================
+/**
+	\return The number of kids which may differ from the size of the vector
+	returned by GetVPObject() during loading process.
+*/
+	unsigned int
+	GetNumberKid() const;
 
 
 //========================================================================
@@ -117,8 +132,7 @@ public:
 
 
 //========================================================================
-/**
-	Parse and extract the data from the given stream
+/** Parse and extract the data from the given stream
 */
 	void Parse( stringstream& data );
 
@@ -126,28 +140,28 @@ public:
 	string ToStr() const;
 
 private:
-	OBJECT_TYPE type;
-	string strName;
-	int iData;					///< Not used
-	string strTexture;			///< Texture file name
-	float fTexRep[2];			///< Default (1, 1). The texture repeat values for the tiling of a texture on an object's surfaces.
-	float fRot[9];				///< Rotation matrix
-	float fLoc[3];				///< Translation vector
-	float fCrease;				///< Angle in degrees for calculating normals for smoothing
-	string strURL;				///< The URL of the file
+	OBJECT_TYPE type;				///< Object's type
+	string	strName;				///< Content of the "name" command
+	int		iData;					///< Not used
+	string	strTexture;				///< Texture file name
+	float	fTexRep[2];				///< Default (1, 1). The texture repeat values for the tiling of a texture on an object's surfaces.
+	float	fRot[9];				///< Rotation matrix
+	float	fLoc[3];				///< Translation vector
+	float	fCrease;				///< Angle in degrees for calculating normals for smoothing
+	string	strURL;					///< The URL of the file
 	
-	unsigned int uiNumVert;		///< Number of vertices in this object
-	vector<Vertex> vVertex;		///< Table of vertices
+	uint	uiNumVert;				///< Number of vertices in this object
+	vector<Vertex> vVertex;			///< Table of vertices
 
-	unsigned int uiNumSurf;			///< Number of surfaces of this object
+	uint	uiNumSurf;				///< Number of surfaces of this object
 	vector<AC3DSurface*> vpSurface;	///< Table of surfaces
 
-	unsigned int uiKids;			///< Number of kids
+	uint	uiKids;					///< Number of kids
 	vector<AC3DObject*> vpObject;	///< Table of child objects
 
 
    /*=====================================================================*/
-   /*                        PRIVATE      METHODS                         */
+   /*                         PRIVATE     METHODS                         */
    /*=====================================================================*/
 	void ac3dSetDefault();
 

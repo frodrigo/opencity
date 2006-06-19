@@ -1,10 +1,11 @@
 /***************************************************************************
-                          modelloader.h  -  description
-    $Id$
-                             -------------------
-    begin                : sam mai 22 2004
-    copyright            : (C) by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							modelloader.h  -  description
+								-------------------
+	begin                : sam mai 22 2004
+	copyright            : (C) by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,12 +22,14 @@
 
 #include "main.h"
 
-#include "ac3dmaterial.h"
 #include "ac3dobject.h"
+#include "ac3dmaterial.h"
 
 #include <map>				// Used for texture loading cache
+#include <vector>
 
 using std::map;
+using std::vector;
 
 class Model;
 
@@ -64,24 +67,8 @@ public:
 
 
 private:
-/* TOKILL, no used any more
-This is a helper class for AC3D file support
-*/
-/*
-	class ac3dObject {
-	public:
-		ac3dObject():type(""),name(""),t1(.0),t2(.0),t3(.0),kids(0){};
-
-		string type;                 // Object's type (world / group / poly ?)
-		string name;                 // Object's name (name command)
-		OC_FLOAT t1, t2, t3;    // Object's translation vector (loc command)
-		uint kids;                   // Object's number of kids (kids command)
-	};
-*/
-
-
 	static void
-	modelloaderAC3DTextureToGL(
+	_AC3DTextureToGL(
 		const string& strPath,
 		const AC3D::AC3DObject* const pObject,
 		map<string, GLuint>& mapTexture
@@ -89,10 +76,11 @@ This is a helper class for AC3D file support
 
 
 	static void
-	modelloaderAC3DVertexToGL(
+	_AC3DVertexToGL(
 		const string& strPath,
 		const vector<AC3D::AC3DMaterial>& vMaterial,
-		const AC3D::AC3DObject* const pObject
+		const AC3D::AC3DObject* const pObject,
+		const bool bProcessTranslucent = false
 	);
 };
 #endif

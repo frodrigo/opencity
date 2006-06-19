@@ -66,28 +66,45 @@ the Move() method
 /** Set the rotation of the model according to the destination's direction.
 This method also sets the compensation translation vector in order to help
 the GraphicManager render method to make a "in place" rotation
-	\param rD The destination object
+	\param rcD The destination object
 	\see GraphicManager::Display()
 */
 	void
-	SetAngle( const Destination & rD );
+	SetAngle( const Destination & rcD );
+
+
+//========================================================================
+/** Set the slope of the model. It shoulds be called after a call to
+SetAngle()
+	\see GraphicManager::Display()
+	\see SetAngle()
+*/
+	void
+	SetSlope(
+		const Destination & rcA,
+		const Destination & rcB );
 
 
    /*=====================================================================*/
-   //                       STATIC     METHODS
+   /*                          STATIC    METHODS                          */
    /*=====================================================================*/
+/* unused
 	static void
 	Move2Dir(
 		Destination & rD );
+*/
 
 
 public:
-	OC_FLOAT fCurrentW;				///< current OC W, H coordinates
-	OC_FLOAT fCurrentH;
-	OC_FLOAT fDeltaW;				///< W,H variations for next destination
-	OC_FLOAT fDeltaH;
+	OC_FLOAT _fCurrentW;			///< current OC W, L, H coordinates
+	OC_FLOAT _fCurrentL;
+	OC_FLOAT _fCurrentH;
+	OC_FLOAT _fDeltaW;				///< W, L, H variations for next destination
+	OC_FLOAT _fDeltaL;
+	OC_FLOAT _fDeltaH;
 
-	GLfloat _fAngle;				///< The model's rotation angle
+	GLfloat _fRY;					///< The model's rotation angle
+	GLfloat _fRX, _fRZ;				///< The model's X and Z rotation slope
 	GLfloat _fTX, _fTY, _fTZ;		///< The rotation compensation translation vector
 
 protected:
