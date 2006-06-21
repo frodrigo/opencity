@@ -255,6 +255,7 @@ ModelLoader::LoadAC3D(
 	glNewList( list, GL_COMPILE );
 // Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
+	glDisable( GL_BLEND );
 // Enable the texture target and bind the _first_ texture only
 	if (mapTexture.size() > 0) {
 		glEnable( GL_TEXTURE_2D );
@@ -286,9 +287,10 @@ ModelLoader::LoadAC3D(
 // Enable the texture target and bind the _first_ texture only
 	if (mapTexture.size() > 0) {
 		glEnable( GL_TEXTURE_2D );
-		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND );
-		GLfloat env_color [] = { 0, 0, 0, 0 };
-		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );
+		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+//		GLfloat env_color [] = { 0, 0, 0, 0 };
+//		GLfloat env_color [] = { 1, 1, 1, 0 };
+//		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );
 //		GLfloat obj_color [] = { 01, 01, 01, 01 };
 //		glColor4fv( obj_color );
 		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
