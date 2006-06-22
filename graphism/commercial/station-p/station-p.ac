@@ -234,7 +234,7 @@ refs 4
 5 0.743622 0.74299
 kids 0
 OBJECT poly
-name "rect"
+name "alpha=1"
 loc 0.63 0.0725806 0.925
 texture "texture.png"
 crease 45.000000

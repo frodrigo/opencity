@@ -1,7 +1,7 @@
 AC3Db
 MATERIAL "ac3dmat1" rgb 1 1 1  amb 0.2 0.2 0.2  emis 0 0 0  spec 0 0 0  shi 10  trans 0
 OBJECT world
-kids 9
+kids 10
 OBJECT poly
 name "object"
 loc 0.500855 0.0019424 0.49468
@@ -637,21 +637,12 @@ name "rect"
 loc 0.55 0.1875 0.65
 texture "texture.png"
 crease 45.000000
-numvert 6
+numvert 4
 0.175 0 0.05
 -0.175 0 0.05
 -0.175 0.0125 -0.05
 0.175 0.0125 -0.05
--0.175 -0.0125 0.05
-0.175 -0.0125 0.05
-numsurf 2
-SURF 0x20
-mat 0
-refs 4
-4 0.124249 0.096287
-5 0.124249 0.344857
-0 0.114649 0.344857
-1 0.114649 0.096287
+numsurf 1
 SURF 0x20
 mat 0
 refs 4
@@ -746,4 +737,23 @@ refs 4
 11 0.2882 0.556859
 10 0.261368 0.516721
 0 0.376146 0.468958
+kids 0
+OBJECT poly
+name "alpha=1"
+loc 0.55 0.1875 0.65
+texture "texture.png"
+crease 45.000000
+numvert 4
+0.175 -0.0125 0.05
+-0.175 -0.0125 0.05
+-0.175 0 0.05
+0.175 0 0.05
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+1 0.124249 0.096287
+0 0.124249 0.344857
+3 0.114649 0.344857
+2 0.114649 0.096287
 kids 0

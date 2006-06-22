@@ -161,7 +161,7 @@ refs 3
 1 0.712177 0.574845
 kids 0
 OBJECT poly
-name "cylinder"
+name "alpha=1"
 loc 0.5 0.130296 0.5
 texture "texture.png"
 crease 45.000000
@@ -509,7 +509,7 @@ refs 4
 38 0.655434 0.830311
 kids 0
 OBJECT poly
-name "object"
+name "alpha=1"
 loc 0.5 0.0123439 0.5
 texture "texture.png"
 crease 45.000000
