@@ -23,6 +23,7 @@
 #include "model.h"
 
 #include "ac3dmodel.h"		// For AC3D structure manipulation
+#include "ac3dobject.h"		// For normal calculation
 
 #include "texture.h"		// for texture manipulation
 
@@ -324,6 +325,38 @@ ModelLoader::LoadAC3D(
 
 
    /*=====================================================================*/
+Vertex
+ModelLoader::GetNormal(
+	Vertex & vO,
+	Vertex & vA,
+	Vertex & vB )
+{
+	static Vertex a, b, c;
+
+/// This is the secret formula: c = a^b ;)
+//	cx = ay * bz - by * az;
+//	cy = bx * az - ax * bz;
+//	cz = ax * by - bx * ay;
+
+// Calculate the relative coordinates of A and B to O
+	a.x = vA.x - vO.x;
+	a.y = vA.y - vO.y;
+	a.z = vA.z - vO.z;
+
+	b.x = vB.x - vO.x;
+	b.y = vB.y - vO.y;
+	b.z = vB.z - vO.z;
+
+// Now, calculate the normal
+	c.x = a.y * b.z - b.y * a.z;
+	c.y = b.x * a.z - a.x * b.z;
+	c.z = a.x * b.y - b.x * a.y;
+
+	return c;
+}
+
+
+   /*=====================================================================*/
    /*                        PRIVATE      METHODS                         */
    /*=====================================================================*/
 /* POLYGON version
@@ -498,8 +531,10 @@ ModelLoader::_AC3DVertexToGL
 
 	vector<Ref>::size_type posRef, sizeRef;
 	vector<Ref> vRef;
-	Ref ref;
+	Ref r1, r2, r3;
 
+// Used for normal calculation
+	Vertex v1, v2, v3, normal;
 
 
 	assert( pObject != NULL );
@@ -542,29 +577,36 @@ ModelLoader::_AC3DVertexToGL
 		assert( sizeRef >= 3 );		// We need at least one triangle
 // Debug nbVertex += sizeRef;
 		for (posRef = 1; posRef < sizeRef-1; posRef++) {
-			ref = vRef[0];
-			glTexCoord2f( ref.fTexS, ref.fTexT );
-			glVertex3f(
-				vVertex[ref.uiVertIndex].x + locAccu[0],
-				vVertex[ref.uiVertIndex].y + locAccu[1],
-				vVertex[ref.uiVertIndex].z + locAccu[2]
-			);
+		// Fist vertex
+			r1 = vRef[0];
+			v1.x = vVertex[r1.uiVertIndex].x + locAccu[0];
+			v1.y = vVertex[r1.uiVertIndex].y + locAccu[1];
+			v1.z = vVertex[r1.uiVertIndex].z + locAccu[2];
 
-			ref = vRef[posRef];
-			glTexCoord2f( ref.fTexS, ref.fTexT );
-			glVertex3f(
-				vVertex[ref.uiVertIndex].x + locAccu[0],
-				vVertex[ref.uiVertIndex].y + locAccu[1],
-				vVertex[ref.uiVertIndex].z + locAccu[2]
-			);
+		// Second vertex
+			r2 = vRef[posRef];
+			v2.x = vVertex[r2.uiVertIndex].x + locAccu[0];
+			v2.y = vVertex[r2.uiVertIndex].y + locAccu[1];
+			v2.z = vVertex[r2.uiVertIndex].z + locAccu[2];
 
-			ref = vRef[posRef+1];
-			glTexCoord2f( ref.fTexS, ref.fTexT );
-			glVertex3f(
-				vVertex[ref.uiVertIndex].x + locAccu[0],
-				vVertex[ref.uiVertIndex].y + locAccu[1],
-				vVertex[ref.uiVertIndex].z + locAccu[2]
-			);
+		// Third vertex
+			r3 = vRef[posRef+1];
+			v3.x = vVertex[r3.uiVertIndex].x + locAccu[0];
+			v3.y = vVertex[r3.uiVertIndex].y + locAccu[1];
+			v3.z = vVertex[r3.uiVertIndex].z + locAccu[2];
+
+		// Now issue the OpenGL commands
+			normal = GetNormal( v1, v2, v3 );
+			glNormal3f( normal.x, normal.y, normal.z );
+
+			glTexCoord2f( r1.fTexS, r1.fTexT );
+			glVertex3f( v1.x, v1.y, v1.z );
+
+			glTexCoord2f( r2.fTexS, r2.fTexT );
+			glVertex3f( v2.x, v2.y, v2.z );
+
+			glTexCoord2f( r3.fTexS, r3.fTexT );
+			glVertex3f( v3.x, v3.y, v3.z );
 		}
 	} // For each surface
 
@@ -586,8 +628,6 @@ process_child_objects:
 // debug, location calculation
 //cout << "out : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
 }
-
-
 
 
 
