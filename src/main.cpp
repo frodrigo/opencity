@@ -1,15 +1,15 @@
 /***************************************************************************
-                          main.cpp  -  description
-         $Id$
-                             -------------------
-    project              : OpenCity
-    begin                : mer mai 28 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							main.cpp  -  description
+								-------------------
+	project              : OpenCity
+	begin                : mer mai 28 2003
+	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	details              : this is a game project (I call it Delphine).
+							The project consists of simulating a city just
+							like xxxCity or something like that :)
 
-    details              : this is a game project (I call it Delphine).
-                           The project consists of simulating a city just
-                           like xxxCity or something like that :)
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -229,7 +229,7 @@ void ocProcessSDLEvents( void )
 			break;
 
 		case SDL_QUIT:
-			// Handle quit requests (like Ctrl-c).
+		// Handle quit requests (like Ctrl-c).
 			cout << "Quit requested, stoping OpenCity..." << endl;
 			boolQuit = true;
 			break;
@@ -435,19 +435,36 @@ void displayStatus( const string & str )
    /*=====================================================================*/
 int serverMode()
 {
-// test codes: start server and listen to the standard port
-	gpNetworking = new Networking();
-	(void)gpNetworking->StartServer();
+	static SDL_Event event;
 
-	while (1) {
+// Initialize the video system in order to capture Ctrl-C !
+	SDL_Init(SDL_INIT_VIDEO);
+
+// Start server and listen to the standard port
+	gpNetworking = new Networking();
+	boolQuit = (gpNetworking->StartServer() == OC_NET_OK) ? false : true;
+
+	while (!boolQuit) {
 		cout << ".";
 		(void)gpNetworking->ProcessServerData();
 		SDL_Delay( 50 );
 		cout.flush();
+
+		while( SDL_PollEvent( &event ) ) {
+			switch( event.type ) {
+			case SDL_QUIT:
+			// Handle quit requests (like Ctrl-c).
+				cout << endl << "Quit requested, stoping OpenCity ZeN server..." << endl;
+				boolQuit = true;
+				break;
+			}
+		}
 	}
 
 	(void)gpNetworking->StopServer();
 	delete gpNetworking;
+
+	SDL_Quit();		// Calls free() on an invalid pointer. Detected by glibc
 
 	return 0;
 }

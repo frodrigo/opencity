@@ -283,11 +283,16 @@ ModelLoader::LoadAC3D(
 // Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_BLEND );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.2);
+//	glBlendFunc( GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA );
+//	glBlendFunc( GL_ONE, GL_ZERO );
 // Enable the texture target and bind the _first_ texture only
 	if (mapTexture.size() > 0) {
 		glEnable( GL_TEXTURE_2D );
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+//		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND );
 //		GLfloat env_color [] = { 0, 0, 0, 0 };
 //		GLfloat env_color [] = { 1, 1, 1, 0 };
 //		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );

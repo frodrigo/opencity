@@ -411,8 +411,11 @@ void City::uiKeyboard(
 				case OC_NET_CLIENT_CONNECTED:
 					OPENCITY_DEBUG( "I'm already connected to a server" );
 					break;
-				case OC_NET_OK:
+				case OC_NET_CLIENT_ACCEPTED:
 					OPENCITY_DEBUG( "Connection request accepted" );
+					break;
+				case OC_NET_CLIENT_REJECTED:
+					OPENCITY_DEBUG( "Connection request rejected. Server full ?" );
 					break;
 				default:
 					OPENCITY_DEBUG( "I couldn't connect to the server " );
@@ -1719,11 +1722,16 @@ City::_Save( const string& strFilename )
 // Lock the simulator
 	SDL_LockMutex( gpmutexSim );
 
+// Save city data
 	this->SaveTo( fs );
 
+// Save map data
 	gpMapMgr->SaveTo( fs );
+
+// Save layers's data
 	ptabLayer[ BUILDING_LAYER ]->SaveTo( fs );
 
+// Save simulators data
 	_pMSim->SaveTo( fs );
 
 // Unlock the simulator
@@ -1749,16 +1757,17 @@ City::_Load( const string& strFilename )
 // Lock the simulator
 	SDL_LockMutex( gpmutexSim );
 
+// Load city data
 	this->LoadFrom( fs );
 
+// Load map data
 	gpMapMgr->LoadFrom( fs );
 	gpRenderer->boolHeightChange = true;
+
+// Load layers' data
 	ptabLayer[ BUILDING_LAYER ]->LoadFrom( fs );
 
-// TOKILL, old code, june 11th, 06
-// Recreate the simulator
-//	_DeleteSimulator();
-//	_CreateSimulator();
+// Load simulators' data
 	_pMSim->LoadFrom( fs );
 
 // Manually add the structures to the simulators

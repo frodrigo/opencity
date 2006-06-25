@@ -34,6 +34,7 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
 	glClearDepth(1.0);						// Enables Clearing Of The Depth Buffer
 	glDepthFunc(GL_LESS);					// The Type Of Depth Test To Do
 	glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
+//	glDepthMask(GL_FALSE);					// Disable depth buffer writing
 	glShadeModel(GL_SMOOTH);				// Enables Smooth Color Shading
 	
 	glMatrixMode(GL_PROJECTION);

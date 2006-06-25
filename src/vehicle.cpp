@@ -141,7 +141,7 @@ Vehicle::_CalculateDelta()
 		destNext = vdest[ uiCurrentIndex+1 ];
 
 	// Calculate the frame per unit
-		this->uiFramePerUnit = (uint)(destNext._ubTraffic+50);
+		this->uiFramePerUnit = (uint)(destNext._ubTraffic+10);
 
 	// Calculate the differences of coordinates between each frame
 		_fDeltaW = (destNext._uiW - _fCurrentW) / uiFramePerUnit;

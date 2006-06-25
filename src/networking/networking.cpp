@@ -1,10 +1,11 @@
 /***************************************************************************
-                     networking.cpp  -  description
-         $Id$
-                             -------------------
-    begin                : jeu dec 23 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						networking.cpp  -  description
+								-------------------
+	begin                : jeu dec 23 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -100,6 +101,7 @@ Networking::GetServerNum()
 {
 	//TODO: STUB
 	OPENCITY_DEBUG("TODO");
+	assert(0);
 	return 0;
 }
 
@@ -144,20 +146,32 @@ Networking::Accept( uint & rid )
 		return OC_NET_SERVER_STOPED;
 
 // IF the server is full THEN error
-	if (this->vClient.size() == OC_NET_CLIENT_MAX)
-		return OC_NET_SERVER_FULL;
+//	if (this->vClient.size() == OC_NET_CLIENT_MAX)
+//		return OC_NET_SERVER_FULL;
 
 // Create the new socket to handle the client
 	Netnode nodeClient;
 	nodeClient.socket = SDLNet_TCP_Accept(this->pServerSocket);
 	if (nodeClient.socket != NULL) {
-		nodeClient.ip = *(SDLNet_TCP_GetPeerAddress(nodeClient.socket));
-		vClient.push_back(nodeClient);
-		rid = vClient.size()-1;
+		NetMessage msg;
 	// Put the client socket into the server's socket set for future use
 		if (SDLNet_TCP_AddSocket( this->pSocketSet, nodeClient.socket ) == -1) {
-			assert( 0 );		// FIXME: disconnect the client
+		// Send NCK
+			msg.cmd = OC_NET_NCK;
+			(void)SDLNet_TCP_Send(nodeClient.socket, &msg, sizeof(NetMessage));
+			SDLNet_TCP_Close(nodeClient.socket);
+			rid = 0;
+
 			return OC_NET_SERVER_FULL;
+		}
+		else {
+			nodeClient.ip = *(SDLNet_TCP_GetPeerAddress(nodeClient.socket));
+			vClient.push_back(nodeClient);
+			rid = vClient.size()-1;
+
+		// Send ACK
+			msg.cmd = OC_NET_ACK;
+			this->SendMessage( msg, rid );
 		}
 	}
 	else {
@@ -173,6 +187,8 @@ Networking::Accept( uint & rid )
 const OPENCITY_NET_CODE
 Networking::Reject( const uint id )
 {
+	OPENCITY_DEBUG( "TODO" );
+	assert( 0 );
 	return OC_NET_ERROR;
 }
 
@@ -237,41 +253,51 @@ const OPENCITY_NET_CODE
 Networking::ProcessServerData()
 {
 	uint id;
-	uint nbClient;
 	OPENCITY_NET_CODE netCode;
 	NetMessage msg;
+	ClientIter i;
+	int recv;
+	std::vector<ClientIter> vToClose;
 
-// Accept an incoming connection
+// Accept an incoming connection and automatically ACK
 	netCode = this->Accept( id );
 	if (netCode == OC_NET_OK) {
-		OPENCITY_DEBUG( "New client connection accepted" );
-		cout << "Number of client: " << this->GetClientNum() << endl;
+		OPENCITY_DEBUG( "New number of clients: " << this->GetClientNum() );
+	}
+	else if (netCode == OC_NET_SERVER_FULL) {
+		OPENCITY_DEBUG( "Server is full, new connection rejected" );
 	}
 
 // Check socket set for activity
 // Otherwise return
-	if (SDLNet_CheckSockets( this->pSocketSet, 50 ) < 1)
+	if (SDLNet_CheckSockets( this->pSocketSet, OC_NET_CHECK_TIMEOUT ) < 1)
 		return OC_NET_OK;
 
 // Process waiting messages sent by client
-	nbClient = this->vClient.size();
-	while (nbClient > 0) {
-		--nbClient;
-		OPENCITY_DEBUG( "Begin reading socket" );
-		if (SDLNet_SocketReady(this->vClient[nbClient].socket) != 0) {
-			if (this->Receive( nbClient, &msg, sizeof(msg)) != OC_NET_OK)
-				continue;
+	OPENCITY_DEBUG( "Begin reading socket" );
+	for (i = this->vClient.begin(); i != this->vClient.end(); i++) {
+		if (SDLNet_SocketReady((*i).socket) != 0) {
+			recv = SDLNet_TCP_Recv((*i).socket, &msg, sizeof(NetMessage) );
 
-		// Disconnect request ?
-			if (strcmp( msg.cmd, "DNT" ) == 0) {
-			// FIXME: send ACK
-				(void)SDLNet_TCP_DelSocket( this->pSocketSet, this->vClient[nbClient].socket );
-				(void)this->Close( nbClient );
-				OPENCITY_DEBUG( "One client disconnected" );
-				cout << "Client id: " << nbClient << endl;
+			if (recv > 0) {
+			// Disconnect request ?
+				if (msg.cmd == OC_NET_DNT) {
+					OPENCITY_DEBUG( "One client disconnected." );
+				// FIXME: send ACK
+					vToClose.push_back( i );
+				}
+			}
+			else {
+				OPENCITY_DEBUG( "No data received or error. Closing client socket." );
+				vToClose.push_back( i );
 			}
 		}
-		OPENCITY_DEBUG( "End reading socket" );
+	}
+	OPENCITY_DEBUG( "End reading socket" );
+
+	uint c;
+	for ( c = 0; c < vToClose.size(); c++ ) {
+		this->Close(vToClose[c]);
 	}
 
 	return OC_NET_OK;
@@ -288,15 +314,15 @@ Networking::Open(
 	if (this->pServerSocket != NULL)
 		return OC_NET_CLIENT_CONNECTED;
 
-	IPaddress ip;
-
 // IF we can not resolve the host THEN error
+	IPaddress ip;
 	if (SDLNet_ResolveHost(&ip, serverHost.c_str(), port) == -1) {
 		cerr << "ERROR: I couldn't resolve the server name: "
 			 << SDLNet_GetError() << endl;
 		return OC_NET_ERROR;
 	}
 
+// Open the server socket
 	this->pServerSocket = SDLNet_TCP_Open(&ip);
 	if (pServerSocket == NULL) {
 		cerr << "ERROR: I couldn't connect to the server: "
@@ -304,7 +330,28 @@ Networking::Open(
 		return OC_NET_ERROR;
 	}
 
-	return OC_NET_OK;
+// Reading ACK/NCK
+	NetMessage msg;
+	OPENCITY_NET_CODE nc = OC_NET_OK;
+	if (this->Receive( &msg, sizeof(NetMessage) ) == OC_NET_OK) {
+		switch (msg.cmd) {
+		case OC_NET_ACK:
+			nc = OC_NET_CLIENT_ACCEPTED;
+			break;
+
+		case OC_NET_NCK:
+		// Close the socket
+			SDLNet_TCP_Close(this->pServerSocket);
+			this->pServerSocket = NULL;
+			nc = OC_NET_CLIENT_REJECTED;
+			break;
+
+		default:
+			nc = OC_NET_ERROR;
+		}
+	}
+
+	return nc;
 }
 
 
@@ -316,7 +363,8 @@ Networking::Close()
 	OPENCITY_NET_CODE netCode;
 
 // Send disconnect command
-	netCode = SendMessage( OC_NET_DNT, msg );
+	msg.cmd = OC_NET_DNT;
+	netCode = SendMessage( msg );
 
 // Close the socket
 	SDLNet_TCP_Close(this->pServerSocket);
@@ -328,21 +376,22 @@ Networking::Close()
 
    /*=====================================================================*/
 const OPENCITY_NET_CODE
-Networking::Close( const uint cid )
+Networking::Close( ClientIter i )
 {
-	assert( cid < this->vClient.size() );
+//	assert( i != NULL );
 
 //TODO: send the "disconnect" command to the client
 
-// Close the client socket
-	SDLNet_TCP_Close(this->vClient[cid].socket);
-	this->vClient[cid].socket = NULL;
+// Remove the socket from the set
+	(void)SDLNet_TCP_DelSocket( this->pSocketSet, (*i).socket );
 
-// Remove the client from the vector and resize the vector
-// at the same time.
-	this->vClient.erase(
-		remove(vClient.begin(), vClient.end(), vClient[cid]),
-		vClient.end());
+// Close the client socket
+	SDLNet_TCP_Close((*i).socket);
+	(*i).socket = NULL;
+
+// Erase the client from the vector
+	this->vClient.erase(i);
+//	std::remove( i, i, (*i) );
 
 	return OC_NET_OK;
 }
@@ -402,30 +451,27 @@ Networking::Send(
 
    /*=====================================================================*/
 const OPENCITY_NET_CODE
-Networking::SendMessage(
-	const OPENCITY_NET_CMD & rcCmd,
-	NetMessage & rMsg )
+Networking::SendMessage( NetMessage & rMsg )
 {
 // IF we are not connected THEN
 	if (this->pServerSocket == NULL)
 		return OC_NET_CLIENT_NOTCONNECTED;
 
-// Send the requested command to the server
-	strcpy( rMsg.cmd, OPENCITY_NET_CMD_ARRAY[rcCmd] );
-	rMsg.cmdLen = 3;
-	return this->Send( &rMsg, sizeof(rMsg) );
+// Send the message to the node
+	rMsg.dataLength = OC_NET_DATA_LENGTH;		// hack
+	return this->Send( &rMsg, sizeof(NetMessage) );
 }
 
 
    /*=====================================================================*/
 const OPENCITY_NET_CODE
 Networking::SendMessage(
-	const OPENCITY_NET_CMD & rcCmd,
 	NetMessage & rMsg,
 	const uint cid )
 {
-	assert( 0 );
-	return OC_NET_OK;
+// Send the message to the node
+	rMsg.dataLength = OC_NET_DATA_LENGTH;		// hack
+	return this->Send( &rMsg, sizeof(NetMessage), cid );
 }
 
 
@@ -448,6 +494,7 @@ Networking::Receive(
 	recv = SDLNet_TCP_Recv( this->pServerSocket, data, maxlen );
 	if (recv <= 0) {
 		OPENCITY_DEBUG("WARNING: no data received or error");
+		return OC_NET_RECVERROR;
 	}
 
 	return OC_NET_OK;
@@ -456,10 +503,24 @@ Networking::Receive(
 
    /*=====================================================================*/
 const OPENCITY_NET_CODE
+Networking::ReceiveMessage(
+	NetMessage & rMsg )
+{
+// IF we are not connected THEN
+	if (this->pServerSocket == NULL)
+		return OC_NET_CLIENT_NOTCONNECTED;
+
+// Wait for the commands sent by the server
+	return this->Receive( &rMsg, sizeof(NetMessage) );
+}
+
+
+   /*=====================================================================*/
+const OPENCITY_NET_CODE
 Networking::Receive(
-	const uint cid,
 	void* const data,
-	const uint maxlen )
+	const uint maxlen,
+	const uint cid )
 {
 	static int recv;
 
@@ -472,7 +533,6 @@ Networking::Receive(
 
 	recv = SDLNet_TCP_Recv( this->vClient[cid].socket, data, maxlen );
 	if (recv <= 0) {
-//		OPENCITY_DEBUG("WARNING: no data received or error");
 		return OC_NET_NODATA;
 	}
 

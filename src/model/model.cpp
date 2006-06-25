@@ -332,9 +332,10 @@ Model::DisplayPoly(
 void
 Model::DisplayList() const
 {
-	assert( 0 );
 	assert( this->uiOpaqueList != 0 );
 	glCallList( this->uiOpaqueList );
+	if (glIsList( this->uiAlphaList ))
+		glCallList( this->uiAlphaList );
 }
 
 
