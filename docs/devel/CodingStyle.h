@@ -1,6 +1,6 @@
 /***************************************************************************
-							CodingStyle.h    -  description
-								-------------------
+						CodingStyle.h    -  description
+							-------------------
 	begin                : nov 10th 2005
 	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
@@ -77,6 +77,8 @@ private:
 	string	_strAString;				///< A member std::string
 	int		_iAnInt;
 	uint	_uiAnotherUInt;
+	MyClass*		_pMyClass;			///< Use this
+	MyClass			*_pWrongMyClass;	///< Not this
 	OPENCITY_ENUM	_eAnEnum;
 
 

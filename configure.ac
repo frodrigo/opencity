@@ -174,6 +174,7 @@ dnl Checks for library functions.
 
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/binreloc/Makefile])
+AC_CONFIG_FILES([src/mapgen/Makefile])
 AC_CONFIG_FILES([src/mas/Makefile])
 AC_CONFIG_FILES([src/model/Makefile])
 AC_CONFIG_FILES([src/networking/Makefile])

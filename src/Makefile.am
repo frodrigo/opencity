@@ -1,4 +1,4 @@
-SUBDIRS = binreloc mas model networking simulator
+SUBDIRS = binreloc mapgen mas model networking simulator
 AM_CPPFLAGS = \
 	-I.. \
 	-I@top_srcdir@/src/binreloc/ \
@@ -12,6 +12,7 @@ AM_CPPFLAGS = \
 bin_PROGRAMS = opencity
 opencity_LDADD = \
 binreloc/libbinreloc.a \
+mapgen/libmapgen.a \
 mas/libmas.a \
 model/libmodel.a \
 networking/libnet.a \
