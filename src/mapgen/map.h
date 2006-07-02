@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -60,7 +60,7 @@ public:
 	inline uint getH() const { return _h; }
 
 	/* Return a sub-map */
-	Map *crop(
+	Map* crop(
 		const uint w,
 		const uint h ) const;
 

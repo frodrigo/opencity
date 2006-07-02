@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -35,7 +35,7 @@ Filter::~Filter()
 
 
    /*=====================================================================*/
-void Filter::apply( Map *map )
+void Filter::apply( Map* map )
 {
 }
 
@@ -48,8 +48,8 @@ void Filter::_getMinMax(
 {
 	*min = *max = map->getAt( 0, 0 );
 	
-	for( int x=0 ; x<map->getW() ; ++x )
-		for( int y=0 ; y<map->getH() ; ++y )
+	for( uint x=0 ; x<map->getW() ; ++x )
+		for( uint y=0 ; y<map->getH() ; ++y )
 		{
 			float val = map->getAt( x, y );
 			if( val < *min )

@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -57,7 +57,6 @@ void Diamon::_sub(
 {
 	uint p = map->getW() / 2;
 
-	uint c = 0;
 	/* loop en scale */
 	while( p != 0 )
 	{

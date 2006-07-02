@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -31,7 +31,7 @@ public:
 		const float max );
 	~Normalize();
 
-	void apply( Map *map );
+	void apply( Map* map );
 
 private:
 	float	_min;

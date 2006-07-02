@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -58,7 +58,7 @@ MapMaker::~MapMaker()
    /*=====================================================================*/
 void MapMaker::_generate()
 {
-	Generator *generator;
+	Generator* generator;
 	vector<Filter*> filters;
 	
 	// Select generator
@@ -94,7 +94,7 @@ void MapMaker::_generate()
 	}
 
 	// Render the map
-	Map *map = generator->render();
+	Map* map = generator->render();
 	delete generator;
 
 	// Apply filters
@@ -106,8 +106,6 @@ void MapMaker::_generate()
 
 	_map = map->crop( _w, _h );
 	delete map;
-
-	int **intMap = _map->toIntArray();
 }
 
 

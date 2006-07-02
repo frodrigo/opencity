@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -38,10 +38,10 @@ GaussBlur::~GaussBlur()
 
 
    /*=====================================================================*/
-void GaussBlur::apply( Map *map )
+void GaussBlur::apply( Map* map )
 {
 
-	Map *tMap = new Map( map->getW(), map->getH() );
+	Map* tMap = new Map( map->getW(), map->getH() );
 
 	for( uint x=0 ; x<map->getW() ; ++x )
 		for( uint y=0 ; y<map->getH() ; ++y )
@@ -77,13 +77,13 @@ float GaussBlur::_gauss(
    /*=====================================================================*/
 float *GaussBlur::_blur( const uint length )
 {
-		float *weights = new float[length*2+1];
+	float *weights = new float[length*2+1];
 	float sum = 0;
 
-	for( int x=0 ; x<length*2+1 ; ++x )
+	for( uint x=0 ; x<length*2+1 ; ++x )
 		sum += weights[x] = _gauss(x-length,length);
 
-	for( int x=0 ; x<length*2+1 ; ++x )
+	for( uint x=0 ; x<length*2+1 ; ++x )
 			weights[x] /= sum;
 
 	return weights;

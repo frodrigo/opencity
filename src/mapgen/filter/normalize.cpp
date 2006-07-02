@@ -3,7 +3,7 @@
 							-------------------
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                :
+	email                : f.rodrigo free.fr
 	
 	$Id: CodingStyle.h 5 2006-06-17 23:53:07Z neoneurone $
  ***************************************************************************/
@@ -41,7 +41,7 @@ Normalize::~Normalize()
 
 
    /*=====================================================================*/
-void Normalize::apply( Map *map )
+void Normalize::apply( Map* map )
 {
 	float min, max;
 	_getMinMax( map, &min, &max );
@@ -49,7 +49,7 @@ void Normalize::apply( Map *map )
         float a = (_max-_min) / (max-min);
 	float b = -min * a + min;
 
-	for( int x=0 ; x<map->getW() ; ++x )
-		for( int y=0 ; y<map->getH() ; ++y )
-			map->setAt( x, y, a*(map->getAt(x,y)-min)+_min );
+	for( uint x=0 ; x<map->getW() ; ++x )
+		for( uint y=0 ; y<map->getH() ; ++y )
+			map->setAt( x, y, a*map->getAt(x,y)+b );
 }
