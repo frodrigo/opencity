@@ -28,6 +28,8 @@
 #include <vector>
 using std::vector;
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 MapMaker::MapMaker(
@@ -41,6 +43,7 @@ _map(NULL)
 {
 	MAP_DEBUG( "ctor" );
 
+	srandom( time(NULL) );
 	_generate();
 }
 
@@ -109,7 +112,9 @@ void MapMaker::_generate()
 }
 
 
-int **MapMaker::getMap()
+int *MapMaker::getMap()
 {
 	return _map->toIntArray();
+}
+
 }

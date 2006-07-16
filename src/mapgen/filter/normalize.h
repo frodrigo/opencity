@@ -22,6 +22,9 @@
 
 #include "filter.h"
 
+namespace mapgen
+{
+
 /** Linear re-range of the map
 */
 class Normalize: public Filter {
@@ -38,5 +41,7 @@ private:
 	float	_max;
 
 };
+
+}
 
 #endif

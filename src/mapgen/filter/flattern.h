@@ -22,6 +22,9 @@
 
 #include "filter.h"
 
+namespace mapgen
+{
+
 /** Use a x^power function to resample the map
 */
 class Flattern: public Filter {
@@ -36,5 +39,7 @@ private:
 	float	_power;
 
 };
+
+}
 
 #endif

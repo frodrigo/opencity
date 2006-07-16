@@ -21,6 +21,7 @@
 #define _OPENCITY_MAP_H_ 1
 
 #define MAP_NDEBUG 1			// Debugging off
+#undef MAP_NDEBUG
 
 #include "main.h"				///< OpenCity specifics
 
@@ -30,6 +31,8 @@
 	#define MAP_DEBUG( msg )
 #endif
 
+namespace mapgen
+{
 
 /**
 	Float height map
@@ -65,7 +68,7 @@ public:
 		const uint h ) const;
 
 	/* Convert the private float array to an allocated int array */
-	int **toIntArray() const;
+	int *toIntArray() const;
 
 private:
 	uint	_w;
@@ -73,5 +76,7 @@ private:
 	float	**_map;
 
 };
+
+}
 
 #endif

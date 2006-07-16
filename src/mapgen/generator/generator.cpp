@@ -19,6 +19,8 @@
 
 #include "generator.h"
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 Generator::Generator()
@@ -38,4 +40,6 @@ Generator::~Generator()
 Map* Generator::render()
 {
 	return new Map( 50, 50 );
+}
+
 }

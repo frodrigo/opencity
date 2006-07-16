@@ -23,6 +23,8 @@
 
 #include <cmath>
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 Flattern::Flattern()
@@ -57,4 +59,6 @@ void Flattern::apply( Map* map )
 	for( uint x=0 ; x<map->getW() ; ++x )
 		for( uint y=0 ; y<map->getH() ; ++y )
 			map->setAt( x, y, powf((map->getAt(x,y)-min)/coef,_power)*coef+min );
+}
+
 }

@@ -21,6 +21,8 @@
 
 #include <cmath>
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 GaussBlur::GaussBlur( const uint length ):
@@ -87,4 +89,6 @@ float *GaussBlur::_blur( const uint length )
 			weights[x] /= sum;
 
 	return weights;
+}
+
 }

@@ -1,8 +1,9 @@
 SUBDIRS = binreloc mapgen mas model networking simulator
 AM_CPPFLAGS = \
-	-I.. \
+	-I@top_srcdir@/src/ \
 	-I@top_srcdir@/src/binreloc/ \
 	-I@top_srcdir@/src/mas/ \
+	-I@top_srcdir@/src/mapgen/ \
 	-I@top_srcdir@/src/model/ \
 	-I@top_srcdir@/src/networking/ \
 	-I@top_srcdir@/src/simulator/ \

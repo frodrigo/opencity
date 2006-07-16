@@ -22,6 +22,8 @@
 
 #include "generator.h"
 
+namespace mapgen
+{
 
 /** Square and diamon generator
 	- generate cyclic map
@@ -49,5 +51,7 @@ private:
 		const uint y2 );
 
 };
+
+}
 
 #endif

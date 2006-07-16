@@ -247,30 +247,26 @@ private:
 	the north-east to the north-west eadge. Finally the algorithm
 	draws from the north to the south.
 */
-	void
-	rendererDisplayTerrain() const;
+	void _DisplayTerrain() const;
 
 
 //========================================================================
 /** Draw the dotted grid. This method uses OpenGL display list inside.
 */
 	void
-	rendererDisplayMapGrid(
+	_DisplayMapGrid(
 		const Map* pcmap );
 
 
-	void
-	rendererDisplayCompass() const;
+	void _DisplayCompass() const;
 
-	void
-	rendererDisplayStatusBar() const;
+	void _DisplayStatusBar() const;
 
 
 //========================================================================
 /** Prepare the world before drawing the entire scene
 */
-	void
-	rendererPrepareView() const;
+	void _PrepareView() const;
 
 };
 

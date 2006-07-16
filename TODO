@@ -11,13 +11,15 @@ Terrain save/load feature             (done)
 City save/load feature                (experimental)
 Create MAS debug macro                (done)
 Fix the MAS 0, 0 coordinates bug      (done)
-Fix the raise/lower terrain cost
+Fix the raise/lower terrain cost      (done)
+Hospital model                        (done)
+Terrain generation                    (done)
+Trees                                 (WIP)
 Clean up the MAS library              (WIP)
 Review the agent creation process
 Review the message system
-Terrain modelling
-Hospital model
-Trees
+
+
 Convert OCM files to AC
 Convert the terrain to display list
 CodingStyle                           (WIP)

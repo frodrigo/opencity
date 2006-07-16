@@ -23,6 +23,8 @@
 #include <fstream>
 using namespace std;
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 Map::Map(
@@ -110,15 +112,13 @@ Map *Map::crop(
 
 
    /*=====================================================================*/
-int **Map::toIntArray() const
+int *Map::toIntArray() const
 {
-	int **map = new int*[_w];
+	int *map = new int[_w*_h];
 	for( uint x=0 ; x<_w ; x++ )
-	{
-		map[x] = new int[_h];
 		for( uint y=0 ; y<_h ; y++ )
-			map[x][y] = (int) round( getAt( x, y ) );
-	}
-
+			map[x+y*_w] = (int) round( getAt( x, y ) );
 	return map;
+}
+
 }

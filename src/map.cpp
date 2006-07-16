@@ -21,6 +21,8 @@
 #include "map.h"
 #include "layer.h"
 
+#include "mapmaker.h"			// Map generator
+
 
    /*=====================================================================*/
 Map::Map(
@@ -31,12 +33,17 @@ _uiMapHeight( height ),
 _pclayer( NULL )
 {
 	OPENCITY_DEBUG("ctor");
-	uint size = (width + 1) * (height + 1);
 
+	uint size = (width + 1) * (height + 1);
 	_btabSquareHeight = new OC_BYTE [ size ];
 
+	mapgen::MapMaker mapMaker = mapgen::MapMaker( width+1, height+1, mapgen::MapMaker::PLAIN );
+	int* heightMap = mapMaker.getMap();
+
 	for (uint i = 0; i < size; i++)
-		_btabSquareHeight[i] = 0;
+		_btabSquareHeight[i] = heightMap[i];
+
+	delete heightMap;
 }
 
 

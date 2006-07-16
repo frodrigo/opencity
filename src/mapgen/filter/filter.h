@@ -22,6 +22,8 @@
 
 #include "map.h"
 
+namespace mapgen
+{
 
 /** Filter abstract class/interface
 */
@@ -42,5 +44,7 @@ protected:
 		float* min,
 		float* max );
 };
+
+}
 
 #endif

@@ -799,6 +799,8 @@ void City::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
 	pctrT->uiResize( rcsSDLResizeEvent );
 	pctrZ->uiResize( rcsSDLResizeEvent );
 	pctrG->uiResize( rcsSDLResizeEvent );
+	pctrN->uiResize( rcsSDLResizeEvent );
+	pctrS->uiResize( rcsSDLResizeEvent );
 	pctrPath->uiResize( rcsSDLResizeEvent );
 	pctrMAS->uiResize( rcsSDLResizeEvent );
 }
@@ -869,7 +871,7 @@ City::_CreateGUI()
 {
 // GUI main toolcircle
 	pbtnZ = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
-	pbtnQ = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
+	pbtnS = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
 	pbtnL = new GUIButton(  20,  20, 30, 30, ocHomeDirPrefix( "graphism/gui/power" ));
 	pbtnP = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/road" ));
 	pbtnX = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/bulldozer" ));
@@ -877,11 +879,12 @@ City::_CreateGUI()
 
 	pctrMain = new GUIContainer( 100, 100, 30, 30 );
 	pctrMain->Add( pbtnZ );
-	pctrMain->Add( pbtnQ );
+	pctrMain->Add( pbtnS );
 	pctrMain->Add( pbtnL );
 	pctrMain->Add( pbtnP );
 	pctrMain->Add( pbtnX );
 	pctrMain->Add( pbtnG );
+
 
 // GUI Z toolcircle for RCI buttons
 	pbtnZB = new GUIButton( 20,  80,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
@@ -895,6 +898,7 @@ City::_CreateGUI()
 	pctrZ->Add( pbtnZC );
 	pctrZ->Add( pbtnZI );
 
+
 // GUI L toolcircle ( electric lines, electric plants )
 	pbtnLB = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 	pbtnLL = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/power_line" ));
@@ -905,17 +909,21 @@ City::_CreateGUI()
 	pctrL->Add( pbtnLL );
 	pctrL->Add( pbtnLE );
 
+
 // GUI T toolcircle ( raise, lower terrain )
 	pbtnTU = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
 	pbtnTD = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
 	pbtnTB = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 	pbtnTX = new GUIButton( 20,  80,  30, 30, ocHomeDirPrefix( "graphism/gui/destroy" ));
+	pbtnTQ = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
 
 	pctrT = new GUIContainer( 100, 100, 30, 30 );
 	pctrT->Add( pbtnTB );
 	pctrT->Add( pbtnTU );
 	pctrT->Add( pbtnTD );
 	pctrT->Add( pbtnTX );
+	pctrT->Add( pbtnTQ );
+
 
 // GUI Gouvernement toolcircle ( park, education, hospital, police and fire )
 	pbtnGB = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
@@ -925,13 +933,6 @@ City::_CreateGUI()
 	pbtnGL = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/police" ));
 	pbtnGF = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/fire" ));
 
-// debug, disable the hospital icon for the moment 
-// since we don't have the building yet
-#ifdef NDEBUG
-	pbtnGH->Unset( OC_GUIMAIN_VISIBLE );
-#endif
-
-// Add all the Governmental buttons to the G container
 	pctrG = new GUIContainer( 100, 100, 30, 30 );
 	pctrG->Add( pbtnGB );
 	pctrG->Add( pbtnGP );
@@ -939,6 +940,29 @@ City::_CreateGUI()
 	pctrG->Add( pbtnGH );
 	pctrG->Add( pbtnGL );
 	pctrG->Add( pbtnGF );
+
+
+// Create the nature container
+	pbtnNB = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnNP = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
+	pbtnNT = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
+
+	pctrN = new GUIContainer( 100, 100, 30, 30 );
+	pctrN->Add( pbtnNB );
+	pctrN->Add( pbtnNP );
+	pctrN->Add( pbtnNT );
+
+
+// Create save/load buttons and the container
+	pbtnSL = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/save_load" ));
+	pbtnSS = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/save_save" ));
+	pbtnSB = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+
+	pctrS = new GUIContainer( 100, 100, 30, 30 );
+	pctrS->Add( pbtnSB );
+	pctrS->Add( pbtnSS );
+	pctrS->Add( pbtnSL );
+
 
 // MAS toolcircle
 	pctrMAS = new GUIContainer( 100, 100, 30, 30 );
@@ -973,6 +997,18 @@ City::_DeleteGUI()
 	delete pbtnMASDemonstrator;
 	delete pbtnMASPolice;
 
+// Load/save toolcircle
+	delete pctrS;
+	delete pbtnSB;
+	delete pbtnSS;
+	delete pbtnSL;
+
+// Nature toolcircle
+	delete pctrN;
+	delete pbtnNB;
+	delete pbtnNP;
+	delete pbtnNT;
+
 // GUI G toolcircle ( park, education, hospital, police and fire )
 	delete pctrG;
 	delete pbtnGB;
@@ -988,6 +1024,7 @@ City::_DeleteGUI()
 	delete pbtnTU;
 	delete pbtnTD;
 	delete pbtnTX;
+	delete pbtnTQ;
 
 // GUI L toolcircle ( electric lines, electric plants )
 	delete pctrL;
@@ -1005,7 +1042,7 @@ City::_DeleteGUI()
 // GUI main toolcircle
 	delete pctrMain;
 	delete pbtnZ;
-	delete pbtnQ;
+	delete pbtnS;
 	delete pbtnL;
 	delete pbtnP;
 	delete pbtnX;
@@ -1035,14 +1072,6 @@ City::_DoTool(
 	OPENCITY_SWAP( w1, w2, int );
 	OPENCITY_SWAP( h1, h2, int );
 
-
-/* TOKILL, not used any more, now 2nd 05
-	int surface;
-	surface = abs((w2+1-w1) * (h2+1-h1));
-// Get the cost from the global PropertyManager
-	if (enumCurrentTool != OC_DESTROY)
-		cost = gpPropertyMgr->GetCost( enumCurrentTool );
-*/
 
 // we return if we don't have enough funds
 	if (_liCityFund < 0)
@@ -1137,6 +1166,16 @@ City::_DoTool(
 		}
 		break;
 
+	case OC_BUILD_HOSPITAL:
+		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+			BuildStructure(
+				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				OC_STRUCTURE_HOSPITALDEPT, cost )) == OC_ERR_FREE) {
+// not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
+			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+		}
+		break;
+
 	case OC_BUILD_EDUCATION:
 		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
 			BuildStructure(
@@ -1177,14 +1216,18 @@ City::_DoTool(
 //FIXME: cost
 	case OC_HEIGHT_UP:
 		enumErrCode = gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_UP );
-		if ( enumErrCode == OC_ERR_FREE )
+		if ( enumErrCode == OC_ERR_FREE ) {
 			gpRenderer->boolHeightChange = true;
+			cost = 5;		// Quick hack
+		}
 		break;
 
 	case OC_HEIGHT_DOWN:
 		enumErrCode = gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_DOWN );
-		if ( enumErrCode == OC_ERR_FREE )
+		if ( enumErrCode == OC_ERR_FREE ) {
 			gpRenderer->boolHeightChange = true;
+			cost = 5;		// Quick hack
+		}
 		break;
 
 	case OC_QUERY:
@@ -1349,9 +1392,9 @@ City::_HandleGUIClick()
 			pctr = pctrZ;
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
-		case 2: // query tool
-			enumCurrentTool = OC_QUERY;
-			_cTool = 'Q';
+		case 2: // load/save toolcircle
+			pctr = pctrS;
+			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 3:  // L button, open the L toolcircle
 			pctr = pctrL;
@@ -1371,6 +1414,8 @@ City::_HandleGUIClick()
 			break;
 
 		default: // never reached
+			OPENCITY_DEBUG( "WARNING: What's going wrong ?" );
+			assert(0);
 			break;
 	}
 
@@ -1393,8 +1438,10 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_ZONE_IND;
 			_cTool = 'I';
 			break;
+
 		default:
 			OPENCITY_DEBUG("Design error");
+			assert( 0 );
 			break;
 	}
 
@@ -1414,7 +1461,10 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_BUILD_EPLANT;
 			_cTool = 'E';
 			break;
+
 		default:
+			OPENCITY_DEBUG( "WARNING: What's going wrong ?" );
+			assert(0);
 			break;
 	}
 
@@ -1437,7 +1487,14 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_DESTROY;
 			_cTool = 'X';
 			break;
+		case 5: // query tool
+			enumCurrentTool = OC_QUERY;
+			_cTool = 'Q';
+			break;
+
 		default:
+			OPENCITY_DEBUG( "WARNING: What's going wrong ?" );
+			assert(0);
 			break;
 	}
 
@@ -1448,9 +1505,9 @@ City::_HandleGUIClick()
 			pctr = pctrMain;
 			pctr->Set( 6, OC_GUIMAIN_MOUSEOVER );
 			break;
-		case 2:  // build park
-			enumCurrentTool = OC_BUILD_PARK;
-			_cTool = '?';
+		case 2:  // nature toolcircle
+			pctr = pctrN;
+			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 3:
 			enumCurrentTool = OC_BUILD_EDUCATION;
@@ -1468,6 +1525,48 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_BUILD_FIRE;
 			_cTool = '?';
 			break;
+
+		default:
+			OPENCITY_DEBUG( "WARNING: Unknown command" );
+			assert(0);
+			break;
+	}
+
+// the user clicked on the load/save toolcircle
+	else if (pctr == pctrN)
+	switch (uiObject) {
+		case 1: // back button, open the government toolcircle
+			pctr = pctrG;
+			pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
+			break;
+		case 2:  // build park
+			enumCurrentTool = OC_BUILD_PARK;
+			_cTool = '?';
+			break;
+
+		case 3:  // build tree
+			//enumCurrentTool = OC_BUILD_TREE;
+			//_cTool = '?';
+		default:
+			OPENCITY_DEBUG( "WARNING: Unknown tool" );
+			assert(0);
+			break;
+	}
+
+// the user clicked on the load/save toolcircle
+	else if (pctr == pctrS)
+	switch (uiObject) {
+		case 1: // back button, open the main toolcircle
+			pctr = pctrMain;
+			pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
+			break;
+		case 2:  // save
+			_Save( ocHomeDirPrefix( "opencity.save" ) );
+			break;
+		case 3:  // load
+			_Load( ocHomeDirPrefix( "opencity.save" ) );
+			break;
+
 		default:
 			OPENCITY_DEBUG( "WARNING: Unknown command" );
 			assert(0);
@@ -1674,7 +1773,10 @@ City::_BuildPreview()
 				break;
 			case OC_BUILD_POLICE:
 				scode = OC_STRUCTURE_POLICEDEPT;
-				break;	
+				break;
+			case OC_BUILD_HOSPITAL:
+				scode = OC_STRUCTURE_HOSPITALDEPT;
+				break;
 			case OC_BUILD_EDUCATION:
 				scode = OC_STRUCTURE_EDUCATIONDEPT;
 				break;

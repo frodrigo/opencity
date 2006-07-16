@@ -1,10 +1,11 @@
 /***************************************************************************
-                          renderer.cpp  -  description
-        $Id$
-                             -------------------
-    begin                : jeu mai 29 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							renderer.cpp  -  description
+								-------------------
+	begin                : jeu mai 29 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -351,7 +352,7 @@ Renderer::GetSelectedWHFromLayer(
 		GLubyte rgbTab[3];
 
 	//---- prepare the world for rendering
-		this->rendererPrepareView();
+		_PrepareView();
 
 	//---- save the current ModelView matrix ----
 		glPushMatrix();
@@ -553,10 +554,10 @@ Renderer::Display(
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 //---- prepare the world for rendering
-	this->rendererPrepareView();
+	_PrepareView();
 
 // Call the private method to display the height map
-	this->rendererDisplayTerrain();
+	_DisplayTerrain();
 
 // Display all the structure
 	glTranslatef( 0., 0.05, 0. );
@@ -574,11 +575,11 @@ Renderer::Display(
 // Displays the grids of the map if the user wants it
 // it is translated up a little along the Oz axis
 	if (this->bDisplayGrid) {
-		this->rendererDisplayMapGrid( pcMap );
+		_DisplayMapGrid( pcMap );
 	}
 
 // Display the status bar
-	this->rendererDisplayStatusBar();
+	_DisplayStatusBar();
 
 	glFlush();
 
@@ -633,7 +634,7 @@ Renderer::DisplayHighlight(
 	Display( pcMap, pcLayer );
 
 // Prepare the world for rendering
-	this->rendererPrepareView();
+	_PrepareView();
 
 // Now let's display all the structures in selection mode
 	glTranslatef( 0., 0.1, 0. );
@@ -666,21 +667,25 @@ Renderer::DisplayBuildPreview(
 	const OPENCITY_GRAPHIC_CODE & gcode ) const
 {
 	static uint sw, sl, sh;
+	static int iH;
 
 // Display the graphic code
 	glTranslatef( 0., 0.15, 0. );
 	gpGraphicMgr->DisplayGC( gcode, uiW, uiL );
 
+// Get the maximum square height
+	iH = gpMapMgr->GetSquareMaxHeight( uiW, uiL );
+
 // Get the graphic code dimensions in order to draw the bounding rectangle
 	gpPropertyMgr->GetWLH( gcode, sw, 4, sl, 4, sh, 1 );
 	glEnable( GL_BLEND );
-	glTranslatef( 0., 0.10, 0. );
+	glTranslatef( .0f, 0.1f, .0f );
 	glColor4ub( rcubR, rcubG, rcubB, 64 );
 	glBegin( GL_QUADS );
-		glVertex3i( uiW,    0, uiL   );
-		glVertex3i( uiW,    0, uiL+sl );
-		glVertex3i( uiW+sw, 0, uiL+sl );
-		glVertex3i( uiW+sw, 0, uiL );
+		glVertex3i( uiW,    iH, uiL   );
+		glVertex3i( uiW,    iH, uiL+sl );
+		glVertex3i( uiW+sw, iH, uiL+sl );
+		glVertex3i( uiW+sw, iH, uiL );
 	glEnd();
 	glDisable( GL_BLEND );
 }
@@ -740,7 +745,7 @@ Renderer::DisplaySelection2(
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 // Prepare the world for rendering
-	this->rendererPrepareView();
+	_PrepareView();
 
 // Now let's display all the structures in selection mode
 	glBegin( GL_QUADS );
@@ -893,7 +898,7 @@ Renderer::GetSelectedWHFrom(
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 // Prepare the world for rendering
-	this->rendererPrepareView();
+	_PrepareView();
 
 // Now let's display all the structures in selection mode
 	linear = 0;
@@ -979,7 +984,7 @@ Renderer::SetWinSize(
 
    /*=====================================================================*/
 void
-Renderer::rendererDisplayTerrain() const
+Renderer::_DisplayTerrain() const
 {
 	static OC_BYTE tabH [4];
 	static GLfloat ax, ay, az;
@@ -1129,7 +1134,7 @@ Renderer::rendererDisplayTerrain() const
 
    /*=====================================================================*/
 void
-Renderer::rendererDisplayMapGrid( const Map* pcmap )
+Renderer::_DisplayMapGrid( const Map* pcmap )
 {
 	if (boolHeightChange == false)
 		goto displaymapgrid_return;
@@ -1192,7 +1197,7 @@ displaymapgrid_return:
 
    /*=====================================================================*/
 void
-Renderer::rendererDisplayCompass() const
+Renderer::_DisplayCompass() const
 {
 // Display a simple compass
 	glMatrixMode( GL_MODELVIEW );
@@ -1218,7 +1223,7 @@ Renderer::rendererDisplayCompass() const
 
    /*=====================================================================*/
 void
-Renderer::rendererDisplayStatusBar() const
+Renderer::_DisplayStatusBar() const
 {
 // We save the modelview matrix
 	glPushMatrix();
@@ -1232,14 +1237,14 @@ Renderer::rendererDisplayStatusBar() const
 
 // Draw the compass
 	if (this->bDisplayCompass) {
-		this->rendererDisplayCompass();
+		_DisplayCompass();
 	}
 
 // Enable alpha blending
 	glEnable( GL_BLEND );
 
 // Draw the blended status rectangle
-	glColor4f( .3, .6, .3, .3 );
+	glColor4f( .1, .1, .1, .8 );
 	glBegin( GL_QUADS );
 		glVertex2i( 0, iWinHeight );
 		glVertex2i( 0, iWinHeight-20 );
@@ -1259,7 +1264,7 @@ Renderer::rendererDisplayStatusBar() const
 
    /*=====================================================================*/
 void
-Renderer::rendererPrepareView() const
+Renderer::_PrepareView() const
 {
 // Clear the ModelView matrix
 	glMatrixMode( GL_MODELVIEW );

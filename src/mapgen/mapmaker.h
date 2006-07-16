@@ -22,6 +22,9 @@
 
 #include "map.h"
 
+namespace mapgen
+{
+
 /**
 	Map generators and filters interface
 */
@@ -40,7 +43,7 @@ public:
 
 	~MapMaker();
 
-	int **getMap();
+	int* getMap();
 
 private:
 	uint		_w;
@@ -54,5 +57,7 @@ private:
    /*=====================================================================*/
 	void _generate();
 };
+
+}
 
 #endif

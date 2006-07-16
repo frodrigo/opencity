@@ -22,6 +22,9 @@
 
 #include "map.h"
 
+namespace mapgen
+{
+
 /** Generator virtual class/interface
 */
 class Generator {
@@ -34,5 +37,7 @@ public:
 private:
 
 };
+
+}
 
 #endif

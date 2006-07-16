@@ -21,6 +21,8 @@
 
 //#include <math.h>
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 Normalize::Normalize(
@@ -46,10 +48,12 @@ void Normalize::apply( Map* map )
 	float min, max;
 	_getMinMax( map, &min, &max );
 
-        float a = (_max-_min) / (max-min);
-	float b = -min * a + min;
+	float a = (_max-_min) / (max-min);
+	float b = -min * a + _min;
 
 	for( uint x=0 ; x<map->getW() ; ++x )
 		for( uint y=0 ; y<map->getH() ; ++y )
 			map->setAt( x, y, a*map->getAt(x,y)+b );
+}
+
 }

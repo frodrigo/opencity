@@ -118,6 +118,7 @@ PropertyManager::Get(
 					value = 2000; break;
 				case OC_STRUCTURE_FIREDEPT:
 				case OC_STRUCTURE_POLICEDEPT:
+				case OC_STRUCTURE_HOSPITALDEPT:
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 1500; break;
 				case OC_STRUCTURE_ROAD:
@@ -150,6 +151,7 @@ PropertyManager::Get(
 				case OC_STRUCTURE_EPLANT_COAL:
 				case OC_STRUCTURE_FIREDEPT:
 				case OC_STRUCTURE_POLICEDEPT:
+				case OC_STRUCTURE_HOSPITALDEPT:
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 200; break;
 
@@ -175,6 +177,7 @@ PropertyManager::Get(
 					value = 20; break;
 				case OC_STRUCTURE_FIREDEPT:
 				case OC_STRUCTURE_POLICEDEPT:
+				case OC_STRUCTURE_HOSPITALDEPT:
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 15; break;
 				case OC_STRUCTURE_ROAD:
@@ -258,6 +261,9 @@ PropertyManager::GetGC(
 			break;
 		case OC_STRUCTURE_POLICEDEPT:
 			gcode = OC_POLICE_DEPT;
+			break;
+		case OC_STRUCTURE_HOSPITALDEPT:
+			gcode = OC_HOSPITAL_DEPT;
 			break;
 		case OC_STRUCTURE_EDUCATIONDEPT:
 			gcode = OC_EDUCATION_DEPT;

@@ -22,6 +22,9 @@
 
 #include "filter.h"
 
+namespace mapgen
+{
+
 /** Apply a Guass blur on the map with arbitrary precision window size
 */
 class GaussBlur: public Filter {
@@ -43,5 +46,7 @@ private:
 	static float *_blur( const uint length );
 
 };
+
+}
 
 #endif

@@ -212,15 +212,16 @@ BuildingLayer::IsConstructive(
 		w = W1;
 		while (w <= W2) {
 			switch (enumStructCode) {
-				case OC_STRUCTURE_RES:
-				case OC_STRUCTURE_IND:
-				case OC_STRUCTURE_COM:
-				case OC_STRUCTURE_PARK:
-				case OC_STRUCTURE_EPLANT_COAL:
-				case OC_STRUCTURE_FIREDEPT:
-				case OC_STRUCTURE_POLICEDEPT:
-				case OC_STRUCTURE_EDUCATIONDEPT:
-				case OC_STRUCTURE_TEST:
+			case OC_STRUCTURE_RES:
+			case OC_STRUCTURE_IND:
+			case OC_STRUCTURE_COM:
+			case OC_STRUCTURE_PARK:
+			case OC_STRUCTURE_EPLANT_COAL:
+			case OC_STRUCTURE_FIREDEPT:
+			case OC_STRUCTURE_POLICEDEPT:
+			case OC_STRUCTURE_HOSPITALDEPT:
+			case OC_STRUCTURE_EDUCATIONDEPT:
+			case OC_STRUCTURE_TEST:
 			// IF there's a structure on the square
 			// OR the square is not plane
 			// then the square is not constructive
@@ -229,8 +230,8 @@ BuildingLayer::IsConstructive(
 					return false;
 				break;
 
-				case OC_STRUCTURE_ROAD:
-				case OC_STRUCTURE_ELINE:
+			case OC_STRUCTURE_ROAD:
+			case OC_STRUCTURE_ELINE:
 			// The case of "road structure"
 			// OR "eline" is
 			// processed in a seperate method
@@ -238,9 +239,9 @@ BuildingLayer::IsConstructive(
 					return false;
 				break;
 
-				default:
-					OPENCITY_DEBUG( "Unknown structure" );
-					assert(0);
+			default:
+				OPENCITY_DEBUG( "Unknown structure" );
+				assert(0);
 				break;
 
 			}  // switch
@@ -320,6 +321,7 @@ BuildingLayer::BuildStructure(
 		case OC_STRUCTURE_EDUCATIONDEPT:
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
+		case OC_STRUCTURE_HOSPITALDEPT:
 		case OC_STRUCTURE_EPLANT_COAL:
 			errCode = _BuildWEGStructure( W1, L1, enumStructCode, rCost );
 			break;
@@ -1185,6 +1187,7 @@ BuildingLayer::_DestroyStructure(
 		case OC_STRUCTURE_TEST:
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
+		case OC_STRUCTURE_HOSPITALDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
 		case OC_STRUCTURE_EPLANT_COAL:
 		// Get the width, length and height of the main structure
@@ -1223,6 +1226,8 @@ BuildingLayer::_DestroyStructure(
 
 		default:
 			errCode = OC_ERR_SOMETHING;
+			OPENCITY_DEBUG( "WARNING: game design error" );
+			assert( 0 );
 	}
 
 	return errCode;

@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <math.h>
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 Diamon::Diamon( uint order ):
@@ -77,4 +79,6 @@ void Diamon::_sub(
 
 		p /= 2;
 	}
+}
+
 }

@@ -193,40 +193,52 @@ private:
 	GUIContainer* pctrQ;		// query tool
 	GUIContainer* pctrZ;		// zone tool
 	GUIContainer* pctrG;		// Government tool circle
+	GUIContainer* pctrN;		// Nature tool circle
+	GUIContainer* pctrS;		// Save tool circle
 
 // Main container, Z, LPX buttons
 	GUIButton* pbtnZ;		// RCI zoning tools
-	GUIButton* pbtnQ;		// query button
+	GUIButton* pbtnS;		// save/load tools
 	GUIButton* pbtnL;		// electric Line
 	GUIButton* pbtnP;		// Path
 	GUIButton* pbtnX;		// Xestroy
 	GUIButton* pbtnG;		// Government tool
 
 // RCI buttons
-	GUIButton* pbtnZB;	// zone back button
-	GUIButton* pbtnZR;	// Residential
-	GUIButton* pbtnZC;
-	GUIButton* pbtnZI;
+	GUIButton* pbtnZB;		// Back button
+	GUIButton* pbtnZR;		// Residential
+	GUIButton* pbtnZC;		// Commercial
+	GUIButton* pbtnZI;		// Industrial
 
 // EL buttons
-	GUIButton* pbtnLB;	// back button
-	GUIButton* pbtnLL;	// electric lines
-	GUIButton* pbtnLE;	// electric plant
+	GUIButton* pbtnLB;		// Back button
+	GUIButton* pbtnLL;		// Electric lines
+	GUIButton* pbtnLE;		// Electric plant
 
 // (U)p / (D)own buttons
-	GUIButton* pbtnTB;	// terrain back button
-	GUIButton* pbtnTU;	// raise terrain
-	GUIButton* pbtnTD;	// lower terrain
-	GUIButton* pbtnTX;	// destroy tool
+	GUIButton* pbtnTB;		// Back button
+	GUIButton* pbtnTU;		// Raise terrain
+	GUIButton* pbtnTD;		// Lower terrain
+	GUIButton* pbtnTX;		// Destroy tool
+	GUIButton* pbtnTQ;		// query button
 
-// (P)ark button
-	GUIButton* pbtnGB;	// government back button
-	GUIButton* pbtnGP;	// build a park
-	GUIButton* pbtnGE;	// Education department
-	GUIButton* pbtnGH;	// Hospital
-	GUIButton* pbtnGL;	// Police department
-	GUIButton* pbtnGF;	// Fire department
+// (P)ark buttons
+	GUIButton* pbtnGB;		// Back button
+	GUIButton* pbtnGP;		// Build a park
+	GUIButton* pbtnGE;		// Education department
+	GUIButton* pbtnGH;		// Hospital
+	GUIButton* pbtnGL;		// Police department
+	GUIButton* pbtnGF;		// Fire department
 
+// Nature buttons
+	GUIButton* pbtnNB;		// Back button
+	GUIButton* pbtnNP;		// Park
+	GUIButton* pbtnNT;		// Tree
+
+// Save buttons
+	GUIButton* pbtnSB;		// Back button
+	GUIButton* pbtnSS;		// Save
+	GUIButton* pbtnSL;		// Load
 
 
    /*=====================================================================*/

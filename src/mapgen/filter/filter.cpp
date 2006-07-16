@@ -19,6 +19,8 @@
 
 #include "filter.h"
 
+namespace mapgen
+{
 
    /*=====================================================================*/
 Filter::Filter()
@@ -57,4 +59,6 @@ void Filter::_getMinMax(
 			if( val > *max )
 				*max = val;
 		}
+}
+
 }

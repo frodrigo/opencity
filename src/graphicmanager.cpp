@@ -308,6 +308,7 @@ GraphicManager::DisplayStructure(
 		case OC_EPLANT_COAL_BOX:
 		case OC_FIRE_DEPT:
 		case OC_POLICE_DEPT:
+		case OC_HOSPITAL_DEPT:
 		case OC_EDUCATION_DEPT:
 			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
