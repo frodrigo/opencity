@@ -43,7 +43,6 @@ _map(NULL)
 {
 	MAP_DEBUG( "ctor" );
 
-	srandom( time(NULL) );
 	_generate();
 }
 

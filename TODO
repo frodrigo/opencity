@@ -14,7 +14,7 @@ Fix the MAS 0, 0 coordinates bug      (done)
 Fix the raise/lower terrain cost      (done)
 Hospital model                        (done)
 Terrain generation                    (done)
-Trees                                 (WIP)
+Trees                                 (done)
 Clean up the MAS library              (WIP)
 Review the agent creation process
 Review the message system

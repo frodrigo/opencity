@@ -1146,6 +1146,15 @@ City::_DoTool(
 		}
 		break;
 
+	case OC_BUILD_FLORA:
+		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+			BuildStructure(
+				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				OC_STRUCTURE_FLORA, cost )) == OC_ERR_FREE) {
+			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+		}
+		break;
+
 	case OC_BUILD_FIRE:
 		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
 			BuildStructure(
@@ -1543,10 +1552,11 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_BUILD_PARK;
 			_cTool = '?';
 			break;
-
 		case 3:  // build tree
-			//enumCurrentTool = OC_BUILD_TREE;
-			//_cTool = '?';
+			enumCurrentTool = OC_BUILD_FLORA;
+			_cTool = '?';
+			break;
+
 		default:
 			OPENCITY_DEBUG( "WARNING: Unknown tool" );
 			assert(0);
@@ -1764,10 +1774,13 @@ City::_BuildPreview()
 	
 			case OC_BUILD_EPLANT:
 				scode = OC_STRUCTURE_EPLANT_COAL;
-				break;	
+				break;
 			case OC_BUILD_PARK:
 				scode = OC_STRUCTURE_PARK;
-				break;	
+				break;
+			case OC_BUILD_FLORA:
+				scode = OC_STRUCTURE_FLORA;
+				break;
 			case OC_BUILD_FIRE:
 				scode = OC_STRUCTURE_FIREDEPT;
 				break;

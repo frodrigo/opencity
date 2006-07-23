@@ -69,7 +69,8 @@ public:
 
 
 //========================================================================
-/** Return the structure type from its structure code
+/** Return the structure type from its structure code. This is used
+for serialization.
 */
 	const OPENCITY_STRUCTURE_TYPE
 	GetST(

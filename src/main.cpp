@@ -730,6 +730,9 @@ int main(int argc, char *argv[])
 	uipCurrentUI = NULL;
 	gfMsSimDelayMax = log10((OC_FLOAT)uiCityWidth*uiCityHeight + 1) * OC_MS_GLOBAL_LOG_FACTOR;
 
+// Initialize the random number generator
+	srand( time(NULL) );
+
 // Launch either client or server mode
 	if (gboolServerMode == true)
 		returnCode = serverMode();

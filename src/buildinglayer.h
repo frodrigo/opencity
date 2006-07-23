@@ -276,6 +276,14 @@ method returns without generating any error
 
 
 	const OPENCITY_ERR_CODE
+	_BuildFloraStructure(
+		uint W1, uint L1,
+		uint W2, uint L2,
+		const OPENCITY_STRUCTURE_CODE & enumStructCode,
+		uint& rCost );
+
+
+	const OPENCITY_ERR_CODE
 	_BuildWEGStructure(
 		uint W1, uint L1,
 		const OPENCITY_STRUCTURE_CODE & enumStructCode,

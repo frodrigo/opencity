@@ -122,6 +122,7 @@ PropertyManager::Get(
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 1500; break;
 				case OC_STRUCTURE_ROAD:
+				case OC_STRUCTURE_FLORA:
 					value = 5; break;
 
 				default:
@@ -145,6 +146,7 @@ PropertyManager::Get(
 				case OC_STRUCTURE_ELINE:
 					value = 1; break;
 				case OC_STRUCTURE_ROAD:
+				case OC_STRUCTURE_FLORA:
 					value = 4; break;
 
 				case OC_STRUCTURE_PART:
@@ -181,6 +183,7 @@ PropertyManager::Get(
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 15; break;
 				case OC_STRUCTURE_ROAD:
+				case OC_STRUCTURE_FLORA:
 					value = 1; break;
 
 				default:
@@ -237,6 +240,9 @@ PropertyManager::GetGC(
 		case OC_STRUCTURE_PARK:
 			gcode = OC_PARK0;
 			break;
+		case OC_STRUCTURE_FLORA:
+			gcode = OC_TREE_BEGIN;
+			break;
 
 	// Special path type structure
 		case OC_STRUCTURE_ROAD:
@@ -291,38 +297,41 @@ PropertyManager::GetST(
 	switch (scode) {
 		case OC_STRUCTURE_RES:
 		case OC_STRUCTURE_PARK:
-			tcode = OC_STRUCTURE_RESIDENCE; break;
+			tcode = OC_TYPE_RESIDENCE; break;
 		case OC_STRUCTURE_COM:
-			tcode = OC_STRUCTURE_COMMERCE; break;
+			tcode = OC_TYPE_COMMERCE; break;
 		case OC_STRUCTURE_IND:
-			tcode = OC_STRUCTURE_INDUSTRY; break;
+			tcode = OC_TYPE_INDUSTRY; break;
 
 		case OC_STRUCTURE_EPLANT_COAL:
-			tcode = OC_STRUCTURE_ELECTRICITY; break;
+			tcode = OC_TYPE_ELECTRICITY; break;
 
 		case OC_STRUCTURE_ROAD:
 		case OC_STRUCTURE_ELINE:
-			tcode = OC_STRUCTURE_PATH; break;
+			tcode = OC_TYPE_PATH; break;
 
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
 		case OC_STRUCTURE_HOSPITALDEPT:
 		case OC_STRUCTURE_MILITARYDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
-			tcode = OC_STRUCTURE_GOVERNMENT; break;
+			tcode = OC_TYPE_GOVERNMENT; break;
+
+		case OC_STRUCTURE_FLORA:
+			tcode = OC_TYPE_TREE; break;
 
 		case OC_STRUCTURE_PART:
-			tcode = OC_STRUCTURE_UNUSEDTYPE; break;
+			tcode = OC_TYPE_UNUSED; break;
 
 	// TODO
 		case OC_STRUCTURE_UNDEFINED:
 		case OC_STRUCTURE_TEST:
 		case OC_STRUCTURE_ANY:
 		case OC_STRUCTURE_ELECTRIC:
-			tcode = OC_STRUCTURE_UNUSEDTYPE; assert( 0 ); break;
+			tcode = OC_TYPE_UNUSED; assert( 0 ); break;
 
 		default:
-			tcode = OC_STRUCTURE_UNUSEDTYPE;
+			tcode = OC_TYPE_UNUSED;
 			OPENCITY_DEBUG( "WARNING: game design error" );
 			assert( 0 );
 	}

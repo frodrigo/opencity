@@ -234,8 +234,6 @@ GraphicManager::DisplayStructure(
 		case OC_RES_ZONE7:
 		case OC_RES_ZONE8:
 		case OC_RES_ZONE9:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
-			break;
 
 		case OC_COM_ZONE0:
 		case OC_COM_ZONE1:
@@ -247,8 +245,6 @@ GraphicManager::DisplayStructure(
 		case OC_COM_ZONE7:
 		case OC_COM_ZONE8:
 		case OC_COM_ZONE9:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
-			break;
 
 		case OC_IND_ZONE0:
 		case OC_IND_ZONE1:
@@ -260,10 +256,13 @@ GraphicManager::DisplayStructure(
 		case OC_IND_ZONE7:
 		case OC_IND_ZONE8:
 		case OC_IND_ZONE9:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
-			break;
 
 		case OC_PARK0:
+		case OC_TREE_FIR:
+		case OC_TREE_007:
+		case OC_TREE_PEKINGWILLOW:
+		case OC_TREE_PINE1:
+		case OC_TREE_PINE2:
 			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
 

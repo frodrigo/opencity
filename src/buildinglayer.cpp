@@ -24,6 +24,7 @@
 #include "rcistructure.h"
 #include "wegstructure.h"
 #include "pathstructure.h"
+#include "treestructure.h"
 
 #include "guicontainer.h"
 #include "guibutton.h"
@@ -109,7 +110,7 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 	Structure* p = NULL;
 	void* t = NULL;
 	uint w = 0, l = 0, anUint = 0, linear = 0;
-	OPENCITY_STRUCTURE_TYPE type = OC_STRUCTURE_UNUSEDTYPE;		///< Structure's object type
+	OPENCITY_STRUCTURE_TYPE type = OC_TYPE_UNUSED;		///< Structure's object type
 
 // Remove the old structures
 	uint citySurface = _uiLayerHeight * _uiLayerWidth;
@@ -139,21 +140,25 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 		if (t != NULL) {
 			rfs >> anUint; rfs.ignore(); type = (OPENCITY_STRUCTURE_TYPE)anUint;
 			switch (type) {
-				case OC_STRUCTURE_RESIDENCE:
-				case OC_STRUCTURE_COMMERCE:
-				case OC_STRUCTURE_INDUSTRY:
+				case OC_TYPE_RESIDENCE:
+				case OC_TYPE_COMMERCE:
+				case OC_TYPE_INDUSTRY:
 					p = new RCIStructure();
 					break;
 
-				case OC_STRUCTURE_WATER:
-				case OC_STRUCTURE_ELECTRICITY:
-				case OC_STRUCTURE_GAS:
-				case OC_STRUCTURE_GOVERNMENT:		// hack
+				case OC_TYPE_WATER:
+				case OC_TYPE_ELECTRICITY:
+				case OC_TYPE_GAS:
+				case OC_TYPE_GOVERNMENT:		// hack
 					p = new WEGStructure();
 					break;
 
-				case OC_STRUCTURE_PATH:
+				case OC_TYPE_PATH:
 					p = new PathStructure();
+					break;
+
+				case OC_TYPE_TREE:
+					p = new TreeStructure();
 					break;
 
 				default:
@@ -216,6 +221,7 @@ BuildingLayer::IsConstructive(
 			case OC_STRUCTURE_IND:
 			case OC_STRUCTURE_COM:
 			case OC_STRUCTURE_PARK:
+			case OC_STRUCTURE_FLORA:
 			case OC_STRUCTURE_EPLANT_COAL:
 			case OC_STRUCTURE_FIREDEPT:
 			case OC_STRUCTURE_POLICEDEPT:
@@ -329,6 +335,10 @@ BuildingLayer::BuildStructure(
 		case OC_STRUCTURE_ROAD:
 		case OC_STRUCTURE_ELINE:
 			errCode = _BuildPathStructure( W1, L1, W2, L2, enumStructCode, rCost );
+			break;
+
+		case OC_STRUCTURE_FLORA:
+			errCode = _BuildFloraStructure( W1, L1, W2, L2, enumStructCode, rCost );
 			break;
 
 		default:
@@ -1018,6 +1028,51 @@ BuildingLayer::_BuildRCIStructure(
 
    /*=====================================================================*/
 const OPENCITY_ERR_CODE
+BuildingLayer::_BuildFloraStructure(
+	uint W1, uint L1,
+	uint W2, uint L2,
+	const OPENCITY_STRUCTURE_CODE & enumStructCode,
+	uint& rCost )
+{
+	OPENCITY_DEBUG( "I'm building some flora structures" );
+
+	static uint w, l;
+	static uint linearIndex;
+	static int cost;
+
+
+	OPENCITY_SWAP( W1, W2, uint );
+	OPENCITY_SWAP( L1, L2, uint );
+
+//debug testing
+//cout << "size of RCIStructure is: " << sizeof( RCIStructure ) << endl;
+
+	rCost = 0;
+	cost = gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+
+// Let's GO !
+	l = L1;
+	while (l <= L2) {
+		linearIndex = (l*_uiLayerWidth) + W1;
+		w = W1;
+		while (w <= W2) {
+			if ((_tabpStructure[ linearIndex ] == NULL)
+			 && (gpMapMgr->IsSquarePlane(w, l) == true )) {
+				_tabpStructure[ linearIndex ] = new TreeStructure(enumStructCode);
+				rCost += cost;
+			}
+			w++;
+			linearIndex++;
+		} // while w
+		l++;
+	} // while l
+
+	return (rCost > 0) ? OC_ERR_FREE : OC_ERR_SOMETHING;
+}
+
+
+   /*=====================================================================*/
+const OPENCITY_ERR_CODE
 BuildingLayer::_BuildWEGStructure(
 	uint W1, uint L1,
 	const OPENCITY_STRUCTURE_CODE & enumStructCode,
@@ -1184,6 +1239,7 @@ BuildingLayer::_DestroyStructure(
 		case OC_STRUCTURE_IND:
 
 		case OC_STRUCTURE_PARK:
+		case OC_STRUCTURE_FLORA:
 		case OC_STRUCTURE_TEST:
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
