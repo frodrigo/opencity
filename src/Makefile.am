@@ -1,4 +1,4 @@
-SUBDIRS = binreloc mapgen mas model networking simulator
+SUBDIRS = binreloc mapgen mas model networking simulator structure
 AM_CPPFLAGS = \
 	-I@top_srcdir@/src/ \
 	-I@top_srcdir@/src/binreloc/ \
@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	-I@top_srcdir@/src/model/ \
 	-I@top_srcdir@/src/networking/ \
 	-I@top_srcdir@/src/simulator/ \
+	-I@top_srcdir@/src/structure/ \
 	-DPREFIX=\"@prefix@/\"
 
 
@@ -17,7 +18,8 @@ mapgen/libmapgen.a \
 mas/libmas.a \
 model/libmodel.a \
 networking/libnet.a \
-simulator/libsim.a
+simulator/libsim.a \
+structure/libstruct.a
 
 
 if AUDIO_SDL
@@ -48,14 +50,10 @@ movementmanager.cpp \
 renderer.cpp \
 ui.cpp \
 pathfinder.cpp \
-pathstructure.cpp \
 persistence.cpp \
 propertymanager.cpp \
-rcistructure.cpp \
-structure.cpp \
 texture.cpp \
-vehicle.cpp \
-wegstructure.cpp
+vehicle.cpp
 
 
 noinst_HEADERS = \
@@ -78,15 +76,11 @@ map.h \
 movement.h \
 movementmanager.h \
 pathfinder.h \
-pathstructure.h \
 persistence.h \
 propertymanager.h \
-rcistructure.h \
 renderer.h \
-structure.h \
 texture.h \
 ui.h \
-vehicle.h \
-wegstructure.h
+vehicle.h
 
 
