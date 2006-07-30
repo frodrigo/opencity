@@ -282,7 +282,7 @@ GraphicManager::DisplayStructure(
 		case OC_ROAD_S_N_W:
 		case OC_ROAD_N_W_E:
 		case OC_ROAD_S_N_W_E:
-			tabpModel[enumGC]->Display2( rcuiW, rcuiL, tabH );
+			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
 
 	// Electric lines part

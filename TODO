@@ -1,7 +1,7 @@
 ==============================================================================
 OpenCity TODO version 0.0.4 BETA
 ----------------------------------
-$Id: TODO,v 1.58 2006/04/17 09:37:32 neoneurone Exp $
+$Id$
 
 Implement the MAS library             (done)
 MAS integration                       (done)
@@ -15,12 +15,12 @@ Fix the raise/lower terrain cost      (done)
 Hospital model                        (done)
 Terrain generation                    (done)
 Trees                                 (done)
+Convert road OCM files to AC          (done)
 Clean up the MAS library              (WIP)
 Review the agent creation process
 Review the message system
 
 
-Convert OCM files to AC
 Convert the terrain to display list
 CodingStyle                           (WIP)
 

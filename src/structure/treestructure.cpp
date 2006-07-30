@@ -5,7 +5,7 @@
 	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
-	$Id: rcistructure.cpp 4 2006-06-11 15:26:38Z neoneurone $
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

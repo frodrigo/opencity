@@ -1,6 +1,6 @@
 /***************************************************************************
                           structure.cpp  -  description
-       $Id: structure.cpp 4 2006-06-11 15:26:38Z neoneurone $
+       $Id$
                              -------------------
     begin                : june 16th, 2003
     copyright            : (C) 2003-2006 by Duong-Khang NGUYEN

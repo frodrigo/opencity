@@ -5,7 +5,7 @@
 	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
-	$Id: treestructure.h 3 2006-06-11 08:16:14Z neoneurone $
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
