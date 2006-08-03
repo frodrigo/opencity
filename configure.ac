@@ -180,6 +180,7 @@ AC_CONFIG_FILES([src/model/Makefile])
 AC_CONFIG_FILES([src/networking/Makefile])
 AC_CONFIG_FILES([src/simulator/Makefile])
 AC_CONFIG_FILES([src/structure/Makefile])
+AC_CONFIG_FILES([src/triangulation/Makefile])
 AC_CONFIG_FILES([viewer/Makefile])
 AC_CONFIG_FILES([Makefile])
 dnl AC_CONFIG_FILES([config/opencity.conf]) -> not used any more

@@ -1,4 +1,6 @@
-AM_CPPFLAGS = -I@top_srcdir@/src/
+AM_CPPFLAGS = \
+	-I@top_srcdir@/src/triangulation/ \
+	-I@top_srcdir@/src/
 
 
 noinst_LIBRARIES = libmodel.a

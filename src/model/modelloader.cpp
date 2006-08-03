@@ -22,10 +22,12 @@
 #include "ocm.h"
 #include "model.h"
 
-#include "ac3dmodel.h"		// For AC3D structure manipulation
-#include "ac3dobject.h"		// For normal calculation
+#include "ac3dmodel.h"			// For AC3D structure manipulation
+#include "ac3dobject.h"			// For normal calculation
 
-#include "texture.h"		// for texture manipulation
+#include "texture.h"			// for texture manipulation
+
+#include "star.h"				// Triangulation algorithms
 
 #include <vector>
 #include <fstream>
@@ -510,6 +512,9 @@ ModelLoader::_AC3DTextureToGL
 
    /*=====================================================================*/
 // TRIANGLES version
+//#define TRIANGULATION_TEST 1
+#undef TRIANGULATION_TEST
+#ifndef TRIANGULATION_TEST
 void
 ModelLoader::_AC3DVertexToGL
 (
@@ -630,7 +635,140 @@ process_child_objects:
 }
 
 
+   /*=====================================================================*/
+// TRIANGLES version
+#else
+void
+ModelLoader::_AC3DVertexToGL
+(
+	const string& strPath,
+	const vector<AC3DMaterial>& vMaterial,
+	const AC3DObject* const pObject,
+	const bool bProcessTranslucent
+)
+{
+	const float* loc;
+	AC3DMaterial mat;
+	vector<Vertex> vVertex;
 
+	vector<AC3DSurface*>::size_type pos, size;
+	vector<AC3DSurface*> vpSurface;
+
+	vector<AC3DObject*>::size_type posObj, sizeObj;
+	vector<AC3DObject*> vpObj;
+
+	vector<Ref>::size_type posRef, sizeRef;
+	vector<Ref> vRef;
+	Ref r1, r2, r3;
+
+// Used for normal calculation
+	Vertex v1, v2, v3, normal;
+
+// Triangulation
+	triangulation::Triangulation* triangulator = new triangulation::Star();
+	triangulation::Triangle* triangles = NULL;
+	triangulation::Vertex* triVertices = NULL;
+
+
+	assert( pObject != NULL );
+
+
+// debug, location calculation
+//cout << "in  : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
+
+	loc = pObject->GetLoc();
+	locAccu[0] += loc[0];
+	locAccu[1] += loc[1];
+	locAccu[2] += loc[2];
+
+// Does this object need alpha processing ?
+	if (pObject->IsTranslucent()) {
+		bNeedAlpha = true;
+	}
+
+// Process only objects that we are asked to do
+	if (bProcessTranslucent xor pObject->IsTranslucent())
+		goto process_child_objects;
+
+	vVertex = pObject->GetVVertex();
+	vpSurface = pObject->GetVPSurface();
+
+	size = vpSurface.size();
+	for (pos = 0; pos < size; pos++) {
+// Debug ++nbPoly;
+	// Get the material of the current surface
+		mat = vMaterial[ vpSurface[pos]->GetMat() ];
+	// Set the color of the surface with COLOR_MATERIAL enabled
+		glColor3f( mat.rgb.fR, mat.rgb.fG, mat.rgb.fB );
+//		glColor4f( 1, 1, 1, 1 );
+
+		vRef = vpSurface[pos]->GetVRef();
+		sizeRef = vRef.size();
+
+// Debug cout << "Vertex per surface: " << sizeRef << endl;
+
+		assert( sizeRef >= 3 );		// We need at least one triangle
+// Debug nbVertex += sizeRef;
+
+		triVertices = new triangulation::Vertex[sizeRef];
+
+		for (posRef = 0; posRef < sizeRef; posRef++) {
+			r1 = vRef[posRef];
+			triVertices[posRef].x = vVertex[r1.uiVertIndex].x + locAccu[0];
+			triVertices[posRef].y = vVertex[r1.uiVertIndex].y + locAccu[1];
+			triVertices[posRef].z = vVertex[r1.uiVertIndex].z + locAccu[2];
+			triVertices[posRef].texCoord.fS = r1.fTexS;
+			triVertices[posRef].texCoord.fT = r1.fTexT;
+		}
+
+		triangles = triangulator->process( sizeRef, triVertices );
+		delete triVertices;
+
+		for (posRef = 0; posRef < sizeRef-2; posRef++) {
+		// Now issue the OpenGL commands
+		//	normal = GetNormal(
+		//		triangles[posRef].a, triangles[posRef].b, triangles[posRef].c );
+		//	glNormal3f( normal.x, normal.y, normal.z );
+
+			glTexCoord2f(
+				triangles[posRef].a.texCoord.fS, triangles[posRef].a.texCoord.fT );
+			glVertex3f(
+				triangles[posRef].a.x, triangles[posRef].a.y, triangles[posRef].a.z );
+			glTexCoord2f(
+				triangles[posRef].b.texCoord.fS, triangles[posRef].b.texCoord.fT );
+			glVertex3f(
+				triangles[posRef].b.x, triangles[posRef].b.y, triangles[posRef].b.z );
+			glTexCoord2f(
+				triangles[posRef].c.texCoord.fS, triangles[posRef].c.texCoord.fT );
+			glVertex3f(
+				triangles[posRef].c.x, triangles[posRef].c.y, triangles[posRef].c.z );
+		}
+
+		delete triangles;
+
+	} // For each surface
+
+process_child_objects:
+
+// Parse all the child objects
+	vpObj = pObject->GetVPObject();
+	sizeObj = vpObj.size();
+//debug
+//cout << "kids: " << pObject->GetNumberKid() << " / objects: " << sizeObj << endl;
+	for (posObj = 0; posObj < sizeObj; posObj++) {
+		_AC3DVertexToGL( strPath, vMaterial, vpObj[posObj], bProcessTranslucent );
+	}
+
+	locAccu[0] -= loc[0];
+	locAccu[1] -= loc[1];
+	locAccu[2] -= loc[2];
+
+	delete triangulator;
+
+// debug, location calculation
+//cout << "out : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
+}
+#endif
 
 
 
