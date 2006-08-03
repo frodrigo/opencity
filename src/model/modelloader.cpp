@@ -722,7 +722,7 @@ ModelLoader::_AC3DVertexToGL
 		}
 
 		triangles = triangulator->process( sizeRef, triVertices );
-		delete triVertices;
+		delete [] triVertices;
 
 		for (posRef = 0; posRef < sizeRef-2; posRef++) {
 		// Now issue the OpenGL commands
@@ -744,7 +744,7 @@ ModelLoader::_AC3DVertexToGL
 				triangles[posRef].c.x, triangles[posRef].c.y, triangles[posRef].c.z );
 		}
 
-		delete triangles;
+		delete [] triangles;
 
 	} // For each surface
 

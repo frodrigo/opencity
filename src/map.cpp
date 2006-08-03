@@ -43,7 +43,7 @@ _pclayer( NULL )
 	for (uint i = 0; i < size; i++)
 		_btabSquareHeight[i] = heightMap[i];
 
-	delete heightMap;
+	delete [] heightMap;
 }
 
 
