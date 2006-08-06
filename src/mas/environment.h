@@ -1,11 +1,12 @@
 /***************************************************************************
-                          environment.h  -  description
-         $Id$
-                             -------------------
-    begin                : dec 11th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+						environment.h  -  description
+							-------------------
+	begin                : dec 11th 2005
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,12 +41,13 @@ direction_t rotateRight(direction_t dir);
 
 class AgentPosition
 {
-public:    
-    int x, y;
-    unsigned long step;
-    AgentPosition() : x(-1), y(-1), step(0) {}
-    AgentPosition(int xx, int yy, unsigned long xstep) : x(xx), y(yy), step(xstep) {}
-    AgentPosition(const AgentPosition &p) : x(p.x), y(p.y), step(p.step) {}
+public:
+	int x, y;
+	unsigned long step;
+
+	AgentPosition() : x(-1), y(-1), step(0) {}
+	AgentPosition(int xx, int yy, unsigned long xstep) : x(xx), y(yy), step(xstep) {}
+	AgentPosition(const AgentPosition &p) : x(p.x), y(p.y), step(p.step) {}
 };
 
 
@@ -65,8 +67,8 @@ the height of the specified Layer respectively
 */
 	Environment(unsigned int width, unsigned int height, Layer* pBL, Kernel *kernel);
 
-    unsigned int getHeight() const;
-    unsigned int getWidth() const;
+	unsigned int getHeight() const;
+	unsigned int getWidth() const;
 
 
 //========================================================================

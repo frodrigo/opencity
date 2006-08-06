@@ -2,12 +2,14 @@
 							main.cpp  -  description
 								-------------------
 	project              : OpenCity
+	codename             : Delphine
 	begin                : mer mai 28 2003
-	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	details              : this is a game project (I call it Delphine).
-							The project consists of simulating a city just
-							like xxxCity or something like that :)
+
+	details              :
+			This is a game project which targets the ultimate city
+		simulation just like like xxxCity or something like that :)
 
 	$Id$
  ***************************************************************************/

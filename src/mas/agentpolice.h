@@ -1,11 +1,12 @@
 /***************************************************************************
-                          agentpolice.h  -  description
-         $Id$
-                             -------------------
-    begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+						agentpolice.h  -  description
+							-------------------
+	begin                : nov 29th 2005
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -51,19 +52,20 @@ public:
 	virtual void output(std::ostream& os) const;
 
 protected:
-    police_state_t m_state;
-    unsigned int m_sleep;
-    unsigned int m_pursue;
-    unsigned int m_lost_pursue;
-    Agent* SeeBadGuy(direction_t dir);
-    void Look();
-    void Pursue();
-    void Collaborate();
-    void SetState(police_state_t state);
-    void NoticePursue(Agent *agent);
-    Agent* FindBadGuy(bool test_backward=true);
-    void LostPursue();
-    Agent* IsNearBadGuy();
+	police_state_t m_state;
+	unsigned int m_sleep;
+	unsigned int m_pursue;
+	unsigned int m_lost_pursue;
+	
+	Agent* SeeBadGuy(direction_t dir);
+	void Look();
+	void Pursue();
+	void Collaborate();
+	void SetState(police_state_t state);
+	void NoticePursue(Agent *agent);
+	Agent* FindBadGuy(bool test_backward=true);
+	void LostPursue();
+	Agent* IsNearBadGuy();
 
 // For collaboration and path finding
 	unsigned int m_index;
@@ -74,7 +76,7 @@ private:
    /*=====================================================================*/
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
-void followPath();
+	void followPath();
 };
 
 #endif

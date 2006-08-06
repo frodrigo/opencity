@@ -1,3 +1,7 @@
+aug 6th, 06:
+	-change: The terrain is compiled into display list
+
+
 jun 25th, 06:
 	-new: GL_ALPHA_TEST with 0.2 as value for GL_GEATER function
 	-new: Server sends ACK or NCK on client connection

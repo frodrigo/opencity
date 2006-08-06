@@ -23,7 +23,10 @@
 #define MAP_NDEBUG 1			// Debugging off
 #undef MAP_NDEBUG
 
-#include "main.h"				///< OpenCity specifics
+#include "macros.h"				///< OpenCity debug macro
+
+#include <string> 				// C++ string
+using std::string;
 
 #ifndef MAP_NDEBUG
 	#define MAP_DEBUG( msg ) OPENCITY_DEBUG( msg )

@@ -1,11 +1,12 @@
 /***************************************************************************
-                          kernel.h  -  description
-         $Id$
-                             -------------------
-    begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+						kernel.h  -  description
+							-------------------
+	begin                : nov 29th 2005
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,7 +41,7 @@ public:
 	Kernel();
 	~Kernel();
 
-    unsigned long getStep() const;
+	unsigned long getStep() const;
 
 //========================================================================
 /** The main method of the kernel. It must be called in order to execute

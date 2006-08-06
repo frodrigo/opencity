@@ -1,11 +1,12 @@
 /***************************************************************************
-                          kernel.cpp  -  description
-         $Id$
-                             -------------------
-    begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+						kernel.cpp  -  description
+							-------------------
+	begin                : nov 29th 2005
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -55,7 +56,7 @@ Kernel::~Kernel()
    /*=====================================================================*/
 unsigned long Kernel::getStep() const
 {
-    return m_step;
+	return m_step;
 }
 
 

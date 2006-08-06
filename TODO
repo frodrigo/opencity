@@ -16,13 +16,15 @@ Hospital model                        (done)
 Terrain generation                    (done)
 Trees                                 (done)
 Convert road OCM files to AC          (done)
-Clean up the MAS library              (WIP)
-Review the agent creation process
-Review the message system
+Clean up the MAS library              (done)
+Convert the terrain to display list   (done)
+Portable game save path
+Fix building resize bug
 
 
-Convert the terrain to display list
-CodingStyle                           (WIP)
+CodingStyle                           (done)
+Review the agent creation process     (0.0.5)
+Review the message system             (0.0.5)
 
 
 

@@ -1,11 +1,12 @@
 /***************************************************************************
 						agent.cpp  -  description
-		$Id$
 						-------------------
 	begin                : nov 29th 2005
 	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
+
+	$Id$
 ***************************************************************************/
 
 /***************************************************************************
@@ -99,7 +100,9 @@ Agent* Agent::lookForAgent(direction_t dir, unsigned long max_distance)
 		case EAST:  dx = 1; break;
 		case WEST:  dx = -1; break;
 	}
-	for (unsigned int step=1; step<=max_distance; step++)
+
+	uint step;
+	for (step=1; step<=max_distance; step++)
 	{
 		x += dx;
 		y += dy;

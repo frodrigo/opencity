@@ -1,11 +1,12 @@
 /***************************************************************************
-                    agentdemonstrator.cpp  -  description
-         $Id$
-                             -------------------
-    begin                : nov 29th 2005
-    copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+					agentdemonstrator.cpp  -  description
+						-------------------
+	begin                : nov 29th 2005
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,7 +23,7 @@
 #include "kernel.h"
 #include "message.h"
 
-#define MAX_TTL 15
+#define MAX_TTL 15					///< Maximum time to live
 
    /*=====================================================================*/
 AgentDemonstrator::AgentDemonstrator(Kernel& kernel, Environment& env, int x, int y):

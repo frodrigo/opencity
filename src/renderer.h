@@ -1,10 +1,11 @@
 /***************************************************************************
-                          renderer.h  -  description
-          $Id$
-                             -------------------
-    begin                : jeu mai 29 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						renderer.h  -  description
+							-------------------
+	begin                : jeu mai 29 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -67,7 +68,9 @@ public:
 	void ZoomIn(  );
 	void ZoomOut(  );
 
+/* TOKILL, unused 6 august 06
 	void SetGrid( const bool & rcbState );
+*/
 	void ToggleGrid();
 	void ToggleCompass();
 	void ToggleProjection();
@@ -184,9 +187,9 @@ public:
 
 
 //========================================================================
-/** The City class use this to notify the renderer class
-	that the height of the map has changed and the
-	current buffered informations need to be recalculated
+/** The City class use this to notify the renderer class that the 
+	height of the map has changed and the current buffered informations
+	need to be recalculated
 */
 	bool boolHeightChange;
 
@@ -206,8 +209,9 @@ private:
 
 // GL display lists
 	bool boolUseDisplayList;
-	GLuint uiGridList;
-	GLuint uiFontBase;
+	GLuint uiGridList;		///< GL list of the grid
+	GLuint uiFontBase;		///< The base font list index
+	GLuint _uiTerrainList;	///< GL list of the terrain
 
 // Terrain Texture
 	GLuint uiTerrainTex;

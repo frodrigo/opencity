@@ -43,7 +43,7 @@ bDisplayGrid( true ),
 bDisplayCompass( true ),
 bWireFrame( false ),
 ubProjectionType( OC_PERSPECTIVE ),
-boolUseDisplayList( rcboolUseDL ),
+//boolUseDisplayList( rcboolUseDL ),	// Ignored, will be removed in the future
 uiCityWidth( cityW ),
 uiCityHeight( cityH )
 {
@@ -97,10 +97,9 @@ uiCityHeight( cityH )
 		glEndList();
 	}
 
-
 // initialize few display lists
-	if (boolUseDisplayList == true)
-		uiGridList = glGenLists( 1 );
+	uiGridList = glGenLists( 1 );
+	_uiTerrainList = glGenLists( 1 );
 
 // Define the global ambient light value
 // NOTE: we declare the variables here for better readable codes
@@ -158,7 +157,11 @@ Renderer::~Renderer(  )
 
 // Destroy GL list
 	glDeleteLists( this->uiFontBase, 256 );
-	glDeleteLists( this->uiGridList, 1 );
+
+	if (glIsList( this->uiGridList ))
+		glDeleteLists( this->uiGridList, 1 );
+	if (glIsList( _uiTerrainList ))
+		glDeleteLists( _uiTerrainList, 1 );
 
 // Free the terrain texture
 	glDeleteTextures( 1, &this->uiTerrainTex );
@@ -438,11 +441,13 @@ Renderer::GetSelectedWHFromLayer(
 
 
    /*=====================================================================*/
+/* TOKILL, unused 6 august 06
 void
 Renderer::SetGrid( const bool & rcbState )
 {
 	this->bDisplayGrid = rcbState;
 }
+*/
 
 
    /*=====================================================================*/
@@ -450,6 +455,9 @@ void
 Renderer::ToggleGrid()
 {
 	this->bDisplayGrid = bDisplayGrid ? false : true;
+
+// If we turn the grid display back on, we need to update the display list
+	this->boolHeightChange = true;
 }
 
 
@@ -582,6 +590,10 @@ Renderer::Display(
 	_DisplayStatusBar();
 
 	glFlush();
+
+// The height map changes have been memorized
+// in the grid and the terrain displaylist
+	boolHeightChange = false;
 
 // GL error checking
 	static GLint glerr;
@@ -986,6 +998,9 @@ Renderer::SetWinSize(
 void
 Renderer::_DisplayTerrain() const
 {
+	if (boolHeightChange == false)
+		goto displayterrain_return;
+
 	static OC_BYTE tabH [4];
 	static GLfloat ax, ay, az;
 	static GLfloat bx, by, bz;
@@ -993,6 +1008,8 @@ Renderer::_DisplayTerrain() const
 	static GLfloat n2x, n2y, n2z;		// normal 2 coordinates
 	static int l, w;					// WARNING: yes, we use INT not UINT
 
+// Reserve a new display list for the terrain
+	glNewList( _uiTerrainList, GL_COMPILE );
 
 // WARNING: this is used to calculated the final textured fragment.
 	glColor4f( .3, .25, .2, 1. );
@@ -1129,6 +1146,10 @@ Renderer::_DisplayTerrain() const
 
 // Restore old attribs
 	glPopAttrib();
+	glEndList();
+
+displayterrain_return:
+	glCallList( _uiTerrainList );
 }
 
 
@@ -1142,9 +1163,8 @@ Renderer::_DisplayMapGrid( const Map* pcmap )
 	uint linear;
 	uint w, l;
 
-//--- don't use display list when the user doesn't want it
-	if (boolUseDisplayList == true)
-		glNewList( uiGridList, GL_COMPILE );
+// Create a new display list for the grid
+	glNewList( uiGridList, GL_COMPILE );
 
 // Enable line stipple
 	glPushAttrib( GL_ENABLE_BIT );
@@ -1182,16 +1202,10 @@ Renderer::_DisplayMapGrid( const Map* pcmap )
 // Restore the old matrix and attribs
 	glPopMatrix();
 	glPopAttrib();
-
-	if (boolUseDisplayList == true)
-		glEndList();
-
-// We have memorized the height's changes
-	boolHeightChange = false;
+	glEndList();
 
 displaymapgrid_return:
-	if (boolUseDisplayList == true)
-		glCallList( uiGridList );
+	glCallList( uiGridList );
 }
 
 
@@ -1241,6 +1255,8 @@ Renderer::_DisplayStatusBar() const
 	}
 
 // Enable alpha blending
+	glPushAttrib( GL_ENABLE_BIT );
+	glDisable( GL_LIGHTING );
 	glEnable( GL_BLEND );
 
 // Draw the blended status rectangle
@@ -1251,7 +1267,8 @@ Renderer::_DisplayStatusBar() const
 		glVertex2i( iWinWidth, iWinHeight-20 );
 		glVertex2i( iWinWidth, iWinHeight );
 	glEnd();
-	glDisable( GL_BLEND );
+//	glDisable( GL_BLEND );
+	glPopAttrib();
 
 // Restore the projection matrix
 	glPopMatrix();

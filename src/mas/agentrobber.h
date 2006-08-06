@@ -1,11 +1,12 @@
 /***************************************************************************
-                       agentrobber.h  -  description
-         $Id$
-                             -------------------
-    begin                : nov 29th 2005
-    copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+						agentrobber.h  -  description
+							-------------------
+	begin                : nov 29th 2005
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

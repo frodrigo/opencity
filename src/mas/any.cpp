@@ -1,11 +1,12 @@
 /***************************************************************************
-                           any.cpp  -  description
-         $Id$
-                             -------------------
-    begin                : nov 29th 2005
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    author               : Victor STINNER
+						any.cpp  -  description
+							-------------------
+	begin                : nov 29th 2005
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	author               : Victor STINNER
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
