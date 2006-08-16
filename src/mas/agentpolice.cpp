@@ -34,7 +34,8 @@
 
    /*=====================================================================*/
 AgentPolice::AgentPolice(Kernel& kernel, Environment& env, int x, int y):
-Agent(kernel, env, x, y, ROLE_POLICE)
+Agent(kernel, env, x, y, ROLE_POLICE),
+m_state( POLICE_LOOK )
 {
 	m_sleep = 3;
 	SetState( POLICE_LOOK );

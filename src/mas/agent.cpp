@@ -34,7 +34,7 @@ m_kernel(kernel),
 m_environment(env),
 m_x(x),
 m_y(y),
-m_role(role),    
+m_role(role),
 m_enumGC( OC_EMPTY ),				// OpenCity's specifics
 m_id(kernel.getAgentUniqId())
 {
