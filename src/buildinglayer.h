@@ -148,13 +148,13 @@ public:
 	Structure*
 	GetStructure(
 		const uint & w,
-		const uint & h ) const;
+		const uint & l ) const;
 
 
 	Structure*
 	GetRandomStructure(
 		uint & w,
-		uint & h,
+		uint & l,
 		const OPENCITY_STRUCTURE_CODE & enumStructCode = OC_STRUCTURE_UNDEFINED ) const;
 
 
@@ -211,13 +211,13 @@ public:
 	GUIContainer*
 	QueryStructure(
 		const uint & w,
-		const uint & h ) const;
+		const uint & l ) const;
 
 
 	/*------ BEGIN: attributes inherited from Layer ------*/
 //protected:
 //	uint _uiLayerWidth;
-//	uint _uiLayerHeight;
+//	uint _uiLayerLength;
 	/*------ END: attributes inherited from Layer ------*/
 
 private:

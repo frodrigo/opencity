@@ -135,13 +135,13 @@ to build the bulding.
 	virtual Structure*
 	GetStructure(
 		const uint & w,
-		const uint & h ) const = 0;
+		const uint & l ) const = 0;
 
 
 	virtual Structure*
 	GetRandomStructure(
 		uint & w,
-		uint & h,
+		uint & l,
 		const OPENCITY_STRUCTURE_CODE & enumStructCode = OC_STRUCTURE_UNDEFINED ) const = 0;
 
 
@@ -196,13 +196,13 @@ to build the bulding.
 	virtual GUIContainer*
 	QueryStructure(
 		const uint & w,
-		const uint & h ) const = 0;
+		const uint & l ) const = 0;
 
 
 
 protected:
 	uint _uiLayerWidth;
-	uint _uiLayerHeight;
+	uint _uiLayerLength;
 
    /// total derived classes
 	static uint uiNumberLayer;

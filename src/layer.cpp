@@ -36,10 +36,9 @@ GUIButton* Layer::pbtnQI;
 Layer::Layer(){
 	OPENCITY_DEBUG( "ctor" );
 
-// if called first time, create all the static variables
+// If called first time, create all the static variables
 // we do it here, because we need an initialized OpenGL context
-// if we do it on the declaration line, there will be
-// runtime errors !
+// if we do it on the declaration line, there will be runtime errors !
 	if ( Layer::uiNumberLayer++ == 0) {
 		Layer::pbtnQW = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/query_water" ));
 		Layer::pbtnQE = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/query_electricity" ));
@@ -80,7 +79,7 @@ Layer::~Layer(){
 const uint
 Layer::GetMaxLinear() const
 {
-	return _uiLayerWidth * _uiLayerHeight -1;
+	return _uiLayerWidth * _uiLayerLength -1;
 }
 
 

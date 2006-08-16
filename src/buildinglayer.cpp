@@ -45,10 +45,10 @@ BuildingLayer::BuildingLayer
 	OPENCITY_DEBUG( "ctor" );
 // initialization of width and height
 	_uiLayerWidth = rcCity.cityGetWidth();
-	_uiLayerHeight = rcCity.cityGetHeight();
+	_uiLayerLength = rcCity.cityGetHeight();
 
 // initialization of the table of pointer of Structure
-	uint citySurface = _uiLayerHeight * _uiLayerWidth;
+	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	_tabpStructure = new Structure*[citySurface];
 	for ( uint counter = 0; counter < citySurface; counter++ ) {
 		_tabpStructure[ counter ] = NULL;
@@ -62,7 +62,7 @@ BuildingLayer::~BuildingLayer()
 {
 	OPENCITY_DEBUG("dtor");
 
-	uint citySurface = _uiLayerHeight * _uiLayerWidth;
+	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	for ( uint counter = 0; counter < citySurface; counter++ ) {
 	// delete NULL pointer is allowed ?
 	// delete seems to have no effects on NULL
@@ -82,9 +82,9 @@ BuildingLayer::SaveTo( std::fstream& rfs )
 	Structure* p = NULL;
 
 	rfs << _uiLayerWidth << std::endl;
-	rfs << _uiLayerHeight << std::endl;
+	rfs << _uiLayerLength << std::endl;
 
-	uint citySurface = _uiLayerHeight * _uiLayerWidth;
+	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	for ( uint linear = 0; linear < citySurface; linear++ ) {
 		p = _tabpStructure[linear];
 
@@ -113,7 +113,7 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 	OPENCITY_STRUCTURE_TYPE type = OC_TYPE_UNUSED;		///< Structure's object type
 
 // Remove the old structures
-	uint citySurface = _uiLayerHeight * _uiLayerWidth;
+	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	for ( linear = 0; linear < citySurface; linear++ ) {
 		delete _tabpStructure[linear];
 	}
@@ -124,17 +124,17 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 
 // Read the saved size
 	rfs >> _uiLayerWidth; rfs.ignore();
-	rfs >> _uiLayerHeight; rfs.ignore();
+	rfs >> _uiLayerLength; rfs.ignore();
 
 // initialization of the table of pointer of Structure
-	citySurface = _uiLayerHeight * _uiLayerWidth;
+	citySurface = _uiLayerLength * _uiLayerWidth;
 	_tabpStructure = new Structure*[citySurface];
 	for ( linear = 0; linear < citySurface; linear++ ) {
 		_tabpStructure[linear] = NULL;
 	}
 
 // Load the structures
-	for ( l = 0; l < _uiLayerHeight; l++ )
+	for ( l = 0; l < _uiLayerLength; l++ )
 	for ( w = 0; w < _uiLayerWidth; w++ ) {
 		rfs >> t; rfs.ignore();
 		if (t != NULL) {
@@ -208,7 +208,7 @@ BuildingLayer::IsConstructive(
 	uint w;
 
 // Out of map ?
-	if ((L2 >= _uiLayerHeight) || (W2 >= _uiLayerWidth))
+	if ((L2 >= _uiLayerLength) || (W2 >= _uiLayerWidth))
 		return false;
 
 // cheking for the availability of a free room
@@ -360,20 +360,20 @@ BuildingLayer::ResizeStructure(
 	const OPENCITY_GRAPHIC_CODE & oldGC )
 {
 	uint linearIndex = (l*_uiLayerWidth) + w;
-	Structure* pStruct = NULL, *pTemp = NULL;
-	uint ow = 0, ol = 0, oh = 0;
-	uint nw = 0, nl = 0, nh = 0;
-	uint dw, dl;						// Used in the "for loop"
-	uint uiCost;
+	Structure* pStruct = NULL, * pTemp = NULL, * pMain = NULL;
+	uint ow = 0, ol = 0, oh = 0;					// Old structure dimensions
+	uint nw = 0, nl = 0, nh = 0;					// New structure dimensions
+	uint xw = 0, xl = 0, xh = 0;					// Destroyed structure dimensions
+	uint dw, dl;									// Used in the "for loop"
+	uint uiCost;									// Temp cost, necessary to call internal methods
+
 	OPENCITY_STRUCTURE_CODE structCode;
+	OPENCITY_STRUCTURE_CODE destroyedSC;			// The destroyed structure's code. It's used for rebuild
+
 
 // Get the pointer to the structure that we need to modify
 	pStruct = _tabpStructure[ linearIndex ];
 	assert( pStruct != NULL );
-	if ( pStruct == NULL ) {
-		assert( 0 );
-		return OC_ERR_SOMETHING;
-	}
 
 // IF the graphic code has not changed THEN it's okay
 	if ( oldGC == pStruct->GetGraphicCode() )
@@ -413,21 +413,32 @@ BuildingLayer::ResizeStructure(
 		linearIndex = (dl*_uiLayerWidth) + w;
 		for (dw = w; dw < w + nw; dw++) {
 			pTemp = _tabpStructure[ linearIndex ];
-			if (pTemp != pStruct) {
-			// IF there is something AND it's not the structure we're working on THEN
-				if (pTemp != NULL) {
-				// IF this structure is not part of the resized structure
-				// THEN remove it and build a new part
-					if (pTemp->GetMain() != pStruct) {
-						_DestroyStructure( dw, dl, uiCost );
-						pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
-						_tabpStructure[ linearIndex ] = pTemp;
-					}
-				}
-				else {
-				// There is nothing here, let's build a new structure's part
-					pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
-					_tabpStructure[ linearIndex ] = pTemp;
+
+		// IF there is nothing here, THEN build a new part
+			if (pTemp == NULL) {
+				pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
+				_tabpStructure[ linearIndex ] = pTemp;
+			}
+		// ELSE IF there is something 
+		// AND it's not the current structure
+		// AND it's not the current structure's part neither THEN remove it
+			else if (pTemp != pStruct and pTemp->GetMain() != pStruct) {
+			// Remember the structure which is going to be destroyed
+				if (pTemp->GetCode() == OC_STRUCTURE_PART)
+					pMain = pTemp->GetMain();
+				else
+					pMain = pTemp;
+
+				destroyedSC = pMain->GetCode();
+				gpPropertyMgr->GetWLH( pMain->GetGraphicCode(), xw, 0, xl, 0, xh, 0 );
+
+				_DestroyStructure( dw, dl, uiCost );
+				pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
+				_tabpStructure[ linearIndex ] = pTemp;
+
+				// Rebuild the neighbourhood
+				if (xw > 1 or xl > 1) {
+					BuildStructure( dw, dl, dw + xw-1, dl + xl-1, destroyedSC, uiCost );
 				}
 			}
 			pTemp->Set( OC_STRUCTURE_MARK );
@@ -516,7 +527,7 @@ BuildingLayer::GetRandomStructure(
 // OC_CHANCE_COUNTER_MAX = 100
 	counter = 0;
 	do {
-		linear = rand() % (_uiLayerWidth*_uiLayerHeight);
+		linear = rand() % (_uiLayerWidth*_uiLayerLength);
 		pstruct = GetLinearStructure(linear);
 		if (pstruct != NULL)
 			if ((pstruct->GetCode() == enumStructCode)
@@ -550,7 +561,7 @@ void
 BuildingLayer::StructureSet(
 	const OC_BYTE & status )
 {
-	uint citySurface = _uiLayerHeight * _uiLayerWidth;
+	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	for ( uint counter = 0; counter < citySurface; counter++ ) {
 		if (_tabpStructure[ counter ] != NULL)
 			_tabpStructure[ counter ]->Set( status );
@@ -563,7 +574,7 @@ void
 BuildingLayer::StructureUnset(
 	const OC_BYTE & status )
 {
-	uint citySurface = _uiLayerHeight * _uiLayerWidth;
+	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	for ( uint counter = 0; counter < citySurface; counter++ ) {
 		if (_tabpStructure[ counter ] != NULL)
 			_tabpStructure[ counter ]->Unset( status );
@@ -712,10 +723,10 @@ BuildingLayer::ContainStructureOnly(
 GUIContainer*
 BuildingLayer::QueryStructure(
 	const uint & w,
-	const uint & h ) const
+	const uint & l ) const
 {
 	GUIContainer* pcontainer = new GUIContainer( 100, 100, 50, 50 );
-	Structure* pstruct = _tabpStructure[ h*_uiLayerWidth + w ];
+	Structure* pstruct = _tabpStructure[ l*_uiLayerWidth + w ];
 	OPENCITY_COLOR red = { 255, 0, 0, 255 };
 	OPENCITY_COLOR green = { 0, 255, 0, 255 };
 
