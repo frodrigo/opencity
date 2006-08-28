@@ -21,6 +21,8 @@ Convert the terrain to display list   (done)
 Fix building resize bug               (done)
 Fix simulator value
 Portable game save path
+Fix vehicle display bug
+Fix splash display bug                (done)
 
 
 CodingStyle                           (done)

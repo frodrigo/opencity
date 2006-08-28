@@ -301,8 +301,8 @@ cityrun_swap:
 	gpMoveMgr->Move();
 	gpMoveMgr->Display();
 
-// Testing the MAS's environment
-	gpEnvironment->displayAgent();
+// FIXME: buggy MAS environment
+//	gpEnvironment->displayAgent();
 
 // display the current container
 	pctr->Display();

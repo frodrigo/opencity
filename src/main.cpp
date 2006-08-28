@@ -555,21 +555,23 @@ int clientMode()
 		displayStatus( "Almost done...");
 // debug SDL_Delay( 5000 );
 
+	// FIXME: buggy MAS
+	/*
 	// Create the necessary classes for the Multi-Agent System
 		gpKernel = new Kernel();
 		gpEnvironment = new Environment(
 			uiCityWidth, uiCityHeight, pNewCity->GetLayer( BUILDING_LAYER ), gpKernel );
 
-	// Testing Mas
 		new AgentPolice(*gpKernel, *gpEnvironment, 1, 2);
     	new AgentPolice(*gpKernel, *gpEnvironment, 3, 4);
 		new AgentDemonstrator(*gpKernel, *gpEnvironment, 4, 2);
+	*/
 
 		while (!boolQuit) {
 		// running the city at the LAST_SPEED (default parameter)
 			ocProcessSDLEvents();
 			pNewCity->Run();
-			gpKernel->live();
+			//gpKernel->live();
 
 #undef OC_PRINT_FPS
 #ifndef OC_PRINT_FPS
@@ -588,6 +590,9 @@ int clientMode()
 			SDL_Delay( guiMsPerFrame );
 #endif
 		}
+
+		//delete gpEnvironment;
+		//delete gpKernel;
 	}
 
 

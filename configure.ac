@@ -27,7 +27,7 @@ dnl ===========================================================================
 SDL_VERSION=1.2.9
 
 AC_LANG_C
-AM_PATH_SDL($SDL_VERSION)
+AM_PATH_SDL($SDL_VERSION, , AC_MSG_ERROR([SDL version $SDL_VERSION not found]))
 
 
 dnl ===========================================================================

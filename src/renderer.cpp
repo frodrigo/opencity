@@ -44,13 +44,14 @@ bDisplayCompass( true ),
 bWireFrame( false ),
 ubProjectionType( OC_PERSPECTIVE ),
 //boolUseDisplayList( rcboolUseDL ),	// Ignored, will be removed in the future
-uiCityWidth( cityW ),
-uiCityHeight( cityH )
+_uiSplashTex( 0 ),
+_uiCityWidth( cityW ),
+_uiCityLength( cityH )
 {
 	OPENCITY_DEBUG( "Renderer ctor" );
 
-// Load the terrain texture
-	uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
+// Load frequently used textures
+	_uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
 
 // Initialize the window's size, the viewport
 // and set the perspective's ratio
@@ -163,8 +164,9 @@ Renderer::~Renderer(  )
 	if (glIsList( _uiTerrainList ))
 		glDeleteLists( _uiTerrainList, 1 );
 
-// Free the terrain texture
-	glDeleteTextures( 1, &this->uiTerrainTex );
+// Free textures
+	glDeleteTextures( 1, &_uiTerrainTex );
+	glDeleteTextures( 1, &_uiSplashTex );
 }
 
 
@@ -502,12 +504,12 @@ Renderer::ToggleWireFrame()
 void
 Renderer::DisplaySplash(
 	const uint & rcuiX,
-	const uint & rcuiY ) const
+	const uint & rcuiY )
 {
-	GLuint uiSplash;
-	uint w, h;
+	static uint w, h;
 
-	uiSplash = Texture::Load( ocHomeDirPrefix( "graphism/gui/splash.png"), w, h );
+	if (!glIsTexture(_uiSplashTex))
+		_uiSplashTex = Texture::Load( ocHomeDirPrefix( "graphism/gui/splash.png"), w, h );
 
 // Store and translate the splash to the specified OpenGL coordinates
 	glPushAttrib( GL_ENABLE_BIT );
@@ -516,7 +518,7 @@ Renderer::DisplaySplash(
 //	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); already choosen
 	glEnable( GL_TEXTURE_2D );
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
-	glBindTexture( GL_TEXTURE_2D, uiSplash );
+	glBindTexture( GL_TEXTURE_2D, _uiSplashTex );
 
 	glPushMatrix();
 	glLoadIdentity();
@@ -572,8 +574,8 @@ Renderer::Display(
 	linear = 0;
 // IF the graphic manager is created THEN draw
 	if (gpGraphicMgr != NULL)
-	for (l = 0; l < (int)this->uiCityHeight; l++) {
-		for (w = 0; w < (int)this->uiCityWidth; w++) {
+	for (l = 0; l < (int)_uiCityLength; l++) {
+		for (w = 0; w < (int)_uiCityWidth; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear++ );
 			if (pStructure != NULL)
 				gpGraphicMgr->DisplayStructure( pStructure, w, l );
@@ -613,12 +615,9 @@ Renderer::DisplayHighlight(
 	const OPENCITY_TOOL_CODE & enumTool )
 {
 	DisplayHighlight(
-		pcMap,
-		pcLayer,
-		0,
-		0,
-		this->uiCityWidth-1,
-		this->uiCityHeight-1,
+		pcMap, pcLayer,
+		0, 0,
+		_uiCityWidth-1, _uiCityLength-1,
 		enumTool );
 }
 
@@ -651,7 +650,7 @@ Renderer::DisplayHighlight(
 // Now let's display all the structures in selection mode
 	glTranslatef( 0., 0.1, 0. );
 	for (l = uiL1; l <= uiL2; l++) {
-		linear = l*this->uiCityWidth + uiW2;
+		linear = l*_uiCityWidth + uiW2;
 		for (w = uiW1; w <= uiW2; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear );
 		// display the correction structure/terrain
@@ -710,12 +709,9 @@ Renderer::DisplaySelection(
 	const Layer* pcLayer )
 {
 	DisplaySelection(
-		pcMap,
-		pcLayer,
-		0,
-		0,
-		this->uiCityWidth-1,
-		this->uiCityHeight-1 );
+		pcMap, pcLayer,
+		0, 0,
+		_uiCityWidth-1, _uiCityLength-1 );
 }
 
 
@@ -762,7 +758,7 @@ Renderer::DisplaySelection2(
 // Now let's display all the structures in selection mode
 	glBegin( GL_QUADS );
 	linear = 0;
-	for (l = 0; l < this->uiCityHeight; l++) {
+	for (l = 0; l < this->uiCityLength; l++) {
 		for (w = 0; w < this->uiCityWidth; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear );
 		// display the correction structure/terrain
@@ -843,10 +839,8 @@ Renderer::GetSelectedWHFrom(
 		ruiL,
 		pcMap,
 		pcLayer,
-		0,
-		0,
-		this->uiCityWidth-1,
-		this->uiCityHeight-1 );
+		0, 0,
+		_uiCityWidth-1, _uiCityLength-1 );
 }
 
 
@@ -914,8 +908,8 @@ Renderer::GetSelectedWHFrom(
 
 // Now let's display all the structures in selection mode
 	linear = 0;
-	for (l = 0; l < this->uiCityHeight; l++) {
-		for (w = 0; w < this->uiCityWidth; w++) {
+	for (l = 0; l < _uiCityLength; l++) {
+		for (w = 0; w < _uiCityWidth; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear );
 		// display the correction structure/terrain
 		// with "linear" as objectID
@@ -954,8 +948,8 @@ Renderer::GetSelectedWHFrom(
 			}
 		}
 //debug // cout << "Min depth: " << uiDepthMin << endl;
-		ruiL = id / uiCityWidth;
-		ruiW = id % uiCityWidth;
+		ruiL = id / _uiCityWidth;
+		ruiW = id % _uiCityWidth;
 		return true;
 	}
 
@@ -1017,7 +1011,7 @@ Renderer::_DisplayTerrain() const
 // Enable terrain texturing
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_TEXTURE_2D );
-	glBindTexture( GL_TEXTURE_2D, this->uiTerrainTex );
+	glBindTexture( GL_TEXTURE_2D, _uiTerrainTex );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -1031,7 +1025,7 @@ Renderer::_DisplayTerrain() const
 */
 	glBegin( GL_TRIANGLE_STRIP );
 
-	for (l = 0; l < (int)this->uiCityHeight; l++) {
+	for (l = 0; l < (int)_uiCityLength; l++) {
 	// IF we draw the squares from left to right THEN
 		if (l % 2 == 0) {
 		// Get the 4 heights of the current square
@@ -1053,7 +1047,7 @@ Renderer::_DisplayTerrain() const
 			glTexCoord2i( w, l+1 );
 			glVertex3i( w, tabH[1], l+1 );
 
-			for (w = 1; w < (int)this->uiCityWidth; w++) {
+			for (w = 1; w < (int)_uiCityWidth; w++) {
 			// Get the 4 heights of the current square
 				gpMapMgr->GetSquareHeight( w, l, tabH );
 			// draw the stuff
@@ -1088,7 +1082,7 @@ Renderer::_DisplayTerrain() const
 		// WARNING: repeated codes as above ================================
 		// We draw the square from right to left
 		// Get the 4 heights of the current square
-			w = this->uiCityWidth-1;
+			w = _uiCityWidth-1;
 			gpMapMgr->GetSquareHeight( w, l, tabH );
 
 		// calculate the new normal 1 (the cross product)
@@ -1107,7 +1101,7 @@ Renderer::_DisplayTerrain() const
 			glTexCoord2i( w+1, l+1 );
 			glVertex3i( w+1, tabH[2], l+1 );
 
-			for (w = this->uiCityWidth-2; w >= 0; w--) {
+			for (w = _uiCityWidth-2; w >= 0; w--) {
 		// Get the 4 heights of the current square
 				gpMapMgr->GetSquareHeight( w, l, tabH );
 		// draw the stuff
@@ -1180,21 +1174,21 @@ Renderer::_DisplayMapGrid( const Map* pcmap )
 
 //--- horizontal lines ---
 	linear = 0;
-	for (l = 0; l <= this->uiCityHeight; l++) {
+	for (l = 0; l <= _uiCityLength; l++) {
 		glBegin( GL_LINE_STRIP );
-		for (w = 0; w <= this->uiCityWidth; w++) {
+		for (w = 0; w <= _uiCityWidth; w++) {
 			glVertex3s( w, pcmap->GetLinearHeight( linear++ ), l );
 		}
 		glEnd();
 	}
 
 //--- vertical lines ---
-	for (w = 0; w <= this->uiCityWidth; w++) {
+	for (w = 0; w <= _uiCityWidth; w++) {
 		glBegin( GL_LINE_STRIP );
 		linear = w;
-		for (l = 0; l <= this->uiCityHeight; l++) {
+		for (l = 0; l <= _uiCityLength; l++) {
 			glVertex3s( w, pcmap->GetLinearHeight( linear ), l );
-			linear += this->uiCityWidth + 1;
+			linear += _uiCityWidth + 1;
 		}
 		glEnd();
 	}

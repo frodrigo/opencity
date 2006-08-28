@@ -82,7 +82,7 @@ public:
 	void
 	DisplaySplash(
 		const uint & rcuiX = 0,
-		const uint & rcuiY = 0 ) const;
+		const uint & rcuiY = 0 );
 
 
 //========================================================================
@@ -213,8 +213,9 @@ private:
 	GLuint uiFontBase;		///< The base font list index
 	GLuint _uiTerrainList;	///< GL list of the terrain
 
-// Terrain Texture
-	GLuint uiTerrainTex;
+// Frequently use textures
+	GLuint _uiTerrainTex;	///< Terrain texture
+	GLuint _uiSplashTex;	///< Splash texture
 
 
 /** Contains the X value for the translation of the layer. It is used by
@@ -236,8 +237,8 @@ private:
 	int iWinWidth;
 
 /// The city width & height
-	uint uiCityWidth;
-	uint uiCityHeight;
+	uint _uiCityWidth;
+	uint _uiCityLength;
 
 /// pointer to the screen SDL display surface
 	SDL_Surface* psurfaceScreen;
