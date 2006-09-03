@@ -17,6 +17,28 @@
  *                                                                         *
  ***************************************************************************/
 
+//========================================================================
+/* General development notes.
+
+	Here are the default OpenGL values when the renderer is initialized
+for the first time
+	- Default matrix mode:
+		glMatrixMode( GL_MODELVIEW );
+
+	- Default color mode:
+		glEnable( GL_COLOR_MATERIAL );
+
+	- Default blending function:
+		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
+	- Default shade mode:
+		glShadeMode( GL_FLAT );
+
+	- Default structure display translation vector:
+		glTranslatef( 0., 0.05, 0. );
+*/
+//========================================================================
+
 #include "renderer.h"
 
 #include "layer.h"
@@ -570,6 +592,7 @@ Renderer::Display(
 	_DisplayTerrain();
 
 // Display all the structure
+	glPushMatrix();
 	glTranslatef( 0., 0.05, 0. );
 	linear = 0;
 // IF the graphic manager is created THEN draw
@@ -581,6 +604,7 @@ Renderer::Display(
 				gpGraphicMgr->DisplayStructure( pStructure, w, l );
 		}
 	}
+	glPopMatrix();
 
 // Displays the grids of the map if the user wants it
 // it is translated up a little along the Oz axis
@@ -648,6 +672,7 @@ Renderer::DisplayHighlight(
 	_PrepareView();
 
 // Now let's display all the structures in selection mode
+	glPushMatrix();
 	glTranslatef( 0., 0.1, 0. );
 	for (l = uiL1; l <= uiL2; l++) {
 		linear = l*_uiCityWidth + uiW2;
@@ -664,6 +689,7 @@ Renderer::DisplayHighlight(
 			++linear;
 		}
 	}
+	glPopMatrix();
 }
 
 
@@ -679,6 +705,9 @@ Renderer::DisplayBuildPreview(
 {
 	static uint sw, sl, sh;
 	static int iH;
+
+// Save the current model view matrix
+	glPushMatrix();
 
 // Display the graphic code
 	glTranslatef( 0., 0.15, 0. );
@@ -699,6 +728,9 @@ Renderer::DisplayBuildPreview(
 		glVertex3i( uiW+sw, iH, uiL );
 	glEnd();
 	glDisable( GL_BLEND );
+
+// Restore the model view matrix
+	glPopMatrix();
 }
 
 
@@ -1281,7 +1313,6 @@ Renderer::_PrepareView() const
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 
-	
 // Translate & rotate the map to create an view angle
 	if ( ubProjectionType == OC_PERSPECTIVE ) {
 		glRotated( 35, 1., .0, .0 );

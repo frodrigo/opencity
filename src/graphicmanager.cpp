@@ -539,7 +539,8 @@ GraphicManager::Display(
 
 	glPushMatrix();
 // Rotation translation compensation
-	glTranslatef( rcfW+pm->_fTX, rcfH+pm->_fTY, rcfL+pm->_fTZ );
+// The 0.05 value is the display translation vector of the other structures
+	glTranslatef( rcfW+pm->_fTX, rcfH+pm->_fTY+0.05, rcfL+pm->_fTZ );
 	glRotatef( pm->_fRY, 0, 1, 0 );			// Model rotation
 	glRotatef( pm->_fRX, 1, 0, 0 );			// Slope
 	glRotatef( pm->_fRZ, 0, 0, 1 );

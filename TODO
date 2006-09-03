@@ -19,10 +19,12 @@ Convert road OCM files to AC          (done)
 Clean up the MAS library              (done)
 Convert the terrain to display list   (done)
 Fix building resize bug               (done)
-Fix simulator value
-Portable game save path
-Fix vehicle display bug
+Fix vehicle display bug               (done)
 Fix splash display bug                (done)
+Fix simulator value
+Hunt and fix load/save bug
+Portable game save path
+
 
 
 CodingStyle                           (done)

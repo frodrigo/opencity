@@ -20,7 +20,9 @@ jun 10th, 06:
 	-chg: Source tree has been moved to SVN
 
 
-jan 24th, 06:
+
+
+jan 24th, 06: ======>  OpenCity 0.0.3 stable released  <=====
 	-fix: near plan in the orthogonal mode
 
 
@@ -144,7 +146,9 @@ sep 20th, 04:
 	-add: GetBool
 
 
-sep 10th, 04:
+
+
+sep 10th, 04: ======>  OpenCity 0.0.2 stable released  <=====
 	-add: road slope
 
 
@@ -307,76 +311,67 @@ feb 25th, 04
 	-add   : command-line option --no-dl: no display list
 
 
-feb 21th, 04 (OpenCity 0.0.1 stable released)
----------------------------------------------
+
+
+feb 21th, 04 ======>  OpenCity 0.0.1 stable released  <=====
 	-change: low CPU usage, 0% in some case !
 	-add   : classic orthogonal projection mode, 'o' key
 
 
 feb 8th, 04
------------
-        -fixed: E sim processes the R zones first
-        -add: use GL_DEPTH_TEST, wow it works perfectly :-)
-        -add: use SDL_ttf which is really CPU hungry
-        -add: "configure" now understands "--enable-gprof"
-        -add: tiny status bar
+	-fixed: E sim processes the R zones first
+	-add: use GL_DEPTH_TEST, wow it works perfectly :-)
+	-add: use SDL_ttf which is really CPU hungry
+	-add: "configure" now understands "--enable-gprof"
+	-add: tiny status bar
 
 
 feb 3rd, 04
-------------
-        -RCI simulators 0.0.1 done
-        -files suffix ".hxx" now are ".h"
-        -KDevelop sucks ! Let's use the old KWrite
+	-RCI simulators 0.0.1 done
+	-files suffix ".hxx" now are ".h"
+	-KDevelop sucks ! Let's use the old KWrite
 
 
 jan 30th, 04
-------------
-        -clean up Renderer, GraphicManager, Layer, BuildingLayer classes
-        -road, electric lines added
+	-clean up Renderer, GraphicManager, Layer, BuildingLayer classes
+	-road, electric lines added
 
 
 jan 25th, 04
-------------
-        -added "Map" class
-        -"layer" now use std::map for storing the built structures
-        -class "Square" will be removed in the near future
-        -cell's height is now handle by the "Map" class
-        -new, but slow and CPU hungry method for getting selected W,H
+	-added "Map" class
+	-"layer" now use std::map for storing the built structures
+	-class "Square" will be removed in the near future
+	-cell's height is now handle by the "Map" class
+	-new, but slow and CPU hungry method for getting selected W,H
 
 
 jan 20th, 04
-------------
-        -zoom in/out implemented
-        -cleaning ups few classes
-        -height up ?
+	-zoom in/out implemented
+	-cleaning ups few classes
+	-height up ?
 
 
 jan 16th, 04
-------------
-        -better keys handling, user can now translate the map in the
+	-better keys handling, user can now translate the map in the
 up-right direction by pressing both up and right at the same time
 for example.
 
 
 dec 27th, 03
-------------
-        -added: "audiomanager". It can read M3U list and produce stereo
+	-added: "audiomanager". It can read M3U list and produce stereo
 sound, terrible ! :-)
 
 
 dec 13th, 03
-------------
-        -document and clean up "graphicmanager" and "renderer"
+	-document and clean up "graphicmanager" and "renderer"
 
 
 dec 9th, 03
-------------
-        -cleaned up the class "renderer"
+	-cleaned up the class "renderer"
 
 
 dec 8th, 03
-------------
-        -new version of "rendererGetSelectedWHFromLayer" which works by
+	-new version of "rendererGetSelectedWHFromLayer" which works by
 dividing the map size by 2 (hence, the map surface by 4). It runs smoothly
 and can deal with a 4000x4000 map. With the old method, it takes up to thirdty
 seconds or more on my 2,4Ghz laptop (DRI activated in AGP4x speed) to
@@ -384,47 +379,42 @@ calculate the selected WH !
 
 
 dec 7th, 03
-------------
-        -a little bit of "experimental" codes were inserted in order to
+	-a little bit of "experimental" codes were inserted in order to
 fast render a big big map. The renderer now considers a row of same structures
 as a big rectangular polygon instead of multiple seperate squares.
 
 
 dec 6th, 03
-------------
-        -graphicmanagerDisplaySelection modified, it now supports up to
+	-graphicmanagerDisplaySelection modified, it now supports up to
 16777216 differents object. Have you ever seen a 4096x4096 unit^2 map ? :-D
-        -speed up graphicmanagerDisplaySelection
-        -improved City::uiMouseButton, don't update the screen if the mouse
+	-speed up graphicmanagerDisplaySelection
+	-improved City::uiMouseButton, don't update the screen if the mouse
 doesn't move -> save CPU
-        -press ALT to multiply the translation and the rotation affects by 10
-        -"configure" now checks for SDL, GL, and GLU library
-        -"configure" now understands "--with-gl-prefix" (default=/usr/X11R6)
+	-press ALT to multiply the translation and the rotation affects by 10
+	-"configure" now checks for SDL, GL, and GLU library
+	-"configure" now understands "--with-gl-prefix" (default=/usr/X11R6)
 
 
 nov 30th, 03
-------------
-        -fix right mouse button (RMB) dragging
-        -Ctrl or dragging out of map cancel zoning
+	-fix right mouse button (RMB) dragging
+	-Ctrl or dragging out of map cancel zoning
 
 
 nov 29th, 03
-------------
-        -move the defines from main.hxx to the appropriate classes
-        -added zone COM, and IND (just for fun, no simulation yet)
+	-move the defines from main.hxx to the appropriate classes
+	-added zone COM, and IND (just for fun, no simulation yet)
+
 
 nov 15th, 03
-------------
-        -replace OPENCITY_* "defines" by OC_*. Macros and enums still have the
+	-replace OPENCITY_* "defines" by OC_*. Macros and enums still have the
 same prefix.
 
 
 nov 12th, 03
-------------
-        -clean up the Square class
-        -clean up the Structure class
-        -clean up the Layer class
-        -clean up the WEGStructure class
-        -clean up the PathStructure class
-        -clean up the RCIStructure class
-        
+	-clean up the Square class
+	-clean up the Structure class
+	-clean up the Layer class
+	-clean up the WEGStructure class
+	-clean up the PathStructure class
+	-clean up the RCIStructure class
+

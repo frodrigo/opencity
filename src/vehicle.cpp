@@ -122,10 +122,11 @@ Vehicle::Start()
 	_fCurrentW = destCurrent._uiW;
 	_fCurrentL = destCurrent._uiL;
 	_fCurrentH = destCurrent._iHMin;
+/*
 	OPENCITY_DEBUG( "W: " << destCurrent._uiW << " / L: " << destCurrent._uiL <<
 					"/ H: " << _fCurrentH << " / delta: " << _fDeltaH <<
 					"/ Min: " << destCurrent._iHMin << " / Max: " << destCurrent._iHMax );
-
+*/
 	_CalculateDelta();
 }
 
@@ -154,9 +155,11 @@ Vehicle::_CalculateDelta()
 	// Set the slope according to the next destination
 		SetSlope( this->destCurrent, destNext );
 
+/*
 		OPENCITY_DEBUG( "W: " << destCurrent._uiW << " / L: " << destCurrent._uiL <<
 						"/ H: " << _fCurrentH << " / delta: " << _fDeltaH <<
 						"/ Min: " << destCurrent._iHMin << " / Max: " << destCurrent._iHMax );
+*/
 	}
 	else {
 		this->uiFramePerUnit = OC_VEHICLE_DEFAULT_SPEED;
