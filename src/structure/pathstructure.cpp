@@ -67,8 +67,8 @@ PathStructure::SaveTo( std::fstream& rfs )
 {
 	Structure::SaveTo( rfs );
 
-	rfs << ubNumberNeighbour << std::endl;
-	rfs << ubTraffic << std::endl;
+	rfs << (uint)ubNumberNeighbour << std::ends;
+	rfs << (uint)ubTraffic << std::ends;
 }
 
 
@@ -77,9 +77,10 @@ void
 PathStructure::LoadFrom( std::fstream& rfs )
 {
 	Structure::LoadFrom( rfs );
+	uint temp = 0;
 
-	rfs >> ubNumberNeighbour; rfs.ignore();
-	rfs >> ubTraffic; rfs.ignore();
+	rfs >> temp; rfs.ignore(); ubNumberNeighbour = (OC_UBYTE)temp; 
+	rfs >> temp; rfs.ignore(); ubTraffic		 = (OC_UBYTE)temp; 
 }
 
 

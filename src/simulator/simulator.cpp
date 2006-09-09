@@ -71,8 +71,8 @@ Simulator::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
-	rfs << _iVariation << std::endl;
-	rfs << _iValue << std::endl;
+	rfs << _iVariation << std::ends;
+	rfs << _iValue << std::ends;
 }
 
 

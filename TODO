@@ -21,15 +21,29 @@ Convert the terrain to display list   (done)
 Fix building resize bug               (done)
 Fix vehicle display bug               (done)
 Fix splash display bug                (done)
+Fix save/load character ignoring bug  (done)
+Fix save/load stream buffer misuse    (done)
+Multi plateform save file format      (done)
+Menu shadow
 Fix simulator value
-Hunt and fix load/save bug
-Portable game save path
+Multi plateform save/load path
+Hunt and fix save/load bug
 
 
 
-CodingStyle                           (done)
-Review the agent creation process     (0.0.5)
-Review the message system             (0.0.5)
+==============================================================================
+OpenCity TODO version 0.0.5 BETA
+----------------------------------
+Review the agent creation process
+Review the message system
+Tree micro simulator
+Water structures: pipe, pump, tower models
+Water micro simulator
+Rail structures: rail road, train models
+Crime
+Police agent system
+Minimap
+ZeN online map loading
 
 
 
@@ -38,15 +52,12 @@ Planed for future version
 -------------------------
 Subdivide map for better performance  (0.0.3 +)
 Settings GUI                          (0.0.3 +)
-Hospital
 Help system
 Internationalization
 Zone density
 Sea-port
 Air-port
-Water
 Gas
-Rail-road
 Highway
 Subway
 Arcologies
@@ -56,7 +67,6 @@ Rendering plugins:
         Snow, rain, fall, night
 Event plugin:
         French attitude ...
-
 
 
 
@@ -162,6 +172,7 @@ DIY cool sound effects ;)             (done)
 Review GUIButton algo                 (done)
 Remove pcMap from graphicmanager      (done)
 OCM texture aware                     (done)
+
 
 
 ==============================================================================

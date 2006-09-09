@@ -61,14 +61,14 @@ Map::~Map()
 void
 Map::SaveTo( std::fstream& rfs )
 {
-	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving...");
+	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << " saving...");
 
-	rfs << _uiMapWidth << endl;
-	rfs << _uiMapHeight << endl;
+	rfs << _uiMapWidth << std::ends;
+	rfs << _uiMapHeight << std::ends;
 	uint size = (_uiMapWidth + 1) * (_uiMapHeight + 1);
 
 	for (uint i = 0; i < size; i++)
-		rfs << _btabSquareHeight[i];
+		rfs << (uint)_btabSquareHeight[i] << std::ends;
 }
 
 
@@ -84,8 +84,11 @@ Map::LoadFrom( std::fstream& rfs )
 
 	delete [] _btabSquareHeight;
 	_btabSquareHeight = new OC_BYTE [size];
-	for (uint i = 0; i < size; i++)
-		rfs >> _btabSquareHeight[i];
+	uint temp = 0;
+	for (uint i = 0; i < size; i++) {
+		rfs >> temp; rfs.ignore();
+		_btabSquareHeight[i] = (OC_BYTE)temp;
+	}
 }
 
 

@@ -184,12 +184,12 @@ City::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
-	rfs << _liCityFund << std::endl;
-	rfs << _uiDay << std::endl;
-	rfs << _uiMonth << std::endl;
-	rfs << _uiYear << std::endl;
-	rfs << _uiWidth << std::endl;
-	rfs << _uiHeight << std::endl;
+	rfs << _liCityFund << std::ends;
+	rfs << _uiDay << std::ends;
+	rfs << _uiMonth << std::ends;
+	rfs << _uiYear << std::ends;
+	rfs << _uiWidth << std::ends;
+	rfs << _uiHeight << std::ends;
 }
 
 

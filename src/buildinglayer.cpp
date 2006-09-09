@@ -80,22 +80,26 @@ BuildingLayer::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 	Structure* p = NULL;
+	uint w = 0, l = 0, linear = 0;
 
-	rfs << _uiLayerWidth << std::endl;
-	rfs << _uiLayerLength << std::endl;
+	rfs << _uiLayerWidth << std::ends;
+	rfs << _uiLayerLength << std::ends;
 
-	uint citySurface = _uiLayerLength * _uiLayerWidth;
-	for ( uint linear = 0; linear < citySurface; linear++ ) {
-		p = _tabpStructure[linear];
+	for ( l = 0; l < _uiLayerLength; l++ )
+	for ( w = 0; w < _uiLayerWidth; w++ ) {
+// debug
+//		rfs << w << " " << l << std::endl;
+
+		p = _tabpStructure[linear++];
 
 	// We save only extra information for main structures
 		if ((p != NULL) && (p->GetMain() != NULL)) {
 			p = NULL;
 		}
-		rfs << p << std::endl;
+		rfs << p << std::ends;
 
 		if (p != NULL) {
-			rfs << p->GetType() << std::endl;
+			rfs << p->GetType() << std::ends;
 			p->SaveTo( rfs );
 		}
 	} // for
@@ -133,10 +137,19 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 		_tabpStructure[linear] = NULL;
 	}
 
+// debug
+//	uint wt = 0, lt = 0;
+
 // Load the structures
 	for ( l = 0; l < _uiLayerLength; l++ )
 	for ( w = 0; w < _uiLayerWidth; w++ ) {
+// debug
+//		rfs >> wt; rfs.ignore();
+//		rfs >> lt; rfs.ignore();
+
 		rfs >> t; rfs.ignore();
+//		OPENCITY_DEBUG( "Current w/l: " << w << " / " << l << " | Reading w/l/t: " << wt << " / " << lt << " / " << t );
+
 		if (t != NULL) {
 			rfs >> anUint; rfs.ignore(); type = (OPENCITY_STRUCTURE_TYPE)anUint;
 			switch (type) {

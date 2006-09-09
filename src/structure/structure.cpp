@@ -106,11 +106,11 @@ Structure::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
-	rfs << _eGC << std::endl;
-	rfs << _eSC << std::endl;
-	rfs << _eType << std::endl;
-	rfs << _uiStatus << std::endl;
-	rfs << _uiLevel << std::endl;
+	rfs << _eGC << std::ends;
+	rfs << _eSC << std::ends;
+	rfs << _eType << std::ends;
+	rfs << _uiStatus << std::ends;
+	rfs << _uiLevel << std::ends;
 }
 
 
@@ -119,7 +119,7 @@ void
 Structure::LoadFrom( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
-	uint t;
+	uint t = 0;
 
 	rfs >> t; rfs.ignore(); _eGC = (OPENCITY_GRAPHIC_CODE)t;
 	rfs >> t; rfs.ignore(); _eSC = (OPENCITY_STRUCTURE_CODE)t;
