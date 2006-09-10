@@ -556,7 +556,7 @@ int clientMode()
 	}
 	else {
 	// set the window's caption
-		SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
+		SDL_WM_SetCaption( PACKAGE " " VERSION, ocHomeDirPrefix("graphism/icon/OpenCity32.ico").c_str() );
 		displayStatus( "Almost done...");
 // debug SDL_Delay( 5000 );
 
@@ -672,7 +672,7 @@ char* findSaveDir()
 	if(SUCCEEDED(
 		SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, NULL, 0, szPath)
 		)) {
-		ret = malloc( strlen(szPath) + 1 );
+		ret = (char*)malloc( strlen(szPath) + 1 );
 		strcpy( ret, szPath );
 	}
 #endif
@@ -723,12 +723,19 @@ int readConfig()
 	if (gsSaveDir == "") {
 		pTemp = findSaveDir();
 		gsSaveDir = pTemp;
-		gsSaveDir += "/.OpenCity/";
 		free(pTemp);
 #ifndef WIN32
+		gsSaveDir += "/.OpenCity/";
 		mkdir( gsSaveDir.c_str(), 0755 );
 #else
-		mkdir( gsSaveDir.c_str() );
+	// Win32 uses \ as directory separtor
+		gsSaveDir += "\\OpenCity\\";
+        CreateDirectory( gsSaveDir.c_str(), NULL );		
+    // Replace \ by /
+	    string::size_type pos;
+	    while ( (pos = gsSaveDir.find( '\\' )) != gsSaveDir.npos ) {
+		    gsSaveDir.replace( pos, 1, "/" );
+		}
 #endif
 	}
 

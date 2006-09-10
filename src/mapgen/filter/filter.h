@@ -20,7 +20,7 @@
 #ifndef _OPENCITY_FILTER_H_
 #define _OPENCITY_FILTER_H_ 1
 
-#include "map.h"
+#include "../map.h"			// ../ because of silly DevCpp
 
 namespace mapgen
 {

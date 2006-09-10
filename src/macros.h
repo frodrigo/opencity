@@ -57,6 +57,11 @@ using std::cerr;
 			c = a; a = b; b = c;\
 		}\
 	}
+	
+// uint for unsigned int
+   #ifndef uint
+       typedef unsigned int uint;
+   #endif
 
 
 #endif

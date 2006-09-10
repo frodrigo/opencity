@@ -39,7 +39,7 @@ Structure( enumStructCode )
 {
 	OPENCITY_DEBUG( "ctor param" );
 
-	_eGC = OPENCITY_GRAPHIC_CODE(OC_TREE_BEGIN + random() % (OC_TREE_END - OC_TREE_BEGIN + 1));
+	_eGC = OPENCITY_GRAPHIC_CODE(OC_TREE_BEGIN + rand() % (OC_TREE_END - OC_TREE_BEGIN + 1));
 //	_eGC = gpPropertyMgr->GetGC( enumStructCode );
 	_eType = gpPropertyMgr->GetST( enumStructCode );
 }

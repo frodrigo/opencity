@@ -24,6 +24,9 @@
 #include <string>
 #include <sstream>
 
+#ifndef uint
+	typedef unsigned int uint;
+#endif
 
 namespace AC3D {
 

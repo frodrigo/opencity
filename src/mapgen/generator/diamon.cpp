@@ -45,7 +45,7 @@ Map* Diamon::render()
    /*=====================================================================*/
 float Diamon::_all( const uint p )
 {
-	return ((float)random())/RAND_MAX * p * 2 - p;
+	return ((float)rand())/RAND_MAX * p * 2 - p;
 }
 
 
