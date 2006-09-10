@@ -29,6 +29,7 @@
 class GUIContainer;					///< Forward class declaration
 
 
+//========================================================================
 /** Here is the description of the class.
 This is the second line of the description.
 	\author Duong-Khang NGUYEN

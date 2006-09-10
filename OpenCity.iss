@@ -1,8 +1,13 @@
+; ------------------------------------------------------------------------------
 ; -- OpenCity.iss --
+;
+; Last modified:
+;	$Id$
+; ------------------------------------------------------------------------------
 
 [Setup]
 AppName=OpenCity
-AppVerName=OpenCity 0.0.3 stable
+AppVerName=OpenCity 0.0.4 beta
 AppPublisherURL=http://opencity.sourceforge.net
 AppCopyright=Copyright © 2006 Duong-Khang (neoneurone) NGUYEN
 DefaultDirName={pf}\OpenCity
@@ -25,7 +30,7 @@ Source: "texture\*"; DestDir: "{app}\share\opencity\texture"
 Source: "README.txt"; DestDir: "{app}"; Flags: isreadme
 
 [Icons]
-Name: "{group}\OpenCity 0.0.3stable"; Filename: "{app}\bin\opencity.exe"; Parameters: "--homedir ""{app}\share\opencity"""; WorkingDir: "{app}\share\opencity"
+Name: "{group}\OpenCity 0.0.4beta"; Filename: "{app}\bin\opencity.exe"; Parameters: "--homedir ""{app}\share\opencity"""; WorkingDir: "{app}\share\opencity"
 Name: "{group}\FAQ"; Filename: "{app}\share\opencity\docs\FAQ.txt"
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}";
 

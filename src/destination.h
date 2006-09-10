@@ -25,8 +25,8 @@
 
 //========================================================================
 /** It's just a simple class which contains the informations about the
-	OC W,L coordinates, in which direction it is and how many OC kms
-	it is far away.
+OC W,L coordinates, in which direction it is and how many OC kms
+it is far away. Do not use pointers here !
 */
 class Destination {
 public:

@@ -65,35 +65,47 @@ MovementManager::Add(
 
 
    /*=====================================================================*/
-Movement* const
+void
 MovementManager::Remove(
-	const uint & rcuiIndex )
+	const int ciIndex )
 {
-	Movement* pRemoved = tabmvt[ rcuiIndex ];
-	tabmvt[ rcuiIndex ] = NULL;
+// IF the user has specified the index of the element
+// THEN only remove that element
+	if ((ciIndex > -1) && (ciIndex < OC_MOVEMENT_MAX )) {
+		if (tabmvt[ ciIndex ] != NULL) {
+			delete tabmvt[ ciIndex ];
+			tabmvt[ ciIndex ] = NULL;
+		}
+		return;
+	}
 
-   // WARNING: pRemoved is not deleted !
-	return pRemoved;
+// ELSE remove all the contained movement
+	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
+		if (tabmvt[ i ] != NULL) {
+			delete tabmvt[ i ];
+			tabmvt[ i ] = NULL;
+		}
+	}
 }
 
 
    /*=====================================================================*/
 void
 MovementManager::Move(
-	const int & rciIndex )
+	const int ciIndex )
 {
-   // if the user has specified the index of the element
-   // then only call that element
-	if ((rciIndex > -1) && (rciIndex < OC_MOVEMENT_MAX )) {
-		if (tabmvt[ rciIndex ] != NULL)
-		if (tabmvt[ rciIndex ]->Move() == false) {
-			delete tabmvt[ rciIndex ];
-			tabmvt[ rciIndex ] = NULL;
+// IF the user has specified the index of the element
+// THEN only call that element
+	if ((ciIndex > -1) && (ciIndex < OC_MOVEMENT_MAX )) {
+		if (tabmvt[ ciIndex ] != NULL)
+		if (tabmvt[ ciIndex ]->Move() == false) {
+			delete tabmvt[ ciIndex ];
+			tabmvt[ ciIndex ] = NULL;
 		}
 		return;
 	}
 
-   // move all the contained movement
+// ELSE move all the contained movement
 	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
 		if (tabmvt[ i ] != NULL)
 		if (tabmvt[ i ]->Move() == false) {
@@ -107,21 +119,21 @@ MovementManager::Move(
    /*=====================================================================*/
 void
 MovementManager::Display(
-	const int & rciIndex )
+	const int ciIndex )
 {
-   // if the user has specified the index of the element
-   // then only call that element
-	if ((rciIndex > -1) && (rciIndex < OC_MOVEMENT_MAX )) {
-		if (tabmvt[ rciIndex ] != NULL)
+// IF the user has specified the index of the element
+// THEN only call that element
+	if ((ciIndex > -1) && (ciIndex < OC_MOVEMENT_MAX )) {
+		if (tabmvt[ ciIndex ] != NULL)
 			this->pcGraphicMgr->Display(
-				tabmvt[ rciIndex ]->_fCurrentW,
-				tabmvt[ rciIndex ]->_fCurrentL,
-				tabmvt[ rciIndex ]->_fCurrentH,
-				tabmvt[ rciIndex ] );
+				tabmvt[ ciIndex ]->_fCurrentW,
+				tabmvt[ ciIndex ]->_fCurrentL,
+				tabmvt[ ciIndex ]->_fCurrentH,
+				tabmvt[ ciIndex ] );
 		return;
 	}
 
-   // move all the contained movement
+// ELSE display all the contained movement
 	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
 		if (tabmvt[ i ] != NULL)
 			this->pcGraphicMgr->Display(

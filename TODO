@@ -8,7 +8,6 @@ MAS integration                       (done)
 Review the debug macros               (done)
 Reduce the number of threads          (done)
 Terrain save/load feature             (done)
-City save/load feature                (experimental)
 Create MAS debug macro                (done)
 Fix the MAS 0, 0 coordinates bug      (done)
 Fix the raise/lower terrain cost      (done)
@@ -24,9 +23,11 @@ Fix splash display bug                (done)
 Fix save/load character ignoring bug  (done)
 Fix save/load stream buffer misuse    (done)
 Multi plateform save file format      (done)
+Remove moving vehicles while loading  (done)
+City save/load feature                (experimental)
+Multi plateform save/load path        (experimental)
 Menu shadow
 Fix simulator value
-Multi plateform save/load path
 Hunt and fix save/load bug
 
 

@@ -1,15 +1,22 @@
 ------------------------------------------------------------------------------
-OpenCity's README (version 0.0.4beta)
+README for OpenCity 0.0.4beta
 ------------------------------------------------------------------------------
 Last modified:
 	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
+
+Audience:
+	# End-users:
+		You can find a lot of useful information in this file. So read it !
+	# Packagers:
+		This file contains useful information about command line options.
+		For compilation and installation notes please refer to the
+		INSTALL file.
 
 Description:
 	This is just another city simulation. The idea is simple: you have
 to build a city with 3 types of "zones" Residential, Commercial and
 Industrial. They depend on each other during their development.
 Try to give them what they need and watch your city growing up.
-
 
 
 ------------------------------------------------------------------------------
@@ -205,6 +212,17 @@ on your machine
 	Launch the server version of OpenCity. Type Ctrl-C to quit. If you 
 want to test the server on your computer, launch another OpenCity without
 "--server" then type 't' to connect to the local OpenCity server.
+
+
+
+------------------------------------------------------------------------------
+Save/Load issues
+------------------------------------------------------------------------------
+	The following directory is used for save/load
+		GNU/Linux:
+			$HOME/.OpenCity/
+		Windows:
+			C:\Documents and Settings\username\Application Data\.OpenCity\
 
 
 

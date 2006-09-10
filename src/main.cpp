@@ -1,6 +1,6 @@
 /***************************************************************************
-							main.cpp  -  description
-								-------------------
+						main.cpp  -  description
+							-------------------
 	project              : OpenCity
 	codename             : Delphine
 	begin                : mer mai 28 2003
@@ -44,15 +44,19 @@
 #include "binreloc.h"			// BinReloc routines from AutoPackage
 
 #include <cmath>				// For log10
+#include <cstdlib>				// For getenv
 
 
 
    /*=====================================================================*/
    /*                           LOCAL     MACROS                          */
    /*=====================================================================*/
+#ifndef WIN32
+	#include <sys/stat.h>		// mkdir
+#else
 // Win32 specifics
-#ifdef WIN32
-    #define PREFIX "C:/Program Files"
+	#include <shlobj.h>			// Windows shell technologies
+	#define PREFIX "C:/Program Files"
 #endif
 
 // Window's settings
@@ -81,8 +85,8 @@
 	bool gboolFullScreen		= false;
 	bool gboolServerMode		= false;
 	uint uiCityWidth			= OC_CITY_W;
-	uint uiCityHeight		= OC_CITY_H;
-	uint guiMsPerFrame		= OC_MS_PER_FRAME;
+	uint uiCityHeight			= OC_CITY_H;
+	uint guiMsPerFrame			= OC_MS_PER_FRAME;
 	uint guiVideoBpp			= OC_WINDOW_BPP_DEFAULT;
 	OC_FLOAT gfMsSimDelayMax;
 	string gsZenServer;
@@ -124,6 +128,7 @@
 
 /// Static so that the others can not access this
 	static string gsHomeDir		= "";
+	static string gsSaveDir		= "";
 
 
 
@@ -640,9 +645,51 @@ void printCopyright() {
 
 
    /*=====================================================================*/
-/** Read the OpenCity's main config file "opencity.conf"
+/** Return the save directory.
+	\return The pointer to the absolute directory. The caller must free
+the pointer if it's not used anymore.
+*/
+char* findSaveDir()
+{
+	char* ret = NULL;
 
-@return 0 if OK, -1 otherwise
+#ifndef WIN32
+// Get the home directory from the environment variable
+	char* env = getenv("HOME");
+	if (env != NULL) {
+		ret = (char*)malloc( strlen(env) + 1 );
+		strcpy( ret, env );
+	}
+#else
+// Find the directory: "C:\Documents and Settings\username\Application Data"
+// Required shell DLL version: 5.0 or later
+// header: shlobj.h
+// lib: shell32.lib ?
+// dll: shell32.dll
+
+	TCHAR szPath[MAX_PATH];
+	
+	if(SUCCEEDED(
+		SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, NULL, 0, szPath)
+		)) {
+		ret = malloc( strlen(szPath) + 1 );
+		strcpy( ret, szPath );
+	}
+#endif
+
+// The required save directory does not exist, use the current directory
+	if (ret == NULL) {
+		ret = (char*)malloc( 2 );
+		strcpy( ret, "." );
+	}
+
+	return ret;
+}
+
+
+   /*=====================================================================*/
+/** Read the OpenCity's main config file "opencity.conf"
+	\return 0 if OK, -1 otherwise
 */
 int readConfig()
 {
@@ -671,6 +718,20 @@ int readConfig()
 			formatHomeDir();
 		}
 	}
+
+// IF the save directory is not set the find it
+	if (gsSaveDir == "") {
+		pTemp = findSaveDir();
+		gsSaveDir = pTemp;
+		gsSaveDir += "/.OpenCity/";
+		free(pTemp);
+#ifndef WIN32
+		mkdir( gsSaveDir.c_str(), 0755 );
+#else
+		mkdir( gsSaveDir.c_str() );
+#endif
+	}
+
 
 // Now try to open the config file then read it
 	OPENCITY_INFO( 
@@ -759,6 +820,13 @@ ocHomeDirPrefix( const string & s )
 	return gsHomeDir + s;
 }
 
+
+   /*=====================================================================*/
+string
+ocSaveDirPrefix( const string & s )
+{
+	return gsSaveDir + s;
+}
 
 
 

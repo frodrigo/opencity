@@ -1,12 +1,27 @@
--------------------------------------------
-INSTALL instructions for OpenCity 0.0.3beta
--------------------------------------------
-Last modified on june 11th, 06
+------------------------------------------------------------------------------
+INSTALL/COMPILE instructions for OpenCity 0.0.4beta
+------------------------------------------------------------------------------
+Last modified:
+	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
+
+Audience:
+	# GNU/Linux end-users:
+		Read this if you are trying to compile OpenCity from sources.
+	# Windows end-users:
+		Do not read this file !
+	# Packagers:
+		This file contains installation and compilation instructions. It also
+		discusses about the portability of OpenCity. You are invited to
+		use autopackage binary for GNU/Linux and InnoSetup for 
+		Windows systems.
 
 
-Open a console and type at the prompt the following
-commands in order to install OpenCity on your
-computer:
+------------------------------------------------------------------------------
+INSTALL on GNU/Linux
+------------------------------------------------------------------------------
+Extract the sources or go to the root source directory if you've downloaded
+the sources from SVN. Then open a console and type at the prompt the
+following commands in order to install OpenCity on your computer:
 
 
 	mkdir obj
@@ -16,20 +31,40 @@ computer:
 	make install
 
 
-In case you don't have a configure script, the following
-command will creat one:
+Refer to the configure help file for more information about the configure's
+options. In case you don't have a configure script, the following command
+will creat one:
 
 
 	./autogen.sh
 
 
-When the installation procedure have finished, you
-can launch OpenCity from command-line with the
-instruction below:
+When the installation procedure have finished, you can launch OpenCity
+from command-line with the instruction below:
 
 
 	opencity
 
 
-Have fun !
+That's all, folks !
+
+
+------------------------------------------------------------------------------
+PACKAGE on GNU/Linux
+------------------------------------------------------------------------------
+Use the autopackage system.
+
+	http://www.autopackage.org
+
+
+------------------------------------------------------------------------------
+PACKAGE on GNU/Linux
+------------------------------------------------------------------------------
+Use the InnoSetup system. There's already the InnoSetup configuration file
+called "OpenCity.iss" at the source root.
+
+	http://www.innosetup.com
+
+
+Gook luck !
 Duong-Khang (neoneurone) NGUYEN.

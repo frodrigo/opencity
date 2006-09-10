@@ -127,11 +127,21 @@ class UI;
    /*=====================================================================*/
    /*                       GLOBAL       FUNCTIONS                        */
    /*=====================================================================*/
-/**
-	Prefix the specified path s with the home directory
+
+//========================================================================
+/** Prefix the specified path "s" with the data home directory
 	\param s The path to be prefixed
+	\return The modified path
 */
 	string ocHomeDirPrefix( const string & s );
+
+
+//========================================================================
+/** Prefix the specified path "s" with the save directory
+	\param s The path to be prefixed
+	\return The modified path
+*/
+	string ocSaveDirPrefix( const string & s );
 
 
    /*=====================================================================*/

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          trafficsim.cpp  -  description
-       $Id$
+						trafficsim.cpp  -  description
                              -------------------
-    begin                : sam mai 01 2004
-    copyright            : (C) 2003-2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+	begin                : sam mai 01 2004
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -168,8 +169,7 @@ void TrafficSim::trafficsimNewVehicle(
 	// buses prefer short distance
 		if ( iRandom == Vehicle::VEHICLE_BUS) {
 			this->ppf->findShortestPath(
-				w, h,
-				w2, h2,
+				w, h, w2, h2,
 				vdest,
 				PathFinder::OC_DISTANCE );
 		}
@@ -177,8 +177,7 @@ void TrafficSim::trafficsimNewVehicle(
 		else if ( (iRandom == Vehicle::VEHICLE_SPORT)
 		       || (iRandom == Vehicle::VEHICLE_STD) ) {
 			this->ppf->findShortestPath(
-				w, h,
-				w2, h2,
+				w, h, w2, h2,
 				vdest,
 				PathFinder::OC_TRAFFIC );
 		}

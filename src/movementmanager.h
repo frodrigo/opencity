@@ -1,10 +1,11 @@
 /***************************************************************************
-                          movementmanager.h  -  description
-    $Id$
-                             -------------------
-    begin                : dim mai 16 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							movementmanager.h  -  description
+								-------------------
+	begin                : dim mai 16 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -29,9 +30,10 @@ class Movement;
 class GraphicManager;
 class Map;
 
-   //========================================================================
-   /** Offer a simple way to handle all the moving stuff
-   */
+
+//========================================================================
+/** Offer a simple way to handle all the moving stuff
+*/
 class MovementManager {
 public:
 	MovementManager(
@@ -44,17 +46,28 @@ public:
 	Add(
 		Movement* const pNew );
 
-	Movement* const
-	Remove(
-		const uint & rcuiIndex );
 
+//========================================================================
+/** Explicitly remove the specified or all the movement object from the
+manager. The removed objects are destroyed by calling "delete" on them.
+*/
+	void
+	Remove(
+		const int ciIndex = -1);
+
+
+//========================================================================
+/** Send the move order to the specified or all the movement object.
+The object which can not move anymore is removed from the manager and
+destroyed automatically by calling "delete" on it.
+*/
 	void
 	Move(
-		const int & rciIndex = -1 );
+		const int ciIndex = -1 );
 
 	void
 	Display(
-		const int & rciIndex = - 1 );
+		const int ciIndex = - 1 );
 
 
 private:

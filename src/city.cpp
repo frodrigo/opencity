@@ -1,10 +1,11 @@
 /***************************************************************************
-                          city.cpp  -  description
-          $Id$
-                             -------------------
-    begin                : mer mai 28 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							city.cpp  -  description
+								-------------------
+	begin                : mer mai 28 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -297,7 +298,8 @@ cityrun_swap:
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
 	gpRenderer->DisplayText( 650, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
-// testing pathfinding, displaying vehicle
+// Send the movement manager the move order 
+// then display all the contained movements
 	gpMoveMgr->Move();
 	gpMoveMgr->Display();
 
@@ -513,11 +515,11 @@ void City::uiKeyboard(
 
 	// Save and load
 		case SDLK_F2:
-			_Save( ocHomeDirPrefix( "opencity.save" ) );
+			_Save( ocSaveDirPrefix( "opencity.save" ) );
 			break;
 
 		case SDLK_F6:
-			_Load( ocHomeDirPrefix( "opencity.save" ) );
+			_Load( ocSaveDirPrefix( "opencity.save" ) );
 			break;
 
 
@@ -1697,7 +1699,7 @@ City::_TestPathfinding() {
 			this->uiPathStartH = this->uiMapL2;
 		}
 		else {
-		//TODO: put this elsewhere
+		//TODO: put this somewhere else
 			vector<Destination> vdest;
 	
 			this->uiPathStopW = this->uiMapW2;
@@ -1856,6 +1858,7 @@ City::_Save( const string& strFilename )
 	return true;
 }
 
+
    /*=====================================================================*/
 bool
 City::_Load( const string& strFilename )
@@ -1871,6 +1874,9 @@ City::_Load( const string& strFilename )
 
 // Lock the simulator
 	SDL_LockMutex( gpmutexSim );
+
+// Remove all moving objects
+	gpMoveMgr->Remove();
 
 // Load city data
 	this->LoadFrom( fs );
