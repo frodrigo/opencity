@@ -126,7 +126,7 @@ enumCurrentTool( OC_NONE )
 	boolPathGo = false;
 	uiPathStartW = 0; uiPathStartH = 0;
 	uiPathStopW = 0; uiPathStopH = 0;
-	pctrPath = new GUIContainer( 100, 100, 30, 30 );
+	pctrPath = new GUIContainer( 100, 100, 140, 140 );
 	pbtnPathStart = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
 	pbtnPathStop1 = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
 	pbtnPathStop2 = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
@@ -879,7 +879,7 @@ City::_CreateGUI()
 	pbtnX = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/bulldozer" ));
 	pbtnG = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/government" ));
 
-	pctrMain = new GUIContainer( 100, 100, 30, 30 );
+	pctrMain = new GUIContainer( 100, 100, 140, 140 );
 	pctrMain->Add( pbtnZ );
 	pctrMain->Add( pbtnS );
 	pctrMain->Add( pbtnL );
@@ -894,7 +894,7 @@ City::_CreateGUI()
 	pbtnZC = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/commercial" ));
 	pbtnZI = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/industrial" ));
 
-	pctrZ = new GUIContainer( 100, 100, 30, 30 );
+	pctrZ = new GUIContainer( 100, 100, 140, 140 );
 	pctrZ->Add( pbtnZB );
 	pctrZ->Add( pbtnZR );
 	pctrZ->Add( pbtnZC );
@@ -906,7 +906,7 @@ City::_CreateGUI()
 	pbtnLL = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/power_line" ));
 	pbtnLE = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant" ));
 
-	pctrL = new GUIContainer( 100, 100, 30, 30 );
+	pctrL = new GUIContainer( 100, 100, 140, 140 );
 	pctrL->Add( pbtnLB );
 	pctrL->Add( pbtnLL );
 	pctrL->Add( pbtnLE );
@@ -919,7 +919,7 @@ City::_CreateGUI()
 	pbtnTX = new GUIButton( 20,  80,  30, 30, ocHomeDirPrefix( "graphism/gui/destroy" ));
 	pbtnTQ = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
 
-	pctrT = new GUIContainer( 100, 100, 30, 30 );
+	pctrT = new GUIContainer( 100, 100, 140, 140 );
 	pctrT->Add( pbtnTB );
 	pctrT->Add( pbtnTU );
 	pctrT->Add( pbtnTD );
@@ -935,7 +935,7 @@ City::_CreateGUI()
 	pbtnGL = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/police" ));
 	pbtnGF = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/fire" ));
 
-	pctrG = new GUIContainer( 100, 100, 30, 30 );
+	pctrG = new GUIContainer( 100, 100, 140, 140 );
 	pctrG->Add( pbtnGB );
 	pctrG->Add( pbtnGP );
 	pctrG->Add( pbtnGE );
@@ -949,7 +949,7 @@ City::_CreateGUI()
 	pbtnNP = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
 	pbtnNT = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
 
-	pctrN = new GUIContainer( 100, 100, 30, 30 );
+	pctrN = new GUIContainer( 100, 100, 140, 140 );
 	pctrN->Add( pbtnNB );
 	pctrN->Add( pbtnNP );
 	pctrN->Add( pbtnNT );
@@ -960,14 +960,14 @@ City::_CreateGUI()
 	pbtnSS = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/save_save" ));
 	pbtnSB = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 
-	pctrS = new GUIContainer( 100, 100, 30, 30 );
+	pctrS = new GUIContainer( 100, 100, 140, 140 );
 	pctrS->Add( pbtnSB );
 	pctrS->Add( pbtnSS );
 	pctrS->Add( pbtnSL );
 
 
 // MAS toolcircle
-	pctrMAS = new GUIContainer( 100, 100, 30, 30 );
+	pctrMAS = new GUIContainer( 100, 100, 140, 140 );
 	pbtnMASPolice = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/police" ));
 	pbtnMASDemonstrator = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/demonstrator" ));
 	pbtnMASRobber = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/robber" ));

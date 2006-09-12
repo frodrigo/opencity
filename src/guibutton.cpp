@@ -1,10 +1,11 @@
 /***************************************************************************
-                          guibutton.cpp    -  description
-       $Id$
-                             -------------------
-    begin                : lun 22 mar 2004
-    copyright            : (C) 2004-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						guibutton.cpp    -  description
+							-------------------
+	begin                : lun 22 mar 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -68,7 +69,7 @@ GUIButton::~GUIButton()
 {
 	OPENCITY_DEBUG( "GUI button deleted" );
 
-   // free the associated texture if there is one
+// Free the associated texture if there is one
 	if (glIsTexture( this->uiTexture ) == GL_TRUE) {
 		glDeleteTextures( 1, &this->uiTexture );
 	}
@@ -142,9 +143,9 @@ GUIButton::Display() const
 			glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
 		}
 
-	   // select the appropriate texture
-	   // if the mouse is over, chose the over texture
-	   // othewise, use the normal texture
+	// Select the appropriate texture
+	// IF the mouse is over THEN choose the over texture
+	// ELSE, use the normal texture
 		if ( IsSet( OC_GUIMAIN_MOUSEOVER ) == true )
 			glBindTexture( GL_TEXTURE_2D, this->uiTextureOver );
 		else
@@ -156,16 +157,9 @@ GUIButton::Display() const
 		glTexCoord2i( 1, 1 );	glVertex2i( this->uiWidth, this->uiHeight );
 		glTexCoord2i( 0, 1 );	glVertex2i( 1, this->uiHeight );
 		glEnd();
-
-/* TOKILL, old version, commented out on 12th Nov, 05
-		glDisable( GL_TEXTURE_2D );
-		if ( IsSet( OC_GUIMAIN_BLENDING ) == true )
-			glDisable( GL_BLEND );
-*/
 	}
 
 // Restore the old matrix and attribs
-//	glTranslatef( -this->iX, -this->iY, 0.0 );
 	glPopMatrix();
 	glPopAttrib();
 }

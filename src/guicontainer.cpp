@@ -1,10 +1,11 @@
 /***************************************************************************
-                          guicontainer.cpp    -  description
-     $Id$
-                             -------------------
-    begin                : lun 22 mar 2004
-    copyright            : (C) 2004-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+					guicontainer.cpp    -  description
+							-------------------
+	begin                : lun 22 mar 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,6 +19,10 @@
 
 #include "guicontainer.h"
 
+#include "texture.h"
+
+GLuint GUIContainer::_uiTexture = 0;
+GLuint GUIContainer::_uiNumberContainer = 0;
 
    /*=====================================================================*/
 GUIContainer::GUIContainer(
@@ -36,6 +41,10 @@ GUIContainer::GUIContainer(
 	this->iY = rciY;
 	this->uiWidth = rcuiW;
 	this->uiHeight = rcuiH;
+
+// Load the background once
+	if (GUIContainer::_uiNumberContainer++ == 0)
+		GUIContainer::_uiTexture = Texture::Load( ocHomeDirPrefix(OC_GUICONTAINER_BG) );
 }
 
 
@@ -47,15 +56,24 @@ GUIContainer::~GUIContainer()
 	std::vector<GUIMain*>::size_type stvector;
 	GUIMain* pguimain;
 
-   //--- now remove the container pointer from all the contained controls
+//--- now remove the container pointer from all the contained controls
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {
 		if ( (pguimain = vectorpguimain[ stvector ]) != NULL )
 			pguimain->SetContainer( NULL );
 	}
 
-   // delete all the pointers in the "vector"
-   // note: the pointed memory is not freed
+// Delete all the pointers in the "vector"
+// Note: the pointed memory is not freed
 	this->vectorpguimain.clear();
+
+// Delete the background if this is the last container
+	if (GUIContainer::_uiNumberContainer-- == 1) {
+	// Free the associated texture if there is one
+		if (glIsTexture( GUIContainer::_uiTexture ) == GL_TRUE) {
+			glDeleteTextures( 1, &GUIContainer::_uiTexture );
+			GUIContainer::_uiTexture = 0;
+		}
+	}
 }
 
 
@@ -64,11 +82,11 @@ const uint
 GUIContainer::Add(
 	GUIMain* const pguimain )
 {
-   // add the new pointer to the end
+// add the new pointer to the end
 	pguimain->SetContainer( this );
 	this->vectorpguimain.push_back( pguimain );
 
-   // get its index for future use
+// get its index for future use
 	return this->vectorpguimain.size();
 }
 
@@ -167,6 +185,22 @@ GUIContainer::Display() const
 	glPushMatrix();
 	glLoadIdentity();
 	glTranslatef( iX, iY, 0.0 );
+
+// Display the background
+	glPushAttrib( GL_ENABLE_BIT );
+	glEnable( GL_BLEND );
+	glEnable( GL_TEXTURE_2D );
+	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+	glBindTexture( GL_TEXTURE_2D, GUIContainer::_uiTexture );
+
+	glBegin( GL_QUADS );
+	glTexCoord2i( 0, 0 );	glVertex2i( 1, 1 );
+	glTexCoord2i( 1, 0 );	glVertex2i( this->uiWidth, 1 );
+	glTexCoord2i( 1, 1 );	glVertex2i( this->uiWidth, this->uiHeight );
+	glTexCoord2i( 0, 1 );	glVertex2i( 1, this->uiHeight );
+	glEnd();
+
+	glPopAttrib();
 
 // Now display all the contained GUI controls
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {

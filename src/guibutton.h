@@ -1,10 +1,11 @@
 /***************************************************************************
-                          guibutton.h    -  description
-    $Id$
-                             -------------------
-    begin                : lun 22 mar 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						guibutton.h    -  description
+							-------------------
+	begin                : lun 22 mar 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,14 +18,15 @@
  ***************************************************************************/
 
 #if !defined(_OPENCITY_GUIBUTTON_H_)
-	#define _OPENCITY_GUIBUTTON_H_ 1
+#define _OPENCITY_GUIBUTTON_H_ 1
 
-	#include "main.h"
-	#include "guimain.h"
+#include "main.h"
+#include "guimain.h"
 
-   //========================================================================
-   /** This is a 2-state button: onMouseOver and onMouseOut.
-   */
+
+//========================================================================
+/** This is a 2-state button: onMouseOver and onMouseOut.
+*/
 class GUIButton : public GUIMain {
 public:
 	GUIButton() {};

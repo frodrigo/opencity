@@ -1,10 +1,11 @@
 /***************************************************************************
-                          layer.h  -  description
-          $Id$
-                             -------------------
-    begin                : september 20th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						layer.h  -  description
+							-------------------
+	begin                : september 20th, 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -199,10 +200,15 @@ to build the bulding.
 		const uint & l ) const = 0;
 
 
-
 protected:
 	uint _uiLayerWidth;
 	uint _uiLayerLength;
+
+
+protected:
+   /*=====================================================================*/
+   /*                       STATIC       ATTRIBUTES                       */
+   /*=====================================================================*/
 
    /// total derived classes
 	static uint uiNumberLayer;

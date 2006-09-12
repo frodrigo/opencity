@@ -17,13 +17,15 @@
  ***************************************************************************/
 
 #if !defined(_OPENCITY_GUICONTAINER_H_)
-	#define _OPENCITY_GUICONTAINER_H_ 1
+#define _OPENCITY_GUICONTAINER_H_ 1
 
-	#include "main.h"
+#include "main.h"
 
-	#include "guimain.h"
+#include "guimain.h"
 
-	#include <vector>
+#include <vector>
+
+#define OC_GUICONTAINER_BG		"graphism/gui/toolcircle_bg.png"
 
    //========================================================================
    /** Contains all stuff derived from GUIMain class
@@ -107,6 +109,13 @@ private:
 	uint uiWinWidth, uiWinHeight;
 	std::vector<GUIMain*> vectorpguimain;
 
+
+   /*=====================================================================*/
+   /*                       STATIC       ATTRIBUTES                       */
+   /*=====================================================================*/
+private:
+	static GLuint	_uiTexture;
+	static uint		_uiNumberContainer;
 };
 
 #endif

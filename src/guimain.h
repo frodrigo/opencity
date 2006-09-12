@@ -1,10 +1,11 @@
 /***************************************************************************
-                          guimain.h    -  description
-          $Id$
-                             -------------------
-    begin                : lun 22 mar 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						guimain.h    -  description
+							-------------------
+	begin                : lun 22 mar 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,24 +18,24 @@
  ***************************************************************************/
 
 #if !defined(_OPENCITY_GUIMAIN_H_)
-	#define _OPENCITY_GUIMAIN_H_ 1
+#define _OPENCITY_GUIMAIN_H_ 1
 
-	#include "main.h"
-	#include "ui.h"
+#include "main.h"
+#include "ui.h"
 
-	#include "SDL_image.h"
+#include "SDL_image.h"
 
-   // each GUIMain object has the following attributes
-	#define OC_GUIMAIN_VISIBLE    0x01		///< Is the object visible ?
-	#define OC_GUIMAIN_CLICKED    0x02		///< Has the object been clicked ?
-	#define OC_GUIMAIN_MOUSEOVER  0x04		///< Does the object have the mouse focus ?
+// each GUIMain object has the following attributes
+#define OC_GUIMAIN_VISIBLE    0x01		///< Is the object visible ?
+#define OC_GUIMAIN_CLICKED    0x02		///< Has the object been clicked ?
+#define OC_GUIMAIN_MOUSEOVER  0x04		///< Does the object have the mouse focus ?
 
-	#define OC_GUIMAIN_BLENDING   0x40		///< Blending state for texture
+#define OC_GUIMAIN_BLENDING   0x40		///< Blending state for texture
 
 
-   //========================================================================
-   /** The base class of all graphic user interface control
-   */
+//========================================================================
+/** The base class of all graphic user interface control
+*/
 class GUIMain : public UI {
 public:
    /** By default, the gui is not visible, the mouse over state is false,
@@ -101,17 +102,6 @@ public:
    //========================================================================
    //                         STATIC    METHODS
    //========================================================================
-/*
-TOKILL, moved to "texture.h"
-	static const GLuint
-	LoadTexture(
-		const string & rcFile );
-
-	static void
-	Surface2Texture(
-		const SDL_Surface* const psurface,
-		GLuint & ruiTexture );
-*/
 
 
 protected:
