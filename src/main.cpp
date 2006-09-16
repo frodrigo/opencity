@@ -433,8 +433,8 @@ void displayStatus( const string & str )
 // Center the text on the screen
 //	x = (gpVideoSrf->w - 512)/2 + (512 - str.size()*10)/2;
 	x = (gpVideoSrf->w - str.size()*10)/2;
-	y = (gpVideoSrf->h - 150) / 2;
-	gpRenderer->DisplayText( x, y, OC_BLACK_COLOR, str );
+	y = (gpVideoSrf->h - 140) / 2;
+	gpRenderer->DisplayText( x, y, OC_BLUE_COLOR, str );
 	SDL_GL_SwapBuffers();
 }
 

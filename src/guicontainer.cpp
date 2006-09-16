@@ -42,9 +42,11 @@ GUIContainer::GUIContainer(
 	this->uiWidth = rcuiW;
 	this->uiHeight = rcuiH;
 
+	++GUIContainer::_uiNumberContainer;
+// Not used yet
 // Load the background once
-	if (GUIContainer::_uiNumberContainer++ == 0)
-		GUIContainer::_uiTexture = Texture::Load( ocHomeDirPrefix(OC_GUICONTAINER_BG) );
+//	if (GUIContainer::_uiNumberContainer++ == 0)
+//		GUIContainer::_uiTexture = Texture::Load( ocHomeDirPrefix(OC_GUICONTAINER_BG) );
 }
 
 
@@ -187,6 +189,7 @@ GUIContainer::Display() const
 	glTranslatef( iX, iY, 0.0 );
 
 // Display the background
+/* not used yet
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_BLEND );
 	glEnable( GL_TEXTURE_2D );
@@ -201,6 +204,7 @@ GUIContainer::Display() const
 	glEnd();
 
 	glPopAttrib();
+*/
 
 // Now display all the contained GUI controls
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {
