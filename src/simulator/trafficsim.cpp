@@ -20,7 +20,7 @@
 #include "trafficsim.h"
 
 #include "buildinglayer.h"
-#include "../map.h"
+#include "../map.h"					// We want our own map.h
 #include "pathstructure.h"
 
 #include "pathfinder.h"

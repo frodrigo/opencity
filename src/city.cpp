@@ -1573,10 +1573,10 @@ City::_HandleGUIClick()
 			pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // save
-			_Save( ocHomeDirPrefix( "opencity.save" ) );
+			_Save( ocSaveDirPrefix( "opencity.save" ) );
 			break;
 		case 3:  // load
-			_Load( ocHomeDirPrefix( "opencity.save" ) );
+			_Load( ocSaveDirPrefix( "opencity.save" ) );
 			break;
 
 		default:
@@ -1897,6 +1897,9 @@ City::_Load( const string& strFilename )
 			_pMSim->AddStructure( w, l, w, l );
 		}
 	}
+
+// Refresh/recalculate the simulators' value
+	_pMSim->RefreshSimValue();
 
 // Unlock the simulator
 	SDL_UnlockMutex( gpmutexSim );

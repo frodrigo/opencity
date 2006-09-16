@@ -46,8 +46,10 @@
 #define OC_SIMULATOR_UP   70			///< 70% of levelup will be done 30% left mean leveldown
 #define OC_SIMULATOR_DOWN 40			///< 40% of leveldown will be done only
 
-#define OC_EPLANT_COAL_POWER 1000		///< The power you get when you build it
+#define OC_EPLANT_COAL_POWER 100000		///< The power you get when you build it
 #define OC_EPLANT_COAL_RANGE 2			///< For building and destroying
+
+#define OC_DEPT_POWER_CONSUMPTION	50	///< Power comsumption of fire, police, school and hospital departments
 
 
 enum OPENCITY_STRUCTURE_CODE;
@@ -176,18 +178,18 @@ Given the surface (w, l, w2, l2) this method checks if it contains
 //========================================================================
 /** Return the global total value of the micro simulator
 */
-	const int &
+	const int
 	GetValue() const;
 
 	
 	void
 	SetVariation(
-		const int & rciVariation );
+		const int rcVariation );
 
 		
 	void
 	SetValue(
-		const int & rciValue );
+		const int rcValue );
 
 
    /*=====================================================================*/
@@ -211,10 +213,10 @@ protected:
 	int _iVariation;	///< The average variation of the structures stimulated
 	int _iValue;		///< The current global value of the simulator
 
-	SIMULATOR_STATE enumSimState;			///< The current state of the simulator
-	SDL_mutex* mutexMain;					///< Points to the global mutex
-	BuildingLayer* pbuildlayer;
-	Map* pmapOfCity;
+	SIMULATOR_STATE		enumSimState;			///< The current state of the simulator
+	SDL_mutex*			mutexMain;				///< Points to the global mutex
+	BuildingLayer*		pbuildlayer;
+	Map*				pmapOfCity;
 };
 
 #endif

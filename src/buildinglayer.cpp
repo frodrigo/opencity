@@ -505,9 +505,9 @@ BuildingLayer::DestroyStructure(
 
    /*=====================================================================*/
 Structure *
-BuildingLayer::GetLinearStructure( const uint & rcuiLinearIndex ) const
+BuildingLayer::GetLinearStructure( const uint cuiLinearIndex ) const
 {
-	return _tabpStructure[ rcuiLinearIndex ];
+	return _tabpStructure[ cuiLinearIndex ];
 }
 
 

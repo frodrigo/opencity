@@ -1,10 +1,11 @@
 /***************************************************************************
-                          industrialsim.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : dim fév  1 2004
-    copyright            : (C) 2004-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						industrialsim.cpp  -  description
+							-------------------
+	begin                : dim fév  1 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

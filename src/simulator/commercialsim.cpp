@@ -1,10 +1,11 @@
 /***************************************************************************
-                          commercialsim.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : 31th jan, 2004
-    copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						commercialsim.cpp  -  description
+							-------------------
+	begin                : 31th jan, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -133,11 +134,13 @@ CommercialSim::RemoveStructure(
 {
 	Structure* pstruct = pbuildlayer->GetStructure( w1, h1 );
 
-   // if this is a C zone
-   // and it has a positive value according to its level
-   // then we remove its value from the sim.
+// if this is a C zone
+// and it has a positive value according to its level
+// then we remove its value from the sim.
+// and if level is 0 ?
 	if (pstruct != NULL)
 	if (pstruct->GetCode() == OC_STRUCTURE_COM)
+	if (pstruct->GetLevel() - 1 > 0)
 		_iValue -= pstruct->GetLevel()-1;
 }
 

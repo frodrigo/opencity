@@ -1,10 +1,11 @@
 /***************************************************************************
-                          mainsim.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : 21 feb 2006
-    copyright            : (C) 2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						mainsim.cpp  -  description
+							-------------------
+	begin                : 21 feb 2006
+	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +24,9 @@
 #include "industrialsim.h"
 #include "electricitysim.h"
 #include "trafficsim.h"
+
+#include "structure.h"
+#include "buildinglayer.h"
 
 extern PathFinder* gpPathFinder;		// global pathfinder class
 extern MovementManager* gpMoveMgr;		// global movement manager
@@ -81,6 +85,8 @@ MainSim::LoadFrom( std::fstream& rfs )
 int
 MainSim::Main()
 {
+	static uint times = 0;
+
 // Call the Main method of each micro simulator
 	while (this->enumSimState != SIMULATOR_RETURN) {
 		if (this->enumSimState == SIMULATOR_RUNNING) {
@@ -89,8 +95,13 @@ MainSim::Main()
 			}
 		}
 
+	// Refresh the simulator values every 5 turns
+		if (times == 0)
+			RefreshSimValue();
+	
 	// Wait a bit
 		Simulator::RCIDelay();
+		times = (times+1) % 5;
 	} // while
 
 	return 0;
@@ -101,18 +112,18 @@ MainSim::Main()
 void
 MainSim::AddStructure
 (
-	const uint& w1, const uint& h1,
-	const uint& w2, const uint& h2,
-	const OPENCITY_MAINSIM_MICROSIM& sim
+	const uint w1, const uint l1,
+	const uint w2, const uint l2,
+	const OPENCITY_MAINSIM_MICROSIM sim
 )
 {
 	if (sim == OC_MICROSIM_DEFAULT) {
 		for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
-			_tpSimulator[ui]->AddStructure( w1, h1, w2, h2 );
+			_tpSimulator[ui]->AddStructure( w1, l1, w2, l2 );
 		}
 	}
 	else {
-		_tpSimulator[sim]->AddStructure( w1, h1, w2, h2 );
+		_tpSimulator[sim]->AddStructure( w1, l1, w2, l2 );
 	}
 }
 
@@ -121,18 +132,18 @@ MainSim::AddStructure
 void
 MainSim::RemoveStructure
 (
-	const uint& w1, const uint& h1,
-	const uint& w2, const uint& h2,
-	const OPENCITY_MAINSIM_MICROSIM& sim
+	const uint w1, const uint l1,
+	const uint w2, const uint l2,
+	const OPENCITY_MAINSIM_MICROSIM sim
 )
 {
 	if (sim == OC_MICROSIM_DEFAULT) {
 		for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
-			_tpSimulator[ui]->RemoveStructure( w1, h1, w2, h2 );
+			_tpSimulator[ui]->RemoveStructure( w1, l1, w2, l2 );
 		}
 	}
 	else {
-		_tpSimulator[sim]->RemoveStructure( w1, h1, w2, h2 );
+		_tpSimulator[sim]->RemoveStructure( w1, l1, w2, l2 );
 	}
 }
 
@@ -171,10 +182,88 @@ MainSim::Return()
 
 
    /*======================================================================*/
-const int &
+void
+MainSim::RefreshSimValue()
+{
+/*
+	Iterate over each structure and calculate the micro simulators' values.
+The values of the micro simulators depend on the level of the structure.
+The calculation is exact however, the micro simulators can do some
+fluctuations in between.
+*/
+	int resVal = 0, comVal = 0, indVal = 0;
+	int eleVal = 0;
+	uint linear = 0, maxLinear = 0;
+	uint level = 0, eleMultiplier = 0;
+	Structure* pstruct = NULL;
+
+
+// FOR each structre DO
+	maxLinear = pbuildlayer->GetMaxLinear();
+	for ( linear = 0; linear <= maxLinear; linear++ ) {
+		pstruct = pbuildlayer->GetLinearStructure(linear);
+		if (pstruct == NULL)
+			continue;
+
+		level = pstruct->GetLevel();
+		eleMultiplier = (pstruct->IsSet(OC_STRUCTURE_E)) ? 1 : 0;
+		switch (pstruct->GetCode()) {
+			case OC_STRUCTURE_RES:
+				resVal += level;
+				eleVal -= level * eleMultiplier;
+				break;
+
+			case OC_STRUCTURE_COM:
+				comVal += level;
+				eleVal -= level * eleMultiplier;
+				break;
+
+			case OC_STRUCTURE_IND:
+				indVal += level;
+				eleVal -= level * eleMultiplier;
+				break;
+
+			case OC_STRUCTURE_FIREDEPT:
+			case OC_STRUCTURE_POLICEDEPT:
+			case OC_STRUCTURE_EDUCATIONDEPT:
+			case OC_STRUCTURE_HOSPITALDEPT:
+				eleVal -= OC_DEPT_POWER_CONSUMPTION * eleMultiplier;
+				break;
+
+			case OC_STRUCTURE_PART:
+			case OC_STRUCTURE_ELINE:
+				eleVal -= 1 * eleMultiplier;
+				break;
+
+			case OC_STRUCTURE_EPLANT_COAL:
+				eleVal += OC_EPLANT_COAL_POWER;
+				break;
+
+		// Nothing to do here
+			case OC_STRUCTURE_PARK:
+			case OC_STRUCTURE_FLORA:
+			case OC_STRUCTURE_ROAD:
+				break;
+
+			default:
+				OPENCITY_DEBUG( "What is this ?" );
+				assert( 0 );
+		}
+	} // for
+
+// Update the micro simulators' values
+	_tpSimulator[OC_MICROSIM_RES]->SetValue(resVal);
+	_tpSimulator[OC_MICROSIM_COM]->SetValue(comVal);
+	_tpSimulator[OC_MICROSIM_IND]->SetValue(indVal);
+	_tpSimulator[OC_MICROSIM_ELE]->SetValue(eleVal);
+}
+
+
+   /*======================================================================*/
+const int
 MainSim::GetValue
 (
-	const OPENCITY_MAINSIM_MICROSIM& sim
+	const OPENCITY_MAINSIM_MICROSIM sim
 ) const
 {
 	return _tpSimulator[sim]->GetValue();

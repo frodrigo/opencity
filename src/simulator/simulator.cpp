@@ -1,10 +1,11 @@
 /***************************************************************************
-                          simulator.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : dim sep 21 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						simulator.cpp  -  description
+							-------------------
+	begin                : dim sep 21 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +20,7 @@
 #include "simulator.h"
 
 #include "buildinglayer.h"
-#include "../map.h"				// We need to specify the path because we want our own map.h
+#include "../map.h"				// We want our own map.h
 #include "structure.h"
 #include "propertymanager.h"
 
@@ -263,28 +264,28 @@ Simulator::GetVariation() const
 
 
    /*======================================================================*/
-const int &
+const int
 Simulator::GetValue() const
 {
-	return this->_iValue;
+	return _iValue;
 }
 
 
    /*======================================================================*/
 void
 Simulator::SetVariation(
-	const int & rc_iVariation )
+	const int rciVariation )
 {
-	this->_iVariation = rc_iVariation;
+	_iVariation = rciVariation;
 }
 
 
    /*======================================================================*/
 void
 Simulator::SetValue(
-	const int & rc_iValue )
+	const int rciValue )
 {
-	this->_iValue = rc_iValue;
+	_iValue = rciValue;
 }
 
 

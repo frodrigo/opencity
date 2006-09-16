@@ -1,10 +1,11 @@
 /***************************************************************************
-                          electricitysim.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : mar 2nd, 2004
-    copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						electricitysim.cpp  -  description
+							-------------------
+	begin                : mar 2nd, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,7 +22,7 @@
 #include "buildinglayer.h"
 #include "structure.h"
 
-#include "../map.h"
+#include "../map.h"						// DevCpp sucks
 
 #include "propertymanager.h"
 
@@ -97,7 +98,8 @@ ElectricitySim::Main()
 
 	if (this->enumSimState == SIMULATOR_RUNNING) {
 		SDL_LockMutex( this->mutexMain );
-		_iValue = _iValueMax;
+		// See MainSim::RefreshSimValue(), 16 sep 2006
+		//_iValue = _iValueMax;
 
 		// clear the mark and E bit of ALL structure
 		pbuildlayer->StructureUnset( OC_STRUCTURE_MARK | OC_STRUCTURE_E );
@@ -136,6 +138,7 @@ ElectricitySim::Main()
 					case OC_STRUCTURE_FIREDEPT:
 					case OC_STRUCTURE_POLICEDEPT:
 					case OC_STRUCTURE_EDUCATIONDEPT:
+					case OC_STRUCTURE_HOSPITALDEPT:
 						if (CheckRange(
 							pairstructWH.first,
 							pairstructWH.second,
@@ -143,7 +146,8 @@ ElectricitySim::Main()
 							OC_STRUCTURE_ELECTRIC )
 							== true) {
 							pstruct->Set(OC_STRUCTURE_E);
-							_iValue--;
+							// See MainSim::RefreshSimValue(), 16 sep 2006
+							//_iValue--;
 						}
 						break;
 
@@ -156,12 +160,30 @@ ElectricitySim::Main()
 							OC_STRUCTURE_ELECTRIC )
 							== true) {
 							pstruct->Set(OC_STRUCTURE_E);
-							_iValue--;
+							// See MainSim::RefreshSimValue(), 16 sep 2006
+							//_iValue--;
 						}
 						break;
 
-					// OC_ROAD ? do nothing
+				// Ignored structures
+					case OC_STRUCTURE_PARK:
+					case OC_STRUCTURE_FLORA:
+					case OC_STRUCTURE_ROAD:
+						break;
+
+				// What's the heck ?
+					case OC_STRUCTURE_UNDEFINED:
+					case OC_STRUCTURE_TEST:
+					case OC_STRUCTURE_ANY:
+					case OC_STRUCTURE_ELECTRIC:
+
+				// Future asserts
+					case OC_STRUCTURE_MILITARYDEPT:
+
+				// What's the heck ?
 					default:
+						OPENCITY_DEBUG( "What's the heck ?" );
+						assert( 0 );
 						break;
 				} // switch
 
@@ -305,8 +327,9 @@ ElectricitySim::RemoveStructure(
 			case OC_STRUCTURE_FIREDEPT:
 			case OC_STRUCTURE_POLICEDEPT:
 			case OC_STRUCTURE_EDUCATIONDEPT:
-				if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
-					_iValue++;
+				// See MainSim::RefreshSimValue(), 16 sep 2006
+				//if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
+				//	_iValue++;
 				break;
 
 			default: // keep gcc happy

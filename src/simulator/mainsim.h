@@ -1,10 +1,11 @@
 /***************************************************************************
-                          mainsim.h  -  description
-      $Id$
-                             -------------------
-    begin                : 21 feb 2006
-    copyright            : (C) 2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						mainsim.h  -  description
+							-------------------
+	begin                : 21 feb 2006
+	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -91,9 +92,9 @@ system
 */
 	void
 	AddStructure(
-		const uint& w1, const uint& h1,
-		const uint& w2, const uint& h2,
-		const OPENCITY_MAINSIM_MICROSIM& sim = OC_MICROSIM_DEFAULT);
+		const uint w1, const uint l1,
+		const uint w2, const uint l2,
+		const OPENCITY_MAINSIM_MICROSIM sim = OC_MICROSIM_DEFAULT);
 
 
 //========================================================================
@@ -103,9 +104,9 @@ system
 */
 	void
 	RemoveStructure(
-		const uint& w1, const uint& h1,
-		const uint& w2, const uint& h2,
-		const OPENCITY_MAINSIM_MICROSIM& sim = OC_MICROSIM_DEFAULT );
+		const uint w1, const uint l1,
+		const uint w2, const uint l2,
+		const OPENCITY_MAINSIM_MICROSIM sim = OC_MICROSIM_DEFAULT );
 
 
 //========================================================================
@@ -133,16 +134,25 @@ system
 
 
 //========================================================================
+/** Refresh the values of all the micro simulators. This method is called
+automatically by Run() every 3 turns
+	\see Run()
+*/
+	void
+	RefreshSimValue();
+
+
+//========================================================================
 /** Return the global total value of the micro simulator
 	\param sim The micro simulator to query the information
 	\return The value
 */
-	const int &
-	GetValue(const OPENCITY_MAINSIM_MICROSIM& sim) const;
+	const int
+	GetValue(const OPENCITY_MAINSIM_MICROSIM sim) const;
 
 
 private:
-	Simulator* _tpSimulator[OC_MICROSIM_MAX];		///< Table of pointers to Simulator object
+	Simulator*			_tpSimulator[OC_MICROSIM_MAX];		///< Table of pointers to Simulator object
 };
 
 #endif

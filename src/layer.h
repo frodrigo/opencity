@@ -130,7 +130,7 @@ to build the bulding.
 	checking.
 */
 	virtual Structure*
-	GetLinearStructure( const uint & rcuiLinearIndex ) const = 0;
+	GetLinearStructure( const uint cuiLinearIndex ) const = 0;
 
 
 	virtual Structure*

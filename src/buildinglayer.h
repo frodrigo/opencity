@@ -136,14 +136,15 @@ public:
 
 //========================================================================
 /** Returns a pointer to a structure indexed by its linear index. The
-	linear index of a structure is calculated by this formule:
+linear index of a structure is calculated by this formula:
 	index = W + (H * city width)
-	\param rcuiLinearIndex = linear index of the structure to retrieve
+	\param cuiLinearIndex = linear index of the structure to retrieve
 	\return A pointer to a structure if it exists NULL otherwise
 */
 	Structure*
 	GetLinearStructure(
-		const uint & rcuiLinearIndex ) const;
+		const uint cuiLinearIndex ) const;
+
 
 	Structure*
 	GetStructure(

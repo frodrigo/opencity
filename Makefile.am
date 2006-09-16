@@ -3,7 +3,7 @@ SUBDIRS = \
 
 EXTRA_DIST = \
 	config docs graphism model sound texture \
-	OpenCity.desktop OpenCity.png \
+	COPYRIGHT OpenCity.desktop OpenCity.png \
 	autopackage
 
 #----------------------------------- Install all the EXTRA_DIST directories
@@ -36,10 +36,10 @@ uninstall-local:
 	$(RM) -f $(DESTDIR)$(bindir)/opencity
 	$(RM) -rf $(DESTDIR)$(pkgdatadir)
 
-#----------------------------------- Remove CVS directories
+#----------------------------------- Remove SVN directories
 dist-hook:
 	for extra in $(EXTRA_DIST); do \
-		$(RM) -rf `find $(distdir)/$$extra -name "CVS" -type d`; \
+		$(RM) -rf `find $(distdir)/$$extra -name "\.svn" -type d`; \
 	done;
 
 

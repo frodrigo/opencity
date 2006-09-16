@@ -79,7 +79,7 @@ Layer::~Layer(){
 const uint
 Layer::GetMaxLinear() const
 {
-	return _uiLayerWidth * _uiLayerLength -1;
+	return _uiLayerWidth * _uiLayerLength - 1;
 }
 
 

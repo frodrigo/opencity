@@ -65,6 +65,7 @@ buildinglayer.h \
 city.h \
 conf.h \
 destination.h \
+enum.h \
 font_8x8.h \
 graphicmanager.h \
 guimain.h \
