@@ -169,16 +169,17 @@ void ocMouseMotion( const SDL_MouseMotionEvent & motionEvent )
    /*=====================================================================*/
 void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
 {
+#ifndef WIN32
+// Linux needs this where as Win32 does not
 // Set the new window's size
-/* BUGGY under Win32
 	if( SDL_SetVideoMode(
-		w, h,
+		rcsResizeEvent.w, rcsResizeEvent.h,
 		guiVideoBpp, flags ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
 		exit (-4);
 	}
 	gpVideoSrf = SDL_GetVideoSurface();
-*/
+#endif
 
 	if (uipCurrentUI != NULL) {
 		uipCurrentUI->uiResize( rcsResizeEvent );
