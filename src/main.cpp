@@ -170,13 +170,15 @@ void ocMouseMotion( const SDL_MouseMotionEvent & motionEvent )
 void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
 {
 // Set the new window's size
+/* BUGGY under Win32
 	if( SDL_SetVideoMode(
-		rcsResizeEvent.w, rcsResizeEvent.h,
+		w, h,
 		guiVideoBpp, flags ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
 		exit (-4);
 	}
 	gpVideoSrf = SDL_GetVideoSurface();
+*/
 
 	if (uipCurrentUI != NULL) {
 		uipCurrentUI->uiResize( rcsResizeEvent );
@@ -277,7 +279,7 @@ int initSDL()
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
 	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
 	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
-// 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 ); // TOKILL: not used
+ 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	flags = SDL_OPENGL | SDL_RESIZABLE | SDL_HWSURFACE;
 
 // Will we go for fullscreen ?
@@ -471,7 +473,7 @@ int serverMode()
 	(void)gpNetworking->StopServer();
 	delete gpNetworking;
 
-	SDL_Quit();		// Calls free() on an invalid pointer. Detected by glibc
+	SDL_Quit();					// WARNING: Calls free() on an invalid pointer. Detected by glibc
 
 	return 0;
 }
@@ -487,6 +489,11 @@ int clientMode()
 	if (errCode != 0) {
 		return errCode;
 	}
+
+	
+// set the window's caption
+	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
+	SDL_WM_SetIcon( IMG_Load(ocHomeDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
 
 
 // Create the mutex first
@@ -509,7 +516,6 @@ int clientMode()
 // AudioManager's initialization
 	displayStatus( "Looking for GPU freezing system... ");
 	gpAudioMgr = new AudioManager();
-
 
 	if ( gpAudioMgr == NULL ) {
 		OPENCITY_FATAL( "Error while creating the audio manager" );
@@ -555,8 +561,6 @@ int clientMode()
 		return (-15);
 	}
 	else {
-	// set the window's caption
-		SDL_WM_SetCaption( PACKAGE " " VERSION, ocHomeDirPrefix("graphism/icon/OpenCity32.ico").c_str() );
 		displayStatus( "Almost done...");
 // debug SDL_Delay( 5000 );
 
@@ -622,10 +626,10 @@ int clientMode()
 // delete the simulators' mutex now
 	SDL_DestroyMutex( gpmutexSim );
 
-	SDL_FreeSurface( gpVideoSrf ); // This is not recommended by SDL documentation
+//	SDL_FreeSurface( gpVideoSrf ); // This is not recommended by SDL documentation
 	gpVideoSrf = NULL;
 
-//	SDL_Quit();		// Calls free() on an invalid pointer. Detected by glibc
+	SDL_Quit();					// WARNING: Calls free() on an invalid pointer. Detected by glibc
 	return errCode;
 }
 

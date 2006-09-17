@@ -29,6 +29,7 @@ Multi plateform save/load path        (experimental)
 Toolcircle shadow                     (done)
 Fix simulator value                   (done)
 Fix save/load GUI bug                 (done)
+Fix Win32 windows resize bug          (done)
 Tell us save/load bug
 
 

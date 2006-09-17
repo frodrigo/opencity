@@ -790,10 +790,9 @@ void City::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
 //---- set the new window's size ----
 	gpRenderer->SetWinSize( iWinWidth, iWinHeight );
 
-	gpRenderer->Display( gpMapMgr, ptabLayer[ enumCurrentLayer ] );
-
-//----- updates display -----
-	SDL_GL_SwapBuffers();
+// Not useful, since the screen is update on next frame
+//	gpRenderer->Display( gpMapMgr, ptabLayer[ enumCurrentLayer ] );
+//	SDL_GL_SwapBuffers();
 
 // tell the containers about the event
 	pctrMain->uiResize( rcsSDLResizeEvent );

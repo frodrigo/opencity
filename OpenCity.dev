@@ -1,5 +1,5 @@
 [Project]
-FileName=OpenCity-0.0.4beta.dev
+FileName=OpenCity.dev
 Name=OpenCity-0.0.4beta
 UnitCount=130
 Type=1
@@ -14,7 +14,7 @@ Compiler=
 CppCompiler=-DNDEBUG_@@_
 Linker=-lmingw32_@@_-lSDLmain_@@_-lSDL_@@_-mwindows_@@_-lSDL_image_@@_-lSDL_mixer_@@_-lSDL_net_@@_-lOpenGL32_@@_-lGLU32_@@_
 IsCpp=1
-Icon=OpenCity-0.0.4beta.ico
+Icon=OpenCity.ico
 ExeOutput=
 ObjectOutput=
 OverrideOutput=1
@@ -27,7 +27,7 @@ CustomMakefile=
 IncludeVersionInfo=1
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000001010000000111
+CompilerSettings=0000000001001000000110
 
 [Unit1]
 FileName=src\audiomanager.h
