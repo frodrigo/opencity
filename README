@@ -125,7 +125,6 @@ Undocumented features, try it at your own risks:
 		t: connect to local ZeN server
 
 
-
 ------------------------------------------------------------------------------
 Autoscrolling
 ------------------------------------------------------------------------------
@@ -138,7 +137,6 @@ in the upper left or right corner to see how it works.
 
 	For the moment, you can not disable them. I know, not everybody
 like auto stuff.
-
 
 
 ------------------------------------------------------------------------------
@@ -163,7 +161,6 @@ guys not me ;) If you experience such a problem, just turn the music
 off (key 'm').
 
 
-
 ------------------------------------------------------------------------------
 Mouse action
 ------------------------------------------------------------------------------
@@ -181,12 +178,10 @@ that it translates the map in some direction. Whereas the 'Ctrl' button
 translates the map along another axis.
 
 
-
 ------------------------------------------------------------------------------
 Main config file "opencity.conf"
 ------------------------------------------------------------------------------
 	See the in-line comments for more details.
-
 
 
 ------------------------------------------------------------------------------
@@ -196,8 +191,8 @@ NOTE: command-line options overwrite config file's options.
 
 	--no-dl: 
 	Don't use OpenGL display list for the grid. Sometimes, it's useful when
-you play OpenCity under Windows which supports badly 
-OpenGL (hmm, I wonder why ?)
+you play OpenCity under Windows which supports badly OpenGL
+(hmm, I wonder why ?)
 
 	--gl-version:
 	Show the informations of the current available OpenGL implementation
@@ -214,7 +209,6 @@ want to test the server on your computer, launch another OpenCity without
 "--server" then type 't' to connect to the local OpenCity server.
 
 
-
 ------------------------------------------------------------------------------
 Save/Load issues
 ------------------------------------------------------------------------------
@@ -223,7 +217,6 @@ Save/Load issues
 			$HOME/.OpenCity/
 		Windows:
 			C:\Documents and Settings\username\Application Data\OpenCity\
-
 
 
 ------------------------------------------------------------------------------
@@ -251,7 +244,6 @@ in the shell (bash) before launching OpenCity.
 		"export R200_NO_VTXFMT="
 
 	Or you should try a newer XFree.
-
 
 
 ------------------------------------------------------------------------------
