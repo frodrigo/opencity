@@ -1,3 +1,7 @@
+sep 28th, 06:
+	-new: GetLayerSize() in layer.h
+
+
 aug 6th, 06:
 	-change: The terrain is compiled into display list
 

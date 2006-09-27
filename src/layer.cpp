@@ -83,6 +83,15 @@ Layer::GetMaxLinear() const
 }
 
 
+   /*=====================================================================*/
+void
+Layer::GetLayerSize(
+	uint & w,
+	uint & l) const
+{
+	w = _uiLayerWidth;
+	l = _uiLayerLength;
+}
 
 
 

@@ -137,14 +137,16 @@ Simulator::CheckRange(
    /*======================================================================*/
 const bool
 Simulator::CheckLevelUp(
-	const uint & w,
-	const uint & l,
+	const uint w,
+	const uint l,
 	const Structure* pStruct ) const
 {
 	OPENCITY_DEBUG("CheckLevelUp");
 
 	static OPENCITY_GRAPHIC_CODE nextGC;
-	static uint ow, ol, oh, nw, nl, nh;		// Old, and New WLH
+	static uint ow = 0, ol = 0, oh = 0, nw = 0, nl = 0, nh = 0;		// Old, and New WLH
+	static uint w2 = 0, l2 = 0;
+	static uint layerW = 0, layerL = 0;
 
 	assert( pStruct != NULL );			// Ya, we need it !
 	nextGC = pStruct->GetNextLevelGraphicCode();
@@ -180,12 +182,19 @@ Simulator::CheckLevelUp(
 		OPENCITY_DEBUG("The higher level should have bigger dimensions");
 	}
 
+// IF the new structure is out of the map THEN
+	w2 = w + nw - 1;
+	l2 = l + nl - 1;
+	pbuildlayer->GetLayerSize( layerW, layerL );
+	if ( w2 >= layerW || l2 >= layerL ) {
+//		OPENCITY_DEBUG( "Sorry, it's out of the map !" );
+		return false;
+	}
+
 // The old WLH are smaller
 // IF the new required surface does not contains only the required structure THEN
 	if (this->pbuildlayer->ContainStructureOnly(
-		w, l,
-//		w + nw - ow, l + nl - ol,
-		w + nw - 1, l + nl - 1,
+		w, l, w2, l2,
 		pStruct->GetCode()) == false ) {
 		return false;
 	}
@@ -198,14 +207,16 @@ Simulator::CheckLevelUp(
    /*======================================================================*/
 const bool
 Simulator::CheckLevelDown(
-	const uint & w,
-	const uint & l,
+	const uint w,
+	const uint l,
 	const Structure* pStruct ) const
 {
 	OPENCITY_DEBUG("CheckLevelDown");
 
 	static OPENCITY_GRAPHIC_CODE prevGC;
-	static uint ow, ol, oh, nw, nl, nh;		// Old, and New WLH
+	static uint ow = 0, ol = 0, oh = 0, nw = 0, nl = 0, nh = 0;		// Old, and New WLH
+	static uint w2 = 0, l2 = 0;
+	static uint layerW = 0, layerL = 0;
 
 	assert( pStruct != NULL );			// Ya, we need it !
 	prevGC = pStruct->GetPreviousLevelGraphicCode();
@@ -241,11 +252,18 @@ Simulator::CheckLevelDown(
 		OPENCITY_DEBUG("The lower level should have smaller dimensions");
 	}
 
+// IF the new structure is out of the map THEN
+	w2 = w + nw - 1;
+	l2 = l + nl - 1;
+	pbuildlayer->GetLayerSize( layerW, layerL );
+	if ( w2 >= layerW || l2 >= layerL ) {
+		return false;
+	}
+
 // The old WLH are bigger
 // IF the new required surface does not contains only the required structure THEN
 	if (this->pbuildlayer->ContainStructureOnly(
-		w, l,
-		w + nw - 1, l + nl - 1,
+		w, l, w2, l2,
 		pStruct->GetCode()) == false ) {
 		return false;
 	}

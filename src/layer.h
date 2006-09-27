@@ -154,6 +154,12 @@ to build the bulding.
 	GetMaxLinear() const;
 
 
+	void
+	GetLayerSize(
+		uint & w,
+		uint & l) const;
+
+
 	virtual void
 	StructureSet(
 		const OC_BYTE & status ) = 0;

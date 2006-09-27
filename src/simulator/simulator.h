@@ -1,10 +1,11 @@
 /***************************************************************************
-                          simulator.h  -  description
-        $Id$
-                             -------------------
-    begin                : dim sep 21 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						simulator.h  -  description
+							-------------------
+	begin                : dim sep 21 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -136,22 +137,24 @@ public:
 
 
 //========================================================================
-/** Check if the structure at the specified coodinates can "level up"
+/** Check if the structure at the specified coodinates can "level up".
+Mainly, it consists of structure's size checking
 */
 	const bool
 	CheckLevelUp(
-		const uint & w,
-		const uint & l,
+		const uint w,
+		const uint l,
 		const Structure* pStruct ) const;
 
 
 //========================================================================
 /** Check if the structure at the specified coodinates can "level down"
+Mainly, it consists of structure's size checking
 */
 	const bool
 	CheckLevelDown(
-		const uint & w,
-		const uint & l,
+		const uint w,
+		const uint l,
 		const Structure* pStruct ) const;
 
 

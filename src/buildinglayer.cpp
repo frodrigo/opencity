@@ -1,10 +1,11 @@
 /***************************************************************************
-                          buildinglayer.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : sam sep 20 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						buildinglayer.cpp  -  description
+							-------------------
+	begin                : sam sep 20 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -66,8 +67,10 @@ BuildingLayer::~BuildingLayer()
 	for ( uint counter = 0; counter < citySurface; counter++ ) {
 	// delete NULL pointer is allowed ?
 	// delete seems to have no effects on NULL
-		if (_tabpStructure[counter] != NULL)
+		if (_tabpStructure[counter] != NULL) {
 			delete _tabpStructure[counter];
+			_tabpStructure[counter] = NULL;
+		}
 	}
 
 	delete [] _tabpStructure;
@@ -672,8 +675,15 @@ BuildingLayer::ContainStructureOnly(
 	const uint & L2,
 	const OPENCITY_STRUCTURE_CODE & enumStructCode ) const
 {
-	uint w, h, linear;
-	Structure* pstruct;
+// Safe
+	assert( W1 >= 0 );
+	assert( L1 >= 0 );
+	assert( W2 < _uiLayerWidth );
+	assert( L2 < _uiLayerLength );
+
+
+	uint w = 0, l = 0, linear = 0;
+	Structure* pstruct = NULL;
 
 	switch (enumStructCode) {
 		case OC_STRUCTURE_UNDEFINED:
@@ -694,8 +704,8 @@ BuildingLayer::ContainStructureOnly(
 		case OC_STRUCTURE_POLICEDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
 		case OC_STRUCTURE_TEST:
-			for (h = L1; h <= L2; h++) {
-				linear = h*_uiLayerWidth + W1;
+			for (l = L1; l <= L2; l++) {
+				linear = l*_uiLayerWidth + W1;
 				for (w = W1; w <= W2; w++, linear++) {
 					pstruct = GetLinearStructure( linear );
 					if (pstruct != NULL) {
@@ -703,13 +713,13 @@ BuildingLayer::ContainStructureOnly(
 							return false;
 					}
 				}  // while w
-			}  // while h
+			}  // while l
 			break;
 
 		case OC_STRUCTURE_ELECTRIC:
 		// Return true if all the contained structures are electrified
-			for (h = L1; h <= L2; h++) {
-				linear = h*_uiLayerWidth + W1;
+			for (l = L1; l <= L2; l++) {
+				linear = l*_uiLayerWidth + W1;
 				for (w = W1; w <= W2; w++, linear++) {
 					pstruct = GetLinearStructure( linear );
 					if (pstruct != NULL) {

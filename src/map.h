@@ -1,10 +1,11 @@
 /***************************************************************************
-                          map.h  -  description
-             $Id$
-                             -------------------
-    begin                : january 24th, 2004
-    copyright            : (C) 2004-2006 Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						map.h  -  description
+							-------------------
+	begin                : january 24th, 2004
+	copyright            : (C) 2004-2006 Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -32,8 +33,8 @@ class Layer;
 class Map: public Persistence {
 public:
 	Map(
-		const uint & width,
-		const uint & height );
+		const uint width,
+		const uint height );
 
 	~Map();
 

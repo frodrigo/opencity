@@ -26,8 +26,8 @@
 
    /*=====================================================================*/
 Map::Map(
-	const uint & width,
-	const uint & height ):
+	const uint width,
+	const uint height ):
 _uiMapWidth( width ),
 _uiMapHeight( height ),
 _pclayer( NULL )
