@@ -1,12 +1,40 @@
+#==============================================================================
+# OpenCity's main automake file
+#==============================================================================
+
 SUBDIRS = \
 	src viewer
 
-EXTRA_DIST = \
-	config docs graphism model sound texture \
-	COPYRIGHT OpenCity.desktop OpenCity.png \
-	autopackage
 
-#----------------------------------- Install all the EXTRA_DIST directories
+EXTRA_DIST = \
+	graphism model sound texture COPYRIGHT
+
+
+dist_pkgdata_DATA = \
+	OpenCity.desktop OpenCity.png
+
+
+nobase_dist_pkgdata_DATA = \
+	autopackage/opencity.apspec
+
+
+#==============================================================================
+# "config" directory
+#==============================================================================
+nobase_dist_pkgdata_DATA += \
+	config/graphism.conf config/opencity.conf
+
+
+#==============================================================================
+# "docs" directory
+#==============================================================================
+nobase_dist_pkgdata_DATA += \
+	docs/FAQ.txt docs/LEGGIMI.txt
+
+
+#==============================================================================
+# Install all the EXTRA_DIST directories
+#==============================================================================
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir);
 	for data in $(EXTRA_DIST); do \
@@ -15,12 +43,10 @@ install-data-local:
 			cp -r $(srcdir)/$$data/* $(DESTDIR)$(pkgdatadir)/$$data/; \
 		fi; \
 	done;
-#	$(INSTALL_DATA) config/opencity.conf $(DESTDIR)$(pkgdatadir)/config/;
-	$(INSTALL_DATA) sound/sound.m3u $(DESTDIR)$(pkgdatadir)/sound/;
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps/;
-	$(INSTALL_DATA) $(srcdir)/OpenCity.png $(DESTDIR)$(datadir)/pixmaps/;
-	$(mkinstalldirs) $(DESTDIR)$(datadir)/applications/;
-	$(INSTALL_DATA) $(srcdir)/OpenCity.desktop $(DESTDIR)$(datadir)/applications/;
+#	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps/;
+#	$(INSTALL_DATA) $(srcdir)/OpenCity.png $(DESTDIR)$(datadir)/pixmaps/;
+#	$(mkinstalldirs) $(DESTDIR)$(datadir)/applications/;
+#	$(INSTALL_DATA) $(srcdir)/OpenCity.desktop $(DESTDIR)$(datadir)/applications/;
 
 	@echo -e "\n\r";
 	@echo "========================================================================";
@@ -29,14 +55,20 @@ install-data-local:
 	@echo "========================================================================";
 	@echo -e "\n\r";
 
-#----------------------------------- Uninstall = Delete everything
+
+#==============================================================================
+# Uninstall = Delete everything
+#==============================================================================
 uninstall-local:
-	$(RM) -f $(DESTDIR)$(datadir)/pixmaps/OpenCity.png
-	$(RM) -f $(DESTDIR)$(datadir)/applications/OpenCity.desktop
+#	$(RM) -f $(DESTDIR)$(datadir)/pixmaps/OpenCity.png
+#	$(RM) -f $(DESTDIR)$(datadir)/applications/OpenCity.desktop
 	$(RM) -f $(DESTDIR)$(bindir)/opencity
 	$(RM) -rf $(DESTDIR)$(pkgdatadir)
 
-#----------------------------------- Remove SVN directories
+
+#==============================================================================
+# Remove SVN directories from the distribution file
+#==============================================================================
 dist-hook:
 	for extra in $(EXTRA_DIST); do \
 		$(RM) -rf `find $(distdir)/$$extra -name "\.svn" -type d`; \

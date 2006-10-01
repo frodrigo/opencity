@@ -9,14 +9,16 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 AC_CONFIG_HEADERS([header.h])
-dnl AC_PREFIX_DEFAULT($HOME/bin/opencity) # We use the old standard /usr/local
+
 
 AM_INIT_AUTOMAKE([1.7 dist-bzip2])
 AM_BINRELOC
 
 
+dnl ===========================================================================
 dnl We need ranlib to build index for accelerating symbols searching
 dnl in archive files.
+dnl ===========================================================================
 AC_PROG_RANLIB
 AC_PROG_INSTALL
 
@@ -171,6 +173,13 @@ dnl ===========================================================================
 dnl Checks for header files.
 dnl Checks for typedefs, structures, and compiler characteristics.
 dnl Checks for library functions.
+dnl ===========================================================================
+
+
+dnl ===========================================================================
+dnl Output makefiles
+dnl ===========================================================================
+
 
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/binreloc/Makefile])
@@ -183,8 +192,7 @@ AC_CONFIG_FILES([src/structure/Makefile])
 AC_CONFIG_FILES([src/triangulation/Makefile])
 AC_CONFIG_FILES([viewer/Makefile])
 AC_CONFIG_FILES([Makefile])
-dnl AC_CONFIG_FILES([config/opencity.conf]) -> not used any more
-dnl AC_CONFIG_FILES([sound/sound.m3u]) -> not used any more
+
 
 AC_OUTPUT
 
