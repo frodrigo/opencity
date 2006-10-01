@@ -17,11 +17,18 @@ Audience:
 
 
 ------------------------------------------------------------------------------
-INSTALL on GNU/Linux
+INSTALL from sources on GNU/Linux
 ------------------------------------------------------------------------------
-Extract the sources or go to the root source directory if you've downloaded
-the sources from SVN. Then open a console and type at the prompt the
-following commands in order to install OpenCity on your computer:
+First, if you've downloaded a opencity-x.y.z.tar.bz2 file you need to extract
+the sources by typing the following command at the prompt of your console:
+
+
+	tar xjf opencity-x.y.tar.bz2
+
+
+You do not need to perform this step if you  downloaded the sources from SVN.
+The following commands will compile and install OpenCity on your system.
+You need to be "root" when you call "make install".
 
 
 	mkdir obj
@@ -50,18 +57,28 @@ That's all, folks !
 
 
 ------------------------------------------------------------------------------
+INSTALL from a .package file on GNU/Linux
+------------------------------------------------------------------------------
+The installer under GNU/Linux is named as opencity-x.y.z.package. Just make
+it executable then run it.
+
+
+------------------------------------------------------------------------------
 PACKAGE on GNU/Linux
 ------------------------------------------------------------------------------
-Use the autopackage system.
+Please use the autopackage system. The specification file is inside the
+"autopackage" directory. For more information, see:
+
 
 	http://www.autopackage.org
 
 
 ------------------------------------------------------------------------------
-PACKAGE on GNU/Linux
+PACKAGE on Windows
 ------------------------------------------------------------------------------
-Use the InnoSetup system. There's already the InnoSetup configuration file
-called "OpenCity.iss" at the source root.
+Please use the InnoSetup system. There's already the InnoSetup configuration file
+called "OpenCity.iss" at the source root. For more information, see:
+
 
 	http://www.innosetup.com
 
