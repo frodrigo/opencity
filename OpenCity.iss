@@ -31,7 +31,7 @@ Source: "texture\*"; DestDir: "{app}\share\opencity\texture"; Excludes: ".svn"
 Source: "README.txt"; DestDir: "{app}"; Flags: isreadme
 
 [Icons]
-Name: "{group}\OpenCity 0.0.4beta RC1"; Filename: "{app}\bin\OpenCity-0.0.4beta.exe"; Parameters: "--homedir ""{app}\share\opencity"""; WorkingDir: "{app}\share\opencity"
+Name: "{group}\OpenCity 0.0.4beta"; Filename: "{app}\bin\OpenCity-0.0.4beta.exe"; Parameters: "--homedir ""{app}\share\opencity"""; WorkingDir: "{app}\share\opencity"
 Name: "{group}\FAQ"; Filename: "{app}\share\opencity\docs\FAQ.txt"
 Name: "{group}\ReadMe"; Filename: "{app}\README.txt";
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}";
