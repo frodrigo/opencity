@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-README for OpenCity 0.0.4beta
+README for OpenCity 0.0.5beta
 ------------------------------------------------------------------------------
 Last modified:
 	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
@@ -189,7 +189,7 @@ Command-line options
 ------------------------------------------------------------------------------
 NOTE: command-line options overwrite config file's options.
 
-	--no-dl: 
+	--no-dl:
 	Don't use OpenGL display list for the grid. Sometimes, it's useful when
 you play OpenCity under Windows which supports badly OpenGL
 (hmm, I wonder why ?)

@@ -1,53 +1,28 @@
 ==============================================================================
-OpenCity TODO version 0.0.4 BETA
-----------------------------------
-$Id$
-
-Implement the MAS library             (done)
-MAS integration                       (done)
-Review the debug macros               (done)
-Reduce the number of threads          (done)
-Terrain save/load feature             (done)
-Create MAS debug macro                (done)
-Fix the MAS 0, 0 coordinates bug      (done)
-Fix the raise/lower terrain cost      (done)
-Hospital model                        (done)
-Terrain generation                    (done)
-Trees                                 (done)
-Convert road OCM files to AC          (done)
-Clean up the MAS library              (done)
-Convert the terrain to display list   (done)
-Fix building resize bug               (done)
-Fix vehicle display bug               (done)
-Fix splash display bug                (done)
-Fix save/load character ignoring bug  (done)
-Fix save/load stream buffer misuse    (done)
-Multi plateform save file format      (done)
-Remove moving vehicles while loading  (done)
-City save/load feature                (experimental)
-Multi plateform save/load path        (experimental)
-Toolcircle shadow                     (done)
-Fix simulator value                   (done)
-Fix save/load GUI bug                 (done)
-Fix Win32 windows resize bug          (done)
-Tell us save/load bug
-
-
-
-==============================================================================
 OpenCity TODO version 0.0.5 BETA
 ----------------------------------
-Global city dimensions
-Water structures: pipe, pump, tower models
+Last modified:
+	$Id$
+
+Variable name clean up
+Remove -no-dl option
+Global city dimensions variable
+Water texture
+Water layer
+Water pipe
+Water pump
+Water tower
 Water micro simulator
 Tree micro simulator
 Fire
 Explosion
-Nature simulator: earthquake
+Nature micro simulator: earthquake
 Improve vehicle rendering
 Review the agent creation process
 Review the message system
-Rail structures: rail road, train models
+Rail road
+Rail station
+Train models
 Crime
 Police agent system
 Minimap
@@ -79,8 +54,44 @@ Event plugin:
 
 
 ==============================================================================
+OpenCity TODO version 0.0.4 BETA - STABLE
+-----------------------------------------
+Last updated oct 8th, 2006
+
+Implement the MAS library             (done)
+MAS integration                       (done)
+Review the debug macros               (done)
+Reduce the number of threads          (done)
+Terrain save/load feature             (done)
+Create MAS debug macro                (done)
+Fix the MAS 0, 0 coordinates bug      (done)
+Fix the raise/lower terrain cost      (done)
+Hospital model                        (done)
+Terrain generation                    (done)
+Trees                                 (done)
+Convert road OCM files to AC          (done)
+Clean up the MAS library              (done)
+Convert the terrain to display list   (done)
+Fix building resize bug               (done)
+Fix vehicle display bug               (done)
+Fix splash display bug                (done)
+Fix save/load character ignoring bug  (done)
+Fix save/load stream buffer misuse    (done)
+Multi plateform save file format      (done)
+Remove moving vehicles while loading  (done)
+City save/load feature                (experimental)
+Multi plateform save/load path        (experimental)
+Toolcircle shadow                     (done)
+Fix simulator value                   (done)
+Fix save/load GUI bug                 (done)
+Fix Win32 windows resize bug          (done)
+Tell us save/load bug                 (pending)
+
+
+
+==============================================================================
 OpenCity TODO version 0.0.3 BETA - STABLE
---------------------------------
+-----------------------------------------
 Last updated jan 24th, 2006
 
 Create autopackage                    (done)
