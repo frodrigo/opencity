@@ -189,11 +189,6 @@ Command-line options
 ------------------------------------------------------------------------------
 NOTE: command-line options overwrite config file's options.
 
-	--no-dl:
-	Don't use OpenGL display list for the grid. Sometimes, it's useful when
-you play OpenCity under Windows which supports badly OpenGL
-(hmm, I wonder why ?)
-
 	--gl-version:
 	Show the informations of the current available OpenGL implementation
 on your machine

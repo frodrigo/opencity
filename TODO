@@ -1,11 +1,13 @@
 ==============================================================================
-OpenCity TODO version 0.0.5 BETA
-----------------------------------
+OpenCity TODO version 0.0.5 BETA (rad)
+--------------------------------------
 Last modified:
 	$Id$
 
-Variable name clean up
-Remove -no-dl option
+Remove -no-dl option                  (done)
+Variable name clean up                (wip)
+Fullscreen config variable support
+High resolution support
 Global city dimensions variable
 Water texture
 Water layer

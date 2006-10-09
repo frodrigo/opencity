@@ -76,7 +76,7 @@ class UI;
 	#define OC_MAP_HEIGHT_MIN -10
 
 	#define OC_CITY_W 100		// Watch out ! if you change this you must change
-	#define OC_CITY_H 100		// the value of OC_SIMULATOR_LAG* too,
+	#define OC_CITY_L 100		// the value of OC_SIMULATOR_LAG* too,
 								// It's dangerous !
 								// Don't touch it if you don't know what you do
 

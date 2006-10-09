@@ -80,12 +80,11 @@
    /*                        GLOBAL    VARIABLES                          */
    /*=====================================================================*/
 // Config file and command line options
-	bool gboolUseDisplayList	= true;
 	bool gboolUseAudio			= true;
 	bool gboolFullScreen		= false;
 	bool gboolServerMode		= false;
 	uint uiCityWidth			= OC_CITY_W;
-	uint uiCityHeight			= OC_CITY_H;
+	uint uiCityLength			= OC_CITY_L;
 	uint guiMsPerFrame			= OC_MS_PER_FRAME;
 	uint guiVideoBpp			= OC_WINDOW_BPP_DEFAULT;
 	OC_FLOAT gfMsSimDelayMax;
@@ -374,11 +373,6 @@ void parseArg(int argc, char *argv[])
 	counter = 0;
 
 	while (++counter < argc) {
-		if (strcmp( argv[counter], "--no-dl" ) == 0) {
-			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			cout << "Disabled: display list" << endl;
-			gboolUseDisplayList = false;
-		} else
 		if (strcmp( argv[counter], "--gl-version" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			if (gpVideoSrf == NULL) {
@@ -405,7 +399,7 @@ void parseArg(int argc, char *argv[])
 		else {
 			cout << "Unknown option: [" << argv[counter] << "]" << endl;
 			cout << "Usage: " << argv[0]
-			     << " [--no-dl] [--gl-version] [--homedir newHomePath] [--server]"
+			     << " [--gl-version] [--homedir newHomePath] [--server]"
 				 << endl << endl;
 			cout << "Warning: any command line switch will overwrite the config file settings"
 			     << endl;
@@ -502,7 +496,7 @@ int clientMode()
 
 
 // Create the global renderer in order to use its text rendering functions
-	gpRenderer = new Renderer( uiCityWidth, uiCityHeight, gboolUseDisplayList );
+	gpRenderer = new Renderer( uiCityWidth, uiCityLength );
 
 /* debug
 // Test font
@@ -540,7 +534,7 @@ int clientMode()
 
 // Create the other required global managers
 	displayStatus( "Activating embedded GPS...");
-	gpMapMgr = new Map( uiCityWidth, uiCityHeight );
+	gpMapMgr = new Map( uiCityWidth, uiCityLength );
 
 	displayStatus( "Calibrating earthquake subsystem...");
 	gpGraphicMgr = new GraphicManager();
@@ -556,7 +550,7 @@ int clientMode()
 
 
 // the pointer of our new city
-	City* pNewCity = new City( gboolUseDisplayList, uiCityWidth, uiCityHeight );
+	City* pNewCity = new City( uiCityWidth, uiCityLength );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
 		return (-15);
@@ -570,7 +564,7 @@ int clientMode()
 	// Create the necessary classes for the Multi-Agent System
 		gpKernel = new Kernel();
 		gpEnvironment = new Environment(
-			uiCityWidth, uiCityHeight, pNewCity->GetLayer( BUILDING_LAYER ), gpKernel );
+			uiCityWidth, uiCityLength, pNewCity->GetLayer( BUILDING_LAYER ), gpKernel );
 
 		new AgentPolice(*gpKernel, *gpEnvironment, 1, 2);
     	new AgentPolice(*gpKernel, *gpEnvironment, 3, 4);
@@ -752,16 +746,14 @@ int readConfig()
 	if (pConf->Open(ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME)) == OC_ERR_FREE) {
 		bool bValue;
 		OC_LINT liValue;
-		if (pConf->GetBool("UseDisplayList", bValue) == OC_ERR_FREE)
-			gboolUseDisplayList = bValue;
 		if (pConf->GetBool("UseAudio", bValue) == OC_ERR_FREE)
 			gboolUseAudio = bValue;
 		if (pConf->GetBool("FullScreen", bValue) == OC_ERR_FREE)
 			gboolFullScreen = bValue;
 		if (pConf->GetLint("CityWidth", liValue) == OC_ERR_FREE)
 			uiCityWidth = liValue;
-		if (pConf->GetLint("CityHeight", liValue) == OC_ERR_FREE)
-			uiCityHeight = liValue;
+		if (pConf->GetLint("CityLength", liValue) == OC_ERR_FREE)
+			uiCityLength = liValue;
 		if (pConf->GetLint("MsPerFrame", liValue) == OC_ERR_FREE)
 			guiMsPerFrame = liValue;
 
@@ -808,7 +800,7 @@ int main(int argc, char *argv[])
 
 // Initialization of global variables
 	uipCurrentUI = NULL;
-	gfMsSimDelayMax = log10((OC_FLOAT)uiCityWidth*uiCityHeight + 1) * OC_MS_GLOBAL_LOG_FACTOR;
+	gfMsSimDelayMax = log10((OC_FLOAT)uiCityWidth*uiCityLength + 1) * OC_MS_GLOBAL_LOG_FACTOR;
 
 // Initialize the random number generator
 	srand( time(NULL) );

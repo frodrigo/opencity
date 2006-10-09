@@ -1,10 +1,11 @@
 /***************************************************************************
-                          city.h    -  description
-         $Id$
-                             -------------------
-    begin                : mer mai 28 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							city.h    -  description
+								-------------------
+	begin                : mer mai 28 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -44,15 +45,13 @@ class City : public Persistence, public UI
 {
 public:
 	City(
-		const bool & rcUseDL = true,
-		const uint & width = OC_CITY_W,
-		const uint & height = OC_CITY_H,
-		const OC_DATE & foundedDate = 0,
-		const int & difficulty = 2 );
+		const uint width = OC_CITY_W,
+		const uint length = OC_CITY_L,
+		const OC_DATE foundedDate = 0,
+		const int difficulty = 2 );
 
-	City( const int & rciFileHandle );
+	~City();
 
-	~City(  );
 
 //========================================================================
 /** Save the data to the specified fstream
@@ -98,12 +97,9 @@ public:
 	Layer*
 	GetLayer( OPENCITY_CITY_LAYER enumLayer ) const;
 
-	const uint&
-	cityGetWidth(  ) const;
 
-	const uint&
-	cityGetHeight(  ) const;
-
+	const void GetWL(
+		uint & w, uint & l ) const;
 
 
 private:
@@ -126,14 +122,11 @@ private:
 
 	OC_CHAR		_cTool;				///< Tool hotkey
 
-	uint		_uiWidth;			///< City's width, height
-	uint		_uiHeight;
+	uint		_uiWidth;			///< City's width, length
+	uint		_uiLength;
 
 	int			iWinWidth;			///< Windows' width, height
 	int			iWinHeight;
-
-// Some GL options
-	bool		boolUseDisplayList;
 
 // Dragging mode and mouse click
 	bool		boolLMBPressed;

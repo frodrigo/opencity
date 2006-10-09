@@ -57,18 +57,19 @@ extern Map* gpMapMgr;					// The global mapmanager from main.cpp
 extern SDL_Surface* gpVideoSrf;			// global video screen surface
 
    /*=====================================================================*/
-Renderer::Renderer(
-	const uint & cityW, const uint & cityH,
-	const bool & rcboolUseDL ):
+Renderer::Renderer
+(
+	const uint cityW,
+	const uint cityL
+):
 boolHeightChange( true ),
 bDisplayGrid( true ),
 bDisplayCompass( true ),
 bWireFrame( false ),
 ubProjectionType( OC_PERSPECTIVE ),
-//boolUseDisplayList( rcboolUseDL ),	// Ignored, will be removed in the future
 _uiSplashTex( 0 ),
 _uiCityWidth( cityW ),
-_uiCityLength( cityH )
+_uiCityLength( cityL )
 {
 	OPENCITY_DEBUG( "Renderer ctor" );
 

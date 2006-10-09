@@ -72,11 +72,10 @@ extern string gsZenServer;				// The server name, ex: "localhost"
 
    /*=====================================================================*/
 City::City(
-	const bool & rcUseDL,
-	const uint & width,
-	const uint & height,
-	const OC_DATE & foundedDate,
-	const int & difficulty ):
+	const uint width,
+	const uint length,
+	const OC_DATE foundedDate,
+	const int difficulty ):
 strCityName("OpenCity"),
 iDifficulty( difficulty ),
 strFileName(""),
@@ -90,9 +89,8 @@ _uiYear( 0 ),
 
 _cTool('N'),
 _uiWidth( width ),
-_uiHeight( height ),
+_uiLength( length ),
 
-boolUseDisplayList( rcUseDL ),
 boolLMBPressed( false ),
 enumCurrentLayer( BUILDING_LAYER ),
 enumCurrentSpeed( NORMAL_SPEED ),
@@ -120,7 +118,7 @@ enumCurrentTool( OC_NONE )
 		gpmutexSim,
 		(BuildingLayer*)ptabLayer[ BUILDING_LAYER ],
 		gpMapMgr,
-		_uiWidth, _uiHeight );
+		_uiWidth, _uiLength );
 
 // Debug toolcircle
 	boolPathGo = false;
@@ -144,11 +142,6 @@ enumCurrentTool( OC_NONE )
 // create the GUI
 	_CreateGUI();
 }
-
-
-   /*=====================================================================*/
-City::City( const int & rciFileHandle ){}
-
 
 
    /*=====================================================================*/
@@ -190,7 +183,7 @@ City::SaveTo( std::fstream& rfs )
 	rfs << _uiMonth << std::ends;
 	rfs << _uiYear << std::ends;
 	rfs << _uiWidth << std::ends;
-	rfs << _uiHeight << std::ends;
+	rfs << _uiLength << std::ends;
 }
 
 
@@ -205,7 +198,7 @@ City::LoadFrom( std::fstream& rfs )
 	rfs >> _uiMonth; rfs.ignore();
 	rfs >> _uiYear; rfs.ignore();
 	rfs >> _uiWidth; rfs.ignore();
-	rfs >> _uiHeight; rfs.ignore();
+	rfs >> _uiLength; rfs.ignore();
 }
 
 
@@ -348,20 +341,13 @@ City::GetLayer( OPENCITY_CITY_LAYER enumLayer ) const
 
 
    /*=====================================================================*/
-const uint &
-City::cityGetWidth() const
+const void
+City::GetWL(
+	uint & w, uint & l ) const
 {
-	return _uiWidth;
+	w = _uiWidth;
+	l = _uiLength;
 }
-
-
-   /*=====================================================================*/
-const uint &
-City::cityGetHeight() const
-{
-	return _uiHeight;
-}
-
 
 
    /*=====================================================================*/
@@ -1357,7 +1343,7 @@ City::_DoBill(
 	Structure* pStruct;
 	static uint income = 0;
 
-	surface = _uiWidth * _uiHeight;
+	surface = _uiWidth * _uiLength;
 	maintenance = 0;
 	for (index = 0; index < surface; index++) {
 		pStruct = ptabLayer[ BUILDING_LAYER ]->GetLinearStructure( index );
@@ -1892,7 +1878,7 @@ City::_Load( const string& strFilename )
 
 // Manually add the structures to the simulators
 	for ( w = 0; w < _uiWidth; w++ ) {
-		for ( l = 0; l < _uiHeight; l++ ) {
+		for ( l = 0; l < _uiLength; l++ ) {
 			_pMSim->AddStructure( w, l, w, l );
 		}
 	}

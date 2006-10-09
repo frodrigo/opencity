@@ -45,8 +45,7 @@ BuildingLayer::BuildingLayer
 {
 	OPENCITY_DEBUG( "ctor" );
 // initialization of width and height
-	_uiLayerWidth = rcCity.cityGetWidth();
-	_uiLayerLength = rcCity.cityGetHeight();
+	rcCity.GetWL( _uiLayerWidth, _uiLayerLength );
 
 // initialization of the table of pointer of Structure
 	uint citySurface = _uiLayerLength * _uiLayerWidth;

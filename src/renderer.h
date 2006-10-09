@@ -45,12 +45,11 @@ class Map;
 class Renderer
 {
 public:
-
 	Renderer(
-		const uint & cityW, const uint & cityH,
-		const bool & rcboolUseDL );
+		const uint cityW,
+		const uint cityL );
 
-	~Renderer(  );
+	~Renderer();
 
 
 	void RotateLeft( const uint & factor = 1 );
@@ -60,6 +59,7 @@ public:
 	void MoveUp( const uint & factor = 1 );
 	void MoveDown( const uint & factor = 1 );
 
+
 //========================================================================
 /** Reinit the map's position as if the game has just been launched
 */
@@ -68,13 +68,11 @@ public:
 	void ZoomIn(  );
 	void ZoomOut(  );
 
-/* TOKILL, unused 6 august 06
-	void SetGrid( const bool & rcbState );
-*/
 	void ToggleGrid();
 	void ToggleCompass();
 	void ToggleProjection();
 	void ToggleWireFrame();
+
 
 //========================================================================
 /** Display the splash screen at the specified coordinates
@@ -208,7 +206,6 @@ private:
 	GLdouble dEyeZ;
 
 // GL display lists
-	bool boolUseDisplayList;
 	GLuint uiGridList;		///< GL list of the grid
 	GLuint uiFontBase;		///< The base font list index
 	GLuint _uiTerrainList;	///< GL list of the terrain
