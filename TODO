@@ -6,8 +6,8 @@ Last modified:
 
 Remove -no-dl option                  (done)
 Variable name clean up                (wip)
-Fullscreen config variable support
-High resolution support
+Fullscreen config variable support    (done)
+Fullscreen high resolution autodetect (done)
 Global city dimensions variable
 Water texture
 Water layer

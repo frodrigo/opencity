@@ -86,7 +86,10 @@
 	uint uiCityWidth			= OC_CITY_W;
 	uint uiCityLength			= OC_CITY_L;
 	uint guiMsPerFrame			= OC_MS_PER_FRAME;
+	uint guiScreenWidth			= OC_WINDOW_WIDTH;
+	uint guiScreenHeight		= OC_WINDOW_HEIGHT;
 	uint guiVideoBpp			= OC_WINDOW_BPP_DEFAULT;
+
 	OC_FLOAT gfMsSimDelayMax;
 	string gsZenServer;
 
@@ -169,16 +172,20 @@ void ocMouseMotion( const SDL_MouseMotionEvent & motionEvent )
 void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
 {
 #ifndef WIN32
-// Linux needs this where as Win32 does not
+// Linux needs this whereas Win32 does not
 // Set the new window's size
 	if( SDL_SetVideoMode(
 		rcsResizeEvent.w, rcsResizeEvent.h,
 		guiVideoBpp, flags ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
-		exit (-4);
+		exit( -4 );
 	}
 	gpVideoSrf = SDL_GetVideoSurface();
 #endif
+
+// Save the new screen size
+	guiScreenWidth = rcsResizeEvent.w;
+	guiScreenHeight = rcsResizeEvent.h;
 
 	if (uipCurrentUI != NULL) {
 		uipCurrentUI->uiResize( rcsResizeEvent );
@@ -255,11 +262,46 @@ void ocSetNewUI( UI * pcNewUI)
 
 
    /*=====================================================================*/
+void getFullScreenResolution(uint & w, uint & h)
+{
+	SDL_Rect **modes;
+	int i;
+	
+// Get available fullscreen/hardware modes
+	modes = SDL_ListModes(NULL, flags);
+	
+// Check if there are any modes available
+	if(modes == (SDL_Rect **)0) {
+		OPENCITY_FATAL( "No fullscreen mode available !" );
+		exit(-1);
+	}
+	
+// Check if our resolution is restricted
+	if(modes == (SDL_Rect **)-1) {
+	// Use the default fullscreen size
+		OPENCITY_INFO( "All fullscreen resolutions available. ");
+		w = OC_FULLSCREEN_WIDTH;
+		h = OC_FULLSCREEN_HEIGHT;
+	}
+	else {
+	// Print valid modes
+		//printf("Available Modes\n");
+		w = 0; h = 0;
+		for (i = 0; modes[i]; ++i) {
+			//printf("  %d x %d\n", modes[i]->w, modes[i]->h);
+			if (modes[i]->w > w) {
+				w = modes[i]->w;
+				h = modes[i]->h;
+			}
+		} // for
+		OPENCITY_INFO( "The autodetected resolution of " << w << "x" << h << " pixels is used." );
+	} // else
+}
+
+
+   /*=====================================================================*/
 int initSDL()
 {
-	uint w = OC_WINDOW_WIDTH;
-	uint h = OC_WINDOW_HEIGHT;
-
 // Initialization of the SDL library
 	OPENCITY_DEBUG( "SDL Initialization" );
 
@@ -285,12 +327,13 @@ int initSDL()
 // Will we go for fullscreen ?
 	if (gboolFullScreen == true) {
 		flags |= SDL_FULLSCREEN;
-		w = OC_FULLSCREEN_WIDTH;
-		h = OC_FULLSCREEN_HEIGHT;
+		// IF autodetect THEN
+		if (guiScreenWidth == 0 or guiScreenHeight == 0)
+			getFullScreenResolution( guiScreenWidth, guiScreenHeight );
 	}
 
 // OK, go for the video settings now
-	gpVideoSrf = SDL_SetVideoMode( w, h, guiVideoBpp, flags );
+	gpVideoSrf = SDL_SetVideoMode( guiScreenWidth, guiScreenHeight, guiVideoBpp, flags );
 	if ( gpVideoSrf == NULL ) {
 	// This could happen for a variety of reasons,
 	// including DISPLAY not being set, the specified
@@ -306,7 +349,7 @@ int initSDL()
 		SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
 		SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 		SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 0 );
-		gpVideoSrf = SDL_SetVideoMode( w, h, guiVideoBpp, flags );
+		gpVideoSrf = SDL_SetVideoMode( guiScreenWidth, guiScreenHeight, guiVideoBpp, flags );
 
 		if (gpVideoSrf == NULL) {
 			OPENCITY_FATAL( "16 bpp mode has failed: " << SDL_GetError() );
@@ -322,7 +365,7 @@ int initSDL()
 
 // Test for DoubleBuffer
 	int iDblBuff = 0;
-	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER,  &iDblBuff );
+	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &iDblBuff );
 	if ( iDblBuff == 0 ) {
 		OPENCITY_INFO( "Checking doublebuffer: failed !" );
 		OPENCITY_FATAL( "We need doublebuffer" );
@@ -331,15 +374,6 @@ int initSDL()
 	else {
 		OPENCITY_INFO( "Checking doublebuffer: OK !" );
 	}
-
-/* TOKILL, not useful, commented out on Nov 29th, 05
-// testing the videomode we've got
-	if ( SDL_GetVideoInfo()->vfmt->BitsPerPixel != guiVideoBpp ) {
-		cerr << "OpenCity needs '" << guiVideoBpp << "' bits per pixel."
-		     << endl;
-		return -5;
-	}
-*/
 
 	return 0;
 }
@@ -746,10 +780,17 @@ int readConfig()
 	if (pConf->Open(ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME)) == OC_ERR_FREE) {
 		bool bValue;
 		OC_LINT liValue;
-		if (pConf->GetBool("UseAudio", bValue) == OC_ERR_FREE)
-			gboolUseAudio = bValue;
+
+		// Fullscreen settings
 		if (pConf->GetBool("FullScreen", bValue) == OC_ERR_FREE)
 			gboolFullScreen = bValue;
+		if (pConf->GetLint("FullScreenWidth", liValue) == OC_ERR_FREE)
+			guiScreenWidth = liValue;
+		if (pConf->GetLint("FullScreenHeight", liValue) == OC_ERR_FREE)
+			guiScreenHeight = liValue;
+
+		if (pConf->GetBool("UseAudio", bValue) == OC_ERR_FREE)
+			gboolUseAudio = bValue;
 		if (pConf->GetLint("CityWidth", liValue) == OC_ERR_FREE)
 			uiCityWidth = liValue;
 		if (pConf->GetLint("CityLength", liValue) == OC_ERR_FREE)
