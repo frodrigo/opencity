@@ -283,9 +283,14 @@ int initSDL()
 // Will we go for fullscreen ?
 	if (gVars.gboolFullScreen == true) {
 		flags |= SDL_FULLSCREEN;
-		// IF autodetect THEN
+	// IF autodetect THEN
 		if (gVars.guiScreenWidth == 0 or gVars.guiScreenHeight == 0)
 			getFullScreenResolution( gVars.guiScreenWidth, gVars.guiScreenHeight );
+	}
+	else {
+	// Use the default screen size
+		gVars.guiScreenWidth	= OC_WINDOW_WIDTH;
+		gVars.guiScreenHeight	= OC_WINDOW_HEIGHT;
 	}
 
 // OK, go for the video settings now
