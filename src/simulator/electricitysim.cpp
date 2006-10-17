@@ -18,17 +18,11 @@
  ***************************************************************************/
 
 #include "electricitysim.h"
-
 #include "buildinglayer.h"
 #include "structure.h"
 
-#include "../map.h"						// DevCpp sucks
-
-#include "propertymanager.h"
-
-
-extern PropertyManager* gpPropertyMgr;	// Global property manager
-
+#include "globalvar.h"
+extern GlobalVar gVars;
 
    /*=====================================================================*/
 ElectricitySim::ElectricitySim(
@@ -298,7 +292,7 @@ ElectricitySim::RemoveStructure(
 				enumStructCode = pstruct->GetCode();
 
 			   // Calculate the structure's range
-				gpPropertyMgr->GetWLH( pstruct->GetGraphicCode(), sw, 4, sl, 4, sh, 1 );
+				gVars.gpPropertyMgr->GetWLH( pstruct->GetGraphicCode(), sw, 4, sl, 4, sh, 1 );
 				sw--; sl--;
 			   // now look for the main w, h
 				this->pmapOfCity->GetPossibleWH( mainW1, mainH1, -sw, -sl );

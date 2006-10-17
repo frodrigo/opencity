@@ -40,21 +40,13 @@ for the first time
 //========================================================================
 
 #include "renderer.h"
-
 #include "layer.h"
-#include "map.h"
-#include "graphicmanager.h"
-#include "propertymanager.h"
 #include "texture.h"					// Terrain texturing
-
 #include "font_8x8.h"					// 8x8 font definition
 
-//WARNING: we can have more than one height map
-extern GraphicManager* gpGraphicMgr;	// The global graphicmanager from main.cpp
-extern PropertyManager* gpPropertyMgr;	// The global Property Manager
-extern Map* gpMapMgr;					// The global mapmanager from main.cpp
+#include "globalvar.h"
+extern GlobalVar gVars;
 
-extern SDL_Surface* gpVideoSrf;			// global video screen surface
 
    /*=====================================================================*/
 Renderer::Renderer
@@ -78,8 +70,8 @@ _uiCityLength( cityL )
 
 // Initialize the window's size, the viewport
 // and set the perspective's ratio
-	assert( gpVideoSrf != NULL );
-	Renderer::SetWinSize( gpVideoSrf->w, gpVideoSrf->h );
+	assert( gVars.gpVideoSrf != NULL );
+	Renderer::SetWinSize( gVars.gpVideoSrf->w, gVars.gpVideoSrf->h );
 
 // Settle "home" down ;)
 	this->Home();
@@ -597,12 +589,12 @@ Renderer::Display(
 	glTranslatef( 0., 0.05, 0. );
 	linear = 0;
 // IF the graphic manager is created THEN draw
-	if (gpGraphicMgr != NULL)
+	if (gVars.gpGraphicMgr != NULL)
 	for (l = 0; l < (int)_uiCityLength; l++) {
 		for (w = 0; w < (int)_uiCityWidth; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear++ );
 			if (pStructure != NULL)
-				gpGraphicMgr->DisplayStructure( pStructure, w, l );
+				gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
 		}
 	}
 	glPopMatrix();
@@ -682,9 +674,9 @@ Renderer::DisplayHighlight(
 		// display the correction structure/terrain
 		// with "linear" as objectID
 			if ( pStructure == NULL)
-				gpGraphicMgr->DisplayTerrainHighlight( w, l, enumTool );
+				gVars.gpGraphicMgr->DisplayTerrainHighlight( w, l, enumTool );
 			else
-				gpGraphicMgr->
+				gVars.gpGraphicMgr->
 				DisplayStructureHighlight( pStructure, w, l, enumTool );
 
 			++linear;
@@ -712,13 +704,13 @@ Renderer::DisplayBuildPreview(
 
 // Display the graphic code
 	glTranslatef( 0., 0.15, 0. );
-	gpGraphicMgr->DisplayGC( gcode, uiW, uiL );
+	gVars.gpGraphicMgr->DisplayGC( gcode, uiW, uiL );
 
 // Get the maximum square height
-	iH = gpMapMgr->GetSquareMaxHeight( uiW, uiL );
+	iH = gVars.gpMapMgr->GetSquareMaxHeight( uiW, uiL );
 
 // Get the graphic code dimensions in order to draw the bounding rectangle
-	gpPropertyMgr->GetWLH( gcode, sw, 4, sl, 4, sh, 1 );
+	gVars.gpPropertyMgr->GetWLH( gcode, sw, 4, sl, 4, sh, 1 );
 	glEnable( GL_BLEND );
 	glTranslatef( .0f, 0.1f, .0f );
 	glColor4ub( rcubR, rcubG, rcubB, 64 );
@@ -799,9 +791,9 @@ Renderer::DisplaySelection2(
 		// note: linear = 0 is not used since it means blank
 		// bland = there's no structure under the selection
 			if ( pStructure == NULL)
-				gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
+				gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
 			else
-				gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
+				gVars.gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
 			//ATTENTION: "linear++;" already done !
 		}
 	}
@@ -949,9 +941,9 @@ Renderer::GetSelectedWHFrom(
 		// note: linear = 0 is not used since it means blank
 		// bland = there's no structure under the selection
 			if ( pStructure == NULL)
-				gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
+				gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
 			else
-				gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
+				gVars.gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
 			//ATTENTION: "linear++;" already done !
 		}
 	}
@@ -1063,7 +1055,7 @@ Renderer::_DisplayTerrain() const
 		if (l % 2 == 0) {
 		// Get the 4 heights of the current square
 			w = 0;
-			gpMapMgr->GetSquareHeight( w, l, tabH );
+			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 		// calculate the new normal 1 (the cross product)
 			ax = 0.;   ay = (GLfloat)(tabH[1]-tabH[0]); az = 1.;
 			bx = 1.;   by = (GLfloat)(tabH[3]-tabH[0]); bz = .0;
@@ -1082,7 +1074,7 @@ Renderer::_DisplayTerrain() const
 
 			for (w = 1; w < (int)_uiCityWidth; w++) {
 			// Get the 4 heights of the current square
-				gpMapMgr->GetSquareHeight( w, l, tabH );
+				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 			// draw the stuff
 				glNormal3f( n1x, n1y, n1z );
 				glTexCoord2i( w, l );
@@ -1116,7 +1108,7 @@ Renderer::_DisplayTerrain() const
 		// We draw the square from right to left
 		// Get the 4 heights of the current square
 			w = _uiCityWidth-1;
-			gpMapMgr->GetSquareHeight( w, l, tabH );
+			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 
 		// calculate the new normal 1 (the cross product)
 			ax = -1.;  ay = (GLfloat)(tabH[0]-tabH[3]); az = .0;
@@ -1136,7 +1128,7 @@ Renderer::_DisplayTerrain() const
 
 			for (w = _uiCityWidth-2; w >= 0; w--) {
 		// Get the 4 heights of the current square
-				gpMapMgr->GetSquareHeight( w, l, tabH );
+				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 		// draw the stuff
 				glNormal3f( n1x, n1y, n1z );
 				glTexCoord2i( w+1, l );

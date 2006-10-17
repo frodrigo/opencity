@@ -29,7 +29,7 @@ nobase_dist_pkgdata_DATA += \
 # "docs" directory
 #==============================================================================
 nobase_dist_pkgdata_DATA += \
-	docs/FAQ.txt docs/LEGGIMI.txt
+	docs/FAQ.txt docs/FAQ_it.txt docs/README_it.txt
 
 
 #==============================================================================

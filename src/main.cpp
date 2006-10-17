@@ -25,20 +25,11 @@
 
 #include "main.h"
 #include "city.h"				// The heart of the project
-#include "audiomanager.h"		// Audio support
-#include "graphicmanager.h"
-#include "map.h"
-#include "propertymanager.h"
-#include "renderer.h"
-#include "networking.h"			// Networking support
-#include "movementmanager.h"
 #include "conf.h"				// Parser for .conf file
-
-#include "kernel.h"				// MAS kernel
-#include "environment.h"		// MAS environment
 #include "agentpolice.h"		// MAS testing
 #include "agentdemonstrator.h"
 
+#include "globalvar.h"			// Global settings variable: gVars
 
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
@@ -46,6 +37,11 @@
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
 
+
+   /*=====================================================================*/
+   /*                        GLOBAL    VARIABLES                          */
+   /*=====================================================================*/
+	GlobalVar gVars;
 
 
    /*=====================================================================*/
@@ -77,60 +73,20 @@
 
 
    /*=====================================================================*/
-   /*                        GLOBAL    VARIABLES                          */
-   /*=====================================================================*/
-// Config file and command line options
-	bool gboolUseAudio			= true;
-	bool gboolFullScreen		= false;
-	bool gboolServerMode		= false;
-	uint uiCityWidth			= OC_CITY_W;
-	uint uiCityLength			= OC_CITY_L;
-	uint guiMsPerFrame			= OC_MS_PER_FRAME;
-	uint guiScreenWidth			= OC_WINDOW_WIDTH;
-	uint guiScreenHeight		= OC_WINDOW_HEIGHT;
-	uint guiVideoBpp			= OC_WINDOW_BPP_DEFAULT;
-
-	OC_FLOAT gfMsSimDelayMax;
-	string gsZenServer;
-
-// The mutex that all the simulators depend on
-	SDL_mutex* gpmutexSim			= NULL;
-
-// The famous renderer
-	Renderer* gpRenderer			= NULL;
-
-// Datamanagers
-	AudioManager* gpAudioMgr		= NULL;		// global Audio Manager
-	GraphicManager* gpGraphicMgr	= NULL;		// global Graphic Manager
-	PropertyManager* gpPropertyMgr	= NULL;		// global Property Manager
-	Map* gpMapMgr					= NULL;		// global height Map Manager
-	Networking* gpNetworking		= NULL;		// global networking support class
-	PathFinder* gpPathFinder		= NULL;		// global pathfinder class
-	MovementManager* gpMoveMgr		= NULL;		// global movement manager
-
-// Multi-Agent System
-	Kernel* gpKernel				= NULL;		// global MAS Kernel
-	Environment* gpEnvironment		= NULL;		// global Environement class
-
-// The SDL video surface
-	SDL_Surface* gpVideoSrf			= NULL;		// global video screen surface
-
-
-   /*=====================================================================*/
    /*                         LOCAL    VARIABLES                          */
    /*=====================================================================*/
 /// The current user interface is pointed by this pointer
-	static UI * uipCurrentUI = NULL;
+	static UI * uipCurrentUI		= NULL;
 
 /// Set to true when the user request to quit the program
-	static bool boolQuit = false;
+	static bool boolQuit			= false;
 
 /// Flags we will pass into SDL_SetVideoMode.
-	static int flags = 0;
+	static int flags				= 0;
 
 /// Static so that the others can not access this
-	static string gsHomeDir		= "";
-	static string gsSaveDir		= "";
+	static string sHomeDir			= "";
+	static string sSaveDir			= "";
 
 
 
@@ -176,16 +132,16 @@ void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
 // Set the new window's size
 	if( SDL_SetVideoMode(
 		rcsResizeEvent.w, rcsResizeEvent.h,
-		guiVideoBpp, flags ) == 0 ) {
+		gVars.guiVideoBpp, flags ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
 		exit( -4 );
 	}
-	gpVideoSrf = SDL_GetVideoSurface();
+	gVars.gpVideoSrf = SDL_GetVideoSurface();
 #endif
 
 // Save the new screen size
-	guiScreenWidth = rcsResizeEvent.w;
-	guiScreenHeight = rcsResizeEvent.h;
+	gVars.guiScreenWidth = rcsResizeEvent.w;
+	gVars.guiScreenHeight = rcsResizeEvent.h;
 
 	if (uipCurrentUI != NULL) {
 		uipCurrentUI->uiResize( rcsResizeEvent );
@@ -325,16 +281,16 @@ int initSDL()
 	flags = SDL_OPENGL | SDL_RESIZABLE | SDL_HWSURFACE;
 
 // Will we go for fullscreen ?
-	if (gboolFullScreen == true) {
+	if (gVars.gboolFullScreen == true) {
 		flags |= SDL_FULLSCREEN;
 		// IF autodetect THEN
-		if (guiScreenWidth == 0 or guiScreenHeight == 0)
-			getFullScreenResolution( guiScreenWidth, guiScreenHeight );
+		if (gVars.guiScreenWidth == 0 or gVars.guiScreenHeight == 0)
+			getFullScreenResolution( gVars.guiScreenWidth, gVars.guiScreenHeight );
 	}
 
 // OK, go for the video settings now
-	gpVideoSrf = SDL_SetVideoMode( guiScreenWidth, guiScreenHeight, guiVideoBpp, flags );
-	if ( gpVideoSrf == NULL ) {
+	gVars.gpVideoSrf = SDL_SetVideoMode( gVars.guiScreenWidth, gVars.guiScreenHeight, gVars.guiVideoBpp, flags );
+	if ( gVars.gpVideoSrf == NULL ) {
 	// This could happen for a variety of reasons,
 	// including DISPLAY not being set, the specified
 	// resolution not being available, etc.
@@ -342,16 +298,16 @@ int initSDL()
 			"Initialization of 32 bpp video mode failed: " << SDL_GetError() 
 		);
 		OPENCITY_INFO( "Trying 16 bpp... " );
-		guiVideoBpp = OC_WINDOW_BPP_16;
+		gVars.guiVideoBpp = OC_WINDOW_BPP_16;
 
 	// Set 5 bits for each color component
 		SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
 		SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
 		SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 		SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 0 );
-		gpVideoSrf = SDL_SetVideoMode( guiScreenWidth, guiScreenHeight, guiVideoBpp, flags );
+		gVars.gpVideoSrf = SDL_SetVideoMode( gVars.guiScreenWidth, gVars.guiScreenHeight, gVars.guiVideoBpp, flags );
 
-		if (gpVideoSrf == NULL) {
+		if (gVars.gpVideoSrf == NULL) {
 			OPENCITY_FATAL( "16 bpp mode has failed: " << SDL_GetError() );
 			return -4;
 		}
@@ -360,7 +316,7 @@ int initSDL()
 		}
 	}
 
-//debug cout << "W: " << gpVideoSrf->w << " /H: " << gpVideoSrf->h << endl;
+//debug cout << "W: " << gVars.gpVideoSrf->w << " /H: " << gVars.gpVideoSrf->h << endl;
 
 
 // Test for DoubleBuffer
@@ -384,17 +340,17 @@ void formatHomeDir()
 {
     string::size_type pos;
 
-	if (gsHomeDir.size() > 0) {
+	if (sHomeDir.size() > 0) {
     // Delete all quotes "
-	    while ( (pos = gsHomeDir.find( '\"' )) != gsHomeDir.npos ) {
-		    gsHomeDir.erase( pos );
+	    while ( (pos = sHomeDir.find( '\"' )) != sHomeDir.npos ) {
+		    sHomeDir.erase( pos );
 		}
     // Append the "/" to HOMEDIR    
-		if (gsHomeDir[ gsHomeDir.size()-1 ] != '/')
-			gsHomeDir += '/';
+		if (sHomeDir[ sHomeDir.size()-1 ] != '/')
+			sHomeDir += '/';
 	}
 	else {
-		gsHomeDir = "/";
+		sHomeDir = "/";
 	}
 }
 
@@ -409,7 +365,7 @@ void parseArg(int argc, char *argv[])
 	while (++counter < argc) {
 		if (strcmp( argv[counter], "--gl-version" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			if (gpVideoSrf == NULL) {
+			if (gVars.gpVideoSrf == NULL) {
 				(void)initSDL();
 			}
 			printf("GL Vendor: '%s' \n", glGetString( GL_VENDOR ));
@@ -417,23 +373,27 @@ void parseArg(int argc, char *argv[])
 			printf("GL Version: '%s' \n", glGetString( GL_VERSION ));
 			printf("GL Extensions: '%s' \n", glGetString( GL_EXTENSIONS ));
 		} else
+		if (strcmp( argv[counter], "--fullscreen" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			gVars.gboolFullScreen = true;
+		} else
 		if (strcmp( argv[counter], "--server" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			gboolServerMode = true;
+			gVars.gboolServerMode = true;
 		} else
 		if (strcmp( argv[counter], "--homedir" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			if (++counter < argc)
-				gsHomeDir = argv[counter];
+				sHomeDir = argv[counter];
 			else
-				gsHomeDir = "";
+				sHomeDir = "";
 			formatHomeDir();
-			cout << "<OPTION> HomeDir is: \"" << gsHomeDir << "\"" << endl;
+			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
 		}
 		else {
 			cout << "Unknown option: [" << argv[counter] << "]" << endl;
 			cout << "Usage: " << argv[0]
-			     << " [--gl-version] [--homedir newHomePath] [--server]"
+			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--server]"
 				 << endl << endl;
 			cout << "Warning: any command line switch will overwrite the config file settings"
 			     << endl;
@@ -450,7 +410,7 @@ void displaySplash()
 
 	glClearColor( OC_SPLASH_CLEAR_COLOR );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	gpRenderer->DisplaySplash();
+	gVars.gpRenderer->DisplaySplash();
 }
 
 
@@ -462,10 +422,10 @@ void displayStatus( const string & str )
 	displaySplash();
 
 // Center the text on the screen
-//	x = (gpVideoSrf->w - 512)/2 + (512 - str.size()*10)/2;
-	x = (gpVideoSrf->w - str.size()*10)/2;
-	y = (gpVideoSrf->h - 140) / 2;
-	gpRenderer->DisplayText( x, y, OC_BLUE_COLOR, str );
+//	x = (gVars.gpVideoSrf->w - 512)/2 + (512 - str.size()*10)/2;
+	x = (gVars.gpVideoSrf->w - str.size()*10)/2;
+	y = (gVars.gpVideoSrf->h - 140) / 2;
+	gVars.gpRenderer->DisplayText( x, y, OC_BLUE_COLOR, str );
 	SDL_GL_SwapBuffers();
 }
 
@@ -479,12 +439,12 @@ int serverMode()
 	SDL_Init(SDL_INIT_VIDEO);
 
 // Start server and listen to the standard port
-	gpNetworking = new Networking();
-	boolQuit = (gpNetworking->StartServer() == OC_NET_OK) ? false : true;
+	gVars.gpNetworking = new Networking();
+	boolQuit = (gVars.gpNetworking->StartServer() == OC_NET_OK) ? false : true;
 
 	while (!boolQuit) {
 		cout << ".";
-		(void)gpNetworking->ProcessServerData();
+		(void)gVars.gpNetworking->ProcessServerData();
 		SDL_Delay( 50 );
 		cout.flush();
 
@@ -499,8 +459,8 @@ int serverMode()
 		}
 	}
 
-	(void)gpNetworking->StopServer();
-	delete gpNetworking;
+	(void)gVars.gpNetworking->StopServer();
+	delete gVars.gpNetworking;
 
 	SDL_Quit();					// WARNING: Calls free() on an invalid pointer. Detected by glibc
 
@@ -526,17 +486,17 @@ int clientMode()
 
 
 // Create the mutex first
-	gpmutexSim = SDL_CreateMutex();
+	gVars.gpmutexSim = SDL_CreateMutex();
 
 
 // Create the global renderer in order to use its text rendering functions
-	gpRenderer = new Renderer( uiCityWidth, uiCityLength );
+	gVars.gpRenderer = new Renderer( gVars.guiCityWidth, gVars.guiCityLength );
 
 /* debug
 // Test font
 	glClearColor( OC_CLEAR_COLOR );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	gpRenderer->DisplayText( 10, 50, OC_WHITE_COLOR, "Hello world" );
+	gVars.gpRenderer->DisplayText( 10, 50, OC_WHITE_COLOR, "Hello world" );
 	SDL_GL_SwapBuffers();
 	SDL_Delay( 3000 );
 */
@@ -544,14 +504,14 @@ int clientMode()
 
 // AudioManager's initialization
 	displayStatus( "Looking for GPU freezing system... ");
-	gpAudioMgr = new AudioManager();
+	gVars.gpAudioMgr = new AudioManager();
 
-	if ( gpAudioMgr == NULL ) {
+	if ( gVars.gpAudioMgr == NULL ) {
 		OPENCITY_FATAL( "Error while creating the audio manager" );
 		return -16;
 	} else
-	if ( (gboolUseAudio == true)
-	  && (gpAudioMgr->OpenAudio() != OC_ERR_FREE))
+	if ( (gVars.gboolUseAudio == true)
+	  && (gVars.gpAudioMgr->OpenAudio() != OC_ERR_FREE))
 	{
 	// try to open the audio device IF we have successfully created an audio object
 		OPENCITY_INFO( "Audio open error ! OpenCity continues happily." );
@@ -560,31 +520,31 @@ int clientMode()
 
 // Load musics and sounds
 	displayStatus( "Warming up central processing unit...");
-	gpAudioMgr->LoadMusicList( ocHomeDirPrefix(OC_MUSIC_LIST_FILENAME) );
-	OPENCITY_INFO( "Loaded " << gpAudioMgr->GetNumberMusic() << " musics." );
-	gpAudioMgr->LoadSoundList( ocHomeDirPrefix(OC_SOUND_LIST_FILENAME), ocHomeDirPrefix("") );
-	OPENCITY_INFO( "Loaded " << gpAudioMgr->GetNumberSound() << " sounds." );
+	gVars.gpAudioMgr->LoadMusicList( ocHomeDirPrefix(OC_MUSIC_LIST_FILENAME) );
+	OPENCITY_INFO( "Loaded " << gVars.gpAudioMgr->GetNumberMusic() << " musics." );
+	gVars.gpAudioMgr->LoadSoundList( ocHomeDirPrefix(OC_SOUND_LIST_FILENAME), ocHomeDirPrefix("") );
+	OPENCITY_INFO( "Loaded " << gVars.gpAudioMgr->GetNumberSound() << " sounds." );
 
 
 // Create the other required global managers
 	displayStatus( "Activating embedded GPS...");
-	gpMapMgr = new Map( uiCityWidth, uiCityLength );
+	gVars.gpMapMgr = new Map( gVars.guiCityWidth, gVars.guiCityLength );
 
 	displayStatus( "Calibrating earthquake subsystem...");
-	gpGraphicMgr = new GraphicManager();
+	gVars.gpGraphicMgr = new GraphicManager();
 
 	displayStatus( "Shaking DNA mixer thread...");
-	gpPropertyMgr = new PropertyManager();
+	gVars.gpPropertyMgr = new PropertyManager();
 
 	displayStatus( "Mounting intergalactic hyperlink ...");
-	gpNetworking = new Networking();
+	gVars.gpNetworking = new Networking();
 
 	displayStatus( "Initializing the particle handler ...");
-	gpMoveMgr = new MovementManager( gpGraphicMgr, gpMapMgr );
+	gVars.gpMoveMgr = new MovementManager( gVars.gpGraphicMgr, gVars.gpMapMgr );
 
 
 // the pointer of our new city
-	City* pNewCity = new City( uiCityWidth, uiCityLength );
+	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
 		return (-15);
@@ -596,24 +556,24 @@ int clientMode()
 	// FIXME: buggy MAS
 	/*
 	// Create the necessary classes for the Multi-Agent System
-		gpKernel = new Kernel();
-		gpEnvironment = new Environment(
-			uiCityWidth, uiCityLength, pNewCity->GetLayer( BUILDING_LAYER ), gpKernel );
+		gVars.gpKernel = new Kernel();
+		gVars.gpEnvironment = new Environment(
+			gVars.guiCityWidth, gVars.guiCityLength, pNewCity->GetLayer( BUILDING_LAYER ), gVars.gpKernel );
 
-		new AgentPolice(*gpKernel, *gpEnvironment, 1, 2);
-    	new AgentPolice(*gpKernel, *gpEnvironment, 3, 4);
-		new AgentDemonstrator(*gpKernel, *gpEnvironment, 4, 2);
+		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 1, 2);
+    	new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 3, 4);
+		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, 4, 2);
 	*/
 
 		while (!boolQuit) {
 		// running the city at the LAST_SPEED (default parameter)
 			ocProcessSDLEvents();
 			pNewCity->Run();
-			//gpKernel->live();
+			//gVars.gpKernel->live();
 
 #undef OC_PRINT_FPS
 #ifndef OC_PRINT_FPS
-			SDL_Delay( guiMsPerFrame );
+			SDL_Delay( gVars.guiMsPerFrame );
 #else
 			static Uint32 uiNumberTick = SDL_GetTicks();
 			static uint uiNumberFrame = 0;
@@ -625,38 +585,38 @@ int clientMode()
 				uiNumberTick = SDL_GetTicks();
 				uiNumberFrame = 0;
 			}
-			SDL_Delay( guiMsPerFrame );
+			SDL_Delay( gVars.guiMsPerFrame );
 #endif
 		}
 
-		//delete gpEnvironment;
-		//delete gpKernel;
+		//delete gVars.gpEnvironment;
+		//delete gVars.gpKernel;
 	}
 
 
 // Close the network connection
-	gpNetworking->Close();
+	gVars.gpNetworking->Close();
 
 // WARNING: the deleting/creating order is very important !
 	delete pNewCity;
 
-	delete gpMoveMgr;
-	delete gpNetworking;
-	delete gpPropertyMgr;
-	delete gpGraphicMgr;
-	delete gpMapMgr;
+	delete gVars.gpMoveMgr;
+	delete gVars.gpNetworking;
+	delete gVars.gpPropertyMgr;
+	delete gVars.gpGraphicMgr;
+	delete gVars.gpMapMgr;
 
 // close the audio device then delete the audio manager
-	gpAudioMgr->CloseAudio();
-	delete gpAudioMgr;
+	gVars.gpAudioMgr->CloseAudio();
+	delete gVars.gpAudioMgr;
 
-	delete gpRenderer;
+	delete gVars.gpRenderer;
 
 // delete the simulators' mutex now
-	SDL_DestroyMutex( gpmutexSim );
+	SDL_DestroyMutex( gVars.gpmutexSim );
 
-//	SDL_FreeSurface( gpVideoSrf ); // This is not recommended by SDL documentation
-	gpVideoSrf = NULL;
+//	SDL_FreeSurface( gVars.gpVideoSrf ); // This is not recommended by SDL documentation
+	gVars.gpVideoSrf = NULL;
 
 	SDL_Quit();					// WARNING: Calls free() on an invalid pointer. Detected by glibc
 	return errCode;
@@ -733,7 +693,7 @@ int readConfig()
 
 
 // IF the homedir is not set THEN try to get it from BinReloc routines
-	if (gsHomeDir == "") {
+	if (sHomeDir == "") {
 	// Init the BinReloc routines
 		if (br_init(&brError) != 1) {
 			OPENCITY_INFO(
@@ -744,37 +704,37 @@ int readConfig()
 		else {
 		// Construct the datadir from the prefix
 			pTemp = br_find_prefix( PREFIX );
-			gsHomeDir = pTemp;
-			gsHomeDir += "/share/";
-			gsHomeDir += PACKAGE;
+			sHomeDir = pTemp;
+			sHomeDir += "/share/";
+			sHomeDir += PACKAGE;
 			free(pTemp);
 			formatHomeDir();
 		}
 	}
 
 // IF the save directory is not set the find it
-	if (gsSaveDir == "") {
+	if (sSaveDir == "") {
 		pTemp = findSaveDir();
-		gsSaveDir = pTemp;
+		sSaveDir = pTemp;
 		free(pTemp);
 #ifndef WIN32
-		gsSaveDir += "/.OpenCity/";
-		mkdir( gsSaveDir.c_str(), 0755 );
+		sSaveDir += "/.OpenCity/";
+		mkdir( sSaveDir.c_str(), 0755 );
 #else
 	// Win32 uses \ as directory separtor
-		gsSaveDir += "\\OpenCity\\";
-        CreateDirectory( gsSaveDir.c_str(), NULL );		
+		sSaveDir += "\\OpenCity\\";
+        CreateDirectory( sSaveDir.c_str(), NULL );		
     // Replace \ by /
 	    string::size_type pos;
-	    while ( (pos = gsSaveDir.find( '\\' )) != gsSaveDir.npos ) {
-		    gsSaveDir.replace( pos, 1, "/" );
+	    while ( (pos = sSaveDir.find( '\\' )) != sSaveDir.npos ) {
+		    sSaveDir.replace( pos, 1, "/" );
 		}
 #endif
 	}
 
 
 // Now try to open the config file then read it
-	OPENCITY_INFO( 
+	OPENCITY_INFO(
 		"Reading config file: \"" << ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
 	);
 	if (pConf->Open(ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME)) == OC_ERR_FREE) {
@@ -783,22 +743,22 @@ int readConfig()
 
 		// Fullscreen settings
 		if (pConf->GetBool("FullScreen", bValue) == OC_ERR_FREE)
-			gboolFullScreen = bValue;
+			gVars.gboolFullScreen |= bValue;
 		if (pConf->GetLint("FullScreenWidth", liValue) == OC_ERR_FREE)
-			guiScreenWidth = liValue;
+			gVars.guiScreenWidth = liValue;
 		if (pConf->GetLint("FullScreenHeight", liValue) == OC_ERR_FREE)
-			guiScreenHeight = liValue;
+			gVars.guiScreenHeight = liValue;
 
 		if (pConf->GetBool("UseAudio", bValue) == OC_ERR_FREE)
-			gboolUseAudio = bValue;
+			gVars.gboolUseAudio = bValue;
 		if (pConf->GetLint("CityWidth", liValue) == OC_ERR_FREE)
-			uiCityWidth = liValue;
+			gVars.guiCityWidth = liValue;
 		if (pConf->GetLint("CityLength", liValue) == OC_ERR_FREE)
-			uiCityLength = liValue;
+			gVars.guiCityLength = liValue;
 		if (pConf->GetLint("MsPerFrame", liValue) == OC_ERR_FREE)
-			guiMsPerFrame = liValue;
+			gVars.guiMsPerFrame = liValue;
 
-		gsZenServer = pConf->GetValue("ZenServer", "localhost");
+		gVars.gsZenServer = pConf->GetValue("ZenServer", "localhost");
 
 		pConf->Close();
 		retVal = 0;
@@ -813,12 +773,56 @@ int readConfig()
 
 
    /*=====================================================================*/
+void initGlobalVar()
+{
+// Config file and command line options
+	gVars.gboolUseAudio				= true;
+	gVars.gboolFullScreen			= false;
+	gVars.gboolServerMode			= false;
+	gVars.guiCityWidth				= OC_CITY_W;
+	gVars.guiCityLength				= OC_CITY_L;
+	gVars.guiMsPerFrame				= OC_MS_PER_FRAME;
+	gVars.guiScreenWidth			= OC_WINDOW_WIDTH;
+	gVars.guiScreenHeight			= OC_WINDOW_HEIGHT;
+	gVars.guiVideoBpp				= OC_WINDOW_BPP_DEFAULT;
+
+	gVars.gfMsSimDelayMax			= 0;
+	gVars.gsZenServer				= "localhost";
+
+// The mutex that all the simulators depend on
+	gVars.gpmutexSim				= NULL;
+
+// The famous renderer
+	gVars.gpRenderer				= NULL;
+
+// Datamanagers
+	gVars.gpAudioMgr				= NULL;		// global Audio Manager
+	gVars.gpGraphicMgr				= NULL;		// global Graphic Manager
+	gVars.gpPropertyMgr				= NULL;		// global Property Manager
+	gVars.gpMapMgr					= NULL;		// global height Map Manager
+	gVars.gpNetworking				= NULL;		// global networking support class
+	gVars.gpPathFinder				= NULL;		// global pathfinder class
+	gVars.gpMoveMgr					= NULL;		// global movement manager
+
+// Multi-Agent System
+	gVars.gpKernel					= NULL;		// global MAS Kernel
+	gVars.gpEnvironment				= NULL;		// global Environement class
+
+// The SDL video surface
+	gVars.gpVideoSrf				= NULL;		// global video screen surface
+}
+
+
+   /*=====================================================================*/
 #if defined(WIN32) || defined(_WIN32)
 extern "C"
 #endif
 int main(int argc, char *argv[])
 {
 	int returnCode;
+
+// Initialize the global settings variable to the default values
+	initGlobalVar();
 
 // Print out the copyright
 	printCopyright();
@@ -841,13 +845,13 @@ int main(int argc, char *argv[])
 
 // Initialization of global variables
 	uipCurrentUI = NULL;
-	gfMsSimDelayMax = log10((OC_FLOAT)uiCityWidth*uiCityLength + 1) * OC_MS_GLOBAL_LOG_FACTOR;
+	gVars.gfMsSimDelayMax = log10((OC_FLOAT)gVars.guiCityWidth*gVars.guiCityLength + 1) * OC_MS_GLOBAL_LOG_FACTOR;
 
 // Initialize the random number generator
 	srand( time(NULL) );
 
 // Launch either client or server mode
-	if (gboolServerMode == true)
+	if (gVars.gboolServerMode == true)
 		returnCode = serverMode();
 	else
 		returnCode = clientMode();
@@ -862,7 +866,7 @@ int main(int argc, char *argv[])
 string
 ocHomeDirPrefix( const string & s )
 {
-	return gsHomeDir + s;
+	return sHomeDir + s;
 }
 
 
@@ -870,7 +874,7 @@ ocHomeDirPrefix( const string & s )
 string
 ocSaveDirPrefix( const string & s )
 {
-	return gsSaveDir + s;
+	return sSaveDir + s;
 }
 
 

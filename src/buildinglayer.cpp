@@ -18,23 +18,16 @@
  ***************************************************************************/
 
 #include "buildinglayer.h"
-
 #include "city.h"
-#include "map.h"
-
 #include "rcistructure.h"
 #include "wegstructure.h"
 #include "pathstructure.h"
 #include "treestructure.h"
-
 #include "guicontainer.h"
 #include "guibutton.h"
 
-#include "propertymanager.h"
-
-
-extern PropertyManager* gpPropertyMgr;	// global property manager
-extern Map* gpMapMgr;					// global map height manager
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
    /*=====================================================================*/
@@ -247,7 +240,7 @@ BuildingLayer::IsConstructive(
 			// OR the square is not plane
 			// then the square is not constructive
 				if ((this->GetLinearStructure(linearIndex) != NULL)
-				  ||(gpMapMgr->IsSquarePlane(w, L1) != true ))
+				  ||(gVars.gpMapMgr->IsSquarePlane(w, L1) != true ))
 					return false;
 				break;
 
@@ -291,7 +284,7 @@ BuildingLayer::BuildPreview(
 
 // FIXME: Work for WEG structure only !
 // Get the graphic code of the structure
-	enumGraphicCode = gpPropertyMgr->GetGC( enumStructCode );
+	enumGraphicCode = gVars.gpPropertyMgr->GetGC( enumStructCode );
 	if ( enumGraphicCode == OC_EMPTY ) {
 		OPENCITY_DEBUG( "WARNING: not implemented" );
 		assert(0);
@@ -299,7 +292,7 @@ BuildingLayer::BuildPreview(
 
 // Get the corresponding WLH and calculate the range
 // An coal electric plant is 4x4 size by default
-	gpPropertyMgr->GetWLH( enumGraphicCode, sw, 4, sl, 4, sh, 1 );
+	gVars.gpPropertyMgr->GetWLH( enumGraphicCode, sw, 4, sl, 4, sh, 1 );
 	W1 = W;
 	L1 = L;
 	W2 = W + sw - 1;
@@ -396,7 +389,7 @@ BuildingLayer::ResizeStructure(
 	structCode = pStruct->GetCode();
 
 // Get the old WLH
-	gpPropertyMgr->GetWLH(
+	gVars.gpPropertyMgr->GetWLH(
 		oldGC,
 		ow, 0,
 		ol, 0,
@@ -404,7 +397,7 @@ BuildingLayer::ResizeStructure(
 	assert((ow != 0) && (ol != 0));		// not used yet: && (oh != 0) 
 
 // Get the new WLH
-	gpPropertyMgr->GetWLH(
+	gVars.gpPropertyMgr->GetWLH(
 		pStruct->GetGraphicCode(),
 		nw, 0,
 		nl, 0,
@@ -445,7 +438,7 @@ BuildingLayer::ResizeStructure(
 					pMain = pTemp;
 
 				destroyedSC = pMain->GetCode();
-				gpPropertyMgr->GetWLH( pMain->GetGraphicCode(), xw, 0, xl, 0, xh, 0 );
+				gVars.gpPropertyMgr->GetWLH( pMain->GetGraphicCode(), xw, 0, xl, 0, xh, 0 );
 
 				_DestroyStructure( dw, dl, uiCost );
 				pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
@@ -814,7 +807,7 @@ BuildingLayer::_IsPathConstructive(
 		return false;
 
 // Calculate the min and the max heights
-	gpMapMgr->GetSquareHeight( w, h, tabH );
+	gVars.gpMapMgr->GetSquareHeight( w, h, tabH );
 	for (uiIndex = 0; uiIndex < 4; uiIndex++) {
 		if (tabH[uiIndex] < minH)
 			minH = tabH[uiIndex];
@@ -950,11 +943,11 @@ BuildingLayer::_BuildPathStructure(
 
 // Build the new road
 	pNewStructure = new PathStructure(enumStructCode);
-	rCost = gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	rCost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
 	_tabpStructure[ linearIndex ] = pNewStructure;
 
 // Get the neighbour in the North
-	if (gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_N ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_N ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 	// if the neighbour is a road structure
 	// then add this new road structure as its new neighbour
@@ -971,7 +964,7 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 // Get the neighbour in the South
-	if (gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_S ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_S ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
@@ -984,7 +977,7 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 // Get the neighbour in the West
-	if (gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_W ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_W ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
@@ -997,7 +990,7 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 // Get the neighbour in the East
-	if (gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_E ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_E ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 	// if the neighbour is a road structure
 	// then add this new road structure as its new neighbour
@@ -1036,7 +1029,7 @@ BuildingLayer::_BuildRCIStructure(
 //cout << "size of RCIStructure is: " << sizeof( RCIStructure ) << endl;
 
 	rCost = 0;
-	cost = gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	cost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
 
 // Let's GO !
 	l = L1;
@@ -1045,7 +1038,7 @@ BuildingLayer::_BuildRCIStructure(
 		w = W1;
 		while (w <= W2) {
 			if ((_tabpStructure[ linearIndex ] == NULL)
-			 && (gpMapMgr->IsSquarePlane(w, l) == true )) {
+			 && (gVars.gpMapMgr->IsSquarePlane(w, l) == true )) {
 				_tabpStructure[ linearIndex ] = new RCIStructure(enumStructCode);
 				rCost += cost;
 			}
@@ -1081,7 +1074,7 @@ BuildingLayer::_BuildFloraStructure(
 //cout << "size of RCIStructure is: " << sizeof( RCIStructure ) << endl;
 
 	rCost = 0;
-	cost = gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	cost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
 
 // Let's GO !
 	l = L1;
@@ -1090,7 +1083,7 @@ BuildingLayer::_BuildFloraStructure(
 		w = W1;
 		while (w <= W2) {
 			if ((_tabpStructure[ linearIndex ] == NULL)
-			 && (gpMapMgr->IsSquarePlane(w, l) == true )) {
+			 && (gVars.gpMapMgr->IsSquarePlane(w, l) == true )) {
 				_tabpStructure[ linearIndex ] = new TreeStructure(enumStructCode);
 				rCost += cost;
 			}
@@ -1118,7 +1111,7 @@ BuildingLayer::_BuildWEGStructure(
 	OPENCITY_GRAPHIC_CODE gcode;
 
 // Get the graphic code of the structure
-	gcode = gpPropertyMgr->GetGC( enumStructCode );
+	gcode = gVars.gpPropertyMgr->GetGC( enumStructCode );
 	if ( gcode == OC_EMPTY ) {
 		OPENCITY_DEBUG( "WARNING: not implemented" );
 		assert(0);
@@ -1126,7 +1119,7 @@ BuildingLayer::_BuildWEGStructure(
 
 // Get the corresponding WLH and calculate the range
 // NOTE: An coal electric plant is 4x4 size by default
-	gpPropertyMgr->GetWLH( gcode, sw, 4, sl, 4, sh, 1 );
+	gVars.gpPropertyMgr->GetWLH( gcode, sw, 4, sl, 4, sh, 1 );
 	W2 = W1 + sw - 1;
 	L2 = L1 + sl - 1;
 
@@ -1157,7 +1150,7 @@ BuildingLayer::_BuildWEGStructure(
 
 // Create the main structure first, but we don't insert it
 	pMainStructure = new WEGStructure( enumStructCode );
-	rCost = gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	rCost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
 
 // Create all the area as parts of a bigger main structure
 	l = L1;
@@ -1207,7 +1200,7 @@ BuildingLayer::_LoadStructure(
 
 // Get the corresponding WLH and calculate the range
 // NOTE: An coal electric plant is 4x4 size by default
-	gpPropertyMgr->GetWLH( gcode, sw, 1, sl, 1, sh, 1 );
+	gVars.gpPropertyMgr->GetWLH( gcode, sw, 1, sl, 1, sh, 1 );
 	w2 = w1 + sw - 1;
 	l2 = l1 + sl - 1;
 
@@ -1258,7 +1251,7 @@ BuildingLayer::_DestroyStructure(
 	if ( pstruct == NULL )
 		return OC_ERR_SOMETHING;
 
-	rCost = gpPropertyMgr->Get( OC_DESTROY_COST, pstruct->GetCode(), pstruct );
+	rCost = gVars.gpPropertyMgr->Get( OC_DESTROY_COST, pstruct->GetCode(), pstruct );
 
 // The main structure is pstruct itself
 	pstructMain = pstruct;
@@ -1281,13 +1274,13 @@ BuildingLayer::_DestroyStructure(
 		case OC_STRUCTURE_EPLANT_COAL:
 		// Get the width, length and height of the main structure
 		// WARNING: invalid default values given.
-			gpPropertyMgr->GetWLH( pstructMain->GetGraphicCode(), sw, 0, sl, 0, sh, 0 );
+			gVars.gpPropertyMgr->GetWLH( pstructMain->GetGraphicCode(), sw, 0, sl, 0, sh, 0 );
 			assert( (sw != 0) && (sl != 0) );
 			sw--; sl--;			// We calculate the range
 
 		// Calculate the possible area to limit cpu usage
-			gpMapMgr->GetPossibleWH( dw1, dl1, -sw, -sl );
-			gpMapMgr->GetPossibleWH( dw2, dl2,  sw,  sl );
+			gVars.gpMapMgr->GetPossibleWH( dw1, dl1, -sw, -sl );
+			gVars.gpMapMgr->GetPossibleWH( dw2, dl2,  sw,  sl );
 		// Now search for all STRUCTURE_PART and the main structure, destroy em
 			for ( tempL = dl1; tempL <= dl2; tempL++ ) {
 				linearIndex = tempL*_uiLayerWidth + dw1;
@@ -1340,7 +1333,7 @@ BuildingLayer::_DestroyPathStructure(
 
 	ppathstruct = (PathStructure*)pstruct;
 // get the neighbour in the North
-	if (gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_N ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_N ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 	// if the neighbour is a path structure
 		if ( (pstructNeighbour != NULL)
@@ -1351,7 +1344,7 @@ BuildingLayer::_DestroyPathStructure(
 	}
 
 // get the neighbour in the South
-	if (gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_S ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_S ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
@@ -1361,7 +1354,7 @@ BuildingLayer::_DestroyPathStructure(
 	}
 
 // get the neighbour in the West
-	if (gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_W ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_W ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
@@ -1371,7 +1364,7 @@ BuildingLayer::_DestroyPathStructure(
 	}
 
 // get the neighbour in the East
-	if (gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_E ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_E ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {

@@ -18,23 +18,19 @@
  ***************************************************************************/
 
 #include "graphicmanager.h"
-
 #include "structure.h"
-#include "map.h"
-
 #include "model.h"
 #include "modelloader.h"
-
 #include "movement.h"
 #include "agent.h"
-
 #include "conf.h"				// Parser for .conf file
+
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 #include <cmath>				// For floorf
 #include <sstream>				// We use std::stringstream for data conversion
 
-
-extern const Map* gpMapMgr;		// global map height manager, see main.cpp
 
 static GLfloat red, green, blue;
 
@@ -139,7 +135,7 @@ GraphicManager::DisplayTerrain(
 	static GLfloat bx, by, bz;
 	static GLfloat nx, ny, nz;
 
-	gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
+	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
 //debug begin
 /*
@@ -203,7 +199,7 @@ GraphicManager::DisplayStructure(
 	assert( pcStructure != NULL );
 
 // Get the heights from the map manager
-	gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
+	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
 // get the level of the structure
 	delta = (GLfloat)(pcStructure->GetLevel() + 1) / 20;
@@ -349,7 +345,7 @@ GraphicManager::DisplayGC(
 	static OC_BYTE tabH [4];
 
 // Get the heights from the map manager
-	gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
+	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
 //NOTE: null pointer can lead to SIGSEGV
 	assert( (enumGC == OC_EMPTY) || (tabpModel[enumGC] != NULL) );
@@ -368,7 +364,7 @@ GraphicManager::DisplayTerrainHighlight(
 	OC_BYTE tabH [4];
 
 // warning: see warning in DisplayTerrain
-	gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
+	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
 // compare the tool code
 	switch (enumTool) {
@@ -436,7 +432,7 @@ GraphicManager::DisplayTerrainSelection(
 //          however, the polygon OY heights are
 //          stored as the left,right heights of the first line
 //          then left, right heights of the second line
-	gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
+	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
 	glLoadName( rcuiID );
 	glBegin( GL_QUADS );
@@ -466,7 +462,7 @@ GraphicManager::DisplayTerrainSelection(
 //          however, the polygon OY heights are
 //          stored as the left,right heights of the first line
 //          then left, right heights of the second line
-	gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
+	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
 	red =   (rcuiID & 0x00FF0000) >> 16;
 	green = (rcuiID & 0x0000FF00) >> 8;
@@ -535,7 +531,7 @@ GraphicManager::Display(
 //	static OC_BYTE tabH [4];
 
 // warning: see warning in DisplayTerrain
-//	gpMapMgr->GetSquareHeight( (uint)floorf(rcfW), (uint)floorf(rcfH), tabH );
+//	gVars.gpMapMgr->GetSquareHeight( (uint)floorf(rcfW), (uint)floorf(rcfH), tabH );
 
 	glPushMatrix();
 // Rotation translation compensation
@@ -570,7 +566,7 @@ GraphicManager::DisplayAgent(float x, float y, const Agent* const pAgent) const
 	assert(pAgent != NULL);
 
 // warning: see warning in DisplayTerrain
-	gpMapMgr->GetSquareHeight( (uint)floorf(x), (uint)floorf(y), tabH );
+	gVars.gpMapMgr->GetSquareHeight( (uint)floorf(x), (uint)floorf(y), tabH );
 	tabpModel[pAgent->GetGraphicCode()]->DisplayList( x, y, tabH );
  }
 

@@ -8,7 +8,9 @@ Remove -no-dl option                  (done)
 Variable name clean up                (wip)
 Fullscreen config variable support    (done)
 Fullscreen high resolution autodetect (done)
-Global city dimensions variable
+Add --fullscreen                      (done)
+Global city dimensions variable       (done)
+Global settings structure             (done)
 Water texture
 Water layer
 Water pipe

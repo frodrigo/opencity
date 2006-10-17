@@ -1,10 +1,11 @@
 /***************************************************************************
-                          rcistructure.cpp  -  description
-     $Id$
-                             -------------------
-    begin                : mar jun 17 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						rcistructure.cpp  -  description
+							-------------------
+	begin                : mar jun 17 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,10 +18,9 @@
  ***************************************************************************/
 
 #include "rcistructure.h"
-#include "propertymanager.h"
 
-
-extern PropertyManager* gpPropertyMgr;	// global property manager
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
    /*=====================================================================*/
@@ -38,8 +38,8 @@ Structure( enumStructCode )
 {
 	OPENCITY_DEBUG( "ctor param" );
 
-	_eGC = gpPropertyMgr->GetGC( enumStructCode );
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gVars.gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 }
 
 
@@ -51,8 +51,8 @@ Structure( enumStructCode, pMain )
 {
 	assert( pMain != NULL );
 
-	_eGC = gpPropertyMgr->GetGC( enumStructCode );
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gVars.gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 }
 
 

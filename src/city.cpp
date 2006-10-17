@@ -18,56 +18,22 @@
  ***************************************************************************/
 
 #include "city.h"
-
-#include "map.h"
-
-#include "pathfinder.h"				// Vehicles management
 #include "vehicle.h"
-#include "movementmanager.h"
-
 #include "mainsim.h"				// simulator
-
-#include "graphicmanager.h"			// Building management
-#include "propertymanager.h"
 #include "structure.h"
 #include "buildinglayer.h"
-#include "renderer.h"
-
 #include "guibutton.h"				// GUI management
 #include "guicontainer.h"
-
-#include "audiomanager.h"			// Audio management
-#include "networking.h"				// Networking support
-
-#include "environment.h"			// MAS's environement class
 #include "agentpolice.h"
 #include "agentdemonstrator.h"
 #include "agentrobber.h"
 
+#include "globalvar.h"
+extern GlobalVar gVars;
+
 #include <sstream>					// For text output with data conversion
 
 #define OC_ACTION_FACTOR 10
-
-
-   /*=====================================================================*/
-   /*                        GLOBAL    VARIABLES                          */
-   /*=====================================================================*/
-extern SDL_mutex* gpmutexSim;			// The mutex that all the simulators depend on
-
-extern AudioManager* gpAudioMgr;		// global audiomanger, see main.cpp
-extern Map* gpMapMgr;					// global map height manager
-extern GraphicManager* gpGraphicMgr;	// global graphic manager
-extern PropertyManager* gpPropertyMgr;	// global property manager
-extern Renderer* gpRenderer;			// global renderer
-extern Networking* gpNetworking;		// global networking support class
-extern PathFinder* gpPathFinder;		// global pathfinder class
-extern MovementManager* gpMoveMgr;		// global movement manager
-
-extern Kernel* gpKernel;				// global MAS Kernel
-extern Environment* gpEnvironment;		// global MAS's environement class
-
-extern uint guiMsPerFrame;			// Global milliseconds per frame
-extern string gsZenServer;				// The server name, ex: "localhost"
 
 
    /*=====================================================================*/
@@ -111,13 +77,13 @@ enumCurrentTool( OC_NONE )
 
 // Layers' initialization
 	ptabLayer[ BUILDING_LAYER ] = new BuildingLayer( *this );
-	gpMapMgr->SetLayer( ptabLayer[BUILDING_LAYER] );
+	gVars.gpMapMgr->SetLayer( ptabLayer[BUILDING_LAYER] );
 
 // Pathfinder initialization
-	gpPathFinder = new PathFinder(
-		gpmutexSim,
+	gVars.gpPathFinder = new PathFinder(
+		gVars.gpmutexSim,
 		(BuildingLayer*)ptabLayer[ BUILDING_LAYER ],
-		gpMapMgr,
+		gVars.gpMapMgr,
 		_uiWidth, _uiLength );
 
 // Debug toolcircle
@@ -134,7 +100,7 @@ enumCurrentTool( OC_NONE )
 	pctrPath->Add( pbtnPathStop2 );
 	pctrPath->Add( pbtnTestBuilding );
 	pvehicle = NULL;
-//	pMoveMgr = new MovementManager( gpGraphicMgr, gpMapMgr );
+//	pMoveMgr = new MovementManager( gVars.gpGraphicMgr, gVars.gpMapMgr );
 
 // Simulators' initialization
 	_CreateSimulator();
@@ -160,15 +126,15 @@ City::~City(  ){
 	delete pbtnPathStart;
 	delete pbtnPathStop1;
 	delete pbtnPathStop2;
-	delete gpPathFinder;
-	gpPathFinder = NULL;
+	delete gVars.gpPathFinder;
+	gVars.gpPathFinder = NULL;
 //	delete pvehicle; // not needed, it is done automatically by deleting pMoveMgr
 //	delete pMoveMgr;
 
 // delete only the BUILDING_LAYER instead of delete [] ptabLayer
 	delete ptabLayer[ BUILDING_LAYER ];
 // this must be done AFTER deleting the layers
-//	delete gpMapMgr;
+//	delete gVars.gpMapMgr;
 }
 
 
@@ -234,14 +200,14 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 	&& (enumCurrentTool != OC_NONE )) {
 	// is the user dragging with the left mouse button ?
 		if ( SDL_GetMouseState( &iMouseX, &iMouseY ) & SDL_BUTTON(1) ) {
-			gpRenderer->GetSelectedWHFrom(
+			gVars.gpRenderer->GetSelectedWHFrom(
 				iMouseX, iMouseY,
 				this->uiMapW2, this->uiMapL2,
-				gpMapMgr, this->ptabLayer[ enumCurrentLayer ] );
+				gVars.gpMapMgr, this->ptabLayer[ enumCurrentLayer ] );
 
 		// draw the map with the highlighted area
-			gpRenderer->DisplayHighlight(
-				gpMapMgr, ptabLayer[ enumCurrentLayer ],
+			gVars.gpRenderer->DisplayHighlight(
+				gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ],
 				this->uiMapW1, this->uiMapL1,
 				this->uiMapW2, this->uiMapL2,
 				enumCurrentTool );
@@ -253,7 +219,7 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 
 //cityrun_display:
 // Display the screen as usual
-	gpRenderer->Display( gpMapMgr, ptabLayer[ enumCurrentLayer ] );
+	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
 
 
 cityrun_swap:
@@ -263,41 +229,41 @@ cityrun_swap:
 // Display the city's funds
 	ossStatus.str("");
 	ossStatus << _liCityFund << " @";
-	gpRenderer->DisplayText( 10, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 10, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 // Display the R value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_RES);
-	gpRenderer->DisplayText( 120, this->iWinHeight-15, OC_GREEN_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 120, this->iWinHeight-15, OC_GREEN_COLOR, ossStatus.str() );
 // display the C value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_COM);
-	gpRenderer->DisplayText( 180, this->iWinHeight-15, OC_BLUE_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 180, this->iWinHeight-15, OC_BLUE_COLOR, ossStatus.str() );
 // display the I value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_IND);
-	gpRenderer->DisplayText( 240, this->iWinHeight-15, OC_YELLOW_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 240, this->iWinHeight-15, OC_YELLOW_COLOR, ossStatus.str() );
 // display the E value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_ELE);
-	gpRenderer->DisplayText( 300, this->iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 300, this->iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
 
 // display the tool
 	ossStatus.str("");
 	ossStatus << "Tool: " << _cTool;
-	gpRenderer->DisplayText( 550, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 550, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
 // display the date
 	ossStatus.str("");
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
-	gpRenderer->DisplayText( 650, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 650, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
 // Send the movement manager the move order 
 // then display all the contained movements
-	gpMoveMgr->Move();
-	gpMoveMgr->Display();
+	gVars.gpMoveMgr->Move();
+	gVars.gpMoveMgr->Display();
 
 // FIXME: buggy MAS environment
-//	gpEnvironment->displayAgent();
+//	gVars.gpEnvironment->displayAgent();
 
 // display the current container
 	pctr->Display();
@@ -306,7 +272,7 @@ cityrun_swap:
 	SDL_GL_SwapBuffers();
 
 //cityrun_return:
-	if ( ++uiNumberFrame*guiMsPerFrame > OC_MS_PER_DAY ) {
+	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
 	// next day
 		if ( ++_uiDay > 30 ) {
 		// next month
@@ -324,8 +290,8 @@ cityrun_swap:
 		uiNumberFrame = 0;
 
 	// auto play background music
-		if (gpAudioMgr->PlayingMusic() == false) {
-			gpAudioMgr->PlayNextMusic();
+		if (gVars.gpAudioMgr->PlayingMusic() == false) {
+			gVars.gpAudioMgr->PlayNextMusic();
 		}
 	}
 
@@ -394,7 +360,7 @@ void City::uiKeyboard(
 	// test networking support, connect to the localhost
 		case SDLK_t:
 			OPENCITY_NET_CODE netCode;
-			netCode = gpNetworking->Open( gsZenServer );
+			netCode = gVars.gpNetworking->Open( gVars.gsZenServer );
 			switch (netCode) {
 				case OC_NET_CLIENT_CONNECTED:
 					OPENCITY_DEBUG( "I'm already connected to a server" );
@@ -455,16 +421,16 @@ void City::uiKeyboard(
 
 
 		case SDLK_g:  // toggle grid on/off
-			gpRenderer->ToggleGrid();
+			gVars.gpRenderer->ToggleGrid();
 			break;
 		case SDLK_k:  // toggle compass on/off
-			gpRenderer->ToggleCompass();
+			gVars.gpRenderer->ToggleCompass();
 			break;
 		case SDLK_f:  // toggle wireframe on/off
-			gpRenderer->ToggleWireFrame();
+			gVars.gpRenderer->ToggleWireFrame();
 			break;
 		case SDLK_o:  // toggle projection mode
-			gpRenderer->ToggleProjection();
+			gVars.gpRenderer->ToggleProjection();
 			break;
 
 
@@ -483,19 +449,19 @@ void City::uiKeyboard(
 
 	// manipulating the music player
 		case SDLK_b:
-			gpAudioMgr->PlayNextMusic();
+			gVars.gpAudioMgr->PlayNextMusic();
 			break;
 
 		case SDLK_z:
-			gpAudioMgr->PlayPreviousMusic();
+			gVars.gpAudioMgr->PlayPreviousMusic();
 			break;
 
 		case SDLK_s:
-			gpAudioMgr->ToggleSound();
+			gVars.gpAudioMgr->ToggleSound();
 			break;
 
 		case SDLK_m:
-			gpAudioMgr->ToggleMusic();
+			gVars.gpAudioMgr->ToggleMusic();
 			break;
 
 
@@ -510,7 +476,7 @@ void City::uiKeyboard(
 
 
 		case SDLK_h:
-			gpRenderer->Home();
+			gVars.gpRenderer->Home();
 			break;
 		case SDLK_ESCAPE:
 		// quit the program when ESCAPE is pressed
@@ -646,10 +612,10 @@ City::uiMouseButton(
 		case SDL_PRESSED: {
 			this->boolLMBPressed = false;
 			if ((rcsMBE.button == SDL_BUTTON_LEFT)
-				&& (gpRenderer->GetSelectedWHFrom(
+				&& (gVars.gpRenderer->GetSelectedWHFrom(
 					rcsMBE.x, rcsMBE.y,
 					this->uiMapW1, this->uiMapL1,
-					gpMapMgr,
+					gVars.gpMapMgr,
 					this->ptabLayer[ enumCurrentLayer ] ) == true ))
 			{
 				this->boolLMBPressed = true;
@@ -692,30 +658,30 @@ City::uiMouseButton(
 			if (rcsMBE.button == 4) {
 			// move right if CTRL pressed
 				if (SDL_GetModState() & KMOD_CTRL)
-					gpRenderer->MoveRight();
+					gVars.gpRenderer->MoveRight();
 	
 			// move up if SHIFT pressed
 				if (SDL_GetModState() & KMOD_SHIFT)
-					gpRenderer->MoveUp();
+					gVars.gpRenderer->MoveUp();
 	
 			// zoom in if nothing pressed
 				if (!(SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL)))
-					gpRenderer->ZoomIn();
+					gVars.gpRenderer->ZoomIn();
 			}
 	
 		// Wheel button backward
 			if (rcsMBE.button == 5) {
 			// move right if CTRL pressed
 				if (SDL_GetModState() & KMOD_CTRL)
-					gpRenderer->MoveLeft();
+					gVars.gpRenderer->MoveLeft();
 	
 			// move up if SHIFT pressed
 				if (SDL_GetModState() & KMOD_SHIFT)
-					gpRenderer->MoveDown();
+					gVars.gpRenderer->MoveDown();
 	
 			// zoom in if nothing pressed
 				if (!(SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL)))
-					gpRenderer->ZoomOut();
+					gVars.gpRenderer->ZoomOut();
 			}
 
 		break;
@@ -729,10 +695,10 @@ City::uiMouseButton(
 			// THEN do tool
 			if (!(SDL_GetModState() & KMOD_CTRL)
 				&& (this->boolLMBPressed == true)
-				&& gpRenderer->GetSelectedWHFrom(
+				&& gVars.gpRenderer->GetSelectedWHFrom(
 					rcsMBE.x, rcsMBE.y,
 					this->uiMapW2, this->uiMapL2,
-					gpMapMgr,
+					gVars.gpMapMgr,
 					this->ptabLayer[ enumCurrentLayer ] ))
 			{
 //debug
@@ -758,7 +724,7 @@ City::uiExpose(
 {
 	OPENCITY_DEBUG( "Expose event received" );
 
-	gpRenderer->Display( gpMapMgr, ptabLayer[ enumCurrentLayer ] );
+	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
 	pctr->uiExpose( rcsSDLExposeEvent );
 
 	SDL_GL_SwapBuffers();
@@ -774,10 +740,10 @@ void City::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
 	iWinHeight = rcsSDLResizeEvent.h;
 
 //---- set the new window's size ----
-	gpRenderer->SetWinSize( iWinWidth, iWinHeight );
+	gVars.gpRenderer->SetWinSize( iWinWidth, iWinHeight );
 
 // Not useful, since the screen is update on next frame
-//	gpRenderer->Display( gpMapMgr, ptabLayer[ enumCurrentLayer ] );
+//	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
 //	SDL_GL_SwapBuffers();
 
 // tell the containers about the event
@@ -820,7 +786,7 @@ void City::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
 void City::_CreateSimulator()
 {
 // Simulators' initialization
-	_pMSim = new MainSim( gpmutexSim, (BuildingLayer*)ptabLayer[ BUILDING_LAYER ], gpMapMgr );
+	_pMSim = new MainSim( gVars.gpmutexSim, (BuildingLayer*)ptabLayer[ BUILDING_LAYER ], gVars.gpMapMgr );
 
 // now initialize simulators threads
 	_pthreadMSim = SDL_CreateThread( Simulator::ThreadWrapper, _pMSim );
@@ -1066,7 +1032,7 @@ City::_DoTool(
 
 
 // block all the sim threads while modifying the game datas
-	SDL_LockMutex( gpmutexSim );
+	SDL_LockMutex( gVars.gpmutexSim );
 
 	switch (this->enumCurrentTool) {
 	case OC_ZONE_RES:
@@ -1074,7 +1040,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_RES, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_RCI );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_RCI );
 		}
 		break;
 
@@ -1083,7 +1049,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_COM, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_RCI );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_RCI );
 		}
 		break;
 
@@ -1092,7 +1058,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_IND, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_RCI );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_RCI );
 		}
 		break;
 
@@ -1101,7 +1067,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_ROAD, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_ROAD );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_ROAD );
 		}
 		break;
 
@@ -1110,7 +1076,7 @@ City::_DoTool(
 			BuildStructure( 
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_ELINE, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_ELINE );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_ELINE );
 		}
 		break;
 
@@ -1120,7 +1086,7 @@ City::_DoTool(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EPLANT_COAL, cost )) == OC_ERR_FREE) {
 			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1129,7 +1095,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_PARK, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1138,7 +1104,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_FLORA, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1148,7 +1114,7 @@ City::_DoTool(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_FIREDEPT, cost )) == OC_ERR_FREE) {
 // not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1158,7 +1124,7 @@ City::_DoTool(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_POLICEDEPT, cost )) == OC_ERR_FREE) {
 // not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1168,7 +1134,7 @@ City::_DoTool(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_HOSPITALDEPT, cost )) == OC_ERR_FREE) {
 // not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1178,7 +1144,7 @@ City::_DoTool(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EDUCATIONDEPT, cost )) == OC_ERR_FREE) {
 // not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
@@ -1187,41 +1153,41 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_TEST, cost )) == OC_ERR_FREE) {
-			gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
 	case OC_BUILD_AGENT_POLICE:
 		pstruct = ptabLayer[ BUILDING_LAYER ]->GetStructure( uiMapW1, uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
-		new AgentPolice(*gpKernel, *gpEnvironment, uiMapW1, uiMapL1);
+		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
 		break;
 
 	case OC_BUILD_AGENT_DEMONSTRATOR:
 		pstruct = ptabLayer[ BUILDING_LAYER ]->GetStructure( uiMapW1, uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
-		new AgentDemonstrator(*gpKernel, *gpEnvironment, uiMapW1, uiMapL1);
+		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
 		break;
 
 	case OC_BUILD_AGENT_ROBBER:
 		pstruct = ptabLayer[ BUILDING_LAYER ]->GetStructure( uiMapW1, uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
-		new AgentRobber(*gpKernel, *gpEnvironment, uiMapW1, uiMapL1);
+		new AgentRobber(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
 		break;
 
 //FIXME: cost
 	case OC_HEIGHT_UP:
-		enumErrCode = gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_UP );
+		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_UP );
 		if ( enumErrCode == OC_ERR_FREE ) {
-			gpRenderer->boolHeightChange = true;
+			gVars.gpRenderer->boolHeightChange = true;
 			cost = 5;		// Quick hack
 		}
 		break;
 
 	case OC_HEIGHT_DOWN:
-		enumErrCode = gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_DOWN );
+		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_DOWN );
 		if ( enumErrCode == OC_ERR_FREE ) {
-			gpRenderer->boolHeightChange = true;
+			gVars.gpRenderer->boolHeightChange = true;
 			cost = 5;		// Quick hack
 		}
 		break;
@@ -1265,7 +1231,7 @@ City::_DoTool(
 	} // switch
 
 // now unlock the mutex and let the sims run
-	SDL_UnlockMutex( gpmutexSim );
+	SDL_UnlockMutex( gVars.gpmutexSim );
 
 	if (enumErrCode == OC_ERR_FREE) {
 		_liCityFund -= cost;
@@ -1296,30 +1262,30 @@ City::_HandleKeyPressed()
 		if (this->booltabKeyPressed[key] == true) {
 			switch (key) {
 			case KEY_UP:
-				gpRenderer->MoveDown(actionFactor);
+				gVars.gpRenderer->MoveDown(actionFactor);
 				break;
 			case KEY_DOWN:
-				gpRenderer->MoveUp(actionFactor);
+				gVars.gpRenderer->MoveUp(actionFactor);
 				break;
 			case KEY_RIGHT:
-				gpRenderer->MoveLeft(actionFactor);
+				gVars.gpRenderer->MoveLeft(actionFactor);
 				break;
 			case KEY_LEFT:
-				gpRenderer->MoveRight(actionFactor);
+				gVars.gpRenderer->MoveRight(actionFactor);
 				break;
 
 			case KEY_PAGEUP:
-				gpRenderer->RotateLeft(actionFactor);
+				gVars.gpRenderer->RotateLeft(actionFactor);
 				break;
 			case KEY_PAGEDOWN:
-				gpRenderer->RotateRight(actionFactor);
+				gVars.gpRenderer->RotateRight(actionFactor);
 				break;
 
 			case KEY_INSERT: // zoom in
-				gpRenderer->ZoomIn();
+				gVars.gpRenderer->ZoomIn();
 				break;
 			case KEY_DELETE: // zoom out
-				gpRenderer->ZoomOut();
+				gVars.gpRenderer->ZoomOut();
 				break;
 			} // switch
 
@@ -1348,7 +1314,7 @@ City::_DoBill(
 	for (index = 0; index < surface; index++) {
 		pStruct = ptabLayer[ BUILDING_LAYER ]->GetLinearStructure( index );
 		if (pStruct != NULL)
-			maintenance += gpPropertyMgr->Get( 
+			maintenance += gVars.gpPropertyMgr->Get( 
 				OC_MAINTENANCE_COST, pStruct->GetCode() );
 	}
 
@@ -1655,23 +1621,23 @@ City::_HandleMouseXY()
 
 // handle horizontal automatic map translation
 	if ((mouseX < OC_MOUSE_AUTOSCROLL) && !(mouseY < OC_MOUSE_AUTOSCROLL))
-		gpRenderer->MoveRight();
+		gVars.gpRenderer->MoveRight();
 	if ((mouseX >= iWinWidth-OC_MOUSE_AUTOSCROLL) && !(mouseY < OC_MOUSE_AUTOSCROLL))
-		gpRenderer->MoveLeft();
+		gVars.gpRenderer->MoveLeft();
 
 // handle vertical automatic map translation
 	if (!(mouseX < OC_MOUSE_AUTOSCROLL)
 	  &&!(mouseX >= iWinWidth-OC_MOUSE_AUTOSCROLL) && (mouseY < OC_MOUSE_AUTOSCROLL))
-		gpRenderer->MoveDown();
+		gVars.gpRenderer->MoveDown();
 	if ((mouseY >= iWinHeight-OC_MOUSE_AUTOSCROLL))
-		gpRenderer->MoveUp();
+		gVars.gpRenderer->MoveUp();
 
 // handle map rotation
 	if ((mouseX < OC_MOUSE_AUTOSCROLL) && (mouseY < OC_MOUSE_AUTOSCROLL))
-		gpRenderer->RotateLeft();
+		gVars.gpRenderer->RotateLeft();
 
 	if ((mouseY < OC_MOUSE_AUTOSCROLL) && (mouseX >= iWinWidth-OC_MOUSE_AUTOSCROLL))
-		gpRenderer->RotateRight();
+		gVars.gpRenderer->RotateRight();
 }
 
 
@@ -1692,7 +1658,7 @@ City::_TestPathfinding() {
 	
 		// Buses prefer short distance
 			if (this->uiVehicleType == Vehicle::VEHICLE_BUS) {
-				gpPathFinder->findShortestPath(
+				gVars.gpPathFinder->findShortestPath(
 					uiPathStartW, uiPathStartH,
 					uiPathStopW, uiPathStopH,
 					vdest,
@@ -1700,7 +1666,7 @@ City::_TestPathfinding() {
 			}
 		// Sport vehicle prefer less traffic
 			else if (this->uiVehicleType == Vehicle::VEHICLE_SPORT) {
-				gpPathFinder->findShortestPath(
+				gVars.gpPathFinder->findShortestPath(
 					uiPathStartW, uiPathStartH,
 					uiPathStopW, uiPathStopH,
 					vdest,
@@ -1713,7 +1679,7 @@ City::_TestPathfinding() {
 					(Vehicle::VEHICLE_TYPE)this->uiVehicleType );
 				pvehicle->SetPath( vdest );	// path init
 				pvehicle->Start();		// vehicle init
-				if (gpMoveMgr->Add( pvehicle ) < 0) {
+				if (gVars.gpMoveMgr->Add( pvehicle ) < 0) {
 					OPENCITY_DEBUG("MoveMgr full");
 					delete pvehicle;
 				}
@@ -1798,11 +1764,11 @@ City::_BuildPreview()
 			BuildPreview( uiMapW1, uiMapL1, scode, gcode );
 
 		if (ecode == OC_ERR_FREE) {
-			gpRenderer->DisplayBuildPreview(
+			gVars.gpRenderer->DisplayBuildPreview(
 				uiMapW1, uiMapL1, OC_GREEN_COLOR, gcode );
 		}
 		else {
-			gpRenderer->DisplayBuildPreview(
+			gVars.gpRenderer->DisplayBuildPreview(
 				uiMapW1, uiMapL1, OC_RED_COLOR, gcode );
 		}
 	}
@@ -1822,13 +1788,13 @@ City::_Save( const string& strFilename )
 	}
 
 // Lock the simulator
-	SDL_LockMutex( gpmutexSim );
+	SDL_LockMutex( gVars.gpmutexSim );
 
 // Save city data
 	this->SaveTo( fs );
 
 // Save map data
-	gpMapMgr->SaveTo( fs );
+	gVars.gpMapMgr->SaveTo( fs );
 
 // Save layers's data
 	ptabLayer[ BUILDING_LAYER ]->SaveTo( fs );
@@ -1837,7 +1803,7 @@ City::_Save( const string& strFilename )
 	_pMSim->SaveTo( fs );
 
 // Unlock the simulator
-	SDL_UnlockMutex( gpmutexSim );
+	SDL_UnlockMutex( gVars.gpmutexSim );
 
 	fs.close();
 	return true;
@@ -1858,17 +1824,17 @@ City::_Load( const string& strFilename )
 	}
 
 // Lock the simulator
-	SDL_LockMutex( gpmutexSim );
+	SDL_LockMutex( gVars.gpmutexSim );
 
 // Remove all moving objects
-	gpMoveMgr->Remove();
+	gVars.gpMoveMgr->Remove();
 
 // Load city data
 	this->LoadFrom( fs );
 
 // Load map data
-	gpMapMgr->LoadFrom( fs );
-	gpRenderer->boolHeightChange = true;
+	gVars.gpMapMgr->LoadFrom( fs );
+	gVars.gpRenderer->boolHeightChange = true;
 
 // Load layers' data
 	ptabLayer[ BUILDING_LAYER ]->LoadFrom( fs );
@@ -1887,7 +1853,7 @@ City::_Load( const string& strFilename )
 	_pMSim->RefreshSimValue();
 
 // Unlock the simulator
-	SDL_UnlockMutex( gpmutexSim );
+	SDL_UnlockMutex( gVars.gpmutexSim );
 
 	fs.close();
 	return true;

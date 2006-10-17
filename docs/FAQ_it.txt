@@ -1,0 +1,54 @@
+---------------------------------------------------------------------
+FAQ di OpenCity
+---------------------------------------------------------------------
+Last modified:
+	$Id$
+Last translated:
+	2006/10/15 morpheus
+
+
+---------------------------------------------------------------------
+Prestazioni
+---------------------------------------------------------------------
+	Domanda: OpenCity è molto lento sulla mia macchina, cosa
+posso fare?
+
+	Risposta: OpenCity è un gioco 3d, quindi hai bisogno di una
+scheda grafica 3d :). Opencity è conosciuto per essere "fill-limited".
+Questo vuol dire che puoi avere performance migliori se riduci la
+dimensione della finestra del gioco. Puoi inoltre disabilitare la
+griglia con il tasto "g" e/o eseguire OpenCity a pieno schermo.
+
+
+	D: Quando lancio OpenCity, compare una finestra che scompare
+subito dopo. Cos'ho sbagliato?
+	R: Controlla il contenuto dei files "stderr.txt" e "stdout.txt".
+A volte succede perchè OpenCity non trova i suoi dati. Puoi usare
+l'opzione da riga di comando "--homedir" per specificare il percorso
+giusto. Leggi il file README_it.txt per maggiori informazioni sulle
+opzioni da linea di comando.
+
+
+	D: Ho problemi con la compilazione, qualcuno può aiutarmi?
+	R: Se non sei un programmatore abituato a compilare it Linux,
+la risposta è _NO_. Altrimenti dovresti riuscirci da solo.
+
+
+---------------------------------------------------------------------
+Errori di SDL, SDL_mixer, SDL_image e SDL_net:
+---------------------------------------------------------------------
+Scarica e installa l'ultima versione delle librerie da
+        http://www.libsdl.org
+
+Se compili OpenCity dai sorgenti, hai bisogno dei pacchetti per
+sviluppatori (devel) che contengonoi file header che sono necessari
+alla compilazione.
+
+Se hai già installato le librerie necessarie, ti basterà indicarne il
+percorso corretto al linker.
+
+
+	D: Ho ricevuto questo errore: "/usr/include/SDL/SDL_net.h:416: error: extra ';'"
+	R: É un problema noto con SDL_net.h 1.2.5. Rimuovi il ';'
+extra o scarica e installa l'ultima versione per sviluppatori
+della libreria SDL_net.

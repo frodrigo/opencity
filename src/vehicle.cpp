@@ -1,10 +1,12 @@
 /***************************************************************************
-                          vehicle.cpp  -  description
-                             -------------------
-    begin                : dim mai 16 2004
-    modified             : jun 9 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						vehicle.cpp  -  description
+							-------------------
+	begin                : dim mai 16 2004
+	modified             : jun 9 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,6 +19,7 @@
  ***************************************************************************/
 
 #include "vehicle.h"
+
 
    /*=====================================================================*/
 Vehicle::Vehicle():

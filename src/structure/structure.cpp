@@ -1,10 +1,11 @@
 /***************************************************************************
-                          structure.cpp  -  description
-       $Id$
-                             -------------------
-    begin                : june 16th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						structure.cpp  -  description
+							-------------------
+	begin                : june 16th, 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,10 +18,11 @@
  ***************************************************************************/
 
 #include "structure.h"
-#include "propertymanager.h"
+
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
-extern PropertyManager* gpPropertyMgr;		///< global property manager
 uint Structure::uiNumberStructure = 0;		///< Number of structures created so far
 
 
@@ -67,7 +69,7 @@ _pstructureMain( NULL )
 {
 	OPENCITY_DEBUG( "ctor 1" );
 
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 	uiNumberStructure++;
 }
 
@@ -86,7 +88,7 @@ _pstructureMain( pMain )
 {
 	OPENCITY_DEBUG( "ctor 2" );
 
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 	uiNumberStructure++;
 }
 

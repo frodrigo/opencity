@@ -18,10 +18,9 @@
  ***************************************************************************/
 
 #include "treestructure.h"
-#include "propertymanager.h"
 
-
-extern PropertyManager* gpPropertyMgr;	// global property manager
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
    /*=====================================================================*/
@@ -40,8 +39,8 @@ Structure( enumStructCode )
 	OPENCITY_DEBUG( "ctor param" );
 
 	_eGC = OPENCITY_GRAPHIC_CODE(OC_TREE_BEGIN + rand() % (OC_TREE_END - OC_TREE_BEGIN + 1));
-//	_eGC = gpPropertyMgr->GetGC( enumStructCode );
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+//	_eGC = gVars.gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 }
 
 
@@ -54,8 +53,8 @@ Structure( enumStructCode, pMain )
 {
 	assert( pMain != NULL );
 
-	_eGC = gpPropertyMgr->GetGC( enumStructCode );
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gVars.gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 }
 */
 

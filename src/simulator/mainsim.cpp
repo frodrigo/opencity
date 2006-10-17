@@ -18,18 +18,16 @@
  ***************************************************************************/
 
 #include "mainsim.h"
-
 #include "residentialsim.h"				// RCI, WEG and traffic management
 #include "commercialsim.h"
 #include "industrialsim.h"
 #include "electricitysim.h"
 #include "trafficsim.h"
-
 #include "structure.h"
 #include "buildinglayer.h"
 
-extern PathFinder* gpPathFinder;		// global pathfinder class
-extern MovementManager* gpMoveMgr;		// global movement manager
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
    /*======================================================================*/
@@ -46,7 +44,7 @@ Simulator( mutex, pblayer, pmap )
 	_tpSimulator[OC_MICROSIM_COM] = new CommercialSim( mutex, pblayer, pmap );
 	_tpSimulator[OC_MICROSIM_IND] = new IndustrialSim( mutex, pblayer, pmap );
 	_tpSimulator[OC_MICROSIM_ELE] = new ElectricitySim( mutex, pblayer, pmap );
-	_tpSimulator[OC_MICROSIM_TRA] = new TrafficSim( mutex, pblayer, pmap, gpPathFinder, gpMoveMgr );
+	_tpSimulator[OC_MICROSIM_TRA] = new TrafficSim( mutex, pblayer, pmap, gVars.gpPathFinder, gVars.gpMoveMgr );
 }
 
 

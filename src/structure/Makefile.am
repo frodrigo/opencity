@@ -1,4 +1,7 @@
-AM_CPPFLAGS = -I@top_srcdir@/src/
+AM_CPPFLAGS = \
+	-I@top_srcdir@/src/ \
+	-I@top_srcdir@/src/mas/ \
+	-I@top_srcdir@/src/networking/
 
 
 noinst_LIBRARIES = libstruct.a

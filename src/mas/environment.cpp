@@ -26,9 +26,8 @@
 #include "graphicmanager.h"
 #include "pathfinder.h"
 
-
-extern GraphicManager* gpGraphicMgr;	// global graphic manager
-extern PathFinder* gpPathFinder;		// global PathFinder class
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
 /*=====================================================================*/
@@ -114,7 +113,7 @@ m_pBuildingLayer(pBL)
 /*=====================================================================*/
 void Environment::displayAgent()
 {
-	assert( gpGraphicMgr != NULL );
+	assert( gVars.gpGraphicMgr != NULL );
 
 	m_vector_cit it=m_vector.begin(), end=m_vector.end();
 	for (; it != end; ++it) {
@@ -135,7 +134,7 @@ void Environment::displayAgent()
 					m_last_pos.erase(last);
 				}
 			}
-			gpGraphicMgr->DisplayAgent(x, y, agent);
+			gVars.gpGraphicMgr->DisplayAgent(x, y, agent);
 // debug
 //			cout << "Registered agent with GC : " << (*it)->GetGraphicCode() << endl;
 		}
@@ -214,9 +213,9 @@ Environment::findShortestPath(
 	unsigned int x2, unsigned int y2,
 	std::vector<Destination> & rvdest )
 {
-	assert(gpPathFinder != NULL);
+	assert(gVars.gpPathFinder != NULL);
 
-	return gpPathFinder->findShortestPath(
+	return gVars.gpPathFinder->findShortestPath(
 		x1, y1, x2, y2, rvdest,
 		PathFinder::OC_DISTANCE, MAX_PATH_LENGTH  );
 }

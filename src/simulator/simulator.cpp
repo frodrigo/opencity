@@ -18,17 +18,13 @@
  ***************************************************************************/
 
 #include "simulator.h"
-
 #include "buildinglayer.h"
-#include "../map.h"				// We want our own map.h
 #include "structure.h"
-#include "propertymanager.h"
+
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 #include <cmath>				// For log10
-
-
-extern OC_FLOAT gfMsSimDelayMax;
-extern PropertyManager* gpPropertyMgr;
 
 
    /*=====================================================================*/
@@ -157,7 +153,7 @@ Simulator::CheckLevelUp(
 	}
 
 // Get the old WLH
-	gpPropertyMgr->GetWLH(
+	gVars.gpPropertyMgr->GetWLH(
 		pStruct->GetGraphicCode(),
 		ow, 0,
 		ol, 0,
@@ -165,7 +161,7 @@ Simulator::CheckLevelUp(
 	assert( ow != 0 );
 
 // Get the new WLH
-	gpPropertyMgr->GetWLH(
+	gVars.gpPropertyMgr->GetWLH(
 		nextGC,
 		nw, 0,
 		nl, 0,
@@ -227,7 +223,7 @@ Simulator::CheckLevelDown(
 	}
 
 // Get the old WLH
-	gpPropertyMgr->GetWLH(
+	gVars.gpPropertyMgr->GetWLH(
 		pStruct->GetGraphicCode(),
 		ow, 0,
 		ol, 0,
@@ -235,7 +231,7 @@ Simulator::CheckLevelDown(
 	assert( ow != 0 );
 
 // Get the new WLH
-	gpPropertyMgr->GetWLH(
+	gVars.gpPropertyMgr->GetWLH(
 		prevGC,
 		nw, 0,
 		nl, 0,
@@ -324,7 +320,7 @@ Simulator::RCIDelay( void )
 {
 // Added +1 to avoid log10(0)
 	SDL_Delay((uint)
-		(gfMsSimDelayMax - log10((OC_FLOAT)Structure::GetNumber() + 1)
+		(gVars.gfMsSimDelayMax - log10((OC_FLOAT)Structure::GetNumber() + 1)
 		*OC_MS_STRUCTURE_LOG_FACTOR )
 		);
 }

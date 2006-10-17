@@ -1,10 +1,11 @@
 /***************************************************************************
-                          propertymanager.h  -  description
-     $Id$
-                             -------------------
-    begin                : feb 06th, 2004
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+					propertymanager.h  -  description
+							-------------------
+	begin                : feb 06th, 2004
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +18,7 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_PROPERTYMANAGER_H_
-	#define _OPENCITY_PROPERTYMANAGER_H 1
+#define _OPENCITY_PROPERTYMANAGER_H 1
 
 #include "main.h"
 #include "conf.h"				// For models' configuration files

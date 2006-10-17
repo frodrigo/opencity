@@ -1,10 +1,11 @@
 /***************************************************************************
-                          pathstructure.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : june 17th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						pathstructure.cpp  -  description
+							-------------------
+	begin                : june 17th, 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,10 +18,9 @@
  ***************************************************************************/
 
 #include "pathstructure.h"
-#include "propertymanager.h"
 
-
-extern PropertyManager* gpPropertyMgr;	// global property manager
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
    /*======================================================================*/
@@ -44,8 +44,8 @@ ubTraffic( 0 )
 {
 	OPENCITY_DEBUG( "ctor param" );
 
-	_eGC = gpPropertyMgr->GetGC( enumStructCode );
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gVars.gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 
 //debug
 //cout << "struct: " << (int)enumStructCode

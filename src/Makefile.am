@@ -67,6 +67,7 @@ conf.h \
 destination.h \
 enum.h \
 font_8x8.h \
+globalvar.h \
 graphicmanager.h \
 guimain.h \
 guicontainer.h \

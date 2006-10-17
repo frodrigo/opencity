@@ -1,10 +1,10 @@
 ------------------------------------------------------------------------------
-LEGGIMI per OpenCity 0.0.4beta
+LEGGIMI per OpenCity 0.0.5beta
 ------------------------------------------------------------------------------
 Last modified:
 	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
 Last translated:
-	2006/09/26 morpheus
+	2006/10/10 morpheus
 
 Destinatari:
 	# Utenti finali:
@@ -15,9 +15,9 @@ Destinatari:
 
 Descrizione:
 	Questo è un simulatore di città. L'idea è semplice: devi costruire
-una città con 3 tipi di zone, residenziale, commerciale e industriale.
-Durante il loro sviluppo dipendono gli uni dagli altri. Prova a fornir loro
-ciò che serve e ammira crescere la tua città.
+una città con 3 tipi di "zone", residenziale, commerciale e industriale.
+Durante il loro sviluppo le une dipendono dalle altre.
+Prova a fornir loro ciò che serve e vedrai crescere la tua città.
 
 
 ------------------------------------------------------------------------------
@@ -105,19 +105,19 @@ Scorciatoie da tastiera:
 		i:				zona industriale
 		p:				strada
 		l:				traliccio dell'alta tensione
+		e: 				centrale nucleare
 		x:				distruggi
 		q:				interroga
-		e: 				centrale nucleare
-		ctrl:			elimina l'azione dei tasti zona
-		u / d:			alza / abbassa terreno
+		ctrl:				elimina l'azione dei tasti zona
+		u / d:				alza / abbassa terreno
 
 Esplorazione:
 		su / giù / sinistra / destra:	scorri la mappa
-		pagina sù / giù:				ruota la mappa
-		insert / delete:				zoom in/out
-		alt:							moltiplica per 10 l'effetto del comando
-		h:								torna alla cella iniziale
-		escape:							esci
+		pagina sù / giù:		ruota la mappa
+		insert / delete:		zoom in/out
+		alt:				moltiplica per 10 l'effetto del comando
+		h:				torna alla cella iniziale
+		escape:				esci
 
 Opzioni:
 		g:				griglia on / off
@@ -126,7 +126,7 @@ Opzioni:
 		o:				prospettiva / proiezione ortogonale
 
 Suono & musica:
-		z / b:			riproduci brano percedente / successivo
+		z / b:				riproduci brano percedente / successivo
 		m:				musica on / off
 		s:				suono on / off
 
@@ -144,7 +144,7 @@ Caratteristiche non documentate, provale a tuo richio:
 ------------------------------------------------------------------------------
 6) Autoscrolling
 ------------------------------------------------------------------------------
-	Un semplice sistema di autoscrolling (auto scorrimento) è arrivato
+	Un semplice sistema di autoscrolling (auto scorrimento) è stato incluso
 in OpenCity. Basta portare il mouse vicino ai bordi della finestra e OpenCity
 scorrerà automaticamente la mappa.
 
@@ -172,8 +172,8 @@ e OpenCity riprodurrà la tua musica preferita. Se non trovi nessuna cartella
 "music" puoi crearla e metterci dentro il file "music.m3u".
 
 	Ti avviso che SDL_mixer non è stabile e potrebbe bloccare OpenCity
-mentre riproduce certi file ".mp3". Prenditela con i ragazzi di SDL_mixer,
-non con me ;) . Se rilevi problemi disabilita la musica (tasto 'm').
+mentre riproduce certi file ".mp3". Prenditela con quelli di SDL_mixer,
+non con me :) . Se rilevi problemi disabilita la musica (tasto 'm').
 
 
 ------------------------------------------------------------------------------
@@ -185,8 +185,8 @@ Voglio rendere tutto semplice e facile da usare, ma ogni tanto hai ancora bisogn
 della tastiera.
 
 	OpenCity adesso supporta la rotella del mouse! Se la ruoti in avanti
-zoommerai in avanti (come il tasto 'Insert'), altrimenti zoommerai indietro
-(come il tasto 'Delete').
+zoommerai in avanti (come con il tasto 'Insert'), altrimenti zoommerai indietro
+(come con il tasto 'Delete').
 
 	Quando premi 'Shift' e ruoti la rotella del mouse noterai che la mappa
 si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà nell'altro senso.
@@ -205,10 +205,6 @@ si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà nell'altro se
 ------------------------------------------------------------------------------
 NOTA: le opzioni della linea di comando bypassano il file di configurazione.
 
-	--no-dl: 
-	Non usa OpenGL per la griglia. A volte è utile quando OpenGL non è ben
-supportato da Windows (chissà perchè?).
-
 	--gl-version:
 	Mostra informazioni sull'implementazione di OpenGL della tua macchina.
 
@@ -218,9 +214,9 @@ supportato da Windows (chissà perchè?).
 		Sotto win32: --homedir "C:/Programmi/OpenCity/share"
 
 	--server: (sperimentale, caratteristica in via di sviluppo)
-	Lancia la versione server di OpenCity. Premi Ctrl-C per uscire. Se vuoi
-testare il server sul tuo computer, lancia un'altra volta OpenCity 
-senza "--server" e poi premi 't' per connetterti al server locale di OpenCity.
+	Lancia la versione server di OpenCity. Premi Ctrl-C per uscire.
+	Se vuoi testare il server sul tuo computer, lancia un'altra volta OpenCity
+	senza "--server" e poi premi 't' per connetterti al server locale di OpenCity.
 
 
 
@@ -248,17 +244,17 @@ eseguire OpenCity correttamente.
 
 	3) Questa è la mia versione del server X
 
- - XFree86 Versione 4.3.0
- - Data di rilascio: 9 May 2003
- - X Protocol Versione 11, Revisione 0, Release 6.6
- - Build Operating System: Linux 2.4.18-23mdksmp i686 [ELF]
- - Build Date: 10 September 2003
+ - XFree86 versione 4.3.0
+ - Data di rilascio: 9 Maggio 2003
+ - X Protocol versione 11, revisione 0, release 6.6
+ - Sistema operativo di build: Linux 2.4.18-23mdksmp i686 [ELF]
+ - Data di build: 10 Settembre 2003
 
 	Sembrerebbe che i driver per la mia ATI Radeon 9000M siano pieni di bugs.
-Se dovessi avere problemi prova a scrivere in una shell (bash) prima di giocare
+Se dovessi avere problemi prova a scrivere quanto sotto in una shell (bash) prima di giocare.
 		"export R200_NO_VTXFMT="
 
-	Oppure puoi provare una nuova versione di XFree.
+	Se non funziona puoi provare con una nuova versione di XFree.
 
 
 ------------------------------------------------------------------------------

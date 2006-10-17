@@ -1,10 +1,11 @@
 /***************************************************************************
-                          wegstructure.cpp  -  description
-     $Id$
-                             -------------------
-    begin                : june 17th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						wegstructure.cpp  -  description
+							-------------------
+	begin                : june 17th, 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,10 +18,9 @@
  ***************************************************************************/
 
 #include "wegstructure.h"
-#include "propertymanager.h"
 
-
-extern PropertyManager* gpPropertyMgr;		///< global property manager
+#include "globalvar.h"
+extern GlobalVar gVars;
 
 
    /*=====================================================================*/
@@ -36,8 +36,8 @@ WEGStructure::WEGStructure(
 	const OPENCITY_STRUCTURE_CODE & enumStructCode ):
 Structure( enumStructCode )
 {
-	_eGC = gpPropertyMgr->GetGC( enumStructCode );
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eGC = gVars.gpPropertyMgr->GetGC( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 
 // IF this is an electric plant THEN turn on the electricity bit
 	if (enumStructCode == OC_STRUCTURE_EPLANT_COAL) {
@@ -69,7 +69,7 @@ Structure( enumStructCode, pMain )
 			break;
 	}
 
-	_eType = gpPropertyMgr->GetST( enumStructCode );
+	_eType = gVars.gpPropertyMgr->GetST( enumStructCode );
 }
 
 
