@@ -1,6 +1,6 @@
 /***************************************************************************
-							renderer.cpp  -  description
-								-------------------
+						renderer.cpp  -  description
+							-------------------
 	begin                : jeu mai 29 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
@@ -67,6 +67,7 @@ _uiCityLength( cityL )
 
 // Load frequently used textures
 	_uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
+	_uiWaterTex = Texture::Load( ocHomeDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
 // Initialize the window's size, the viewport
 // and set the perspective's ratio
@@ -106,16 +107,17 @@ _uiCityLength( cityL )
 
 // Create 8x8 font
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-	this->uiFontBase = glGenLists( 256 );
+	this->_uiFontBase = glGenLists( 256 );
 	for ( uint i = 0; i < 256; i++ ) {
-		glNewList( this->uiFontBase + i, GL_COMPILE );
+		glNewList( this->_uiFontBase + i, GL_COMPILE );
 		glBitmap( 8, 8, .0, .0, 10., .0, fontdata_8x8 + i*8 );
 		glEndList();
 	}
 
 // initialize few display lists
-	uiGridList = glGenLists( 1 );
+	_uiGridList = glGenLists( 1 );
 	_uiTerrainList = glGenLists( 1 );
+	_uiWaterList = glGenLists( 1 );
 
 // Define the global ambient light value
 // NOTE: we declare the variables here for better readable codes
@@ -172,15 +174,18 @@ Renderer::~Renderer(  )
 	OPENCITY_DEBUG("dtor");
 
 // Destroy GL list
-	glDeleteLists( this->uiFontBase, 256 );
+	glDeleteLists( this->_uiFontBase, 256 );
 
-	if (glIsList( this->uiGridList ))
-		glDeleteLists( this->uiGridList, 1 );
+	if (glIsList( this->_uiGridList ))
+		glDeleteLists( this->_uiGridList, 1 );
 	if (glIsList( _uiTerrainList ))
 		glDeleteLists( _uiTerrainList, 1 );
+	if (glIsList( _uiWaterList ))
+		glDeleteLists( _uiWaterList, 1 );
 
 // Free textures
 	glDeleteTextures( 1, &_uiTerrainTex );
+	glDeleteTextures( 1, &_uiWaterTex );
 	glDeleteTextures( 1, &_uiSplashTex );
 }
 
@@ -581,9 +586,6 @@ Renderer::Display(
 //---- prepare the world for rendering
 	_PrepareView();
 
-// Call the private method to display the height map
-	_DisplayTerrain();
-
 // Display all the structure
 	glPushMatrix();
 	glTranslatef( 0., 0.05, 0. );
@@ -607,6 +609,12 @@ Renderer::Display(
 
 // Display the status bar
 	_DisplayStatusBar();
+
+// Call the private method to display the height map
+	_DisplayTerrain();
+
+// Display the water texture
+	_DisplayWater();
 
 	glFlush();
 
@@ -833,7 +841,7 @@ Renderer::DisplayText(
 	glTranslatef( .0, .0, .1 );
 	glPushAttrib( GL_LIST_BIT | GL_ENABLE_BIT );
 	glDisable( GL_LIGHTING );
-	glListBase( this->uiFontBase );
+	glListBase( this->_uiFontBase );
 
 	glColor4ub( rcubR, rcubG, rcubB, 255 );
 	glRasterPos2i( rcuiX, rcuiY );
@@ -1174,6 +1182,165 @@ displayterrain_return:
 
    /*=====================================================================*/
 void
+Renderer::_DisplayWater() const
+{
+#define WATER_HEIGHT	-.15
+
+	static bool initialized = false;
+
+// IF the display list is already initialized THEN
+	if (initialized)
+		goto displaywater_return;
+	else
+		initialized = true;
+
+	static GLfloat ax, ay, az;
+	static GLfloat bx, by, bz;
+	static GLfloat n1x, n1y, n1z;		// normal 1 coordinates
+	static GLfloat n2x, n2y, n2z;		// normal 2 coordinates
+	static int l, w;					// WARNING: yes, we use INT not UINT
+
+// Reserve a new display list for the terrain
+	glNewList( _uiWaterList, GL_COMPILE );
+
+// WARNING: this is used to calculated the final textured fragment.
+	glColor4f( .3, .25, .2, 1. );
+
+// Enable terrain texturing
+	glPushAttrib( GL_ENABLE_BIT );
+	glEnable( GL_TEXTURE_2D );
+	glBindTexture( GL_TEXTURE_2D, _uiWaterTex );
+	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+// BEGIN, draw the terrain as an unique TRIANGLE_STRIP
+// which is known as the fastest figure in OpenGL
+/* This is the secret formula: c = a^b ;)
+		cx = ay * bz - by * az;
+		cy = bx * az - ax * bz;
+		cz = ax * by - bx * ay;
+*/
+	glBegin( GL_TRIANGLE_STRIP );
+
+	for (l = 0; l < (int)_uiCityLength; l++) {
+	// IF we draw the squares from left to right THEN
+		if (l % 2 == 0) {
+		// Get the 4 heights of the current square
+			w = 0;
+		// calculate the new normal 1 (the cross product)
+			ax = 0.;   ay = WATER_HEIGHT; az = 1.;
+			bx = 1.;   by = WATER_HEIGHT; bz = .0;
+			n1x = -by; n1y = 1.; n1z = -ay;
+		// calculate the new normal 2 (the cross product)
+			ax = 1.;   ay = WATER_HEIGHT; az = .0;
+			bx = .0;   by = WATER_HEIGHT; bz = -1.;
+			n2x = -ay; n2y = 1.; n2z = by;
+
+		// Set the first normal and the first pair of vertices
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord2i( w, l );
+			glVertex3f( w, WATER_HEIGHT, l );
+			glTexCoord2i( w, l+1 );
+			glVertex3f( w, WATER_HEIGHT, l+1 );
+
+			for (w = 1; w < (int)_uiCityWidth; w++) {
+			// draw the stuff
+				glNormal3f( n1x, n1y, n1z );
+				glTexCoord2i( w, l );
+				glVertex3f( w, WATER_HEIGHT, l );
+				glNormal3f( n2x, n2y, n2z );
+				glTexCoord2i( w, l+1 );
+				glVertex3f( w, WATER_HEIGHT, l+1 );
+
+			// calculate the new normal 1 (the cross product)
+				ax = 0.;   ay = WATER_HEIGHT; az = 1.;
+				bx = 1.;   by = WATER_HEIGHT; bz = .0;
+				n1x = -by; n1y = 1.; n1z = -ay;
+			// calculate the new normal 2 (the cross product)
+				ax = 1.;   ay = WATER_HEIGHT; az = .0;
+				bx = .0;   by = WATER_HEIGHT; bz = -1.;
+				n2x = -ay; n2y = 1.; n2z = by;
+			} // for
+
+		// Draw the last edge
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord2i( w, l );
+			glVertex3f( w, WATER_HEIGHT, l );
+			glNormal3f( n2x, n2y, n2z );
+			glTexCoord2i( w, l+1 );
+			glVertex3f( w, WATER_HEIGHT, l+1 );
+		// Then prepare the triangles for the next line
+			glVertex3f( w, WATER_HEIGHT, l+1 );
+		}
+		else {
+		// WARNING: repeated codes as above ================================
+		// We draw the square from right to left
+		// Get the 4 heights of the current square
+			w = _uiCityWidth-1;
+
+		// calculate the new normal 1 (the cross product)
+			ax = -1.;  ay = WATER_HEIGHT; az = .0;
+			bx =  .0;  by = WATER_HEIGHT; bz = 1.;
+			n1x = ay;  n1y = 1.; n1z = -by;
+		// calculate the new normal 2 (the cross product)
+			ax = 1.;   ay = WATER_HEIGHT; az = .0;
+			bx = .0;   by = WATER_HEIGHT; bz = -1.;
+			n2x = -ay; n2y = 1.; n2z = by;
+
+		// Set the first normal and the first pair of vertices
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord2i( w+1, l );
+			glVertex3f( w+1, WATER_HEIGHT, l );
+			glTexCoord2i( w+1, l+1 );
+			glVertex3f( w+1, WATER_HEIGHT, l+1 );
+
+			for (w = _uiCityWidth-2; w >= 0; w--) {
+		// draw the stuff
+				glNormal3f( n1x, n1y, n1z );
+				glTexCoord2i( w+1, l );
+				glVertex3f( w+1, WATER_HEIGHT, l );
+				glNormal3f( n2x, n2y, n2z );
+				glTexCoord2i( w+1, l+1 );
+				glVertex3f( w+1, WATER_HEIGHT, l+1 );
+
+			// calculate the new normal 1 (the cross product)
+				ax = -1.;  ay = WATER_HEIGHT; az = .0;
+				bx =  .0;  by = WATER_HEIGHT; bz = 1.;
+				n1x = ay;  n1y = 1.; n1z = -by;
+			// calculate the new normal 2 (the cross product)
+				ax = 1.;   ay = WATER_HEIGHT; az = .0;
+				bx = .0;   by = WATER_HEIGHT; bz = -1.;
+				n2x = -ay; n2y = 1.; n2z = by;
+			}
+
+		// Draw the last edge
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord2i( w+1, l );
+			glVertex3f( w+1, WATER_HEIGHT, l );
+			glNormal3f( n2x, n2y, n2z );
+			glTexCoord2i( w+1, l+1 );
+			glVertex3f( w+1, WATER_HEIGHT, l+1 );
+		// Then prepare the triangles for the next line
+			glVertex3f( w+1, WATER_HEIGHT, l+1 );
+		}
+	}
+// then restore the default normal
+	glNormal3f( 0., 0., 1. );
+	glEnd();
+// END: Draw the terrain by using GL_TRIANGLE_STRIP
+
+// Restore old attribs
+	glPopAttrib();
+	glEndList();
+
+displaywater_return:
+	glCallList( _uiWaterList );
+}
+
+
+   /*=====================================================================*/
+void
 Renderer::_DisplayMapGrid( const Map* pcmap )
 {
 	if (boolHeightChange == false)
@@ -1183,7 +1350,7 @@ Renderer::_DisplayMapGrid( const Map* pcmap )
 	uint w, l;
 
 // Create a new display list for the grid
-	glNewList( uiGridList, GL_COMPILE );
+	glNewList( _uiGridList, GL_COMPILE );
 
 // Enable line stipple
 	glPushAttrib( GL_ENABLE_BIT );
@@ -1224,7 +1391,7 @@ Renderer::_DisplayMapGrid( const Map* pcmap )
 	glEndList();
 
 displaymapgrid_return:
-	glCallList( uiGridList );
+	glCallList( _uiGridList );
 }
 
 

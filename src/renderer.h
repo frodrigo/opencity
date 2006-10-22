@@ -206,12 +206,14 @@ private:
 	GLdouble dEyeZ;
 
 // GL display lists
-	GLuint uiGridList;		///< GL list of the grid
-	GLuint uiFontBase;		///< The base font list index
+	GLuint _uiGridList;		///< GL list of the grid
+	GLuint _uiFontBase;		///< The base font list index
 	GLuint _uiTerrainList;	///< GL list of the terrain
+	GLuint _uiWaterList;	///< GL list of the water texture
 
 // Frequently use textures
 	GLuint _uiTerrainTex;	///< Terrain texture
+	GLuint _uiWaterTex;		///< Water texture
 	GLuint _uiSplashTex;	///< Splash texture
 
 
@@ -250,6 +252,9 @@ private:
 	draws from the north to the south.
 */
 	void _DisplayTerrain() const;
+
+
+	void _DisplayWater() const;
 
 
 //========================================================================
