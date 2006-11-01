@@ -88,7 +88,6 @@ class UI;
 	#define OC_SOUND_LIST_FILENAME "sound/sound.m3u"
 
 // OpenCity's config file
-	#define OC_CONFIG_FILE_FILENAME "config/opencity.conf"
 	#define OC_GRAPHISM_FILE_FILENAME "config/graphism.conf"
 
 // Simulators' defines.

@@ -5,14 +5,16 @@ Last modified:
 	$Id$
 
 Remove -no-dl option                  (done)
-Variable name clean up                (wip)
 Fullscreen config variable support    (done)
 Fullscreen high resolution autodetect (done)
 Add --fullscreen                      (done)
 Global city dimensions variable       (done)
 Global settings structure             (done)
 Water texture                         (done)
-Water layer
+TinyXML 2.5.2 integration             (done)
+LBS files layout
+Variable name clean up                (wip)
+Water layer                           (wip)
 Water pipe
 Water pump
 Water tower
@@ -30,7 +32,12 @@ Train models
 Crime
 Police agent system
 Minimap
+Add new vehicle models
+Unblocking networking layer
+Add online operation notification clock
 ZeN online map loading
+Fix city size settings bug
+Fix path building bug
 
 
 

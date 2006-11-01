@@ -363,16 +363,16 @@ void City::uiKeyboard(
 			netCode = gVars.gpNetworking->Open( gVars.gsZenServer );
 			switch (netCode) {
 				case OC_NET_CLIENT_CONNECTED:
-					OPENCITY_DEBUG( "I'm already connected to a server" );
+					OPENCITY_INFO( "OpenCity is already connected to a server." );
 					break;
 				case OC_NET_CLIENT_ACCEPTED:
-					OPENCITY_DEBUG( "Connection request accepted" );
+					OPENCITY_INFO( "The connection request has been accepted." );
 					break;
 				case OC_NET_CLIENT_REJECTED:
-					OPENCITY_DEBUG( "Connection request rejected. Server full ?" );
+					OPENCITY_INFO( "The connection request has been rejected. Is the server full ?" );
 					break;
 				default:
-					OPENCITY_DEBUG( "I couldn't connect to the server " );
+					OPENCITY_INFO( "The connection to \"" << gVars.gsZenServer << "\" has failed." );
 			}
 			break;
 

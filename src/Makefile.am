@@ -1,4 +1,4 @@
-SUBDIRS = binreloc mapgen mas model networking simulator structure triangulation
+SUBDIRS = binreloc mapgen mas model networking simulator structure tinyxml triangulation
 AM_CPPFLAGS = \
 	-I@top_srcdir@/src/ \
 	-I@top_srcdir@/src/binreloc/ \
@@ -21,6 +21,7 @@ model/libmodel.a \
 networking/libnet.a \
 simulator/libsim.a \
 structure/libstruct.a \
+tinyxml/libtinyxml.a \
 triangulation/libtriangulation.a
 
 

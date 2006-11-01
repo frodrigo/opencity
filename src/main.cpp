@@ -33,6 +33,7 @@
 
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
+#include "tinyxml/tinyxml.h"
 
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
@@ -68,8 +69,12 @@
 // Exit code
 	#define OC_OPENCITY_CONF_NOT_FOUND	-1
 
+// Settings file
+	#define OC_CONFIG_FILE_FILENAME "config/opencity.xml"
+
 // Others macros
 	#define OC_WINDOW_NAME PACKAGE VERSION
+
 
 
    /*=====================================================================*/
@@ -689,6 +694,7 @@ char* findSaveDir()
 /** Read the OpenCity's main config file "opencity.conf"
 	\return 0 if OK, -1 otherwise
 */
+/* 1st Nov, 06, kept for reference, old version
 int readConfig()
 {
 	int retVal = 0;
@@ -775,13 +781,159 @@ int readConfig()
 	delete pConf;
 	return retVal;
 }
+*/
+
+
+   /*=====================================================================*/
+/** Detect and set the homedir and the savedir using BinReloc library
+and win32 standard function
+*/
+void detectProgramPath()
+{
+	char* pTemp = NULL;
+	BrInitError brError;
+
+// IF the homedir is not set THEN try to get it from BinReloc routines
+	if (sHomeDir == "") {
+	// Init the BinReloc routines
+		if (br_init(&brError) != 1) {
+			OPENCITY_INFO(
+				"The initialization of BinReloc routines has failed." << endl
+				 << "The error was: " << brError
+			);
+		}
+		else {
+		// Construct the datadir from the prefix
+			pTemp = br_find_prefix( PREFIX );
+			sHomeDir = pTemp;
+			sHomeDir += "/share/";
+			sHomeDir += PACKAGE;
+			free(pTemp);
+			formatHomeDir();
+		}
+	}
+
+// IF the save directory is not set the find it
+	if (sSaveDir == "") {
+		pTemp = findSaveDir();
+		sSaveDir = pTemp;
+		free(pTemp);
+#ifndef WIN32
+		sSaveDir += "/.OpenCity/";
+		mkdir( sSaveDir.c_str(), 0755 );
+#else
+	// Win32 uses \ as directory separtor
+		sSaveDir += "\\OpenCity\\";
+        CreateDirectory( sSaveDir.c_str(), NULL );		
+    // Replace \ by /
+	    string::size_type pos;
+	    while ( (pos = sSaveDir.find( '\\' )) != sSaveDir.npos ) {
+		    sSaveDir.replace( pos, 1, "/" );
+		}
+#endif
+	}
+}
+
+
+   /*=====================================================================*/
+/** Read the OpenCity's main settings file "opencity.xml"
+	\return 0 if OK, -1 otherwise
+*/
+int readSettings()
+{
+	TiXmlDocument settings;
+
+// Now try to open the config file then read it
+	OPENCITY_INFO(
+		"Reading XML config file: \"" << ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
+	);
+
+// Load the settings file
+	string fn = ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME);
+//	string fn = ocHomeDirPrefix("config/opencity.xml");
+	if (!settings.LoadFile(fn)) {
+		return -1;
+	}
+
+// Get the root element
+	TiXmlNode* pRoot = settings.RootElement();
+	if (pRoot == NULL)
+		return -1;
+
+// Parse the settings
+	TiXmlElement* pElement = pRoot->FirstChildElement();
+	int i = 0;
+	const char* str = NULL;
+	while (pElement != NULL)
+	{
+// Debug
+//		cout << i++ << "||" << *pElement << std::endl;
+	// "fullscreen" element
+		if (pElement->ValueStr() == "fullscreen") {
+			str = pElement->Attribute("enable");
+			if (str != NULL && strcmp(str, "true") == 0) {
+				gVars.gboolFullScreen |= true;
+			}
+			else {
+				gVars.gboolFullScreen |= false;
+			}
+
+			// IF fullscreen mode enabled THEN read size
+			if (gVars.gboolFullScreen) {
+				TiXmlElement* pChild = pElement->FirstChildElement();
+				while (pChild != NULL) {
+					if (pChild->ValueStr() == "width") {
+						pChild->QueryIntAttribute("value", (int*)&gVars.guiScreenWidth);
+					}
+					else if (pChild->ValueStr() == "height") {
+						pChild->QueryIntAttribute("value", (int*)&gVars.guiScreenHeight);
+					}
+					pChild = pChild->NextSiblingElement();
+				}
+			}
+		}
+	// "audio" element
+		else if (pElement->ValueStr() == "audio") {
+			str = pElement->Attribute("enable");
+			if (str != NULL && strcmp(str, "true") == 0) {
+				gVars.gboolUseAudio = true;
+			}
+		}
+	// "city" element, read the city's size
+		if (pElement->ValueStr() == "city") {
+			TiXmlElement* pChild = pElement->FirstChildElement();
+			while (pChild != NULL) {
+				cout << i++ << "||" << *pChild << std::endl;
+				if (pChild->ValueStr() == "width") {
+					pChild->QueryIntAttribute("value", (int*)&gVars.guiCityWidth);
+				}
+				else if (pChild->ValueStr() == "length") {
+					pChild->QueryIntAttribute("value", (int*)&gVars.guiCityLength);
+				}
+				pChild = pChild->NextSiblingElement();
+			}
+		}
+	// "msPerFrame" element
+		if (pElement->ValueStr() == "msPerFrame") {
+			pElement->QueryIntAttribute("value", (int*)&gVars.guiMsPerFrame);
+		}
+	// "zenServer" element
+		if (pElement->ValueStr() == "zenServer") {
+			gVars.gsZenServer = pElement->GetText();
+		}
+
+		pElement = pElement->NextSiblingElement();
+	}
+
+	return 0;
+}
 
 
    /*=====================================================================*/
 void initGlobalVar()
 {
 // Config file and command line options
-	gVars.gboolUseAudio				= true;
+	gVars.gboolUseAudio				= false;
 	gVars.gboolFullScreen			= false;
 	gVars.gboolServerMode			= false;
 	gVars.guiCityWidth				= OC_CITY_W;
@@ -835,8 +987,12 @@ int main(int argc, char *argv[])
 // Parse the command-line options
 	parseArg( argc, argv );
 
+// Detect the main path: sHomeDir and sSaveDir
+	detectProgramPath();
+
 // Read the main config file
-	if (readConfig() != 0) {
+//	if (readConfig() != 0) {
+	if (readSettings() != 0) {
 		OPENCITY_FATAL(
 			"The main config file \"opencity.conf\" has not been found." << endl
 			<< "Try to specify the home directory with ""--homedir""." << endl
@@ -847,6 +1003,9 @@ int main(int argc, char *argv[])
 		);
 		exit(OC_OPENCITY_CONF_NOT_FOUND);
 	}
+
+// Read the application's settings
+	readSettings();
 
 // Initialization of global variables
 	uipCurrentUI = NULL;
