@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!-- OpenCity settings file -->
+<settings xmlns="urn:oc:settings">
+	<!-- Fullscreen mode: "true" to enable or anything else to disable -->
+	<fullscreen enable="false">
+		<!-- FullScreen's resolution: set to 0 for autodetect -->
+		<width value="0" />
+		<height value="0" />
+	</fullscreen>
+
+	<!-- Audio device: "true" to enable or anything else to disable -->
+	<audio enable="true" />
+
+	<!-- City's settings -->
+	<city>
+		<!-- Do not go beyond 100 per edge, seriously ! -->
+		<width value="50" />
+		<length value="50" />
+	</city>
+
+	<!-- Low value uses more CPU power. However, you can not go under 10ms -->
+	<msPerFrame value="20" />
+
+	<!-- Don't touch the values below. Really, don't touch them. -->
+	<zenServer>localhost</zenServer>
+</settings>
