@@ -22,7 +22,7 @@ nobase_dist_pkgdata_DATA = \
 # "config" directory
 #==============================================================================
 nobase_dist_pkgdata_DATA += \
-	config/graphism.conf config/opencity.conf
+	config/graphism.conf config/opencity.xml
 
 
 #==============================================================================

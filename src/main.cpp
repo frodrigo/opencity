@@ -57,20 +57,21 @@
 #endif
 
 // Window's settings
-	#define OC_WINDOW_POS_X  20
-	#define OC_WINDOW_POS_Y  20
-	#define OC_WINDOW_WIDTH  750
-	#define OC_WINDOW_HEIGHT 560
-	#define OC_WINDOW_BPP_DEFAULT 32				// OC uses this by default
-	#define OC_WINDOW_BPP_16 16
-	#define OC_FULLSCREEN_WIDTH 1024
-	#define OC_FULLSCREEN_HEIGHT 768
+	#define OC_WINDOW_POS_X			20
+	#define OC_WINDOW_POS_Y			20
+	#define OC_WINDOW_WIDTH			750
+	#define OC_WINDOW_HEIGHT		560
+	#define OC_WINDOW_BPP_DEFAULT	32				// OC uses this by default
+	#define OC_WINDOW_BPP_16		16
+	#define OC_FULLSCREEN_WIDTH		1024
+	#define OC_FULLSCREEN_HEIGHT	768
 
 // Exit code
-	#define OC_OPENCITY_CONF_NOT_FOUND	-1
+	#define OC_CONFIG_NOT_FOUND		-1
+	#define OC_CONFIG_PARSE_ERROR	-2
 
 // Settings file
-	#define OC_CONFIG_FILE_FILENAME "config/opencity.xml"
+	#define OC_CONFIG_FILE_FILENAME	"config/opencity.xml"
 
 // Others macros
 	#define OC_WINDOW_NAME PACKAGE VERSION
@@ -837,10 +838,14 @@ void detectProgramPath()
 
    /*=====================================================================*/
 /** Read the OpenCity's main settings file "opencity.xml"
-	\return 0 if OK, -1 otherwise
+	\return "" if OK, otherwise the error description
+		0: if OK
+		OC_CONFIG_NOT_FOUND: the config file has not been found
+		OC_CONFIG_PARSE_ERROR: the was a parse error
 */
-int readSettings()
+string readSettings()
 {
+	string errorString = "";
 	TiXmlDocument settings;
 
 // Now try to open the config file then read it
@@ -850,15 +855,23 @@ int readSettings()
 
 // Load the settings file
 	string fn = ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME);
-//	string fn = ocHomeDirPrefix("config/opencity.xml");
 	if (!settings.LoadFile(fn)) {
-		return -1;
+		errorString = settings.ErrorDesc();
+		return errorString;
+	}
+
+// Error testing
+	if (settings.Error()) {
+		errorString = settings.ErrorDesc();
+		return errorString;
 	}
 
 // Get the root element
 	TiXmlNode* pRoot = settings.RootElement();
-	if (pRoot == NULL)
-		return -1;
+	if (pRoot == NULL) {
+		errorString = settings.ErrorDesc();
+		return errorString;
+	}
 
 // Parse the settings
 	TiXmlElement* pElement = pRoot->FirstChildElement();
@@ -919,13 +932,14 @@ int readSettings()
 		}
 	// "zenServer" element
 		if (pElement->ValueStr() == "zenServer") {
-			gVars.gsZenServer = pElement->GetText();
+			if (pElement->GetText() != NULL)
+				gVars.gsZenServer = pElement->GetText();
 		}
 
 		pElement = pElement->NextSiblingElement();
 	}
 
-	return 0;
+	return errorString;
 }
 
 
@@ -976,8 +990,6 @@ extern "C"
 #endif
 int main(int argc, char *argv[])
 {
-	int returnCode;
-
 // Initialize the global settings variable to the default values
 	initGlobalVar();
 
@@ -990,22 +1002,24 @@ int main(int argc, char *argv[])
 // Detect the main path: sHomeDir and sSaveDir
 	detectProgramPath();
 
+// TOKILL, old version, .conf config file, 1st Nov, 06
 // Read the main config file
-//	if (readConfig() != 0) {
-	if (readSettings() != 0) {
+//	if (readConfig() != 0)
+
+// Read the application settings from the XML settings file
+	string errorDesc = readSettings();
+	if (errorDesc != "") {
 		OPENCITY_FATAL(
-			"The main config file \"opencity.conf\" has not been found." << endl
-			<< "Try to specify the home directory with ""--homedir""." << endl
+			"The was an error while loading the settings file: \"" << errorDesc << "\"" << endl
+			<< "If the main config file \"" << OC_CONFIG_FILE_FILENAME << "\" has not been found then" << endl
+			<< "try to specify the home directory with ""--homedir""." << endl
 			<< "For example:" << endl
 			<< "    opencity --homedir \"/absolute/path/to/opencity/data\"" << endl
 			<< "or" << endl
 			<< "    opencity --homedir \"../relative/path/to/opencity/data\"" << endl
 		);
-		exit(OC_OPENCITY_CONF_NOT_FOUND);
+		exit(OC_CONFIG_NOT_FOUND);
 	}
-
-// Read the application's settings
-	readSettings();
 
 // Initialization of global variables
 	uipCurrentUI = NULL;
@@ -1015,6 +1029,7 @@ int main(int argc, char *argv[])
 	srand( time(NULL) );
 
 // Launch either client or server mode
+	int returnCode = 0;
 	if (gVars.gboolServerMode == true)
 		returnCode = serverMode();
 	else
