@@ -847,13 +847,12 @@ BuildingLayer::_BuildPathStructure(
 {
 	OPENCITY_DEBUG( "I'm building some path structures" );
 
-	uint w, h;
-	uint cost;
+	uint w = 0, l = 0;
+	uint cost = 0;
 
 	OPENCITY_SWAP( W1, W2, uint );
 	OPENCITY_SWAP( L1, L2, uint );
 
-	cost = 0;
 	rCost = 0;
 
 // is the area road constructive ?
@@ -864,14 +863,14 @@ BuildingLayer::_BuildPathStructure(
 			if (_IsPathConstructive( w, L1, enumStructCode ) == false)
 				return OC_ERR_SOMETHING;
 	// we test the rest
-		for (h = L1; h <= L2; h++)
-			if (_IsPathConstructive( W2, h, enumStructCode ) == false)
+		for (l = L1; l <= L2; l++)
+			if (_IsPathConstructive( W2, l, enumStructCode ) == false)
 				return OC_ERR_SOMETHING;
 	}
 	else {
 	// we test the largest side first
-		for (h = L1; h < L2; h++)
-			if (_IsPathConstructive( W1, h, enumStructCode ) == false)
+		for (l = L1; l < L2; l++)
+			if (_IsPathConstructive( W1, l, enumStructCode ) == false)
 				return OC_ERR_SOMETHING;
 	// we test the rest
 		for (w = W1; w <= W2; w++)
@@ -881,7 +880,7 @@ BuildingLayer::_BuildPathStructure(
 
 
 // it's OK, let's GO !
-	uint linearIndex;
+	uint linearIndex = 0;
 
 	if (W2 - W1 >= L2 - L1) {
 	// we build the largest side first
@@ -894,16 +893,16 @@ BuildingLayer::_BuildPathStructure(
 	// then we build the rest
 // this is already calculated by the previous "for"
 //		linearIndex = (L1*_uiLayerWidth) + W2;
-		for (h = L1; h <= L2; h++, linearIndex += _uiLayerWidth) {
-			_BuildPathStructure( W2, h, linearIndex, enumStructCode, cost );
+		for (l = L1; l <= L2; l++, linearIndex += _uiLayerWidth) {
+			_BuildPathStructure( W2, l, linearIndex, enumStructCode, cost );
 			rCost += cost;
 		}
 	}
 	else {
 	// we build the largest side first
 		linearIndex = (L1*_uiLayerWidth) + W1;
-		for (h = L1; h < L2; h++, linearIndex += _uiLayerWidth) {
-			_BuildPathStructure( W1, h, linearIndex, enumStructCode, cost );
+		for (l = L1; l < L2; l++, linearIndex += _uiLayerWidth) {
+			_BuildPathStructure( W1, l, linearIndex, enumStructCode, cost );
 			rCost += cost;
 		}
 
@@ -924,15 +923,15 @@ BuildingLayer::_BuildPathStructure(
 void
 BuildingLayer::_BuildPathStructure(
 	const uint & w,
-	const uint & h,
+	const uint & l,
 	const uint & linearIndex,
 	const OPENCITY_STRUCTURE_CODE & enumStructCode,
 	uint& rCost )
 {
-	Structure* pstructNeighbour = NULL;
-	PathStructure* ppathstructNeighbour;
-	PathStructure* pNewStructure;
-	uint nW, nH;
+	Structure* pstructNeighbour				= NULL;
+	PathStructure* ppathstructNeighbour		= NULL;
+	PathStructure* pNewStructure			= NULL;
+	uint nW = 0, nL = 0;
 
 
 // IF there's already something, THEN we return
@@ -947,8 +946,8 @@ BuildingLayer::_BuildPathStructure(
 	_tabpStructure[ linearIndex ] = pNewStructure;
 
 // Get the neighbour in the North
-	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_N ) == true) {
-		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_N ) == true) {
+		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 	// if the neighbour is a road structure
 	// then add this new road structure as its new neighbour
 	// we do the same with the new road structure
@@ -964,8 +963,8 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 // Get the neighbour in the South
-	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_S ) == true) {
-		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_S ) == true) {
+		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
@@ -977,8 +976,8 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 // Get the neighbour in the West
-	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_W ) == true) {
-		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_W ) == true) {
+		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
@@ -990,8 +989,8 @@ BuildingLayer::_BuildPathStructure(
 	}
 
 // Get the neighbour in the East
-	if (gVars.gpMapMgr->GetNeighbourWH( w, h, nW, nH, OC_DIR_E ) == true) {
-		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_E ) == true) {
+		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 	// if the neighbour is a road structure
 	// then add this new road structure as its new neighbour
 	// we do the same with the new road structure

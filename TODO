@@ -12,6 +12,7 @@ Global city dimensions variable       (done)
 Global settings structure             (done)
 Water texture                         (done)
 TinyXML 2.5.2 integration             (done)
+Fix path building bug                 (done)
 LBS files layout
 Variable name clean up                (wip)
 Water layer                           (wip)
@@ -37,7 +38,7 @@ Unblocking networking layer
 Add online operation notification clock
 ZeN online map loading
 Fix city size settings bug
-Fix path building bug
+
 
 
 

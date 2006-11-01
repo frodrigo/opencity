@@ -107,13 +107,12 @@ PathStructure::AddNeighbour(
 			break;
 	}
 
-   // we will update the _eGC with the newGC value
-   // when we return, so we keep with this
+// We will update the _eGC with the newGC value
+// when we return, so we keep with this
 	newGC = _eGC;
 
 	if (ubNumberNeighbour == 0) {
-	   // the current _eGC is already OC_ROAD_O_N
-	   // we don't process further in such case
+	// The current _eGC is already OC_ROAD_O_N we don't process further in such case
 		if (enumDir == OC_DIR_E)
 			newGC = baseGC + 1;
 		else if (enumDir == OC_DIR_S)
@@ -126,7 +125,7 @@ PathStructure::AddNeighbour(
 	if (ubNumberNeighbour == 1) {
 //debug cout << "number neighbour == 1" << endl;
 		if (enumDir == OC_DIR_N) {
-		   // we don't process the case OC_ROAD_O_N
+		// We don't process the case OC_ROAD_O_N
 			if (_eGC == baseGC + 1)
 				newGC = baseGC + 6;
 			else if (_eGC == baseGC + 2)
@@ -177,19 +176,19 @@ PathStructure::AddNeighbour(
 		//-----------------------------------------
 	if (ubNumberNeighbour == 2) {
 		if (enumDir == OC_DIR_N) {
-		   // we don't process the case OC_ROAD_S_N, N_E, N_W
-			if (_eGC == baseGC + 8)
-				newGC = baseGC + 10;
-			else if (_eGC == baseGC + 9)
-				newGC = baseGC + 11;
-			else if (_eGC == baseGC + 5)
-				newGC = baseGC + 13;
+		// We don't process the case OC_ROAD_S_N, N_E, N_W
+			if (_eGC == baseGC + 8)			// S_E
+				newGC = baseGC + 10;		// S_N_E
+			else if (_eGC == baseGC + 9)	// S_W
+				newGC = baseGC + 12;		// S_N_W
+			else if (_eGC == baseGC + 5)	// W_E
+				newGC = baseGC + 13;		// N_W_E
 			else
 				return;
 		} else
 
 		if (enumDir == OC_DIR_E) {
-		   // we don't process the case OC_ROAD_W_E, N_E, S_E
+		// We don't process the case OC_ROAD_W_E, N_E, S_E
 			if (_eGC == baseGC + 9)
 				newGC = baseGC + 11;
 			else if (_eGC == baseGC + 7)
@@ -201,7 +200,7 @@ PathStructure::AddNeighbour(
 		} else
 
 		if (enumDir == OC_DIR_S) {
-		   // we don't process the case OC_ROAD_S_N, S_E, S_W
+		// We don't process the case OC_ROAD_S_N, S_E, S_W
 			if (_eGC == baseGC + 6)
 				newGC = baseGC + 10;
 			else if (_eGC == baseGC + 7)
@@ -213,7 +212,7 @@ PathStructure::AddNeighbour(
 		} else
 
 		if (enumDir == OC_DIR_W) {
-		   // we don't process the case OC_ROAD_W_E, N_W, S_W
+		// We don't process the case OC_ROAD_W_E, N_W, S_W
 			if (_eGC == baseGC + 8)
 				newGC = baseGC + 11;
 			else if (_eGC == baseGC + 6)
@@ -253,8 +252,9 @@ PathStructure::AddNeighbour(
 		}
 	}
 	else {
-	   // impossible case !
-		cout << "WARNING: internal game design error !" << endl;
+	// impossible case !
+		OPENCITY_FATAL( "Internal game design error !" );
+		exit(-1);
 		return;
 	}
 
@@ -358,7 +358,7 @@ PathStructure::RemoveNeighbour(
 		if (enumDir == OC_DIR_N) {
 			if (_eGC == baseGC + 10)
 				newGC = baseGC + 8;
-			else if (_eGC == baseGC + 11)
+			else if (_eGC == baseGC + 12)
 				newGC = baseGC + 9;
 			else if (_eGC == baseGC + 13)
 				newGC = baseGC + 5;
@@ -422,7 +422,7 @@ PathStructure::RemoveNeighbour(
 
 
    /*======================================================================*/
-//FOR FUTURE REFERENCE
+// Old code, kept for future reference
 /*
 void
 pathstructureAddNeighbour2(
