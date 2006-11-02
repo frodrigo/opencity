@@ -163,11 +163,11 @@ ElectricitySim::Main()
 					case OC_STRUCTURE_PARK:
 					case OC_STRUCTURE_FLORA:
 					case OC_STRUCTURE_ROAD:
+					case OC_STRUCTURE_TEST:			// Development test feature
 						break;
 
 				// What's the heck ?
 					case OC_STRUCTURE_UNDEFINED:
-					case OC_STRUCTURE_TEST:
 					case OC_STRUCTURE_ANY:
 					case OC_STRUCTURE_ELECTRIC:
 

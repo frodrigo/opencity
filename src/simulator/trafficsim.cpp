@@ -108,6 +108,7 @@ TrafficSim::Main()
 						case OC_STRUCTURE_IND:
 							iTrafficValue += pstruct->GetLevel();
 							break;
+
 						default:
 						// keep gcc happy
 							break;
