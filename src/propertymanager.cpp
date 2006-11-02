@@ -125,6 +125,8 @@ PropertyManager::Get(
 				case OC_STRUCTURE_FLORA:
 					value = 5; break;
 
+				case OC_STRUCTURE_TEST:			// Development test feature
+					value = 0; break;
 				default:
 					value = 0;
 					OPENCITY_DEBUG("WARNING: game design error");
@@ -157,6 +159,8 @@ PropertyManager::Get(
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 200; break;
 
+				case OC_STRUCTURE_TEST:			// Development test feature
+					value = 0; break;
 				default:
 					value = 0;
 					OPENCITY_DEBUG("WARNING: game design error");
@@ -186,6 +190,8 @@ PropertyManager::Get(
 				case OC_STRUCTURE_FLORA:
 					value = 1; break;
 
+				case OC_STRUCTURE_TEST:			// Development test feature
+					value = 0; break;
 				default:
 					value = 0;
 					OPENCITY_DEBUG( "WARNING: game design error" );
@@ -325,11 +331,12 @@ PropertyManager::GetST(
 
 	// TODO
 		case OC_STRUCTURE_UNDEFINED:
-		case OC_STRUCTURE_TEST:
 		case OC_STRUCTURE_ANY:
 		case OC_STRUCTURE_ELECTRIC:
 			tcode = OC_TYPE_UNUSED; assert( 0 ); break;
 
+		case OC_STRUCTURE_TEST:			// Development test feature
+			tcode = OC_TYPE_UNUSED; break;
 		default:
 			tcode = OC_TYPE_UNUSED;
 			OPENCITY_DEBUG( "WARNING: game design error" );

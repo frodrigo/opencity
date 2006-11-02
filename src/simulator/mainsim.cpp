@@ -241,6 +241,7 @@ fluctuations in between.
 			case OC_STRUCTURE_PARK:
 			case OC_STRUCTURE_FLORA:
 			case OC_STRUCTURE_ROAD:
+			case OC_STRUCTURE_TEST:			// Development test feature
 				break;
 
 			default:

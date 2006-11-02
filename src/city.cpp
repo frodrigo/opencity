@@ -1558,7 +1558,7 @@ City::_HandleGUIClick()
 			this->uiVehicleType = Vehicle::VEHICLE_SPORT;
 //debug cout << "changed to true" << endl;
 			break;
-		case 4: //
+		case 4: // build test building
 			enumCurrentTool = OC_BUILD_TEST_BUILDING;
 			_cTool = '?';
 			break;

@@ -13,6 +13,7 @@ Global settings structure             (done)
 Water texture                         (done)
 TinyXML 2.5.2 integration             (done)
 Fix path building bug                 (done)
+Fix graphist's special test feature   (done)
 LBS files layout
 Variable name clean up                (wip)
 Water layer                           (wip)
