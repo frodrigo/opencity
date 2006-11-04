@@ -22,6 +22,11 @@
 
 #include "map.h"
 
+#include "generator/generator.h"
+#include "filter/filter.h"
+#include <vector>
+using std::vector;
+
 namespace mapgen
 {
 
@@ -36,26 +41,54 @@ public:
 		MOUNTAIN
 	};
 
+	enum WATER_TYPE {
+		DRY = 0,
+		LAKE,
+		COAST,
+		ISLAND
+	};
+
+	enum TREE_DENSITY_TYPE {
+		SPARSE = 0,
+		NORMAL,
+		DENSE
+	};
+
 	MapMaker(
 		const uint w,
 		const uint h,
-		const MAP_TYPE type );
+		const MAP_TYPE mapType,
+		const WATER_TYPE waterType,
+		const TREE_DENSITY_TYPE treeDensityType );
 
 	~MapMaker();
 
 	int* getMap();
+	int* getTreeDensity();
 
 private:
 	uint		_w;
 	uint		_h;
-	MAP_TYPE	_type;
+
+	MAP_TYPE	_mapType;
+	WATER_TYPE	_waterType;
 	Map*		_map;
+
+	TREE_DENSITY_TYPE	_treeDensityType;
+	Map*		_treeDensity;
 
 
    /*=====================================================================*/
    /*                         PRIVATE     METHODS                         */
    /*=====================================================================*/
-	void _generate();
+	Map* _generate(
+    		const Generator* generator,
+    		vector<Filter*> filters ) const;
+
+	void _generateMap();
+
+	void _generateTreeDensity();
+
 };
 
 }

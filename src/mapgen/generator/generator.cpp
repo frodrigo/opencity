@@ -37,7 +37,7 @@ Generator::~Generator()
 
 
    /*=====================================================================*/
-Map* Generator::render()
+Map* Generator::render() const
 {
 	return new Map( 50, 50 );
 }

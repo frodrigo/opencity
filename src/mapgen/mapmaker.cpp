@@ -35,15 +35,21 @@ namespace mapgen
 MapMaker::MapMaker(
 	const uint w,
 	const uint h,
-	const MAP_TYPE type ):
+	const MAP_TYPE mapType,
+	const WATER_TYPE waterType,
+	const TREE_DENSITY_TYPE treeDensityType ):
 _w(w),
 _h(h),
-_type(type),
-_map(NULL)
+_mapType(mapType),
+_waterType(waterType),
+_map(NULL),
+_treeDensityType(treeDensityType),
+_treeDensity(NULL)
 {
 	MAP_DEBUG( "ctor" );
 
-	_generate();
+	_generateMap();
+	_generateTreeDensity();
 }
 
 
@@ -54,47 +60,17 @@ MapMaker::~MapMaker()
 
 	if( _map != NULL )
 		delete _map;
+
+	if( _treeDensity != NULL )
+		delete _treeDensity;
 }
 
 
    /*=====================================================================*/
-void MapMaker::_generate()
+Map* MapMaker::_generate(
+	const Generator* generator,
+	vector<Filter*> filters ) const
 {
-	Generator* generator;
-	vector<Filter*> filters;
-	
-	// Select generator
-	switch( _type )
-	{
-		default:
-			{
-				uint largerSide = _w > _h ? _w : _h;
-				uint side = (uint) ceil( log2( (float)largerSide ) );
-				generator = new Diamon( side );
-			} break;
-	}
-
-	// Add filter
-	switch( _type )
-	{
-		case PLAIN :
-			filters.push_back( new Flattern(4) );
-			filters.push_back( new GaussBlur(2) );
-			filters.push_back( new Normalize(0,5) );
-			break;
-		case MOUNTAIN :
-			filters.push_back( new Flattern(1) );
-			filters.push_back( new GaussBlur(2) );
-			filters.push_back( new Normalize(0,20) );
-			break;
-		default:
-		case HILL :
-			filters.push_back( new Flattern(2) );
-			filters.push_back( new GaussBlur(2) );
-			filters.push_back( new Normalize(0,10) );
-			break;
-	}
-
 	// Render the map
 	Map* map = generator->render();
 	delete generator;
@@ -106,14 +82,106 @@ void MapMaker::_generate()
 		delete *i;
 	}
 
-	_map = map->crop( _w, _h );
+	Map *cropedMap = map->crop( _w, _h );
 	delete map;
+	return cropedMap;
 }
+
+
+   /*=====================================================================*/
+void MapMaker::_generateMap()
+{
+	Generator* generator;
+	vector<Filter*> filters;
+
+	// Select generator
+	switch( _mapType )
+	{
+		default:
+			{
+				uint largerSide = _w > _h ? _w : _h;
+				uint side = (uint) ceil( log2( (float)largerSide ) );
+				generator = new Diamon( side );
+			} break;
+	}
+
+	// Add filter
+	switch( _mapType )
+	{
+		case PLAIN :
+			filters.push_back( new GaussBlur(2) );
+			filters.push_back( new Normalize(-3*_waterType,5) );
+			filters.push_back( new Flattern(3) );
+			break;
+		case MOUNTAIN :
+			filters.push_back( new GaussBlur(2) );
+			filters.push_back( new Normalize(-10*_waterType,20) );
+			filters.push_back( new Flattern(1) );
+			break;
+		default:
+		case HILL :
+			filters.push_back( new GaussBlur(2) );
+			filters.push_back( new Normalize(-5*_waterType,10) );
+			filters.push_back( new Flattern(2) );
+			break;
+	}
+
+	_map = _generate( generator, filters );
+}
+
+
+   /*=====================================================================*/
+void MapMaker::_generateTreeDensity()
+{
+	Generator* generator;
+	vector<Filter*> filters;
+
+	// Select generator
+	switch( _treeDensityType )
+	{
+		default:
+			{
+				uint largerSide = _w > _h ? _w : _h;
+				uint side = (uint) ceil( log2( (float)largerSide ) );
+				generator = new Diamon( side );
+			} break;
+	}
+
+	// Add filter
+	switch( _treeDensityType )
+	{
+		case SPARSE :
+			filters.push_back( new Flattern(8) );
+			filters.push_back( new GaussBlur(2) );
+			filters.push_back( new Normalize(0,8) );
+			break;
+		case DENSE :
+			filters.push_back( new Flattern(1) );
+			filters.push_back( new GaussBlur(2) );
+			filters.push_back( new Normalize(3,20) );
+			break;
+		default:
+		case NORMAL :
+			filters.push_back( new Flattern(4) );
+			filters.push_back( new GaussBlur(2) );
+			filters.push_back( new Normalize(0,10) );
+			break;
+	}
+
+	_treeDensity = _generate( generator, filters );
+}
+
 
 
 int *MapMaker::getMap()
 {
 	return _map->toIntArray();
+}
+
+
+int *MapMaker::getTreeDensity()
+{
+	return _treeDensity->toIntArray();
 }
 
 }

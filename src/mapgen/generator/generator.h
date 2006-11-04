@@ -32,7 +32,7 @@ public:
 	Generator();
 	virtual ~Generator();
 
-	virtual Map* render();
+	virtual Map* render() const;
 
 private:
 

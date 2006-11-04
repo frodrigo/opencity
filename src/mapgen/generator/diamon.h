@@ -34,13 +34,13 @@ public:
 	/** order is log2 of produced map side */
 	Diamon( uint order );
 
-	Map* render();
+	Map* render() const;
 
 private:
 	uint	_side;
 	
 	/* return a random in [-p..p[ */
-	float _all( const uint p );
+	float _all( const uint p ) const;
 
 	/* recursive render */
 	void _sub(
@@ -48,7 +48,7 @@ private:
 		const uint x1,
 		const uint y1,
 		const uint x2,
-		const uint y2 );
+		const uint y2 ) const;
 
 };
 

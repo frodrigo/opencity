@@ -53,12 +53,29 @@ void Flattern::apply( Map* map )
 {
 	float min, max;
 	_getMinMax( map, &min, &max );
-	
-	float coef = max - min;
-	
+
+	float coef = fabs( max - min );
+
 	for( uint x=0 ; x<map->getW() ; ++x )
 		for( uint y=0 ; y<map->getH() ; ++y )
-			map->setAt( x, y, powf((map->getAt(x,y)-min)/coef,_power)*coef+min );
+		{
+			if( min >= 0 )
+			{
+				map->setAt( x, y, powf((map->getAt(x,y)-min)/coef,_power)*coef+min );
+			}
+			else /* min < 0 and max > 0 */
+			{
+				float h = map->getAt(x,y);
+				if( h >= 0 )
+				{
+					map->setAt( x, y, powf(h/max,_power)*max );
+				}
+				else
+				{
+					map->setAt( x, y, fabs(powf(fabs(h)/min,_power))*min );
+				}
+			}
+		}
 }
 
 }

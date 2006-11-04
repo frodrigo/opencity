@@ -33,7 +33,7 @@ _side((uint)pow(2,order))
 
 
    /*=====================================================================*/
-Map* Diamon::render()
+Map* Diamon::render() const
 {
 	Map* map = new Map( _side, _side );
 	map->setAt( 0,0, 128 );
@@ -43,7 +43,7 @@ Map* Diamon::render()
 
 
    /*=====================================================================*/
-float Diamon::_all( const uint p )
+float Diamon::_all( const uint p ) const
 {
 	return ((float)rand())/RAND_MAX * p * 2 - p;
 }
@@ -55,7 +55,7 @@ void Diamon::_sub(
 	const uint x1,
 	const uint y1,
 	const uint x2,
-	const uint y2 )
+	const uint y2 ) const
 {
 	uint p = map->getW() / 2;
 
