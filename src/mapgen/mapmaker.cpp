@@ -109,20 +109,20 @@ void MapMaker::_generateMap()
 	switch( _mapType )
 	{
 		case PLAIN :
-			filters.push_back( new GaussBlur(2) );
 			filters.push_back( new Normalize(-3*_waterType,5) );
 			filters.push_back( new Flattern(3) );
+			filters.push_back( new GaussBlur(2) );
 			break;
 		case MOUNTAIN :
-			filters.push_back( new GaussBlur(2) );
 			filters.push_back( new Normalize(-10*_waterType,20) );
 			filters.push_back( new Flattern(1) );
+			filters.push_back( new GaussBlur(2) );
 			break;
 		default:
 		case HILL :
-			filters.push_back( new GaussBlur(2) );
 			filters.push_back( new Normalize(-5*_waterType,10) );
 			filters.push_back( new Flattern(2) );
+			filters.push_back( new GaussBlur(2) );
 			break;
 	}
 
