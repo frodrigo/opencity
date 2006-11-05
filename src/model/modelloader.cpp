@@ -1,8 +1,8 @@
 /***************************************************************************
-							modelloader.cpp  -  description
-								-------------------
+						modelloader.cpp  -  description
+							-------------------
 	begin                : sam mai 22 2004
-	copyright            : (C) 2004 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -361,6 +361,47 @@ ModelLoader::GetNormal(
    /*=====================================================================*/
    /*                        PRIVATE      METHODS                         */
    /*=====================================================================*/
+void
+ModelLoader::_AC3DTextureToGL
+(
+	const string& strPath,
+	const AC3DObject* const pObject,
+	map<string, GLuint>& mapTexture
+)
+{
+	vector<AC3DObject*>::size_type posObj, sizeObj;
+	vector<AC3DObject*> vpObj;
+
+	GLuint tex = 0;
+
+
+	assert( pObject != NULL );
+
+// Get the texture
+	if ( pObject->GetTextureFile() != "" ) {
+	// IF the specified texture has not been loaded already THEN
+		if (mapTexture.find( pObject->GetTextureFile() ) == mapTexture.end() ) {
+		// Load the texture as specified by the texture command
+			tex = Texture::Load( strPath + "/" + pObject->GetTextureFile() );
+			mapTexture[ pObject->GetTextureFile() ] = tex;
+		}
+		else {
+		// Assign the cached texture to the model
+		//	OPENCITY_DEBUG("Texture loading cache hit");
+			tex = mapTexture[ pObject->GetTextureFile() ];
+		}
+	}
+
+// Parse all the child objects and retrieve the texture
+	vpObj = pObject->GetVPObject();
+	sizeObj = vpObj.size();
+	for (posObj = 0; posObj < sizeObj; posObj++) {
+		_AC3DTextureToGL( strPath, vpObj[posObj], mapTexture );
+	}
+}
+
+
+   /*=====================================================================*/
 /* POLYGON version
 void
 ModelLoader::_AC3DToGL(
@@ -470,48 +511,146 @@ ModelLoader::_AC3DToGL(
 
 
    /*=====================================================================*/
+// TRIANGLE_FAN version
+/*
 void
-ModelLoader::_AC3DTextureToGL
+ModelLoader::_AC3DVertexToGL
 (
 	const string& strPath,
+	const vector<AC3DMaterial>& vMaterial,
 	const AC3DObject* const pObject,
-	map<string, GLuint>& mapTexture
+	const bool bProcessTranslucent
 )
 {
+	const float* loc;
+	AC3DMaterial mat;
+	vector<Vertex> vVertex;
+
+	vector<AC3DSurface*>::size_type pos, size;
+	vector<AC3DSurface*> vpSurface;
+
 	vector<AC3DObject*>::size_type posObj, sizeObj;
 	vector<AC3DObject*> vpObj;
 
-	GLuint tex = 0;
+	vector<Ref>::size_type posRef, sizeRef;
+	vector<Ref> vRef;
+	Ref r1, r2, r3;
+
+// Used for normal calculation
+	Vertex v1, v2, v3, normal;
 
 
 	assert( pObject != NULL );
 
-// Get the texture
-	if ( pObject->GetTextureFile() != "" ) {
-	// IF the specified texture has not been loaded already THEN
-		if (mapTexture.find( pObject->GetTextureFile() ) == mapTexture.end() ) {
-		// Load the texture as specified by the texture command
-			tex = Texture::Load( strPath + "/" + pObject->GetTextureFile() );
-			mapTexture[ pObject->GetTextureFile() ] = tex;
-		}
-		else {
-		// Assign the cached texture to the model
-		//	OPENCITY_DEBUG("Texture loading cache hit");
-			tex = mapTexture[ pObject->GetTextureFile() ];
-		}
+
+// debug, location calculation
+//cout << "in  : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
+
+	loc = pObject->GetLoc();
+	locAccu[0] += loc[0];
+	locAccu[1] += loc[1];
+	locAccu[2] += loc[2];
+
+// Does this object need alpha processing ?
+	if (pObject->IsTranslucent()) {
+		bNeedAlpha = true;
 	}
 
-// Parse all the child objects and retrieve the texture
+// Process only objects that we are asked to do
+	if (bProcessTranslucent xor pObject->IsTranslucent())
+		goto process_child_objects;
+
+	vVertex = pObject->GetVVertex();
+	vpSurface = pObject->GetVPSurface();
+
+	size = vpSurface.size();
+	for (pos = 0; pos < size; pos++) {
+// Debug ++nbPoly;
+	// Get the material of the current surface
+		mat = vMaterial[ vpSurface[pos]->GetMat() ];
+	// Set the color of the surface with COLOR_MATERIAL enabled
+		glColor3f( mat.rgb.fR, mat.rgb.fG, mat.rgb.fB );
+//		glColor4f( 1, 1, 1, 1 );
+
+		vRef = vpSurface[pos]->GetVRef();
+		sizeRef = vRef.size();
+
+// Debug cout << "Vertex per surface: " << sizeRef << endl;
+
+		assert( sizeRef >= 3 );		// We need at least one triangle
+// Debug nbVertex += sizeRef;
+
+
+	// With 3 first vertices, we can calculate the normal for the current surface
+	// Fist vertex
+		r1 = vRef[0];
+		v1.x = vVertex[r1.uiVertIndex].x + locAccu[0];
+		v1.y = vVertex[r1.uiVertIndex].y + locAccu[1];
+		v1.z = vVertex[r1.uiVertIndex].z + locAccu[2];
+
+	// Second vertex
+		r2 = vRef[1];
+		v2.x = vVertex[r2.uiVertIndex].x + locAccu[0];
+		v2.y = vVertex[r2.uiVertIndex].y + locAccu[1];
+		v2.z = vVertex[r2.uiVertIndex].z + locAccu[2];
+
+	// Third vertex
+		r3 = vRef[2];
+		v3.x = vVertex[r3.uiVertIndex].x + locAccu[0];
+		v3.y = vVertex[r3.uiVertIndex].y + locAccu[1];
+		v3.z = vVertex[r3.uiVertIndex].z + locAccu[2];
+
+	// Set the normal
+		glBegin( GL_TRIANGLE_FAN );
+		normal = GetNormal( v1, v2, v3 );
+		glNormal3f( normal.x, normal.y, normal.z );
+
+	// Draw the first 3 vertices
+		glTexCoord2f( r1.fTexS, r1.fTexT );
+		glVertex3f( v1.x, v1.y, v1.z );
+
+		glTexCoord2f( r2.fTexS, r2.fTexT );
+		glVertex3f( v2.x, v2.y, v2.z );
+
+		glTexCoord2f( r3.fTexS, r3.fTexT );
+		glVertex3f( v3.x, v3.y, v3.z );
+
+	// Draw the other vertices
+		for (posRef = 3; posRef < sizeRef; posRef++) {
+			r1 = vRef[posRef];
+			v1.x = vVertex[r1.uiVertIndex].x + locAccu[0];
+			v1.y = vVertex[r1.uiVertIndex].y + locAccu[1];
+			v1.z = vVertex[r1.uiVertIndex].z + locAccu[2];
+
+			glTexCoord2f( r1.fTexS, r1.fTexT );
+			glVertex3f( v1.x, v1.y, v1.z );
+		} // For each vertex
+		glEnd();
+	} // For each surface
+
+process_child_objects:
+
+// Parse all the child objects
 	vpObj = pObject->GetVPObject();
 	sizeObj = vpObj.size();
+//debug
+//cout << "kids: " << pObject->GetNumberKid() << " / objects: " << sizeObj << endl;
 	for (posObj = 0; posObj < sizeObj; posObj++) {
-		_AC3DTextureToGL( strPath, vpObj[posObj], mapTexture );
+		_AC3DVertexToGL( strPath, vMaterial, vpObj[posObj], bProcessTranslucent );
 	}
+
+	locAccu[0] -= loc[0];
+	locAccu[1] -= loc[1];
+	locAccu[2] -= loc[2];
+
+// debug, location calculation
+//cout << "out : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
 }
+*/
 
 
    /*=====================================================================*/
-// TRIANGLES version
+// TRIANGLES version, inline triangulation
 //#define TRIANGULATION_TEST 1
 #undef TRIANGULATION_TEST
 #ifndef TRIANGULATION_TEST
@@ -636,7 +775,7 @@ process_child_objects:
 
 
    /*=====================================================================*/
-// TRIANGLES version
+// TRIANGLES version, external triangulation
 #else
 void
 ModelLoader::_AC3DVertexToGL

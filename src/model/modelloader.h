@@ -1,8 +1,8 @@
 /***************************************************************************
-							modelloader.h  -  description
-								-------------------
+						modelloader.h  -  description
+							-------------------
 	begin                : sam mai 22 2004
-	copyright            : (C) by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$

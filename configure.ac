@@ -66,10 +66,10 @@ if test "x$enable_sdl_mixer" = "x"; then
                         AC_DEFINE(AUDIO_SDL, 1, [SDL_Mixer support])
                         AC_MSG_RESULT(yes)
                 else
-                        AC_MSG_RESULT([no, found header but not SDL_mixer library])
+                        AC_MSG_RESULT([no, found header but not the SDL_mixer library.])
                 fi
         else
-                AC_MSG_RESULT([no, SDL_mixer library required. See FAQ for more information])
+                AC_MSG_RESULT([no, audio system disabled.])
         fi
 fi
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer_h" = "xyes")

@@ -531,7 +531,7 @@ int clientMode()
 
 // Load musics and sounds
 	displayStatus( "Warming up central processing unit...");
-	gVars.gpAudioMgr->LoadMusicList( ocHomeDirPrefix(OC_MUSIC_LIST_FILENAME) );
+	gVars.gpAudioMgr->LoadMusicList( ocHomeDirPrefix(OC_MUSIC_LIST_FILENAME), ocHomeDirPrefix("") );
 	OPENCITY_INFO( "Loaded " << gVars.gpAudioMgr->GetNumberMusic() << " musics." );
 	gVars.gpAudioMgr->LoadSoundList( ocHomeDirPrefix(OC_SOUND_LIST_FILENAME), ocHomeDirPrefix("") );
 	OPENCITY_INFO( "Loaded " << gVars.gpAudioMgr->GetNumberSound() << " sounds." );
