@@ -19,7 +19,7 @@
 
 #include "generator.h"
 
-namespace mapgen
+namespace MapGen
 {
 
    /*=====================================================================*/

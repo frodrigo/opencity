@@ -37,7 +37,13 @@ _pclayer( NULL )
 	uint size = (width + 1) * (height + 1);
 	_btabSquareHeight = new OC_BYTE [ size ];
 
-	mapgen::MapMaker mapMaker = mapgen::MapMaker( width+1, height+1, mapgen::MapMaker::PLAIN, mapgen::MapMaker::LAKE, mapgen::MapMaker::SPARSE );
+	MapGen::MapMaker mapMaker =
+		MapGen::MapMaker(
+			width+1, height+1, 
+			MapGen::MapMaker::PLAIN,
+			MapGen::MapMaker::LAKE,
+			MapGen::MapMaker::SPARSE
+		);
 	int* heightMap = mapMaker.getMap();
 
 	for (uint i = 0; i < size; i++)

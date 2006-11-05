@@ -34,7 +34,7 @@ using std::string;
 	#define MAP_DEBUG( msg )
 #endif
 
-namespace mapgen
+namespace MapGen
 {
 
 /**

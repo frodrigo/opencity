@@ -39,6 +39,9 @@ Unblocking networking layer
 Add online operation notification clock
 ZeN online map loading
 Fix city size settings bug
+Add save/load file version
+Add the simulator accelerator key
+Make the simulator CPU independant
 
 
 

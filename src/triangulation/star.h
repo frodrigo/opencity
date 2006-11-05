@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-namespace triangulation
+namespace Triangulation
 {
 
 /** Bad algorithm. We draw all the triangle with the first vertex unvariable

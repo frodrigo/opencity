@@ -26,7 +26,7 @@
 typedef unsigned int uint;
 #endif
 
-namespace triangulation
+namespace Triangulation
 {
 
 /** Triangulation abstract class

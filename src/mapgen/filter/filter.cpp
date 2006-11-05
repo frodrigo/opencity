@@ -19,7 +19,7 @@
 
 #include "filter.h"
 
-namespace mapgen
+namespace MapGen
 {
 
    /*=====================================================================*/

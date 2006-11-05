@@ -1,14 +1,14 @@
 OpenCity: a 3D city simulator written in OpenGL and SDL
 
-Copyright (C) Duong-Khang NGUYEN 2003-2006.
+Copyright (C) by Duong-Khang NGUYEN 2003-2006.
+Web  : www.opencity.info
 Email: neoneurone _at_ users _dot_ sourceforge _dot_ net
 (replace _at_ by @ and _dot_ by .)
 
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    any later version.
+    it under the terms of the GNU General Public License version 2
+    as published by the Free Software Foundation
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -20,4 +20,4 @@ Email: neoneurone _at_ users _dot_ sourceforge _dot_ net
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-Please read the file COPYING for the GPL.
+Please read the file COPYING for the GNU General Public License.

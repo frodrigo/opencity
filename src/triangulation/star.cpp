@@ -19,7 +19,7 @@
 
 #include "star.h"
 
-namespace triangulation
+namespace Triangulation
 {
 
 Triangle*

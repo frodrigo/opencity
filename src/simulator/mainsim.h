@@ -88,7 +88,8 @@ that the gobal simulator's data is overwritten by multiple micro simulators
 //========================================================================
 /** Notifies the micro simulators that a new structure has been added to the
 system
-	\param w1,h1,w2,h2 The area used by the new structure
+	\param w1,l1,w2,l2 The area used by the new structure
+	\param sim The optional microsim identifier
 */
 	void
 	AddStructure(
@@ -100,7 +101,8 @@ system
 //========================================================================
 /** Notify the micro simulators that a structure has been removed from the
 system
-	\param w1,h1,w2,h2 The area used by the structure
+	\param w1,l1,w2,l2 The area used by the structure
+	\param sim The optional microsim identifier
 */
 	void
 	RemoveStructure(

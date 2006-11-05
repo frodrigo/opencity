@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-namespace mapgen
+namespace MapGen
 {
 
    /*=====================================================================*/

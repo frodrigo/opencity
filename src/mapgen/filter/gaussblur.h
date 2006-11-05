@@ -22,7 +22,7 @@
 
 #include "filter.h"
 
-namespace mapgen
+namespace MapGen
 {
 
 /** Apply a Guass blur on the map with arbitrary precision window size

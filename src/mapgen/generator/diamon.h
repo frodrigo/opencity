@@ -22,7 +22,7 @@
 
 #include "generator.h"
 
-namespace mapgen
+namespace MapGen
 {
 
 /** Square and diamon generator

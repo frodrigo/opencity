@@ -23,7 +23,7 @@
 #include <fstream>
 using namespace std;
 
-namespace mapgen
+namespace MapGen
 {
 
    /*=====================================================================*/

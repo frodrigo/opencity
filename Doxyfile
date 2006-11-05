@@ -3,8 +3,8 @@
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME           = "Open City"
-PROJECT_NUMBER         = 0.0.3
+PROJECT_NAME           = "OpenCity"
+PROJECT_NUMBER         = 0.0.5
 OUTPUT_DIRECTORY       = docs/devel/doxygen
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
@@ -71,10 +71,9 @@ WARN_LOGFILE           =
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = src
-FILE_PATTERNS          = *.cpp \
-                         *.h
+FILE_PATTERNS          = *.cpp *.h
 RECURSIVE              = YES
-EXCLUDE                = 
+EXCLUDE                = src/binreloc src/tinyxml
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXAMPLE_PATH           = 

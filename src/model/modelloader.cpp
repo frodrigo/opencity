@@ -81,7 +81,6 @@ ModelLoader::LoadOCM(
 	vector<GLuint> vui;
 	GLfloat fValue;
 	OC_CHAR tempStr [OC_OCM_MAX_LINE_LENGTH];
-// TOKILL	OC_CHAR tempPath [OC_OCM_MAX_LINE_LENGTH];
 	OC_CHAR* endStr;
 
 // model's parameter

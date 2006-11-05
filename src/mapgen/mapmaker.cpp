@@ -28,7 +28,7 @@
 #include <vector>
 using std::vector;
 
-namespace mapgen
+namespace MapGen
 {
 
    /*=====================================================================*/

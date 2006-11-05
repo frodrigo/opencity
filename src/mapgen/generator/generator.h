@@ -22,7 +22,7 @@
 
 #include "../map.h"			// ../ because of silly DevCpp
 
-namespace mapgen
+namespace MapGen
 {
 
 /** Generator virtual class/interface

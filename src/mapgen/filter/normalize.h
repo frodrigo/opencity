@@ -22,7 +22,7 @@
 
 #include "filter.h"
 
-namespace mapgen
+namespace MapGen
 {
 
 /** Linear re-range of the map

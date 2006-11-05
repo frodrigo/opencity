@@ -20,7 +20,7 @@
 #ifndef _OPENCITY_GEOMETRY_H_
 #define _OPENCITY_GEOMETRY_H_ 1
 
-namespace triangulation
+namespace Triangulation
 {
 
 struct TexCoord

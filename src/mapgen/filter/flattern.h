@@ -22,7 +22,7 @@
 
 #include "filter.h"
 
-namespace mapgen
+namespace MapGen
 {
 
 /** Use a x^power function to resample the map

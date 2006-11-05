@@ -23,7 +23,7 @@
 
 #include <cmath>
 
-namespace mapgen
+namespace MapGen
 {
 
    /*=====================================================================*/

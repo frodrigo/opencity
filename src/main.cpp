@@ -23,6 +23,29 @@
  *                                                                         *
  ***************************************************************************/
 
+//========================================================================
+/**
+	\mainpage OpenCity source code documentation
+	\section intro Introduction
+		OpenCity is another 3D city simulator. It's certainly not the best
+	city simulation nor the best eye candy game out there but we love it
+	because it's our city simulation and we can do anything we want with
+	it.
+
+	\section reuse Code reuse
+		If you are reading this page, we believe that you are interested
+	in the tricks behind the scene. And we think that you are happy to know
+	that our city simulation is made with portability and object oriented
+	programming technics in mind. It means that you can reuse few parts of
+	OpenCity source code. At the moment, you can reuse the classes
+	AudioManager, Conf, ModelLoader, and MapGen::MapMaker without major
+	modifications.
+
+	\author Duong-Khang NGUYEN (email: neoneurone [at] users [dot] sf [dot] net)
+	\author Frédéric RODRIGO
+*/
+
+
 #include "main.h"
 #include "city.h"				// The heart of the project
 #include "conf.h"				// Parser for .conf file
@@ -582,6 +605,7 @@ int clientMode()
 			pNewCity->Run();
 			//gVars.gpKernel->live();
 
+
 #undef OC_PRINT_FPS
 #ifndef OC_PRINT_FPS
 			SDL_Delay( gVars.guiMsPerFrame );
@@ -639,6 +663,7 @@ void printCopyright() {
 // Output the copyright text
 	cout << "Welcome to " << PACKAGE << " version " << VERSION << endl;
 	cout << "Copyright (C) by Duong-Khang NGUYEN. All rights reserved." << endl;
+	cout << "   web  : http://www.opencity.info" << endl;
 	cout << "   email: neoneurone @ users sf net" << endl << endl;
 
 	cout << "This program is released under the terms of" << endl;
