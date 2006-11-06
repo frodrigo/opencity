@@ -27,7 +27,7 @@
    /*=====================================================================*/
 const OPENCITY_ERR_CODE
 Conf::Open(
-	const string & fname )
+	const string& fname )
 {
 	std::ifstream inFile( fname.c_str() );
 
@@ -65,9 +65,9 @@ Conf::Open(
 			(strFirst != NULL) ? strFirst = Conf::RTrim( strFirst ) : strFirst = strEmpty;
 			(strSecond != NULL) ? strSecond = Conf::LTrim( strSecond ) : strSecond = strEmpty;
 
-		// Add the pair to the mapData if the key is not empty
+		// Add the pair to the _mapData if the key is not empty
 			if (strlen(strFirst) > 0)
-				mapData[ strFirst ] = strSecond;
+				_mapData[ strFirst ] = strSecond;
 
 //debug cout << "StrFirst/StrSecond: " << strFirst << "/" << strSecond << endl;
 //debug
@@ -104,32 +104,32 @@ Conf::Close()
 //debug
 /*
 __gnu_cxx::hash_map<string, string, myHash>::iterator iter;
-for ( iter = mapData.begin(); iter != mapData.end(); iter++ ) {
+for ( iter = _mapData.begin(); iter != _mapData.end(); iter++ ) {
 	cout << "first '" << iter->first << "', second '" << iter->second << "'" << endl;
 }
 */
-	this->mapData.clear();
+	_mapData.clear();
 }
 
 
    /*=====================================================================*/
 const string &
 Conf::GetValue(
-	const string & key,
-	const string & def )
+	const string& key,
+	const string def )
 {
 //debug
-/*cout << "key is : '" << key << "', data is : '" << mapData[ key ] << "'" << endl;
+/*cout << "key is : '" << key << "', data is : '" << _mapData[ key ] << "'" << endl;
 	__gnu_cxx::hash_map<string, string, myHash>::iterator
-		iter = this->mapData.find( key );
-	return iter != mapData.end() ? iter->second : "";
+		iter = _mapData.find( key );
+	return iter != _mapData.end() ? iter->second : "";
 */
 
 // IF the key is not in the hash_map THEN return the default value
-	if (this->mapData.find( key ) == this->mapData.end())
+	if (_mapData.find( key ) == _mapData.end())
 		return def;
 	else
-		return this->mapData[ key ];
+		return _mapData[ key ];
 }
 
 
@@ -138,23 +138,23 @@ const OPENCITY_ERR_CODE
 Conf::GetBool(
 	const string & key,
 	bool & rbool,
-	const bool & def )
+	const bool def )
 {
 // IF the key is not in the hash_map THEN return the default value
-	if (this->mapData.find( key ) == this->mapData.end()) {
+	if (_mapData.find( key ) == _mapData.end()) {
 		rbool = def;
 		return OC_ERR_FREE;
 	}
 
-	if (mapData[key] == "") {
+	if (_mapData[key] == "") {
 		return OC_ERR_INVALID;
 	}
 
-	if ((strcasecmp(mapData[key].c_str(), "no") == 0)
-	 || (strcasecmp(mapData[key].c_str(), "n") == 0)
-	 || (strcasecmp(mapData[key].c_str(), "false") == 0)
-	 || (strcasecmp(mapData[key].c_str(), "off") == 0)
-	 || (strcasecmp(mapData[key].c_str(), "0") == 0)) {
+	if ((strcasecmp(_mapData[key].c_str(), "no") == 0)
+	 || (strcasecmp(_mapData[key].c_str(), "n") == 0)
+	 || (strcasecmp(_mapData[key].c_str(), "false") == 0)
+	 || (strcasecmp(_mapData[key].c_str(), "off") == 0)
+	 || (strcasecmp(_mapData[key].c_str(), "0") == 0)) {
 		rbool = false;
 	}
 	else {
@@ -170,23 +170,23 @@ const OPENCITY_ERR_CODE
 Conf::GetLint(
 	const string & key,
 	OC_LINT & rlint,
-	const OC_LINT & def )
+	const OC_LINT def )
 {
 /* debug
-for (__gnu_cxx::hash_map<string, string, myHash>::iterator i = mapData.begin();
-i != mapData.end(); i++) {
+for (__gnu_cxx::hash_map<string, string, myHash>::iterator i = _mapData.begin();
+i != _mapData.end(); i++) {
 	cout << "Map key: " << i->first << "/ value: " << i->second << endl;
 }
 */
 
 // IF the key is not in the hash_map THEN return the default value
-	if (this->mapData.find( key ) == this->mapData.end()) {
+	if (_mapData.find( key ) == _mapData.end()) {
 //debug cout << "key: " << key << "/ default: " << def << endl;
 		rlint = def;
 		return OC_ERR_FREE;
 	}
 
-	rlint = strtol(mapData[key].c_str(), NULL, 0);
+	rlint = strtol(_mapData[key].c_str(), NULL, 0);
 
 //debug cout << __PRETTY_FUNCTION__ << "read: " << (long int)rlint << endl;
 
@@ -201,6 +201,25 @@ i != mapData.end(); i++) {
 		return OC_ERR_FREE;
 	}
 */
+
+	return OC_ERR_FREE;
+}
+
+
+   /*=====================================================================*/
+const OPENCITY_ERR_CODE
+Conf::GetFloat(
+	const string& key,
+	float& rfloat,
+	const float def )
+{
+// IF the key is not in the hash_map THEN return the default value
+	if (_mapData.find( key ) == _mapData.end()) {
+		rfloat = def;
+		return OC_ERR_FREE;
+	}
+
+	rfloat = strtof(_mapData[key].c_str(), NULL);
 
 	return OC_ERR_FREE;
 }

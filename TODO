@@ -14,6 +14,7 @@ Water texture                         (done)
 TinyXML 2.5.2 integration             (done)
 Fix path building bug                 (done)
 Fix graphist's special test feature   (done)
+Add GetFloat() to Conf class          (done)
 LBS files layout
 Variable name clean up                (wip)
 Water layer                           (wip)

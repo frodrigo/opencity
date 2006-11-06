@@ -1,10 +1,11 @@
 /***************************************************************************
-                          conf.h    -  description
-         $Id$
-                             -------------------
-    begin                : dim 1 août 2004
-    copyright            : (C) by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						conf.h    -  description
+							-------------------
+	begin                : august 1st, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -65,7 +66,7 @@ public:
 */
 	const OPENCITY_ERR_CODE
 	Open(
-		const string & fname );
+		const string& fname );
 
 	void
 	Close();
@@ -78,10 +79,10 @@ public:
 \param def Default value
 \return the value pointed by the given "key"
 */
-	const string &
+	const string&
 	GetValue(
-		const string & key,
-		const string & def = "");
+		const string& key,
+		const string def = "");
 
 //========================================================================
 /** Empty value causes the method to return OC_ERR_INVALID and
@@ -95,9 +96,9 @@ public:
 */
 	const OPENCITY_ERR_CODE
 	GetBool(
-		const string & key,
-		bool & rbool,
-		const bool & def = false );
+		const string& key,
+		bool& rbool,
+		const bool def = false );
 
 
 //========================================================================
@@ -106,9 +107,20 @@ public:
 */
 	const OPENCITY_ERR_CODE
 	GetLint(
-		const string & key,
-		OC_LINT & rlint,
-		const OC_LINT & def = 0 );
+		const string& key,
+		OC_LINT& rlint,
+		const OC_LINT def = 0 );
+
+
+//========================================================================
+/** Convert the string specified by the key "key" to float. This method
+	uses the function "strtol()"
+*/
+	const OPENCITY_ERR_CODE
+	GetFloat(
+		const string& key,
+		float& rfloat,
+		const float def = 0 );
 
 
 //========================================================================
@@ -143,7 +155,7 @@ This is our hash function. In fact, it's just a wrapper
 	__gnu_cxx::hash_map<string, string, myHash> mapData;
 */
 
-	map<string, string> mapData;
+	map<string, string> _mapData;
 };
 
 #endif
