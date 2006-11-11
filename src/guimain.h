@@ -33,6 +33,13 @@
 #define OC_GUIMAIN_BLENDING   0x40		///< Blending state for texture
 
 
+/** RGBA byte color structure
+*/
+struct Color {
+	GLubyte r, g, b, a;
+};
+
+
 //========================================================================
 /** The base class of all graphic user interface control
 */

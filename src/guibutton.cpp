@@ -83,7 +83,7 @@ GUIButton::~GUIButton()
    /*=====================================================================*/
 void
 GUIButton::SetBackground(
-	const OPENCITY_COLOR & color )
+	const Color & color )
 {
 	this->colorBackground.r = color.r;
 	this->colorBackground.g = color.g;
@@ -95,7 +95,7 @@ GUIButton::SetBackground(
    /*=====================================================================*/
 void
 GUIButton::SetForeground(
-	const OPENCITY_COLOR & color )
+	const Color & color )
 {
 	this->colorForeground.r = color.r;
 	this->colorForeground.g = color.g;

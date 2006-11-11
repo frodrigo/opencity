@@ -80,12 +80,28 @@ The second line of description goes here.
 
 
 private:
+/** Variable prefixes:
+
+	_:		private member
+	b:		boolean
+	c:		constant
+	d:		double
+	e:		enumeration
+	i:		integer
+	f:		float
+	p:		pointer
+	r:		reference
+	s:		structure
+	str:	std::string
+	ui:		unsigned integer
+*/
 	bool	_bABool;					///< _ (underscore) means something private
 	string	_strAString;				///< A member std::string
 	int		_iAnInt;
 	uint	_uiAnotherUInt;
-	MyClass*		_pMyClass;			///< Use this
-	MyClass			*_pWrongMyClass;	///< Not this
+	MyStruct		_sSomething;
+	MyClass*		_pClassOne;			///< Use this
+	MyClass			*_pWrongClassOne;	///< Not this
 	OPENCITY_ENUM	_eAnEnum;
 
 

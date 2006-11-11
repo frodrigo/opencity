@@ -742,8 +742,8 @@ BuildingLayer::QueryStructure(
 {
 	GUIContainer* pcontainer = new GUIContainer( 100, 100, 140, 140 );
 	Structure* pstruct = _tabpStructure[ l*_uiLayerWidth + w ];
-	OPENCITY_COLOR red = { 255, 0, 0, 255 };
-	OPENCITY_COLOR green = { 0, 255, 0, 255 };
+	Color red = { 255, 0, 0, 255 };
+	Color green = { 0, 255, 0, 255 };
 
 // everything is RED :D
 	Layer::pbtnQW->SetBackground( red );

@@ -32,13 +32,16 @@ using std::vector;
 using std::string;
 using std::stringstream;
 
+/** The different AC3D object type
+*/
 enum OBJECT_TYPE {
-	OBJECT_WORLD,
-	OBJECT_POLYGON,
-	OBJECT_GROUP
+	OBJECT_WORLD,			///< World object
+	OBJECT_POLYGON,			///< Polygon object
+	OBJECT_GROUP			///< Group object
 };
 
-
+/** A vertex structure which is composed of 3 space coordinates
+*/
 struct Vertex {
 	float x, y, z;
 };

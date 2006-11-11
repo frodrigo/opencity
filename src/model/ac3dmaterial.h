@@ -1,7 +1,7 @@
 /***************************************************************************
-							AC3DMaterial.h  -  description
-								-------------------
-	begin                : mer juin 29 05
+						AC3DMaterial.h  -  description
+							-------------------
+	begin                : june 29, 05
 	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
@@ -26,13 +26,18 @@ using std::string;
 
 namespace AC3D {
 
+
+/** RGBA float color structure
+*/
 struct Color {
 	Color( float r, float g, float b ):fR(r),fG(g),fB(b){}
 	float fR, fG, fB;
 };
 
-/**
-@author Duong-Khang NGUYEN
+
+//========================================================================
+/** This class represents the material used by the AC3D models
+	\author Duong-Khang NGUYEN
 */
 class AC3DMaterial{
 public:
@@ -46,12 +51,12 @@ public:
 	string ToStr() const;		// debug method
 
 	string strName;
-	Color rgb;
-	Color amb;
-	Color emis;
-	Color spec;
-	float shi;
-	float trans;
+	Color rgb;				///< The RGB value of the material
+	Color amb;				///< The ambiance light value
+	Color emis;				///< The emission light value
+	Color spec;				///< The specular light value
+	float shi;				///< ?
+	float trans;			///< The transparence value
 };
 
 }

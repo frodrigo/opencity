@@ -1,10 +1,11 @@
 /***************************************************************************
-                          pathfinder.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : lun mai 17 2004
-    copyright            : (C) 2004-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						pathfinder.cpp  -  description
+							-------------------
+	begin                : may 17th, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -26,12 +27,13 @@
 #define OC_PATHFINDER_MAX_LENGTH	0xFFFF0000
 #define OC_PATHFINDER_A_STAR		1		// use Dijkstra + A* algorithm
 
-struct OPENCITY_PATHFINDER_NODE {
-   /// The OC linear coordinates of this node.
-	int iOwnLinear;
-   /// The OC linear coordinates of the precedent node, = -1 for none
-	int iFatherLinear;
-	uint uiEvaluation;		///< An evaluation to destination
+
+/** This is an utility structure used during the pathfinding process
+*/
+struct PathFinderNode {
+	int iOwnLinear;				///< The OC linear coordinates of this node.
+	int iFatherLinear;			///< The OC linear coordinates of the precedent node, = -1 for none
+	uint uiEvaluation;			///< An evaluation to destination
 	PathStructure* ppath;		///< The PathStructure of this node
 };
 
@@ -41,8 +43,8 @@ struct OPENCITY_PATHFINDER_NODE {
    */
 static bool
 pathfinderCompareTraffic(
-	const OPENCITY_PATHFINDER_NODE & rcA,
-	const OPENCITY_PATHFINDER_NODE & rcB )
+	const PathFinderNode & rcA,
+	const PathFinderNode & rcB )
 {
 	uint uiA = rcA.ppath->GetLength();
 	uint uiB = rcB.ppath->GetLength();
@@ -88,8 +90,8 @@ pathfinderCompareTraffic(
    */
 static bool
 pathfinderCompareDistance(
-	const OPENCITY_PATHFINDER_NODE & rcA,
-	const OPENCITY_PATHFINDER_NODE & rcB )
+	const PathFinderNode & rcA,
+	const PathFinderNode & rcB )
 {
 #ifdef OC_PATHFINDER_A_STAR
 	uint uiA = rcA.ppath->GetLength();
@@ -221,14 +223,14 @@ PathFinder::findShortestPath(
 	Structure* pstruct;
 	PathStructure * ppathstruct;
 
-	OPENCITY_PATHFINDER_NODE node;
-	OPENCITY_PATHFINDER_NODE nodeDone;
-	std::vector<OPENCITY_PATHFINDER_NODE> vProcessing;
-	std::vector<OPENCITY_PATHFINDER_NODE> vDone;
+	PathFinderNode node;
+	PathFinderNode nodeDone;
+	std::vector<PathFinderNode> vProcessing;
+	std::vector<PathFinderNode> vDone;
 	bool boolFound;
 
 // Dynamic compare functor
-	bool (*pFunctor)(const OPENCITY_PATHFINDER_NODE&, const OPENCITY_PATHFINDER_NODE&);
+	bool (*pFunctor)(const PathFinderNode&, const PathFinderNode&);
 
 // Variables used to rebuild the "destination vector" from start to stop
 	int iFatherLinear;

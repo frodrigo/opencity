@@ -41,11 +41,11 @@ public:
 
 	void
 	SetBackground(
-		const OPENCITY_COLOR & color );
+		const Color& color );
 
 	void
 	SetForeground(
-		const OPENCITY_COLOR & color );
+		const Color& color );
 
 
    //========================================================================
@@ -77,9 +77,8 @@ public:
 private:
 	GLuint uiTexture, uiTextureOver;
 
-	OPENCITY_COLOR colorForeground;
-	OPENCITY_COLOR colorBackground;
-
+	Color colorForeground;
+	Color colorBackground;
 };
 
 #endif

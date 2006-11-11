@@ -1,8 +1,8 @@
 /***************************************************************************
 						environment.h  -  description
 							-------------------
-	begin                : dec 11th 2005
-	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	begin                : dec 11th, 2005
+	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
 	
@@ -39,10 +39,14 @@ direction_t rotate180(direction_t dir);
 direction_t rotateLeft(direction_t dir);
 direction_t rotateRight(direction_t dir);
 
+
+//========================================================================
+/** Utility class used to handle each agent's position
+*/
 class AgentPosition
 {
 public:
-	int x, y;
+	int x, y;				///< 2D coordinates of the agent on the map
 	unsigned long step;
 
 	AgentPosition() : x(-1), y(-1), step(0) {}
@@ -51,8 +55,7 @@ public:
 };
 
 
-
-   /*=====================================================================*/
+//========================================================================
 /** This is the environment of the Multi-Agent System.
 	@author Victor STINNER
 */

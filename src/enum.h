@@ -1,10 +1,11 @@
 /***************************************************************************
-                          enum.h  -  description
-      $Id$
-                             -------------------
-    begin                : may 8th, 2006
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						enum.h  -  description
+							-------------------
+	begin                : may 8th, 2006
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,12 +20,13 @@
 #ifndef _OPENCITY_ENUM_H_
 #define _OPENCITY_ENUM_ 1
 
-// OpenCity's error codes
+/** OpenCity's error codes
+*/
 	enum OPENCITY_ERR_CODE {
-		OC_ERR_FREE = 0,		// no error
-		OC_ERR_SOMETHING,		// something went wrong ?
-		OC_ERR_INVALID,			// invalid value on conversion / invalid method argument
-		OC_ERR_FILE				// file error: read/open/write
+		OC_ERR_FREE = 0,		///< No error
+		OC_ERR_SOMETHING,		///< Something went wrong ?
+		OC_ERR_INVALID,			///< Invalid value on conversion / invalid method argument
+		OC_ERR_FILE				///< File error: read/open/write
 	};
 
 	enum OPENCITY_MAP_VARIATION {
@@ -32,23 +34,27 @@
 		OC_MAP_DOWN = -1
 	};
 
+/** The directions used in map calculation, vehicle movement, path placement etc...
+*/
 	enum OPENCITY_DIRECTION {
-		OC_DIR_N  = 0,
-		OC_DIR_NE,
-		OC_DIR_E,
-		OC_DIR_SE,
-		OC_DIR_S,
-		OC_DIR_SW,
-		OC_DIR_W,
-		OC_DIR_NW,
-		OC_DIR_UNDEFINED
+		OC_DIR_N  = 0,			///< North
+		OC_DIR_NE,				///< North East
+		OC_DIR_E,				///< East
+		OC_DIR_SE,				///< South East
+		OC_DIR_S,				///< South
+		OC_DIR_SW,				///< South West
+		OC_DIR_W,				///< West
+		OC_DIR_NW,				///< North West
+		OC_DIR_UNDEFINED		///< What the heck is this ?
 	};
 
+/** The different layers of OpenCity's city
+*/
 	enum OPENCITY_CITY_LAYER {
-		BUILDING_LAYER = 0,
-		WATER_LAYER,
-		GAS_LAYER,
-		SUBWAY_LAYER
+		BUILDING_LAYER = 0,		///< The building layer contains buildings :)
+		WATER_LAYER,			///< The water layer shows the water pipes
+		GAS_LAYER,				///< ?
+		SUBWAY_LAYER			///< ?
 	};
 
 	enum OPENCITY_CITY_SPEED {
@@ -300,7 +306,8 @@
 		OC_GRAPHIC_CODE_MAX
 	};
 
-// game's sound effects
+/** In game home made sound effects
+*/
 	enum OPENCITY_SOUND_EFFECT {
 		OC_SOUND_ELINE,
 		OC_SOUND_EPLANT,
@@ -308,7 +315,8 @@
 		OC_SOUND_ROAD
 	};
 
-// Code for getting structure's properties
+/** Code for getting structure's properties
+*/
 	enum OPENCITY_PROPERTY_CODE {
 		OC_BUILD_COST,				///< Get the build cost
 		OC_DESTROY_COST,			///< Get the destroy cost
@@ -317,10 +325,6 @@
 		OC_CODE_TO_TYPE				///< Get the type of a structure from its code
 	};
 
-// Color's components
-	struct OPENCITY_COLOR {
-		GLubyte r, g, b, a;
-	};
 #endif
 
 

@@ -1,7 +1,7 @@
 /***************************************************************************
 						mainsim.h  -  description
 							-------------------
-	begin                : 21 feb 2006
+	begin                : febuary 21th, 2006
 	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
@@ -30,12 +30,15 @@
 */
 class MainSim : public Simulator  {
 public:
-	enum OPENCITY_MAINSIM_MICROSIM {
-		OC_MICROSIM_RES = 0,
-		OC_MICROSIM_COM,
-		OC_MICROSIM_IND,
-		OC_MICROSIM_ELE,
-		OC_MICROSIM_TRA,
+
+/** Each enumeration corresponds to a specific micro simulator
+*/
+	enum OPENCITY_MICROSIM {
+		OC_MICROSIM_RES = 0,	///< Residential micro simulator
+		OC_MICROSIM_COM,		///< Commercial micro simulator
+		OC_MICROSIM_IND,		///< Industrial micro simulator
+		OC_MICROSIM_ELE,		///< Electric micro simulator
+		OC_MICROSIM_TRA,		///< Traffic micro simulator
 		OC_MICROSIM_MAX,		///< Currently, we have 5 micro sims
 		OC_MICROSIM_DEFAULT
 	};
@@ -77,9 +80,7 @@ that the gobal simulator's data is overwritten by multiple micro simulators
 
 
 //========================================================================
-/** Adds a micro simulator to the main simulator's loop
-	\param pSim The constant pointer of the micro simulator to add
-	\return True if pSim has been added succesfully, false otherwise
+/** The main method of the simulator
 */
 	int
 	Main();
@@ -95,7 +96,7 @@ system
 	AddStructure(
 		const uint w1, const uint l1,
 		const uint w2, const uint l2,
-		const OPENCITY_MAINSIM_MICROSIM sim = OC_MICROSIM_DEFAULT);
+		const OPENCITY_MICROSIM sim = OC_MICROSIM_DEFAULT);
 
 
 //========================================================================
@@ -108,7 +109,7 @@ system
 	RemoveStructure(
 		const uint w1, const uint l1,
 		const uint w2, const uint l2,
-		const OPENCITY_MAINSIM_MICROSIM sim = OC_MICROSIM_DEFAULT );
+		const OPENCITY_MICROSIM sim = OC_MICROSIM_DEFAULT );
 
 
 //========================================================================
@@ -150,7 +151,7 @@ automatically by Run() every 3 turns
 	\return The value
 */
 	const int
-	GetValue(const OPENCITY_MAINSIM_MICROSIM sim) const;
+	GetValue(const OPENCITY_MICROSIM sim) const;
 
 
 private:

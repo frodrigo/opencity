@@ -30,11 +30,12 @@ class GUIContainer;
 class GUIButton;
 
 
-/** This is the interface of all other *layer classes. 
+//========================================================================
+/** This is the interface of all other layer classes. A layer is
+persistent and should handle the user interface commands.
 */
 class Layer : public Persistence, public UI
 {
-
 public:
 	Layer(  );
 
@@ -59,7 +60,7 @@ SDL_MouseButtonEvent & rcsSDLMouseButtonEvent ) = 0;
 
 //========================================================================
 /** Is the surface ( w1, l1, w2, l2 ) constructive ?
-	Is there something built on it already ?
+Is there something built on it already ?
 */
 	virtual const bool
 	IsConstructive(
@@ -70,7 +71,7 @@ SDL_MouseButtonEvent & rcsSDLMouseButtonEvent ) = 0;
 
 //========================================================================
 /** Preview the structure which is about to be built on the specified
-	surface.
+surface.
 	\param W,L The upper left corner of the surface which will be used 
 to build the bulding.
 	\param enumGraphicCode Will contain the OC graphic code of the building
@@ -89,7 +90,7 @@ to build the bulding.
 //========================================================================
 /** Build the specified structure on the surface
 	Precondition: the specified surface must be "constructive". This is
-	checked by the method "IsConstructive()"
+checked by the method "IsConstructive()"
 	\sa IsConstructive()
 */
 	virtual const OPENCITY_ERR_CODE
@@ -104,7 +105,9 @@ to build the bulding.
 
 //========================================================================
 /** Resize the surface used by the structure to the new surface thanks to
-	its new GraphicCode.
+its new GraphicCode.
+	\param w,l The NorthWest (top left) coordinates of the structure
+	\param oldGC The old graphic code
 */
 	virtual const OPENCITY_ERR_CODE
 	ResizeStructure(
@@ -115,8 +118,8 @@ to build the bulding.
 
 //========================================================================
 /** Destroy _all_ the structures built on the surface. If the specified
-	surface is a part of a bigger structure, the big main structure is
-	also destroyed.
+surface is a part of a bigger structure, the big main structure is
+also destroyed.
 */
 	virtual const OPENCITY_ERR_CODE
 	DestroyStructure(
@@ -126,19 +129,31 @@ to build the bulding.
 
 
 //========================================================================
-/** Access to the structure by its internal linear index. There's no error
-	checking.
+/** Fast access to the structure by its internal linear index. There's
+no error checking.
+	\param cuiLinearIndex The linear index of the structure to access.
+It starts from 0.
 */
 	virtual Structure*
 	GetLinearStructure( const uint cuiLinearIndex ) const = 0;
 
 
+//========================================================================
+/** Access to the structure specified by its WL coordinates
+	\param w,l The structure NorthWest (top left) coordinates
+*/
 	virtual Structure*
 	GetStructure(
 		const uint & w,
 		const uint & l ) const = 0;
 
 
+//========================================================================
+/** Random access to the structure of the specified type
+	\param w,l The structure NorthWest (top left) coordinates
+	\param enumStructCode The structure code
+	\return The randomly selected structure pointer
+*/
 	virtual Structure*
 	GetRandomStructure(
 		uint & w,
@@ -146,6 +161,9 @@ to build the bulding.
 		const OPENCITY_STRUCTURE_CODE & enumStructCode = OC_STRUCTURE_UNDEFINED ) const = 0;
 
 
+//========================================================================
+/** Get the number of the structures built on the layer
+*/
 	virtual const uint
 	GetNumberStructure() const = 0;
 
@@ -154,17 +172,30 @@ to build the bulding.
 	GetMaxLinear() const;
 
 
+//========================================================================
+/** Get the layer size.
+	\note This method is obsolete
+	\see GlobalVar
+*/
 	void
 	GetLayerSize(
 		uint & w,
 		uint & l) const;
 
 
+//========================================================================
+/** Set the status of all structures
+	\param status The new status of the structures
+*/
 	virtual void
 	StructureSet(
 		const OC_BYTE & status ) = 0;
 
 
+//========================================================================
+/** Unset the status of all structures
+	\param status The status to unset
+*/
 	virtual void
 	StructureUnset(
 		const OC_BYTE & status ) = 0;
@@ -223,13 +254,13 @@ protected:
 /** Used by the "Query" function
 	these controls are shared by all the derived layers
 */
-	static GUIButton* pbtnQW;			///< water
-	static GUIButton* pbtnQE;			///< electricity
-	static GUIButton* pbtnQG;			///< gas
-	static GUIButton* pbtnQR;			///< residential
-	static GUIButton* pbtnQC;			///< commercial
-	static GUIButton* pbtnQI;			///< industrial
-	static GUIButton* pbtnQP;			///< path
+	static GUIButton* pbtnQW;			///< Water query button
+	static GUIButton* pbtnQE;			///< Electricity query button
+	static GUIButton* pbtnQG;			///< Gas query button
+	static GUIButton* pbtnQR;			///< Residential query button
+	static GUIButton* pbtnQC;			///< Commercial query button
+	static GUIButton* pbtnQI;			///< Industrial query button
+	static GUIButton* pbtnQP;			///< Path query button
 };
 
 #endif

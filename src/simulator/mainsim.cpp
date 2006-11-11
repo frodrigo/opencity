@@ -1,7 +1,7 @@
 /***************************************************************************
 						mainsim.cpp  -  description
 							-------------------
-	begin                : 21 feb 2006
+	begin                : febuary 21th, 2006
 	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -112,7 +112,7 @@ MainSim::AddStructure
 (
 	const uint w1, const uint l1,
 	const uint w2, const uint l2,
-	const OPENCITY_MAINSIM_MICROSIM sim
+	const OPENCITY_MICROSIM sim
 )
 {
 	if (sim == OC_MICROSIM_DEFAULT) {
@@ -132,7 +132,7 @@ MainSim::RemoveStructure
 (
 	const uint w1, const uint l1,
 	const uint w2, const uint l2,
-	const OPENCITY_MAINSIM_MICROSIM sim
+	const OPENCITY_MICROSIM sim
 )
 {
 	if (sim == OC_MICROSIM_DEFAULT) {
@@ -262,7 +262,7 @@ fluctuations in between.
 const int
 MainSim::GetValue
 (
-	const OPENCITY_MAINSIM_MICROSIM sim
+	const OPENCITY_MICROSIM sim
 ) const
 {
 	return _tpSimulator[sim]->GetValue();
