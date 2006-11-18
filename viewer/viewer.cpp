@@ -17,7 +17,14 @@
 #include "modelloader.h"
 #include "model.h"
 #include "texture.h"
-Model *model;
+#include "conf.h"
+#include "macros.h"
+
+int W = 640;
+int H = 480;
+
+Model *model = NULL;
+Conf* pConf = NULL;
 
 /* floats for x rotation, y rotation, z rotation */
 float xrot=30, yrot=30, zrot=0, zoom=3;
@@ -52,7 +59,7 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
 
 
 /* The main drawing function. */
-void DrawGLScene()
+void DrawGLScene( float width, float length, float height )
 {
 	OC_BYTE tabY [] = { 0, 0, 0, 0};
 
@@ -65,7 +72,7 @@ void DrawGLScene()
 	glRotatef(yrot,0.0f,1.0f,0.0f);		// Rotate On The Y Axis
 	glRotatef(zrot,0.0f,0.0f,1.0f);		// Rotate On The Z Axis
 
-	model->DisplayList(-.5,-.5,tabY);
+	model->DisplayList( -width/2, -length/2, tabY );
 	
 	// swap buffers to display, since we're double buffered.
 	SDL_GL_SwapBuffers();
@@ -80,8 +87,8 @@ void screenshoot( char *name )
 	char* file = new char[ strlen(name)+4+1 ];
 	sprintf( file, "%s.bmp", name );
 
-	int w = 640;
-	int h = 480;
+	int w = W;
+	int h = H;
 
 	// Build the screen shot surface
 	unsigned int* someBuffer = new unsigned int[ w * h * 3 ];
@@ -113,6 +120,31 @@ void screenshoot( char *name )
 }
 
 
+void loadConf( char *acFile )
+{
+	char *confFile;
+	confFile = (char*) malloc( sizeof(char) * (strlen(acFile)+3) );
+	
+	strcpy( confFile, acFile );
+	sprintf( confFile+strlen(acFile)-2, "conf" );
+
+	string *cf = new string( confFile );
+        pConf = new Conf();
+        if( pConf->Open( *cf ) != OC_ERR_FREE )
+	{
+	    OPENCITY_DEBUG( "fail load confFile = " << confFile );
+    	    delete pConf;
+	    pConf = NULL;
+	}
+	else
+	{
+	    OPENCITY_DEBUG( "load confFile = " << confFile );
+	}
+
+	delete cf;
+	free( confFile );
+}
+
 int main(int argc, char **argv)
 {
 	if( argc == 1 ) {
@@ -129,6 +161,8 @@ int main(int argc, char **argv)
 	
 	if( argc == 3 ) {
 		shoot = true;
+		W = W;
+		H = H;
 		modelFile = argv[2];
 	}
 	
@@ -139,20 +173,36 @@ int main(int argc, char **argv)
 	}
 	
 	/* Create a 640x480 OpenGL screen */
-	if ( SDL_SetVideoMode(640, 480, 0, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF) == NULL ) {
+	if ( SDL_SetVideoMode(W, H, 0, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF) == NULL ) {
 		fprintf(stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError());
 		SDL_Quit();
 		exit(2);
 	}
 	
 	/* Loop, drawing and checking events */
-	InitGL(640, 480);
+	InitGL(W, H);
 
 	model = ModelLoader::Load( modelFile );
+	loadConf( modelFile );
+	float width, length, height;
+	pConf->GetFloat( "width", width, 1 );
+	pConf->GetFloat( "length", length, 1 );
+	pConf->GetFloat( "height", height, 1 );
+	OPENCITY_DEBUG( "Model : " << width << "x" << length << "x" << height );
 	
-	DrawGLScene();
+	// heuristic
+	zoom = (width+length)/2*1.5 + .5;
+	OPENCITY_DEBUG( "Zoom : " << zoom );
+	if( zoom < height*3 )
+	{
+	    OPENCITY_DEBUG( "Height" );
+	    zoom = height*3;
+	}
 	
-	if( shoot )	{
+	DrawGLScene( width, length, height );
+	
+	if( shoot )
+	{
 		screenshoot( modelFile );
 	}
 	else {
@@ -193,7 +243,7 @@ int main(int argc, char **argv)
 			}
 			
 			if( redraw == true ) {
-				DrawGLScene();
+				DrawGLScene( width, length, height );
 			}
 			
 			SDL_Delay( 50 );
@@ -202,6 +252,13 @@ int main(int argc, char **argv)
 	} // shoot
 	
 	SDL_Quit();
+	
+	if( pConf != NULL )
+	{
+    	    pConf->Close();
+	    delete pConf;
+	}
+	
 	return 1;
 }
 
