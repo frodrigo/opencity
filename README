@@ -189,6 +189,9 @@ Command-line options
 ------------------------------------------------------------------------------
 NOTE: command-line options overwrite config file's options.
 
+	--fullscreen:
+	Enable fullscreen mode
+
 	--gl-version:
 	Show the informations of the current available OpenGL implementation
 on your machine
@@ -197,6 +200,9 @@ on your machine
 	Specify to new path to OpenCity's data. For example:
 		Under linux: --homedir /home/foo/bar/share/opencity/"
 		Under win32: --homedir "C:/Program Files/OpenCity/share"
+
+	--no-audio:
+	Disable the audio system
 
 	--server: (experimental, work in progress feature)
 	Launch the server version of OpenCity. Type Ctrl-C to quit. If you 

@@ -3,7 +3,7 @@
 							-------------------
 	project              : OpenCity
 	codename             : Delphine
-	begin                : mer mai 28 2003
+	begin                : 28th may, 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -411,6 +411,10 @@ void parseArg(int argc, char *argv[])
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			gVars.gboolFullScreen = true;
 		} else
+		if (strcmp( argv[counter], "--no-audio" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			gVars.gboolUseAudio = false;
+		} else
 		if (strcmp( argv[counter], "--server" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			gVars.gboolServerMode = true;
@@ -427,7 +431,7 @@ void parseArg(int argc, char *argv[])
 		else {
 			cout << "Unknown option: [" << argv[counter] << "]" << endl;
 			cout << "Usage: " << argv[0]
-			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--server]"
+			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio] [--server]"
 				 << endl << endl;
 			cout << "Warning: any command line switch will overwrite the config file settings"
 			     << endl;
@@ -934,7 +938,9 @@ string readSettings()
 		else if (pElement->ValueStr() == "audio") {
 			str = pElement->Attribute("enable");
 			if (str != NULL && strcmp(str, "true") == 0) {
-				gVars.gboolUseAudio = true;
+				gVars.gboolUseAudio &= true;
+			} else {
+				gVars.gboolUseAudio &= false;
 			}
 		}
 	// "city" element, read the city's size
@@ -972,7 +978,7 @@ string readSettings()
 void initGlobalVar()
 {
 // Config file and command line options
-	gVars.gboolUseAudio				= false;
+	gVars.gboolUseAudio				= true;
 	gVars.gboolFullScreen			= false;
 	gVars.gboolServerMode			= false;
 	gVars.guiCityWidth				= OC_CITY_W;
