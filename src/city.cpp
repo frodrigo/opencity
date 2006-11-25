@@ -177,14 +177,48 @@ void City::SetCurrentLayer( OPENCITY_CITY_LAYER enumNewLayer )
 void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 {
 	static uint uiNumberFrame = 0;
-	static ostringstream ossStatus;
-	static bool boolKeyDown;
-	static int iMouseX, iMouseY;
 
 // if another speed is requested, we switch to it
 	if (enumSpeed != LAST_SPEED) {
 		enumCurrentSpeed = enumSpeed;
 	}
+
+// Send the movement manager the move order 
+	gVars.gpMoveMgr->Move();
+//	gVars.gpMoveMgr->Display();			// called by Display();
+
+	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
+	// next day
+		if ( ++_uiDay > 30 ) {
+		// next month
+			_uiDay = 1;
+			if ( ++_uiMonth > 12 ) {
+			// next year
+				_uiMonth = 1;
+				_uiYear++;
+				_DoBill( OC_INCOME );
+			}
+			else {
+				_DoBill( OC_MAINTENANCE_COST );
+			}
+		}
+		uiNumberFrame = 0;
+
+	// auto play background music
+		if (gVars.gpAudioMgr->PlayingMusic() == false) {
+			gVars.gpAudioMgr->PlayNextMusic();
+		}
+	}
+}
+
+
+   /*=====================================================================*/
+void City::Display()
+{
+	static ostringstream ossStatus;
+	static bool boolKeyDown;
+	static int iMouseX, iMouseY;
+
 
 // now treat keys such as: up, down, left, right etc..
 	boolKeyDown = _HandleKeyPressed();
@@ -221,7 +255,6 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 // Display the screen as usual
 	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
 
-
 cityrun_swap:
 // Display build preview
 	_BuildPreview();
@@ -257,9 +290,8 @@ cityrun_swap:
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
 	gVars.gpRenderer->DisplayText( 650, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
-// Send the movement manager the move order 
-// then display all the contained movements
-	gVars.gpMoveMgr->Move();
+// Display all the contained movements
+//	gVars.gpMoveMgr->Move();		// called by Run()
 	gVars.gpMoveMgr->Display();
 
 // FIXME: buggy MAS environment
@@ -270,31 +302,6 @@ cityrun_swap:
 
 // display everything now
 	SDL_GL_SwapBuffers();
-
-//cityrun_return:
-	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
-	// next day
-		if ( ++_uiDay > 30 ) {
-		// next month
-			_uiDay = 1;
-			if ( ++_uiMonth > 12 ) {
-			// next year
-				_uiMonth = 1;
-				_uiYear++;
-				_DoBill( OC_INCOME );
-			}
-			else {
-				_DoBill( OC_MAINTENANCE_COST );
-			}
-		}
-		uiNumberFrame = 0;
-
-	// auto play background music
-		if (gVars.gpAudioMgr->PlayingMusic() == false) {
-			gVars.gpAudioMgr->PlayNextMusic();
-		}
-	}
-
 }
 
 

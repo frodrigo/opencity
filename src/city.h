@@ -91,8 +91,20 @@ public:
 	void
 	SetCurrentLayer( OPENCITY_CITY_LAYER enumNewLayer );
 
+
+//========================================================================
+/** Process the city's task
+	\param enumSpeed Process the city's task at the desired speed
+*/
 	void
 	Run( OPENCITY_CITY_SPEED enumSpeed = LAST_SPEED );
+
+
+//========================================================================
+/** Update the display
+*/
+	void Display();
+
 
 	Layer*
 	GetLayer( OPENCITY_CITY_LAYER enumLayer ) const;

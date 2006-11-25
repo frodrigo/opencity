@@ -4,7 +4,7 @@ LEGGIMI per OpenCity 0.0.5beta
 Last modified:
 	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
 Last translated:
-	2006/10/10 morpheus
+	2006/11/24 morpheus
 
 Destinatari:
 	# Utenti finali:
@@ -40,20 +40,15 @@ INDICE
 ------------------------------------------------------------------------------
 1) Requisiti hardware
 ------------------------------------------------------------------------------
-Processore:
-	non importa
+Processore:		non importa
 
-Velocità:
-	qualunque
+Velocità:		qualunque
 
-Scheda video:
-	qualunque scheda con accellerazione 3D
+Scheda video:		qualunque scheda con accellerazione 3D
 
-Scheda audio:
-	qualunque scheda sia supportata da SDL_mixer
+Scheda audio:		qualunque scheda sia supportata da SDL_mixer
 
-Rete:
-	supporto sperimentale
+Rete:			supporto sperimentale
 
 
 ------------------------------------------------------------------------------
@@ -114,7 +109,7 @@ Scorciatoie da tastiera:
 Esplorazione:
 		su / giù / sinistra / destra:	scorri la mappa
 		pagina sù / giù:		ruota la mappa
-		insert / delete:		zoom in/out
+		insert / delete:		zoom in / out
 		alt:				moltiplica per 10 l'effetto del comando
 		h:				torna alla cella iniziale
 		escape:				esci
@@ -140,20 +135,18 @@ Caratteristiche non documentate, provale a tuo richio:
 		t:				connetti al server ZeN locale
 
 
-
 ------------------------------------------------------------------------------
 6) Autoscrolling
 ------------------------------------------------------------------------------
-	Un semplice sistema di autoscrolling (auto scorrimento) è stato incluso
-in OpenCity. Basta portare il mouse vicino ai bordi della finestra e OpenCity
-scorrerà automaticamente la mappa.
+	Un semplice sistema di autoscrolling [auto scorrimento, Nota del Traduttore]
+è stato incluso in OpenCity. Basta portare il mouse vicino ai bordi della finestra e
+OpenCity scorrerà automaticamente la mappa.
 
 	É stato implementato anche l'autorotazione. Porta il cursore
 negli angoli superiori destro e sinistro per vedere come funziona.
 
 	Per il momento non puoi disabilitarli. Lo so, non a tutti piacciono
 gli automatismi.
-
 
 
 ------------------------------------------------------------------------------
@@ -180,7 +173,7 @@ non con me :) . Se rilevi problemi disabilita la musica (tasto 'm').
 8) Comandi del mouse
 ------------------------------------------------------------------------------
 	A partire da OpenCity 0.0.2, quando clicchi il tasto destro del mouse,
-apri l'ultimo toolcircle (menù a forma di cerchio). Clicca di nuovo per nasconderlo.
+apri l'ultimo toolcircle [menù a forma di cerchio, NdT]. Clicca di nuovo per nasconderlo.
 Voglio rendere tutto semplice e facile da usare, ma ogni tanto hai ancora bisogno
 della tastiera.
 
@@ -192,12 +185,10 @@ zoommerai in avanti (come con il tasto 'Insert'), altrimenti zoommerai indietro
 si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà nell'altro senso.
 
 
-
 ------------------------------------------------------------------------------
 9) File di configurazione principale "opencity.conf"
 ------------------------------------------------------------------------------
 	Vedi i commenti in-line per maggiori informazioni.
-
 
 
 ------------------------------------------------------------------------------
@@ -205,30 +196,33 @@ si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà nell'altro se
 ------------------------------------------------------------------------------
 NOTA: le opzioni della linea di comando bypassano il file di configurazione.
 
-	--gl-version:
-	Mostra informazioni sull'implementazione di OpenGL della tua macchina.
+--fullscreen			Abilita la modalità a pieno schermo.
 
-	--homedir newHomePath
-	Specifica una cartella per i dati di OpenCity. Per esmpio:
-		Sotto linux: --homedir /home/foo/bar/share/opencity/"
-		Sotto win32: --homedir "C:/Programmi/OpenCity/share"
+--gl-version			Mostra informazioni sull'implementazione di
+				OpenGL della tua macchina.
 
-	--server: (sperimentale, caratteristica in via di sviluppo)
-	Lancia la versione server di OpenCity. Premi Ctrl-C per uscire.
-	Se vuoi testare il server sul tuo computer, lancia un'altra volta OpenCity
-	senza "--server" e poi premi 't' per connetterti al server locale di OpenCity.
+--homedir newHomePath		Specifica una cartella per i dati di OpenCity.
+				Per esempio:
+				Sotto linux: --homedir /home/foo/bar/share/opencity/"
+				Sotto win32: --homedir "C:/Programmi/OpenCity/share"
 
+--no-audio			Disabilita l'audio.
+
+--server			(sperimentale, caratteristica in via di sviluppo)
+				Lancia la versione server di OpenCity.
+				Premi Ctrl-C per uscire. Se vuoi testare il server
+				sul tuo computer, lancia un'altra volta OpenCity
+				senza "--server" e poi premi 't' per connetterti
+				al server locale di OpenCity.
 
 
 ------------------------------------------------------------------------------
 11) Note sul salvataggio / caricamento 
 ------------------------------------------------------------------------------
 	La seguente directory è usata per salvare/caricare
-		GNU/Linux:
-			$HOME/.OpenCity/
-		Windows:
-			C:\Documents and Settings\username\Application Data\OpenCity\
 
+GNU/Linux:	$HOME/.OpenCity/
+Windows:	C:\Documents and Settings\username\Application Data\OpenCity\
 
 
 ------------------------------------------------------------------------------

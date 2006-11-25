@@ -179,6 +179,17 @@ void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
 
 
    /*=====================================================================*/
+void ocActive( const SDL_ActiveEvent & e)
+{
+	OPENCITY_DEBUG( "Active event received" );
+
+	if (e.state & SDL_APPACTIVE) {
+		gVars.gboolActive = (e.gain == 1);
+	}
+}
+
+
+   /*=====================================================================*/
 void ocExpose( const SDL_ExposeEvent & rcsExposeEvent )
 {
 	if (uipCurrentUI != NULL) {
@@ -223,6 +234,10 @@ void ocProcessSDLEvents( void )
 
 		case SDL_VIDEORESIZE:
 			ocResize( event.resize );
+			break;
+
+		case SDL_ACTIVEEVENT:
+			ocActive( event.active );
 			break;
 
 		case SDL_VIDEOEXPOSE:
@@ -604,11 +619,14 @@ int clientMode()
 	*/
 
 		while (!boolQuit) {
-		// running the city at the LAST_SPEED (default parameter)
+		// Run the city at the LAST_SPEED (default parameter)
 			ocProcessSDLEvents();
 			pNewCity->Run();
 			//gVars.gpKernel->live();
 
+		// IF the application is not iconified THEN update the display
+			if (gVars.gboolActive)
+				pNewCity->Display();
 
 #undef OC_PRINT_FPS
 #ifndef OC_PRINT_FPS
@@ -990,6 +1008,9 @@ void initGlobalVar()
 
 	gVars.gfMsSimDelayMax			= 0;
 	gVars.gsZenServer				= "localhost";
+
+// Application status
+	gVars.gboolActive				= true;		// the application is active at start
 
 // The mutex that all the simulators depend on
 	gVars.gpmutexSim				= NULL;

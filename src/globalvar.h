@@ -53,6 +53,9 @@ struct GlobalVar
 	OC_FLOAT gfMsSimDelayMax;
 	string gsZenServer;
 
+// Application status
+	bool gboolActive;				///< Is the application is active
+
 // The mutex that all the simulators depend on
 	SDL_mutex* gpmutexSim;
 

@@ -154,6 +154,7 @@ class UI;
 	void ocMouseButton( const SDL_MouseButtonEvent & );
 	void ocMouseMotion( const SDL_MouseMotionEvent & );
 	void ocResize( const SDL_ResizeEvent & );
+	void ocActive( const SDL_ActiveEvent & );
 	void ocExpose( const SDL_ExposeEvent & );
 	void ocQuit( const int & = 0 );
 	void ocProcessSDLEvents( void );
