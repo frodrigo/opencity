@@ -42,7 +42,8 @@ _pclayer( NULL )
 			width+1, height+1, 
 			MapGen::MapMaker::PLAIN,
 			MapGen::MapMaker::LAKE,
-			MapGen::MapMaker::SPARSE
+			MapGen::MapMaker::SPARSE,
+			rand()
 		);
 	int* heightMap = mapMaker.getMap();
 

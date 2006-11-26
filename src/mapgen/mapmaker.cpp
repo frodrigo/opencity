@@ -26,6 +26,8 @@
 
 #include <cmath>
 #include <vector>
+#include <stdlib.h>
+#include <time.h>
 using std::vector;
 
 namespace MapGen
@@ -37,19 +39,27 @@ MapMaker::MapMaker(
 	const uint h,
 	const MAP_TYPE mapType,
 	const WATER_TYPE waterType,
-	const TREE_DENSITY_TYPE treeDensityType ):
+	const TREE_DENSITY_TYPE treeDensityType,
+	const uint seed ):
 _w(w),
 _h(h),
 _mapType(mapType),
 _waterType(waterType),
 _map(NULL),
 _treeDensityType(treeDensityType),
-_treeDensity(NULL)
+_treeDensity(NULL),
+_seed(seed)
 {
 	MAP_DEBUG( "ctor" );
 
-	_generateMap();
-	_generateTreeDensity();
+	srand( seed );
+	uint mapSeed = rand();
+	uint treeDensitySeed = rand();
+
+	_generateMap( mapSeed );
+	_generateTreeDensity( treeDensitySeed );
+
+	srand( time(NULL) );
 }
 
 
@@ -89,7 +99,7 @@ Map* MapMaker::_generate(
 
 
    /*=====================================================================*/
-void MapMaker::_generateMap()
+void MapMaker::_generateMap( const uint seed )
 {
 	Generator* generator;
 	vector<Filter*> filters;
@@ -101,7 +111,7 @@ void MapMaker::_generateMap()
 			{
 				uint largerSide = _w > _h ? _w : _h;
 				uint side = (uint) ceil( log2( (float)largerSide ) );
-				generator = new Diamon( side );
+				generator = new Diamon( seed, side );
 			} break;
 	}
 
@@ -131,7 +141,7 @@ void MapMaker::_generateMap()
 
 
    /*=====================================================================*/
-void MapMaker::_generateTreeDensity()
+void MapMaker::_generateTreeDensity( const uint seed )
 {
 	Generator* generator;
 	vector<Filter*> filters;
@@ -143,7 +153,7 @@ void MapMaker::_generateTreeDensity()
 			{
 				uint largerSide = _w > _h ? _w : _h;
 				uint side = (uint) ceil( log2( (float)largerSide ) );
-				generator = new Diamon( side );
+				generator = new Diamon( seed, side );
 			} break;
 	}
 

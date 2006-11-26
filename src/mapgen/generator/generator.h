@@ -29,7 +29,7 @@ namespace MapGen
 */
 class Generator {
 public:
-	Generator();
+	Generator( const uint seed );
 	virtual ~Generator();
 
 	virtual Map* render() const;

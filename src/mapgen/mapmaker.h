@@ -59,7 +59,8 @@ public:
 		const uint h,
 		const MAP_TYPE mapType,
 		const WATER_TYPE waterType,
-		const TREE_DENSITY_TYPE treeDensityType );
+		const TREE_DENSITY_TYPE treeDensityType,
+		const uint seed );
 
 	~MapMaker();
 
@@ -77,6 +78,7 @@ private:
 	TREE_DENSITY_TYPE	_treeDensityType;
 	Map*		_treeDensity;
 
+	uint		_seed;
 
    /*=====================================================================*/
    /*                         PRIVATE     METHODS                         */
@@ -85,9 +87,9 @@ private:
     		const Generator* generator,
     		vector<Filter*> filters ) const;
 
-	void _generateMap();
+	void _generateMap( const uint seed );
 
-	void _generateTreeDensity();
+	void _generateTreeDensity( const uint seed );
 
 };
 

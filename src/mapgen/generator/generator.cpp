@@ -19,13 +19,16 @@
 
 #include "generator.h"
 
+#include <stdlib.h>
+
 namespace MapGen
 {
 
    /*=====================================================================*/
-Generator::Generator()
+Generator::Generator( const uint seed )
 {
 	MAP_DEBUG( "ctor" );
+	srand( seed );
 }
 
 

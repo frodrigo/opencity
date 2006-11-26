@@ -26,7 +26,8 @@ namespace MapGen
 {
 
    /*=====================================================================*/
-Diamon::Diamon( uint order ):
+Diamon::Diamon( const uint seed, const uint order ):
+Generator( seed ),
 _side((uint)pow(2,order))
 {
 }

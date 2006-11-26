@@ -32,7 +32,7 @@ namespace MapGen
 class Diamon: public Generator {
 public:
 	/** order is log2 of produced map side */
-	Diamon( uint order );
+	Diamon( const uint seed, const uint order );
 
 	Map* render() const;
 
