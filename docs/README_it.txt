@@ -2,7 +2,7 @@
 LEGGIMI per OpenCity 0.0.5beta
 ------------------------------------------------------------------------------
 Last modified:
-	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
+	$Id$
 Last translated:
 	2006/11/24 morpheus
 
@@ -207,13 +207,6 @@ NOTA: le opzioni della linea di comando bypassano il file di configurazione.
 				Sotto win32: --homedir "C:/Programmi/OpenCity/share"
 
 --no-audio			Disabilita l'audio.
-
---server			(sperimentale, caratteristica in via di sviluppo)
-				Lancia la versione server di OpenCity.
-				Premi Ctrl-C per uscire. Se vuoi testare il server
-				sul tuo computer, lancia un'altra volta OpenCity
-				senza "--server" e poi premi 't' per connetterti
-				al server locale di OpenCity.
 
 
 ------------------------------------------------------------------------------

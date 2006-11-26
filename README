@@ -204,11 +204,6 @@ on your machine
 	--no-audio:
 	Disable the audio system
 
-	--server: (experimental, work in progress feature)
-	Launch the server version of OpenCity. Type Ctrl-C to quit. If you 
-want to test the server on your computer, launch another OpenCity without
-"--server" then type 't' to connect to the local OpenCity server.
-
 
 ------------------------------------------------------------------------------
 Save/Load issues

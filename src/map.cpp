@@ -245,13 +245,11 @@ Map::IsSquarePlane(
 	const uint & rcuiW,
 	const uint & rcuiH ) const
 {
-	OC_BYTE btabH [4];
+	OC_BYTE btabH[4];
 
 	GetSquareHeight( rcuiW, rcuiH, btabH );
 
-	return   ((btabH[0] == btabH[1])
-		&&(btabH[0] == btabH[2])
-		&&(btabH[0] == btabH[3]));
+	return (btabH[0] == btabH[1]) && (btabH[0] == btabH[2]) &&(btabH[0] == btabH[3]);
 }
 
 

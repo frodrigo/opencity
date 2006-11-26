@@ -120,10 +120,12 @@
 
 
    /*=====================================================================*/
+/* TOKILL, 26th nov, 2006
 void ocPerror( const OPENCITY_ERR_CODE & err_code )
 {
 	cout << "Something went wrong. Error code : " << err_code << endl;
 }
+*/
 
 
    /*=====================================================================*/
@@ -199,7 +201,7 @@ void ocExpose( const SDL_ExposeEvent & rcsExposeEvent )
 
 
    /*=====================================================================*/
-void ocQuit( const int & quit_code )
+void ocQuit( const int quit_code )
 {
 	cout << "Quit requested, quit code is : " << quit_code
 	     << endl
@@ -430,10 +432,6 @@ void parseArg(int argc, char *argv[])
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			gVars.gboolUseAudio = false;
 		} else
-		if (strcmp( argv[counter], "--server" ) == 0) {
-			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			gVars.gboolServerMode = true;
-		} else
 		if (strcmp( argv[counter], "--homedir" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			if (++counter < argc)
@@ -446,7 +444,7 @@ void parseArg(int argc, char *argv[])
 		else {
 			cout << "Unknown option: [" << argv[counter] << "]" << endl;
 			cout << "Usage: " << argv[0]
-			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio] [--server]"
+			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio]"
 				 << endl << endl;
 			cout << "Warning: any command line switch will overwrite the config file settings"
 			     << endl;
@@ -480,44 +478,6 @@ void displayStatus( const string & str )
 	y = (gVars.gpVideoSrf->h - 140) / 2;
 	gVars.gpRenderer->DisplayText( x, y, OC_BLUE_COLOR, str );
 	SDL_GL_SwapBuffers();
-}
-
-
-   /*=====================================================================*/
-int serverMode()
-{
-	static SDL_Event event;
-
-// Initialize the video system in order to capture Ctrl-C !
-	SDL_Init(SDL_INIT_VIDEO);
-
-// Start server and listen to the standard port
-	gVars.gpNetworking = new Networking();
-	boolQuit = (gVars.gpNetworking->StartServer() == OC_NET_OK) ? false : true;
-
-	while (!boolQuit) {
-		cout << ".";
-		(void)gVars.gpNetworking->ProcessServerData();
-		SDL_Delay( 50 );
-		cout.flush();
-
-		while( SDL_PollEvent( &event ) ) {
-			switch( event.type ) {
-			case SDL_QUIT:
-			// Handle quit requests (like Ctrl-c).
-				cout << endl << "Quit requested, stoping OpenCity ZeN server..." << endl;
-				boolQuit = true;
-				break;
-			}
-		}
-	}
-
-	(void)gVars.gpNetworking->StopServer();
-	delete gVars.gpNetworking;
-
-	SDL_Quit();					// WARNING: Calls free() on an invalid pointer. Detected by glibc
-
-	return 0;
 }
 
 
@@ -962,7 +922,7 @@ string readSettings()
 			}
 		}
 	// "city" element, read the city's size
-		if (pElement->ValueStr() == "city") {
+		else if (pElement->ValueStr() == "city") {
 			TiXmlElement* pChild = pElement->FirstChildElement();
 			while (pChild != NULL) {
 				cout << i++ << "||" << *pChild << std::endl;
@@ -976,11 +936,11 @@ string readSettings()
 			}
 		}
 	// "msPerFrame" element
-		if (pElement->ValueStr() == "msPerFrame") {
+		else if (pElement->ValueStr() == "msPerFrame") {
 			pElement->QueryIntAttribute("value", (int*)&gVars.guiMsPerFrame);
 		}
 	// "zenServer" element
-		if (pElement->ValueStr() == "zenServer") {
+		else if (pElement->ValueStr() == "zenServer") {
 			if (pElement->GetText() != NULL)
 				gVars.gsZenServer = pElement->GetText();
 		}
@@ -1066,9 +1026,9 @@ int main(int argc, char *argv[])
 			<< "If the main config file \"" << OC_CONFIG_FILE_FILENAME << "\" has not been found then" << endl
 			<< "try to specify the home directory with ""--homedir""." << endl
 			<< "For example:" << endl
-			<< "    opencity --homedir \"/absolute/path/to/opencity/data\"" << endl
+			<< "    " << argv[0] << " --homedir \"/absolute/path/to/opencity/data\"" << endl
 			<< "or" << endl
-			<< "    opencity --homedir \"../relative/path/to/opencity/data\"" << endl
+			<< "    " << argv[0] << " --homedir \"../relative/path/to/opencity/data\"" << endl			
 		);
 		exit(OC_CONFIG_NOT_FOUND);
 	}
@@ -1080,12 +1040,8 @@ int main(int argc, char *argv[])
 // Initialize the random number generator
 	srand( time(NULL) );
 
-// Launch either client or server mode
-	int returnCode = 0;
-	if (gVars.gboolServerMode == true)
-		returnCode = serverMode();
-	else
-		returnCode = clientMode();
+// Launch the game
+	int returnCode = clientMode();
 
 	return returnCode;
 }

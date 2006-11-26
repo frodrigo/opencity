@@ -41,9 +41,11 @@ City::City(
 	const uint width,
 	const uint length,
 	const OC_DATE foundedDate,
-	const int difficulty ):
+	const int difficulty,
+	const bool bGUIEnabled ):
 strCityName("OpenCity"),
 iDifficulty( difficulty ),
+_bGUIEnabled( bGUIEnabled ),
 strFileName(""),
 cityFoundedDate( foundedDate ),
 _liCityFund( OC_FUND_START ),
@@ -65,8 +67,12 @@ enumCurrentTool( OC_NONE )
 	OPENCITY_DEBUG( "City ctor - default parameters" );
 
 // set the windows's WH
+/* TOKILL, old code, 26th nov, 06
 	iWinWidth = SDL_GetVideoSurface()->w;
 	iWinHeight = SDL_GetVideoSurface()->h;
+*/
+	iWinWidth = gVars.guiScreenWidth;
+	iWinHeight = gVars.guiScreenHeight;
 
 // registering our call-back interface for SDL events' treatment
 	ocSetNewUI( this );
@@ -86,27 +92,28 @@ enumCurrentTool( OC_NONE )
 		gVars.gpMapMgr,
 		_uiWidth, _uiLength );
 
-// Debug toolcircle
-	boolPathGo = false;
-	uiPathStartW = 0; uiPathStartH = 0;
-	uiPathStopW = 0; uiPathStopH = 0;
-	pctrPath = new GUIContainer( 100, 100, 140, 140 );
-	pbtnPathStart = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
-	pbtnPathStop1 = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
-	pbtnPathStop2 = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
-	pbtnTestBuilding = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
-	pctrPath->Add( pbtnPathStart );
-	pctrPath->Add( pbtnPathStop1 );
-	pctrPath->Add( pbtnPathStop2 );
-	pctrPath->Add( pbtnTestBuilding );
-	pvehicle = NULL;
-//	pMoveMgr = new MovementManager( gVars.gpGraphicMgr, gVars.gpMapMgr );
-
 // Simulators' initialization
 	_CreateSimulator();
 
-// create the GUI
-	_CreateGUI();
+	if (_bGUIEnabled) {
+	// Debug toolcircle
+		boolPathGo = false;
+		uiPathStartW = 0; uiPathStartH = 0;
+		uiPathStopW = 0; uiPathStopH = 0;
+		pctrPath = new GUIContainer( 100, 100, 140, 140 );
+		pbtnPathStart = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
+		pbtnPathStop1 = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
+		pbtnPathStop2 = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
+		pbtnTestBuilding = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
+		pctrPath->Add( pbtnPathStart );
+		pctrPath->Add( pbtnPathStop1 );
+		pctrPath->Add( pbtnPathStop2 );
+		pctrPath->Add( pbtnTestBuilding );
+		pvehicle = NULL;
+	
+	// create the GUI
+		_CreateGUI();
+	}
 }
 
 
@@ -114,25 +121,29 @@ enumCurrentTool( OC_NONE )
 City::~City(  ){
 	OPENCITY_DEBUG( "City dtor" );
 
-// delete the GUI
-	_DeleteGUI();
+	if (_bGUIEnabled) {
+	// delete the GUI
+		_DeleteGUI();
+	
+	// testing, delete the pathfinder
+		delete pctrPath;
+		delete pbtnTestBuilding;
+		delete pbtnPathStart;
+		delete pbtnPathStop1;
+		delete pbtnPathStop2;
+	}
 
 // delete all the simulators
 	_DeleteSimulator();
 
-// testing, delete the pathfinder
-	delete pctrPath;
-	delete pbtnTestBuilding;
-	delete pbtnPathStart;
-	delete pbtnPathStop1;
-	delete pbtnPathStop2;
+// Delete the pathfinder
 	delete gVars.gpPathFinder;
 	gVars.gpPathFinder = NULL;
-//	delete pvehicle; // not needed, it is done automatically by deleting pMoveMgr
-//	delete pMoveMgr;
 
 // delete only the BUILDING_LAYER instead of delete [] ptabLayer
 	delete ptabLayer[ BUILDING_LAYER ];
+	ptabLayer[ BUILDING_LAYER ] = NULL;
+
 // this must be done AFTER deleting the layers
 //	delete gVars.gpMapMgr;
 }

@@ -146,18 +146,17 @@ class UI;
    /*=====================================================================*/
    /*                         MAIN      FUNCTIONS                         */
    /*=====================================================================*/
-// Just a routine to print out the error message from the error code.
-	void ocPerror( const OPENCITY_ERR_CODE & err_code );
-
 //SDL event treatment call-back functions
+/* TOKILL, 26th nov, 2006
 	void ocKeyboard( const SDL_KeyboardEvent & );
 	void ocMouseButton( const SDL_MouseButtonEvent & );
 	void ocMouseMotion( const SDL_MouseMotionEvent & );
 	void ocResize( const SDL_ResizeEvent & );
 	void ocActive( const SDL_ActiveEvent & );
 	void ocExpose( const SDL_ExposeEvent & );
-	void ocQuit( const int & = 0 );
 	void ocProcessSDLEvents( void );
+*/
+	void ocQuit( const int = 0 );
 	void ocSetNewUI( UI* );
 
 #endif

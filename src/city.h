@@ -48,7 +48,8 @@ public:
 		const uint width = OC_CITY_W,
 		const uint length = OC_CITY_L,
 		const OC_DATE foundedDate = 0,
-		const int difficulty = 2 );
+		const int difficulty = 2,
+		const bool bGUIEnabled = true );
 
 	~City();
 
@@ -118,6 +119,7 @@ private:
 // Current city's informations
 	string		strCityName;		///< The name of the city
 	int			iDifficulty;		///< The difficulty of current game
+	bool		_bGUIEnabled;		///< GUI mode ?
 	string		strFileName;		///< The fileName of current city
 	OC_DATE		cityFoundedDate;
 	OC_LINT		_liCityFund;		///< Money, money, money !

@@ -66,6 +66,7 @@ BuildingLayer::~BuildingLayer()
 	}
 
 	delete [] _tabpStructure;
+	_tabpStructure = NULL;
 }
 
 
