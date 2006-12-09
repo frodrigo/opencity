@@ -34,9 +34,11 @@
 #define OC_STRUCTURE_P		0x40
 #define OC_STRUCTURE_MARK	0x80
 
+// Do _not_ change the values below if you don't know what you are doing
 #define OC_STRUCTURE_LEVEL_START	0
 #define OC_STRUCTURE_LEVEL_MAX		99
 #define OC_STRUCTURE_LEVEL_MIN		0
+#define OC_STRUCTURE_LEVEL_RATIO	10
 
 
 /** The base class for all stuctures including roads, rails, buildings, etc ...

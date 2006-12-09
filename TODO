@@ -17,9 +17,11 @@ Fix graphist's special test feature   (done)
 Add GetFloat() to Conf class          (done)
 Add --noaudio                         (done)
 Reduce CPU usage when iconified       (done)
-LBS files layout
+Fix bug #1596555                      (done)
+Fix building resize bug               (done)
+Integrate the new status bar          (wip)
 Variable name clean up                (wip)
-Water layer                           (wip)
+Water layer                           (delayed)
 Water pipe
 Water pump
 Water tower
@@ -45,6 +47,7 @@ Fix city size settings bug
 Add save/load file version
 Add the simulator accelerator key
 Make the simulator CPU independant
+LBS files layout
 
 
 

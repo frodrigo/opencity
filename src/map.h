@@ -108,10 +108,21 @@ left-up, left-down, right-down, right-up
 		const uint & rcuiH ) const;
 
 
+//========================================================================
+/** Check if the specified square is plane
+	\param w,l The WL coordinates of the square to check
+	\return True if it's plane, false otherwise
+*/
 	const bool
 	IsSquarePlane(
-		const uint & rcuiW,
-		const uint & rcuiH ) const;
+		const uint w,
+		const uint l ) const;
+
+
+	const bool
+	IsSurfacePlane(
+		const uint w1, const uint l1,
+		const uint w2, const uint l2 ) const;
 
 
 	const bool

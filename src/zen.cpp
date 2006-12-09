@@ -73,6 +73,7 @@
 
 // Others macros
 	#define OC_WINDOW_NAME PACKAGE VERSION
+	#define OC_PROGRAM_NAME			"OpenCity ZeN server application"
 
 
 
@@ -127,7 +128,7 @@ void ocProcessSDLEvents( void )
 
 		case SDL_QUIT:
 		// Handle quit requests (like Ctrl-c).
-			cout << "Quit requested, stoping OpenCity zen server..." << endl;
+			cout << "Quit requested, stoping " << OC_PROGRAM_NAME << "..." << endl;
 			boolQuit = true;
 			break;
 		}
@@ -212,15 +213,15 @@ int serverMode()
 //	gVars.gpRenderer = new Renderer( gVars.guiCityWidth, gVars.guiCityLength );
 
 // AudioManager's initialization
-	displayStatus( "Looking for GPU freezing system... ");
-	gVars.gpAudioMgr = new AudioManager();
+//	displayStatus( "Looking for GPU freezing system... ");
+//	gVars.gpAudioMgr = new AudioManager();
 
 // Create the other required global managers
 	displayStatus( "Activating embedded GPS...");
 	gVars.gpMapMgr = new Map( gVars.guiCityWidth, gVars.guiCityLength );
 
-	displayStatus( "Calibrating earthquake subsystem...");
-	gVars.gpGraphicMgr = new GraphicManager();
+//	displayStatus( "Calibrating earthquake subsystem...");
+//	gVars.gpGraphicMgr = new GraphicManager();
 
 	displayStatus( "Shaking DNA mixer thread...");
 	gVars.gpPropertyMgr = new PropertyManager();
@@ -267,12 +268,12 @@ int serverMode()
 	delete gVars.gpMoveMgr;
 	delete gVars.gpNetworking;
 	delete gVars.gpPropertyMgr;
-	delete gVars.gpGraphicMgr;
+//	delete gVars.gpGraphicMgr;
 	delete gVars.gpMapMgr;
 
 // Close the audio device then delete the audio manager
-	gVars.gpAudioMgr->CloseAudio();
-	delete gVars.gpAudioMgr;
+//	gVars.gpAudioMgr->CloseAudio();
+//	delete gVars.gpAudioMgr;
 
 //	delete gVars.gpRenderer;
 
@@ -296,7 +297,7 @@ void printCopyright() {
 	cout << "This program is released under the terms of" << endl;
 	cout << "GNU General Public License (See the COPYING file for more details)" << endl << endl;
 
-	cout << "Starting zen server ..." << endl << endl;
+	cout << "Starting " << OC_PROGRAM_NAME << "..." << endl << endl;
 }
 
 

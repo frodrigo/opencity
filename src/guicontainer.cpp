@@ -1,7 +1,7 @@
 /***************************************************************************
-					guicontainer.cpp    -  description
+						guicontainer.cpp    -  description
 							-------------------
-	begin                : lun 22 mar 2004
+	begin                : mar 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 

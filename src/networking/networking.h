@@ -1,7 +1,7 @@
 /***************************************************************************
 						networking.h  -  description
 							-------------------
-	begin                : jeu dec 23 2004
+	begin                : dec 23th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -25,6 +25,11 @@
 
 #include <vector>
 
+
+//========================================================================
+/** The following codes are used to describe the various networking
+operations status.
+*/
 enum OPENCITY_NET_CODE {
 	OC_NET_OK = 0,
 	OC_NET_ERROR,
@@ -41,10 +46,10 @@ enum OPENCITY_NET_CODE {
 	OC_NET_CLIENT_SERVER,			///< Client running a server
 
 	OC_NET_CLIENT_CONNECTED,		///< Already connected
-	OC_NET_CLIENT_NOTCONNECTED,
-	OC_NET_CLIENT_ACCEPTED,
-	OC_NET_CLIENT_REJECTED,
-	OC_NET_CLIENT_TIMEOUT,
+	OC_NET_CLIENT_NOTCONNECTED,		///< Not connected
+	OC_NET_CLIENT_ACCEPTED,			///< The client has been accepted
+	OC_NET_CLIENT_REJECTED,			///< The client has been rejected: server full/black list
+	OC_NET_CLIENT_TIMEOUT,			///< The client has timeouted
 
 	OC_NET_SERVER_ALONE,			///< Stand-alone server
 	OC_NET_SERVER_DISTRIBUTED,		///< Distributed server
@@ -63,9 +68,9 @@ enum OPENCITY_NET_CODE {
 
 
 //========================================================================
-/** The following commands are describe in the design document.
-	Please read it for more details. Any OpenCity host should
-	use those commands instead of hard coding them.
+/** The following commands are describe in the design document. Please
+read it for more details. Any OpenCity host should use those commands
+instead of hard coding them.
 */
 enum OPENCITY_NET_CMD {
 	OC_NET_CNT = 0,
@@ -97,30 +102,23 @@ const OC_CHAR OPENCITY_NET_CMD_ARRAY [OC_NET_CMD_NUMBER][4] = {
 
 
 class Netnode;									// forward declaration
-typedef std::vector<Netnode>::iterator ClientIter;
+typedef std::vector<Netnode>::iterator ClientIterator;
 
 
 //========================================================================
-/** Define the network message's structure for easy use.
-	See OpenCity's design documentation for more details about each member.
+/** Define the network message's structure for easy use. See OpenCity's
+design documentation for more details about each member.
 */
 struct NetMessage {
-// TOKILL, obsolete protocol
-//	OC_CHAR cmd [OC_NET_COMMAND_LENGTH];
-//	uint cmdLen;
-	OPENCITY_NET_CMD cmd;					// Command opcode
-	uint dataLength;						// Data length
-// TOKILL, obsolete protocol
-//	IPaddress srcIP;
-//	IPaddress dstIP;
-//	OC_CHAR reserved[28];
+	OPENCITY_NET_CMD cmd;					///< Command opcode
+	uint dataLength;						///< Data length
 	OC_CHAR data [OC_NET_DATA_LENGTH];
 };
 
 
 //========================================================================
 /** Offer the OpenCity gamers a possibility to share their experience
-	with the others through the networks.
+with the others through the networks.
 */
 class Networking {
 public:
@@ -280,7 +278,7 @@ public:
 	\return the following enumerations:
 */
 	const OPENCITY_NET_CODE
-	Close( ClientIter i );
+	Close( ClientIterator i );
 
 
 //========================================================================
@@ -365,14 +363,15 @@ public:
 
 
 private:
-	OPENCITY_NET_CODE			networkingCode;
-	bool						boolNetworkInitialized;
+	OPENCITY_NET_CODE		_networkingCode;
+	bool					_boolNetworkInitialized;
 
-	std::vector<Netnode>		vClient;
+	std::vector<Netnode>	_vClient;			///< The vector which holds the informations about the clients
 
-	SDLNet_SocketSet			pSocketSet;		///< The server puts all its client sockets into this set
-	TCPsocket					pServerSocket;	///< The server listens on this socket
-												///< The client use this socket to communicate with the server
+	SDLNet_SocketSet		_pSocketSet;		///< The server puts all its client sockets into this set
+
+/** The server listens on this socket. The client use this socket to communicate with the server */
+	TCPsocket				_pServerSocket;
 
 
 };

@@ -108,6 +108,20 @@ public:
 
 
 //========================================================================
+/** Find the main structure WL coordinates of the given structure pointer
+	\param pstruct The structure pointer to search for
+	\param w,l The WL coordinates of pstruct
+	\return True if found, false otherwise
+*/
+	const bool
+	GetMainWL (
+		const Structure* const pstruct,
+		uint & w,
+		uint & l
+	) const;
+
+
+//========================================================================
 /** Resize the surface used by the structure to the new surface thanks to
 	its new GraphicCode.
 	\param w,l = The structure's map coordinates

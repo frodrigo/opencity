@@ -98,6 +98,7 @@
 
 // Others macros
 	#define OC_WINDOW_NAME PACKAGE VERSION
+	#define OC_PROGRAM_NAME			"OpenCity standalone/client application"
 
 
 
@@ -248,7 +249,7 @@ void ocProcessSDLEvents( void )
 
 		case SDL_QUIT:
 		// Handle quit requests (like Ctrl-c).
-			cout << "Quit requested, stoping OpenCity..." << endl;
+			cout << "Quit requested, stoping " << OC_PROGRAM_NAME << "..." << endl;
 			boolQuit = true;
 			break;
 		}
@@ -651,7 +652,7 @@ void printCopyright() {
 	cout << "This program is released under the terms of" << endl;
 	cout << "GNU General Public License (See the COPYING file for more details)" << endl << endl;
 
-	cout << "Starting ..." << endl << endl;
+	cout << "Starting " << OC_PROGRAM_NAME << "..." << endl << endl;
 }
 
 

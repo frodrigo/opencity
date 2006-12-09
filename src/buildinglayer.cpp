@@ -362,6 +362,46 @@ BuildingLayer::BuildStructure(
 
 
    /*=====================================================================*/
+const bool
+BuildingLayer::GetMainWL
+(
+	const Structure* const pstruct,
+	uint & w,
+	uint & l
+) const
+{
+	uint sw = 0, sl = 0, sh = 0;
+	uint w1 = w, l1 = l, w2 = w, l2 = l;
+	uint linearIndex = 0;
+	const Structure* pMain = NULL;
+
+	assert( pstruct != NULL );
+	pMain = (pstruct->GetMain() != NULL) ? pstruct->GetMain() : pstruct;
+
+// Calculate the possible area to limit cpu usage
+	gVars.gpPropertyMgr->GetWLH( pMain->GetGraphicCode(), sw, 0, sl, 0, sh, 0 );
+	assert( (sw != 0) && (sl != 0) );
+	sw--; sl--;			// We calculate the range
+
+	gVars.gpMapMgr->GetPossibleWH( w1, l1, -sw, -sl );
+	gVars.gpMapMgr->GetPossibleWH( w2, l2,  sw,  sl );
+
+// Now search for all STRUCTURE_PART and the main structure, destroy em
+	for ( l = l1; l <= l2; l++ ) {
+		linearIndex = l*_uiLayerWidth + w1;
+		for ( w = w1; w <= w2; w++ ) {
+		// WARNING: pointer comparaison !
+			if ( pMain == _tabpStructure[ linearIndex ] )
+				return true;
+			linearIndex++;
+		}
+	}
+
+	return false;
+}
+
+
+   /*=====================================================================*/
 const OPENCITY_ERR_CODE
 BuildingLayer::ResizeStructure(
 	const uint & w,
@@ -373,12 +413,14 @@ BuildingLayer::ResizeStructure(
 	uint ow = 0, ol = 0, oh = 0;					// Old structure dimensions
 	uint nw = 0, nl = 0, nh = 0;					// New structure dimensions
 	uint xw = 0, xl = 0, xh = 0;					// Destroyed structure dimensions
+	uint sxw = 0, sxl = 0;							// Destroyed structure coordinates
 	uint dw, dl;									// Used in the "for loop"
 	uint uiCost;									// Temp cost, necessary to call internal methods
 
 	OPENCITY_STRUCTURE_CODE structCode;
 	OPENCITY_STRUCTURE_CODE destroyedSC;			// The destroyed structure's code. It's used for rebuild
 
+	OPENCITY_DEBUG( "ResizeStructure - W/L " << w << "/" << l );
 
 // Get the pointer to the structure that we need to modify
 	pStruct = _tabpStructure[ linearIndex ];
@@ -433,21 +475,27 @@ BuildingLayer::ResizeStructure(
 		// AND it's not the current structure's part neither THEN remove it
 			else if (pTemp != pStruct and pTemp->GetMain() != pStruct) {
 			// Remember the structure which is going to be destroyed
+				sxw = dw; sxl = dl;
+				if (GetMainWL(pTemp, sxw, sxl) == false) {
+					assert(0);
+				}
 				if (pTemp->GetCode() == OC_STRUCTURE_PART)
 					pMain = pTemp->GetMain();
 				else
 					pMain = pTemp;
 
+			// Save the structure code and its main coordinates
 				destroyedSC = pMain->GetCode();
 				gVars.gpPropertyMgr->GetWLH( pMain->GetGraphicCode(), xw, 0, xl, 0, xh, 0 );
 
+//				OPENCITY_DEBUG( "Delete structure - W/L " << dw << "/" << dl );
 				_DestroyStructure( dw, dl, uiCost );
 				pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
 				_tabpStructure[ linearIndex ] = pTemp;
 
 				// Rebuild the neighbourhood
 				if (xw > 1 or xl > 1) {
-					BuildStructure( dw, dl, dw + xw-1, dl + xl-1, destroyedSC, uiCost );
+					BuildStructure( sxw, sxl, dw + xw-1, dl + xl-1, destroyedSC, uiCost );
 				}
 			}
 			pTemp->Set( OC_STRUCTURE_MARK );
@@ -460,11 +508,15 @@ BuildingLayer::ResizeStructure(
 	for (dl = l; dl < l + ol; dl++) {
 		linearIndex = (dl*_uiLayerWidth) + w;
 		for (dw = w; dw < w + ow; dw++) {
+//			OPENCITY_DEBUG( "Delete unmarked structure - W/L " << dw << "/" << dl );
 			pTemp = _tabpStructure[ linearIndex ];
 // debug
 			assert( pTemp != NULL );
 			if (pTemp->IsSet(OC_STRUCTURE_MARK) == false) {
-				_DestroyStructure( dw, dl, uiCost );
+				// We don't use this _DestroyStructure( dw, dl, uiCost ) because it will
+				// get the structure's size and delete the whole structure
+				// that we're working on
+				delete _tabpStructure[ linearIndex ];
 				_tabpStructure[ linearIndex ] = new RCIStructure( structCode );
 			}
 			linearIndex++;
@@ -676,7 +728,7 @@ BuildingLayer::ContainStructureOnly(
 
 
 	uint w = 0, l = 0, linear = 0;
-	Structure* pstruct = NULL;
+	Structure* pstruct = NULL, *pMain = NULL;
 
 	switch (enumStructCode) {
 		case OC_STRUCTURE_UNDEFINED:
@@ -700,9 +752,14 @@ BuildingLayer::ContainStructureOnly(
 			for (l = L1; l <= L2; l++) {
 				linear = l*_uiLayerWidth + W1;
 				for (w = W1; w <= W2; w++, linear++) {
+				// WARNING: IF this is a "part" structure
+				// THEN we look for the main structure code
 					pstruct = GetLinearStructure( linear );
 					if (pstruct != NULL) {
-						if (pstruct->GetCode() != enumStructCode)
+						pMain = pstruct->GetMain();
+						if (pMain == NULL)
+							pMain = pstruct;
+						if (pMain->GetCode() != enumStructCode)
 							return false;
 					}
 				}  // while w

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          netnode.h  -  description
-         $Id$
-                             -------------------
-    begin                : jeu dec 23 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						netnode.h  -  description
+							-------------------
+	begin                : dec 23th, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,17 +18,17 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_NETNODE_H_
-	#define _OPENCITY_NETNODE_H_ 1
+#define _OPENCITY_NETNODE_H_ 1
 
-	#include "main.h"
+#include "main.h"
 
-	#include "SDL_net.h"
+#include "SDL_net.h"
 
-/**
-	This is a helper class of the "Networking" class. Each host is considered
-	as a "Netnode" by the networking layer.
+
+//========================================================================
+/** This is a helper class of the "Networking" class. Each host is
+considered as a "Netnode" by the networking layer.
 */
-
 class Netnode {
 public:
 	Netnode() {};

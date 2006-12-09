@@ -189,7 +189,7 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 {
 	static uint uiNumberFrame = 0;
 
-// if another speed is requested, we switch to it
+// IF another speed is requested THEN we switch to it
 	if (enumSpeed != LAST_SPEED) {
 		enumCurrentSpeed = enumSpeed;
 	}
@@ -199,12 +199,12 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 //	gVars.gpMoveMgr->Display();			// called by Display();
 
 	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
-	// next day
+	// Next day
 		if ( ++_uiDay > 30 ) {
-		// next month
+		// Next month
 			_uiDay = 1;
 			if ( ++_uiMonth > 12 ) {
-			// next year
+			// Next year
 				_uiMonth = 1;
 				_uiYear++;
 				_DoBill( OC_INCOME );
@@ -215,8 +215,8 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 		}
 		uiNumberFrame = 0;
 
-	// auto play background music
-		if (gVars.gpAudioMgr->PlayingMusic() == false) {
+	// IF the audio is enable THEN autoplay the background music
+		if (gVars.gboolUseAudio && !gVars.gpAudioMgr->PlayingMusic()) {
 			gVars.gpAudioMgr->PlayNextMusic();
 		}
 	}

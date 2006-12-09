@@ -1,6 +1,6 @@
 /***************************************************************************
-							treetructure.cpp  -  description
-								-------------------
+						treetructure.cpp  -  description
+							-------------------
 	begin                : july 23th, 2006
 	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net

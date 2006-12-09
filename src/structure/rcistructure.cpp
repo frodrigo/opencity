@@ -66,9 +66,9 @@ RCIStructure::~RCIStructure(){
 const OPENCITY_GRAPHIC_CODE
 RCIStructure::GetNextLevelGraphicCode() const
 {
-//	OPENCITY_DEBUG("WARNING: Inside RCI");
+//	OPENCITY_DEBUG( "WARNING: Inside RCI - Level/Next - " << _uiLevel << "/" << (_uiLevel+1) / 10 );
 	if (_uiLevel < OC_STRUCTURE_LEVEL_MAX)
-		return (OPENCITY_GRAPHIC_CODE)(this->GetBaseGraphicCode() + ((_uiLevel+1) / 10));
+		return (OPENCITY_GRAPHIC_CODE)(this->GetBaseGraphicCode() + ((_uiLevel+1) / OC_STRUCTURE_LEVEL_RATIO));
 	else
 		return _eGC;
 }
@@ -79,7 +79,7 @@ const OPENCITY_GRAPHIC_CODE
 RCIStructure::GetPreviousLevelGraphicCode() const
 {
 	if (_uiLevel > OC_STRUCTURE_LEVEL_MIN)
-		return (OPENCITY_GRAPHIC_CODE)(this->GetBaseGraphicCode() + ((_uiLevel-1) / 10));
+		return (OPENCITY_GRAPHIC_CODE)(this->GetBaseGraphicCode() + ((_uiLevel-1) / OC_STRUCTURE_LEVEL_RATIO));
 	else
 		return _eGC;
 }

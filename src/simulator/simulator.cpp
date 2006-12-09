@@ -137,8 +137,6 @@ Simulator::CheckLevelUp(
 	const uint l,
 	const Structure* pStruct ) const
 {
-	OPENCITY_DEBUG("CheckLevelUp");
-
 	static OPENCITY_GRAPHIC_CODE nextGC;
 	static uint ow = 0, ol = 0, oh = 0, nw = 0, nl = 0, nh = 0;		// Old, and New WLH
 	static uint w2 = 0, l2 = 0;
@@ -175,7 +173,9 @@ Simulator::CheckLevelUp(
 
 // IF the old ones are bigger THEN shout out
 	if ((ow > nw) || (ol > nl) || (oh > nh)) {
-		OPENCITY_DEBUG("The higher level should have bigger dimensions");
+		OPENCITY_DEBUG("The higher level should have bigger dimensions - "
+			<< "oW/oL/oH " << ow << "/" << ol << "/" << oh
+			<< " - nW/nL/nH " << nw << "/" << nl << "/" << nh );
 	}
 
 // IF the new structure is out of the map THEN
@@ -187,15 +187,22 @@ Simulator::CheckLevelUp(
 		return false;
 	}
 
+// IF the new surface is not plane THEN return false?
+	if (!gVars.gpMapMgr->IsSurfacePlane( w, l, w2, l2 )) {
+		return false;
+	}
+
 // The old WLH are smaller
 // IF the new required surface does not contains only the required structure THEN
 	if (this->pbuildlayer->ContainStructureOnly(
-		w, l, w2, l2,
-		pStruct->GetCode()) == false ) {
+		w, l, w2, l2, pStruct->GetCode()) == false ) {
+//		OPENCITY_DEBUG( "ContainStructureOnly failed - W/L/W2/L2 "
+//			<< w << "/" << l << "/" << w2 << "/" << l2 );
 		return false;
 	}
 
 // OK, next level has passed all the tests
+	OPENCITY_DEBUG( "CheckLevelUp OK - W/L/Level - " << w << "/" << l << "/" << pStruct->GetLevel() );
 	return true;
 }
 
@@ -207,8 +214,6 @@ Simulator::CheckLevelDown(
 	const uint l,
 	const Structure* pStruct ) const
 {
-	OPENCITY_DEBUG("CheckLevelDown");
-
 	static OPENCITY_GRAPHIC_CODE prevGC;
 	static uint ow = 0, ol = 0, oh = 0, nw = 0, nl = 0, nh = 0;		// Old, and New WLH
 	static uint w2 = 0, l2 = 0;
@@ -256,6 +261,11 @@ Simulator::CheckLevelDown(
 		return false;
 	}
 
+// IF the new surface is not plane THEN return false?
+	if (!gVars.gpMapMgr->IsSurfacePlane( w, l, w2, l2 )) {
+		return false;
+	}
+
 // The old WLH are bigger
 // IF the new required surface does not contains only the required structure THEN
 	if (this->pbuildlayer->ContainStructureOnly(
@@ -265,6 +275,7 @@ Simulator::CheckLevelDown(
 	}
 
 // OK, next level has passed all the tests
+	OPENCITY_DEBUG("CheckLevelDown OK");
 	return true;
 }
 

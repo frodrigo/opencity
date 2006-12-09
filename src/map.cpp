@@ -1,6 +1,6 @@
 /***************************************************************************
-							map.cpp  -  description
-								-------------------
+						map.cpp  -  description
+							-------------------
 	begin                : january 24th, 2004
 	copyright            : (C) 2004-2006 Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
@@ -242,14 +242,36 @@ Map::GetSquareMaxHeight(
    /*=====================================================================*/
 const bool
 Map::IsSquarePlane(
-	const uint & rcuiW,
-	const uint & rcuiH ) const
+	const uint w,
+	const uint l ) const
 {
 	OC_BYTE btabH[4];
 
-	GetSquareHeight( rcuiW, rcuiH, btabH );
+	GetSquareHeight( w, l, btabH );
 
 	return (btabH[0] == btabH[1]) && (btabH[0] == btabH[2]) &&(btabH[0] == btabH[3]);
+}
+
+
+   /*=====================================================================*/
+const bool
+Map::IsSurfacePlane(
+	const uint w1, const uint l1,
+	const uint w2, const uint l2 ) const
+{
+	bool plane = true;
+	uint w = w1, l = l1;
+
+	while (plane and l <= l2) {
+		w = w1;
+		while (plane and w <= w2) {
+			plane = IsSquarePlane( w, l );
+			w++;
+		}
+		l++;
+	}
+
+	return plane;
 }
 
 

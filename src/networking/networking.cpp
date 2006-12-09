@@ -1,7 +1,7 @@
 /***************************************************************************
 						networking.cpp  -  description
-								-------------------
-	begin                : jeu dec 23 2004
+							-------------------
+	begin                : dec 23th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -23,14 +23,14 @@
 
    /*=====================================================================*/
 Networking::Networking():
-networkingCode( OC_NET_UNDEFINED ),
-pSocketSet( NULL ),
-pServerSocket( NULL )
+_networkingCode( OC_NET_UNDEFINED ),
+_pSocketSet( NULL ),
+_pServerSocket( NULL )
 {
 	OPENCITY_DEBUG("ctor");
 
-	boolNetworkInitialized = (SDLNet_Init() != -1);
-	if (boolNetworkInitialized == false) {
+	_boolNetworkInitialized = (SDLNet_Init() != -1);
+	if (_boolNetworkInitialized == false) {
 		cerr << "WARNING: I couldn't initialize networking. "
 			 << "The error was: " << SDLNet_GetError() << endl;
 	}
@@ -44,11 +44,11 @@ Networking::~Networking()
 
 	//FIXME: free server ressources
 
-	if (boolNetworkInitialized == true) {
+	if (_boolNetworkInitialized == true) {
 		SDLNet_Quit();
-		boolNetworkInitialized = false;
-		networkingCode = OC_NET_UNDEFINED;
-		pServerSocket = NULL;
+		_boolNetworkInitialized = false;
+		_networkingCode = OC_NET_UNDEFINED;
+		_pServerSocket = NULL;
 	}
 }
 
@@ -58,8 +58,8 @@ const string
 Networking::GetClientHost(
 	const uint index )
 {
-	assert( index < this->vClient.size() );
-	return (string)(SDLNet_ResolveIP(&vClient[index].ip));
+	assert( index < _vClient.size() );
+	return (string)(SDLNet_ResolveIP(&_vClient[index].ip));
 }
 
 
@@ -67,7 +67,7 @@ Networking::GetClientHost(
 const uint
 Networking::GetClientNum()
 {
-	return this->vClient.size();
+	return _vClient.size();
 }
 
 
@@ -83,7 +83,7 @@ Networking::GetClientMax()
 const OPENCITY_NET_CODE
 Networking::GetMachineRole()
 {
-	return this->networkingCode;
+	return this->_networkingCode;
 }
 
 
@@ -138,24 +138,24 @@ const OPENCITY_NET_CODE
 Networking::Accept( uint & rid )
 {
 // IF the networking is not init THEN error
-	if (this->boolNetworkInitialized == false)
+	if (this->_boolNetworkInitialized == false)
 		return OC_NET_ERROR;
 
 // IF the server is not running THEN error
-	if (this->pServerSocket == NULL)
+	if (this->_pServerSocket == NULL)
 		return OC_NET_SERVER_STOPED;
 
 // IF the server is full THEN error
-//	if (this->vClient.size() == OC_NET_CLIENT_MAX)
+//	if (_vClient.size() == OC_NET_CLIENT_MAX)
 //		return OC_NET_SERVER_FULL;
 
 // Create the new socket to handle the client
 	Netnode nodeClient;
-	nodeClient.socket = SDLNet_TCP_Accept(this->pServerSocket);
+	nodeClient.socket = SDLNet_TCP_Accept(this->_pServerSocket);
 	if (nodeClient.socket != NULL) {
 		NetMessage msg;
 	// Put the client socket into the server's socket set for future use
-		if (SDLNet_TCP_AddSocket( this->pSocketSet, nodeClient.socket ) == -1) {
+		if (SDLNet_TCP_AddSocket( this->_pSocketSet, nodeClient.socket ) == -1) {
 		// Send NCK
 			msg.cmd = OC_NET_NCK;
 			(void)SDLNet_TCP_Send(nodeClient.socket, &msg, sizeof(NetMessage));
@@ -166,8 +166,8 @@ Networking::Accept( uint & rid )
 		}
 		else {
 			nodeClient.ip = *(SDLNet_TCP_GetPeerAddress(nodeClient.socket));
-			vClient.push_back(nodeClient);
-			rid = vClient.size()-1;
+			_vClient.push_back(nodeClient);
+			rid = _vClient.size()-1;
 
 		// Send ACK
 			msg.cmd = OC_NET_ACK;
@@ -198,28 +198,28 @@ const OPENCITY_NET_CODE
 Networking::StartServer( const OC_SUINT port )
 {
 // IF the server is already running THEN error
-	if (pServerSocket != NULL) {
+	if (_pServerSocket != NULL) {
 		return OC_NET_SERVER_STARTED;
 	}
 
 	IPaddress ip;
-
 	if (SDLNet_ResolveHost(&ip, NULL, port) == -1) {
 		cerr << "ERROR: I couldn't start the server: "
 			 << SDLNet_GetError() << endl;
 		return OC_NET_ERROR;
 	}
 
-	this->pServerSocket = SDLNet_TCP_Open(&ip);
-	if (pServerSocket == NULL) {
+// Open the server socket
+	this->_pServerSocket = SDLNet_TCP_Open(&ip);
+	if (_pServerSocket == NULL) {
 		cerr << "ERROR: I couldn't open the server's socket: "
 			 << SDLNet_GetError() << endl;
 		return OC_NET_ERROR;
 	}
 
 // Allocate the socket set for the server
-	this->pSocketSet = SDLNet_AllocSocketSet(OC_NET_CLIENT_MAX);
-	if (this->pSocketSet == NULL) {
+	this->_pSocketSet = SDLNet_AllocSocketSet(OC_NET_CLIENT_MAX);
+	if (this->_pSocketSet == NULL) {
 		cerr << "ERROR: I couldn't allocate a socket set: "
 			 << SDLNet_GetError() << endl;
 		return OC_NET_ERROR;
@@ -234,15 +234,15 @@ const OPENCITY_NET_CODE
 Networking::StopServer()
 {
 // IF the server is not running THEN error
-	if (pServerSocket == NULL) {
+	if (_pServerSocket == NULL) {
 		return OC_NET_SERVER_STOPED;
 	}
 
-	SDLNet_TCP_Close(this->pServerSocket);
-	pServerSocket = NULL;
+	SDLNet_TCP_Close(this->_pServerSocket);
+	_pServerSocket = NULL;
 
-	SDLNet_FreeSocketSet(this->pSocketSet);
-	this->pSocketSet = NULL;
+	SDLNet_FreeSocketSet(this->_pSocketSet);
+	this->_pSocketSet = NULL;
 
 	return OC_NET_OK;
 }
@@ -252,30 +252,30 @@ Networking::StopServer()
 const OPENCITY_NET_CODE
 Networking::ProcessServerData()
 {
-	uint id;
-	OPENCITY_NET_CODE netCode;
+	uint id = 0;
+	OPENCITY_NET_CODE netCode = OC_NET_UNDEFINED;
 	NetMessage msg;
-	ClientIter i;
+	ClientIterator i;
 	int recv;
-	std::vector<ClientIter> vToClose;
+	std::vector<ClientIterator> vToClose;
 
 // Accept an incoming connection and automatically ACK
 	netCode = this->Accept( id );
 	if (netCode == OC_NET_OK) {
-		OPENCITY_DEBUG( "New number of clients: " << this->GetClientNum() );
+		OPENCITY_DEBUG( "The new number of clients is: " << this->GetClientNum() );
 	}
 	else if (netCode == OC_NET_SERVER_FULL) {
-		OPENCITY_DEBUG( "Server is full, new connection rejected" );
+		OPENCITY_DEBUG( "The server is full, the new connection demand has been rejected" );
 	}
 
 // Check socket set for activity
 // Otherwise return
-	if (SDLNet_CheckSockets( this->pSocketSet, OC_NET_CHECK_TIMEOUT ) < 1)
+	if (SDLNet_CheckSockets( this->_pSocketSet, OC_NET_CHECK_TIMEOUT ) < 1)
 		return OC_NET_OK;
 
 // Process waiting messages sent by client
 	OPENCITY_DEBUG( "Begin reading socket" );
-	for (i = this->vClient.begin(); i != this->vClient.end(); i++) {
+	for (i = _vClient.begin(); i != _vClient.end(); i++) {
 		if (SDLNet_SocketReady((*i).socket) != 0) {
 			recv = SDLNet_TCP_Recv((*i).socket, &msg, sizeof(NetMessage) );
 
@@ -311,7 +311,7 @@ Networking::Open(
 	const OC_SUINT port )
 {
 // IF we are already connected THEN
-	if (this->pServerSocket != NULL)
+	if (this->_pServerSocket != NULL)
 		return OC_NET_CLIENT_CONNECTED;
 
 // IF we can not resolve the host THEN error
@@ -323,8 +323,8 @@ Networking::Open(
 	}
 
 // Open the server socket
-	this->pServerSocket = SDLNet_TCP_Open(&ip);
-	if (pServerSocket == NULL) {
+	this->_pServerSocket = SDLNet_TCP_Open(&ip);
+	if (_pServerSocket == NULL) {
 		cerr << "ERROR: I couldn't connect to the server: "
 			 << SDLNet_GetError() << endl;
 		return OC_NET_ERROR;
@@ -341,8 +341,8 @@ Networking::Open(
 
 		case OC_NET_NCK:
 		// Close the socket
-			SDLNet_TCP_Close(this->pServerSocket);
-			this->pServerSocket = NULL;
+			SDLNet_TCP_Close(this->_pServerSocket);
+			this->_pServerSocket = NULL;
 			nc = OC_NET_CLIENT_REJECTED;
 			break;
 
@@ -367,8 +367,8 @@ Networking::Close()
 	netCode = SendMessage( msg );
 
 // Close the socket
-	SDLNet_TCP_Close(this->pServerSocket);
-	this->pServerSocket = NULL;
+	SDLNet_TCP_Close(this->_pServerSocket);
+	this->_pServerSocket = NULL;
 
 	return netCode;
 }
@@ -376,21 +376,21 @@ Networking::Close()
 
    /*=====================================================================*/
 const OPENCITY_NET_CODE
-Networking::Close( ClientIter i )
+Networking::Close( ClientIterator i )
 {
 //	assert( i != NULL );
 
 //TODO: send the "disconnect" command to the client
 
 // Remove the socket from the set
-	(void)SDLNet_TCP_DelSocket( this->pSocketSet, (*i).socket );
+	(void)SDLNet_TCP_DelSocket( this->_pSocketSet, (*i).socket );
 
 // Close the client socket
 	SDLNet_TCP_Close((*i).socket);
 	(*i).socket = NULL;
 
 // Erase the client from the vector
-	this->vClient.erase(i);
+	_vClient.erase(i);
 //	std::remove( i, i, (*i) );
 
 	return OC_NET_OK;
@@ -406,14 +406,14 @@ Networking::Send(
 	static uint sent;
 
 // IF we are not connected THEN error
-	if (this->pServerSocket == NULL)
+	if (this->_pServerSocket == NULL)
 		return OC_NET_CLIENT_NOTCONNECTED;
 
 // IF there is no data to send THEN error
 	if (len == 0)
 		return OC_NET_NODATA;
 
-	sent = SDLNet_TCP_Send(this->pServerSocket, const_cast<void*>(data), len);
+	sent = SDLNet_TCP_Send(this->_pServerSocket, const_cast<void*>(data), len);
 	if (sent != len) {
 		OPENCITY_DEBUG("ERROR: Net send");
 		return OC_NET_SENDERROR;
@@ -433,13 +433,13 @@ Networking::Send(
 	static uint sent;
 
 // WARNING: the code is similar to the Send() method
-	assert( cid < this->vClient.size() );
+	assert( cid < _vClient.size() );
 
 // IF there is no data to send THEN error
 	if (len == 0)
 		return OC_NET_NODATA;
 
-	sent = SDLNet_TCP_Send(this->vClient[cid].socket, const_cast<void*>(data), len);
+	sent = SDLNet_TCP_Send(_vClient[cid].socket, const_cast<void*>(data), len);
 	if (sent != len) {
 		OPENCITY_DEBUG("ERROR: Net send");
 		return OC_NET_SENDERROR;
@@ -454,7 +454,7 @@ const OPENCITY_NET_CODE
 Networking::SendMessage( NetMessage & rMsg )
 {
 // IF we are not connected THEN
-	if (this->pServerSocket == NULL)
+	if (this->_pServerSocket == NULL)
 		return OC_NET_CLIENT_NOTCONNECTED;
 
 // Send the message to the node
@@ -484,14 +484,14 @@ Networking::Receive(
 	static int recv;
 
 // IF we are not connected THEN error
-	if (this->pServerSocket == NULL)
+	if (this->_pServerSocket == NULL)
 		return OC_NET_CLIENT_NOTCONNECTED;
 
 // IF the buffer is not big enough THEN
 	if (maxlen == 0)
 		return OC_NET_BUFFERROR;
 
-	recv = SDLNet_TCP_Recv( this->pServerSocket, data, maxlen );
+	recv = SDLNet_TCP_Recv( this->_pServerSocket, data, maxlen );
 	if (recv <= 0) {
 		OPENCITY_DEBUG("WARNING: no data received or error");
 		return OC_NET_RECVERROR;
@@ -507,7 +507,7 @@ Networking::ReceiveMessage(
 	NetMessage & rMsg )
 {
 // IF we are not connected THEN
-	if (this->pServerSocket == NULL)
+	if (this->_pServerSocket == NULL)
 		return OC_NET_CLIENT_NOTCONNECTED;
 
 // Wait for the commands sent by the server
@@ -525,13 +525,13 @@ Networking::Receive(
 	static int recv;
 
 // WARNING: the code is similar to the client's Receive() method
-	assert( cid < this->vClient.size() );
+	assert( cid < _vClient.size() );
 
 // IF the buffer is not big enough THEN
 	if (maxlen == 0)
 		return OC_NET_BUFFERROR;
 
-	recv = SDLNet_TCP_Recv( this->vClient[cid].socket, data, maxlen );
+	recv = SDLNet_TCP_Recv( _vClient[cid].socket, data, maxlen );
 	if (recv <= 0) {
 		return OC_NET_NODATA;
 	}
