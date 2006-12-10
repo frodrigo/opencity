@@ -37,10 +37,10 @@ GUIContainer::GUIContainer(
 	this->uiWinWidth = pScreen->w;
 	this->uiWinHeight = pScreen->h;
 
-	this->iX = rciX;
-	this->iY = rciY;
-	this->uiWidth = rcuiW;
-	this->uiHeight = rcuiH;
+	_iX = rciX;
+	_iY = rciY;
+	_uiWidth = rcuiW;
+	_uiHeight = rcuiH;
 
 	++GUIContainer::_uiNumberContainer;
 // Not used yet
@@ -186,7 +186,7 @@ GUIContainer::Display() const
 	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 	glLoadIdentity();
-	glTranslatef( iX, iY, 0.0 );
+	glTranslatef( _iX, _iY, 0.0 );
 
 // Display the background
 /* not used yet
@@ -198,9 +198,9 @@ GUIContainer::Display() const
 
 	glBegin( GL_QUADS );
 	glTexCoord2i( 0, 0 );	glVertex2i( 1, 1 );
-	glTexCoord2i( 1, 0 );	glVertex2i( this->uiWidth, 1 );
-	glTexCoord2i( 1, 1 );	glVertex2i( this->uiWidth, this->uiHeight );
-	glTexCoord2i( 0, 1 );	glVertex2i( 1, this->uiHeight );
+	glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth, 1 );
+	glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth, _uiHeight );
+	glTexCoord2i( 0, 1 );	glVertex2i( 1, _uiHeight );
 	glEnd();
 
 	glPopAttrib();

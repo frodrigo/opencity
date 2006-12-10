@@ -1,7 +1,7 @@
 /***************************************************************************
 						guimain.h    -  description
 							-------------------
-	begin                : lun 22 mar 2004
+	begin                : march, 22th 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -25,7 +25,7 @@
 
 #include "SDL_image.h"
 
-// each GUIMain object has the following attributes
+// Each GUIMain object has the following attributes
 #define OC_GUIMAIN_VISIBLE    0x01		///< Is the object visible ?
 #define OC_GUIMAIN_CLICKED    0x02		///< Has the object been clicked ?
 #define OC_GUIMAIN_MOUSEOVER  0x04		///< Does the object have the mouse focus ?
@@ -41,65 +41,115 @@ struct Color {
 
 
 //========================================================================
-/** The base class of all graphic user interface control
+/** The base interface class of all graphic user interface control.
+	\Note Use "pctr" prefix for container pointers and "pbtn" prefix for
+button pointers.
 */
 class GUIMain : public UI {
 public:
-   /** By default, the gui is not visible, the mouse over state is false,
-       and the control is not clicked
-   */
-	GUIMain():ubAttribute( 0 ) {
-	}
 
-	virtual ~GUIMain() {}
+//========================================================================
+/** The default ctor. The new GUI control is not visible, the mouse over
+state is false, and not clicked
+*/
+	GUIMain();
 
+	virtual ~GUIMain();
+
+
+//========================================================================
+/** The derived classes must implement this method in order to receive
+the "display" call from the GUIContainer
+	\sa GUIContainer
+*/
 	virtual void
 	Display() const = 0;
 
 
+//========================================================================
+/** Get the GUIContainer of the control
+	\return The constant pointer to the container of this control
+	\sa GUIContainer
+*/
 	GUIMain* const
 	GetContainer() const {
-		return this->pguicontainer;
+		return _pctr;
 	}
 
+
+//========================================================================
+/** Set the GUIContainer of the control to the specified one
+	\param pguicontain The constant pointer of the new GUIContainer
+	\sa GUIContainer
+*/
 	void
 	SetContainer(
 		GUIMain* const pguicontain ) {
-		this->pguicontainer = pguicontain;
+		_pctr = pguicontain;
 	}
 
+
+//========================================================================
+/** Get the 2D position of the control
+	\param riX,riY The 2D XY coordinates of the control
+*/
 	void
 	GetLocation(
 		int & riX,
 		int & riY ) const {
-		riX = this->iX;
-		riY = this->iY;
+		riX = _iX;
+		riY = _iY;
 	}
 
+
+//========================================================================
+/** Set the 2D position of the control
+	\param rciX,rciY The 2D XY coordinates of the control
+*/
 	void
 	SetLocation(
 		const int & rciX,
 		const int & rciY ) {
-		this->iX = rciX;
-		this->iY = rciY;
+		_iX = rciX;
+		_iY = rciY;
 	}
 
+
+//========================================================================
+/** Set the attirbute of the control
+	\param rcubAttribute The new attribute value. You can use the bit
+operations here.
+*/
 	void
 	Set(
 		const OC_UBYTE & rcubAttribute ) {
-		this->ubAttribute |= rcubAttribute;
+		_ubAttribute |= rcubAttribute;
 	}
 
+
+//========================================================================
+/** Unset the attirbute of the control
+	\param rcubAttribute The attributes to unset. You can use the bit
+operations here.
+*/
 	void
 	Unset(
 		const OC_UBYTE & rcubAttribute ) {
-		this->ubAttribute &= ~rcubAttribute;
+		_ubAttribute &= ~rcubAttribute;
 	}
 
+
+//========================================================================
+/** Check if the specified attributes are set on the control
+	\param rcubAttribute The attributes to test. You can use the bit
+operations here.
+	\return True if the specified attributes are set on the control, false
+otherwise
+*/
 	const bool
 	IsSet(
 		const OC_UBYTE & rcubAttribute ) const {
-		if ( (this->ubAttribute & rcubAttribute) == rcubAttribute )
+		if ( (_ubAttribute & rcubAttribute) == rcubAttribute )
 			return true;
 		else
 			return false;
@@ -112,10 +162,10 @@ public:
 
 
 protected:
-	GUIMain* pguicontainer;		///< points to the container of the control
-	int  iX, iY;				///< the upper left corner of the GUI control
-	uint uiWidth, uiHeight;	///< width, height
-	OC_UBYTE ubAttribute;		///< visible, clicked, mouseover
+	GUIMain*	_pctr;					///< points to the container of the control
+	int 		_iX, _iY;				///< the upper left corner of the GUI control
+	uint		_uiWidth, _uiHeight;	///< width, height
+	OC_UBYTE	_ubAttribute;			///< visible, clicked, mouseover
 
 };
 

@@ -1,11 +1,11 @@
 /***************************************************************************
-                          guimain.cpp    -  description
-          $Id$
-                             -------------------
-    begin                : lun 22 mar 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						guimain.cpp    -  description
+							-------------------
+	begin                : march 22th, 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
 
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,20 @@
 #include "guimain.h"
 
 
+   /*=====================================================================*/
+GUIMain::GUIMain():
+_pctr( NULL ),
+_iX( 0 ),
+_iY( 0 ),
+_ubAttribute( 0 )
+{
+}
+
+
+   /*=====================================================================*/
+GUIMain::~GUIMain()
+{
+}
 
 
 

@@ -1,7 +1,7 @@
 /***************************************************************************
 						texture.cpp    -  description
 							-------------------
-	begin                : ven 2 jui 2004
+	begin                : july 2nd, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          texture.h    -  description
-            $Id$
-                             -------------------
-    begin                : 2 jul 2004
-    copyright            : (C) 2004-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						texture.h    -  description
+							-------------------
+	begin                : july, 2nd 2004
+	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -39,21 +40,22 @@ public:
    //                         STATIC    METHODS
    //========================================================================
 /** Open the specified image, read it into a SDL_surface then convert it
-	to an OpenGL texture. Use it carefully because it doesn't handle
-	error checking right now.
-\param rcFile The path to the image.
-\return The index of the new OpenGL texture (type const GLuint)
+to an OpenGL texture. Use it carefully because it doesn't handle error
+checking right now.
+	\param rcFile The path to the image.
+	\return The index of the new OpenGL texture (type const GLuint)
 */
 	static const GLuint
 	Load(
 		const string & rcFile );
 
 
-/** Look at the description above
-\param rcFile The path to the image.
-\param ruiW,ruiH The size of the loaded texture
-\return The index of the new OpenGL texture (type const GLuint)
-\sa Load()
+//========================================================================
+/** Load the specified texture file into an OpenGL texture object
+	\param rcFile The path to the image.
+	\param ruiW,ruiH The size of the loaded texture
+	\return The index of the new OpenGL texture (type const GLuint)
+	\sa Load()
 */
 	static const GLuint
 	Load(
@@ -63,14 +65,14 @@ public:
 
 
 //========================================================================
-/** After calling this function, the image pixels are flipped
-	in the vertical direction because the SDL_image library reads
-	the image's pixels from the upper left corner, left to right,
-	to the bottom right corner whereas the glTexImage2D builds the
-	texture from the bottom left corner, left to right, to the upper right corner
-\param psurface A source surface
-\return A new surface with the flipped pixels from the source surface. The
-	returned surface must be freed by the caller
+/** After calling this function, the image pixels are flipped in the
+vertical direction because the SDL_image library reads the image's
+pixels from the upper left corner, left to right, to the bottom right
+corner whereas the glTexImage2D builds the texture from the bottom left
+corner, left to right, to the upper right corner
+	\param psurface A source surface
+	\return A new surface with the flipped pixels from the source surface. The
+returned surface must be freed by the caller
 */
 	static SDL_Surface*
 	HorizontalMirror(
@@ -80,9 +82,9 @@ public:
 
 //========================================================================
 /** Convert a SDL surface to OpenGL texture
-\param psurface The SDL source surface to convert
-\param ruiTexture A reference to a GLuint variable.
-\return Nothing
+	\param psurface The SDL source surface to convert
+	\param ruiTexture A reference to a GLuint variable.
+	\return Nothing
 */
 	static void
 	Surface2Texture(
@@ -98,9 +100,11 @@ private:
 	uint uiWidth, uiHeight;
 	GLuint uiTexture;
 
+
+//========================================================================
 /** Find the correct OpenGL dimensions for given width w and height h
-\param w, h The origial texture width and height
-\param rW, rH The corrected texture width and height
+	\param w, h The origial texture width and height
+	\param rW, rH The corrected texture width and height
 */
 	static void
 	GetCorrectSize(

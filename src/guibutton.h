@@ -1,7 +1,7 @@
 /***************************************************************************
 						guibutton.h    -  description
 							-------------------
-	begin                : lun 22 mar 2004
+	begin                : march 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -75,7 +75,7 @@ public:
 
 
 private:
-	GLuint uiTexture, uiTextureOver;
+	GLuint _uiTexNormal, _uiTexOver;
 
 	Color colorForeground;
 	Color colorBackground;

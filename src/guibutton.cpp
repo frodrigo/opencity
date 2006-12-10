@@ -1,7 +1,7 @@
 /***************************************************************************
 						guibutton.cpp    -  description
 							-------------------
-	begin                : lun 22 mar 2004
+	begin                : march 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
@@ -32,23 +32,23 @@ GUIButton::GUIButton(
 {
 	OPENCITY_DEBUG( "New GUI button with image" );
 
+// Safe
+	_pctr = NULL;
 
-	this->pguicontainer = NULL;
+// Initialize the position of the button
+// NOTE: it's relative to the postion of the container
+	_iX = rciX;
+	_iY = rciY;
 
-   // initialize the position of the button
-   // note: it's relative to the postion of the container
-	iX = rciX;
-	iY = rciY;
+// The GUI button's W,H may be smaller than the image's W,H
+	_uiWidth = rcuiW;
+	_uiHeight = rcuiH;
 
-   // the GUI button's W,H may be smaller than the image's W,H
-	this->uiWidth = rcuiW;
-	this->uiHeight = rcuiH;
+// Load the texture from the image
+	_uiTexNormal = Texture::Load( strFile + ".png" );
+	_uiTexOver = Texture::Load( strFile + "_over.png" );
 
-   // load the texture from the image
-	this->uiTexture = Texture::Load( strFile + ".png" );
-	this->uiTextureOver = Texture::Load( strFile + "_over.png" );
-
-   // set the default colors
+// Set the default colors
 	this->colorBackground.r = 0;		//black
 	this->colorBackground.g = 0;
 	this->colorBackground.b = 0;
@@ -59,7 +59,7 @@ GUIButton::GUIButton(
 	this->colorForeground.b = 0;
 	this->colorForeground.a = 255;
 
-   // By default the button is visible and displayed with alpha blending
+// By default the button is visible and displayed with alpha blending
 	Set( OC_GUIMAIN_VISIBLE | OC_GUIMAIN_BLENDING );
 }
 
@@ -70,12 +70,12 @@ GUIButton::~GUIButton()
 	OPENCITY_DEBUG( "GUI button deleted" );
 
 // Free the associated texture if there is one
-	if (glIsTexture( this->uiTexture ) == GL_TRUE) {
-		glDeleteTextures( 1, &this->uiTexture );
+	if (glIsTexture( _uiTexNormal ) == GL_TRUE) {
+		glDeleteTextures( 1, &_uiTexNormal );
 	}
 
-	if (glIsTexture( this->uiTextureOver ) == GL_TRUE) {
-		glDeleteTextures( 1, &this->uiTextureOver );
+	if (glIsTexture( _uiTexOver ) == GL_TRUE) {
+		glDeleteTextures( 1, &_uiTexOver );
 	}
 }
 
@@ -116,9 +116,9 @@ GUIButton::Display() const
 	glPushAttrib( GL_ENABLE_BIT );
 	glDisable( GL_LIGHTING );
 	glPushMatrix();
-	glTranslatef( this->iX, this->iY, 0.0 );
+	glTranslatef( _iX, _iY, 0.0 );
 
-	if (glIsTexture( this->uiTexture ) == GL_TRUE ) {
+	if (glIsTexture( _uiTexNormal ) == GL_TRUE ) {
 	   // activate the texture 2D processing
 		glEnable( GL_TEXTURE_2D );
 
@@ -147,15 +147,15 @@ GUIButton::Display() const
 	// IF the mouse is over THEN choose the over texture
 	// ELSE, use the normal texture
 		if ( IsSet( OC_GUIMAIN_MOUSEOVER ) == true )
-			glBindTexture( GL_TEXTURE_2D, this->uiTextureOver );
+			glBindTexture( GL_TEXTURE_2D, _uiTexOver );
 		else
-			glBindTexture( GL_TEXTURE_2D, this->uiTexture );
+			glBindTexture( GL_TEXTURE_2D, _uiTexNormal );
 
 		glBegin( GL_QUADS );
 		glTexCoord2i( 0, 0 );	glVertex2i( 1, 1 );
-		glTexCoord2i( 1, 0 );	glVertex2i( this->uiWidth, 1 );
-		glTexCoord2i( 1, 1 );	glVertex2i( this->uiWidth, this->uiHeight );
-		glTexCoord2i( 0, 1 );	glVertex2i( 1, this->uiHeight );
+		glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth, 1 );
+		glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth, _uiHeight );
+		glTexCoord2i( 0, 1 );	glVertex2i( 1, _uiHeight );
 		glEnd();
 	}
 
@@ -184,24 +184,24 @@ GUIButton::uiMouseMotion( const SDL_MouseMotionEvent & rcsMouseEvent )
 		return;
 
 // The button must be contained in a guicontainer !
-	assert( pguicontainer != NULL );
+	assert( _pctr != NULL );
 
 // Calculate the real X,Y from the mouse X,Y;
-	((GUIContainer*)pguicontainer)->GetWinWH( winW, winH );
+	((GUIContainer*)_pctr)->GetWinWH( winW, winH );
 	realX = rcsMouseEvent.x;
 	realY = winH - rcsMouseEvent.y - 1;
 
 // Calculate my absolute coordinates via the container
-	pguicontainer->GetLocation( myX, myY );
-	myX += this->iX;
-	myY += this->iY;
+	_pctr->GetLocation( myX, myY );
+	myX += _iX;
+	myY += _iY;
 
 //debug
 //cout << "realX: " << realX << " / realY: " << realY << endl;
 
    // if the mouse position is within the range, turn on boolMouseOver
-	if ( (realX >= myX) && (realX <= (int)(myX + uiWidth))
-	  && (realY >= myY) && (realY <= (int)(myY + uiHeight))) {
+	if ( (realX >= myX) && (realX <= (int)(myX + _uiWidth))
+	  && (realY >= myY) && (realY <= (int)(myY + _uiHeight))) {
 		Set( OC_GUIMAIN_MOUSEOVER );
 	}
 	else {
