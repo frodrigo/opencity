@@ -1354,6 +1354,7 @@ City::_DoBill(
 		OPENCITY_INFO(
 			"Happy new year ! " <<
 			"Income: " << income <<
+			" d/m/y: " << _uiDay << "/" << _uiMonth << "/" << _uiYear <<
 			" R/C/I: " << r << "/" << c << "/" << i
 		);
 
