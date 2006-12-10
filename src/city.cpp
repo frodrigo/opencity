@@ -1326,29 +1326,37 @@ City::_DoBill(
 	uint index, surface;
 	Structure* pStruct;
 	static uint income = 0;
+	uint r, c, i;
 
 	surface = _uiWidth * _uiLength;
 	maintenance = 0;
 	for (index = 0; index < surface; index++) {
 		pStruct = ptabLayer[ BUILDING_LAYER ]->GetLinearStructure( index );
 		if (pStruct != NULL)
-			maintenance += gVars.gpPropertyMgr->Get( 
-				OC_MAINTENANCE_COST, pStruct->GetCode() );
+			maintenance +=
+				gVars.gpPropertyMgr->Get(OC_MAINTENANCE_COST, pStruct->GetCode());
 	}
 
 	_liCityFund -= maintenance;
 
-// accumulate the income each month
-	income += (_pMSim->GetValue(MainSim::OC_MICROSIM_RES) * OC_R_INCOME_TAX / 100)
-	        + (_pMSim->GetValue(MainSim::OC_MICROSIM_COM) * OC_C_INCOME_TAX / 100)
-	        + (_pMSim->GetValue(MainSim::OC_MICROSIM_IND) * OC_I_INCOME_TAX / 100);
+// Accumulate the income each month
+	r = _pMSim->GetValue(MainSim::OC_MICROSIM_RES);
+	c = _pMSim->GetValue(MainSim::OC_MICROSIM_COM);
+	i = _pMSim->GetValue(MainSim::OC_MICROSIM_IND);
 
-// add the income only if we reach the end of the year
+	income += (r*OC_R_INCOME_TAX + c*OC_C_INCOME_TAX + i*OC_I_INCOME_TAX) / 100;
+
+// Add the income only if we reach the end of the year
 	if (enumProperty == OC_INCOME ) {
-	// here is the gouvernment's help for this year :D
+	// Here is the gouvernment's help for this year :D
 		income += income * OC_INCOME_HELP / 100;
-
 		_liCityFund += income;
+		OPENCITY_INFO(
+			"Happy new year ! " <<
+			"Income: " << income <<
+			" R/C/I: " << r << "/" << c << "/" << i
+		);
+
 		income = 0;
 	}
 }
