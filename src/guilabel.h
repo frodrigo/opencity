@@ -1,8 +1,8 @@
 /***************************************************************************
-						guibutton.h    -  description
+						guilabel.h    -  description
 							-------------------
-	begin                : march 22th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	begin                : december, 10th 2006
+	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -17,34 +17,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_GUIBUTTON_H_
-#define _OPENCITY_GUIBUTTON_H_ 1
+#ifndef _OPENCITY_GUILABEL_H_
+#define _OPENCITY_GUILABEL_H_ 1
 
 #include "guimain.h"
 
 
 //========================================================================
-/** This is a 2-state button: onMouseOver and onMouseOut.
+/** A label GUI control is used to display a static text in 2D
 */
-class GUIButton : public GUIMain {
+class GUILabel : public GUIMain {
 public:
-	GUIButton() {};
-	GUIButton(
-		const int & rciX,
-		const int & rciY,
-		const uint & rcuiW,
-		const uint & rcuiH,
-		const string & strFile );
-	~GUIButton();
-
+	GUILabel();
+	GUILabel(
+		const int ciX,
+		const int ciY,
+		const string& rcsText );
+	~GUILabel();
 
 	void
-	SetBackground(
-		const Color& color );
+	SetText( const string& rcsText );
+
+	string
+	GetText() const;
 
 	void
-	SetForeground(
-		const Color& color );
+	SetForeground( const Color& color );
 
 
    //========================================================================
@@ -74,13 +72,15 @@ public:
 
 
 private:
-	GLuint _uiTexNormal, _uiTexOver;
+	string	_sText;					///< The text of the label
+	Color	_cForeground;			///< The color of the label
 
-	Color colorForeground;
-	Color colorBackground;
+	static uint		_uiLabelNumber;
+	static GLuint	_uiFontBase;
 };
 
 #endif
+
 
 
 

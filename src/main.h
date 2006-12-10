@@ -146,16 +146,6 @@ class UI;
    /*=====================================================================*/
    /*                         MAIN      FUNCTIONS                         */
    /*=====================================================================*/
-//SDL event treatment call-back functions
-/* TOKILL, 26th nov, 2006
-	void ocKeyboard( const SDL_KeyboardEvent & );
-	void ocMouseButton( const SDL_MouseButtonEvent & );
-	void ocMouseMotion( const SDL_MouseMotionEvent & );
-	void ocResize( const SDL_ResizeEvent & );
-	void ocActive( const SDL_ActiveEvent & );
-	void ocExpose( const SDL_ExposeEvent & );
-	void ocProcessSDLEvents( void );
-*/
 	void ocQuit( const int = 0 );
 	void ocSetNewUI( UI* );
 

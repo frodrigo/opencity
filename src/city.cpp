@@ -23,6 +23,7 @@
 #include "structure.h"
 #include "buildinglayer.h"
 #include "guibutton.h"				// GUI management
+#include "guilabel.h"
 #include "guicontainer.h"
 #include "agentpolice.h"
 #include "agentdemonstrator.h"
@@ -66,18 +67,14 @@ enumCurrentTool( OC_NONE )
 {
 	OPENCITY_DEBUG( "City ctor - default parameters" );
 
-// set the windows's WH
-/* TOKILL, old code, 26th nov, 06
-	iWinWidth = SDL_GetVideoSurface()->w;
-	iWinHeight = SDL_GetVideoSurface()->h;
-*/
-	iWinWidth = gVars.guiScreenWidth;
-	iWinHeight = gVars.guiScreenHeight;
+// Set the windows's WH
+	_iWinWidth = gVars.guiScreenWidth;
+	_iWinHeight = gVars.guiScreenHeight;
 
-// registering our call-back interface for SDL events' treatment
+// Registering our call-back interface for SDL events' treatment
 	ocSetNewUI( this );
 
-// keyboard bool table's initialization
+// Keyboard bool table's initialization
 	for (int i = 0; i < KEY_NUMBER; i++)
 		this->booltabKeyPressed[i] = false;
 
@@ -100,7 +97,7 @@ enumCurrentTool( OC_NONE )
 		boolPathGo = false;
 		uiPathStartW = 0; uiPathStartH = 0;
 		uiPathStopW = 0; uiPathStopH = 0;
-		pctrPath = new GUIContainer( 100, 100, 140, 140 );
+		pctrPath = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ));
 		pbtnPathStart = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
 		pbtnPathStop1 = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
 		pbtnPathStop2 = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
@@ -118,7 +115,7 @@ enumCurrentTool( OC_NONE )
 
 
    /*=====================================================================*/
-City::~City(  ){
+City::~City(){
 	OPENCITY_DEBUG( "City dtor" );
 
 	if (_bGUIEnabled) {
@@ -272,34 +269,37 @@ cityrun_swap:
 
 // Display the city's funds
 	ossStatus.str("");
-	ossStatus << _liCityFund << " @";
-	gVars.gpRenderer->DisplayText( 10, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+	ossStatus << _liCityFund;
+	plblFund->SetText( ossStatus.str() );
+	ossStatus << " @";
+	gVars.gpRenderer->DisplayText( 10, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 // Display the R value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_RES);
-	gVars.gpRenderer->DisplayText( 120, this->iWinHeight-15, OC_GREEN_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 120, this->_iWinHeight-15, OC_GREEN_COLOR, ossStatus.str() );
 // display the C value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_COM);
-	gVars.gpRenderer->DisplayText( 180, this->iWinHeight-15, OC_BLUE_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 180, this->_iWinHeight-15, OC_BLUE_COLOR, ossStatus.str() );
 // display the I value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_IND);
-	gVars.gpRenderer->DisplayText( 240, this->iWinHeight-15, OC_YELLOW_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 240, this->_iWinHeight-15, OC_YELLOW_COLOR, ossStatus.str() );
 // display the E value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_ELE);
-	gVars.gpRenderer->DisplayText( 300, this->iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 300, this->_iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
 
 // display the tool
 	ossStatus.str("");
 	ossStatus << "Tool: " << _cTool;
-	gVars.gpRenderer->DisplayText( 550, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 550, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
 // display the date
 	ossStatus.str("");
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
-	gVars.gpRenderer->DisplayText( 650, this->iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+	plblDate->SetText( ossStatus.str() );
+	gVars.gpRenderer->DisplayText( 650, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
 // Display all the contained movements
 //	gVars.gpMoveMgr->Move();		// called by Run()
@@ -308,10 +308,13 @@ cityrun_swap:
 // FIXME: buggy MAS environment
 //	gVars.gpEnvironment->displayAgent();
 
-// display the current container
+// Display the current container
 	pctr->Display();
 
-// display everything now
+// Display the status bar
+	pctrStatus->Display();
+
+// Swap the buffers and update the screen
 	SDL_GL_SwapBuffers();
 }
 
@@ -443,6 +446,10 @@ void City::uiKeyboard(
 			break;
 		case SDLK_k:  // toggle compass on/off
 			gVars.gpRenderer->ToggleCompass();
+			if (pctrStatus->IsSet( OC_GUIMAIN_VISIBLE ))
+				pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
+			else
+				pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 			break;
 		case SDLK_f:  // toggle wireframe on/off
 			gVars.gpRenderer->ToggleWireFrame();
@@ -667,7 +674,7 @@ City::uiMouseButton(
 				else {
 					pctr->SetLocation(
 						rcsMBE.x - 70,
-						iWinHeight - rcsMBE.y - 70 );
+						_iWinHeight - rcsMBE.y - 70 );
 					pctr->Set( OC_GUIMAIN_VISIBLE );
 				}
 			}
@@ -754,15 +761,19 @@ void City::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
 {
 	OPENCITY_DEBUG( "Resize event received" );
 
-	iWinWidth = rcsSDLResizeEvent.w;
-	iWinHeight = rcsSDLResizeEvent.h;
+	_iWinWidth = rcsSDLResizeEvent.w;
+	_iWinHeight = rcsSDLResizeEvent.h;
 
 //---- set the new window's size ----
-	gVars.gpRenderer->SetWinSize( iWinWidth, iWinHeight );
+	gVars.gpRenderer->SetWinSize( _iWinWidth, _iWinHeight );
 
 // Not useful, since the screen is update on next frame
 //	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
 //	SDL_GL_SwapBuffers();
+
+// Resize the main status bar and reposition it
+	pctrStatus->uiResize( rcsSDLResizeEvent );
+	pctrStatus->SetLocation( (_iWinWidth-512)/2, 0 );
 
 // tell the containers about the event
 	pctrMain->uiResize( rcsSDLResizeEvent );
@@ -840,6 +851,21 @@ City::_DeleteSimulator()
 void
 City::_CreateGUI()
 {
+	ostringstream ossTemp;
+
+// The status bar
+	ossTemp << _liCityFund;
+	plblFund = new GUILabel( 125, 12, ossTemp.str() );
+
+	ossTemp.str("");
+	ossTemp << _uiDay << "/" << _uiMonth << "/" << _uiYear;
+	plblDate = new GUILabel( 348, 12, ossTemp.str() );
+
+	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ));
+	pctrStatus->Add( plblFund );
+	pctrStatus->Add( plblDate );
+	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+
 // GUI main toolcircle
 	pbtnZ = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
 	pbtnS = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
@@ -958,6 +984,11 @@ City::_CreateGUI()
 void
 City::_DeleteGUI()
 {
+// Delete the status bar
+	delete pctrStatus;
+	delete plblFund;
+	delete plblDate;
+
 // delete the Query container if needed
 	if (pctrQ != NULL)
 		delete pctrQ;
@@ -1228,7 +1259,7 @@ City::_DoTool(
 		pctr = pctrQ;
 		pctr->SetLocation(
 			sdlMBEvent.x - 70,
-			iWinHeight - sdlMBEvent.y - 70 );
+			_iWinHeight - sdlMBEvent.y - 70 );
 		pctr->Set( OC_GUIMAIN_VISIBLE );
 		enumErrCode = OC_ERR_SOMETHING;		// avoid to calculate the cost
 		break;
@@ -1649,21 +1680,21 @@ City::_HandleMouseXY()
 // handle horizontal automatic map translation
 	if ((mouseX < OC_MOUSE_AUTOSCROLL) && !(mouseY < OC_MOUSE_AUTOSCROLL))
 		gVars.gpRenderer->MoveRight();
-	if ((mouseX >= iWinWidth-OC_MOUSE_AUTOSCROLL) && !(mouseY < OC_MOUSE_AUTOSCROLL))
+	if ((mouseX >= _iWinWidth-OC_MOUSE_AUTOSCROLL) && !(mouseY < OC_MOUSE_AUTOSCROLL))
 		gVars.gpRenderer->MoveLeft();
 
 // handle vertical automatic map translation
 	if (!(mouseX < OC_MOUSE_AUTOSCROLL)
-	  &&!(mouseX >= iWinWidth-OC_MOUSE_AUTOSCROLL) && (mouseY < OC_MOUSE_AUTOSCROLL))
+	  &&!(mouseX >= _iWinWidth-OC_MOUSE_AUTOSCROLL) && (mouseY < OC_MOUSE_AUTOSCROLL))
 		gVars.gpRenderer->MoveDown();
-	if ((mouseY >= iWinHeight-OC_MOUSE_AUTOSCROLL))
+	if ((mouseY >= _iWinHeight-OC_MOUSE_AUTOSCROLL))
 		gVars.gpRenderer->MoveUp();
 
 // handle map rotation
 	if ((mouseX < OC_MOUSE_AUTOSCROLL) && (mouseY < OC_MOUSE_AUTOSCROLL))
 		gVars.gpRenderer->RotateLeft();
 
-	if ((mouseY < OC_MOUSE_AUTOSCROLL) && (mouseX >= iWinWidth-OC_MOUSE_AUTOSCROLL))
+	if ((mouseY < OC_MOUSE_AUTOSCROLL) && (mouseX >= _iWinWidth-OC_MOUSE_AUTOSCROLL))
 		gVars.gpRenderer->RotateRight();
 }
 

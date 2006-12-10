@@ -1,7 +1,7 @@
 /***************************************************************************
 							city.h    -  description
 								-------------------
-	begin                : mer mai 28 2003
+	begin                : may 28th, 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
@@ -36,6 +36,7 @@ class Layer;
 class BuildingLayer;
 
 class GUIButton;		// GUI, toolcircle
+class GUILabel;
 class GUIContainer;
 
 
@@ -139,8 +140,8 @@ private:
 	uint		_uiWidth;			///< City's width, length
 	uint		_uiLength;
 
-	int			iWinWidth;			///< Windows' width, height
-	int			iWinHeight;
+	int			_iWinWidth;			///< Windows' width, height
+	int			_iWinHeight;
 
 // Dragging mode and mouse click
 	bool		boolLMBPressed;
@@ -191,6 +192,11 @@ private:
 // GUI Splash screen
 //debug, test
 	GUIButton*	pbtnSplash;
+
+// The status bar
+	GUIContainer* pctrStatus;	// The main status bar container
+	GUILabel* plblFund;			// The fund label
+	GUILabel* plblDate;			// The date label
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
 	GUIContainer* pctr;

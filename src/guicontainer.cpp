@@ -18,42 +18,73 @@
  ***************************************************************************/
 
 #include "guicontainer.h"
-
 #include "texture.h"
 
-GLuint GUIContainer::_uiTexture = 0;
-GLuint GUIContainer::_uiNumberContainer = 0;
+#include "globalvar.h"
+extern GlobalVar gVars;
+
+
+   /*=====================================================================*/
+GUIContainer::GUIContainer()
+{
+	OPENCITY_DEBUG( "Default ctor" );
+
+	_uiWinWidth = gVars.guiScreenWidth;
+	_uiWinHeight = gVars.guiScreenHeight;
+
+	_iX = 0;
+	_iY = 0;
+	_uiWidth = 0;
+	_uiHeight = 0;
+	_uiTexBackground = 0;
+}
+
 
    /*=====================================================================*/
 GUIContainer::GUIContainer(
-	const int & rciX,
-	const int & rciY,
-	const uint & rcuiW,
-	const uint & rcuiH )
+	const int ciX,
+	const int ciY,
+	const uint cuiW,
+	const uint cuiH ):
+_uiTexBackground( 0 )
 {
-	OPENCITY_DEBUG( "New GUI container" );
+	OPENCITY_DEBUG( "Pctor 1" );
 
-	SDL_Surface* pScreen = SDL_GetVideoSurface();
-	this->uiWinWidth = pScreen->w;
-	this->uiWinHeight = pScreen->h;
+	_uiWinWidth = gVars.guiScreenWidth;
+	_uiWinHeight = gVars.guiScreenHeight;
 
-	_iX = rciX;
-	_iY = rciY;
-	_uiWidth = rcuiW;
-	_uiHeight = rcuiH;
+	_iX = ciX;
+	_iY = ciY;
+	_uiWidth = cuiW;
+	_uiHeight = cuiH;
+}
 
-	++GUIContainer::_uiNumberContainer;
-// Not used yet
-// Load the background once
-//	if (GUIContainer::_uiNumberContainer++ == 0)
-//		GUIContainer::_uiTexture = Texture::Load( ocHomeDirPrefix(OC_GUICONTAINER_BG) );
+
+   /*=====================================================================*/
+GUIContainer::GUIContainer(
+	const int ciX,
+	const int ciY,
+	const uint cuiW,
+	const uint cuiH,
+	const string & rcsTexFile )
+{
+	OPENCITY_DEBUG( "Pctor 2" );
+
+	_uiWinWidth = gVars.guiScreenWidth;
+	_uiWinHeight = gVars.guiScreenHeight;
+
+	_iX = ciX;
+	_iY = ciY;
+	_uiWidth = cuiW;
+	_uiHeight = cuiH;
+	_uiTexBackground = Texture::Load( rcsTexFile );
 }
 
 
    /*=====================================================================*/
 GUIContainer::~GUIContainer()
 {
-	OPENCITY_DEBUG( "GUI container deleted" );
+	OPENCITY_DEBUG( "Dtor" );
 
 	std::vector<GUIMain*>::size_type stvector;
 	GUIMain* pguimain;
@@ -68,13 +99,11 @@ GUIContainer::~GUIContainer()
 // Note: the pointed memory is not freed
 	this->vectorpguimain.clear();
 
-// Delete the background if this is the last container
-	if (GUIContainer::_uiNumberContainer-- == 1) {
-	// Free the associated texture if there is one
-		if (glIsTexture( GUIContainer::_uiTexture ) == GL_TRUE) {
-			glDeleteTextures( 1, &GUIContainer::_uiTexture );
-			GUIContainer::_uiTexture = 0;
-		}
+
+// Free the associated texture eventually
+	if (glIsTexture( _uiTexBackground ) == GL_TRUE) {
+		glDeleteTextures( 1, &_uiTexBackground );
+		_uiTexBackground = 0;		// Safe
 	}
 }
 
@@ -107,8 +136,8 @@ GUIContainer::GetWinWH(
 	int & riWinW,
 	int & riWinH ) const
 {
-	riWinW = this->uiWinWidth;
-	riWinH = this->uiWinHeight;
+	riWinW = _uiWinWidth;
+	riWinH = _uiWinHeight;
 }
 
 
@@ -180,7 +209,7 @@ GUIContainer::Display() const
 	glPushMatrix();
 	glLoadIdentity();
 // Use the orthonormal projection
-	gluOrtho2D( 0, uiWinWidth-1, 0, uiWinHeight-1 );
+	gluOrtho2D( 0, _uiWinWidth-1, 0, _uiWinHeight-1 );
 
 // Store the old matrix and move the container to the correct position
 	glMatrixMode( GL_MODELVIEW );
@@ -189,22 +218,23 @@ GUIContainer::Display() const
 	glTranslatef( _iX, _iY, 0.0 );
 
 // Display the background
-/* not used yet
-	glPushAttrib( GL_ENABLE_BIT );
-	glEnable( GL_BLEND );
-	glEnable( GL_TEXTURE_2D );
-	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
-	glBindTexture( GL_TEXTURE_2D, GUIContainer::_uiTexture );
-
-	glBegin( GL_QUADS );
-	glTexCoord2i( 0, 0 );	glVertex2i( 1, 1 );
-	glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth, 1 );
-	glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth, _uiHeight );
-	glTexCoord2i( 0, 1 );	glVertex2i( 1, _uiHeight );
-	glEnd();
-
-	glPopAttrib();
-*/
+	if (glIsTexture( _uiTexBackground ) == GL_TRUE) {
+		glPushAttrib( GL_ENABLE_BIT );
+		glDisable( GL_LIGHTING );
+		glEnable( GL_BLEND );
+		glEnable( GL_TEXTURE_2D );
+		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+		glBindTexture( GL_TEXTURE_2D, _uiTexBackground );
+	
+		glBegin( GL_QUADS );
+		glTexCoord2i( 0, 0 );	glVertex2i( 1, 1 );
+		glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth, 1 );
+		glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth, _uiHeight );
+		glTexCoord2i( 0, 1 );	glVertex2i( 1, _uiHeight );
+		glEnd();
+	
+		glPopAttrib();
+	}
 
 // Now display all the contained GUI controls
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {
@@ -275,8 +305,8 @@ GUIContainer::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
 void
 GUIContainer::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
 {
-	this->uiWinWidth = rcsSDLResizeEvent.w;
-	this->uiWinHeight = rcsSDLResizeEvent.h;
+	_uiWinWidth = rcsSDLResizeEvent.w;
+	_uiWinHeight = rcsSDLResizeEvent.h;
 }
 
 

@@ -1,7 +1,7 @@
 /***************************************************************************
 						renderer.cpp  -  description
 							-------------------
-	begin                : jeu mai 29 2003
+	begin                : may 29th, 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -758,65 +758,9 @@ Renderer::DisplaySelection(
 	const uint & rcuiW2,
 	const uint & rcuiL2 )
 {
-
+	OPENCITY_DEBUG( "Not implemented" );
+	assert( 0 );
 }
-
-
-   /*=====================================================================*/
-/* TOKILL, old selection method, kept for reference
-void
-Renderer::DisplaySelection2(
-	const Map* pcMap,
-	const Layer* pcLayer,
-	const uint & rcuiW1,
-	const uint & rcuiL1,
-	const uint & rcuiW2,
-	const uint & rcuiL2 )
-{
-	uint linear;
-	uint w, l;
-	const Structure * pStructure;
-
-// Save all the enabled states
-	glPushAttrib( GL_ENABLE_BIT );
-	glDisable( GL_LIGHTING );
-
-// Clear the color buffer ( the screen )
-	glClearColor( 0.0, 0.0, 0.0, 0.0 );
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-
-// Prepare the world for rendering
-	_PrepareView();
-
-// Now let's display all the structures in selection mode
-	glBegin( GL_QUADS );
-	linear = 0;
-	for (l = 0; l < this->uiCityLength; l++) {
-		for (w = 0; w < this->uiCityWidth; w++) {
-			pStructure = pcLayer->GetLinearStructure( linear );
-		// display the correction structure/terrain
-		// with "linear" as objectID
-		// note: linear = 0 is not used since it means blank
-		// bland = there's no structure under the selection
-			if ( pStructure == NULL)
-				gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
-			else
-				gVars.gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
-			//ATTENTION: "linear++;" already done !
-		}
-	}
-	glEnd();
-
-// Restore all the enabled states
-	glPopAttrib();
-	glFlush();
-
-// GL error checking
-	if (glGetError() != GL_NO_ERROR) {
-		OPENCITY_DEBUG( "GL ERROR" );
-	}
-}
-*/
 
 
    /*=====================================================================*/

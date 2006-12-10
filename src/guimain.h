@@ -17,7 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#if !defined(_OPENCITY_GUIMAIN_H_)
+#ifndef _OPENCITY_GUIMAIN_H_
 #define _OPENCITY_GUIMAIN_H_ 1
 
 #include "main.h"
@@ -42,8 +42,8 @@ struct Color {
 
 //========================================================================
 /** The base interface class of all graphic user interface control.
-	\Note Use "pctr" prefix for container pointers and "pbtn" prefix for
-button pointers.
+	\Note Use "pctr" prefix for container pointers, "pbtn" prefix for
+button pointers and "plbl" prefix for label pointers
 */
 class GUIMain : public UI {
 public:

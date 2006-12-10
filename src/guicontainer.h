@@ -1,7 +1,7 @@
 /***************************************************************************
 						guicontainer.h    -  description
 							-------------------
-	begin                : march, 22th 2004
+	begin                : march 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
@@ -17,16 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#if !defined(_OPENCITY_GUICONTAINER_H_)
+#ifndef _OPENCITY_GUICONTAINER_H_
 #define _OPENCITY_GUICONTAINER_H_ 1
-
-#include "main.h"
 
 #include "guimain.h"
 
 #include <vector>
-
-#define OC_GUICONTAINER_BG		"graphism/gui/toolcircle_bg.png"
 
 
 //========================================================================
@@ -36,11 +32,35 @@ derived from the GUIMain class
 class GUIContainer : public GUIMain {
 public:
 	GUIContainer();
+
+
+//========================================================================
+/** Pctor 1.
+	\param ciX,ciY The 2D XY window coordinates of the container
+	\param cuiW,cuiH The width and height of the container
+*/
 	GUIContainer(
-		const int & rciX,
-		const int & rciY,
-		const uint & rcuiW,
-		const uint & rcuiH);
+		const int ciX,
+		const int ciY,
+		const uint cuiW,
+		const uint cuiH );
+
+
+//========================================================================
+/** Pctor 2.
+	\param ciX,ciY The 2D XY window coordinates of the container
+	\param cuiW,cuiH The width and height of the container
+	\param rcsTexFile The name of the texture file which will be used as
+background.
+*/
+	GUIContainer(
+		const int ciX,
+		const int ciY,
+		const uint cuiW,
+		const uint cuiH,
+		const string & rcsTexFile );
+
+
 	~GUIContainer();
 
 
@@ -138,16 +158,9 @@ range because there is no error checking.
 
 
 private:
-	uint uiWinWidth, uiWinHeight;
+	uint	_uiWinWidth, _uiWinHeight;
 	std::vector<GUIMain*> vectorpguimain;
-
-
-   /*=====================================================================*/
-   /*                       STATIC       ATTRIBUTES                       */
-   /*=====================================================================*/
-private:
-	static GLuint	_uiTexture;
-	static uint		_uiNumberContainer;
+	GLuint	_uiTexBackground;
 };
 
 #endif

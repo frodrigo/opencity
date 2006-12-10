@@ -30,7 +30,7 @@ GUIButton::GUIButton(
 	const uint & rcuiH,
 	const string & strFile )
 {
-	OPENCITY_DEBUG( "New GUI button with image" );
+	OPENCITY_DEBUG( "Ctor" );
 
 // Safe
 	_pctr = NULL;
@@ -67,7 +67,7 @@ GUIButton::GUIButton(
    /*=====================================================================*/
 GUIButton::~GUIButton()
 {
-	OPENCITY_DEBUG( "GUI button deleted" );
+	OPENCITY_DEBUG( "Dtor" );
 
 // Free the associated texture if there is one
 	if (glIsTexture( _uiTexNormal ) == GL_TRUE) {
