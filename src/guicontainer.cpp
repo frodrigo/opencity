@@ -227,10 +227,10 @@ GUIContainer::Display() const
 		glBindTexture( GL_TEXTURE_2D, _uiTexBackground );
 	
 		glBegin( GL_QUADS );
-		glTexCoord2i( 0, 0 );	glVertex2i( 1, 1 );
-		glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth, 1 );
-		glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth, _uiHeight );
-		glTexCoord2i( 0, 1 );	glVertex2i( 1, _uiHeight );
+		glTexCoord2i( 0, 0 );	glVertex2i( 0, 0 );
+		glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth-1, 0 );
+		glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth-1, _uiHeight-1 );
+		glTexCoord2i( 0, 1 );	glVertex2i( 0, _uiHeight-1 );
 		glEnd();
 	
 		glPopAttrib();
