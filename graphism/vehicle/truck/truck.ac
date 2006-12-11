@@ -4,7 +4,7 @@ OBJECT world
 kids 2
 OBJECT poly
 name "alpha=1"
-loc 0.35 0.15 0.35
+loc 0.25 0.15 0.35
 texture "2.png"
 crease 45.000000
 numvert 10
@@ -57,7 +57,7 @@ refs 4
 kids 0
 OBJECT poly
 name "alpha=1"
-loc 0.35 0.125 0.85
+loc 0.25 0.125 0.85
 texture "2.png"
 crease 45.000000
 numvert 20
