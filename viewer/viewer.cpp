@@ -184,12 +184,15 @@ int main(int argc, char **argv)
 
 	model = ModelLoader::Load( modelFile );
 	loadConf( modelFile );
-	float width, length, height;
-	pConf->GetFloat( "width", width, 1 );
-	pConf->GetFloat( "length", length, 1 );
-	pConf->GetFloat( "height", height, 1 );
-	OPENCITY_DEBUG( "Model : " << width << "x" << length << "x" << height );
-	
+	float width=1, length=1, height=1;
+	if( pConf != NULL )
+	{
+	    pConf->GetFloat( "width", width, 1 );
+	    pConf->GetFloat( "length", length, 1 );
+	    pConf->GetFloat( "height", height, 1 );
+	    OPENCITY_DEBUG( "Model : " << width << "x" << length << "x" << height );
+	}
+
 	// heuristic
 	zoom = (width+length)/2*1.5 + .5;
 	OPENCITY_DEBUG( "Zoom : " << zoom );
