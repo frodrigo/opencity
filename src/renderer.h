@@ -1,7 +1,7 @@
 /***************************************************************************
 						renderer.h  -  description
 							-------------------
-	begin                : jeu mai 29 2003
+	begin                : may 29th, 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
@@ -232,8 +232,8 @@ private:
 	GLdouble dmatrixRotate[16];
 
 /// used for calculating the viewport & the perspective ratio
-	int iWinHeight;
-	int iWinWidth;
+	int _iWinHeight;
+	int _iWinWidth;
 
 /// The city width & height
 	uint _uiCityWidth;

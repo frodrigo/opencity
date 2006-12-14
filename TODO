@@ -20,6 +20,7 @@ Reduce CPU usage when iconified       (done)
 Fix bug #1596555                      (done)
 Fix building resize bug               (done)
 Integrate the new status bar          (wip)
+Fix the orthogonal projection
 Fix the income system
 Variable name clean up                (wip)
 Water layer                           (delayed)

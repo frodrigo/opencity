@@ -416,7 +416,7 @@ Renderer::GetSelectedWHFromLayer(
 
 	//---- read the back buffer, double-buffering must be supported ! ----
 		glReadBuffer( GL_BACK );
-		glReadPixels( rcuiMouseX, iWinHeight-rcuiMouseY, 1, 1,
+		glReadPixels( rcuiMouseX, _iWinHeight-rcuiMouseY, 1, 1,
 				GL_RGB, GL_UNSIGNED_BYTE, rgbTab );
 
 		switch (rgbTab[2]) {
@@ -463,16 +463,6 @@ Renderer::GetSelectedWHFromLayer(
 
 
    /*=====================================================================*/
-/* TOKILL, unused 6 august 06
-void
-Renderer::SetGrid( const bool & rcbState )
-{
-	this->bDisplayGrid = rcbState;
-}
-*/
-
-
-   /*=====================================================================*/
 void
 Renderer::ToggleGrid()
 {
@@ -503,8 +493,9 @@ Renderer::ToggleProjection()
 	}
 
 // reinit the projection matrix;
-	SetWinSize( this->iWinWidth, this->iWinHeight );
+	SetWinSize( _iWinWidth, _iWinHeight );
 }
+
 
    /*=====================================================================*/
 void
@@ -543,13 +534,13 @@ Renderer::DisplaySplash(
 	glPushMatrix();
 	glLoadIdentity();
 	glTranslatef(
-		rcuiX + (this->iWinWidth-w) / 2, 
-		rcuiY + (this->iWinHeight-h) / 2,
+		rcuiX + (_iWinWidth-w) / 2, 
+		rcuiY + (_iWinHeight-h) / 2,
 		0 );
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D( 0, this->iWinWidth-1, 0, this->iWinHeight-1 );
+	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
 
 //debug cout << "W: " << w << " /H: " << h << endl;
 
@@ -779,7 +770,7 @@ Renderer::DisplayText(
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D( 0, this->iWinWidth-1, 0, this->iWinHeight-1 );
+	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
 
 // Save the list base
 	glTranslatef( .0, .0, .1 );
@@ -856,19 +847,19 @@ Renderer::GetSelectedWHFrom(
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
 	glLoadIdentity();
-	viewport[2] = this->iWinWidth;
-	viewport[3] = this->iWinHeight;
-	gluPickMatrix( rcuiMouseX, this->iWinHeight-rcuiMouseY, 2, 2, viewport );
+	viewport[2] = _iWinWidth;
+	viewport[3] = _iWinHeight;
+	gluPickMatrix( rcuiMouseX, _iWinHeight-rcuiMouseY, 2, 2, viewport );
 	if ( this->ubProjectionType == OC_PERSPECTIVE ) {
 		gluPerspective(
 			OC_VIEW_ANGLE,
-			(GLfloat)this->iWinWidth / (GLfloat)this->iWinHeight,
+			(GLfloat)_iWinWidth / (GLfloat)_iWinHeight,
 			OC_Z_NEAR, OC_Z_FAR );
 	}
 	else {
 		glOrtho(
-			0.0, (GLdouble)this->iWinWidth,
-			0.0, (GLdouble)this->iWinHeight,
+			0.0, (GLdouble)_iWinWidth,
+			0.0, (GLdouble)_iWinHeight,
 			OC_Z_NEAR_ORTHO, OC_Z_FAR);
 	}
 
@@ -940,8 +931,8 @@ Renderer::SetWinSize(
 	const int & rciWidth,
 	const int & rciHeight )
 {
-	this->iWinWidth = rciWidth;
-	this->iWinHeight = rciHeight;
+	_iWinWidth = rciWidth;
+	_iWinHeight = rciHeight;
 
 // Set the view port
 	glViewport( 0, 0, rciWidth, rciHeight );
@@ -953,13 +944,13 @@ Renderer::SetWinSize(
 	if ( this->ubProjectionType == OC_PERSPECTIVE ) {
 		gluPerspective(
 			OC_VIEW_ANGLE,
-			(GLfloat)this->iWinWidth / (GLfloat)this->iWinHeight,
+			(GLfloat)_iWinWidth / (GLfloat)_iWinHeight,
 			OC_Z_NEAR, OC_Z_FAR );
 	}
 	else {
 		glOrtho(
-			0.0, (GLdouble)this->iWinWidth,
-			0.0, (GLdouble)this->iWinHeight,
+			0.0, (GLdouble)_iWinWidth,
+			0.0, (GLdouble)_iWinHeight,
 			OC_Z_NEAR_ORTHO, OC_Z_FAR);
 	}
 }
@@ -1343,9 +1334,11 @@ displaymapgrid_return:
 void
 Renderer::_DisplayCompass() const
 {
-// Display a simple compass
+// Display the compass over the main status bar
 	glMatrixMode( GL_MODELVIEW );
-	glTranslatef( iWinWidth-30, 30, 0 );
+	glTranslatef( _iWinWidth/2 + 223, 32, 0 );
+
+// Display a simple compass
 	glRotated( this->dYRotateAngle, .0, .0, 1. );
 	glBegin( GL_LINES );
 		glColor4f( .5, .5, .5, 1. );
@@ -1377,7 +1370,7 @@ Renderer::_DisplayStatusBar() const
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
 	glLoadIdentity();
-	gluOrtho2D( 0, this->iWinWidth-1, 0, this->iWinHeight-1 );
+	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
 
 // Draw the compass
 	if (this->bDisplayCompass) {
@@ -1392,10 +1385,10 @@ Renderer::_DisplayStatusBar() const
 // Draw the blended status rectangle
 	glColor4f( .1, .1, .1, .8 );
 	glBegin( GL_QUADS );
-		glVertex2i( 0, iWinHeight );
-		glVertex2i( 0, iWinHeight-20 );
-		glVertex2i( iWinWidth, iWinHeight-20 );
-		glVertex2i( iWinWidth, iWinHeight );
+		glVertex2i( 0, _iWinHeight );
+		glVertex2i( 0, _iWinHeight-20 );
+		glVertex2i( _iWinWidth, _iWinHeight-20 );
+		glVertex2i( _iWinWidth, _iWinHeight );
 	glEnd();
 //	glDisable( GL_BLEND );
 	glPopAttrib();
@@ -1425,7 +1418,7 @@ Renderer::_PrepareView() const
 	else {
 		glRotated( 45, 1., .0, .0 );
 	// Center the world
-		glTranslatef( iWinWidth / 2, -5., -iWinHeight / 2 );
+		glTranslatef( _iWinWidth / 2, -5., -_iWinHeight / 2 );
 	// Zoom a bit
 		glScalef( 24., 24., 24. );
 	}

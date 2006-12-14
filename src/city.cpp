@@ -855,11 +855,13 @@ City::_CreateGUI()
 
 // The status bar
 	ossTemp << _liCityFund;
-	plblFund = new GUILabel( 125, 12, ossTemp.str() );
+	plblFund = new GUILabel( 125, 11, ossTemp.str() );
+	plblFund->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
 	ossTemp.str("");
 	ossTemp << _uiDay << "/" << _uiMonth << "/" << _uiYear;
-	plblDate = new GUILabel( 348, 12, ossTemp.str() );
+	plblDate = new GUILabel( 348, 11, ossTemp.str() );
+	plblDate->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
 	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ));
 	pctrStatus->Add( plblFund );

@@ -25,6 +25,8 @@ GUIMain::GUIMain():
 _pctr( NULL ),
 _iX( 0 ),
 _iY( 0 ),
+_uiWidth( 0 ),
+_uiHeight( 0 ),
 _ubAttribute( 0 )
 {
 }

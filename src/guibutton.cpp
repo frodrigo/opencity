@@ -49,15 +49,8 @@ GUIButton::GUIButton(
 	_uiTexOver = Texture::Load( strFile + "_over.png" );
 
 // Set the default colors
-	this->colorBackground.r = 0;		//black
-	this->colorBackground.g = 0;
-	this->colorBackground.b = 0;
-	this->colorBackground.a = 255;
-
-	this->colorForeground.r = 0;		//black
-	this->colorForeground.g = 0;
-	this->colorForeground.b = 0;
-	this->colorForeground.a = 255;
+	_cForeground = OPENCITY_PALETTE[ Color::OC_BLACK ];
+	_cBackground = OPENCITY_PALETTE[ Color::OC_BLACK ];
 
 // By default the button is visible and displayed with alpha blending
 	Set( OC_GUIMAIN_VISIBLE | OC_GUIMAIN_BLENDING );
@@ -83,24 +76,18 @@ GUIButton::~GUIButton()
    /*=====================================================================*/
 void
 GUIButton::SetBackground(
-	const Color & color )
+	const Color& color )
 {
-	this->colorBackground.r = color.r;
-	this->colorBackground.g = color.g;
-	this->colorBackground.b = color.b;
-	this->colorBackground.a = color.a;
+	_cBackground = color;
 }
 
 
    /*=====================================================================*/
 void
 GUIButton::SetForeground(
-	const Color & color )
+	const Color& color )
 {
-	this->colorForeground.r = color.r;
-	this->colorForeground.g = color.g;
-	this->colorForeground.b = color.b;
-	this->colorForeground.a = color.a;
+	_cForeground = color;
 }
 
 
@@ -136,10 +123,10 @@ GUIButton::Display() const
 		}
 		else {
 			glColor4ub(
-				colorBackground.r,
-				colorBackground.g,
-				colorBackground.b,
-				colorBackground.a );
+				_cBackground.r,
+				_cBackground.g,
+				_cBackground.b,
+				_cBackground.a );
 			glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
 		}
 

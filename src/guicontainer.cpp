@@ -31,11 +31,6 @@ GUIContainer::GUIContainer()
 
 	_uiWinWidth = gVars.guiScreenWidth;
 	_uiWinHeight = gVars.guiScreenHeight;
-
-	_iX = 0;
-	_iY = 0;
-	_uiWidth = 0;
-	_uiHeight = 0;
 	_uiTexBackground = 0;
 }
 

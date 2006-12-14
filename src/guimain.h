@@ -33,10 +33,39 @@
 #define OC_GUIMAIN_BLENDING   0x40		///< Blending state for texture
 
 
-/** RGBA byte color structure
+//========================================================================
+/** RGBA byte color structure.
+	\sa OPENCITY_PALETTE
 */
-struct Color {
+struct Color
+{
+	enum OPENCITY_COLOR {
+		OC_BLACK,
+		OC_RED,
+		OC_GREEN,
+		OC_BLUE,
+		OC_YELLOW,
+		OC_PINK,
+		OC_WHITE,
+		OC_COLOR_NUMBER
+	};
+
 	GLubyte r, g, b, a;
+};
+
+
+//========================================================================
+/** Few predefined colors
+*/
+const Color OPENCITY_PALETTE [Color::OC_COLOR_NUMBER] =
+{
+	0,     0,   0, 255,			// black
+	255,   0,   0, 255,			// red
+	0,   255,   0, 255,			// green
+	0,     0, 255, 255,			// blue
+	255, 255,   0, 255,			// yellow
+	255,   0, 255, 255,			// pink
+	255, 255, 255, 255,			// white
 };
 
 

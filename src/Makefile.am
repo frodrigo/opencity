@@ -49,6 +49,7 @@ conf.cpp \
 destination.cpp \
 graphicmanager.cpp \
 gui3dview.cpp \
+guibar.cpp \
 guibutton.cpp \
 guicontainer.cpp \
 guilabel.cpp \
@@ -79,6 +80,7 @@ font_8x8.h \
 globalvar.h \
 graphicmanager.h \
 gui3dview.h \
+guibar.h \
 guibutton.h \
 guicontainer.h \
 guilabel.h \
@@ -122,6 +124,7 @@ conf.cpp \
 destination.cpp \
 graphicmanager.cpp \
 gui3dview.cpp \
+guibar.cpp \
 guibutton.cpp \
 guicontainer.cpp \
 guilabel.cpp \

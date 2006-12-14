@@ -1,8 +1,8 @@
 /***************************************************************************
-						guibutton.h    -  description
+						guibar.h    -  description
 							-------------------
-	begin                : march 22th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	begin                : december, 14th 2006
+	copyright            : (C) 2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -17,34 +17,47 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_GUIBUTTON_H_
-#define _OPENCITY_GUIBUTTON_H_ 1
+#ifndef _OPENCITY_GUIBAR_H_
+#define _OPENCITY_GUIBAR_H_ 1
 
 #include "guimain.h"
 
 
 //========================================================================
-/** This is a 2-state button: onMouseOver and onMouseOut.
+/** A bar GUI control is used to display a color bar in 2D
 */
-class GUIButton : public GUIMain {
+class GUIBar : public GUIMain {
 public:
-	GUIButton() {};
-	GUIButton(
-		const int & rciX,
-		const int & rciY,
-		const uint & rcuiW,
-		const uint & rcuiH,
-		const string & strFile );
-	~GUIButton();
+	enum OPENCITY_VARIATION {
+		OC_HORIZONTAL,
+		OC_VERTICAL,
+		OC_BOTH
+	};
+
+	GUIBar();
+	GUIBar(
+		const int ciX,
+		const int ciY,
+		const uint cuiW,
+		const uint cuiH );
+	~GUIBar();
+
+
+//========================================================================
+	void
+	SetInitialValue( const float fValue );
+
+	void
+	SetValue( const float fValue );
+
+	void
+	SetVariation( const OPENCITY_VARIATION eV );
+
+
 
 
 	void
-	SetBackground(
-		const Color& color );
-
-	void
-	SetForeground(
-		const Color& color );
+	SetForeground( const Color& color );
 
 
    //========================================================================
@@ -74,13 +87,20 @@ public:
 
 
 private:
-	GLuint _uiTexNormal, _uiTexOver;
+	OPENCITY_VARIATION _eVariation;
 
-	Color _cForeground;				///< Foreground color
-	Color _cBackground;				///< Background color
+	/** The quantity that the full bar surface represents.
+	Must be diffrent than 0
+	*/
+	float	_fInitialValue;
+	float	_fValue;				///< The current quantity of the bar
+	float	_fWidthRatio;			///< The ratio of W to display
+	float	_fHeightRatio;			///< The ratio of H to display
+	Color	_cForeground;			///< The color of the bar
 };
 
 #endif
+
 
 
 
