@@ -119,45 +119,35 @@
 	static string sSaveDir			= "";
 
 
-
    /*=====================================================================*/
-/* TOKILL, 26th nov, 2006
-void ocPerror( const OPENCITY_ERR_CODE & err_code )
-{
-	cout << "Something went wrong. Error code : " << err_code << endl;
-}
-*/
-
-
-   /*=====================================================================*/
-void ocKeyboard( const SDL_KeyboardEvent & rcsKeyboardEvent )
+void ocKeyboard( const SDL_KeyboardEvent& rcEvent )
 {
 	if (uipCurrentUI != NULL) {
-		uipCurrentUI->uiKeyboard( rcsKeyboardEvent );
+		uipCurrentUI->Keyboard( rcEvent );
 	}
 }
 
 
    /*=====================================================================*/
-void ocMouseButton( const SDL_MouseButtonEvent & rcsMouseButtonEvent )
+void ocMouseButton( const SDL_MouseButtonEvent& rcEvent )
 {
 	if (uipCurrentUI != NULL) {
-		uipCurrentUI->uiMouseButton( rcsMouseButtonEvent );
+		uipCurrentUI->MouseButton( rcEvent );
 	}
 }
 
 
    /*=====================================================================*/
-void ocMouseMotion( const SDL_MouseMotionEvent & motionEvent )
+void ocMouseMotion( const SDL_MouseMotionEvent& motionEvent )
 {
 	if (uipCurrentUI != NULL) {
-		uipCurrentUI->uiMouseMotion( motionEvent );
+		uipCurrentUI->MouseMotion( motionEvent );
 	}
 }
 
 
    /*=====================================================================*/
-void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
+void ocResize( const SDL_ResizeEvent& rcsResizeEvent)
 {
 #ifndef WIN32
 // Linux needs this whereas Win32 does not
@@ -176,7 +166,7 @@ void ocResize( const SDL_ResizeEvent & rcsResizeEvent)
 	gVars.guiScreenHeight = rcsResizeEvent.h;
 
 	if (uipCurrentUI != NULL) {
-		uipCurrentUI->uiResize( rcsResizeEvent );
+		uipCurrentUI->Resize( rcsResizeEvent );
 	}
 }
 
@@ -193,10 +183,10 @@ void ocActive( const SDL_ActiveEvent & e)
 
 
    /*=====================================================================*/
-void ocExpose( const SDL_ExposeEvent & rcsExposeEvent )
+void ocExpose( const SDL_ExposeEvent& rcsExposeEvent )
 {
 	if (uipCurrentUI != NULL) {
-		uipCurrentUI->uiExpose( rcsExposeEvent );
+		uipCurrentUI->Expose( rcsExposeEvent );
 	}
 }
 

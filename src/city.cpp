@@ -193,7 +193,6 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 
 // Send the movement manager the move order 
 	gVars.gpMoveMgr->Move();
-//	gVars.gpMoveMgr->Display();			// called by Display();
 
 	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
 	// Next day
@@ -275,19 +274,19 @@ cityrun_swap:
 	gVars.gpRenderer->DisplayText( 10, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 // Display the R value
 	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_RES);
+	ossStatus << _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
 	gVars.gpRenderer->DisplayText( 120, this->_iWinHeight-15, OC_GREEN_COLOR, ossStatus.str() );
 // display the C value
 	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_COM);
+	ossStatus << _pMSim->GetValue(Simulator::OC_COMMERCIAL);
 	gVars.gpRenderer->DisplayText( 180, this->_iWinHeight-15, OC_BLUE_COLOR, ossStatus.str() );
 // display the I value
 	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_IND);
+	ossStatus << _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
 	gVars.gpRenderer->DisplayText( 240, this->_iWinHeight-15, OC_YELLOW_COLOR, ossStatus.str() );
 // display the E value
 	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(MainSim::OC_MICROSIM_ELE);
+	ossStatus << _pMSim->GetValue(Simulator::OC_ELECTRIC);
 	gVars.gpRenderer->DisplayText( 300, this->_iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
 
 // display the tool
@@ -344,20 +343,19 @@ City::GetWL(
 
 
    /*=====================================================================*/
-void City::uiKeyboard(
-	const SDL_KeyboardEvent & rcsSDLKeyboardEvent )
+void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 {
 //	OPENCITY_DEBUG( "Keydown event received" );
 
 // SDL_KEYDOWN or SDL_PRESSED
-	if (rcsSDLKeyboardEvent.type == SDL_KEYDOWN) {
+	if (rcEvent.type == SDL_KEYDOWN) {
 	// test if ALT is pressed
-		if (rcsSDLKeyboardEvent.keysym.mod & KMOD_ALT) {
+		if (rcEvent.keysym.mod & KMOD_ALT) {
 			this->booltabKeyPressed[KEY_ALT] = true;
 		}
 
 	// key symbols treatment
-		switch (rcsSDLKeyboardEvent.keysym.sym) {
+		switch (rcEvent.keysym.sym) {
 		case SDLK_PAGEUP:
 			this->booltabKeyPressed[KEY_PAGEUP] = true;
 			break;
@@ -563,12 +561,12 @@ void City::uiKeyboard(
 // SDL_KEYUP or SDL_RELEASED
 	else {
 	// test if ALT is released
-		if (!(rcsSDLKeyboardEvent.keysym.mod & KMOD_ALT)) {
+		if (!(rcEvent.keysym.mod & KMOD_ALT)) {
 			this->booltabKeyPressed[KEY_ALT] = false;
 		}
 
 	// other key symbols treatment
-		switch (rcsSDLKeyboardEvent.keysym.sym) {
+		switch (rcEvent.keysym.sym) {
 
 		case SDLK_PAGEUP:
 			this->booltabKeyPressed[KEY_PAGEUP] = false;
@@ -607,23 +605,21 @@ void City::uiKeyboard(
 
    /*=====================================================================*/
 void
-City::uiMouseMotion(
-	const SDL_MouseMotionEvent & rcsSDLMouseMotionEvent )
+City::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 {
 //	OPENCITY_DEBUG("Mouse moved");
-	pctr->uiMouseMotion( rcsSDLMouseMotionEvent );
+	pctr->MouseMotion( rcEvent );
 }
 
 
    /*=====================================================================*/
 void
-City::uiMouseButton(
-	const SDL_MouseButtonEvent & rcsMBE )
+City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 {
 //	OPENCITY_DEBUG("Mouse button event received" );
 
 // Process the click concerning the GUI first
-	pctr->uiMouseButton( rcsMBE );
+	pctr->MouseButton( rcsMBE );
 	if ( pctr->GetClick() != 0 ) {
 //debug
 //cout << "clicked: " << pctr->GetClick() << endl;
@@ -744,47 +740,42 @@ City::uiMouseButton(
 
    /*=====================================================================*/
 void
-City::uiExpose(
-	const SDL_ExposeEvent & rcsSDLExposeEvent )
+City::Expose( const SDL_ExposeEvent& rcEvent )
 {
 	OPENCITY_DEBUG( "Expose event received" );
 
 	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
-	pctr->uiExpose( rcsSDLExposeEvent );
+	pctr->Expose( rcEvent );
+	pctrStatus->Expose( rcEvent );
 
 	SDL_GL_SwapBuffers();
 }
 
 
    /*=====================================================================*/
-void City::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
+void City::Resize( const SDL_ResizeEvent& rcEvent )
 {
 	OPENCITY_DEBUG( "Resize event received" );
 
-	_iWinWidth = rcsSDLResizeEvent.w;
-	_iWinHeight = rcsSDLResizeEvent.h;
-
-//---- set the new window's size ----
+// Set the new window's size
+	_iWinWidth = rcEvent.w;
+	_iWinHeight = rcEvent.h;
 	gVars.gpRenderer->SetWinSize( _iWinWidth, _iWinHeight );
 
-// Not useful, since the screen is update on next frame
-//	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
-//	SDL_GL_SwapBuffers();
-
 // Resize the main status bar and reposition it
-	pctrStatus->uiResize( rcsSDLResizeEvent );
+	pctrStatus->Resize( rcEvent );
 	pctrStatus->SetLocation( (_iWinWidth-512)/2, 0 );
 
 // tell the containers about the event
-	pctrMain->uiResize( rcsSDLResizeEvent );
-	pctrL->uiResize( rcsSDLResizeEvent );
-	pctrT->uiResize( rcsSDLResizeEvent );
-	pctrZ->uiResize( rcsSDLResizeEvent );
-	pctrG->uiResize( rcsSDLResizeEvent );
-	pctrN->uiResize( rcsSDLResizeEvent );
-	pctrS->uiResize( rcsSDLResizeEvent );
-	pctrPath->uiResize( rcsSDLResizeEvent );
-	pctrMAS->uiResize( rcsSDLResizeEvent );
+	pctrMain->Resize( rcEvent );
+	pctrL->Resize( rcEvent );
+	pctrT->Resize( rcEvent );
+	pctrZ->Resize( rcEvent );
+	pctrG->Resize( rcEvent );
+	pctrN->Resize( rcEvent );
+	pctrS->Resize( rcEvent );
+	pctrPath->Resize( rcEvent );
+	pctrMAS->Resize( rcEvent );
 }
 
 
@@ -1136,7 +1127,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EPLANT_COAL, cost )) == OC_ERR_FREE) {
-			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
+			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, Simulator::OC_ELECTRIC );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1373,9 +1364,9 @@ City::_DoBill(
 	_liCityFund -= maintenance;
 
 // Accumulate the income each month
-	r = _pMSim->GetValue(MainSim::OC_MICROSIM_RES);
-	c = _pMSim->GetValue(MainSim::OC_MICROSIM_COM);
-	i = _pMSim->GetValue(MainSim::OC_MICROSIM_IND);
+	r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
+	c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
+	i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
 
 	income += (r*OC_R_INCOME_TAX + c*OC_C_INCOME_TAX + i*OC_I_INCOME_TAX) / 100;
 

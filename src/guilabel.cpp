@@ -145,25 +145,25 @@ GUILabel::Display() const
 
    /*=====================================================================*/
 void
-GUILabel::uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent )
+GUILabel::Keyboard( const SDL_KeyboardEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUILabel::uiMouseMotion( const SDL_MouseMotionEvent & rcsMouseEvent )
+GUILabel::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUILabel::uiMouseButton( const SDL_MouseButtonEvent & buttonEvent )
+GUILabel::MouseButton( const SDL_MouseButtonEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUILabel::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
+GUILabel::Expose( const SDL_ExposeEvent& rcEvent )
 {
 	this->Display();
 }
@@ -171,7 +171,7 @@ GUILabel::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
 
    /*=====================================================================*/
 void
-GUILabel::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
+GUILabel::Resize( const SDL_ResizeEvent& rcEvent )
 {}
 
 

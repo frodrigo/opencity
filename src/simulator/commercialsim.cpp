@@ -72,17 +72,22 @@ CommercialSim::Main()
 			pstruct->Set( OC_STRUCTURE_C );
 
 		// is there a P in range ?
-			if (CheckRange(
-				w, l, OC_C_P_RANGE, OC_STRUCTURE_ROAD ) == true)
+			if (CheckRange(w, l, OC_C_P_RANGE, OC_STRUCTURE_ROAD) == true)
 				pstruct->Set( OC_STRUCTURE_P );
+			else
+				_tiVariation[Simulator::OC_TRAFFIC]++;
+
 		// is there a R in range ?
-			if (CheckRange(
-				w, l, OC_C_R_RANGE, OC_STRUCTURE_RES ) == true)
+			if (CheckRange(w, l, OC_C_R_RANGE, OC_STRUCTURE_RES) == true)
 				pstruct->Set( OC_STRUCTURE_R );
+			else
+				_tiVariation[Simulator::OC_RESIDENTIAL]++;
+
 		// is there a I in range ?
-			if (CheckRange(
-				w, l, OC_C_I_RANGE, OC_STRUCTURE_IND ) == true)
+			if (CheckRange(w, l, OC_C_I_RANGE, OC_STRUCTURE_IND) == true)
 				pstruct->Set( OC_STRUCTURE_I );
+			else
+				_tiVariation[Simulator::OC_INDUSTRIAL]++;
 
 			if (pstruct->IsSet(
 				OC_STRUCTURE_E |
@@ -103,6 +108,7 @@ CommercialSim::Main()
 					&&  (pstruct->LevelUp() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
 						_iValue++;
+						_tiVariation[Simulator::OC_COMMERCIAL]--;
 					}
 				}
 			}  // end if levelup
@@ -113,6 +119,7 @@ CommercialSim::Main()
 					&&  (pstruct->LevelDown() == true)) {
 						pbuildlayer->ResizeStructure( w, l, oldGC );
 						_iValue--;
+						_tiVariation[Simulator::OC_COMMERCIAL]++;
 					}
 			}
 

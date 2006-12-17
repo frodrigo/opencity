@@ -183,30 +183,6 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 
 
    /*=====================================================================*/
-void
-BuildingLayer::uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent )
-{}
-
-void
-BuildingLayer::uiMouseMotion( const SDL_MouseMotionEvent &
-				rcsSDLMouseMotionEvent )
-{}
-
-void
-BuildingLayer::uiMouseButton( const SDL_MouseButtonEvent & 
-				rcsSDLMouseButtonEvent )
-{}
-
-void
-BuildingLayer::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
-{}
-
-void
-BuildingLayer::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
-{}
-
-
-   /*=====================================================================*/
 const bool
 BuildingLayer::IsConstructive(
 	uint W1, uint L1,
@@ -839,6 +815,26 @@ BuildingLayer::QueryStructure(
 }
 
 
+   /*=====================================================================*/
+void
+BuildingLayer::Keyboard( const SDL_KeyboardEvent& rcEvent )
+{}
+
+void
+BuildingLayer::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
+{}
+
+void
+BuildingLayer::MouseButton( const SDL_MouseButtonEvent& rcEvent )
+{}
+
+void
+BuildingLayer::Expose( const SDL_ExposeEvent& rcEvent )
+{}
+
+void
+BuildingLayer::Resize( const SDL_ResizeEvent& rcEvent )
+{}
 
 
    /*=====================================================================*/

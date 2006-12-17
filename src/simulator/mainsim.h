@@ -31,17 +31,6 @@
 class MainSim : public Simulator  {
 public:
 
-/** Each enumeration corresponds to a specific micro simulator
-*/
-	enum OPENCITY_MICROSIM {
-		OC_MICROSIM_RES = 0,	///< Residential micro simulator
-		OC_MICROSIM_COM,		///< Commercial micro simulator
-		OC_MICROSIM_IND,		///< Industrial micro simulator
-		OC_MICROSIM_ELE,		///< Electric micro simulator
-		OC_MICROSIM_TRA,		///< Traffic micro simulator
-		OC_MICROSIM_MAX,		///< Currently, we have 5 micro sims
-		OC_MICROSIM_DEFAULT
-	};
 
 //========================================================================
 /** Constructs a new MainSim object.
@@ -96,7 +85,7 @@ system
 	AddStructure(
 		const uint w1, const uint l1,
 		const uint w2, const uint l2,
-		const OPENCITY_MICROSIM sim = OC_MICROSIM_DEFAULT);
+		const OPENCITY_SIMULATOR sim = OC_SIMULATOR_DEFAULT );
 
 
 //========================================================================
@@ -109,7 +98,7 @@ system
 	RemoveStructure(
 		const uint w1, const uint l1,
 		const uint w2, const uint l2,
-		const OPENCITY_MICROSIM sim = OC_MICROSIM_DEFAULT );
+		const OPENCITY_SIMULATOR sim = OC_SIMULATOR_DEFAULT );
 
 
 //========================================================================
@@ -151,11 +140,12 @@ automatically by Run() every 3 turns
 	\return The value
 */
 	const int
-	GetValue(const OPENCITY_MICROSIM sim) const;
+	GetValue( const OPENCITY_SIMULATOR sim ) const;
 
 
 private:
-	Simulator*			_tpSimulator[OC_MICROSIM_MAX];		///< Table of pointers to Simulator object
+	/** Table of pointers to Simulator object */
+	Simulator* _tpSimulator[Simulator::OC_SIMULATOR_NUMBER];
 };
 
 #endif

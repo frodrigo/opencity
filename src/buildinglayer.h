@@ -56,16 +56,6 @@ public:
 	LoadFrom( std::fstream& rfs );
 
 
-
-/*----- BEGIN: the following methods are inherited from other interfaces ----*/
-	void uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent );
-	void uiMouseMotion( const SDL_MouseMotionEvent & rcsSDLMouseMotionEvent );
-	void uiMouseButton( const SDL_MouseButtonEvent & rcsSDLMouseButtonEvent );
-	void uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent );
-	void uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent );
-/*----- END -----------------------------------------------------------------*/
-
-
 //========================================================================
 /** Is the specified area constructive ?
 	Can we build the specified structure on it ?
@@ -229,11 +219,15 @@ linear index of a structure is calculated by this formula:
 		const uint & l ) const;
 
 
-	/*------ BEGIN: attributes inherited from Layer ------*/
-//protected:
-//	uint _uiLayerWidth;
-//	uint _uiLayerLength;
-	/*------ END: attributes inherited from Layer ------*/
+//========================================================================
+// Inherited methods from UI
+//========================================================================
+	void Keyboard( const SDL_KeyboardEvent& rcEvent );
+	void MouseMotion( const SDL_MouseMotionEvent& rcEvent );
+	void MouseButton( const SDL_MouseButtonEvent& rcEvent );
+	void Expose( const SDL_ExposeEvent& rcEvent );
+	void Resize( const SDL_ResizeEvent& rcEvent );
+
 
 private:
 	/** All the buildings are here */

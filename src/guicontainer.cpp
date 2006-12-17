@@ -246,13 +246,13 @@ GUIContainer::Display() const
 
    /*=====================================================================*/
 void
-GUIContainer::uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent )
+GUIContainer::Keyboard( const SDL_KeyboardEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUIContainer::uiMouseMotion( const SDL_MouseMotionEvent & rcsSDLMouseMotionEvent )
+GUIContainer::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 {
 	static std::vector<GUIMain*>::size_type stvector;
 	static GUIMain* pguimain;
@@ -264,14 +264,14 @@ GUIContainer::uiMouseMotion( const SDL_MouseMotionEvent & rcsSDLMouseMotionEvent
 // Send the motion event to all objects
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {
 		if ( (pguimain = vectorpguimain[ stvector ]) != NULL )
-			pguimain->uiMouseMotion( rcsSDLMouseMotionEvent );
+			pguimain->MouseMotion( rcEvent );
 	}
 }
 
 
    /*=====================================================================*/
 void
-GUIContainer::uiMouseButton( const SDL_MouseButtonEvent & rcsSDLMouseButtonEvent )
+GUIContainer::MouseButton( const SDL_MouseButtonEvent& rcEvent )
 {
 	static std::vector<GUIMain*>::size_type stvector;
 	static GUIMain* pguimain;
@@ -283,14 +283,14 @@ GUIContainer::uiMouseButton( const SDL_MouseButtonEvent & rcsSDLMouseButtonEvent
 // Send the mouse button event to all objects
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {
 		if ( (pguimain = vectorpguimain[ stvector ]) != NULL )
-			pguimain->uiMouseButton( rcsSDLMouseButtonEvent );
+			pguimain->MouseButton( rcEvent );
 	}
 }
 
 
    /*=====================================================================*/
 void
-GUIContainer::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
+GUIContainer::Expose( const SDL_ExposeEvent& rcEvent )
 {
 	this->Display();
 }
@@ -298,10 +298,10 @@ GUIContainer::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
 
    /*=====================================================================*/
 void
-GUIContainer::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
+GUIContainer::Resize( const SDL_ResizeEvent& rcEvent )
 {
-	_uiWinWidth = rcsSDLResizeEvent.w;
-	_uiWinHeight = rcsSDLResizeEvent.h;
+	_uiWinWidth = rcEvent.w;
+	_uiWinHeight = rcEvent.h;
 }
 
 

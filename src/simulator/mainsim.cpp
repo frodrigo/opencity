@@ -29,6 +29,8 @@
 #include "globalvar.h"
 extern GlobalVar gVars;
 
+#include <sstream>						// Debug string stream
+
 
    /*======================================================================*/
 MainSim::MainSim(
@@ -40,11 +42,15 @@ Simulator( mutex, pblayer, pmap )
 	OPENCITY_DEBUG( "MainSim param ctor" );
 
 // Simulators' initialization
-	_tpSimulator[OC_MICROSIM_RES] = new ResidentialSim( mutex, pblayer, pmap );
-	_tpSimulator[OC_MICROSIM_COM] = new CommercialSim( mutex, pblayer, pmap );
-	_tpSimulator[OC_MICROSIM_IND] = new IndustrialSim( mutex, pblayer, pmap );
-	_tpSimulator[OC_MICROSIM_ELE] = new ElectricitySim( mutex, pblayer, pmap );
-	_tpSimulator[OC_MICROSIM_TRA] = new TrafficSim( mutex, pblayer, pmap, gVars.gpPathFinder, gVars.gpMoveMgr );
+	_tpSimulator[Simulator::OC_RESIDENTIAL]	= new ResidentialSim( mutex, pblayer, pmap );
+	_tpSimulator[Simulator::OC_COMMERCIAL]	= new CommercialSim( mutex, pblayer, pmap );
+	_tpSimulator[Simulator::OC_INDUSTRIAL]	= new IndustrialSim( mutex, pblayer, pmap );
+	_tpSimulator[Simulator::OC_ELECTRIC]	= new ElectricitySim( mutex, pblayer, pmap );
+	_tpSimulator[Simulator::OC_TRAFFIC]		= new TrafficSim( mutex, pblayer, pmap, gVars.gpPathFinder, gVars.gpMoveMgr );
+
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
+		Simulator::_tiVariation[ui] = 0;
+	}
 }
 
 
@@ -53,7 +59,7 @@ MainSim::~MainSim()
 {
 	OPENCITY_DEBUG( "MainSim dtor" );
 
-	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 		delete _tpSimulator[ui];
 	}
 }
@@ -63,7 +69,7 @@ MainSim::~MainSim()
 void
 MainSim::SaveTo( std::fstream& rfs )
 {
-	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 		_tpSimulator[ui]->SaveTo(rfs);
 	}
 }
@@ -73,7 +79,7 @@ MainSim::SaveTo( std::fstream& rfs )
 void
 MainSim::LoadFrom( std::fstream& rfs )
 {
-	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 		_tpSimulator[ui]->LoadFrom(rfs);
 	}
 }
@@ -84,14 +90,18 @@ int
 MainSim::Main()
 {
 	static uint times = 0;
+	ostringstream oss;
 
 // Call the Main method of each micro simulator
 	while (this->enumSimState != SIMULATOR_RETURN) {
 		if (this->enumSimState == SIMULATOR_RUNNING) {
-			for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+			for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 				_tpSimulator[ui]->Main();
+				oss << ui << "=" << (int)Simulator::_tiVariation[ui] << " ";
 			}
 		}
+		OPENCITY_DEBUG( "RCIET: " << oss.str() );
+		oss.str("");
 
 	// Refresh the simulator values every 5 turns
 		if (times == 0)
@@ -112,11 +122,11 @@ MainSim::AddStructure
 (
 	const uint w1, const uint l1,
 	const uint w2, const uint l2,
-	const OPENCITY_MICROSIM sim
+	const OPENCITY_SIMULATOR sim
 )
 {
-	if (sim == OC_MICROSIM_DEFAULT) {
-		for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	if (sim == OC_SIMULATOR_DEFAULT) {
+		for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 			_tpSimulator[ui]->AddStructure( w1, l1, w2, l2 );
 		}
 	}
@@ -132,11 +142,11 @@ MainSim::RemoveStructure
 (
 	const uint w1, const uint l1,
 	const uint w2, const uint l2,
-	const OPENCITY_MICROSIM sim
+	const OPENCITY_SIMULATOR sim
 )
 {
-	if (sim == OC_MICROSIM_DEFAULT) {
-		for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	if (sim == OC_SIMULATOR_DEFAULT) {
+		for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 			_tpSimulator[ui]->RemoveStructure( w1, l1, w2, l2 );
 		}
 	}
@@ -150,7 +160,7 @@ MainSim::RemoveStructure
 void
 MainSim::Run()
 {
-	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 		_tpSimulator[ui]->Run();
 	}
 	Simulator::Run();
@@ -161,7 +171,7 @@ MainSim::Run()
 void
 MainSim::Stop()
 {
-	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 		_tpSimulator[ui]->Stop();
 	}
 	Simulator::Stop();
@@ -172,7 +182,7 @@ MainSim::Stop()
 void
 MainSim::Return()
 {
-	for (uint ui = 0; ui < OC_MICROSIM_MAX; ui++) {
+	for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 		_tpSimulator[ui]->Return();
 	}
 	Simulator::Return();
@@ -251,10 +261,10 @@ fluctuations in between.
 	} // for
 
 // Update the micro simulators' values
-	_tpSimulator[OC_MICROSIM_RES]->SetValue(resVal);
-	_tpSimulator[OC_MICROSIM_COM]->SetValue(comVal);
-	_tpSimulator[OC_MICROSIM_IND]->SetValue(indVal);
-	_tpSimulator[OC_MICROSIM_ELE]->SetValue(eleVal);
+	_tpSimulator[Simulator::OC_RESIDENTIAL]->SetValue(resVal);
+	_tpSimulator[Simulator::OC_COMMERCIAL]->SetValue(comVal);
+	_tpSimulator[Simulator::OC_INDUSTRIAL]->SetValue(indVal);
+	_tpSimulator[Simulator::OC_ELECTRIC]->SetValue(eleVal);
 }
 
 
@@ -262,7 +272,7 @@ fluctuations in between.
 const int
 MainSim::GetValue
 (
-	const OPENCITY_MICROSIM sim
+	const OPENCITY_SIMULATOR sim
 ) const
 {
 	return _tpSimulator[sim]->GetValue();

@@ -42,21 +42,6 @@ public:
 	virtual
 	~Layer(  );
 
-	// design notes: the derived class should implement the following pure
-	// virtual functions too.
-	/*-- begin here --
-	virtual void SaveTo( fstream& rfs ) = 0;
-	virtual void LoadFrom( fstream& rfs ) = 0;
-
-	virtual void uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent ) = 0;
-	virtual void uiMouseMotion( const SDL_MouseMotionEvent & 
-rcsSDLMouseMotionEvent ) = 0;
-	virtual void uiMouseButton( const
-SDL_MouseButtonEvent & rcsSDLMouseButtonEvent ) = 0;
-	virtual void uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent ) = 0;
-	virtual void uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )= 0;
-	*-- end here --*/
-
 
 //========================================================================
 /** Is the surface ( w1, l1, w2, l2 ) constructive ?

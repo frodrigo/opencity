@@ -27,6 +27,11 @@ extern GlobalVar gVars;
 #include <cmath>				// For log10
 
 
+// This shared table is initialized by MainSim
+// WARNING: this may not be thread safe !
+volatile int Simulator::_tiVariation[Simulator::OC_SIMULATOR_NUMBER];
+
+
    /*=====================================================================*/
 Simulator::Simulator():
 _iVariation( 0 ),

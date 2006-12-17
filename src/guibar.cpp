@@ -156,25 +156,25 @@ GUIBar::Display() const
 
    /*=====================================================================*/
 void
-GUIBar::uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent )
+GUIBar::Keyboard( const SDL_KeyboardEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUIBar::uiMouseMotion( const SDL_MouseMotionEvent & rcsMouseEvent )
+GUIBar::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUIBar::uiMouseButton( const SDL_MouseButtonEvent & buttonEvent )
+GUIBar::MouseButton( const SDL_MouseButtonEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUIBar::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
+GUIBar::Expose( const SDL_ExposeEvent& rcEvent )
 {
 	this->Display();
 }
@@ -182,7 +182,7 @@ GUIBar::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
 
    /*=====================================================================*/
 void
-GUIBar::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
+GUIBar::Resize( const SDL_ResizeEvent& rcEvent )
 {}
 
 

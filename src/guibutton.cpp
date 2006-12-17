@@ -154,13 +154,13 @@ GUIButton::Display() const
 
    /*=====================================================================*/
 void
-GUIButton::uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent )
+GUIButton::Keyboard( const SDL_KeyboardEvent& rcEvent )
 {}
 
 
    /*=====================================================================*/
 void
-GUIButton::uiMouseMotion( const SDL_MouseMotionEvent & rcsMouseEvent )
+GUIButton::MouseMotion( const SDL_MouseMotionEvent& rcsMouseEvent )
 {
 	static int realX, realY;
 	static int winW, winH;
@@ -199,7 +199,7 @@ GUIButton::uiMouseMotion( const SDL_MouseMotionEvent & rcsMouseEvent )
 
    /*=====================================================================*/
 void
-GUIButton::uiMouseButton( const SDL_MouseButtonEvent & buttonEvent )
+GUIButton::MouseButton( const SDL_MouseButtonEvent& buttonEvent )
 {
 // Return immediatly if this is NOT visible
 	if ( IsSet( OC_GUIMAIN_VISIBLE ) == false )
@@ -221,7 +221,7 @@ GUIButton::uiMouseButton( const SDL_MouseButtonEvent & buttonEvent )
 
    /*=====================================================================*/
 void
-GUIButton::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
+GUIButton::Expose( const SDL_ExposeEvent& rcEvent )
 {
 	this->Display();
 }
@@ -229,7 +229,7 @@ GUIButton::uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent )
 
    /*=====================================================================*/
 void
-GUIButton::uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent )
+GUIButton::Resize( const SDL_ResizeEvent& rcEvent )
 {
 }
 

@@ -133,10 +133,10 @@ TrafficSim::Main()
 		// WARNING: the pathfinderShortestPath() need the unlocked mutex !
 		// Are we going to create a new vehicle ?
 			if ((iTrafficValue > OC_TSIM_TRAFFIC_MIN )
-			&&  ( (rand() % 100) < OC_TSIM_VEHICLE_CHANCE )) {
+			and ((rand() % 100) < OC_TSIM_VEHICLE_CHANCE )) {
 				trafficsimNewVehicle(startW, startH);
+				_tiVariation[Simulator::OC_TRAFFIC]--;
 			}
-
 
 		} // if (pstruct != NULL)
 	}  // if running

@@ -71,25 +71,7 @@ public:
 	LoadFrom( std::fstream& rfs );
 
 
-   //========================================================================
-   // Inherited methods from UI
-   //========================================================================
-	void
-	uiKeyboard( const SDL_KeyboardEvent & rcsSDLKeyboardEvent );
-
-	void
-	uiMouseMotion( const SDL_MouseMotionEvent & rcsSDLMouseMotionEvent );
-
-	void
-	uiMouseButton( const SDL_MouseButtonEvent & rcsSDLMouseButtonEvent );
-
-	void
-	uiExpose( const SDL_ExposeEvent & rcsSDLExposeEvent );
-
-	void
-	uiResize( const SDL_ResizeEvent & rcsSDLResizeEvent );
-   //========================================================================
-
+//========================================================================
 	void
 	SetCurrentLayer( OPENCITY_CITY_LAYER enumNewLayer );
 
@@ -114,6 +96,16 @@ public:
 
 	const void GetWL(
 		uint & w, uint & l ) const;
+
+
+//========================================================================
+// Inherited methods from UI
+//========================================================================
+	void Keyboard( const SDL_KeyboardEvent& rcEvent );
+	void MouseMotion( const SDL_MouseMotionEvent& rcEvent );
+	void MouseButton( const SDL_MouseButtonEvent& rcEvent );
+	void Expose( const SDL_ExposeEvent& rcEvent );
+	void Resize( const SDL_ResizeEvent& rcEvent );
 
 
 private:

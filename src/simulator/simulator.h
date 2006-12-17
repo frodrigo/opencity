@@ -64,6 +64,21 @@ class Structure;
 */
 class Simulator : public Persistence {
 public:
+
+
+//========================================================================
+/** Each enumeration corresponds to a specific micro simulator
+*/
+	enum OPENCITY_SIMULATOR {
+		OC_RESIDENTIAL = 0,		///< Residential micro simulator
+		OC_COMMERCIAL,			///< Commercial micro simulator
+		OC_INDUSTRIAL,			///< Industrial micro simulator
+		OC_ELECTRIC,			///< Electric micro simulator
+		OC_TRAFFIC,				///< Traffic micro simulator
+		OC_SIMULATOR_NUMBER,	///< The number of micro simulators that we have
+		OC_SIMULATOR_DEFAULT
+	};
+
 	enum SIMULATOR_STATE {
 		SIMULATOR_RUNNING,
 		SIMULATOR_STOPED,
@@ -220,6 +235,8 @@ protected:
 	SDL_mutex*			mutexMain;				///< Points to the global mutex
 	BuildingLayer*		pbuildlayer;
 	Map*				pmapOfCity;
+
+	static volatile int _tiVariation[Simulator::OC_SIMULATOR_NUMBER];
 };
 
 #endif
