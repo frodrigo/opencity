@@ -82,7 +82,7 @@ public:
 	const string&
 	GetValue(
 		const string& key,
-		const string def = "");
+		const string& def = "");
 
 //========================================================================
 /** Empty value causes the method to return OC_ERR_INVALID and

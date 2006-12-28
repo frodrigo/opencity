@@ -59,13 +59,13 @@ struct Color
 */
 const Color OPENCITY_PALETTE [Color::OC_COLOR_NUMBER] =
 {
-	0,     0,   0, 255,			// black
-	255,   0,   0, 255,			// red
-	0,   255,   0, 255,			// green
-	0,     0, 255, 255,			// blue
-	255, 255,   0, 255,			// yellow
-	255,   0, 255, 255,			// pink
-	255, 255, 255, 255,			// white
+	{0,     0,   0, 255},			// black
+	{255,   0,   0, 255},			// red
+	{0,   255,   0, 255},			// green
+	{0,     0, 255, 255},			// blue
+	{255, 255,   0, 255},			// yellow
+	{255,   0, 255, 255},			// pink
+	{255, 255, 255, 255}			// white
 };
 
 

@@ -116,7 +116,7 @@ for ( iter = _mapData.begin(); iter != _mapData.end(); iter++ ) {
 const string &
 Conf::GetValue(
 	const string& key,
-	const string def )
+	const string& def )
 {
 //debug
 /*cout << "key is : '" << key << "', data is : '" << _mapData[ key ] << "'" << endl;
