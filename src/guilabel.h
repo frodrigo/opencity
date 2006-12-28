@@ -28,12 +28,43 @@
 */
 class GUILabel : public GUIMain {
 public:
-	GUILabel();
+	enum OPENCITY_TEXT_ALIGN {
+		OC_ALIGN_LEFT,
+		OC_ALIGN_RIGHT,
+		OC_ALIGN_CENTER
+	};
+
+
+//========================================================================
+/** Create a new label control. The default alignment is from the left
+and it can not be changed.
+	\param ciX,ciY The 2D coordinates of the control
+	\param rcsText The text of the control
+*/
 	GUILabel(
 		const int ciX,
 		const int ciY,
 		const string& rcsText );
+
+
+//========================================================================
+	GUILabel(
+		const int ciX,
+		const int ciY,
+		const uint cuiW,
+		const uint cuiH,
+		const string& rcsText );
+
+
 	~GUILabel();
+
+
+//========================================================================
+	void
+	SetAlign( const OPENCITY_TEXT_ALIGN align );
+
+	OPENCITY_TEXT_ALIGN
+	GetAlign() const;
 
 	void
 	SetText( const string& rcsText );
@@ -63,11 +94,19 @@ public:
 
 
 private:
+	OPENCITY_TEXT_ALIGN	_eAlign;	///< The text alignment attribute
 	string	_sText;					///< The text of the label
 	Color	_cForeground;			///< The color of the label
 
 	static uint		_uiLabelNumber;
 	static GLuint	_uiFontBase;
+
+
+//========================================================================
+// Private methods
+//========================================================================
+	void _createFont();
+	void _deleteFont();
 };
 
 #endif

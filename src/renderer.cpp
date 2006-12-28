@@ -42,7 +42,14 @@ for the first time
 #include "renderer.h"
 #include "layer.h"
 #include "texture.h"					// Terrain texturing
+
 #include "font_8x8.h"					// 8x8 font definition
+/* Test, dec 28th, 06
+#include "font_mini_4x6.h"
+#include "font_7x14.h"
+#include "font_acorn_8x8.h"
+#include "font_pearl_8x8.h"
+*/
 
 #include "globalvar.h"
 extern GlobalVar gVars;
@@ -110,7 +117,13 @@ _uiCityLength( cityL )
 	this->_uiFontBase = glGenLists( 256 );
 	for ( uint i = 0; i < 256; i++ ) {
 		glNewList( this->_uiFontBase + i, GL_COMPILE );
-		glBitmap( 8, 8, .0, .0, 10., .0, fontdata_8x8 + i*8 );
+		glBitmap( 8,  8, .0, .0, 10., .0, fontdata_8x8 + i*8 );
+/* Test, dec 28th, 06
+//		glBitmap( 8,  8, .0, .0, 10., .0, fontdata_acorn_8x8 + i*8 );
+//		glBitmap( 8,  8, .0, .0, 10., .0, fontdata_pearl_8x8 + i*8 );
+//		glBitmap( 7, 14, .0, .0,  9., .0, fontdata_7x14 + i*14 );
+//		glBitmap( 4,  6, .0, .0,  6., .0, fontdata_mini_4x6 + i*6 );
+*/
 		glEndList();
 	}
 

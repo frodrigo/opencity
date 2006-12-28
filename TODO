@@ -19,6 +19,7 @@ Add --noaudio                         (done)
 Reduce CPU usage when iconified       (done)
 Fix bug #1596555                      (done)
 Fix building resize bug               (done)
+Add label alignment attribute         (done)
 Integrate the new status bar          (wip)
 Fix the orthogonal projection
 Fix the income system

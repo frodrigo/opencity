@@ -3,7 +3,7 @@
 							-------------------
 	project              : OpenCity
 	codename             : Delphine
-	begin                : 28th may, 2003
+	begin                : may 28th, 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
@@ -89,9 +89,18 @@
 	#define OC_FULLSCREEN_WIDTH		1024
 	#define OC_FULLSCREEN_HEIGHT	768
 
-// Exit code
-	#define OC_CONFIG_NOT_FOUND		-1
-	#define OC_CONFIG_PARSE_ERROR	-2
+// Exit code. This is not an exhaustive list.
+	#define OC_CONFIG_NOT_FOUND			-1
+	#define OC_CONFIG_PARSE_ERROR		-2
+	#define OC_ARGUMENT_ERROR			-3
+
+	#define OC_OUT_OF_MEMORY			-10
+
+	#define OC_SDL_INIT_ERROR			-20
+	#define OC_SDL_BPP_ERROR			-21
+	#define OC_SDL_DOUBLEBUFFER_ERROR	-22
+	#define OC_SDL_VIDEORESIZE_ERROR	-23
+	#define OC_SDL_FULLSCREEN_ERROR		-24
 
 // Settings file
 	#define OC_CONFIG_FILE_FILENAME	"config/opencity.xml"
@@ -156,7 +165,7 @@ void ocResize( const SDL_ResizeEvent& rcsResizeEvent)
 		rcsResizeEvent.w, rcsResizeEvent.h,
 		gVars.guiVideoBpp, flags ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
-		exit( -4 );
+		exit( OC_SDL_VIDEORESIZE_ERROR );
 	}
 	gVars.gpVideoSrf = SDL_GetVideoSurface();
 #endif
@@ -266,7 +275,7 @@ void getFullScreenResolution(uint & w, uint & h)
 // Check if there are any modes available
 	if(modes == (SDL_Rect **)0) {
 		OPENCITY_FATAL( "No fullscreen mode available !" );
-		exit(-1);
+		exit( OC_SDL_FULLSCREEN_ERROR );
 	}
 	
 // Check if our resolution is restricted
@@ -302,7 +311,7 @@ int initSDL()
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		// Failed, exit.
 		OPENCITY_FATAL( "SDL video initialization failed: " << SDL_GetError() );
-		return -2;
+		return OC_SDL_INIT_ERROR;
 	}
 
 // Set the SDL_GL_DoubleBuffer ON for smoother rendering
@@ -351,7 +360,7 @@ int initSDL()
 
 		if (gVars.gpVideoSrf == NULL) {
 			OPENCITY_FATAL( "16 bpp mode has failed: " << SDL_GetError() );
-			return -4;
+			return OC_SDL_BPP_ERROR;
 		}
 		else {
 			OPENCITY_INFO( "16 bpp works." );
@@ -365,12 +374,12 @@ int initSDL()
 	int iDblBuff = 0;
 	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &iDblBuff );
 	if ( iDblBuff == 0 ) {
-		OPENCITY_INFO( "Checking doublebuffer: failed !" );
-		OPENCITY_FATAL( "We need doublebuffer" );
-		return -6;
+		OPENCITY_INFO( "Checking video doublebuffer: failed !" );
+		OPENCITY_FATAL( "We need the video doublebuffer." );
+		return OC_SDL_DOUBLEBUFFER_ERROR;
 	}
 	else {
-		OPENCITY_INFO( "Checking doublebuffer: OK !" );
+		OPENCITY_INFO( "Checking video doublebuffer: OK !" );
 	}
 
 	return 0;
@@ -439,7 +448,7 @@ void parseArg(int argc, char *argv[])
 				 << endl << endl;
 			cout << "Warning: any command line switch will overwrite the config file settings"
 			     << endl;
-			exit(-1);
+			exit( OC_ARGUMENT_ERROR );
 		}
 	} // while
 }
@@ -475,7 +484,7 @@ void displayStatus( const string & str )
    /*=====================================================================*/
 int clientMode()
 {
-	int errCode;
+	int errCode = 0;
 
 // Initialize SDL
 	errCode = initSDL();
@@ -496,15 +505,6 @@ int clientMode()
 // Create the global renderer in order to use its text rendering functions
 	gVars.gpRenderer = new Renderer( gVars.guiCityWidth, gVars.guiCityLength );
 
-/* debug
-// Test font
-	glClearColor( OC_CLEAR_COLOR );
-	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-	gVars.gpRenderer->DisplayText( 10, 50, OC_WHITE_COLOR, "Hello world" );
-	SDL_GL_SwapBuffers();
-	SDL_Delay( 3000 );
-*/
-
 
 // AudioManager's initialization
 	displayStatus( "Looking for GPU freezing system... ");
@@ -512,7 +512,7 @@ int clientMode()
 
 	if ( gVars.gpAudioMgr == NULL ) {
 		OPENCITY_FATAL( "Error while creating the audio manager" );
-		return -16;
+		return OC_OUT_OF_MEMORY;
 	} else
 	if ( (gVars.gboolUseAudio == true)
 	  && (gVars.gpAudioMgr->OpenAudio() != OC_ERR_FREE))
@@ -551,7 +551,7 @@ int clientMode()
 	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
-		return (-15);
+		return OC_OUT_OF_MEMORY;
 	}
 	else {
 		displayStatus( "Almost done...");
@@ -873,7 +873,6 @@ string readSettings()
 
 // Parse the settings
 	TiXmlElement* pElement = pRoot->FirstChildElement();
-	int i = 0;
 	const char* str = NULL;
 	while (pElement != NULL)
 	{
@@ -916,7 +915,8 @@ string readSettings()
 		else if (pElement->ValueStr() == "city") {
 			TiXmlElement* pChild = pElement->FirstChildElement();
 			while (pChild != NULL) {
-				cout << i++ << "||" << *pChild << std::endl;
+// Debug
+//				cout << i++ << "||" << *pChild << std::endl;
 				if (pChild->ValueStr() == "width") {
 					pChild->QueryIntAttribute("value", (int*)&gVars.guiCityWidth);
 				}
@@ -1004,10 +1004,6 @@ int main(int argc, char *argv[])
 
 // Detect the main path: sHomeDir and sSaveDir
 	detectProgramPath();
-
-// TOKILL, old version, .conf config file, 1st Nov, 06
-// Read the main config file
-//	if (readConfig() != 0)
 
 // Read the application settings from the XML settings file
 	string errorDesc = readSettings();

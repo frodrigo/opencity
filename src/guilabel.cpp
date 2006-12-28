@@ -27,24 +27,14 @@ GLuint GUILabel::_uiFontBase = 0;
 
 
    /*=====================================================================*/
-GUILabel::GUILabel()
-{
-	OPENCITY_DEBUG( "Default ctor. Not used" );
-	assert(0);
-
-	_iX = 0;
-	_iY = 0;
-}
-
-
-   /*=====================================================================*/
 GUILabel::GUILabel(
 	const int ciX,
 	const int ciY,
 	const string & rcsText ):
+_eAlign( OC_ALIGN_LEFT ),
 _sText( rcsText )
 {
-	OPENCITY_DEBUG( "Pctor" );
+	OPENCITY_DEBUG( "Pctor 1" );
 
 // Safe
 	_pctr = NULL;
@@ -64,13 +54,45 @@ _sText( rcsText )
 
 // Create the 8x8 font once
 	if (GUILabel::_uiLabelNumber++ == 0) {
-		glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
-		GUILabel::_uiFontBase = glGenLists( 256 );
-		for ( uint i = 0; i < 256; i++ ) {
-			glNewList( GUILabel::_uiFontBase + i, GL_COMPILE );
-			glBitmap( 8, 8, .0, .0, 10., .0, fontdata_8x8 + i*8 );
-			glEndList();
-		}
+		_createFont();
+	}
+}
+
+
+   /*=====================================================================*/
+GUILabel::GUILabel(
+	const int ciX,
+	const int ciY,
+	const uint cuiW,
+	const uint cuiH,
+	const string& rcsText )
+{
+	OPENCITY_DEBUG( "Pctor 2" );
+
+// Safe
+	_pctr = NULL;
+
+// Initialize the position of the button
+// NOTE: it's relative to the postion of the container
+	_iX = ciX;
+	_iY = ciY;
+
+// Initialize the width and the height of the controls.
+// They are used for text alignment.
+	_uiWidth = cuiW;
+	_uiHeight = cuiH;
+
+	_cForeground.r = 0;		//black
+	_cForeground.g = 0;
+	_cForeground.b = 0;
+	_cForeground.a = 255;
+
+// By default the label is visible
+	Set( OC_GUIMAIN_VISIBLE );
+
+// Create the 8x8 font once
+	if (GUILabel::_uiLabelNumber++ == 0) {
+		_createFont();
 	}
 }
 
@@ -82,11 +104,24 @@ GUILabel::~GUILabel()
 
 // Destroy GL list
 	if (--GUILabel::_uiLabelNumber == 0) {
-		if (glIsTexture( GUILabel::_uiFontBase ) == GL_TRUE) {
-			glDeleteLists( GUILabel::_uiFontBase, 256 );
-			GUILabel::_uiFontBase = 0;		// Safe
-		}
+		_deleteFont();
 	}
+}
+
+
+   /*=====================================================================*/
+void
+GUILabel::SetAlign( const OPENCITY_TEXT_ALIGN align )
+{
+	_eAlign = align;
+}
+
+
+   /*=====================================================================*/
+GUILabel::OPENCITY_TEXT_ALIGN
+GUILabel::GetAlign() const
+{
+	return _eAlign;
 }
 
 
@@ -122,11 +157,23 @@ GUILabel::SetForeground(
 void
 GUILabel::Display() const
 {
+	uint x, y;
+
 	assert( _pctr != NULL );
 
 // Return immediatly if this is NOT visible
 	if ( IsSet( OC_GUIMAIN_VISIBLE ) == false )
 		return;
+
+// Calculate the 2D position according to the alignment
+	x = _iX;
+	y = _iY;
+	if ( _eAlign == OC_ALIGN_RIGHT ) {
+		x += _uiWidth - FONT_8x8_X_MOVE*_sText.size();
+	} else
+	if ( _eAlign == OC_ALIGN_CENTER ) {
+		x += (_uiWidth - FONT_8x8_X_MOVE*_sText.size()) / 2;
+	}
 
 // Save the current attribs
 	glPushAttrib( GL_LIST_BIT | GL_ENABLE_BIT );
@@ -135,7 +182,7 @@ GUILabel::Display() const
 // Save the list base
 	glListBase( GUILabel::_uiFontBase );
 	glColor4ub( _cForeground.r, _cForeground.g, _cForeground.b, _cForeground.a );
-	glRasterPos2i( _iX, _iY );
+	glRasterPos2i( x, y );
 	glCallLists( (GLsizei)_sText.size(), GL_UNSIGNED_BYTE, (GLubyte*)_sText.c_str() );
 
 // Restore the old attribs
@@ -175,7 +222,34 @@ GUILabel::Resize( const SDL_ResizeEvent& rcEvent )
 {}
 
 
+   /*=====================================================================*/
+void
+GUILabel::_createFont()
+{
+	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+	GUILabel::_uiFontBase = glGenLists( 256 );
+	for ( uint i = 0; i < 256; i++ ) {
+		glNewList( GUILabel::_uiFontBase + i, GL_COMPILE );
+		glBitmap(
+			FONT_8x8_WIDTH, FONT_8x8_HEIGHT,
+			.0, .0,
+			FONT_8x8_X_MOVE, FONT_8x8_Y_MOVE,
+			fontdata_8x8 + i*8
+		);
+		glEndList();
+	}
+}
 
+
+   /*=====================================================================*/
+void
+GUILabel::_deleteFont()
+{
+	if (glIsTexture( GUILabel::_uiFontBase ) == GL_TRUE) {
+		glDeleteLists( GUILabel::_uiFontBase, 256 );
+		GUILabel::_uiFontBase = 0;		// Safe
+	}
+}
 
 
 
