@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_GLOBALVAR_H_
-#define _OPENCITY_GLOBALVAR_ 1
+#define _OPENCITY_GLOBALVAR_H_ 1
 
 #include "main.h"
 #include "audiomanager.h"		// Audio support
@@ -32,6 +32,10 @@
 #include "environment.h"		// MAS environment
 #include "pathfinder.h"
 
+// Version
+	#define OC_VERSION				0
+	#define OC_PATCHLEVEL			0
+	#define OC_SUBLEVEL				5
 
 //========================================================================
 /** This structure contain the global settings

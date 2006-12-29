@@ -60,6 +60,7 @@
 
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
+#include <sstream>
 
 
    /*=====================================================================*/
@@ -126,6 +127,24 @@
 /// Static so that the others can not access this
 	static string sHomeDir			= "";
 	static string sSaveDir			= "";
+
+
+   /*=====================================================================*/
+void ocQuit( const int quit_code )
+{
+	cout << "Quit requested, quit code is : " << quit_code
+	     << endl
+	     << "Bye bye !"
+	     << endl;
+	boolQuit = true;
+}
+
+
+   /*=====================================================================*/
+void ocSetNewUI( UI * pcNewUI)
+{
+	uipCurrentUI = pcNewUI;
+}
 
 
    /*=====================================================================*/
@@ -201,17 +220,6 @@ void ocExpose( const SDL_ExposeEvent& rcsExposeEvent )
 
 
    /*=====================================================================*/
-void ocQuit( const int quit_code )
-{
-	cout << "Quit requested, quit code is : " << quit_code
-	     << endl
-	     << "Bye bye !"
-	     << endl;
-	boolQuit = true;
-}
-
-
-   /*=====================================================================*/
 void ocProcessSDLEvents( void )
 {
 	static SDL_Event event;
@@ -253,13 +261,6 @@ void ocProcessSDLEvents( void )
 			break;
 		}
 	}
-}
-
-
-   /*=====================================================================*/
-void ocSetNewUI( UI * pcNewUI)
-{
-	uipCurrentUI = pcNewUI;
 }
 
 
@@ -1049,6 +1050,26 @@ string
 ocSaveDirPrefix( const string & s )
 {
 	return sSaveDir + s;
+}
+
+
+   /*=====================================================================*/
+string ocStrVersion()
+{
+	ostringstream oss;
+
+	oss << OC_VERSION << "." << OC_PATCHLEVEL << "." << OC_SUBLEVEL;
+	return oss.str();
+}
+
+
+   /*=====================================================================*/
+long ocLongVersion()
+{
+	long lVersion = 0;
+
+	lVersion = OC_VERSION*65536 + OC_PATCHLEVEL*256 + OC_SUBLEVEL;
+	return lVersion;
 }
 
 

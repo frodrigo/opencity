@@ -142,12 +142,16 @@ class UI;
 */
 	string ocSaveDirPrefix( const string & s );
 
+	string ocStrVersion();
+	long ocLongVersion();
+
 
    /*=====================================================================*/
    /*                         MAIN      FUNCTIONS                         */
    /*=====================================================================*/
 	void ocQuit( const int = 0 );
 	void ocSetNewUI( UI* );
+
 
 #endif
 

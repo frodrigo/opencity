@@ -234,7 +234,7 @@ int serverMode()
 
 
 // the pointer of our new city
-	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength, 0, 2, false );
+	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength, 2, false );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
 		return (-15);
@@ -578,6 +578,25 @@ ocSaveDirPrefix( const string & s )
 	return sSaveDir + s;
 }
 
+
+   /*=====================================================================*/
+string ocStrVersion()
+{
+	ostringstream oss;
+
+	oss << OC_VERSION << "." << OC_PATCHLEVEL << "." << OC_SUBLEVEL;
+	return oss.str();
+}
+
+
+   /*=====================================================================*/
+long ocLongVersion()
+{
+	long lVersion = 0;
+
+	lVersion = OC_VERSION*65536 + OC_PATCHLEVEL*256 + OC_SUBLEVEL;
+	return lVersion;
+}
 
 
 

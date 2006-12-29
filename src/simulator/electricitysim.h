@@ -1,11 +1,12 @@
 /***************************************************************************
-                          electricitysim.h  -  description
-      $Id$
-                             -------------------
-    begin                : mar fev 3 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
-    internal sim version : 0.0.2
+						electricitysim.h  -  description
+							-------------------
+	begin                : march 3rd, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	internal sim version : 0.0.2
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,11 +21,11 @@
 #ifndef _OPENCITY_ELECTRICITYSIM_H_
 #define _OPENCITY_ELECTRICITYSIM_H_ 1
 
-	#include "main.h"
-	#include "simulator.h"
+#include "main.h"
+#include "simulator.h"
 
-	#include <deque>
-	#include <vector>
+#include <deque>
+#include <vector>
 
 using namespace std;
 

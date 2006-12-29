@@ -81,15 +81,18 @@ The second line of description goes here.
 
 private:
 /** Variable prefixes:
-
 	_:		private member
+	a:		array
 	b:		boolean
 	c:		constant
 	d:		double
+	dq:		deque (double queue)
 	e:		enumeration
 	i:		integer
 	f:		float
+	l:		long
 	p:		pointer
+	q:		std::queue
 	r:		reference
 	s:		structure
 	str:	std::string

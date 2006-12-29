@@ -54,7 +54,7 @@ _sText( rcsText )
 
 // Create the 8x8 font once
 	if (GUILabel::_uiLabelNumber++ == 0) {
-		_createFont();
+		_CreateFont();
 	}
 }
 
@@ -92,7 +92,7 @@ GUILabel::GUILabel(
 
 // Create the 8x8 font once
 	if (GUILabel::_uiLabelNumber++ == 0) {
-		_createFont();
+		_CreateFont();
 	}
 }
 
@@ -104,7 +104,7 @@ GUILabel::~GUILabel()
 
 // Destroy GL list
 	if (--GUILabel::_uiLabelNumber == 0) {
-		_deleteFont();
+		_DeleteFont();
 	}
 }
 
@@ -224,7 +224,7 @@ GUILabel::Resize( const SDL_ResizeEvent& rcEvent )
 
    /*=====================================================================*/
 void
-GUILabel::_createFont()
+GUILabel::_CreateFont()
 {
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 	GUILabel::_uiFontBase = glGenLists( 256 );
@@ -243,7 +243,7 @@ GUILabel::_createFont()
 
    /*=====================================================================*/
 void
-GUILabel::_deleteFont()
+GUILabel::_DeleteFont()
 {
 	if (glIsTexture( GUILabel::_uiFontBase ) == GL_TRUE) {
 		glDeleteLists( GUILabel::_uiFontBase, 256 );

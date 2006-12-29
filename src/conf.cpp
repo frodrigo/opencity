@@ -1,10 +1,11 @@
 /***************************************************************************
-                          conf.cpp    -  description
-        $Id$
-                             -------------------
-    begin                : dim 1 août 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						conf.cpp  -  description
+							-------------------
+	begin                : august 1st, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

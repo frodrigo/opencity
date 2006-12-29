@@ -41,15 +41,14 @@ extern GlobalVar gVars;
 City::City(
 	const uint width,
 	const uint length,
-	const OC_DATE foundedDate,
 	const int difficulty,
 	const bool bGUIEnabled ):
 strCityName("OpenCity"),
 iDifficulty( difficulty ),
 _bGUIEnabled( bGUIEnabled ),
 strFileName(""),
-cityFoundedDate( foundedDate ),
 _liCityFund( OC_FUND_START ),
+_uiPopulation( 0 ),
 boolModified( false ),
 
 _uiDay( 1 ),
@@ -75,8 +74,15 @@ enumCurrentTool( OC_NONE )
 	ocSetNewUI( this );
 
 // Keyboard bool table's initialization
-	for (int i = 0; i < KEY_NUMBER; i++)
+	int i;
+	for (i = 0; i < KEY_NUMBER; i++)
 		this->booltabKeyPressed[i] = false;
+
+// Initialize the statistics
+	Ressource res = {0, 0, 0, 0, 0, 0, 0, 0};
+	for (i = 0; i < OC_MAX_RESSOURCE_RECORD; i++) {
+		_dqRessource.push_back(res);
+	}
 
 // Layers' initialization
 	ptabLayer[ BUILDING_LAYER ] = new BuildingLayer( *this );
@@ -152,12 +158,30 @@ City::SaveTo( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
+// Save the data
 	rfs << _liCityFund << std::ends;
+	rfs << _uiPopulation << std::ends;
 	rfs << _uiDay << std::ends;
 	rfs << _uiMonth << std::ends;
 	rfs << _uiYear << std::ends;
 	rfs << _uiWidth << std::ends;
 	rfs << _uiLength << std::ends;
+
+// Store the ressource statistics
+	Ressource res;
+	int i;
+	for (i = 0; i < OC_MAX_RESSOURCE_RECORD; i++) {
+		res = _dqRessource[i];
+
+		rfs << res.fund << std::ends;
+		rfs << res.population << std::ends;
+		rfs << res.r << std::ends;
+		rfs << res.c << std::ends;
+		rfs << res.i << std::ends;
+		rfs << res.w << std::ends;
+		rfs << res.e << std::ends;
+		rfs << res.g << std::ends;
+	}
 }
 
 
@@ -167,12 +191,30 @@ City::LoadFrom( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
 
+// Load the data
 	rfs >> _liCityFund; rfs.ignore();
+	rfs >> _uiPopulation; rfs.ignore();
 	rfs >> _uiDay; rfs.ignore();
 	rfs >> _uiMonth; rfs.ignore();
 	rfs >> _uiYear; rfs.ignore();
 	rfs >> _uiWidth; rfs.ignore();
 	rfs >> _uiLength; rfs.ignore();
+
+// Load the ressource statistics
+	Ressource res;
+	int i;
+	for (i = 0; i < OC_MAX_RESSOURCE_RECORD; i++) {
+		rfs >> res.fund; rfs.ignore();
+		rfs >> res.population; rfs.ignore();
+		rfs >> res.r; rfs.ignore();
+		rfs >> res.c; rfs.ignore();
+		rfs >> res.i; rfs.ignore();
+		rfs >> res.w; rfs.ignore();
+		rfs >> res.e; rfs.ignore();
+		rfs >> res.g; rfs.ignore();
+
+		_dqRessource[i] = res;
+	}
 }
 
 
@@ -208,6 +250,15 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 			else {
 				_DoBill( OC_MAINTENANCE_COST );
 			}
+
+		// Calculate the population
+			uint r, c, i;
+			r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
+			c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
+			i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
+			_uiPopulation = r + c/2 + i/3;
+
+			_RecordRessource();
 		}
 		uiNumberFrame = 0;
 
@@ -272,6 +323,12 @@ cityrun_swap:
 	plblFund->SetText( ossStatus.str() );
 	ossStatus << " @";
 	gVars.gpRenderer->DisplayText( 10, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+
+// Display the city population
+	ossStatus.str("");
+	ossStatus << _uiPopulation;
+	plblPopulation->SetText( ossStatus.str() );
+
 // Display the R value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
@@ -851,6 +908,12 @@ City::_CreateGUI()
 	plblFund->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
 	ossTemp.str("");
+	ossTemp << _uiPopulation;
+	plblPopulation = new GUILabel( 240, 11, 80, 10, ossTemp.str() );
+	plblPopulation->SetAlign( GUILabel::OC_ALIGN_RIGHT );
+	plblPopulation->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
+
+	ossTemp.str("");
 	ossTemp << _uiDay << "/" << _uiMonth << "/" << _uiYear;
 	plblDate = new GUILabel( 348, 11, 80, 10, ossTemp.str() );
 	plblDate->SetAlign( GUILabel::OC_ALIGN_CENTER );
@@ -858,6 +921,7 @@ City::_CreateGUI()
 
 	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ));
 	pctrStatus->Add( plblFund );
+	pctrStatus->Add( plblPopulation );
 	pctrStatus->Add( plblDate );
 	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 
@@ -982,6 +1046,7 @@ City::_DeleteGUI()
 // Delete the status bar
 	delete pctrStatus;
 	delete plblFund;
+	delete plblPopulation;
 	delete plblDate;
 
 // delete the Query container if needed
@@ -1340,6 +1405,35 @@ City::_HandleKeyPressed()
 
 // tell the caller that there's whether at least a key pressed or not
 	return boolKeyDown;
+}
+
+
+   /*=====================================================================*/
+void
+City::_RecordRessource()
+{
+// Accumulate the income each month
+	uint r, c, i;
+	uint w = 0, e = 0, g = 0;
+	r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
+	c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
+	i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
+
+// Create a new record
+	Ressource res;
+	res.fund = _liCityFund;
+	res.population = _uiPopulation;
+	res.r = r;
+	res.c = c;
+	res.i = i;
+	res.w = w;
+	res.e = e;
+	res.g = g;
+
+// Pop the oldest record if available (safe)
+	if (!_dqRessource.empty())
+		_dqRessource.pop_front();
+	_dqRessource.push_back(res);
 }
 
 
@@ -1843,6 +1937,15 @@ City::_Save( const string& strFilename )
 // Lock the simulator
 	SDL_LockMutex( gVars.gpmutexSim );
 
+// Save the signature
+	string strSignature = "";
+	strSignature = "OpenCity_" + ocStrVersion();
+	long lVersion = ocLongVersion();
+
+// FIXME: we use "space" to end a string
+	fs << strSignature << " ";
+	fs << lVersion << std::ends;
+
 // Save city data
 	this->SaveTo( fs );
 
@@ -1881,6 +1984,13 @@ City::_Load( const string& strFilename )
 
 // Remove all moving objects
 	gVars.gpMoveMgr->Remove();
+
+// Load the signature
+	string strSignature;
+	long lVersion;
+
+	fs >> strSignature; fs.ignore();
+	fs >> lVersion; fs.ignore();
 
 // Load city data
 	this->LoadFrom( fs );

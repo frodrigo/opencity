@@ -1,8 +1,8 @@
 /***************************************************************************
-							city.h    -  description
+							city.h  -  description
 								-------------------
 	begin                : may 28th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -25,6 +25,10 @@
 #include "persistence.h"
 #include "ui.h"
 
+#include <deque>
+
+#define OC_MAX_RESSOURCE_RECORD	20
+
 
 class PathFinder;		// testing pathfinding
 class Vehicle;
@@ -40,15 +44,26 @@ class GUILabel;
 class GUIContainer;
 
 
-   /** The game is here ! This class controls all other classes.
-   */
+//========================================================================
+/** This structure is used to keep track of city ressources
+*/
+struct Ressource {
+	OC_LINT		fund;			///< Money, money, money !
+	uint		population;		///< Number of "oczens"
+	uint		r, c, i;		///< RCI values
+	uint		w, e, g;		///< WEG values
+};
+
+
+//========================================================================
+/** The game is here ! This class controls all other classes.
+*/
 class City : public Persistence, public UI
 {
 public:
 	City(
 		const uint width = OC_CITY_W,
 		const uint length = OC_CITY_L,
-		const OC_DATE foundedDate = 0,
 		const int difficulty = 2,
 		const bool bGUIEnabled = true );
 
@@ -114,10 +129,14 @@ private:
 	int			iDifficulty;		///< The difficulty of current game
 	bool		_bGUIEnabled;		///< GUI mode ?
 	string		strFileName;		///< The fileName of current city
-	OC_DATE		cityFoundedDate;
 	OC_LINT		_liCityFund;		///< Money, money, money !
+	uint		_uiPopulation;		///< Number of "oczens"
 	bool		boolModified;
+
+	std::deque<Ressource>	_dqRessource;	///< Store the last city ressources
+
 /* not used
+	OC_DATE		cityFoundedDate;
 	uint		uiPoliceDpt;
 	uint		uiFireDpt;
 	uint		uiPark;
@@ -188,6 +207,7 @@ private:
 // The status bar
 	GUIContainer* pctrStatus;	// The main status bar container
 	GUILabel* plblFund;			// The fund label
+	GUILabel* plblPopulation;	// The population label
 	GUILabel* plblDate;			// The date label
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
@@ -275,10 +295,14 @@ private:
 */
 	void _DeleteGUI();
 
-	void _DoTool(
-		const SDL_MouseButtonEvent & sdlMBEvent );
+	void _DoTool( const SDL_MouseButtonEvent & sdlMBEvent );
 
 	bool _HandleKeyPressed();
+
+//========================================================================
+/** Save the ressource record to the queue
+*/
+	void _RecordRessource();
 
 	void _DoBill( const OPENCITY_PROPERTY_CODE & );
 

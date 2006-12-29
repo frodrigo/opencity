@@ -105,8 +105,8 @@ private:
 //========================================================================
 // Private methods
 //========================================================================
-	void _createFont();
-	void _deleteFont();
+	void _CreateFont();
+	void _DeleteFont();
 };
 
 #endif
