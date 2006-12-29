@@ -962,7 +962,7 @@ City::_CreateGUI()
 // GUI L toolcircle ( electric lines, electric plants )
 	pbtnLB = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 	pbtnLL = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/power_line" ));
-	pbtnLE = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant" ));
+	pbtnLE = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_nuclear" ));
 
 	pctrL = new GUIContainer( 100, 100, 140, 140 );
 	pctrL->Add( pbtnLB );
