@@ -240,28 +240,29 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 	gVars.gpMoveMgr->Move();
 
 	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
-	// Next day
+	// New day
 		if ( ++_uiDay > 30 ) {
-		// Next month
+		// New month
 			_uiDay = 1;
-			if ( ++_uiMonth > 12 ) {
-			// Next year
-				_uiMonth = 1;
-				_uiYear++;
-				_DoBill( OC_INCOME );
-			}
-			else {
-				_DoBill( OC_MAINTENANCE_COST );
-			}
 
-		// Calculate the population
+		// Calculate the current population
 			uint r, c, i;
 			r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
 			c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
 			i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
 			_uiPopulation = r + c/2 + i/3;
 
-			_RecordRessource();
+			if ( ++_uiMonth > 12 ) {
+			// New year
+				_uiMonth = 1;
+				_uiYear++;
+
+				_DoBill( OC_INCOME );
+				_RecordRessource();
+			}
+			else {
+				_DoBill( OC_MAINTENANCE_COST );
+			}
 		}
 		uiNumberFrame = 0;
 
