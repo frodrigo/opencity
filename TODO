@@ -23,9 +23,10 @@ Add label alignment attribute         (done)
 Add population computation            (done)
 Save file format version              (done)
 Save ressource statistics             (done)
+Fix the income system                 (done)
 Integrate the new status bar          (wip)
+Add new vehicle models
 Fix the orthogonal projection
-Fix the income system
 Variable name clean up                (wip)
 Water layer                           (delayed)
 Water pipe
@@ -45,7 +46,6 @@ Train models
 Crime
 Police agent system
 Minimap
-Add new vehicle models
 Unblocking networking layer
 Add online operation notification clock
 ZeN online map loading

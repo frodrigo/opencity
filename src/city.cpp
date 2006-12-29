@@ -1,8 +1,8 @@
 /***************************************************************************
-							city.cpp  -  description
-								-------------------
-	begin                : mer mai 28 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+						city.cpp  -  description
+							-------------------
+	begin                : may 28th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -47,6 +47,7 @@ strCityName("OpenCity"),
 iDifficulty( difficulty ),
 _bGUIEnabled( bGUIEnabled ),
 strFileName(""),
+_uiIncome( 0 ),
 _liCityFund( OC_FUND_START ),
 _uiPopulation( 0 ),
 boolModified( false ),
@@ -159,6 +160,7 @@ City::SaveTo( std::fstream& rfs )
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "saving" );
 
 // Save the data
+	rfs << _uiIncome << std::ends;
 	rfs << _liCityFund << std::ends;
 	rfs << _uiPopulation << std::ends;
 	rfs << _uiDay << std::ends;
@@ -192,6 +194,7 @@ City::LoadFrom( std::fstream& rfs )
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
 
 // Load the data
+	rfs >> _uiIncome; rfs.ignore();
 	rfs >> _liCityFund; rfs.ignore();
 	rfs >> _uiPopulation; rfs.ignore();
 	rfs >> _uiDay; rfs.ignore();
@@ -1445,7 +1448,6 @@ City::_DoBill(
 	uint maintenance;
 	uint index, surface;
 	Structure* pStruct;
-	static uint income = 0;
 	uint r, c, i;
 
 	surface = _uiWidth * _uiLength;
@@ -1464,21 +1466,21 @@ City::_DoBill(
 	c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
 	i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
 
-	income += (r*OC_R_INCOME_TAX + c*OC_C_INCOME_TAX + i*OC_I_INCOME_TAX) / 100;
+	_uiIncome += (r*OC_R_INCOME_TAX + c*OC_C_INCOME_TAX + i*OC_I_INCOME_TAX) / 100;
 
 // Add the income only if we reach the end of the year
 	if (enumProperty == OC_INCOME ) {
 	// Here is the gouvernment's help for this year :D
-		income += income * OC_INCOME_HELP / 100;
-		_liCityFund += income;
+		_uiIncome += _uiIncome * OC_INCOME_HELP/100;
+		_liCityFund += _uiIncome;
 		OPENCITY_INFO(
 			"Happy new year ! " <<
-			"Income: " << income <<
+			"Income: " << _uiIncome <<
 			" d/m/y: " << _uiDay << "/" << _uiMonth << "/" << _uiYear <<
 			" R/C/I: " << r << "/" << c << "/" << i
 		);
 
-		income = 0;
+		_uiIncome = 0;
 	}
 }
 

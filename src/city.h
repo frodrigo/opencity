@@ -129,6 +129,7 @@ private:
 	int			iDifficulty;		///< The difficulty of current game
 	bool		_bGUIEnabled;		///< GUI mode ?
 	string		strFileName;		///< The fileName of current city
+	uint		_uiIncome;			///< Monthly income accumulator
 	OC_LINT		_liCityFund;		///< Money, money, money !
 	uint		_uiPopulation;		///< Number of "oczens"
 	bool		boolModified;
