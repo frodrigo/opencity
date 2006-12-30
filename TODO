@@ -24,6 +24,9 @@ Add population computation            (done)
 Save file format version              (done)
 Save ressource statistics             (done)
 Fix the income system                 (done)
+Fix terrain highlight bug             (done)
+Fix load/save toolcircle bug          (done)
+Add the coal power plant              (done)
 Integrate the new status bar          (wip)
 Add new vehicle models
 Fix the orthogonal projection
@@ -54,7 +57,7 @@ Add save/load file version
 Add the simulator accelerator key
 Make the simulator CPU independant
 LBS files layout
-
+Texture lighting
 
 
 

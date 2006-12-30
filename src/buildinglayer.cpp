@@ -1,8 +1,8 @@
 /***************************************************************************
 						buildinglayer.cpp  -  description
 							-------------------
-	begin                : sam sep 20 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	begin                : september 20th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -208,6 +208,7 @@ BuildingLayer::IsConstructive(
 			case OC_STRUCTURE_PARK:
 			case OC_STRUCTURE_FLORA:
 			case OC_STRUCTURE_EPLANT_COAL:
+			case OC_STRUCTURE_EPLANT_NUCLEAR:
 			case OC_STRUCTURE_FIREDEPT:
 			case OC_STRUCTURE_POLICEDEPT:
 			case OC_STRUCTURE_HOSPITALDEPT:
@@ -314,6 +315,7 @@ BuildingLayer::BuildStructure(
 		case OC_STRUCTURE_POLICEDEPT:
 		case OC_STRUCTURE_HOSPITALDEPT:
 		case OC_STRUCTURE_EPLANT_COAL:
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
 			errCode = _BuildWEGStructure( W1, L1, enumStructCode, rCost );
 			break;
 
@@ -645,6 +647,7 @@ BuildingLayer::ContainStructure(
 		case OC_STRUCTURE_ROAD:
 		case OC_STRUCTURE_ELINE:
 		case OC_STRUCTURE_EPLANT_COAL:
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
@@ -721,6 +724,7 @@ BuildingLayer::ContainStructureOnly(
 		case OC_STRUCTURE_ROAD:
 		case OC_STRUCTURE_ELINE:
 		case OC_STRUCTURE_EPLANT_COAL:
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
@@ -1325,6 +1329,7 @@ BuildingLayer::_DestroyStructure(
 		case OC_STRUCTURE_HOSPITALDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
 		case OC_STRUCTURE_EPLANT_COAL:
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
 		// Get the width, length and height of the main structure
 		// WARNING: invalid default values given.
 			gVars.gpPropertyMgr->GetWLH( pstructMain->GetGraphicCode(), sw, 0, sl, 0, sh, 0 );

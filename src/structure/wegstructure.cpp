@@ -42,6 +42,9 @@ Structure( enumStructCode )
 // IF this is an electric plant THEN turn on the electricity bit
 	if (enumStructCode == OC_STRUCTURE_EPLANT_COAL) {
 		Set( OC_STRUCTURE_E );
+	} else
+	if (enumStructCode == OC_STRUCTURE_EPLANT_NUCLEAR) {
+		Set( OC_STRUCTURE_E );
 	}
 }
 
@@ -59,8 +62,12 @@ Structure( enumStructCode, pMain )
 			_eGC = OC_EMPTY;
 		   // If this is part of an electric plant
 		   // Then turn the E bit on
-			if ( (pMain!= NULL) && (pMain->GetCode() == OC_STRUCTURE_EPLANT_COAL) )
-				this->Set( OC_STRUCTURE_E );
+			if (pMain!= NULL) {
+				if (pMain->GetCode() == OC_STRUCTURE_EPLANT_COAL)
+					this->Set( OC_STRUCTURE_E );
+				else if (enumStructCode == OC_STRUCTURE_EPLANT_NUCLEAR)
+					this->Set( OC_STRUCTURE_E );
+			}
 			break;
 
 		default:

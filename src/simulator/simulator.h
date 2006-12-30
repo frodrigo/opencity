@@ -47,8 +47,9 @@
 #define OC_SIMULATOR_UP   70			///< 70% of levelup will be done 30% left mean leveldown
 #define OC_SIMULATOR_DOWN 40			///< 40% of leveldown will be done only
 
-#define OC_EPLANT_COAL_POWER 100000		///< The power you get when you build it
-#define OC_EPLANT_COAL_RANGE 2			///< For building and destroying
+// The power you get when you build it
+#define OC_EPLANT_COAL_POWER		20000
+#define OC_EPLANT_NUCLEAR_POWER		50000
 
 #define OC_DEPT_POWER_CONSUMPTION	50	///< Power comsumption of fire, police, school and hospital departments
 

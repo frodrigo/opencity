@@ -18,10 +18,11 @@
  ***************************************************************************/
 
 //========================================================================
-/* General development notes.
+/* General OpenGL development notes. The subroutines must save and restore
+that default states when they terminate.
 
-	Here are the default OpenGL values when the renderer is initialized
-for the first time
+	Here are the default OpenGL states when the renderer is initialized
+for the first time:
 	- Default matrix mode:
 		glMatrixMode( GL_MODELVIEW );
 
@@ -36,6 +37,10 @@ for the first time
 
 	- Default structure display translation vector:
 		glTranslatef( 0., 0.05, 0. );
+
+	- Default lighting
+		glEnable( GL_LIGHTING );
+		glEnable( GL_LIGHT0 );
 */
 //========================================================================
 
@@ -677,6 +682,8 @@ Renderer::DisplayHighlight(
 	_PrepareView();
 
 // Now let's display all the structures in selection mode
+	glPushAttrib( GL_ENABLE_BIT );	
+	glDisable( GL_LIGHTING );
 	glPushMatrix();
 	glTranslatef( 0., 0.1, 0. );
 	for (l = uiL1; l <= uiL2; l++) {
@@ -695,6 +702,7 @@ Renderer::DisplayHighlight(
 		}
 	}
 	glPopMatrix();
+	glPopAttrib();
 }
 
 

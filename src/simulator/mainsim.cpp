@@ -246,6 +246,9 @@ fluctuations in between.
 			case OC_STRUCTURE_EPLANT_COAL:
 				eleVal += OC_EPLANT_COAL_POWER;
 				break;
+			case OC_STRUCTURE_EPLANT_NUCLEAR:
+				eleVal += OC_EPLANT_NUCLEAR_POWER;
+				break;
 
 		// Nothing to do here
 			case OC_STRUCTURE_PARK:

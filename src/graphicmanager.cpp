@@ -1,8 +1,8 @@
 /***************************************************************************
-							graphicmanager.cpp  -  description
-								-------------------
-	begin                : dim sep 21 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+						graphicmanager.cpp  -  description
+							-------------------
+	begin                : september 21th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -301,7 +301,8 @@ GraphicManager::DisplayStructure(
 			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
 
-		case OC_EPLANT_COAL_BOX:
+		case OC_EPLANT_COAL:
+		case OC_EPLANT_NUCLEAR:
 		case OC_FIRE_DEPT:
 		case OC_POLICE_DEPT:
 		case OC_HOSPITAL_DEPT:

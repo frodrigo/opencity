@@ -116,6 +116,8 @@ PropertyManager::Get(
 					value = 3; break;
 				case OC_STRUCTURE_EPLANT_COAL:
 					value = 2000; break;
+				case OC_STRUCTURE_EPLANT_NUCLEAR:
+					value = 5000; break;
 				case OC_STRUCTURE_FIREDEPT:
 				case OC_STRUCTURE_POLICEDEPT:
 				case OC_STRUCTURE_HOSPITALDEPT:
@@ -159,6 +161,9 @@ PropertyManager::Get(
 				case OC_STRUCTURE_EDUCATIONDEPT:
 					value = 200; break;
 
+				case OC_STRUCTURE_EPLANT_NUCLEAR:
+					value = 800; break;
+
 				case OC_STRUCTURE_TEST:			// Development test feature
 					value = 0; break;
 				default:
@@ -181,6 +186,8 @@ PropertyManager::Get(
 					value = 1; break;
 				case OC_STRUCTURE_EPLANT_COAL:
 					value = 20; break;
+				case OC_STRUCTURE_EPLANT_NUCLEAR:
+					value = 80; break;
 				case OC_STRUCTURE_FIREDEPT:
 				case OC_STRUCTURE_POLICEDEPT:
 				case OC_STRUCTURE_HOSPITALDEPT:
@@ -266,7 +273,10 @@ PropertyManager::GetGC(
 			gcode = OC_EMPTY;
 			break;
 		case OC_STRUCTURE_EPLANT_COAL:
-			gcode = OC_EPLANT_COAL_BOX;
+			gcode = OC_EPLANT_COAL;
+			break;
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
+			gcode = OC_EPLANT_NUCLEAR;
 			break;
 		case OC_STRUCTURE_FIREDEPT:
 			gcode = OC_FIRE_DEPT;
@@ -310,6 +320,7 @@ PropertyManager::GetST(
 			tcode = OC_TYPE_INDUSTRY; break;
 
 		case OC_STRUCTURE_EPLANT_COAL:
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
 			tcode = OC_TYPE_ELECTRICITY; break;
 
 		case OC_STRUCTURE_ROAD:

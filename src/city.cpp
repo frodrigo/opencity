@@ -50,15 +50,14 @@ strFileName(""),
 _uiIncome( 0 ),
 _liCityFund( OC_FUND_START ),
 _uiPopulation( 0 ),
-boolModified( false ),
 
 _uiDay( 1 ),
 _uiMonth( 1 ),
 _uiYear( 0 ),
 
-_cTool('N'),
 _uiWidth( width ),
 _uiLength( length ),
+_cTool('N'),
 
 boolLMBPressed( false ),
 enumCurrentLayer( BUILDING_LAYER ),
@@ -108,7 +107,7 @@ enumCurrentTool( OC_NONE )
 		pbtnPathStart = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
 		pbtnPathStop1 = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
 		pbtnPathStop2 = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
-		pbtnTestBuilding = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
+		pbtnTestBuilding = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
 		pctrPath->Add( pbtnPathStart );
 		pctrPath->Add( pbtnPathStop1 );
 		pctrPath->Add( pbtnPathStop2 );
@@ -482,7 +481,7 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			_cTool = 'L';
 			break;
 		case SDLK_e:  // set tool for building electric plants
-			enumCurrentTool = OC_BUILD_EPLANT;
+			enumCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
 			_cTool = 'E';
 			break;
 
@@ -930,12 +929,12 @@ City::_CreateGUI()
 	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 
 // GUI main toolcircle
-	pbtnZ = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
-	pbtnS = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
+	pbtnZ = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
+	pbtnS = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
 	pbtnL = new GUIButton(  20,  20, 30, 30, ocHomeDirPrefix( "graphism/gui/power" ));
 	pbtnP = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/road" ));
 	pbtnX = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/bulldozer" ));
-	pbtnG = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/government" ));
+	pbtnG = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/government" ));
 
 	pctrMain = new GUIContainer( 100, 100, 140, 140 );
 	pctrMain->Add( pbtnZ );
@@ -947,7 +946,7 @@ City::_CreateGUI()
 
 
 // GUI Z toolcircle for RCI buttons
-	pbtnZB = new GUIButton( 20,  80,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnZB = new GUIButton( 20,  70,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 	pbtnZR = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
 	pbtnZC = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/commercial" ));
 	pbtnZI = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/industrial" ));
@@ -962,20 +961,22 @@ City::_CreateGUI()
 // GUI L toolcircle ( electric lines, electric plants )
 	pbtnLB = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 	pbtnLL = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/power_line" ));
-	pbtnLE = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_nuclear" ));
+	pbtnLN = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_nuclear" ));
+	pbtnLC = new GUIButton( 100, 70,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_coal" ));
 
 	pctrL = new GUIContainer( 100, 100, 140, 140 );
 	pctrL->Add( pbtnLB );
 	pctrL->Add( pbtnLL );
-	pctrL->Add( pbtnLE );
+	pctrL->Add( pbtnLN );
+	pctrL->Add( pbtnLC );
 
 
 // GUI T toolcircle ( raise, lower terrain )
 	pbtnTU = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
 	pbtnTD = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
 	pbtnTB = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnTX = new GUIButton( 20,  80,  30, 30, ocHomeDirPrefix( "graphism/gui/destroy" ));
-	pbtnTQ = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
+	pbtnTX = new GUIButton( 20,  70,  30, 30, ocHomeDirPrefix( "graphism/gui/destroy" ));
+	pbtnTQ = new GUIButton( 100, 70, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
 
 	pctrT = new GUIContainer( 100, 100, 140, 140 );
 	pctrT->Add( pbtnTB );
@@ -986,9 +987,9 @@ City::_CreateGUI()
 
 
 // GUI Gouvernement toolcircle ( park, education, hospital, police and fire )
-	pbtnGB = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnGP = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
-	pbtnGE = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/education" ));
+	pbtnGB = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnGP = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
+	pbtnGE = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/education" ));
 	pbtnGH = new GUIButton(  20,  20, 30, 30, ocHomeDirPrefix( "graphism/gui/hospital" ));
 	pbtnGL = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/police" ));
 	pbtnGF = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/fire" ));
@@ -1003,9 +1004,9 @@ City::_CreateGUI()
 
 
 // Create the nature container
-	pbtnNB = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnNP = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
-	pbtnNT = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
+	pbtnNB = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnNP = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
+	pbtnNT = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
 
 	pctrN = new GUIContainer( 100, 100, 140, 140 );
 	pctrN->Add( pbtnNB );
@@ -1014,9 +1015,9 @@ City::_CreateGUI()
 
 
 // Create save/load buttons and the container
-	pbtnSL = new GUIButton(  20,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/save_load" ));
-	pbtnSS = new GUIButton(  60, 100, 30, 30, ocHomeDirPrefix( "graphism/gui/save_save" ));
-	pbtnSB = new GUIButton( 100,  80, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnSL = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/save_load" ));
+	pbtnSS = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/save_save" ));
+	pbtnSB = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 
 	pctrS = new GUIContainer( 100, 100, 140, 140 );
 	pctrS->Add( pbtnSB );
@@ -1096,7 +1097,8 @@ City::_DeleteGUI()
 	delete pctrL;
 	delete pbtnLB;
 	delete pbtnLL;
-	delete pbtnLE;
+	delete pbtnLN;
+	delete pbtnLC;
 
 // GUI Z toolcircle
 	delete pctrZ;
@@ -1193,11 +1195,21 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_EPLANT:
+	case OC_BUILD_EPLANT_COAL:
 		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EPLANT_COAL, cost )) == OC_ERR_FREE) {
+			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, Simulator::OC_ELECTRIC );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+		}
+		break;
+
+	case OC_BUILD_EPLANT_NUCLEAR:
+		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+			BuildStructure(
+				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				OC_STRUCTURE_EPLANT_NUCLEAR, cost )) == OC_ERR_FREE) {
 			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, Simulator::OC_ELECTRIC );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
@@ -1516,7 +1528,7 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_BUILD_ROAD;
 			_cTool = 'P';
 			break;
-		case 5: // T button, open the T toolcircle
+		case 5: // T button, open the "Terrain" toolcircle
 			pctr = pctrT;
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
@@ -1569,9 +1581,13 @@ City::_HandleGUIClick()
 			enumCurrentTool = OC_BUILD_ELINE;
 			_cTool = 'L';
 			break;
-		case 3:  // set tool for building electric plants
-			enumCurrentTool = OC_BUILD_EPLANT;
+		case 3:  // set tool for building nuclear power plant
+			enumCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
 			_cTool = 'E';
+			break;
+		case 4:  // set tool for building coal power plant
+			enumCurrentTool = OC_BUILD_EPLANT_COAL;
+			_cTool = '?';
 			break;
 
 		default:
@@ -1644,7 +1660,7 @@ City::_HandleGUIClick()
 			break;
 	}
 
-// the user clicked on the load/save toolcircle
+// the user clicked on the "nature" toolcircle
 	else if (pctr == pctrN)
 	switch (uiObject) {
 		case 1: // back button, open the government toolcircle
@@ -1671,7 +1687,7 @@ City::_HandleGUIClick()
 	switch (uiObject) {
 		case 1: // back button, open the main toolcircle
 			pctr = pctrMain;
-			pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
+			pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // save
 			_Save( ocSaveDirPrefix( "opencity.save" ) );
@@ -1874,9 +1890,12 @@ City::_BuildPreview()
 				scode = OC_STRUCTURE_ELINE;
 				break;
 		*/
-	
-			case OC_BUILD_EPLANT:
+
+			case OC_BUILD_EPLANT_COAL:
 				scode = OC_STRUCTURE_EPLANT_COAL;
+				break;
+			case OC_BUILD_EPLANT_NUCLEAR:
+				scode = OC_STRUCTURE_EPLANT_NUCLEAR;
 				break;
 			case OC_BUILD_PARK:
 				scode = OC_STRUCTURE_PARK;

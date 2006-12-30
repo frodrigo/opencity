@@ -124,34 +124,25 @@ public:
 
 
 private:
-// Current city's informations
+// City's informations
 	string		strCityName;		///< The name of the city
 	int			iDifficulty;		///< The difficulty of current game
 	bool		_bGUIEnabled;		///< GUI mode ?
 	string		strFileName;		///< The fileName of current city
+
 	uint		_uiIncome;			///< Monthly income accumulator
 	OC_LINT		_liCityFund;		///< Money, money, money !
 	uint		_uiPopulation;		///< Number of "oczens"
-	bool		boolModified;
-
 	std::deque<Ressource>	_dqRessource;	///< Store the last city ressources
-
-/* not used
-	OC_DATE		cityFoundedDate;
-	uint		uiPoliceDpt;
-	uint		uiFireDpt;
-	uint		uiPark;
-*/
 
 	uint		_uiDay;
 	uint		_uiMonth;
 	uint		_uiYear;
 
-	OC_CHAR		_cTool;				///< Tool hotkey
-
 	uint		_uiWidth;			///< City's width, length
 	uint		_uiLength;
 
+	OC_CHAR		_cTool;				///< Tool hotkey
 	int			_iWinWidth;			///< Windows' width, height
 	int			_iWinHeight;
 
@@ -239,7 +230,8 @@ private:
 // EL buttons
 	GUIButton* pbtnLB;		// Back button
 	GUIButton* pbtnLL;		// Electric lines
-	GUIButton* pbtnLE;		// Electric plant
+	GUIButton* pbtnLN;		// Nuclear power plant
+	GUIButton* pbtnLC;		// Coal power plant
 
 // (U)p / (D)own buttons
 	GUIButton* pbtnTB;		// Back button

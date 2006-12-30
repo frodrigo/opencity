@@ -1,8 +1,8 @@
 /***************************************************************************
 						electricitysim.cpp  -  description
 							-------------------
-	begin                : mar 2nd, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	begin                : march 2nd, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -120,6 +120,7 @@ ElectricitySim::Main()
 				switch (pstruct->GetCode()) {
 					// turn the E bit of the following structures on
 					case OC_STRUCTURE_EPLANT_COAL:
+					case OC_STRUCTURE_EPLANT_NUCLEAR:
 						pstruct->Set(OC_STRUCTURE_E);
 						break;
 
@@ -251,16 +252,24 @@ ElectricitySim::AddStructure(
 	Structure* pstruct;
 
 	pstruct = pbuildlayer->GetStructure( w1, h1 );
-	if ( pstruct != NULL )
+	if ( pstruct != NULL ) {
 		switch( pstruct->GetCode() ) {
 			case OC_STRUCTURE_EPLANT_COAL:
 				_iValueMax += OC_EPLANT_COAL_POWER;
 				_uiNumberEPlant++;
 				vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
 				break;
+
+			case OC_STRUCTURE_EPLANT_NUCLEAR:
+				_iValueMax += OC_EPLANT_NUCLEAR_POWER;
+				_uiNumberEPlant++;
+				vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
+				break;
+
 			default: // keep gcc happy
 				break;
 		}
+	}
 }
 
 
@@ -333,6 +342,21 @@ ElectricitySim::RemoveStructure(
 		switch ( enumStructCode ) {
 			case OC_STRUCTURE_EPLANT_COAL:
 				_iValueMax -= OC_EPLANT_COAL_POWER;
+				_uiNumberEPlant--;
+
+			   // search for the pair of mainW, mainH in
+			   // the "vectorpairuiEPlant"
+			   // and delete it if found
+
+				iter = std::find( vectorpairuiEPlant.begin(),
+						  vectorpairuiEPlant.end(),
+						  make_pair( mainW, mainH ) );
+				if ( iter != vectorpairuiEPlant.end() )
+					vectorpairuiEPlant.erase( iter );
+				break;
+
+			case OC_STRUCTURE_EPLANT_NUCLEAR:
+				_iValueMax -= OC_EPLANT_NUCLEAR_POWER;
 				_uiNumberEPlant--;
 
 			   // search for the pair of mainW, mainH in
