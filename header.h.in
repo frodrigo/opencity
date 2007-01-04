@@ -18,6 +18,9 @@
 /* Define to 1 if you have the `GLU' library (-lGLU). */
 #undef HAVE_LIBGLU
 
+/* Define to 1 if you have the `png' library (-lpng). */
+#undef HAVE_LIBPNG
+
 /* Define to 1 if you have the `pthread' library (-lpthread). */
 #undef HAVE_LIBPTHREAD
 
