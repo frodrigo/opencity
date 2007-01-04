@@ -6,4 +6,9 @@ noinst_PROGRAMS = viewer
 
 viewer_LDADD = ../src/model/libmodel.a ../src/triangulation/libtriangulation.a ../src/texture.o ../src/conf.o
 
-viewer_SOURCES = viewer.cpp
+viewer_SOURCES = \
+viewer.cpp \
+pngfuncs.c
+
+noinst_HEADERS = \
+pngfuncs.h

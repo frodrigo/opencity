@@ -6,14 +6,17 @@
 //
 // Visit me at www.demonews.com/hosted/nehe 
 //
-// Code modifed by Frederic Rodrigo 2005 as viewer of object loaded by OpenCity
+// Code modifed by Frederic Rodrigo 2005-2007 as viewer of object loaded by OpenCity
 /*
     TODO:
     - done a better command ligne parser
-    - save in other format than bmp
-    - compute the initial zoom value (for big object)
+    - add geometry commands line argument
+    - resiable window
 */
 
+#include "string"
+
+#include "pngfuncs.h"
 #include "modelloader.h"
 #include "model.h"
 #include "texture.h"
@@ -23,17 +26,14 @@
 int W = 640;
 int H = 480;
 
-Model *model = NULL;
-Conf* pConf = NULL;
-
 /* floats for x rotation, y rotation, z rotation */
 float xrot=30, yrot=30, zrot=0, zoom=3;
 
 
 /* A general OpenGL initialization function.  Sets all of the initial parameters. */
-void InitGL(int Width, int Height)	        // We call this right after our OpenGL window is created.
+int initGL( const int width, const int height )	        // We call this right after our OpenGL window is created.
 {
-	glViewport(0, 0, Width, Height);
+	glViewport(0, 0, width, height);
 	glEnable(GL_TEXTURE_2D);				// Enable Texture Mapping
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 //	glBlendFunc( GL_ONE, GL_ZERO );
@@ -43,11 +43,11 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
 	glEnable(GL_DEPTH_TEST);				// Enables Depth Testing
 //	glDepthMask(GL_FALSE);					// Disable depth buffer writing
 	glShadeModel(GL_SMOOTH);				// Enables Smooth Color Shading
-	
+
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();				// Reset The Projection Matrix
 
-	gluPerspective(45.0f,(GLfloat)Width/(GLfloat)Height,0.1f,100.0f);	// Calculate The Aspect Ratio Of The Window
+	gluPerspective(45.0f,(GLfloat)width/(GLfloat)height,0.1f,100.0f);	// Calculate The Aspect Ratio Of The Window
 
 	glMatrixMode(GL_MODELVIEW);
 
@@ -55,82 +55,99 @@ void InitGL(int Width, int Height)	        // We call this right after our OpenG
 //	glColor3f ( 1.0f, 0.0f, 0.0f ) ;
 //	glColorMaterial ( GL_FRONT_AND_BACK, GL_EMISSION ) ;
 	glEnable ( GL_COLOR_MATERIAL ) ;
+
+	return 0;
 }
 
 
 /* The main drawing function. */
-void DrawGLScene( float width, float length, float height )
+void DrawGLScene( float width, float length, float height, const Model *model )
 {
 	OC_BYTE tabY [] = { 0, 0, 0, 0};
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear The Screen And The Depth Buffer
 	glLoadIdentity();				// Reset The View
-	
+
 	glTranslatef(0.0f,0.0f,-zoom);              // move 5 units into the screen.
-	
+
 	glRotatef(xrot,1.0f,0.0f,0.0f);		// Rotate On The X Axis
 	glRotatef(yrot,0.0f,1.0f,0.0f);		// Rotate On The Y Axis
 	glRotatef(zrot,0.0f,0.0f,1.0f);		// Rotate On The Z Axis
 
 	model->DisplayList( -width/2, -length/2, tabY );
-	
+
 	// swap buffers to display, since we're double buffered.
 	SDL_GL_SwapBuffers();
 }
 
 
-void screenshoot( char *name )
+/* FIXME : Not sure about portability of this function */
+void screenshot( const string name, int w, int h )
 {
 	glPushClientAttrib( GL_CLIENT_PIXEL_STORE_BIT ); // save context
 
-	// make screenshoot file name
-	char* file = new char[ strlen(name)+4+1 ];
-	sprintf( file, "%s.bmp", name );
-
-	int w = W;
-	int h = H;
+	// make screenshot file name
+	string file = name.substr( 0, name.length()-3 ) + "_screenshot.png";
 
 	// Build the screen shot surface
-	unsigned int* someBuffer = new unsigned int[ w * h * 3 ];
-	SDL_Surface *shoot = SDL_CreateRGBSurfaceFrom( someBuffer, w, h, 3*8, 3*w, 0, 0, 0, 0 );
+	unsigned int* someBuffer = new unsigned int[ w * h * 4 ];
+
+        Uint32 rmask, gmask, bmask, amask;
+        #if SDL_BYTEORDER == SDL_BIG_ENDIAN
+        rmask = 0xff000000; gmask = 0x00ff0000; bmask = 0x0000ff00; amask = 0x000000ff;
+        #else
+        rmask = 0x000000ff; gmask = 0x0000ff00; bmask = 0x00ff0000; amask = 0xff000000;
+        #endif
+									
+	SDL_Surface *shot = SDL_CreateRGBSurfaceFrom( someBuffer, w, h, 8*4, w*4, rmask, gmask, bmask, amask );
+//	SDL_Surface *shot = SDL_CreateRGBSurfaceFrom( someBuffer, w, h, 8*4, w*4, 0, 0, 0, 0 );
 
 	// set screenshot context
 	glPixelStorei( GL_PACK_ROW_LENGTH, 0 );
 	glPixelStorei( GL_PACK_ALIGNMENT, 1 );
-	glReadPixels( 0, 0, w, h, GL_BGR, GL_UNSIGNED_BYTE, someBuffer );
+	glReadPixels( 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, someBuffer );
 
-	if( shoot != NULL )
+	if( shot != NULL )
 	{
-		SDL_Surface *shootMirorred = Texture::HorizontalMirror( shoot );
-		if( shootMirorred != NULL && SDL_SaveBMP( shootMirorred, file ) == 0 )
-			printf( "Capture saved under %s\n", file );
+		SDL_Surface *shotMirorred = Texture::HorizontalMirror( shot );
+		if( shotMirorred != NULL )
+		{
+			if( png_save_surface( file.c_str(), shotMirorred ) == 0 )
+			{
+				OPENCITY_INFO( "Capture saved under \"" << file << "\"" );
+			}
+			else
+			{
+				OPENCITY_ERROR( "Failing save capture under \"" << file << "\"" );
+			}
+			SDL_FreeSurface( shotMirorred );
+		}
 		else
-			printf( "Failing save capture under %s\n", file );
-		if( shootMirorred != NULL )
-			SDL_FreeSurface( shootMirorred );
+		{
+			OPENCITY_ERROR( "Failing working whith capture for \"" << file << "\"" );
+		}
+
+		SDL_FreeSurface( shot );
 	}
 	else
-		printf( "Failing take a shoot\n." );
-
-	SDL_FreeSurface( shoot );
+	{
+		OPENCITY_ERROR( "Failling take a shot." );
+	}
 
 	glPopClientAttrib(); // restor context
-	delete [] file;
 	delete [] someBuffer;
 }
 
 
-void loadConf( char *acFile )
+Conf *loadConf( const string &acFile )
 {
-	char *confFile;
-	confFile = (char*) malloc( sizeof(char) * (strlen(acFile)+3) );
-	
-	strcpy( confFile, acFile );
-	sprintf( confFile+strlen(acFile)-2, "conf" );
+	string confFile = acFile.substr( 0, acFile.length()-3 ) + ".conf";
 
-	string *cf = new string( confFile );
-        pConf = new Conf();
-        if( pConf->Open( *cf ) != OC_ERR_FREE )
+	Conf* pConf = new Conf();
+
+        int openStatus = pConf->Open( confFile );
+
+        if( openStatus != OC_ERR_FREE )
 	{
 	    OPENCITY_DEBUG( "fail load confFile = " << confFile );
     	    delete pConf;
@@ -141,127 +158,216 @@ void loadConf( char *acFile )
 	    OPENCITY_DEBUG( "load confFile = " << confFile );
 	}
 
-	delete cf;
-	free( confFile );
+    return pConf;
 }
 
-int main(int argc, char **argv)
+
+string *parseArgLine( const int argc, const char **argv, bool *shot )
 {
-	if( argc == 1 ) {
+	if( argc == 1 )
+	{
 		printf( "Usage: %s [s] model.ac\n", argv[0] );
 		return 0;
 	}
-	
-	char *modelFile = NULL;
-	bool shoot = false;
-	
-	if( argc == 2 ) {
-		modelFile = argv[1];
+
+	if( argc == 2 )
+	{
+		return new string( argv[1] );
 	}
-	
-	if( argc == 3 ) {
-		shoot = true;
-		W = W;
-		H = H;
-		modelFile = argv[2];
+
+	if( argc >= 3 )
+	{
+		*shot = true;
+		return new string( argv[2] );
 	}
-	
+
+	return NULL;
+}
+
+
+int initDiasplay( const uint w, const uint h )
+{
 	/* Initialize SDL for video output */
-	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE) < 0 ) {
-		fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
-		exit(1);
+	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE) < 0 )
+	{
+		fprintf( stderr, "Unable to initialize SDL: %s\n", SDL_GetError() );
+		return -1;
 	}
-	
-	/* Create a 640x480 OpenGL screen */
-	if ( SDL_SetVideoMode(W, H, 0, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF) == NULL ) {
-		fprintf(stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError());
+
+	/* Create a OpenGL screen */
+	if ( SDL_SetVideoMode( w, h, 24, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF ) == NULL )
+	{
+		fprintf( stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError() );
 		SDL_Quit();
-		exit(2);
-	}
-	
-	/* Loop, drawing and checking events */
-	InitGL(W, H);
-
-	model = ModelLoader::Load( modelFile );
-	loadConf( modelFile );
-	float width=1, length=1, height=1;
-	if( pConf != NULL )
-	{
-	    pConf->GetFloat( "width", width, 1 );
-	    pConf->GetFloat( "length", length, 1 );
-	    pConf->GetFloat( "height", height, 1 );
-	    OPENCITY_DEBUG( "Model : " << width << "x" << length << "x" << height );
+		return -1;
 	}
 
-	// heuristic
-	zoom = (width+length)/2*1.5 + .5;
-	OPENCITY_DEBUG( "Zoom : " << zoom );
-	if( zoom < height*3 )
+	return initGL( w, h );
+}
+
+
+Model *loadModel( const string &modelFile, float *width, float *length, float *height )
+{
+	OPENCITY_INFO( "Open model \"" << modelFile << "\"" );
+	Model *model = ModelLoader::Load( modelFile );
+
+	if( model != NULL )
 	{
-	    OPENCITY_DEBUG( "Height" );
-	    zoom = height*3;
+		*width = 1;
+		*length = 1;
+		*height = 1;
+
+		Conf *pConf = loadConf( modelFile );
+		if( pConf != NULL )
+		{
+			pConf->GetFloat( "width", *width, 1 );
+		        pConf->GetFloat( "length", *length, 1 );
+		        pConf->GetFloat( "height", *height, 1 );
+		        OPENCITY_DEBUG( "Model : " << *width << "x" << *length << "x" << *height );
+		        pConf->Close();
+		        delete pConf;
+	    	}
+
+		// heuristic
+	    	zoom = ( (*width) + (*length) )/2*1.5 + .5;
+	    	OPENCITY_DEBUG( "Zoom : " << zoom );
+		if( zoom < (*height) * 3 )
+		{
+		        zoom = (*height) * 3;
+		}
+
+		return model;
 	}
-	
-	DrawGLScene( width, length, height );
-	
-	if( shoot )
+	else
 	{
-		screenshoot( modelFile );
+		return NULL;
 	}
-	else {
+}
+
+
+int main( const int argc, const char **argv )
+{
+	bool shot = false;
+	string *modelFile = parseArgLine( argc, argv, &shot );
+
+	int initDisplay = initDiasplay( W, H );
+	if( initDisplay < 0 )
+	{
+		exit( initDisplay );
+	}
+
+	float width, length, height;
+	Model *model = loadModel( *modelFile, &width, &length, &height );
+	if( model == NULL )
+	{
+		OPENCITY_ERROR( "Can't load model from file : \"" << *modelFile << "\"" );
+		exit( -3 );
+	}
+
+	DrawGLScene( width, length, height, model );
+	
+	if( shot )
+	{
+		screenshot( *modelFile, W, H );
+	}
+	else
+	{
 		int done = 0;
-		while ( ! done ) {
+		while ( ! done )
+		{
 			bool redraw = false;
-			
+
 			SDL_Event event;
-			while ( SDL_PollEvent(&event) ) {
-				switch( event.type ) {
-				case SDL_QUIT: done = 1; break;
-				case SDL_KEYDOWN:
-					switch( event.key.keysym.sym ) {
-					case SDLK_ESCAPE: done = 1; break;
-					case SDLK_SPACE: redraw = true; break;
-					case SDLK_UP: xrot -= 15; redraw = true; break;
-					case SDLK_DOWN: xrot += 15; redraw = true; break;
-					case SDLK_LEFT: yrot -= 15; redraw = true; break;
-					case SDLK_RIGHT: yrot += 15; redraw = true; break;
-					case SDLK_PAGEUP: zoom -= 1; redraw = true; break;
-					case SDLK_PAGEDOWN: zoom += 1; redraw = true; break;
-					case SDLK_l: zoom=3; yrot=45; xrot=30; redraw = true; break;
-					case SDLK_m: zoom=3; yrot=45+90; xrot=30; redraw = true; break;
-					case SDLK_p: zoom=3; yrot=45+180; xrot=30; redraw = true; break;
-					case SDLK_o: zoom=3; yrot=45+270; xrot=30; redraw = true; break;
-					// Chose the wireframe polygon mode
-					case SDLK_f: glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); redraw=true; break;
-					// Chose the textured polygon mode
-					case SDLK_t: glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); redraw=true; break;
-					case SDLK_s: screenshoot( modelFile ); break;
+			while ( SDL_PollEvent(&event) )
+			{
+				switch( event.type )
+				{
+					case SDL_QUIT:
+						done = 1;
+						break;
+					case SDL_KEYDOWN:
+						redraw = true;
+						switch( event.key.keysym.sym )
+						{
+							case SDLK_ESCAPE:
+								done = 1;
+								redraw = false;
+								break;
+							case SDLK_SPACE:
+								break;
+							case SDLK_UP:
+								xrot -= 15;
+								break;
+							case SDLK_DOWN:
+								xrot += 15;
+								break;
+							case SDLK_LEFT:
+								yrot -= 15;
+								break;
+							case SDLK_RIGHT:
+								yrot += 15;
+								break;
+							case SDLK_PAGEUP:
+								zoom -= 1;
+								break;
+							case SDLK_PAGEDOWN:
+								zoom += 1;
+								break;
+							case SDLK_l:
+								zoom=3;
+								yrot=45;
+								xrot=30;
+								break;
+							case SDLK_m:
+								zoom=3;
+								yrot=45+90;
+								xrot=30;
+								break;
+							case SDLK_p:
+								zoom=3;
+								yrot=45+180;
+								xrot=30;
+								break;
+							case SDLK_o:
+								zoom=3;
+								yrot=45+270;
+								xrot=30;
+								break;
+							// Chose the wireframe polygon mode
+							case SDLK_f:
+								glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+								break;
+							// Chose the textured polygon mode
+							case SDLK_t:
+								glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+								break;
+							case SDLK_s:
+								screenshot( *modelFile, W, H );
+								break;
+							default:
+								redraw=false;
+	    					};
+						break;
+		    			case SDL_VIDEOEXPOSE:
+						redraw = true;
+						break;
 					default: ;
-					};
-					break;
-					case SDL_VIDEOEXPOSE:
-					redraw = true; break;
-				default: ;
 				}
 			}
-			
-			if( redraw == true ) {
-				DrawGLScene( width, length, height );
+
+			if( redraw == true )
+			{
+				DrawGLScene( width, length, height, model );
 			}
-			
+
 			SDL_Delay( 50 );
-		}
-	
-	} // shoot
-	
+		}	
+	} // shot
+
+	delete model;
+	delete modelFile;
+
 	SDL_Quit();
-	
-	if( pConf != NULL )
-	{
-    	    pConf->Close();
-	    delete pConf;
-	}
-	
 	return 1;
 }
 

@@ -168,6 +168,10 @@ AC_CHECK_LIB(SDL_image, IMG_Load, ,
 AC_CHECK_LIB(SDL_net, SDLNet_Init, ,
         AC_MSG_ERROR([SDL_net library required. See FAQ for more information]))
 
+# Need for viewer, also dependency of SDL_image
+AC_CHECK_LIB(png, png_create_write_struct, ,
+        AC_MSG_ERROR([PNG library required. See FAQ for more information]))
+
 
 dnl ===========================================================================
 dnl Checks for header files.
