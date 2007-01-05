@@ -11,7 +11,6 @@
     TODO:
     - done a better command ligne parser
     - add geometry commands line argument
-    - resiable window
 */
 
 #include "string"
@@ -164,7 +163,7 @@ Conf *loadConf( const string &acFile )
 
 string *parseArgLine( const int argc, const char **argv, bool *shot )
 {
-	if( argc == 1 )
+	if( argc <= 1 )
 	{
 		printf( "Usage: %s [s] model.ac\n", argv[0] );
 		return 0;
@@ -187,15 +186,8 @@ string *parseArgLine( const int argc, const char **argv, bool *shot )
 
 int initDiasplay( const uint w, const uint h )
 {
-	/* Initialize SDL for video output */
-	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE) < 0 )
-	{
-		fprintf( stderr, "Unable to initialize SDL: %s\n", SDL_GetError() );
-		return -1;
-	}
-
 	/* Create a OpenGL screen */
-	if ( SDL_SetVideoMode( w, h, 24, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF ) == NULL )
+	if ( SDL_SetVideoMode( w, h, 24, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_RESIZABLE ) == NULL )
 	{
 		fprintf( stderr, "Unable to create OpenGL screen: %s\n", SDL_GetError() );
 		SDL_Quit();
@@ -249,6 +241,18 @@ int main( const int argc, const char **argv )
 {
 	bool shot = false;
 	string *modelFile = parseArgLine( argc, argv, &shot );
+
+	if( modelFile == NULL )
+	{
+		exit( 0 );
+	}
+
+	/* Initialize SDL for video output */
+	if ( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE) < 0 )
+	{
+		fprintf( stderr, "Unable to initialize SDL: %s\n", SDL_GetError() );
+		return -1;
+	}
 
 	int initDisplay = initDiasplay( W, H );
 	if( initDisplay < 0 )
@@ -351,6 +355,10 @@ int main( const int argc, const char **argv )
 		    			case SDL_VIDEOEXPOSE:
 						redraw = true;
 						break;
+					case SDL_VIDEORESIZE:
+						W = event.resize.w;
+						H = event.resize.h;
+					    	initDiasplay( W, H );
 					default: ;
 				}
 			}
