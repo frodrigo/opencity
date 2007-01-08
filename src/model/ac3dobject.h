@@ -60,18 +60,28 @@ public:
 
 
 //========================================================================
-/** Add a new kid to this object
+/** Add a new kid to this object. It automatically set the translucent
+attribute of the children to true if the parent is a translucent group.
 */
 	void
 	AddKid( AC3DObject* kid );
 
 
 //========================================================================
-/** Decode the "name" to determine whether the object is translucent or not
+/** Decode the "name" attribute to determine whether the object is
+translucent or not. This is specific to OpenCity
 	\return True if the object is translucent
 */
 	bool
 	IsTranslucent() const;
+
+
+//========================================================================
+/** Set the translucent attribute of the object to true regarless its
+encoded value in the "name" attribute.
+*/
+	void
+	SetTranslucent(bool bValue);
 
 
 //========================================================================
@@ -152,7 +162,9 @@ private:
 	float	fLoc[3];				///< Translation vector
 	float	fCrease;				///< Angle in degrees for calculating normals for smoothing
 	string	strURL;					///< The URL of the file
-	
+
+	bool	_bTranslucent;			///< True if the object is translucent, false otherwise
+
 	uint	uiNumVert;				///< Number of vertices in this object
 	vector<Vertex> vVertex;			///< Table of vertices
 

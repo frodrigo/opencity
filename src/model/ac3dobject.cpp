@@ -32,6 +32,7 @@ namespace AC3D {
 AC3DObject::AC3DObject():
 strName(""),
 fCrease(45),
+_bTranslucent(false),
 uiNumVert(0),
 uiNumSurf(0),
 uiKids(0)
@@ -50,6 +51,7 @@ AC3DObject::AC3DObject
 ):
 strName(""),
 fCrease(45),
+_bTranslucent(false),
 uiNumVert(0),
 uiNumSurf(0),
 uiKids(0)
@@ -86,6 +88,10 @@ AC3DObject::AddKid
 )
 {
 	this->vpObject.push_back( kid );
+
+// Automatically set the translucent attribute
+	if (_bTranslucent && (this->type == OBJECT_GROUP))
+		kid->SetTranslucent(true);
 }
 
 
@@ -93,7 +99,15 @@ AC3DObject::AddKid
 bool
 AC3DObject::IsTranslucent() const
 {
-	return (this->strName.find("alpha") != string::npos);
+	return _bTranslucent;
+}
+
+
+   /*=====================================================================*/
+void
+AC3DObject::SetTranslucent(bool bValue)
+{
+	_bTranslucent = bValue;
 }
 
 
@@ -180,6 +194,7 @@ AC3DObject::Parse(
 			sscanf( line,  "name %s", cstr );
 			this->strName = cstr;
 			data.getline( line, AC3D_MAX_LINE_LENGTH );
+			_bTranslucent = (this->strName.find("alpha") != string::npos);
 		} else
 		if ( strncmp( line, AC3D_TOKEN_TEXTURE, AC3D_TOKEN_TEXTURE_L ) == 0 ) {
 			sscanf( line, "texture %s", cstr );

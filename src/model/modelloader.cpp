@@ -1,8 +1,8 @@
 /***************************************************************************
 						modelloader.cpp  -  description
 							-------------------
-	begin                : sam mai 22 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	begin                : may 22th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -42,9 +42,9 @@ using std::ifstream;
 using namespace AC3D;
 
 
-// Accumulate the locations command
-float locAccu[3];
-bool bNeedAlpha;
+// Local module static variables
+static float locAccu[3];		// Accumulate the locations command
+static bool bNeedAlpha;			// Alpha processing
 
 // Debug variables
 //	unsigned int nbPoly;

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DModel.cpp  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						AC3DModel.cpp  -  description
+							-------------------
+	begin                : june 29th, 05
+	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -141,7 +142,7 @@ AC3DModel::ac3dmodelParse()
 		} else
 		if( strncmp( line, AC3D_TOKEN_OBJECT, AC3D_TOKEN_OBJECT_L ) == 0 ) {
 			ss.str("");
-			//debug cout << "New line: " << line << endl;
+// debug cout << "New line: " << line << endl;
 			ss << line << endl;
 
 		// Get all the OBJECT block
@@ -153,7 +154,7 @@ AC3DModel::ac3dmodelParse()
 					endBlock = true;
 				}
 				else {
-					//debug cout << "New line: " << line << endl;
+// debug cout << "New line: " << line << endl;
 					ss << line << endl;
 					in.getline( line, AC3D_MAX_LINE_LENGTH );
 				}
