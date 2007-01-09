@@ -155,7 +155,7 @@ encoded value in the "name" attribute.
 private:
 	OBJECT_TYPE type;				///< Object's type
 	string	strName;				///< Content of the "name" command
-	int		iData;					///< Not used
+	string	_sData;					///< The optional data is stocked as std::string
 	string	strTexture;				///< Texture file name
 	float	fTexRep[2];				///< Default (1, 1). The texture repeat values for the tiling of a texture on an object's surfaces.
 	float	fRot[9];				///< Rotation matrix
@@ -175,9 +175,9 @@ private:
 	vector<AC3DObject*> vpObject;	///< Table of child objects
 
 
-   /*=====================================================================*/
-   /*                         PRIVATE     METHODS                         */
-   /*=====================================================================*/
+//========================================================================
+// Private methods
+//========================================================================
 	void ac3dSetDefault();
 
 	void

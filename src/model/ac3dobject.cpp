@@ -1,8 +1,8 @@
 /***************************************************************************
-							AC3DModel.h  -  description
-								-------------------
-	begin                : mer juin 29 05
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+						AC3DModel.h  -  description
+							-------------------
+	begin                : june 29th, 05
+	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -19,8 +19,8 @@
 
 #include "ac3dobject.h"
 
-#include "macros.h"		// debug macros
-#include "ac3dmacros.h"
+#include "macros.h"				// debug macros
+#include "ac3dmacros.h"			// AC3D specific macros
 
 #include <cstring>
 
@@ -175,6 +175,7 @@ AC3DObject::Parse(
 {
 	char line[AC3D_MAX_LINE_LENGTH];
 	char cstr[AC3D_MAX_LINE_LENGTH];
+	uint uiDataSize;		// The size of the optional data
 
 //debug cout << "Given ss: " << data.str() << endl;
 	
@@ -194,7 +195,22 @@ AC3DObject::Parse(
 			sscanf( line,  "name %s", cstr );
 			this->strName = cstr;
 			data.getline( line, AC3D_MAX_LINE_LENGTH );
-			_bTranslucent = (this->strName.find("alpha") != string::npos);
+		} else
+		if ( strncmp( line, AC3D_TOKEN_DATA, AC3D_TOKEN_DATA_L ) == 0 ) {
+			sscanf( line,  "data %u", &uiDataSize );
+		// Buffer overflow protection
+			if ( uiDataSize >= AC3D_MAX_LINE_LENGTH ) {
+				OPENCITY_FATAL( "The optional data is too big." );
+				abort();
+			}
+		// Extract the optional data
+			data.getline( cstr, AC3D_MAX_LINE_LENGTH );
+			cstr[uiDataSize] = '\0';
+			_sData = cstr;
+		// OpenCity AC3D "alpha" command detection
+			_bTranslucent = (_sData.find(OC_AC3D_TOKEN_ALPHA) != string::npos);
+			data.getline( line, AC3D_MAX_LINE_LENGTH );
+			OPENCITY_DEBUG( "The AC3D optional data is : |" << _sData << "|" );
 		} else
 		if ( strncmp( line, AC3D_TOKEN_TEXTURE, AC3D_TOKEN_TEXTURE_L ) == 0 ) {
 			sscanf( line, "texture %s", cstr );
@@ -247,7 +263,7 @@ AC3DObject::Parse(
 			ac3dobjectParseSurface( this->uiNumSurf, data, line );
 		} else {
 			OPENCITY_DEBUG("WARNING: unknown command discarded. See below: ");
-			OPENCITY_DEBUG( line );
+			OPENCITY_DEBUG( "|" << line << "|" );
 			data.getline( line, AC3D_MAX_LINE_LENGTH );
 		}
 	}

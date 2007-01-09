@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DModel.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						AC3DModel.h  -  description
+							-------------------
+	begin                : june 29th, 05
+	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -32,8 +33,7 @@ namespace AC3D {
 class AC3DObject;
 
 //========================================================================
-/**
-	An independant AC3DModel loader
+/** An independant AC3DModel loader
 */
 class AC3DModel{
 public:
@@ -52,10 +52,10 @@ public:
 
 private:
 	bool bGood;
-	string strHeader;			// "AC3Dx"
+	string strHeader;			///< "AC3Dx"
 	string strFileName;	
 	vector<AC3DMaterial> vMaterial;
-	AC3DObject* pObject;		// The "world" object
+	AC3DObject* pObject;		///< The "world" object
 
 	bool ac3dmodelParse();
 };
