@@ -104,8 +104,10 @@ refs 4
 7 0.998983 0.997078
 kids 0
 OBJECT poly
-name "alpha=1"
+name "MARKET"
 loc 1.45167 0.599593 -1.19209e-07
+data 10
+alpha=true
 texture "por.png"
 crease 45.000000
 numvert 4

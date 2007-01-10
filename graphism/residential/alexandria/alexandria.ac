@@ -7,8 +7,10 @@ name "l=2"
 loc 0.504894 0.543642 0.43852
 kids 4
 OBJECT poly
-name "name=escalier;alpha=1"
+name "escalier"
 loc -0.0048936 -0.0186424 0.01148
+data 10
+alpha=true
 texture "tex.png"
 crease 45.000000
 numvert 29
@@ -479,14 +481,14 @@ refs 4
 kids 0
 OBJECT poly
 name "rect"
-loc -0.000509441 1.85737 0.0019083
+loc -0.000509441 0.758164 0.0019083
 texture "tex.png"
 crease 45.000000
 numvert 4
--0.0991948 -2.30036 0
--0.0876383 -2.30036 0
--0.0876383 -2.06176 0
--0.0991948 -2.06176 0
+-0.0991948 -1.07395 0
+-0.0876383 -1.07395 0
+-0.0876383 -0.962554 0
+-0.0991948 -0.962554 0
 numsurf 1
 SURF 0x20
 mat 0

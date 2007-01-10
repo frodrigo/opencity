@@ -73,8 +73,10 @@ refs 4
 6 0.00189154 0.496656
 kids 0
 OBJECT poly
-name "alpha=1"
+name "grid"
 loc 1.5 0.1375 1.5
+data 10
+alpha=true
 texture "texture.png"
 crease 45.000000
 numvert 20

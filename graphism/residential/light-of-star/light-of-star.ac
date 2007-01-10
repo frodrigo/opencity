@@ -211,8 +211,10 @@ refs 4
 0 0.00214075 0.494917
 kids 0
 OBJECT poly
-name "alpha=1"
+name "small tree"
 loc 0.85 0.108333 0.75
+data 10
+alpha=true
 texture "light-of-star.png"
 crease 45.000000
 numvert 16
@@ -263,8 +265,10 @@ refs 4
 12 0.508741 0.475609
 kids 0
 OBJECT poly
-name "alpha=1"
+name "tree"
 loc 0.2 0.361111 0.9
+data 10
+alpha=true
 texture "light-of-star.png"
 crease 45.000000
 numvert 8

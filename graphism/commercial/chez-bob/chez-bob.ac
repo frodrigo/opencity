@@ -739,8 +739,10 @@ refs 4
 0 0.376146 0.468958
 kids 0
 OBJECT poly
-name "alpha=1"
+name "sun"
 loc 0.55 0.1875 0.65
+data 10
+alpha=true
 texture "texture.png"
 crease 45.000000
 numvert 4

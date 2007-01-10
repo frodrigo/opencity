@@ -318,8 +318,10 @@ refs 4
 7 0.982864 0.0393688
 kids 0
 OBJECT poly
-name "alpha=1"
+name "RESTAURANT"
 loc 0.863374 0.732625 0.399999
+data 10
+alpha=true
 texture "tex.png"
 crease 45.000000
 numvert 4

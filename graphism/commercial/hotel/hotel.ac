@@ -267,8 +267,10 @@ refs 4
 2 0.691105 0.997941
 kids 0
 OBJECT group
-name "alpha=1"
+name "HOTEL"
 loc -0.2 1.35 1.9
+data 10
+alpha=true
 kids 2
 OBJECT poly
 name "rect"

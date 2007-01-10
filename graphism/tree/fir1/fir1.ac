@@ -3,8 +3,10 @@ MATERIAL "ac3dmat1" rgb 1 1 1  amb 0.2 0.2 0.2  emis 0 0 0  spec 0 0 0  shi 10  
 OBJECT world
 kids 1
 OBJECT poly
-name "alpha=1"
+name "fir"
 loc 0.7 0.4 0.5
+data 10
+alpha=true
 texture "IMG_5215-2.png"
 crease 45.000000
 numvert 24

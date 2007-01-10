@@ -45,8 +45,10 @@ refs 6
 0 0.248628 0.752193
 kids 0
 OBJECT poly
-name "alpha=1"
+name "object"
 loc 0.699851 0.202652 0.65
+data 10
+alpha=true
 texture "texture.png"
 crease 45.000000
 numvert 4
@@ -161,30 +163,6 @@ refs 4
 11 0.499628 0.749289
 7 0.499628 0.500177
 kids 0
-OBJECT group
-name "level_start=2"
-loc 0.449347 0.314833 0.498565
-texture "texture.png"
-kids 1
-OBJECT poly
-name "alpha=1"
-loc -0.115453 -0.183751 0.00243351
-texture "texture.png"
-crease 45.000000
-numvert 4
-0.366106 0.138918 0.399002
-0.0661059 0.138918 0.399002
-0.0661059 -0.131082 0.399002
-0.366106 -0.131082 0.399002
-numsurf 1
-SURF 0x20
-mat 0
-refs 4
-0 0.500301 0.998252
-1 0.25131 0.998252
-2 0.252282 0.750354
-3 0.500301 0.750354
-kids 0
 OBJECT poly
 name "box"
 loc 0.925 0.225 0.9
@@ -264,4 +242,25 @@ refs 4
 14 0.675983 0.967599
 13 0.675983 0.765654
 9 0.526248 0.765654
+kids 0
+OBJECT poly
+name "ad"
+loc 0.333894 0.131082 0.500998
+data 10
+alpha=true
+texture "texture.png"
+crease 45.000000
+numvert 4
+0.366106 0.138918 0.399002
+0.0661059 0.138918 0.399002
+0.0661059 -0.131082 0.399002
+0.366106 -0.131082 0.399002
+numsurf 1
+SURF 0x20
+mat 0
+refs 4
+0 0.500301 0.998252
+1 0.25131 0.998252
+2 0.252282 0.750354
+3 0.500301 0.750354
 kids 0
