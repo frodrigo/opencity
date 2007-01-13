@@ -25,6 +25,8 @@
 namespace MapGen
 {
 
+
+//========================================================================
 /** Linear re-range of the map
 */
 class Normalize: public Filter {
@@ -41,6 +43,7 @@ private:
 	float	_max;
 
 };
+
 
 }
 

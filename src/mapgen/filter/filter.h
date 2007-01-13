@@ -25,6 +25,8 @@
 namespace MapGen
 {
 
+
+//========================================================================
 /** Filter abstract class/interface
 */
 class Filter {
@@ -38,12 +40,18 @@ public:
 */
 	virtual void apply( Map* map );
 
+
 protected:
+
+//========================================================================
+/** Extract the min and the max values out of the map
+*/
 	void _getMinMax(
 		const Map* map,
-		float* min,
-		float* max );
+		float& min,
+		float& max );
 };
+
 
 }
 

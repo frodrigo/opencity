@@ -25,26 +25,37 @@
 namespace MapGen
 {
 
+
+//========================================================================
 /** Square and diamon generator
 	- generate cyclic map
 	- generate square map with side = 2^x
 */
 class Diamon: public Generator {
 public:
-	/** order is log2 of produced map side */
+//========================================================================
+/** The order is log2 of produced map side */
 	Diamon( const uint seed, const uint order );
+	~Diamon();
+
 
 	Map* render() const;
 
 private:
 	uint	_side;
-	
-	/* return a random in [-p..p[ */
-	float _all( const uint p ) const;
 
-	/* recursive render */
+
+//========================================================================
+/** Return a random in [-p..p[
+*/
+	inline static float _all( const uint p );
+
+
+//========================================================================
+/** Recursive render
+*/
 	void _sub(
-   		Map* map,
+		Map* map,
 		const uint x1,
 		const uint y1,
 		const uint x2,

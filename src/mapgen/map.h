@@ -37,48 +37,59 @@ using std::string;
 namespace MapGen
 {
 
-/**
-	Float height map
+
+//========================================================================
+/** Float height map
 */
 class Map {
 public:
 	Map(
 		const uint w,
 		const uint h );
-
 	~Map();
 
-	/* module setter */
+
+//========================================================================
+/** Module setter */
 	void setAt(
 		int x,
 		int y,
 		float value );
 
-	/* modulo getter */
+
+//========================================================================
+/** Modulo getter */
 	float getAt(
 		int x,
 		int y ) const;
+
 
 	bool save( const string &file );
 
 	inline uint getW() const { return _w; }
 
-	inline uint getH() const { return _h; }
+	inline uint getL() const { return _l; }
 
-	/* Return a sub-map */
+
+//========================================================================
+/** Return a sub-map */
 	Map* crop(
 		const uint w,
 		const uint h ) const;
 
-	/* Convert the private float array to an allocated int array */
-	int *toIntArray() const;
+
+//========================================================================
+/** Convert the private float array to an allocated int array */
+	int* toIntArray() const;
+
 
 private:
 	uint	_w;
-	uint	_h;
-	float	**_map;
+	uint	_l;
+	float**	_map;
 
 };
+
 
 }
 

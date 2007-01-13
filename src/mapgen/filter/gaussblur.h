@@ -25,27 +25,29 @@
 namespace MapGen
 {
 
+
+//========================================================================
 /** Apply a Guass blur on the map with arbitrary precision window size
 */
 class GaussBlur: public Filter {
 public:
 	GaussBlur( const uint length );
-
 	~GaussBlur();
 
 	void apply( Map* map );
 
 private:
-	uint	_length;
-	float	*_convulsion;
+	uint	_uiLength;
+	float*	_afConvulsion;
 
-	static float _gauss(
-			const uint x,
-			const uint width );
+	inline static float _gauss(
+		const uint x,
+		const uint width );
 
-	static float *_blur( const uint length );
+	static float* _blur( const uint length );
 
 };
+
 
 }
 

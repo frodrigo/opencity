@@ -25,6 +25,8 @@
 namespace MapGen
 {
 
+
+//========================================================================
 /** Use a x^power function to resample the map
 */
 class Flattern: public Filter {
@@ -39,6 +41,7 @@ private:
 	float	_power;
 
 };
+
 
 }
 

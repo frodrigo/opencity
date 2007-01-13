@@ -23,23 +23,25 @@
 #include <fstream>
 using namespace std;
 
+
 namespace MapGen
 {
+
 
    /*=====================================================================*/
 Map::Map(
 	const uint w,
 	const uint h ):
 _w(w),
-_h(h)
+_l(h)
 {
 	MAP_DEBUG( "ctor" );
 
 	_map = new float*[_w];
 	for( uint x=0 ; x<_w ; x++ )
 	{
-		_map[x] = new float[_h];
-		for( uint y=0 ; y<_h ; y++ )
+		_map[x] = new float[_l];
+		for( uint y=0 ; y<_l ; y++ )
 			_map[x][y] = 0.0;
 	}
 }
@@ -57,21 +59,23 @@ Map::~Map()
 
 
    /*=====================================================================*/
-void Map::setAt(
-		int x,
-		int y,
-		float value )
+void
+Map::setAt(
+	int x,
+	int y,
+	float value )
 {
-	_map[x%_w][y%_h] = value;
+	_map[x%_w][y%_l] = value;
 }
 
 
    /*=====================================================================*/
-float Map::getAt(
-		int x,
-		int y ) const
+float
+Map::getAt(
+	int x,
+	int y ) const
 {
-	return _map[x%_w][y%_h];
+	return _map[x%_w][y%_l];
 }
 
 
@@ -80,24 +84,25 @@ bool Map::save(	const string &file )
 {
 	ofstream f( file.c_str(), ios::out );
 		
-		if( ! f )
+	if ( !f ) {
 		return false;
-	else
-	{
-			f << "P2" << endl;
-			f << _w << " " << _h << endl;
-			f << "256" << endl;
+	}
+	else {
+		f << "P2" << endl;
+		f << _w << " " << _l << endl;
+		f << "256" << endl;
 		for( uint x=0 ; x<_w ; x++ )
-			for( uint y=0 ; y<_h ; y++ )
+			for( uint y=0 ; y<_l ; y++ )
 				f << int(_map[x][y]) << endl;
-			f.close();
+
+		f.close();
 		return true;
 	}
 }
 
 
    /*=====================================================================*/
-Map *Map::crop(
+Map* Map::crop(
 		const uint w,
 		const uint h ) const
 {
@@ -112,13 +117,16 @@ Map *Map::crop(
 
 
    /*=====================================================================*/
-int *Map::toIntArray() const
+int* Map::toIntArray() const
 {
-	int* map = new int[_w*_h];
+	int* map = new int[_w*_l];
+
 	for( uint x=0 ; x<_w ; x++ )
-		for( uint y=0 ; y<_h ; y++ )
+		for( uint y=0 ; y<_l ; y++ )
 			map[x+y*_w] = (int) round( getAt( x, y ) );
+
 	return map;
 }
+
 
 }

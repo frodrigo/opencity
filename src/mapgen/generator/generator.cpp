@@ -19,10 +19,11 @@
 
 #include "generator.h"
 
-#include <stdlib.h>
+//#include <stdlib.h>
 
 namespace MapGen
 {
+
 
    /*=====================================================================*/
 Generator::Generator( const uint seed )
@@ -42,7 +43,9 @@ Generator::~Generator()
    /*=====================================================================*/
 Map* Generator::render() const
 {
+	// FIXME: why 50x50 ?
 	return new Map( 50, 50 );
 }
+
 
 }

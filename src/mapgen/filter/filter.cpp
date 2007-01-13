@@ -45,19 +45,24 @@ void Filter::apply( Map* map )
    /*=====================================================================*/
 void Filter::_getMinMax(
 	const Map* map,
-	float* min,
-	float* max )
+	float& min,
+	float& max )
 {
-	*min = *max = map->getAt( 0, 0 );
+	uint x = 0, y = 0;
+	uint w = 0, l = 0;
+	float val = 0;
+
+	min = max = map->getAt( 0, 0 );
+	w = map->getW();
+	l = map->getL();
 	
-	for( uint x=0 ; x<map->getW() ; ++x )
-		for( uint y=0 ; y<map->getH() ; ++y )
-		{
-			float val = map->getAt( x, y );
-			if( val < *min )
-				*min = val;
-			if( val > *max )
-				*max = val;
+	for( x = 0; x < w; ++x )
+		for( y = 0; y < l; ++y ) {
+			val = map->getAt( x, y );
+			if( val < min )
+				min = val;
+			if( val > max )
+				max = val;
 		}
 }
 

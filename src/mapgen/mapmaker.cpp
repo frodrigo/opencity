@@ -25,7 +25,6 @@
 #include "normalize.h"
 
 #include <cmath>
-#include <vector>
 #include <stdlib.h>
 #include <time.h>
 using std::vector;
@@ -92,7 +91,7 @@ Map* MapMaker::_generate(
 		delete *i;
 	}
 
-	Map *cropedMap = map->crop( _w, _h );
+	Map* cropedMap = map->crop( _w, _h );
 	delete map;
 	return cropedMap;
 }
@@ -182,16 +181,18 @@ void MapMaker::_generateTreeDensity( const uint seed )
 }
 
 
-
-int *MapMaker::getMap()
+   /*=====================================================================*/
+int* MapMaker::getMap()
 {
 	return _map->toIntArray();
 }
 
 
-int *MapMaker::getTreeDensity()
+   /*=====================================================================*/
+int* MapMaker::getTreeDensity()
 {
 	return _treeDensity->toIntArray();
 }
+
 
 }

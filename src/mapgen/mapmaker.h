@@ -22,16 +22,21 @@
 
 #include "map.h"
 
-#include "generator/generator.h"
-#include "filter/filter.h"
 #include <vector>
 using std::vector;
+
 
 namespace MapGen
 {
 
-/**
-	Map generators and filters interface
+
+// Forwar declarations
+class Generator;
+class Filter;
+
+
+//========================================================================
+/** Map generators and filters interface
 */
 class MapMaker {
 public:
@@ -80,12 +85,13 @@ private:
 
 	uint		_seed;
 
-   /*=====================================================================*/
-   /*                         PRIVATE     METHODS                         */
-   /*=====================================================================*/
+
+//========================================================================
+// Private methods
+//========================================================================
 	Map* _generate(
-    		const Generator* generator,
-    		vector<Filter*> filters ) const;
+    	const Generator* generator,
+    	vector<Filter*> filters ) const;
 
 	void _generateMap( const uint seed );
 
@@ -93,6 +99,8 @@ private:
 
 };
 
+
 }
+
 
 #endif

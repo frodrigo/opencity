@@ -25,6 +25,8 @@
 namespace MapGen
 {
 
+
+//========================================================================
 /** Generator virtual class/interface
 */
 class Generator {
@@ -37,6 +39,7 @@ public:
 private:
 
 };
+
 
 }
 

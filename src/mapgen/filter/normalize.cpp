@@ -19,10 +19,10 @@
 
 #include "normalize.h"
 
-//#include <math.h>
 
 namespace MapGen
 {
+
 
    /*=====================================================================*/
 Normalize::Normalize(
@@ -38,22 +38,28 @@ _max(max)
    /*=====================================================================*/
 Normalize::~Normalize()
 {
-	MAP_DEBUG( "ctor" );
+	MAP_DEBUG( "dtor" );
 }
 
 
    /*=====================================================================*/
 void Normalize::apply( Map* map )
 {
+	uint x = 0, y = 0;
+	uint w = 0, l = 0;
 	float min, max;
-	_getMinMax( map, &min, &max );
+
+	_getMinMax( map, min, max );
+	w = map->getW();
+	l = map->getL();
 
 	float a = (_max-_min) / (max-min);
 	float b = -min * a + _min;
 
-	for( uint x=0 ; x<map->getW() ; ++x )
-		for( uint y=0 ; y<map->getH() ; ++y )
+	for( x = 0 ; x < w; ++x )
+		for( y = 0 ; y < l; ++y )
 			map->setAt( x, y, a*map->getAt(x,y)+b );
 }
+
 
 }

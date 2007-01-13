@@ -19,17 +19,25 @@
 
 #include "diamon.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cmath>
 
 namespace MapGen
 {
+
 
    /*=====================================================================*/
 Diamon::Diamon( const uint seed, const uint order ):
 Generator( seed ),
 _side((uint)pow(2,order))
 {
+	MAP_DEBUG("ctor");
+}
+
+
+   /*=====================================================================*/
+Diamon::~Diamon()
+{
+	MAP_DEBUG("dtor");
 }
 
 
@@ -44,7 +52,7 @@ Map* Diamon::render() const
 
 
    /*=====================================================================*/
-float Diamon::_all( const uint p ) const
+float Diamon::_all( const uint p )
 {
 	return ((float)rand())/RAND_MAX * p * 2 - p;
 }
@@ -58,25 +66,40 @@ void Diamon::_sub(
 	const uint x2,
 	const uint y2 ) const
 {
+	uint mapW = 0, mapL = 0;
 	uint p = map->getW() / 2;
 
-	/* loop en scale */
-	while( p != 0 )
-	{
-		uint p2 = 2 * p;
+	mapW = map->getW();
+	mapL = map->getL();
 
-		//Diamond
-		for( uint i=p ; i<map->getW() ; i+=p2 )
-			for( uint j=p ; j<map->getH() ; j+=p2 )
-				map->setAt( i, j, ( map->getAt(i-p,j-p) + map->getAt(i+p,j-p) + map->getAt(i+p,j+p) + map->getAt(i-p,j+p) )/4 + _all(p) );
+	/* loop en scale */
+	uint p2 = 0;
+	uint i = 0, j = 0;
+	while ( p != 0 ) {
+		p2 = 2*p;
+
+		// Diamond
+		for ( i = p; i < mapW; i+=p2 )
+			for ( j = p; j < mapL; j+=p2 )
+				map->setAt(
+					i, j,
+					( map->getAt(i-p,j-p) + map->getAt(i+p,j-p) + map->getAt(i+p,j+p) + map->getAt(i-p,j+p) )/4 + _all(p)
+				);
 
 		// Square
-		for( uint i=p ; i<map->getW() ; i+=p2 )
-			for( uint j=0 ; j<map->getH() ; j+=p2 )
-			map->setAt( i, j, ( map->getAt(i-p,j) + map->getAt(i+p,j) + map->getAt(i,j-p) + map->getAt(i,j+p) )/4 + _all(p) );
-		for( uint i=0 ; i<map->getW() ; i+=p2 )
-			for( uint j=p ; j<map->getH() ; j+=p2 )
-				map->setAt( i, j, ( map->getAt(i-p,j) + map->getAt(i+p,j) + map->getAt(i,j-p) + map->getAt(i,j+p) )/4 + _all(p) );
+		for ( i = p; i < mapW; i+=p2 )
+			for ( j = 0; j < mapL; j+=p2 )
+				map->setAt(
+					i, j,
+					( map->getAt(i-p,j) + map->getAt(i+p,j) + map->getAt(i,j-p) + map->getAt(i,j+p) )/4 + _all(p)
+				);
+
+		for ( i = 0; i < mapW; i+=p2 )
+			for ( j = p; j < mapL; j+=p2 )
+				map->setAt(
+					i, j,
+					( map->getAt(i-p,j) + map->getAt(i+p,j) + map->getAt(i,j-p) + map->getAt(i,j+p) )/4 + _all(p)
+				);
 
 		p /= 2;
 	}

@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "flattern.h"
-
 #include "map.h"
 
 #include <cmath>
@@ -26,8 +25,10 @@
 namespace MapGen
 {
 
+
    /*=====================================================================*/
-Flattern::Flattern()
+Flattern::Flattern():
+_power(0)
 {
 	MAP_DEBUG( "ctor1" );
 }
@@ -51,31 +52,33 @@ Flattern::~Flattern()
    /*=====================================================================*/
 void Flattern::apply( Map* map )
 {
-	float min, max;
-	_getMinMax( map, &min, &max );
+	uint x = 0, y = 0;
+	uint w = 0, l = 0;
+	float min = 0, max = 0;
+
+	_getMinMax( map, min, max );
+	w = map->getW();
+	l = map->getL();
 
 	float coef = fabs( max - min );
 
-	for( uint x=0 ; x<map->getW() ; ++x )
-		for( uint y=0 ; y<map->getH() ; ++y )
-		{
-			if( min >= 0 )
-			{
+	float h = 0;
+	for( x = 0; x < w; ++x )
+		for( y = 0; y < l; ++y ) {
+			if( min >= 0 ) {
 				map->setAt( x, y, powf((map->getAt(x,y)-min)/coef,_power)*coef+min );
 			}
-			else /* min < 0 and max > 0 */
-			{
-				float h = map->getAt(x,y);
-				if( h >= 0 )
-				{
+			else { /* min < 0 and max > 0 */
+				h = map->getAt(x,y);
+				if( h >= 0 ) {
 					map->setAt( x, y, powf(h/max,_power)*max );
 				}
-				else
-				{
+				else {
 					map->setAt( x, y, fabs(powf(fabs(h)/min,_power))*min );
 				}
 			}
-		}
+		} // for
 }
+
 
 }
