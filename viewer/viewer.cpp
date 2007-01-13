@@ -184,7 +184,7 @@ string *parseArgLine( const int argc, const char **argv, bool *shot )
 }
 
 
-int initDiasplay( const uint w, const uint h )
+int initDisplay( const uint w, const uint h )
 {
 	/* Create a OpenGL screen */
 	if ( SDL_SetVideoMode( w, h, 24, SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_RESIZABLE ) == NULL )
@@ -254,10 +254,10 @@ int main( const int argc, const char **argv )
 		return -1;
 	}
 
-	int initDisplay = initDiasplay( W, H );
-	if( initDisplay < 0 )
+	int isInitDisplay = initDisplay( W, H );
+	if( isInitDisplay < 0 )
 	{
-		exit( initDisplay );
+		exit( isInitDisplay );
 	}
 
 	float width, length, height;
@@ -358,7 +358,7 @@ int main( const int argc, const char **argv )
 					case SDL_VIDEORESIZE:
 						W = event.resize.w;
 						H = event.resize.h;
-					    	initDiasplay( W, H );
+					    	initDisplay( W, H );
 					default: ;
 				}
 			}

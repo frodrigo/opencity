@@ -31,7 +31,6 @@ namespace MapGen
 */
 class Flattern: public Filter {
 public:
-	Flattern();
 	Flattern( const float power );
 	~Flattern();
 

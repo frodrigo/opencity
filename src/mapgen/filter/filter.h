@@ -38,7 +38,7 @@ public:
 //========================================================================
 /** Apply filter on map in place
 */
-	virtual void apply( Map* map );
+	virtual void apply( Map* map ) = 0;
 
 
 protected:

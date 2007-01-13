@@ -39,13 +39,4 @@ Generator::~Generator()
 	MAP_DEBUG( "dtor" );
 }
 
-
-   /*=====================================================================*/
-Map* Generator::render() const
-{
-	// FIXME: why 50x50 ?
-	return new Map( 50, 50 );
-}
-
-
 }

@@ -34,7 +34,7 @@ public:
 	Generator( const uint seed );
 	virtual ~Generator();
 
-	virtual Map* render() const;
+	virtual Map* render() const = 0;
 
 private:
 

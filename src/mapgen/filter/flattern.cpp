@@ -27,14 +27,6 @@ namespace MapGen
 
 
    /*=====================================================================*/
-Flattern::Flattern():
-_power(0)
-{
-	MAP_DEBUG( "ctor1" );
-}
-
-
-   /*=====================================================================*/
 Flattern::Flattern( const float power ):
 _power(power)
 {
