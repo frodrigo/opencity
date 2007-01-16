@@ -12,22 +12,22 @@
 	<file>graphism/residential/little_house/little_house.ac</file>
 	<file>graphism/residential/easybuilding/easybuilding.ac</file>
 	<file>graphism/residential/family/family.ac</file>
-	<file>graphism/residential/grand</file>-father/grand-father.ac
-	<file>graphism/residential/light</file>-of-star/light-of-star.ac
+	<file>graphism/residential/grand-father/grand-father.ac</file>
+	<file>graphism/residential/light-of-star/light-of-star.ac</file>
 	<file>graphism/residential/mep/mep.ac</file>
 	<file>graphism/residential/alexandria/alexandria.ac</file>
 	<file>graphism/residential/charmilles/charmilles.ac</file>
-	<file>graphism/residential/viny</file>-world/viny-world.ac
+	<file>graphism/residential/viny-world/viny-world.ac</file>
 
 	<!-- Commercial models -->
 	<file>graphism/commercial/c_zone/c_zone.ac</file>
-	<file>graphism/commercial/chez</file>-bob/chez-bob.ac
-	<file>graphism/commercial/station</file>-p/station-p.ac
+	<file>graphism/commercial/chez-bob/chez-bob.ac</file>
+	<file>graphism/commercial/station-p/station-p.ac</file>
 	<file>graphism/commercial/store/store.ac</file>
 	<file>graphism/commercial/market/market.ac</file>
 	<file>graphism/commercial/rusk/rusk.ac</file>
 	<file>graphism/commercial/resto/resto.ac</file>
-	<file>graphism/commercial/timberdland</file>-hotel/timberdland-hotel.ac
+	<file>graphism/commercial/timberdland-hotel/timberdland-hotel.ac</file>
 	<file>graphism/commercial/hotel/hotel.ac</file>
 	<file>graphism/commercial/icarus/icarus.ac</file>
 
@@ -79,8 +79,8 @@
 
 	<!-- Power plant model files -->
 	<file>graphism/electricity/coal/coal.ac</file>
-	#<file>graphism/electricity/gas/gas.ac</file>
-	#<file>graphism/electricity/oil/oil.ac</file>
+	<!--<file>graphism/electricity/gas/gas.ac</file>-->
+	<!--<file>graphism/electricity/oil/oil.ac</file>-->
 	<file>graphism/electricity/nuclear/nuclear.ac</file>
 
 	<!-- Park model files -->
