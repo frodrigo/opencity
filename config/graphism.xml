@@ -1,0 +1,113 @@
+<?xml version="1.0" ?>
+<!--
+	OpenCity graphism file. It contains the path of all available models.
+	All the specified paths will be prefixed with HomeDir from "opencity.xml" settings file.
+-->
+<graphism xmlns="urn:oc:graphism">
+	<!-- You can build this via the undocumented 'a' menu. -->
+	<file>graphism/residential/viny-world/viny-world.ac</file>
+
+	<!-- Residential models -->
+	<file>graphism/residential/r_zone/r_zone.ac</file>
+	<file>graphism/residential/little_house/little_house.ac</file>
+	<file>graphism/residential/easybuilding/easybuilding.ac</file>
+	<file>graphism/residential/family/family.ac</file>
+	<file>graphism/residential/grand</file>-father/grand-father.ac
+	<file>graphism/residential/light</file>-of-star/light-of-star.ac
+	<file>graphism/residential/mep/mep.ac</file>
+	<file>graphism/residential/alexandria/alexandria.ac</file>
+	<file>graphism/residential/charmilles/charmilles.ac</file>
+	<file>graphism/residential/viny</file>-world/viny-world.ac
+
+	<!-- Commercial models -->
+	<file>graphism/commercial/c_zone/c_zone.ac</file>
+	<file>graphism/commercial/chez</file>-bob/chez-bob.ac
+	<file>graphism/commercial/station</file>-p/station-p.ac
+	<file>graphism/commercial/store/store.ac</file>
+	<file>graphism/commercial/market/market.ac</file>
+	<file>graphism/commercial/rusk/rusk.ac</file>
+	<file>graphism/commercial/resto/resto.ac</file>
+	<file>graphism/commercial/timberdland</file>-hotel/timberdland-hotel.ac
+	<file>graphism/commercial/hotel/hotel.ac</file>
+	<file>graphism/commercial/icarus/icarus.ac</file>
+
+	<!-- Industrial models -->
+	<file>graphism/industrial/i_zone/i_zone.ac</file>
+	<file>graphism/industrial/waste_ground/waste_ground.ac</file>
+	<file>graphism/industrial/beef/beef.ac</file>
+	<file>graphism/industrial/hang/hang.ac</file>
+	<file>graphism/industrial/warehouse/warehouse.ac</file>
+	<file>graphism/industrial/containers/containers.ac</file>
+	<file>graphism/industrial/tank/tank.ac</file>
+	<file>graphism/industrial/tank/tank.ac</file>
+	<file>graphism/industrial/steel/steel.ac</file>
+	<file>graphism/industrial/aeronautics-study/aeronautics-study.ac</file>
+
+	<!-- Electrict lines model files -->
+	<file>graphism/electricity/line_o_n/line_o_n.ac</file>
+	<file>graphism/electricity/line_o_e/line_o_e.ac</file>
+	<file>graphism/electricity/line_o_s/line_o_s.ac</file>
+	<file>graphism/electricity/line_o_w/line_o_w.ac</file>
+	<file>graphism/electricity/line_s_n/line_s_n.ac</file>
+	<file>graphism/electricity/line_w_e/line_w_e.ac</file>
+	<file>graphism/electricity/line_n_e/line_n_e.ac</file>
+	<file>graphism/electricity/line_n_w/line_n_w.ac</file>
+	<file>graphism/electricity/line_s_e/line_s_e.ac</file>
+	<file>graphism/electricity/line_s_w/line_s_w.ac</file>
+	<file>graphism/electricity/line_s_n_e/line_s_n_e.ac</file>
+	<file>graphism/electricity/line_s_w_e/line_s_w_e.ac</file>
+	<file>graphism/electricity/line_s_n_w/line_s_n_w.ac</file>
+	<file>graphism/electricity/line_n_w_e/line_n_w_e.ac</file>
+	<file>graphism/electricity/line_s_n_w_e/line_s_n_w_e.ac</file>
+
+	<!-- OCM ROAD model files -->
+	<file>model/road_o_n.ocm</file>
+	<file>model/road_o_e.ocm</file>
+	<file>model/road_o_s.ocm</file>
+	<file>model/road_o_w.ocm</file>
+	<file>model/road_s_n.ocm</file>
+	<file>model/road_w_e.ocm</file>
+	<file>model/road_n_e.ocm</file>
+	<file>model/road_n_w.ocm</file>
+	<file>model/road_s_e.ocm</file>
+	<file>model/road_s_w.ocm</file>
+	<file>model/road_s_n_e.ocm</file>
+	<file>model/road_s_w_e.ocm</file>
+	<file>model/road_s_n_w.ocm</file>
+	<file>model/road_n_w_e.ocm</file>
+	<file>model/road_s_n_w_e.ocm</file>
+
+	<!-- Power plant model files -->
+	<file>graphism/electricity/coal/coal.ac</file>
+	#<file>graphism/electricity/gas/gas.ac</file>
+	#<file>graphism/electricity/oil/oil.ac</file>
+	<file>graphism/electricity/nuclear/nuclear.ac</file>
+
+	<!-- Park model files -->
+	<file>graphism/park/city/city.ac</file>
+
+	<!-- Trees -->
+	<file>graphism/tree/fir1/fir1.ac</file>
+	<file>graphism/tree/tree007/tree007.ac</file>
+	<file>graphism/tree/peking-willow1/peking-willow1.ac</file>
+	<file>graphism/tree/pine2/pine2.ac</file>
+	<file>graphism/tree/pine3/pine3.ac</file>
+
+	<!-- Governmental departments -->
+	<file>graphism/firedept/medium/medium.ac</file>
+	<file>graphism/policedept/medium/medium.ac</file>
+	<file>graphism/hospitaldept/large/large.ac</file>
+	<file>graphism/educationdept/school-medium/school-medium.ac</file>
+
+	<!-- Vehicle model files -->
+	<file>graphism/vehicle/clior/clior.ac</file>
+	<file>graphism/vehicle/clior/clior.ac</file>
+	<file>graphism/vehicle/truck/truck.ac</file>
+	<file>graphism/vehicle/renault8-sport/renault8-sport.ac</file>
+	<file>graphism/vehicle/fire/fire.ac</file>
+	<file>graphism/vehicle/police/police.ac</file>
+
+	<!-- OCM vehicle model files -->
+	<file>model/vehicle_bus.ocm</file>
+	<file>model/vehicle_sport.ocm</file>
+</graphism>
