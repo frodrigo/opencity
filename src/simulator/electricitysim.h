@@ -75,6 +75,13 @@ public:
 		const uint & h2 );
 
 
+//========================================================================
+/** Return the possible max value of the micro simulator.
+*/
+	const int
+	GetMaxValue() const;
+
+
 private:
 	uint	_uiNumberEPlant;
 	int		_iValueMax;

@@ -143,6 +143,17 @@ automatically by Run() every 3 turns
 	GetValue( const OPENCITY_SIMULATOR sim ) const;
 
 
+//========================================================================
+/** Return the possible maximum value of the micro simulator.
+	\param sim The micro simulator to query the information
+	\return The value
+	\note Currently, this method only works for the electricity micro
+simulator.
+*/
+	const int
+	GetMaxValue( const OPENCITY_SIMULATOR sim ) const;
+
+
 private:
 	/** Table of pointers to Simulator object */
 	Simulator* _tpSimulator[Simulator::OC_SIMULATOR_NUMBER];

@@ -174,31 +174,23 @@ Mainly, it consists of structure's size checking
 		const Structure* pStruct ) const;
 
 
-//========================================================================
-/* not used
-Given the surface (w, l, w2, l2) this method checks if it contains
-	only the specified structure or nothing.
-\sa Layer::ContainStructureOnly()
-\sa BuildingLayer::ContainStructureOnly();
-
-	const bool
-	ContainStructureOnly(
-		const uint & w,
-		const uint & l,
-		const uint & w2,
-		const uint & l2,
-		const OPENCITY_STRUCTURE_CODE & enumStructCode ) const;
-*/
-
 	const int &
 	GetVariation() const;
 
 
 //========================================================================
-/** Return the global total value of the micro simulator
+/** Return the current value of the micro simulator
 */
 	const int
 	GetValue() const;
+
+
+//========================================================================
+/** Return the possible max value of the micro simulator. Currently,
+this method works only on the electricity micro simulator.
+*/
+	virtual const int
+	GetMaxValue() const;
 
 	
 	void

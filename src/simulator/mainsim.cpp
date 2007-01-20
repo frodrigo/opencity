@@ -282,6 +282,17 @@ MainSim::GetValue
 }
 
 
+   /*======================================================================*/
+const int
+MainSim::GetMaxValue
+(
+	const OPENCITY_SIMULATOR sim
+) const
+{
+	return _tpSimulator[sim]->GetMaxValue();
+}
+
+
 
 
 

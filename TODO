@@ -28,6 +28,7 @@ Fix terrain highlight bug             (done)
 Fix load/save toolcircle bug          (done)
 Add the coal power plant              (done)
 Integrate the new status bar          (wip)
+XML metadata migration
 Add new vehicle models
 Fix the orthogonal projection
 Variable name clean up                (wip)

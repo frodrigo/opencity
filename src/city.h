@@ -39,7 +39,8 @@ class MainSim;			// main simulator which handles the micro simulators
 class Layer;
 class BuildingLayer;
 
-class GUIButton;		// GUI, toolcircle
+class GUIBar;			// GUI, toolcircle
+class GUIButton;	
 class GUILabel;
 class GUIContainer;
 
@@ -201,6 +202,7 @@ private:
 	GUILabel* plblFund;			// The fund label
 	GUILabel* plblPopulation;	// The population label
 	GUILabel* plblDate;			// The date label
+	GUIBar* pbarPower;			// The power bar
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
 	GUIContainer* pctr;

@@ -22,6 +22,7 @@
 #include "mainsim.h"				// simulator
 #include "structure.h"
 #include "buildinglayer.h"
+#include "guibar.h"
 #include "guibutton.h"				// GUI management
 #include "guilabel.h"
 #include "guicontainer.h"
@@ -238,6 +239,8 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 // Send the movement manager the move order 
 	gVars.gpMoveMgr->Move();
 
+	uint r = 0, c = 0, i = 0;
+	uint maxPower = 0;
 	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
 	// New day
 		if ( ++_uiDay > 30 ) {
@@ -245,7 +248,6 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 			_uiDay = 1;
 
 		// Calculate the current population
-			uint r, c, i;
 			r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
 			c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
 			i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
@@ -264,6 +266,19 @@ void City::Run( OPENCITY_CITY_SPEED enumSpeed )
 			}
 		}
 		uiNumberFrame = 0;
+
+	// Update the screen information every 3 days
+		if ( _uiDay%3 == 0 ) {
+			maxPower = _pMSim->GetMaxValue(Simulator::OC_ELECTRIC);
+			if (maxPower > 0) {
+				pbarPower->SetInitialValue( maxPower );
+				pbarPower->SetValue( _pMSim->GetValue(Simulator::OC_ELECTRIC) );
+			}
+			else {
+				pbarPower->SetInitialValue( 1 );
+				pbarPower->SetValue( 0 );
+			}
+		}
 
 	// IF the audio is enable THEN autoplay the background music
 		if (gVars.gboolUseAudio && !gVars.gpAudioMgr->PlayingMusic()) {
@@ -324,8 +339,6 @@ cityrun_swap:
 	ossStatus.str("");
 	ossStatus << _liCityFund;
 	plblFund->SetText( ossStatus.str() );
-	ossStatus << " @";
-	gVars.gpRenderer->DisplayText( 10, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
 
 // Display the city population
 	ossStatus.str("");
@@ -358,7 +371,7 @@ cityrun_swap:
 	ossStatus.str("");
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
 	plblDate->SetText( ossStatus.str() );
-	gVars.gpRenderer->DisplayText( 650, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
+
 
 // Display all the contained movements
 //	gVars.gpMoveMgr->Move();		// called by Run()
@@ -922,10 +935,16 @@ City::_CreateGUI()
 	plblDate->SetAlign( GUILabel::OC_ALIGN_CENTER );
 	plblDate->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
+	pbarPower = new GUIBar( 42, 5, 7, 53 );
+	pbarPower->SetForeground( OPENCITY_PALETTE[Color::OC_PINK] );
+	pbarPower->SetVariation( GUIBar::OC_VERTICAL );
+	pbarPower->SetValue( 0 );
+
 	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ));
 	pctrStatus->Add( plblFund );
 	pctrStatus->Add( plblPopulation );
 	pctrStatus->Add( plblDate );
+	pctrStatus->Add( pbarPower );
 	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 
 // GUI main toolcircle
@@ -1050,6 +1069,7 @@ City::_DeleteGUI()
 {
 // Delete the status bar
 	delete pctrStatus;
+	delete pbarPower;
 	delete plblFund;
 	delete plblPopulation;
 	delete plblDate;

@@ -302,6 +302,14 @@ Simulator::GetValue() const
 
 
    /*======================================================================*/
+const int
+Simulator::GetMaxValue() const
+{
+	return 0;
+}
+
+
+   /*======================================================================*/
 void
 Simulator::SetVariation(
 	const int rciVariation )

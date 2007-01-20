@@ -378,6 +378,14 @@ ElectricitySim::RemoveStructure(
 
 
    /*=====================================================================*/
+const int
+ElectricitySim::GetMaxValue() const
+{
+	return _iValueMax;
+}
+
+
+   /*=====================================================================*/
 bool
 ElectricitySim::dequeContain( const pair<uint, uint> & pairui )
 {

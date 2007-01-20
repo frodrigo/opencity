@@ -29,7 +29,7 @@
 class GUIBar : public GUIMain {
 public:
 	enum OPENCITY_VARIATION {
-		OC_HORIZONTAL,
+		OC_HORIZONTAL,				// Default value
 		OC_VERTICAL,
 		OC_BOTH
 	};
@@ -54,8 +54,9 @@ public:
 	SetVariation( const OPENCITY_VARIATION eV );
 
 
-
-
+//========================================================================
+/** Set the foreground color of the bar.
+*/
 	void
 	SetForeground( const Color& color );
 
