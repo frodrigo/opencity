@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property type='Veh'>
+    <cost/>
+    <r>
+      <need/>
+      <provide/>
+    </r>
+    <c>
+      <need/>
+      <provide/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w/>
+    <e/>
+    <g/>
+    <nat/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Camion de pompier</name>
+    <name lang='en'>Fire Departement truck</name>
+    <description lang='fr'>Camion de pompier.</description>
+    <description lang='en'>Fire Departement truck.</description>
+  </model>
+</object>

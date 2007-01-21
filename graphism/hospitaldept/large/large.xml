@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='16' type='Gov'>
+    <cost build='130000' destroy='13000' support='6000'/>
+    <r>
+      <need max='70' min='1'/>
+      <provide max='6'/>
+    </r>
+    <c>
+      <need/>
+      <provide max='2'/>
+    </c>
+    <i>
+      <need/>
+      <provide max='2'/>
+    </i>
+    <w need='27'/>
+    <e need='29'/>
+    <g need='16'/>
+    <nat provide='-2'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+      <object>Model, other textures</object>
+    </author>
+    <author>
+      <name>Pete Ashton</name>
+      <license>Creative Commons Attribution-NonCommercial 2.0</license>
+      <url>http://www.flickr.com/photos/peteashton/56656847/</url>
+      <object>Brick texture</object>
+    </author>
+    <author>
+      <name>Hans Voralberg</name>
+      <license>Creative Attribution-ShareAlike 2.0</license>
+      <url>http://www.flickr.com/photos/hans_voralberg/112959208/</url>
+      <object>Window texture</object>
+    </author>
+    <author>
+      <name>Leo Reynolds</name>
+      <license>Creative Attribution-NonCommercial-ShareAlike 2.0</license>
+      <url>http://www.flickr.com/photos/lwr/6925865/</url>
+      <object>Air conditioning fan texture</object>
+    </author>
+    <name lang='fr'>Grand hôpital</name>
+    <name lang='en'>Large Hospital</name>
+    <description lang='fr'>Urgence - CHU - Maternité</description>
+    <description lang='en'>Emergency - Maternity</description>
+  </model>
+</object>

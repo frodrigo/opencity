@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='7' type='R'>
+    <cost destroy='11000' income='128'/>
+    <r>
+      <need max='30' min='4'/>
+      <provide max='12' min='5'/>
+    </r>
+    <c>
+      <need min='2'/>
+      <provide/>
+    </c>
+    <i>
+      <need max='12'/>
+      <provide/>
+    </i>
+    <w need='8'/>
+    <e need='9'/>
+    <g need='4'/>
+    <nat provide='-3'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Les Charmilles</name>
+    <name lang='en'>The Charmilles</name>
+    <description lang='fr'>Le concierge ne vous laisse pas entrer si vous ne vivez pas ici.</description>
+    <description lang='en'>The superintendent doesn&apos;t let you enter if you don&apos;t live here.</description>
+  </model>
+</object>

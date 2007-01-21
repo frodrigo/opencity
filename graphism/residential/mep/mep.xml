@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='7' type='R'>
+    <cost destroy='3400' income='135'/>
+    <r>
+      <need max='35' min='2'/>
+      <provide max='11' min='4'/>
+    </r>
+    <c>
+      <need max='20' min='1'/>
+      <provide/>
+    </c>
+    <i>
+      <need max='20'/>
+      <provide/>
+    </i>
+    <w need='5'/>
+    <e need='6'/>
+    <g need='2'/>
+    <nat provide='-3'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='en'>Mep</name>
+    <description lang='fr'>Confort et tranquillité.</description>
+    <description lang='en'>Confort, peace and quiet.</description>
+  </model>
+</object>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='7' type='C'>
+    <cost destroy='11000' income='130'/>
+    <r>
+      <need min='1'/>
+      <provide/>
+    </r>
+    <c>
+      <need max='27'/>
+      <provide max='7' min='4'/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w need='5'/>
+    <e need='4'/>
+    <g need='3'/>
+    <nat provide='-4'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Tejay Penfold</name>
+      <email>timberdragon gmail.com</email>
+      <license>GPL</license>
+    </author>
+    <name lang='en'>Timberdland Hotel</name>
+    <description lang='fr'>Les hotels Timberdland, les hotels déja prêt pour demain - Services 3 étoiles - 89€/nuit.</description>
+    <description lang='en'>Timberdland Hotels, hotels ready for tomorrow - 3 stars hotel accomodation - $89/night.</description>
+  </model>
+</object>

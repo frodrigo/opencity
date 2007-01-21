@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='13' type='R'>
+    <cost destroy='60000' income='136'/>
+    <r>
+      <need max='200' min='10'/>
+      <provide max='55' min='12'/>
+    </r>
+    <c>
+      <need min='10'/>
+      <provide/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w need='45'/>
+    <e need='50'/>
+    <g need='20'/>
+    <nat provide='-12'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='en'>The Viny World</name>
+    <description lang='fr'>Tel le ciel, les fenêtres sont bleu ;)</description>
+    <description lang='en'>Like the sky, this windows are blue ;)</description>
+  </model>
+</object>

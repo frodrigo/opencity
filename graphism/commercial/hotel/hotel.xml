@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='6' type='C'>
+    <cost destroy='10000' income='125'/>
+    <r>
+      <need min='2'/>
+      <provide max='3' min='1'/>
+    </r>
+    <c>
+      <need max='25'/>
+      <provide max='10' min='3'/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w need='4'/>
+    <e need='5'/>
+    <g need='2'/>
+    <nat provide='-4'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Hotel</name>
+    <name lang='en'>Hotel</name>
+    <description lang='fr'>Hotel et pension complète - Réservation uniquement par fax.</description>
+    <description lang='en'>Hotel &amp; Resorts - Reserve with fax only.</description>
+  </model>
+</object>

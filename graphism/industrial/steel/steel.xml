@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='5' type='I'>
+    <cost destroy='4200' income='120'/>
+    <r>
+      <need/>
+      <provide/>
+    </r>
+    <c>
+      <need/>
+      <provide/>
+    </c>
+    <i>
+      <need max='22' min='2'/>
+      <provide max='6' min='3'/>
+    </i>
+    <w need='1'/>
+    <e need='5'/>
+    <g/>
+    <nat provide='-5'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Pucelo20</name>
+      <email>pucelo20 terra.es</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Fabrique d&apos;acier</name>
+    <name lang='en'>Steel industrie</name>
+    <description lang='fr'>Fabrique d&apos;acier</description>
+    <description lang='en'>Steel manufacturing</description>
+  </model>
+</object>

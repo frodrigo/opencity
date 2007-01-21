@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='3' type='R'>
+    <cost destroy='1800' income='112'/>
+    <r>
+      <need max='12'/>
+      <provide max='2'/>
+    </r>
+    <c>
+      <need max='16'/>
+      <provide/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w need='1'/>
+    <e need='1'/>
+    <g/>
+    <nat provide='-1'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='en'>EasyBuilding Kit-0145C3</name>
+    <description lang='fr'>Personne ne veut une maison comme cela, mais tout le monde en a parce qu&apos;elle ne sont pas chère.</description>
+    <description lang='en'>Nobody wants a house like that, but everybody has it because is cheap.</description>
+  </model>
+</object>

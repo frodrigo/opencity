@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='6' type='R'>
+    <cost destroy='8000' income='128'/>
+    <r>
+      <need max='25' min='2'/>
+      <provide max='8' min='4'/>
+    </r>
+    <c>
+      <need min='1'/>
+      <provide/>
+    </c>
+    <i>
+      <need max='16'/>
+      <provide/>
+    </i>
+    <w need='4'/>
+    <e need='5'/>
+    <g need='3'/>
+    <nat provide='-3'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='en'>Alexandria</name>
+    <description lang='fr'>Un bon vieux batiment (avec des cafards dans le plancher).</description>
+    <description lang='en'>Old good building (with cockroach in the floor).</description>
+  </model>
+</object>

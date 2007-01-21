@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='4' type='I'>
+    <cost destroy='3500' income='128'/>
+    <r>
+      <need/>
+      <provide max='-2'/>
+    </r>
+    <c>
+      <need/>
+      <provide/>
+    </c>
+    <i>
+      <need max='19'/>
+      <provide max='3' min='1'/>
+    </i>
+    <w need='4'/>
+    <e need='3'/>
+    <g need='2'/>
+    <nat need='-15' provide='-2'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Abattoir</name>
+    <name lang='en'>Slaughterhouse</name>
+    <description lang='fr'>Attention, ne pas entrer si vous avez peur des fantomes de vaches.</description>
+    <description lang='en'>Warning, if you dislike cows ghosts do not enter.</description>
+  </model>
+</object>

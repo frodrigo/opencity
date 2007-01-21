@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='4' type='Gov'>
+    <cost build='6000' destroy='500' support='230'/>
+    <r>
+      <need max='35' min='5'/>
+      <provide max='2'/>
+    </r>
+    <c>
+      <need max='45'/>
+      <provide max='2'/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w need='1'/>
+    <e/>
+    <g/>
+    <nat provide='6'/>
+    <direction value='snwe'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Cidatin</name>
+    <name lang='en'>Cityzen</name>
+    <description lang='fr'>Espace vert.</description>
+    <description lang='en'>Green place.</description>
+  </model>
+</object>

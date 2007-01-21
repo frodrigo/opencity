@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='3' type='I'>
+    <cost destroy='400' income='60'/>
+    <r>
+      <need/>
+      <provide/>
+    </r>
+    <c>
+      <need max='4'/>
+      <provide max='0' min='-1'/>
+    </c>
+    <i>
+      <need max='3'/>
+      <provide max='1'/>
+    </i>
+    <w/>
+    <e/>
+    <g/>
+    <nat provide='-2'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Nicolas Pascoli</name>
+      <email>nicolas-pascoli hotmail.fr</email>
+      <license>GPL</license>
+    </author>
+    <name lang='fr'>Friche industrielle</name>
+    <name lang='en'>Waste ground</name>
+    <description lang='fr'>Un fabuleux projet vit le jour ici, mais il ne dura guerre.</description>
+    <description lang='en'>A fabulous project was born here, but it did not work.</description>
+  </model>
+</object>

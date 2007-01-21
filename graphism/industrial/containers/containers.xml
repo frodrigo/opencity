@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property radius='3' type='I'>
+    <cost income='115'/>
+    <r>
+      <need/>
+      <provide max='-1'/>
+    </r>
+    <c>
+      <need max='8'/>
+      <provide max='-1'/>
+    </c>
+    <i>
+      <need max='8' min='2'/>
+      <provide max='4' min='2'/>
+    </i>
+    <w/>
+    <e/>
+    <g/>
+    <nat provide='-3'/>
+    <direction value='os'/>
+  </property>
+  <model length='1' height='1.1' width='1'>
+    <author>
+      <name>Frédéric Rodrigo</name>
+      <email>f.rodrigo free.fr</email>
+      <license>GPL</license>
+      <object>Model, texture setup</object>
+    </author>
+    <author>
+      <name>Photocapy</name>
+      <license>Creative Commons Attribution-ShareAlike 2.0</license>
+      <url>http://www.flickr.com/photos/photocapy/173714279/in/set-72157594175623268</url>
+      <object>Containers textures</object>
+    </author>
+    <name lang='fr'>Cargaisons</name>
+    <name lang='en'>Shipping containers</name>
+    <description lang='fr'>Des machins bidules d&apos;un peu partout.</description>
+    <description lang='en'>Lot of stuff from anywhere.</description>
+  </model>
+</object>
