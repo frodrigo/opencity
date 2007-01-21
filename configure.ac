@@ -135,7 +135,7 @@ AC_ARG_ENABLE(mingw,
 dnl ===========================================================================
 dnl Set the compiler and the linker options
 dnl ===========================================================================
-CXXFLAGS="-Wall -ansi -pedantic -fno-exceptions $CXXFLAGS"
+CXXFLAGS="-Wall -Wmissing-braces -Wparentheses -ansi -pedantic-errors $CXXFLAGS"
 
 CXXFLAGS="-I$with_gl_prefix/include $enable_gprof $enable_debug $CXXFLAGS"
 
@@ -194,6 +194,7 @@ AC_CONFIG_FILES([src/networking/Makefile])
 AC_CONFIG_FILES([src/simulator/Makefile])
 AC_CONFIG_FILES([src/structure/Makefile])
 AC_CONFIG_FILES([src/tinyxml/Makefile])
+AC_CONFIG_FILES([src/tinyxpath/Makefile])
 AC_CONFIG_FILES([src/triangulation/Makefile])
 AC_CONFIG_FILES([viewer/Makefile])
 AC_CONFIG_FILES([Makefile])

@@ -27,6 +27,7 @@ Fix the income system                 (done)
 Fix terrain highlight bug             (done)
 Fix load/save toolcircle bug          (done)
 Add the coal power plant              (done)
+TinyXPath 1.2.4 integration           (done)
 Integrate the new status bar          (wip)
 XML metadata migration
 Add new vehicle models

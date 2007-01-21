@@ -56,7 +56,7 @@
 
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
-#include "tinyxml/tinyxml.h"
+#include "tinyxml.h"
 
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
