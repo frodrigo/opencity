@@ -28,6 +28,7 @@ Fix terrain highlight bug             (done)
 Fix load/save toolcircle bug          (done)
 Add the coal power plant              (done)
 TinyXPath 1.2.4 integration           (done)
+Add save/load file versioning         (done)
 Integrate the new status bar          (wip)
 XML metadata migration
 Add new vehicle models
@@ -55,7 +56,6 @@ Unblocking networking layer
 Add online operation notification clock
 ZeN online map loading
 Fix city size settings bug
-Add save/load file version
 Add the simulator accelerator key
 Make the simulator CPU independant
 LBS files layout

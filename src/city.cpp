@@ -1976,10 +1976,7 @@ City::_Save( const string& strFilename )
 		return false;
 	}
 
-// Lock the simulator
-	SDL_LockMutex( gVars.gpmutexSim );
-
-// Save the signature
+// Save the signature and version
 	string strSignature = "";
 	strSignature = "OpenCity_" + ocStrVersion();
 	long lVersion = ocLongVersion();
@@ -1987,6 +1984,9 @@ City::_Save( const string& strFilename )
 // FIXME: we use "space" to end a string
 	fs << strSignature << " ";
 	fs << lVersion << std::ends;
+
+// Lock the simulator
+	SDL_LockMutex( gVars.gpmutexSim );
 
 // Save city data
 	this->SaveTo( fs );
@@ -2017,7 +2017,21 @@ City::_Load( const string& strFilename )
 
 	fs.open( strFilename.c_str(), ios_base::in | ios_base::binary );
 	if (!fs.good()) {
-		OPENCITY_DEBUG( "File opening error" << strFilename );
+		OPENCITY_DEBUG( "File opening error in: " << strFilename );
+		return false;
+	}
+
+// Load the signature and version
+	string strSignature;
+	long currentVersion = ocLongVersion();
+	long lVersion;
+
+	fs >> strSignature; fs.ignore();
+	fs >> lVersion; fs.ignore();
+
+// Version checking
+	if (lVersion > currentVersion) {
+		OPENCITY_INFO( "File version error in: " << strFilename );
 		return false;
 	}
 
@@ -2026,13 +2040,6 @@ City::_Load( const string& strFilename )
 
 // Remove all moving objects
 	gVars.gpMoveMgr->Remove();
-
-// Load the signature
-	string strSignature;
-	long lVersion;
-
-	fs >> strSignature; fs.ignore();
-	fs >> lVersion; fs.ignore();
 
 // Load city data
 	this->LoadFrom( fs );
