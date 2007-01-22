@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
+  <property type='R'>
+    <cost build='10'/>
+    <r>
+      <need/>
+      <provide/>
+    </r>
+    <c>
+      <need/>
+      <provide/>
+    </c>
+    <i>
+      <need/>
+      <provide/>
+    </i>
+    <w/>
+    <e/>
+    <g/>
+    <nat/>
+    <direction value='snwe'/>
+  </property>
+  <model length='1' height='0' width='1'>
+    <author>
+      <name>Duong-Khang NGUYEN</name>
+      <email>neoneurone at users dot sf dot net</email>
+      <license>same as OpenCity&apos;s one</license>
+    </author>
+    <name lang='fr'>Zone résidentielle</name>
+    <name lang='en'>Residential zone</name>
+    <description lang='fr'>Zone résidentielle</description>
+    <description lang='en'>Residential zone</description>
+  </model>
+</object>
