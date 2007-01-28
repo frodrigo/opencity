@@ -22,7 +22,7 @@ must not be misrepresented as being the original software.
 distribution.
 */
 
-#include <math.h>
+#include <cmath>
 #include "xpath_processor.h"
 #include "xml_util.h"
 

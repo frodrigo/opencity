@@ -1,12 +1,10 @@
 <?xml version="1.0" ?>
 <!--
 	OpenCity graphism file. It contains the path of all available models.
-	All the specified paths will be prefixed with HomeDir from "opencity.xml" settings file.
+	All the specified paths will be prefixed with the home directory (autodectected or
+	specified from the command-line).
 -->
 <graphism xmlns="urn:oc:graphism">
-	<!-- You can build this via the undocumented 'a' menu. -->
-	<file>graphism/residential/viny-world/viny-world.ac</file>
-
 	<!-- Residential models -->
 	<file>graphism/residential/r_zone/r_zone.ac</file>
 	<file>graphism/residential/little_house/little_house.ac</file>
@@ -61,21 +59,21 @@
 	<file>graphism/electricity/line_s_n_w_e/line_s_n_w_e.ac</file>
 
 	<!-- OCM ROAD model files -->
-	<file>model/road_o_n.ocm</file>
-	<file>model/road_o_e.ocm</file>
-	<file>model/road_o_s.ocm</file>
-	<file>model/road_o_w.ocm</file>
-	<file>model/road_s_n.ocm</file>
-	<file>model/road_w_e.ocm</file>
-	<file>model/road_n_e.ocm</file>
-	<file>model/road_n_w.ocm</file>
-	<file>model/road_s_e.ocm</file>
-	<file>model/road_s_w.ocm</file>
-	<file>model/road_s_n_e.ocm</file>
-	<file>model/road_s_w_e.ocm</file>
-	<file>model/road_s_n_w.ocm</file>
-	<file>model/road_n_w_e.ocm</file>
-	<file>model/road_s_n_w_e.ocm</file>
+	<file>graphism/path/road/road_o_n/road_o_n.ac</file>
+	<file>graphism/path/road/road_o_e/road_o_e.ac</file>
+	<file>graphism/path/road/road_o_s/road_o_s.ac</file>
+	<file>graphism/path/road/road_o_w/road_o_w.ac</file>
+	<file>graphism/path/road/road_s_n/road_s_n.ac</file>
+	<file>graphism/path/road/road_w_e/road_w_e.ac</file>
+	<file>graphism/path/road/road_n_e/road_n_e.ac</file>
+	<file>graphism/path/road/road_n_w/road_n_w.ac</file>
+	<file>graphism/path/road/road_s_e/road_s_e.ac</file>
+	<file>graphism/path/road/road_s_w/road_s_w.ac</file>
+	<file>graphism/path/road/road_s_n_e/road_s_n_e.ac</file>
+	<file>graphism/path/road/road_s_w_e/road_s_w_e.ac</file>
+	<file>graphism/path/road/road_s_n_w/road_s_n_w.ac</file>
+	<file>graphism/path/road/road_n_w_e/road_n_w_e.ac</file>
+	<file>graphism/path/road/road_s_n_w_e/road_s_n_w_e.ac</file>
 
 	<!-- Power plant model files -->
 	<file>graphism/electricity/coal/coal.ac</file>
@@ -106,8 +104,4 @@
 	<file>graphism/vehicle/renault8-sport/renault8-sport.ac</file>
 	<file>graphism/vehicle/fire/fire.ac</file>
 	<file>graphism/vehicle/police/police.ac</file>
-
-	<!-- OCM vehicle model files -->
-	<file>model/vehicle_bus.ocm</file>
-	<file>model/vehicle_sport.ocm</file>
 </graphism>

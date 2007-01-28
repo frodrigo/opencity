@@ -1,11 +1,11 @@
 /***************************************************************************
-						generator.cpp  -  description
+						property.h  -  description
 							-------------------
-	begin                : july 2nd, 2006
-	copyright            : (C) 2006 by Frédéric RODRIGO
-	email                : f.rodrigo free.fr
+	begin                : january 28th, 2007
+	copyright            : (C) 2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
 	
-	$Id$
+	$Id: propertymanager.h 63 2006-10-17 20:45:12Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,25 +17,50 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "generator.h"
+#ifndef _OPENCITY_PROPERTY_H_
+#define _OPENCITY_PROPERTY_H_ 1
 
 
-namespace MapGen
+//========================================================================
+/** The properties of each building (structure) in OpenCity are
+encapsulated in this structure.
+*/
+struct Property
 {
+	uint	uiWidth, uiLength;			// Width and length of the building
+	float	fHeight;
+};
+
+#endif
 
 
-   /*=====================================================================*/
-Generator::Generator( const uint seed )
-{
-	MAP_DEBUG( "ctor" );
-	srand( seed );
-}
 
 
-   /*=====================================================================*/
-Generator::~Generator()
-{
-	MAP_DEBUG( "dtor" );
-}
 
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

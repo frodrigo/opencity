@@ -24,8 +24,8 @@ distribution.
 #ifndef __TINYLEXTOKEN_H
 #define __TINYLEXTOKEN_H
 
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <string>
 
 #include "lex_util.h"
 

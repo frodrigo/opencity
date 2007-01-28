@@ -1,5 +1,5 @@
 /***************************************************************************
-						GlobalVar.h    -  description
+						globalvar.h    -  description
 							-------------------
 	begin                : oct 17th, 2006
 	copyright            : (C) 2006 by Duong-Khang NGUYEN
@@ -32,10 +32,11 @@
 #include "environment.h"		// MAS environment
 #include "pathfinder.h"
 
-// Version
-	#define OC_VERSION				0
-	#define OC_PATCHLEVEL			0
-	#define OC_SUBLEVEL				5
+// The current OpenCity version
+#define OC_VERSION				0
+#define OC_PATCHLEVEL			0
+#define OC_SUBLEVEL				5
+
 
 //========================================================================
 /** This structure contain the global settings

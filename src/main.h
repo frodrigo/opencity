@@ -1,10 +1,11 @@
 /***************************************************************************
-                          main.h  -  description
-          $Id$
-                             -------------------
-    begin                : mer mai 28 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						main.h  -  description
+							-------------------
+	begin                : may 28th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

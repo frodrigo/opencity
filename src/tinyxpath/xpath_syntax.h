@@ -31,8 +31,8 @@ distribution.
 #ifndef __TINYSYNTAX_H
 #define __TINYSYNTAX_H
 
-#include <assert.h>
-#include <stdio.h>
+#include <cassert>
+#include <cstdio>
 #include "tokenlist.h"
 
 namespace TinyXPath

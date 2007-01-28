@@ -60,12 +60,20 @@ CodingStyle::_PrivateMethod()
 
    /*=====================================================================*/
 void
-CodingStyle::_PrivateMethod2()
+CodingStyle::_PrivateMethod2( int x )
 {
 }
 
 
-
+   /*=====================================================================*/
+uint
+CodingStyle::_PrivateMethod3
+(
+	uint a,
+	float b
+)
+{
+}
 
 
 

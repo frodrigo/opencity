@@ -2,7 +2,7 @@
 						CodingStyle.h    -  description
 							-------------------
 	begin                : nov 10th, 2005
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_CODINGSTYLE_H_
-#define _OPENCITY_CODINGSTYLE_ 1
+#define _OPENCITY_CODINGSTYLE_H_ 1
 
 #include "main.h"
 
@@ -127,6 +127,11 @@ The second line of description goes here.
 	The return's description continues on the second line
 */
 	bool _PrivateMethod2( int x );
+
+
+	uint _PrivateMethod3(
+		uint a,
+		float b );
 };
 
 #endif

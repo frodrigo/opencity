@@ -1,11 +1,11 @@
 /***************************************************************************
-						vehicle.h  -  description
+					propertymanager2.h  -  description
 							-------------------
-	begin                : may 16th, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	begin                : january 28th, 2007
+	copyright            : (C) 2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
-	$Id$
+	$Id: propertymanager.h 63 2006-10-17 20:45:12Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,46 +17,38 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_VEHICLE_H_
-#define _OPENCITY_VEHICLE_H_ 1
+#ifndef _OPENCITY_PROPERTYMANAGER2_H_
+#define _OPENCITY_PROPERTYMANAGER2_H_ 1
 
-#include "movement.h"
+#include "main.h"
 
-#define OC_VEHICLE_DEFAULT_SPEED	10
+struct Property;				// Forward declaration
+
+//========================================================================
+/** This manager handles the in-game object properties. Each object comes
+with metadata in a separated XML file. It uses TinyXML and TinyXPath
+to parse the those XML.
+*/
+class PropertyManager2
+{
+public:
+	PropertyManager2();
+	~PropertyManager2();
 
 
 //========================================================================
-/** Represent a vehicle object
-*/
-class Vehicle: public Movement {
-public:
-	enum VEHICLE_TYPE {
-		VEHICLE_STD,				///< standard vehicle
-		VEHICLE_BUS,				///< a bus
-		VEHICLE_SPORT,				///< high speed sport vehicle
-		VEHICLE_NUMBER
-	};
-
-
-	Vehicle( const VEHICLE_TYPE & type );
-	virtual ~Vehicle();
-
-
-	const bool
-	Move();
-
-	void
-	Start();
-
-
-protected:
-	uint uiCapacity;
-	VEHICLE_TYPE enumType;
-
 
 private:
-	void _CalculateDelta();
+	Property* _aProperty;		///< The array which contains all object properties
 
+
+//========================================================================
+// Private methods
+//========================================================================
+	void _loadProperties(
+		uint index,
+		string filename
+	);
 };
 
 #endif

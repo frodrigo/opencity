@@ -4,7 +4,7 @@
 	project              : OpenCity
 	codename             : Delphine
 	begin                : may 28th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	details              :
@@ -45,22 +45,27 @@
 	\author Frédéric RODRIGO
 */
 
-
+// Project includes
 #include "main.h"
-#include "city.h"				// The heart of the project
+#include "city.h"				// The project core
 #include "conf.h"				// Parser for .conf file
 #include "agentpolice.h"		// MAS testing
 #include "agentdemonstrator.h"
 
 #include "globalvar.h"			// Global settings variable: gVars
 
+// Libraries includes
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
 #include "tinyxml.h"
 
+// Standard includes
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
 #include <sstream>
+
+// Test XPath
+// #include "propertymanager2.h"
 
 
    /*=====================================================================*/
@@ -474,7 +479,6 @@ void displayStatus( const string & str )
 	displaySplash();
 
 // Center the text on the screen
-//	x = (gVars.gpVideoSrf->w - 512)/2 + (512 - str.size()*10)/2;
 	x = (gVars.gpVideoSrf->w - str.size()*10)/2;
 	y = (gVars.gpVideoSrf->h - 140) / 2;
 	gVars.gpRenderer->DisplayText( x, y, OC_BLUE_COLOR, str );
@@ -688,100 +692,6 @@ char* findSaveDir()
 
 	return ret;
 }
-
-
-   /*=====================================================================*/
-/** Read the OpenCity's main config file "opencity.conf"
-	\return 0 if OK, -1 otherwise
-*/
-/* 1st Nov, 06, kept for reference, old version
-int readConfig()
-{
-	int retVal = 0;
-	BrInitError brError;
-	char* pTemp = NULL;
-	Conf* pConf = new Conf();
-
-
-// IF the homedir is not set THEN try to get it from BinReloc routines
-	if (sHomeDir == "") {
-	// Init the BinReloc routines
-		if (br_init(&brError) != 1) {
-			OPENCITY_INFO(
-				"The initialization of BinReloc routines has failed." << endl
-				 << "The error was: " << brError
-			);
-		}
-		else {
-		// Construct the datadir from the prefix
-			pTemp = br_find_prefix( PREFIX );
-			sHomeDir = pTemp;
-			sHomeDir += "/share/";
-			sHomeDir += PACKAGE;
-			free(pTemp);
-			formatHomeDir();
-		}
-	}
-
-// IF the save directory is not set the find it
-	if (sSaveDir == "") {
-		pTemp = findSaveDir();
-		sSaveDir = pTemp;
-		free(pTemp);
-#ifndef WIN32
-		sSaveDir += "/.OpenCity/";
-		mkdir( sSaveDir.c_str(), 0755 );
-#else
-	// Win32 uses \ as directory separtor
-		sSaveDir += "\\OpenCity\\";
-        CreateDirectory( sSaveDir.c_str(), NULL );		
-    // Replace \ by /
-	    string::size_type pos;
-	    while ( (pos = sSaveDir.find( '\\' )) != sSaveDir.npos ) {
-		    sSaveDir.replace( pos, 1, "/" );
-		}
-#endif
-	}
-
-
-// Now try to open the config file then read it
-	OPENCITY_INFO(
-		"Reading config file: \"" << ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
-	);
-	if (pConf->Open(ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME)) == OC_ERR_FREE) {
-		bool bValue;
-		OC_LINT liValue;
-
-		// Fullscreen settings
-		if (pConf->GetBool("FullScreen", bValue) == OC_ERR_FREE)
-			gVars.gboolFullScreen |= bValue;
-		if (pConf->GetLint("FullScreenWidth", liValue) == OC_ERR_FREE)
-			gVars.guiScreenWidth = liValue;
-		if (pConf->GetLint("FullScreenHeight", liValue) == OC_ERR_FREE)
-			gVars.guiScreenHeight = liValue;
-
-		if (pConf->GetBool("UseAudio", bValue) == OC_ERR_FREE)
-			gVars.gboolUseAudio = bValue;
-		if (pConf->GetLint("CityWidth", liValue) == OC_ERR_FREE)
-			gVars.guiCityWidth = liValue;
-		if (pConf->GetLint("CityLength", liValue) == OC_ERR_FREE)
-			gVars.guiCityLength = liValue;
-		if (pConf->GetLint("MsPerFrame", liValue) == OC_ERR_FREE)
-			gVars.guiMsPerFrame = liValue;
-
-		gVars.gsZenServer = pConf->GetValue("ZenServer", "localhost");
-
-		pConf->Close();
-		retVal = 0;
-	}
-	else {
-		retVal = -1;
-	}
-
-	delete pConf;
-	return retVal;
-}
-*/
 
 
    /*=====================================================================*/
@@ -1020,6 +930,13 @@ int main(int argc, char *argv[])
 		);
 		exit(OC_CONFIG_NOT_FOUND);
 	}
+
+// Test XPath
+/*
+	PropertyManager2* pPropertyMgr = new PropertyManager2();
+	delete pPropertyMgr;
+	abort();
+*/
 
 // Initialization of global variables
 	uipCurrentUI = NULL;

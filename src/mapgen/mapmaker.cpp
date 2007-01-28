@@ -25,8 +25,8 @@
 #include "normalize.h"
 
 #include <cmath>
-#include <stdlib.h>
-#include <time.h>
+#include <cstdlib>
+#include <ctime>
 using std::vector;
 
 namespace MapGen

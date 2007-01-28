@@ -28,8 +28,8 @@ distribution.
    Miscellaneous utilities for the TinyXPath project
 */
 
-#include <string.h>
-#include <stdio.h>
+#include <string>
+#include <cstdio>
 
 #include "lex_util.h"
 

@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_PROPERTYMANAGER_H_
-#define _OPENCITY_PROPERTYMANAGER_H 1
+#define _OPENCITY_PROPERTYMANAGER_H_ 1
 
 #include "main.h"
 #include "conf.h"				// For models' configuration files

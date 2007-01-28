@@ -1,10 +1,11 @@
 /***************************************************************************
-                          macros.h  -  description
-      $Id$
-                             -------------------
-    begin                : dim sep 21 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						macros.h  -  description
+							-------------------
+	begin                : september 21th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -46,7 +47,7 @@ using std::cerr;
 
 // Fatal message macro
 	#define OPENCITY_FATAL( msg ) { \
-		cerr << "<FATAL> " << msg << endl; \
+		cerr << "<FATAL> " << __FILE__ << " " << __LINE__ << " : " << msg << endl; \
 	}
 	
 // Swap two variables so that a <= b
@@ -58,10 +59,10 @@ using std::cerr;
 		}\
 	}
 	
-// uint for unsigned int
-   #ifndef uint
-       typedef unsigned int uint;
-   #endif
+// We use "uint" for "unsigned int"
+	#ifndef uint
+		typedef unsigned int uint;
+	#endif
 
 
 #endif

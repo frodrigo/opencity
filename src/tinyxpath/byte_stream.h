@@ -24,7 +24,6 @@ distribution.
 #ifndef __TINYBYTESTREAM_H
 #define __TINYBYTESTREAM_H
 
-#include <string.h>
 #include "lex_util.h"
 
 namespace TinyXPath

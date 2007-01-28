@@ -9,6 +9,7 @@ AM_CPPFLAGS = \
 	-I@top_srcdir@/src/simulator/ \
 	-I@top_srcdir@/src/structure/ \
 	-I@top_srcdir@/src/tinyxml/ \
+	-I@top_srcdir@/src/tinyxpath/ \
 	-I@top_srcdir@/src/triangulation/ \
 	-DPREFIX=\"@prefix@/\"
 
@@ -66,6 +67,7 @@ ui.cpp \
 pathfinder.cpp \
 persistence.cpp \
 propertymanager.cpp \
+propertymanager2.cpp \
 texture.cpp \
 vehicle.cpp
 
@@ -95,7 +97,9 @@ movement.h \
 movementmanager.h \
 pathfinder.h \
 persistence.h \
+property.h \
 propertymanager.h \
+propertymanager2.h \
 renderer.h \
 texture.h \
 ui.h \
@@ -141,6 +145,7 @@ ui.cpp \
 pathfinder.cpp \
 persistence.cpp \
 propertymanager.cpp \
+propertymanager2.cpp \
 texture.cpp \
 vehicle.cpp \
 zen.cpp

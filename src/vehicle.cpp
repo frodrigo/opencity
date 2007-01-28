@@ -1,9 +1,8 @@
 /***************************************************************************
 						vehicle.cpp  -  description
 							-------------------
-	begin                : dim mai 16 2004
-	modified             : jun 9 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	begin                : may 16th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -22,6 +21,7 @@
 
 
    /*=====================================================================*/
+/* TOKILL, useless, jan 28th, 07
 Vehicle::Vehicle():
 uiCapacity( 0 ),
 enumType( VEHICLE_BUS )
@@ -29,6 +29,7 @@ enumType( VEHICLE_BUS )
 	OPENCITY_DEBUG("ctor");
 	_eGC = OC_VEHICLE_BUS;
 }
+*/
 
 
    /*=====================================================================*/

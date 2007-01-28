@@ -30,7 +30,7 @@ Add the coal power plant              (done)
 TinyXPath 1.2.4 integration           (done)
 Add save/load file versioning         (done)
 Integrate the new status bar          (wip)
-XML metadata migration
+XML metadata migration                (wip)
 Add new vehicle models
 Fix the orthogonal projection
 Variable name clean up                (wip)

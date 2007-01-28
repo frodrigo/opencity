@@ -6,7 +6,7 @@ noinst_LIBRARIES = libtinyxpath.a
 
 
 libtinyxpath_a_SOURCES = \
-htmlutil.cpp \
+action_store.cpp \
 lex_util.cpp \
 node_set.cpp \
 tokenlist.cpp \
@@ -22,7 +22,6 @@ xpath_syntax.cpp
 noinst_HEADERS = \
 action_store.h \
 byte_stream.h \
-htmlutil.h \
 lex_token.h \
 lex_util.h \
 node_set.h \

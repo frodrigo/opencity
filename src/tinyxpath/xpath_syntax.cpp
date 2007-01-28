@@ -28,7 +28,7 @@ distribution.
    XPath Syntax analyzer for TinyXPath project
 */
 
-#include <stdio.h>
+#include <cstdio>
 #include "xpath_syntax.h"
 
 namespace TinyXPath
