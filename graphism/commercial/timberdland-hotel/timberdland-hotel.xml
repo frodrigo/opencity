@@ -20,7 +20,7 @@
     <nat provide='-4'/>
     <direction value='os'/>
   </property>
-  <model length='1' height='1.1' width='1'>
+  <model length='2' height='1.15' width='2'>
     <author>
       <name>Tejay Penfold</name>
       <email>timberdragon gmail.com</email>

@@ -20,7 +20,7 @@
     <nat provide='6'/>
     <direction value='snwe'/>
   </property>
-  <model length='1' height='1.1' width='1'>
+  <model length='1' height='0.32' width='1'>
     <author>
       <name>Frédéric Rodrigo</name>
       <email>f.rodrigo free.fr</email>

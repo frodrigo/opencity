@@ -20,7 +20,7 @@
     <nat provide='-15'/>
     <direction value='os'/>
   </property>
-  <model length='1' height='1.1' width='1'>
+  <model length='3' height='19.57' width='2'>
     <author>
       <name>Nicolas PASCOLI </name>
       <email>nicolas-pascoli hotmail.fr</email>

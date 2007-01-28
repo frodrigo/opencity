@@ -20,7 +20,7 @@
     <nat provide='-20'/>
     <direction value='os'/>
   </property>
-  <model length='1' height='1.1' width='1'>
+  <model length='3' height='2.8' width='5'>
     <author>
       <name>Frédéric Rodrigo</name>
       <email>f.rodrigo free.fr</email>
