@@ -25,11 +25,13 @@
       <name>Frédéric Rodrigo</name>
       <email>f.rodrigo free.fr</email>
       <license>GPL</license>
+      <year>2006</year>
       <object>Model, texture setup</object>
     </author>
     <author>
       <name>Photocapy</name>
       <license>Creative Commons Attribution-ShareAlike 2.0</license>
+      <year>2006</year>
       <url>http://www.flickr.com/photos/photocapy/173714279/in/set-72157594175623268</url>
       <object>Containers textures</object>
     </author>

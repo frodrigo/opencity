@@ -25,23 +25,27 @@
       <name>Frédéric Rodrigo</name>
       <email>f.rodrigo free.fr</email>
       <license>GPL</license>
+      <year>2006</year>
       <object>Model, other textures</object>
     </author>
     <author>
       <name>Pete Ashton</name>
       <license>Creative Commons Attribution-NonCommercial 2.0</license>
+      <year>2005</year>
       <url>http://www.flickr.com/photos/peteashton/56656847/</url>
       <object>Brick texture</object>
     </author>
     <author>
       <name>Hans Voralberg</name>
       <license>Creative Attribution-ShareAlike 2.0</license>
+      <year>2006</year>
       <url>http://www.flickr.com/photos/hans_voralberg/112959208/</url>
       <object>Window texture</object>
     </author>
     <author>
       <name>Leo Reynolds</name>
       <license>Creative Attribution-NonCommercial-ShareAlike 2.0</license>
+      <year>2005</year>
       <url>http://www.flickr.com/photos/lwr/6925865/</url>
       <object>Air conditioning fan texture</object>
     </author>
