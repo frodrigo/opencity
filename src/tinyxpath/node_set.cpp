@@ -23,6 +23,7 @@ distribution.
 */
 
 #include "node_set.h"
+#include "stdint.h"			// for intptr_t (32/64 bits void* pointer compatibility)
 
 namespace TinyXPath
 {
@@ -240,10 +241,9 @@ void node_set::v_add_all_prec_node (
    }
 }
 
-/// Internal utility class for the node set sorting
-class ptr_and_flag 
+/// Internal utility structure for the node set sorting
+struct ptr_and_flag
 {
-public :
    const void * vp_ptr;
    bool o_flag;
 } ;
@@ -263,7 +263,17 @@ int i_compare_ptr_and_flag (
       return 0;
    XNp_1 = (TiXmlNode *) pafp_1 -> vp_ptr;
    XNp_2 = (TiXmlNode *) pafp_2 -> vp_ptr;
-   return (int) (XNp_1 -> GetUserData ()) - (int) (XNp_2 -> GetUserData ());
+
+   intptr_t n1 = reinterpret_cast<intptr_t>(XNp_1 -> GetUserData ());
+   intptr_t n2 = reinterpret_cast<intptr_t>(XNp_2 -> GetUserData ());
+
+   if( n1 == n2)
+      return 0;
+
+   if( n1 > n2)
+      return 1;
+   else
+      return -1;
 }
 
 /// Sort the node set according to the document order.
