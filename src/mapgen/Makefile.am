@@ -20,6 +20,7 @@ filter/shaper.cpp \
 filter/shape.cpp \
 filter/shapeBubble.cpp \
 filter/shapeTopRound.cpp \
+filter/shapeVolcano.cpp \
 generator/diamon.cpp \
 generator/generator.cpp
 
@@ -36,6 +37,7 @@ filter/shaper.h \
 filter/shape.h \
 filter/shapeBubble.h \
 filter/shapeTopRound.h \
+filter/shapeVolcano.cpp \
 generator/diamon.h \
 generator/generator.h
 

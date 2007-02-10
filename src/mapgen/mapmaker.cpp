@@ -27,6 +27,7 @@
 #include "choper.h"
 #include "shapeBubble.h"
 #include "shapeTopRound.h"
+#include "shapeVolcano.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -169,7 +170,8 @@ void MapMaker::_generateMap( const uint seed )
 			filters.push_back( new Choper( new ShapeTopRound(_w,_h,1.-4./maxLevel/maxLevel,5,maxLevel) ) );
 			filters.push_back( new Choper( new ShapeBubble(_w,_h,.5,1,maxLevel) ) );
 			break;
-		case VOLCANO_ISLAND :
+		case VOLCANO :
+			filters.push_back( new Shaper( new ShapeVolcano(_w,_h,0,0.3,maxLevel) ) );
 			break;
 		case CRATER :
 			break;

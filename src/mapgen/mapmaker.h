@@ -55,7 +55,7 @@ public:
 	enum MAP_SHAPE_TYPE {
 		NONE = 0,
 		ISLAND,
-		VOLCANO_ISLAND,
+		VOLCANO,
 		CRATER
 	};
 
