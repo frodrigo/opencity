@@ -1,11 +1,11 @@
 /***************************************************************************
-						filter.cpp  -  description
+						shapeTopRound.cpp  -  description
 							-------------------
-	begin                : july 2nd, 2006
+	begin                : fev 10th, 2007
 	copyright            : (C) 2006 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
-	$Id$
+	$Id: shapeTopRound.cpp 124 2007-01-13 17:28:49Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,46 +17,47 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filter.h"
+#include "shapeTopRound.h"
+
+#include <math.h>
 
 namespace MapGen
 {
 
+
    /*=====================================================================*/
-Filter::Filter()
+ShapeTopRound::ShapeTopRound( const uint w, const uint h, const float base, const float rude, const uint l ):
+Shape(w,h),
+_base(base),
+_rude(rude),
+_l(l)
 {
 	MAP_DEBUG( "ctor" );
+	_w2 = w/2;
+	_h2 = h/2;
+	_c = _w2 > _h2 ? _w2 : _h2;
 }
 
 
    /*=====================================================================*/
-Filter::~Filter()
+ShapeTopRound::~ShapeTopRound()
 {
 	MAP_DEBUG( "dtor" );
 }
 
 
    /*=====================================================================*/
-void Filter::_getMinMax(
-	const Map* map,
-	float& min,
-	float& max )
+/*
+ * gnuplot> splot [-100:100] [-100:100] -exp(abs(y)/100*10)/exp(10)
+ */
+float ShapeTopRound::value( const uint x, const uint y ) const
 {
-	float val = 0;
+	int _x = x - _w2;
+	int _y = y - _h2;
 
-	min = max = map->getAt( 0, 0 );
-
-	uint w = map->getW();
-	uint h = map->getL();
-
-	for( uint x = 0; x < w; ++x )
-		for( uint y = 0; y < h; ++y ) {
-			val = map->getAt( x, y );
-			if( val < min )
-				min = val;
-			if( val > max )
-				max = val;
-		}
+	#define max(a,b) ( (a)>(b) ? (a) : (b) )
+	return ( -exp(max(fabsf(_x),fabsf(_y))/_c*_rude)/exp(_rude) + _base ) * _l;
 }
+
 
 }

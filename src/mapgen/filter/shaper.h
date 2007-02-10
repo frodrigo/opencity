@@ -1,11 +1,11 @@
 /***************************************************************************
-						filter.cpp  -  description
+						shaper.h  -  description
 							-------------------
-	begin                : july 2nd, 2006
+	begin                : fev 10th, 2007
 	copyright            : (C) 2006 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
-	$Id$
+	$Id: shaper.h 124 2007-01-13 17:28:49Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,46 +17,33 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _OPENCITY_SHAPER_H_
+#define _OPENCITY_SHAPER_H_ 1
+
 #include "filter.h"
+
+#include "shape.h"
 
 namespace MapGen
 {
 
-   /*=====================================================================*/
-Filter::Filter()
-{
-	MAP_DEBUG( "ctor" );
+
+//========================================================================
+/** Generic shaper apply
+*/
+class Shaper: public Filter {
+public:
+	Shaper( const Shape *shape );
+	virtual ~Shaper();
+
+	void apply( Map* map );
+
+private:
+	const Shape *_shape;
+
+};
+
+
 }
 
-
-   /*=====================================================================*/
-Filter::~Filter()
-{
-	MAP_DEBUG( "dtor" );
-}
-
-
-   /*=====================================================================*/
-void Filter::_getMinMax(
-	const Map* map,
-	float& min,
-	float& max )
-{
-	float val = 0;
-
-	min = max = map->getAt( 0, 0 );
-
-	uint w = map->getW();
-	uint h = map->getL();
-
-	for( uint x = 0; x < w; ++x )
-		for( uint y = 0; y < h; ++y ) {
-			val = map->getAt( x, y );
-			if( val < min )
-				min = val;
-			if( val > max )
-				max = val;
-		}
-}
-
-}
+#endif

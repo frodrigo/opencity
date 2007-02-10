@@ -42,6 +42,7 @@ _pclayer( NULL )
 			width+1, height+1, 
 			MapGen::MapMaker::PLAIN,
 			MapGen::MapMaker::LAKE,
+			MapGen::MapMaker::NONE,
 			MapGen::MapMaker::SPARSE,
 			rand()
 		);

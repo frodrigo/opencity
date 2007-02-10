@@ -23,6 +23,10 @@
 #include "gaussblur.h"
 #include "flattern.h"
 #include "normalize.h"
+#include "shaper.h"
+#include "choper.h"
+#include "shapeBubble.h"
+#include "shapeTopRound.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -38,12 +42,14 @@ MapMaker::MapMaker(
 	const uint h,
 	const MAP_TYPE mapType,
 	const WATER_TYPE waterType,
+	const MAP_SHAPE_TYPE mapShapeType,
 	const TREE_DENSITY_TYPE treeDensityType,
 	const uint seed ):
 _w(w),
 _h(h),
 _mapType(mapType),
 _waterType(waterType),
+_mapShapeType(mapShapeType),
 _map(NULL),
 _treeDensityType(treeDensityType),
 _treeDensity(NULL),
@@ -114,26 +120,66 @@ void MapMaker::_generateMap( const uint seed )
 			} break;
 	}
 
-	// Add filter
+	// Set waterLevel
+	int waterLevel;
+	switch( _waterType )
+	{
+		case DRY :
+			waterLevel = 0;
+			break;
+		case COAST :
+			waterLevel = 2;
+			break;
+		default:
+		case LAKE :
+			waterLevel = 1;
+			break;
+	}
+
+	// Add map type filter
+	int minLevel, maxLevel;
 	switch( _mapType )
 	{
 		case PLAIN :
-			filters.push_back( new Normalize(-3*_waterType,5) );
+			minLevel = -3*waterLevel;
+			maxLevel = 5;
+			filters.push_back( new Normalize(minLevel,maxLevel) );
 			filters.push_back( new Flattern(3) );
-			filters.push_back( new GaussBlur(2) );
 			break;
 		case MOUNTAIN :
-			filters.push_back( new Normalize(-10*_waterType,20) );
+			minLevel = -10*waterLevel;
+			maxLevel = 20;
+			filters.push_back( new Normalize(minLevel,maxLevel) );
 			filters.push_back( new Flattern(1) );
-			filters.push_back( new GaussBlur(2) );
 			break;
 		default:
 		case HILL :
-			filters.push_back( new Normalize(-5*_waterType,10) );
+			minLevel = -5*waterLevel;
+			maxLevel = 10;
+			filters.push_back( new Normalize(minLevel,maxLevel) );
 			filters.push_back( new Flattern(2) );
-			filters.push_back( new GaussBlur(2) );
 			break;
 	}
+
+	// Add water filter
+	switch( _mapShapeType )
+	{
+		case ISLAND :
+			filters.push_back( new Shaper( new ShapeBubble(_w,_h,0,3,-minLevel/2) ) );
+			filters.push_back( new Choper( new ShapeTopRound(_w,_h,1.-4./maxLevel/maxLevel,5,maxLevel) ) );
+			filters.push_back( new Choper( new ShapeBubble(_w,_h,.5,1,maxLevel) ) );
+			break;
+		case VOLCANO_ISLAND :
+			break;
+		case CRATER :
+			break;
+		default:
+		case NONE :
+			break;
+	}
+
+	// Smooth the result
+	filters.push_back( new GaussBlur(2) );
 
 	_map = _generate( generator, filters );
 }

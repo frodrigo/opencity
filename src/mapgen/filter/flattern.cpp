@@ -44,19 +44,17 @@ Flattern::~Flattern()
    /*=====================================================================*/
 void Flattern::apply( Map* map )
 {
-	uint x = 0, y = 0;
-	uint w = 0, l = 0;
 	float min = 0, max = 0;
-
 	_getMinMax( map, min, max );
-	w = map->getW();
-	l = map->getL();
+
+	uint w = map->getW();
+	uint l = map->getL();
 
 	float coef = fabs( max - min );
 
 	float h = 0;
-	for( x = 0; x < w; ++x )
-		for( y = 0; y < l; ++y ) {
+	for( uint x = 0; x < w; ++x )
+		for( uint y = 0; y < l; ++y ) {
 			if( min >= 0 ) {
 				map->setAt( x, y, powf((map->getAt(x,y)-min)/coef,_power)*coef+min );
 			}

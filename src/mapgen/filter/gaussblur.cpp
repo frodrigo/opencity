@@ -44,30 +44,28 @@ GaussBlur::~GaussBlur()
 void
 GaussBlur::apply( Map* map )
 {
-	uint x = 0, y = 0;
-	uint w = 0, l = 0;
-	uint i = 0;
 	float sum = 0;
 
 	Map* tMap = new Map( map->getW(), map->getL() );
-	w = map->getW();
-	l = map->getL();
+
+	uint w = map->getW();
+	uint h = map->getL();
 
 	uint size = _uiLength*2+1;
-	for( x = 0; x < w; ++x )
-		for( y = 0; y < l; ++y ) {
+	for( uint x = 0; x < w; ++x )
+		for( uint y = 0; y < h; ++y ) {
 			sum = 0;
 
-			for( i = 0; i < size; ++i )
+			for( uint i = 0; i < size; ++i )
 				sum += _afConvulsion[i] * map->getAt( x+i-_uiLength, y );
 			tMap->setAt( x, y, sum );
 		}
 
-	for( x = 0; x < w; ++x )
-		for( y = 0; y < l; ++y ) {
+	for( uint x = 0; x < w; ++x )
+		for( uint y = 0; y < h; ++y ) {
 			sum = 0;
 
-			for( i = 0; i < size; ++i )
+			for( uint i = 0; i < size; ++i )
 				sum += _afConvulsion[i] * tMap->getAt( x, y+i-_uiLength );
 			map->setAt( x, y, sum );
 		}

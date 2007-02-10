@@ -45,19 +45,17 @@ Normalize::~Normalize()
    /*=====================================================================*/
 void Normalize::apply( Map* map )
 {
-	uint x = 0, y = 0;
-	uint w = 0, l = 0;
 	float min, max;
-
 	_getMinMax( map, min, max );
-	w = map->getW();
-	l = map->getL();
+
+	uint w = map->getW();
+	uint h = map->getL();
 
 	float a = (_max-_min) / (max-min);
 	float b = -min * a + _min;
 
-	for( x = 0 ; x < w; ++x )
-		for( y = 0 ; y < l; ++y )
+	for( uint x = 0 ; x < w; ++x )
+		for( uint y = 0 ; y < h; ++y )
 			map->setAt( x, y, a*map->getAt(x,y)+b );
 }
 

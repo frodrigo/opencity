@@ -49,8 +49,14 @@ public:
 	enum WATER_TYPE {
 		DRY = 0,
 		LAKE,
-		COAST,
-		ISLAND
+		COAST
+	};
+
+	enum MAP_SHAPE_TYPE {
+		NONE = 0,
+		ISLAND,
+		VOLCANO_ISLAND,
+		CRATER
 	};
 
 	enum TREE_DENSITY_TYPE {
@@ -64,6 +70,7 @@ public:
 		const uint h,
 		const MAP_TYPE mapType,
 		const WATER_TYPE waterType,
+		const MAP_SHAPE_TYPE mapShapeType,
 		const TREE_DENSITY_TYPE treeDensityType,
 		const uint seed );
 
@@ -78,6 +85,7 @@ private:
 
 	MAP_TYPE	_mapType;
 	WATER_TYPE	_waterType;
+	MAP_SHAPE_TYPE	_mapShapeType;
 	Map*		_map;
 
 	TREE_DENSITY_TYPE	_treeDensityType;

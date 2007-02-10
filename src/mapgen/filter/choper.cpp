@@ -1,11 +1,11 @@
 /***************************************************************************
-						filter.cpp  -  description
+						choper.cpp  -  description
 							-------------------
-	begin                : july 2nd, 2006
+	begin                : fev 10th, 2007
 	copyright            : (C) 2006 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
-	$Id$
+	$Id: choper.cpp 124 2007-01-13 17:28:49Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,46 +17,46 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filter.h"
+#include "choper.h"
+
 
 namespace MapGen
 {
 
+
    /*=====================================================================*/
-Filter::Filter()
+Choper::Choper( const Shape *shape ):
+_shape(shape)
 {
 	MAP_DEBUG( "ctor" );
 }
 
 
    /*=====================================================================*/
-Filter::~Filter()
+Choper::~Choper()
 {
 	MAP_DEBUG( "dtor" );
+	delete _shape;
 }
 
 
    /*=====================================================================*/
-void Filter::_getMinMax(
-	const Map* map,
-	float& min,
-	float& max )
+void Choper::apply( Map* map )
 {
-	float val = 0;
+	uint w, h;
 
-	min = max = map->getAt( 0, 0 );
+	w = map->getW();
+	h = map->getL();
 
-	uint w = map->getW();
-	uint h = map->getL();
-
-	for( uint x = 0; x < w; ++x )
-		for( uint y = 0; y < h; ++y ) {
-			val = map->getAt( x, y );
-			if( val < min )
-				min = val;
-			if( val > max )
-				max = val;
+	for( uint x = 0 ; x < w; ++x )
+		for( uint y = 0 ; y < h; ++y )
+		{
+			float level = map->getAt(x,y);
+			float shape = _shape->value(x,y);
+			level = level > shape ? shape : level;
+			map->setAt( x, y, level );
 		}
 }
+
 
 }

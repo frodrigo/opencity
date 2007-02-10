@@ -1,11 +1,11 @@
 /***************************************************************************
-						filter.cpp  -  description
+						shapeBubble.h  -  description
 							-------------------
-	begin                : july 2nd, 2006
+	begin                : fev 10th, 2007
 	copyright            : (C) 2006 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
-	$Id$
+	$Id: shapeBubble.h 124 2007-01-13 17:28:49Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,46 +17,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filter.h"
+#ifndef _OPENCITY_SHAPEBUBBLE_H_
+#define _OPENCITY_SHAPEBUBBLE_H_ 1
+
+#include "shape.h"
 
 namespace MapGen
 {
 
-   /*=====================================================================*/
-Filter::Filter()
-{
-	MAP_DEBUG( "ctor" );
+
+//========================================================================
+/** Apply bubble shape
+*/
+class ShapeBubble: public Shape {
+public:
+	ShapeBubble( const uint w, const uint h, const float base, const float rude, const uint l );
+	virtual ~ShapeBubble();
+
+	float value( const uint x, const uint y ) const;
+
+private:
+	uint		_w2;
+	uint		_h2;
+	uint		_c;
+	float		_base;
+	float		_rude;
+	uint		_l;
+
+};
+
+
 }
 
-
-   /*=====================================================================*/
-Filter::~Filter()
-{
-	MAP_DEBUG( "dtor" );
-}
-
-
-   /*=====================================================================*/
-void Filter::_getMinMax(
-	const Map* map,
-	float& min,
-	float& max )
-{
-	float val = 0;
-
-	min = max = map->getAt( 0, 0 );
-
-	uint w = map->getW();
-	uint h = map->getL();
-
-	for( uint x = 0; x < w; ++x )
-		for( uint y = 0; y < h; ++y ) {
-			val = map->getAt( x, y );
-			if( val < min )
-				min = val;
-			if( val > max )
-				max = val;
-		}
-}
-
-}
+#endif
