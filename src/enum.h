@@ -337,10 +337,13 @@
 /** In game home made sound effects
 */
 	enum OPENCITY_SOUND_EFFECT {
+		OC_SOUND_DESTROY,
 		OC_SOUND_ELINE,
 		OC_SOUND_EPLANT,
+		OC_SOUND_PARK,
 		OC_SOUND_RCI,
-		OC_SOUND_ROAD
+		OC_SOUND_ROAD,
+		OC_SOUND_TERRAIN
 	};
 
 /** Code for getting structure's properties

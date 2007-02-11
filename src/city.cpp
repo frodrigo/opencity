@@ -1240,7 +1240,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_PARK, cost )) == OC_ERR_FREE) {
-			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_PARK );
 		}
 		break;
 
@@ -1249,7 +1249,7 @@ City::_DoTool(
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_FLORA, cost )) == OC_ERR_FREE) {
-			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_PARK );
 		}
 		break;
 
@@ -1327,6 +1327,7 @@ City::_DoTool(
 			gVars.gpRenderer->boolHeightChange = true;
 			cost = 5;		// Quick hack
 		}
+		gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 		break;
 
 	case OC_HEIGHT_DOWN:
@@ -1335,6 +1336,7 @@ City::_DoTool(
 			gVars.gpRenderer->boolHeightChange = true;
 			cost = 5;		// Quick hack
 		}
+		gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 		break;
 
 	case OC_QUERY:
@@ -1366,9 +1368,9 @@ City::_DoTool(
 	// The following part tell the simulators to remove the collected data concerning
 	// the structures which are going to be destroyed
 		_pMSim->RemoveStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2 );
-
 		enumErrCode = ptabLayer[ enumCurrentLayer ]->
 			DestroyStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, cost );
+		gVars.gpAudioMgr->PlaySound( OC_SOUND_DESTROY );
 		break;
 
 	default:
