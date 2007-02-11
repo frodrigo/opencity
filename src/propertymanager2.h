@@ -45,10 +45,13 @@ private:
 //========================================================================
 // Private methods
 //========================================================================
-	void _loadProperties(
+	void _LoadProperties(
 		uint index,
 		string filename
 	);
+
+
+	const OPENCITY_DIRECTION _Str2Enum(const string& rcstrDir);
 };
 
 #endif

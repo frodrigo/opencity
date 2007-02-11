@@ -190,7 +190,7 @@ ElectricitySim::Main()
 				// look for the neighour in the NORTH
 				if ((pmapOfCity->GetNeighbourWH(
 					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_N ) == true )
+					nW, nH, OC_DIR_O_N ) == true )
 					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
 					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
 					&&(dequeContain(make_pair(nW, nH)) == false))
@@ -200,7 +200,7 @@ ElectricitySim::Main()
 				// look for the neighour in the EAST
 				if ((pmapOfCity->GetNeighbourWH(
 					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_E ) == true )
+					nW, nH, OC_DIR_O_E ) == true )
 					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
 					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
 					&&(dequeContain(make_pair(nW, nH)) == false))
@@ -210,7 +210,7 @@ ElectricitySim::Main()
 				// look for the neighour in the SOUTH
 				if ((pmapOfCity->GetNeighbourWH(
 					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_S ) == true )
+					nW, nH, OC_DIR_O_S ) == true )
 					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
 					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
 					&&(dequeContain(make_pair(nW, nH)) == false))
@@ -220,7 +220,7 @@ ElectricitySim::Main()
 				// look for the neighour in the WEST
 				if ((pmapOfCity->GetNeighbourWH(
 					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_W ) == true )
+					nW, nH, OC_DIR_O_W ) == true )
 					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
 					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
 					&&(dequeContain(make_pair(nW, nH)) == false))

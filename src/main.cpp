@@ -65,7 +65,7 @@
 #include <sstream>
 
 // Test XPath
-// #include "propertymanager2.h"
+#include "propertymanager2.h"
 
 
    /*=====================================================================*/
@@ -446,13 +446,87 @@ void parseArg(int argc, char *argv[])
 				sHomeDir = "";
 			formatHomeDir();
 			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
+		} else
+		if (strcmp( argv[counter], "--generator-seed" ) == 0 || strcmp( argv[counter], "-gs" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			if (++counter < argc) {
+				int i = atoi( argv[counter] ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+	    			gVars.guiGeneratorSeed = i;
+				}
+				else {
+					OPENCITY_INFO(
+						"Argument provided to --generator-seed must be an integer. The default value is used instead."
+					);
+				}
+			}
+		} else
+		if (strcmp( argv[counter], "--generator-map" ) == 0 || strcmp( argv[counter], "-gm" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			if (++counter < argc) {
+				int i = atoi( argv[counter] ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+	    			gVars.guiGeneratorMapType = MapGen::MapMaker::MAP_TYPE(i);
+				}
+				else {
+					OPENCITY_INFO(
+						"Argument provided to --generator-map must be an integer. The default value is used instead."
+					);
+				}
+			}
+		} else
+		if (strcmp( argv[counter], "--generator-water" ) == 0 || strcmp( argv[counter], "-gw" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			if (++counter < argc) {
+				int i = atoi( argv[counter] ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+	    			gVars.guiGeneratorWaterType = MapGen::MapMaker::WATER_TYPE(i);
+				}
+				else {
+					OPENCITY_INFO(
+						"Argument provided to --generator-water must be an integer. The default value is used instead." );
+				}
+			}
+		} else
+		if (strcmp( argv[counter], "--generator-map-shape" ) == 0 || strcmp( argv[counter], "-gms" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			if (++counter < argc) {
+				int i = atoi( argv[counter] ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+		    		gVars.guiGeneratorMapShapeType = MapGen::MapMaker::MAP_SHAPE_TYPE(i);
+				}
+				else {
+					OPENCITY_INFO(
+						"Argument provided to --generator-map-shape must be an integer. The default value is used instead."
+					);
+				}
+			}
+		} else
+		if (strcmp( argv[counter], "--generator-tree-density" ) == 0 || strcmp( argv[counter], "-gtd" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			if (++counter < argc) {
+				int i = atoi( argv[counter] ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+	    			gVars.guiGeneratorTreeDensityType = MapGen::MapMaker::TREE_DENSITY_TYPE(i);
+				}
+				else {
+					OPENCITY_INFO(
+						"Argument provided to --generator-tree-density must be an integer. The default value is used instead."
+					);
+				}
+			}
 		}
 		else {
 			cout << "Unknown option: [" << argv[counter] << "]" << endl;
 			cout << "Usage: " << argv[0]
-			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio]"
-				 << endl << endl;
-			cout << "Warning: any command line switch will overwrite the config file settings"
+			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio] [--generator-seed seed] [--generator-map MAP-TYPE] [--generator-water WATER-TYPE] [--generator-map-shape MAP-SHAPE-TYPE] [--generator-tree-density TREE-DENSITY-TYPE]" << endl << endl
+			     << "Where the map generator constants are: " << endl
+			     << "   MAP-TYPE         : 0=plain (default), 1=hill, 2=mountain" << endl
+			     << "   TREE-DENSITY-TYPE: 0=sparse (default), 1=normal, 2=dense" << endl
+			     << "   MAP-SHAPE-TYPE   : 0=none (default), 1=island, 2=volcano, 3=crater" << endl
+			     << "   WATER-TYPE       : 0=dry, 1=lake (default), 2=coast" << endl
+			     << endl;
+			cout << "Warning: the command option overwrite the config file settings."
 			     << endl;
 			exit( OC_ARGUMENT_ERROR );
 		}
@@ -867,6 +941,11 @@ void initGlobalVar()
 	gVars.guiScreenWidth			= OC_WINDOW_WIDTH;
 	gVars.guiScreenHeight			= OC_WINDOW_HEIGHT;
 	gVars.guiVideoBpp				= OC_WINDOW_BPP_DEFAULT;
+	gVars.guiGeneratorSeed			= time(NULL);
+	gVars.guiGeneratorMapType		= MapGen::MapMaker::PLAIN;
+	gVars.guiGeneratorWaterType		= MapGen::MapMaker::LAKE;
+	gVars.guiGeneratorMapShapeType		= MapGen::MapMaker::NONE;
+	gVars.guiGeneratorTreeDensityType	= MapGen::MapMaker::SPARSE;
 
 	gVars.gfMsSimDelayMax			= 0;
 	gVars.gsZenServer				= "localhost";
@@ -932,11 +1011,10 @@ int main(int argc, char *argv[])
 	}
 
 // Test XPath
-/*
 	PropertyManager2* pPropertyMgr = new PropertyManager2();
 	delete pPropertyMgr;
-	abort();
-*/
+//	abort();
+
 
 // Initialization of global variables
 	uipCurrentUI = NULL;

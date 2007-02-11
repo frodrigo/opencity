@@ -31,6 +31,7 @@
 #include "kernel.h"				// MAS kernel
 #include "environment.h"		// MAS environment
 #include "pathfinder.h"
+#include "mapgen/mapmaker.h"			// Map generator
 
 // The current OpenCity version
 #define OC_VERSION				0
@@ -54,6 +55,11 @@ struct GlobalVar
 	uint guiScreenWidth;
 	uint guiScreenHeight;
 	uint guiVideoBpp;
+	uint guiGeneratorSeed;
+	MapGen::MapMaker::MAP_TYPE guiGeneratorMapType;
+	MapGen::MapMaker::WATER_TYPE guiGeneratorWaterType;
+	MapGen::MapMaker::MAP_SHAPE_TYPE guiGeneratorMapShapeType;
+	MapGen::MapMaker::TREE_DENSITY_TYPE guiGeneratorTreeDensityType;
 
 	OC_FLOAT gfMsSimDelayMax;
 	string gsZenServer;

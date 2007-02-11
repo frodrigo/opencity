@@ -351,7 +351,7 @@ cout << endl;
 
 	   //---------------------- WARNING: repeated procedure begin ---------------------
 	// Get the neighbour in the NORTH
-		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_N ) == true)
+		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_O_N ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
@@ -371,7 +371,7 @@ cout << endl;
 		}
 
 	// Get the neighbour in the EAST
-		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_E ) == true)
+		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_O_E ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
@@ -391,7 +391,7 @@ cout << endl;
 		}
 
 	// Get the neighbour in the SOUTH
-		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_S ) == true)
+		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_O_S ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {
@@ -411,7 +411,7 @@ cout << endl;
 		}
 
 	// Get the neighbour in the WEST
-		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_W ) == true)
+		if ((this->pmap->GetNeighbourWH(uiW, uiH, uiWN, uiHN, OC_DIR_O_W ) == true)
 		  &&((pstruct = pbuildlayer->GetStructure( uiWN, uiHN )) != NULL)
 		  && (pstruct->GetCode() == OC_STRUCTURE_ROAD)
 		  && (pstruct->IsSet(OC_STRUCTURE_MARK) == false)) {

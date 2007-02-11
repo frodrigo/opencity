@@ -21,14 +21,38 @@
 #define _OPENCITY_PROPERTY_H_ 1
 
 
+// Object's properties XPath expressions
+#define OC_METADATA_PROPERTY_NODE		"/object/property"
+#define OC_METADATA_COST_NODE			"/object/property/cost"
+#define OC_METADATA_DIRECTION_ATTRIBUTE	"/object/property/direction/@value"
+
+#define OC_METADATA_MODEL_NODE			"/object/model"
+
+
+enum OPENCITY_DIRECTION;
+
+
 //========================================================================
 /** The properties of each building (structure) in OpenCity are
 encapsulated in this structure.
 */
 struct Property
 {
-	uint	uiWidth, uiLength;			// Width and length of the building
+/** The financial aspects of the object
+"//object/property/cost"
+*/
+	uint uiBuildCost, uiDestroyCost, uiSupportCost, uiIncome;
+
+/** The dimensions of the model
+"//object/model"
+*/
+	uint	uiWidth, uiLength;
 	float	fHeight;
+
+/** The directions to which the object is connected to.
+"//object/property/direction[@value]"
+*/
+	OPENCITY_DIRECTION	eDirection;
 };
 
 #endif

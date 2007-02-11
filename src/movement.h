@@ -85,16 +85,6 @@ SetAngle()
 		const Destination & rcB );
 
 
-   /*=====================================================================*/
-   /*                          STATIC    METHODS                          */
-   /*=====================================================================*/
-/* unused
-	static void
-	Move2Dir(
-		Destination & rD );
-*/
-
-
 public:
 	OC_FLOAT _fCurrentW;			///< current OC W, L, H coordinates
 	OC_FLOAT _fCurrentL;

@@ -21,6 +21,9 @@
 #include "map.h"
 #include "layer.h"
 
+#include "globalvar.h"
+extern GlobalVar gVars;
+
 #include "mapmaker.h"			// Map generator
 
 
@@ -40,11 +43,11 @@ _pclayer( NULL )
 	MapGen::MapMaker mapMaker =
 		MapGen::MapMaker(
 			width+1, height+1, 
-			MapGen::MapMaker::PLAIN,
-			MapGen::MapMaker::LAKE,
-			MapGen::MapMaker::NONE,
-			MapGen::MapMaker::SPARSE,
-			rand()
+                        gVars.guiGeneratorMapType,
+                        gVars.guiGeneratorWaterType,
+                        gVars.guiGeneratorMapShapeType,
+                        gVars.guiGeneratorTreeDensityType,
+                        gVars.guiGeneratorSeed
 		);
 	int* heightMap = mapMaker.getMap();
 
@@ -307,14 +310,14 @@ Map::GetNeighbourWH(
 */
 
 	switch (enumDir) {
-		case OC_DIR_N:  h--;      break;
-		case OC_DIR_NE: h--; w++; break;
-		case OC_DIR_E:  w++;      break;
-		case OC_DIR_SE: w++; h++; break;
-		case OC_DIR_S:  h++;      break;
-		case OC_DIR_SW: h++; w--; break;
-		case OC_DIR_W:  w--;      break;
-		case OC_DIR_NW: w--; h--; break;
+		case OC_DIR_O_N: h--;      break;
+		case OC_DIR_N_E: h--; w++; break;
+		case OC_DIR_O_E: w++;      break;
+		case OC_DIR_S_E: w++; h++; break;
+		case OC_DIR_O_S: h++;      break;
+		case OC_DIR_S_W: h++; w--; break;
+		case OC_DIR_O_W: w--;      break;
+		case OC_DIR_N_W: w--; h--; break;
 		default: break;
 	}
 

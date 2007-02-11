@@ -24,7 +24,7 @@
 Movement::Movement():
 _fRY( 0 ), _fRX( 0 ), _fRZ( 0 ),
 _fTX( 0 ), _fTY( 0 ), _fTZ( 0 ), 
-_eDir( OC_DIR_S )
+_eDir( OC_DIR_O_S )
 {
 	OPENCITY_DEBUG("ctor");
 }
@@ -62,30 +62,30 @@ Movement::SetAngle( const Destination & rD )
 	_eDir = rD._eDir;
 
 	switch (_eDir) {
-	case OC_DIR_N:
+	case OC_DIR_O_N:
 		_fRY = 180;
 		_fTX = 1; _fTY = 0; _fTZ = 1;
 		break;
 
-	case OC_DIR_E:
+	case OC_DIR_O_E:
 		_fRY =  90;
 		_fTX = 0; _fTY = 0; _fTZ = 1;
 		break;
 
-	case OC_DIR_S:
+	case OC_DIR_O_S:
 		_fRY = 0;
 		_fTX = 0; _fTY = 0; _fTZ = 0;
 		break;
 
-	case OC_DIR_W:
+	case OC_DIR_O_W:
 		_fRY = -90;
 		_fTX = 1; _fTY = 0; _fTZ = 0;
 		break;
 
-	case OC_DIR_SE:
-	case OC_DIR_SW:
-	case OC_DIR_NW:
-	case OC_DIR_NE:
+	case OC_DIR_S_E:
+	case OC_DIR_S_W:
+	case OC_DIR_N_W:
+	case OC_DIR_N_E:
 	default:
 		OPENCITY_DEBUG( "Game design error" );
 		assert( 0 );
@@ -113,20 +113,20 @@ Movement::SetSlope(
 			sign = 0;
 
 		switch (_eDir) {
-		case OC_DIR_N:
-		case OC_DIR_S:
+		case OC_DIR_O_N:
+		case OC_DIR_O_S:
 			_fRX =  0; _fRZ = 45;
 			break;
 
-		case OC_DIR_E:
-		case OC_DIR_W:
+		case OC_DIR_O_E:
+		case OC_DIR_O_W:
 			_fRX = sign * 45; _fRZ = 0;
 			break;
 
-		case OC_DIR_SE:
-		case OC_DIR_SW:
-		case OC_DIR_NW:
-		case OC_DIR_NE:
+		case OC_DIR_S_E:
+		case OC_DIR_S_W:
+		case OC_DIR_N_W:
+		case OC_DIR_N_E:
 		default:
 			OPENCITY_DEBUG( "Game design error" );
 			assert( 0 );
@@ -139,30 +139,6 @@ Movement::SetSlope(
 }
 
 
-   /*=====================================================================*/
-   /*                          STATIC    METHODS                          */
-   /*=====================================================================*/
-/* unused
-void
-Movement::Move2Dir(
-	Destination & rD )
-{
-	OPENCITY_DEBUG("called");
-
-// Move to the indicated direction
-	switch (rD._eDir) {
-		case OC_DIR_N:	rD._uiL--;				break;
-		case OC_DIR_NE:	rD._uiL--;	rD._uiW++;	break;
-		case OC_DIR_E:	rD._uiW++;				break;
-		case OC_DIR_SE:	rD._uiW++;	rD._uiL++;	break;
-		case OC_DIR_S:	rD._uiL++;				break;
-		case OC_DIR_SW:	rD._uiL++;	rD._uiW--;	break;
-		case OC_DIR_W:	rD._uiW--;				break;
-		case OC_DIR_NW:	rD._uiW--;	rD._uiL--;	break;
-		default: break;
-	}
-}
-*/
 
 
 

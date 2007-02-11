@@ -23,7 +23,7 @@
 
    /*=====================================================================*/
 Destination::Destination():
-_eDir( OC_DIR_S ),
+_eDir( OC_DIR_O_S ),
 _uiW( 0 ), _uiL( 0 ),
 _iHMin( 0 ), _iHMax( 0 ),
 _uiTime( 0 ),
@@ -52,25 +52,25 @@ Destination::GetDir(
 	}
 
 	if (rcA._uiW < rcB._uiW) {
-		return OC_DIR_E;
+		return OC_DIR_O_E;
 	}
 
 	if (rcA._uiW > rcB._uiW) {
-		return OC_DIR_W;
+		return OC_DIR_O_W;
 	}
 
 // L tests
 	if (rcA._uiL < rcB._uiL) {
-		return OC_DIR_S;
+		return OC_DIR_O_S;
 	}
 
 	if (rcA._uiL > rcB._uiL) {
-		return OC_DIR_N;
+		return OC_DIR_O_N;
 	}
 
 	OPENCITY_DEBUG( "Game design error" );
 	assert( 0 );
-	return OC_DIR_S;
+	return OC_DIR_O_S;
 }
 
 

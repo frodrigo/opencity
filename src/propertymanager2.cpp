@@ -23,10 +23,11 @@
 
 // Libraries includes
 #include "xpath_processor.h"
+#include "xpath_static.h"
 
 #define OC_METADATA_XML_FILE		"config/graphism.xml"
 #define OC_METADATA_FILE_NODE		"//graphism/file"
-#define OC_METADATA_MODEL_NODE		"//object/model"
+
 
 using namespace TinyXPath;
 
@@ -93,7 +94,7 @@ PropertyManager2::PropertyManager2()
 		}
 
 	// Load the properties at the index i
-		_loadProperties( i, ocHomeDirPrefix(filename) );
+		_LoadProperties( i, ocHomeDirPrefix(filename) );
 	}
 
 // Clean up
@@ -115,7 +116,7 @@ PropertyManager2::~PropertyManager2()
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
 void
-PropertyManager2::_loadProperties
+PropertyManager2::_LoadProperties
 (
 	uint index,
 	string filename
@@ -140,25 +141,86 @@ PropertyManager2::_loadProperties
 		abort();
 	}
 
-// Select the "//object/model" node
+// Initialize few work variables
+	TiXmlNode* pNode = NULL;
+	TiXmlElement* pElement = NULL;
+	TiXmlAttribute* pAttribute = NULL;
+	Property* sProperty = &_aProperty[index];
+
+// Select the "/object/property/cost" node
+	pNode = XNp_xpath_node(pRoot, OC_METADATA_COST_NODE);
+	assert( pNode != NULL );
+// Initialize the default values
+	sProperty->uiBuildCost		= 0;
+	sProperty->uiDestroyCost	= 0;
+	sProperty->uiSupportCost	= 0;
+	sProperty->uiIncome			= 0;
+// Get the <cost> node and fill the structure with the model cost properties
+	pElement = pNode->ToElement();
+	pElement->QueryIntAttribute( "build",	(int*)&sProperty->uiBuildCost );
+	pElement->QueryIntAttribute( "destroy",	(int*)&sProperty->uiDestroyCost );
+	pElement->QueryIntAttribute( "support",	(int*)&sProperty->uiSupportCost );
+	pElement->QueryIntAttribute( "income",	(int*)&sProperty->uiIncome );
+
+// Select the "/object/property/direction[@value]" attribute
+	pAttribute = XAp_xpath_attribute(pRoot, OC_METADATA_DIRECTION_ATTRIBUTE);
+	assert( pAttribute != NULL );
+	sProperty->eDirection = _Str2Enum(pAttribute->ValueStr());
+
+// Select the "/object/model" node
+	pNode = XNp_xpath_node(pRoot, OC_METADATA_MODEL_NODE);
+	assert( pNode != NULL );
+// Get the <model> node and fill the structure with the model dimension
+	pElement = pNode->ToElement();
+	pElement->QueryIntAttribute( "width",	(int*)&sProperty->uiWidth );
+	pElement->QueryIntAttribute( "length",	(int*)&sProperty->uiLength );
+	pElement->QueryFloatAttribute( "height", &sProperty->fHeight );
+
+
+
+/* old code, kept for reference, feb 11th, 07
 	uint nbNode = 0;
-	xpath_processor* xpProcessor = new xpath_processor(pRoot, OC_METADATA_MODEL_NODE);
+	xpath_processor* xpProcessor = NULL;
+	xpProcessor = new xpath_processor(pRoot, OC_METADATA_MODEL_NODE);
 	assert( xpProcessor != NULL );
 	nbNode = xpProcessor->u_compute_xpath_node_set();
 	assert( nbNode == 1 );	// There must be only 1 node
-
-// FOR each <file> node DO
-	TiXmlElement* pElement = NULL;
 	pElement = (xpProcessor->XNp_get_xpath_node(0))->ToElement();
-
-// Fill the structure
-	Property* sProperty = &_aProperty[index];
-	pElement->QueryIntAttribute( "width", (int*)&sProperty->uiWidth );
-	pElement->QueryIntAttribute( "length", (int*)&sProperty->uiLength );
-	pElement->QueryFloatAttribute( "height", &sProperty->fHeight );
-	OPENCITY_DEBUG( "W/L/H" << sProperty->uiWidth << "/" << sProperty->uiLength << "/" << sProperty->fHeight );
-
-// Clean up
 	delete xpProcessor;
-	xpProcessor = NULL;		// Safe
+	xpProcessor = NULL;
+*/
+
+// Debug
+	OPENCITY_DEBUG(
+		"W/L/H: " << sProperty->uiWidth << "/" << sProperty->uiLength << "/" << sProperty->fHeight << " | " <<
+		"B/D/S/I: " << sProperty->uiBuildCost << "/" << sProperty->uiDestroyCost << "/" << sProperty->uiSupportCost << "/" << sProperty->uiIncome << " | " <<
+		"Dir: " << sProperty->eDirection
+	);
 }
+
+
+   /*=====================================================================*/
+const OPENCITY_DIRECTION
+PropertyManager2::_Str2Enum(const string& rcstrDir)
+{
+	OPENCITY_DIRECTION dir = OC_DIR_UNDEFINED;
+
+	if (rcstrDir == "on") dir = OC_DIR_O_N; else
+	if (rcstrDir == "oe") dir = OC_DIR_O_E; else
+	if (rcstrDir == "os") dir = OC_DIR_O_S; else
+	if (rcstrDir == "ow") dir = OC_DIR_O_W; else
+	if (rcstrDir == "sn") dir = OC_DIR_S_N; else
+	if (rcstrDir == "we") dir = OC_DIR_W_E; else
+	if (rcstrDir == "ne") dir = OC_DIR_N_E; else
+	if (rcstrDir == "nw") dir = OC_DIR_N_W; else
+	if (rcstrDir == "se") dir = OC_DIR_S_E; else
+	if (rcstrDir == "sw") dir = OC_DIR_S_W; else
+	if (rcstrDir == "sne") dir = OC_DIR_S_N_E; else
+	if (rcstrDir == "swe") dir = OC_DIR_S_W_E; else
+	if (rcstrDir == "snw") dir = OC_DIR_S_N_W; else
+	if (rcstrDir == "nwe") dir = OC_DIR_N_W_E; else
+	if (rcstrDir == "snwe") dir = OC_DIR_S_N_W_E;
+
+	return dir;
+}
+

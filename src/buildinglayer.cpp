@@ -1004,7 +1004,7 @@ BuildingLayer::_BuildPathStructure(
 	_tabpStructure[ linearIndex ] = pNewStructure;
 
 // Get the neighbour in the North
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_N ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_O_N ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 	// if the neighbour is a road structure
 	// then add this new road structure as its new neighbour
@@ -1014,40 +1014,40 @@ BuildingLayer::_BuildPathStructure(
 //debug cout << "found 1 neighbour in the North" << endl;
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
 			ppathstructNeighbour->AddNeighbour(
-				*pNewStructure, OC_DIR_S );
+				*pNewStructure, OC_DIR_O_S );
 			pNewStructure->AddNeighbour(
-				*ppathstructNeighbour, OC_DIR_N );
+				*ppathstructNeighbour, OC_DIR_O_N );
 		}
 	}
 
 // Get the neighbour in the South
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_S ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_O_S ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
 			ppathstructNeighbour->AddNeighbour(
-				*pNewStructure, OC_DIR_N );
+				*pNewStructure, OC_DIR_O_N );
 			pNewStructure->AddNeighbour(
-				*ppathstructNeighbour, OC_DIR_S );
+				*ppathstructNeighbour, OC_DIR_O_S );
 		}
 	}
 
 // Get the neighbour in the West
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_W ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_O_W ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
 			ppathstructNeighbour->AddNeighbour(
-				*pNewStructure, OC_DIR_E );
+				*pNewStructure, OC_DIR_O_E );
 			pNewStructure->AddNeighbour(
-				*ppathstructNeighbour, OC_DIR_W );
+				*ppathstructNeighbour, OC_DIR_O_W );
 		}
 	}
 
 // Get the neighbour in the East
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_E ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nL, OC_DIR_O_E ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nL );
 	// if the neighbour is a road structure
 	// then add this new road structure as its new neighbour
@@ -1056,9 +1056,9 @@ BuildingLayer::_BuildPathStructure(
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
 			ppathstructNeighbour->AddNeighbour(
-				*pNewStructure, OC_DIR_W );
+				*pNewStructure, OC_DIR_O_W );
 			pNewStructure->AddNeighbour(
-				*ppathstructNeighbour, OC_DIR_E );
+				*ppathstructNeighbour, OC_DIR_O_E );
 		}
 	}
 }
@@ -1391,43 +1391,43 @@ BuildingLayer::_DestroyPathStructure(
 
 	ppathstruct = (PathStructure*)pstruct;
 // get the neighbour in the North
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_N ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_O_N ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 	// if the neighbour is a path structure
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
-			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_S );
+			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_O_S );
 		}
 	}
 
 // get the neighbour in the South
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_S ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_O_S ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
-			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_N );
+			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_O_N );
 		}
 	}
 
 // get the neighbour in the West
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_W ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_O_W ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
-			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_E );
+			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_O_E );
 		}
 	}
 
 // get the neighbour in the East
-	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_E ) == true) {
+	if (gVars.gpMapMgr->GetNeighbourWH( w, l, nW, nH, OC_DIR_O_E ) == true) {
 		pstructNeighbour = BuildingLayer::GetStructure( nW, nH );
 		if ( (pstructNeighbour != NULL)
 		   &&(pstructNeighbour->GetCode() == enumStructCode)) {
 			ppathstructNeighbour = (PathStructure*)pstructNeighbour;
-			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_W );
+			ppathstructNeighbour->RemoveNeighbour( *ppathstruct, OC_DIR_O_W );
 		}
 	}
 

@@ -113,18 +113,18 @@ PathStructure::AddNeighbour(
 
 	if (ubNumberNeighbour == 0) {
 	// The current _eGC is already OC_ROAD_O_N we don't process further in such case
-		if (enumDir == OC_DIR_E)
+		if (enumDir == OC_DIR_O_E)
 			newGC = baseGC + 1;
-		else if (enumDir == OC_DIR_S)
+		else if (enumDir == OC_DIR_O_S)
 			newGC = baseGC + 2;
-		else if (enumDir == OC_DIR_W)
+		else if (enumDir == OC_DIR_O_W)
 			newGC = baseGC + 3;
 	} else
 
 		/*-----------------------------------------*/
 	if (ubNumberNeighbour == 1) {
 //debug cout << "number neighbour == 1" << endl;
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 		// We don't process the case OC_ROAD_O_N
 			if (_eGC == baseGC + 1)
 				newGC = baseGC + 6;
@@ -136,7 +136,7 @@ PathStructure::AddNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 		   // we don't process the case OC_ROAD_O_E
 			if (_eGC == baseGC)
 				newGC = baseGC + 6;
@@ -148,7 +148,7 @@ PathStructure::AddNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 		   // we don't process the case OC_ROAD_O_S
 			if (_eGC == baseGC)
 				newGC = baseGC + 4;
@@ -160,7 +160,7 @@ PathStructure::AddNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 		   // we don't process the case OC_ROAD_O_W
 			if (_eGC == baseGC)
 				newGC = baseGC + 7;
@@ -175,7 +175,7 @@ PathStructure::AddNeighbour(
 
 		//-----------------------------------------
 	if (ubNumberNeighbour == 2) {
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 		// We don't process the case OC_ROAD_S_N, N_E, N_W
 			if (_eGC == baseGC + 8)			// S_E
 				newGC = baseGC + 10;		// S_N_E
@@ -187,7 +187,7 @@ PathStructure::AddNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 		// We don't process the case OC_ROAD_W_E, N_E, S_E
 			if (_eGC == baseGC + 9)
 				newGC = baseGC + 11;
@@ -199,7 +199,7 @@ PathStructure::AddNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 		// We don't process the case OC_ROAD_S_N, S_E, S_W
 			if (_eGC == baseGC + 6)
 				newGC = baseGC + 10;
@@ -211,7 +211,7 @@ PathStructure::AddNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 		// We don't process the case OC_ROAD_W_E, N_W, S_W
 			if (_eGC == baseGC + 8)
 				newGC = baseGC + 11;
@@ -226,25 +226,25 @@ PathStructure::AddNeighbour(
 
 		//-----------------------------------------
 	if (ubNumberNeighbour == 3) {
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 			if (_eGC == baseGC + 11)
 				newGC = baseGC + 14;
 			else
 				return;
 		} else
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 			if (_eGC == baseGC + 12)
 				newGC = baseGC + 14;
 			else
 				return;
 		} else
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 			if (_eGC == baseGC + 13)
 				newGC = baseGC + 14;
 			else
 				return;
 		} else
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 			if (_eGC == baseGC + 10)
 				newGC = baseGC + 14;
 			else
@@ -308,7 +308,7 @@ PathStructure::RemoveNeighbour(
 
 	if (ubNumberNeighbour == 2) {
 //debug cout << "number neighbour == 1" << endl;
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 			if (_eGC == baseGC + 4)
 				newGC = baseGC + 2;
 			else if (_eGC == baseGC + 6)
@@ -319,7 +319,7 @@ PathStructure::RemoveNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 			if (_eGC == baseGC + 6)
 				newGC = baseGC;
 			else if (_eGC == baseGC + 8)
@@ -330,7 +330,7 @@ PathStructure::RemoveNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 			if (_eGC == baseGC + 4)
 				newGC = baseGC;
 			else if (_eGC == baseGC + 8)
@@ -341,7 +341,7 @@ PathStructure::RemoveNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 			if (_eGC == baseGC + 7)
 				newGC = baseGC;
 			else if (_eGC == baseGC + 5)
@@ -355,7 +355,7 @@ PathStructure::RemoveNeighbour(
 
 		//-----------------------------------------
 	if (ubNumberNeighbour == 3) {
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 			if (_eGC == baseGC + 10)
 				newGC = baseGC + 8;
 			else if (_eGC == baseGC + 12)
@@ -366,7 +366,7 @@ PathStructure::RemoveNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 			if (_eGC == baseGC + 11)
 				newGC = baseGC + 9;
 			else if (_eGC == baseGC + 13)
@@ -377,7 +377,7 @@ PathStructure::RemoveNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 			if (_eGC == baseGC + 10)
 				newGC = baseGC + 6;
 			else if (_eGC == baseGC + 12)
@@ -388,7 +388,7 @@ PathStructure::RemoveNeighbour(
 				return;
 		} else
 
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 			if (_eGC == baseGC + 11)
 				newGC = baseGC + 8;
 			else if (_eGC == baseGC + 13)
@@ -402,16 +402,16 @@ PathStructure::RemoveNeighbour(
 
 		//-----------------------------------------
 	if (ubNumberNeighbour == 4) {
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 			newGC = baseGC + 11;
 		} else
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 			newGC = baseGC + 12;
 		} else
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 			newGC = baseGC + 13;
 		} else
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 			newGC = baseGC + 10;
 		}
 	}
@@ -435,11 +435,11 @@ cout << "adding 1 neighbour" << endl;
 	if (ubNumberNeighbour == 0) {
 	   // the current _eGC is already OC_ROAD_O_N
 	   // we don't process further in such case
-		if (enumDir == OC_DIR_E)
+		if (enumDir == OC_DIR_O_E)
 			_eGC = OC_ROAD_O_E;
-		else if (enumDir == OC_DIR_S)
+		else if (enumDir == OC_DIR_O_S)
 			_eGC = OC_ROAD_O_S;
-		else if (enumDir == OC_DIR_W)
+		else if (enumDir == OC_DIR_O_W)
 			_eGC = OC_ROAD_O_W;
 	} else
 
@@ -447,7 +447,7 @@ cout << "adding 1 neighbour" << endl;
 	if (ubNumberNeighbour == 1) {
 //debug
 cout << "number neighbour == 1" << endl;
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 		   // we don't process the case OC_ROAD_O_N
 			if (_eGC == OC_ROAD_O_E)
 				_eGC = OC_ROAD_N_E;
@@ -459,7 +459,7 @@ cout << "number neighbour == 1" << endl;
 				return;
 		} else
 
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 		   // we don't process the case OC_ROAD_O_E
 			if (_eGC == OC_ROAD_O_N)
 				_eGC = OC_ROAD_N_E;
@@ -471,7 +471,7 @@ cout << "number neighbour == 1" << endl;
 				return;
 		} else
 
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 		   // we don't process the case OC_ROAD_O_S
 			if (_eGC == OC_ROAD_O_N)
 				_eGC = OC_ROAD_S_N;
@@ -483,7 +483,7 @@ cout << "number neighbour == 1" << endl;
 				return;
 		} else
 
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 		   // we don't process the case OC_ROAD_O_W
 			if (_eGC == OC_ROAD_O_N)
 				_eGC = OC_ROAD_N_W;
@@ -498,7 +498,7 @@ cout << "number neighbour == 1" << endl;
 
 		*-----------------------------------------*
 	if (ubNumberNeighbour == 2) {
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 		   // we don't process the case OC_ROAD_S_N, N_E, N_W
 			if (_eGC == OC_ROAD_S_E)
 				_eGC = OC_ROAD_S_N_E;
@@ -510,7 +510,7 @@ cout << "number neighbour == 1" << endl;
 				return;
 		} else
 
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 		   // we don't process the case OC_ROAD_W_E, N_E, S_E
 			if (_eGC == OC_ROAD_S_W)
 				_eGC = OC_ROAD_S_W_E;
@@ -522,7 +522,7 @@ cout << "number neighbour == 1" << endl;
 				return;
 		} else
 
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 		   // we don't process the case OC_ROAD_S_N, S_E, S_W
 			if (_eGC == OC_ROAD_N_E)
 				_eGC = OC_ROAD_S_N_E;
@@ -534,7 +534,7 @@ cout << "number neighbour == 1" << endl;
 				return;
 		} else
 
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 		   // we don't process the case OC_ROAD_W_E, N_W, S_W
 			if (_eGC == OC_ROAD_S_E)
 				_eGC = OC_ROAD_S_W_E;
@@ -549,25 +549,25 @@ cout << "number neighbour == 1" << endl;
 
 		*-----------------------------------------*
 	if (ubNumberNeighbour == 3) {
-		if (enumDir == OC_DIR_N) {
+		if (enumDir == OC_DIR_O_N) {
 			if (_eGC == OC_ROAD_S_W_E)
 				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		} else
-		if (enumDir == OC_DIR_E) {
+		if (enumDir == OC_DIR_O_E) {
 			if (_eGC == OC_ROAD_S_N_W)
 				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		} else
-		if (enumDir == OC_DIR_S) {
+		if (enumDir == OC_DIR_O_S) {
 			if (_eGC == OC_ROAD_N_W_E)
 				_eGC = OC_ROAD_S_N_W_E;
 			else
 				return;
 		} else
-		if (enumDir == OC_DIR_W) {
+		if (enumDir == OC_DIR_O_W) {
 			if (_eGC == OC_ROAD_S_N_E)
 				_eGC = OC_ROAD_S_N_W_E;
 			else

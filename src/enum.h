@@ -37,15 +37,22 @@
 /** The directions used in map calculation, vehicle movement, path placement etc...
 */
 	enum OPENCITY_DIRECTION {
-		OC_DIR_N  = 0,			///< North
-		OC_DIR_NE,				///< North East
-		OC_DIR_E,				///< East
-		OC_DIR_SE,				///< South East
-		OC_DIR_S,				///< South
-		OC_DIR_SW,				///< South West
-		OC_DIR_W,				///< West
-		OC_DIR_NW,				///< North West
-		OC_DIR_UNDEFINED		///< What the heck is this ?
+		OC_DIR_O_N = 0,					///< North
+		OC_DIR_O_E,						///< East
+		OC_DIR_O_S,						///< South
+		OC_DIR_O_W,						///< West
+		OC_DIR_S_N,
+		OC_DIR_W_E,     // +5
+		OC_DIR_N_E,
+		OC_DIR_N_W,
+		OC_DIR_S_E,
+		OC_DIR_S_W,
+		OC_DIR_S_N_E,   // +10
+		OC_DIR_S_W_E,
+		OC_DIR_S_N_W,
+		OC_DIR_N_W_E,
+		OC_DIR_S_N_W_E,
+		OC_DIR_UNDEFINED				///< What the heck is this ?
 	};
 
 /** The different layers of OpenCity's city
@@ -223,6 +230,8 @@
 		OC_TERRAIN_NE3,
 */
 
+	// The order of the following enumerations are important
+	// See pathstructure.cpp for more information
 		OC_ROAD_O_N = 150,
 		OC_ROAD_O_E,     // +1
 		OC_ROAD_O_S,
@@ -239,6 +248,8 @@
 		OC_ROAD_N_W_E,
 		OC_ROAD_S_N_W_E,
 
+	// The order of the following enumerations are important
+	// See pathstructure.cpp for more information
 		OC_ELINE_O_N = 170,
 		OC_ELINE_O_E,
 		OC_ELINE_O_S,
