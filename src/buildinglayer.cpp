@@ -525,7 +525,10 @@ BuildingLayer::DestroyStructure(
 			rCost += costPerSquare;
 	}
 
-	return OC_ERR_FREE;
+	if (rCost > 0)
+		return OC_ERR_FREE;
+	else
+		return OC_ERR_SOMETHING;
 }
 
 

@@ -1325,18 +1325,18 @@ City::_DoTool(
 		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_UP );
 		if ( enumErrCode == OC_ERR_FREE ) {
 			gVars.gpRenderer->boolHeightChange = true;
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 			cost = 5;		// Quick hack
 		}
-		gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 		break;
 
 	case OC_HEIGHT_DOWN:
 		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_DOWN );
 		if ( enumErrCode == OC_ERR_FREE ) {
 			gVars.gpRenderer->boolHeightChange = true;
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 			cost = 5;		// Quick hack
 		}
-		gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 		break;
 
 	case OC_QUERY:
@@ -1370,7 +1370,9 @@ City::_DoTool(
 		_pMSim->RemoveStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2 );
 		enumErrCode = ptabLayer[ enumCurrentLayer ]->
 			DestroyStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, cost );
-		gVars.gpAudioMgr->PlaySound( OC_SOUND_DESTROY );
+		if (enumErrCode == OC_ERR_FREE) {
+			gVars.gpAudioMgr->PlaySound( OC_SOUND_DESTROY );
+		}
 		break;
 
 	default:

@@ -485,15 +485,15 @@ AudioManager::ParseM3UList(
 	uint & uiNumberFiles )
 {
 //debug	cout << (string)ccaFilename << endl;
-   // if there's already an old list, free it
+// If there's already an old list, free it
 	if (!vectorFilename.empty()) {
 		vectorFilename.clear();
 		uiNumberFiles = 0;
 	}
 
-   // if we are here, uiNumberFiles must be 0
+// If we are here, uiNumberFiles must be 0
 
-   // open the ifstream for reading
+// Open the ifstream for reading
 	ifstream listFile( csrFilename.c_str() );
 	if (listFile == NULL) {
 		OPENCITY_DEBUG( "Audio file list open error" );
@@ -501,30 +501,21 @@ AudioManager::ParseM3UList(
 	}
 
 	OC_CHAR tempStr [OC_MAX_FILENAME_LENGTH];
-
-   // read the first line
-	listFile.getline( tempStr, OC_MAX_FILENAME_LENGTH );
-	if (listFile.eof()) {
-		listFile.close();
-		OPENCITY_DEBUG( "Audio file list error" );
-		return OC_ERR_SOMETHING;
-	}
-
-	while (!listFile.eof()) {
+	do {
+	// Read the next info line
+		listFile.getline( tempStr, OC_MAX_FILENAME_LENGTH );
 		if ((strlen(tempStr) != 0)
 		 && (tempStr[0] != '#')) {
-		   // implicite conversion from OC_CHAR* to string
+		// Implicite conversion from OC_CHAR* to string
 			vectorFilename.push_back( tempStr );
 			uiNumberFiles++;
 //debug	cout << tempStr << endl;
 		}
-	   // read the next info line
-		listFile.getline( tempStr, OC_MAX_FILENAME_LENGTH );
 	}
+	while (!listFile.eof());
 
 	listFile.close();
 	return OC_ERR_FREE;
-
 }
 
 
