@@ -1,8 +1,8 @@
 /***************************************************************************
-							pathfinder.h  -  description
-								-------------------
+						pathfinder.h  -  description
+							-------------------
 	begin                : may 17th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -38,6 +38,7 @@ class Map;
 class Destination;
 
 
+//========================================================================
 /** This class implements few famous algorithms in path finding problems
 */
 class PathFinder {

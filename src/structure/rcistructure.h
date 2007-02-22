@@ -1,10 +1,11 @@
 /***************************************************************************
-                          rcistructure.h  -  description
-      $Id$
-                             -------------------
-    begin                : june 17th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						rcistructure.h  -  description
+							-------------------
+	begin                : june 17th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,6 +22,7 @@
 
 
 #include "structure.h"
+
 
 /** This is a specialisation of structure. It regroups Residential,
 Commercial and Industrial

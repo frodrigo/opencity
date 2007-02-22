@@ -17,11 +17,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "industrialsim.h"
+// Useful enumerations
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "industrialsim.h"
 #include "buildinglayer.h"
 #include "structure.h"
-
 
 
    /*======================================================================*/

@@ -1,5 +1,6 @@
 AM_CPPFLAGS = \
 	-I@top_srcdir@/src/ \
+	-I@top_srcdir@/src/enum/ \
 	-I@top_srcdir@/src/mas/ \
 	-I@top_srcdir@/src/networking/
 

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          movementmanager.cpp  -  description
-                             -------------------
-    begin                : dim mai 16 2004
-    modified             : sam jun 5  2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+					movementmanager.cpp  -  description
+							-------------------
+	begin                : may 16th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,10 +17,14 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+
+// OpenCity headers
 #include "movement.h"
 #include "movementmanager.h"
-
 #include "graphicmanager.h"
+
 
    /*=====================================================================*/
 MovementManager::MovementManager(

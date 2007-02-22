@@ -1,10 +1,11 @@
 /***************************************************************************
-                          audiomanagersdl.h  -  description
-        $Id$
-                             -------------------
-    begin                : ven déc 26 2003
-    copyright            : (C) 2003 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+							audiomanagersdl.h  -  description
+								-------------------
+	begin                : december 26th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +18,7 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_AUDIOMANAGERSDL_H_
-#define _OPENCITY_AUDIOMANAGERSDL_H_
+#define _OPENCITY_AUDIOMANAGERSDL_H_ 1
 
 	#include "main.h"
 

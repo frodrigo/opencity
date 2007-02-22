@@ -18,14 +18,21 @@
 *                                                                         *
 ***************************************************************************/
 
+// Useful enumeration
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
-#include "environment.h" 
+// MAS headers
+#include "environment.h"
+#include "kernel.h"
+
+// OpenCity headers
 #include "structure.h"
 #include "layer.h"
-#include "kernel.h"
 #include "graphicmanager.h"
 #include "pathfinder.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 

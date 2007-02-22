@@ -1,8 +1,8 @@
 /***************************************************************************
-							destination.h  -  description
-								-------------------
-	begin                : dim mai 16 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+						destination.h  -  description
+							-------------------
+	begin                : may 16th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -17,10 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_DESTINATION_H
-#define _OPENCITY_DESTINATION_H 1
+#ifndef _OPENCITY_DESTINATION_H_
+#define _OPENCITY_DESTINATION_H_ 1
 
 #include "main.h"
+
+enum OPENCITY_DIRECTION;
 
 
 //========================================================================

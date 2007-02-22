@@ -17,6 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumeration
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "mainsim.h"
 #include "residentialsim.h"				// RCI, WEG and traffic management
 #include "commercialsim.h"
@@ -26,9 +31,11 @@
 #include "structure.h"
 #include "buildinglayer.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 
+// Standard header
 #include <sstream>						// Debug string stream
 
 

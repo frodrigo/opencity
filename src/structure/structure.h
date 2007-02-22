@@ -1,10 +1,11 @@
 /***************************************************************************
-                          structure.h  -  description
-        $Id$
-                             -------------------
-    begin                : june 16th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						structure.h  -  description
+							-------------------
+	begin                : june 16th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,8 +21,8 @@
 #define _OPENCITY_STRUCTURE_H_ 1
 
 #include "main.h"
-
 #include "persistence.h"
+
 
 // structure relative attributes
 #define OC_STRUCTURE_X		0x00	// Unknown

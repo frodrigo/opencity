@@ -17,14 +17,18 @@
  *                                                                         *
  ***************************************************************************/
 
-// Project includes
+// Useful enumerations
+#include "opencity_direction.h"
+
+// OpenCity headers
 #include "propertymanager2.h"
 #include "property.h"
 
-// Libraries includes
+// Libraries headers
 #include "xpath_processor.h"
 #include "xpath_static.h"
 
+// Local defines
 #define OC_METADATA_XML_FILE		"config/graphism.xml"
 #define OC_METADATA_FILE_NODE		"//graphism/file"
 
@@ -223,4 +227,39 @@ PropertyManager2::_Str2Enum(const string& rcstrDir)
 
 	return dir;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

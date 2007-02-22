@@ -2,7 +2,7 @@
 						map.h  -  description
 							-------------------
 	begin                : january 24th, 2004
-	copyright            : (C) 2004-2006 Duong-Khang NGUYEN
+	copyright            : (C) 2004-2007 Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -17,14 +17,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#if !defined (_OPENCITY_MAP_H_)
+#ifndef _OPENCITY_MAP_H_
 #define _OPENCITY_MAP_H_ 1
 
 #include "main.h"
-
 #include "persistence.h"
 
+enum OPENCITY_DIRECTION;
 class Layer;
+
 
 //========================================================================
 /** A "Map" object contains an array of square's OY height. Each square

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          propertymanager.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : feb 6th, 2004
-    copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						propertymanager.cpp  -  description
+							-------------------
+	begin                : feb 6th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,10 +17,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "propertymanager.h"
+// Useful enumerations
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "propertymanager.h"
 #include "structure.h"
 
+// Standard headers
 #include <algorithm>		// We use STL algorithms
 #include <sstream>			// We use stringstream or data conversion
 

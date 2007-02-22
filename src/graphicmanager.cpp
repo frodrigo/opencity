@@ -17,6 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "graphicmanager.h"
 #include "structure.h"
 #include "model.h"
@@ -25,9 +30,11 @@
 #include "agent.h"
 #include "conf.h"				// Parser for .conf file
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 
+// Standard headers
 #include <cmath>				// For floorf
 #include <sstream>				// We use std::stringstream for data conversion
 

@@ -17,14 +17,18 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
+// OpenCity headers
 #include "map.h"
 #include "layer.h"
+#include "mapmaker.h"			// Map generator
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
-
-#include "mapmaker.h"			// Map generator
 
 
    /*=====================================================================*/

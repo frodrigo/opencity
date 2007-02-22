@@ -2,9 +2,9 @@
 						renderer.h  -  description
 							-------------------
 	begin                : may 29th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 

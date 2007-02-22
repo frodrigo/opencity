@@ -17,12 +17,19 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "electricitysim.h"
 #include "buildinglayer.h"
 #include "structure.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
+
 
    /*=====================================================================*/
 ElectricitySim::ElectricitySim(

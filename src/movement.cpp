@@ -1,10 +1,11 @@
 /***************************************************************************
-                          movement.cpp  -  description
-      $Id$
-                             -------------------
-    begin                : dim mai 16 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						movement.cpp  -  description
+							-------------------
+	begin                : may 16th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,7 +17,10 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
 
+// OpenCity header
 #include "movement.h"
 
 

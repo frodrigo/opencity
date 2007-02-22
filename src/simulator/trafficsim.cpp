@@ -1,8 +1,8 @@
 /***************************************************************************
 						trafficsim.cpp  -  description
                              -------------------
-	begin                : sam mai 01 2004
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	begin                : may 1st, 2004
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -17,16 +17,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "trafficsim.h"
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "trafficsim.h"
 #include "buildinglayer.h"
 #include "../map.h"					// We want our own map.h
 #include "pathstructure.h"
-
 #include "pathfinder.h"
 #include "movementmanager.h"
 #include "vehicle.h"
-
 
 
    /*=====================================================================*/

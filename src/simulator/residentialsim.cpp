@@ -17,8 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "residentialsim.h"
+// Useful enumerations
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "residentialsim.h"
 #include "buildinglayer.h"
 #include "structure.h"
 

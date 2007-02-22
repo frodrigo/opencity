@@ -30,7 +30,7 @@ namespace MapGen
 {
 
 
-// Forwar declarations
+// Forward declarations
 class Generator;
 class Filter;
 

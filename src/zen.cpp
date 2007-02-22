@@ -19,28 +19,29 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
+// OpenCity headers
 #include "zen.h"
-
 #include "city.h"				// The heart of the project
 #include "conf.h"				// Parser for .conf file
 #include "agentpolice.h"		// MAS testing
 #include "agentdemonstrator.h"
 
-#include "globalvar.h"			// Global settings variable: gVars
+// Global settings
+#include "globalvar.h"
+extern GlobalVar gVars;
 
+// Libraries headers
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
 #include "tinyxml/tinyxml.h"
 
+// Standard headers
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
-
-
-   /*=====================================================================*/
-   /*                        GLOBAL    VARIABLES                          */
-   /*=====================================================================*/
-	GlobalVar gVars;
 
 
    /*=====================================================================*/

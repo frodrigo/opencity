@@ -1,10 +1,11 @@
 /***************************************************************************
-                          pathstructure.h  -  description
-      $Id$
-                             -------------------
-    begin                : june 17th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						pathstructure.h  -  description
+							-------------------
+	begin                : june 17th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +21,8 @@
 #define _OPENCITY_PATHSTRUCTURE_H_ 1
 
 #include "structure.h"
+
+enum OPENCITY_DIRECTION;
 
 
 /** This is a specialization of Structure. It regroups all structures

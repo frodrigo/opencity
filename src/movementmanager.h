@@ -1,10 +1,10 @@
 /***************************************************************************
-							movementmanager.h  -  description
-								-------------------
-	begin                : dim mai 16 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+						movementmanager.h  -  description
+							-------------------
+	begin                : may 16th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -22,7 +22,7 @@
 
 #include "main.h"
 
-	#define OC_MOVEMENT_MAX		100
+#define OC_MOVEMENT_MAX		100
 
 using std::vector;
 

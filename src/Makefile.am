@@ -1,7 +1,8 @@
-SUBDIRS = binreloc mapgen mas model networking simulator structure tinyxml tinyxpath triangulation
+SUBDIRS = binreloc enum mapgen mas model networking simulator structure tinyxml tinyxpath triangulation
 AM_CPPFLAGS = \
 	-I@top_srcdir@/src/ \
 	-I@top_srcdir@/src/binreloc/ \
+	-I@top_srcdir@/src/enum/ \
 	-I@top_srcdir@/src/mas/ \
 	-I@top_srcdir@/src/mapgen/ \
 	-I@top_srcdir@/src/model/ \
@@ -50,6 +51,7 @@ buildinglayer.cpp \
 city.cpp \
 conf.cpp \
 destination.cpp \
+globalvar.cpp \
 graphicmanager.cpp \
 gui3dview.cpp \
 guibar.cpp \
@@ -129,6 +131,7 @@ buildinglayer.cpp \
 city.cpp \
 conf.cpp \
 destination.cpp \
+globalvar.cpp \
 graphicmanager.cpp \
 gui3dview.cpp \
 guibar.cpp \

@@ -2,9 +2,9 @@
 						pathfinder.cpp  -  description
 							-------------------
 	begin                : may 17th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -17,17 +17,23 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "buildinglayer.h"
 #include "destination.h"
 #include "pathstructure.h"
 #include "map.h"
-
 #include "pathfinder.h"
 
+// Local defines
 #define OC_PATHFINDER_MAX_LENGTH	0xFFFF0000
 #define OC_PATHFINDER_A_STAR		1		// use Dijkstra + A* algorithm
 
 
+//========================================================================
 /** This is an utility structure used during the pathfinding process
 */
 struct PathFinderNode {
@@ -38,9 +44,9 @@ struct PathFinderNode {
 };
 
 
-   //========================================================================
-   /** This is a functor, it's used for sorting node
-   */
+//========================================================================
+/** This is a functor, it's used for sorting node
+*/
 static bool
 pathfinderCompareTraffic(
 	const PathFinderNode & rcA,

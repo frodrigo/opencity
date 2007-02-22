@@ -22,7 +22,9 @@
 
 #include "main.h"
 
+enum OPENCITY_DIRECTION;
 struct Property;				// Forward declaration
+
 
 //========================================================================
 /** This manager handles the in-game object properties. Each object comes

@@ -1,11 +1,11 @@
 /***************************************************************************
-						destination.cpp  -  description
+						globalvar.cpp  -  description
 							-------------------
-	begin                : may 16th, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	begin                : february 22th, 2007
+	copyright            : (C) 2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-
-	$Id$
+	
+	$Id: globalvar.h 170 2007-02-11 18:03:18Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,62 +19,14 @@
 
 // Useful enumerations
 #include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
-// OpenCity header
-#include "destination.h"
-
-
-   /*=====================================================================*/
-Destination::Destination():
-_eDir( OC_DIR_O_S ),
-_uiW( 0 ), _uiL( 0 ),
-_iHMin( 0 ), _iHMax( 0 ),
-_uiTime( 0 ),
-_ubTraffic( 0 )
-{
-	// OPENCITY_DEBUG( "ctor" );
-}
+// OpenCity headers
+#include "globalvar.h"
 
 
    /*=====================================================================*/
-Destination::~Destination()
-{
-	// OPENCITY_DEBUG( "dtor" );
-}
-
-
+   /*                        GLOBAL    VARIABLES                          */
    /*=====================================================================*/
-OPENCITY_DIRECTION
-Destination::GetDir(
-	const Destination & rcA,
-	const Destination & rcB)
-{
-// W tests
-	if ((rcA._uiW == rcB._uiW) and (rcA._uiL == rcB._uiL)) {
-		return rcA._eDir;
-	}
-
-	if (rcA._uiW < rcB._uiW) {
-		return OC_DIR_O_E;
-	}
-
-	if (rcA._uiW > rcB._uiW) {
-		return OC_DIR_O_W;
-	}
-
-// L tests
-	if (rcA._uiL < rcB._uiL) {
-		return OC_DIR_O_S;
-	}
-
-	if (rcA._uiL > rcB._uiL) {
-		return OC_DIR_O_N;
-	}
-
-	OPENCITY_DEBUG( "Game design error" );
-	assert( 0 );
-	return OC_DIR_O_S;
-}
-
-
+GlobalVar gVars;
 

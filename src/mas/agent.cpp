@@ -18,15 +18,21 @@
 *                                                                         *
 ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_structure_type.h"
 
+// MAS headers
 #include "agent.h"
 #include "kernel.h"
 #include "environment.h"
 #include "message.h"
 
+// OpenCity headers
 #include "structure.h"				///< OpenCity's specifics
 
+// Standard headers
 #include <cassert>
+
 
 /*=====================================================================*/
 Agent::Agent(Kernel& kernel, Environment &env, int x, int y, Role_t role):

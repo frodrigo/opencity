@@ -1,11 +1,11 @@
 /***************************************************************************
-						wegstructure.h  -  description
+						opencity_direction.h  -  description
 							-------------------
-	begin                : june 17th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	begin                : february 21th, 2007
+	copyright            : (C) 2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
-	$Id$
+	$Id: enum.h 171 2007-02-11 19:11:32Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,56 +17,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_WEGSTRUCTURE_H_
-#define _OPENCITY_WEGSTRUCTURE_H_ 1
-
-#include "structure.h"
+#ifndef _OPENCITY_DIRECTION_ENUM_H_
+#define _OPENCITY_DIRECTION_ENUM_H_ 1
 
 
-//========================================================================
-/**This is an specialization of 'Structure'. It regroups Water,
-Electricity and Gas structures. All of them are governmental structures.
+/** The directions used in map calculation, vehicle movement, path placement etc...
 */
-class WEGStructure : public Structure  {
-public:
-	WEGStructure();
-	WEGStructure( const OPENCITY_STRUCTURE_CODE & enumStructCode );
-	WEGStructure(
-		const OPENCITY_STRUCTURE_CODE & enumStructCode,
-		Structure * pMain );
-
-	virtual ~WEGStructure();  // virtual since Structure's one is
+enum OPENCITY_DIRECTION {
+	OC_DIR_O_N = 0,					///< North
+	OC_DIR_O_E,						///< East
+	OC_DIR_O_S,						///< South
+	OC_DIR_O_W,						///< West
+	OC_DIR_S_N,
+	OC_DIR_W_E,     // +5
+	OC_DIR_N_E,
+	OC_DIR_N_W,
+	OC_DIR_S_E,
+	OC_DIR_S_W,
+	OC_DIR_S_N_E,   // +10
+	OC_DIR_S_W_E,
+	OC_DIR_S_N_W,
+	OC_DIR_N_W_E,
+	OC_DIR_S_N_W_E,
+	OC_DIR_UNDEFINED				///< What the heck is this ?
 };
 
+
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

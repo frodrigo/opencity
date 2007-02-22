@@ -1,10 +1,11 @@
 /***************************************************************************
-                          trafficsim.h  -  description
-        $Id$
-                             -------------------
-    begin                : sam mai 01 2004
-    copyright            : (C) 2003-2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						trafficsim.h  -  description
+							-------------------
+	begin                : may 1st, 2004
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -49,9 +50,7 @@ public:
 
 	virtual ~TrafficSim();
 
-
-	int
-	Main();
+	int Main();
 
 
 private:

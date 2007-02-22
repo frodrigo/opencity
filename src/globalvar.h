@@ -31,7 +31,7 @@
 #include "kernel.h"				// MAS kernel
 #include "environment.h"		// MAS environment
 #include "pathfinder.h"
-#include "mapgen/mapmaker.h"			// Map generator
+#include "mapgen/mapmaker.h"	// Map generator
 
 // The current OpenCity version
 #define OC_VERSION				0

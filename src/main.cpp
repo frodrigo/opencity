@@ -45,33 +45,33 @@
 	\author Frédéric RODRIGO
 */
 
-// Project includes
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "main.h"
 #include "city.h"				// The project core
 #include "conf.h"				// Parser for .conf file
 #include "agentpolice.h"		// MAS testing
 #include "agentdemonstrator.h"
 
-#include "globalvar.h"			// Global settings variable: gVars
+// Global settings
+#include "globalvar.h"
+extern GlobalVar gVars;
 
-// Libraries includes
+// Libraries headers
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
 #include "tinyxml.h"
 
-// Standard includes
+// Standard headers
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
 #include <sstream>
 
 // Test XPath
 #include "propertymanager2.h"
-
-
-   /*=====================================================================*/
-   /*                        GLOBAL    VARIABLES                          */
-   /*=====================================================================*/
-	GlobalVar gVars;
 
 
    /*=====================================================================*/

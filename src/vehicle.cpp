@@ -17,19 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+
+// OpenCity headers
 #include "vehicle.h"
-
-
-   /*=====================================================================*/
-/* TOKILL, useless, jan 28th, 07
-Vehicle::Vehicle():
-uiCapacity( 0 ),
-enumType( VEHICLE_BUS )
-{
-	OPENCITY_DEBUG("ctor");
-	_eGC = OC_VEHICLE_BUS;
-}
-*/
 
 
    /*=====================================================================*/

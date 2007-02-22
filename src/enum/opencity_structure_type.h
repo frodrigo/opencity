@@ -1,11 +1,11 @@
 /***************************************************************************
-						wegstructure.h  -  description
+				opencity_structure_type.h  -  description
 							-------------------
-	begin                : june 17th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	begin                : february 22th, 2007
+	copyright            : (C) 2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
-	$Id$
+	$Id: enum.h 171 2007-02-11 19:11:32Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,56 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_WEGSTRUCTURE_H_
-#define _OPENCITY_WEGSTRUCTURE_H_ 1
-
-#include "structure.h"
+#ifndef _OPENCITY_STRUCTURE_TYPE_ENUM_H_
+#define _OPENCITY_STRUCTURE_TYPE_ENUM_H_ 1
 
 
-//========================================================================
-/**This is an specialization of 'Structure'. It regroups Water,
-Electricity and Gas structures. All of them are governmental structures.
+/** Each type of structure has several different structure code.
+This is used for un/serialization and metadata loading
 */
-class WEGStructure : public Structure  {
-public:
-	WEGStructure();
-	WEGStructure( const OPENCITY_STRUCTURE_CODE & enumStructCode );
-	WEGStructure(
-		const OPENCITY_STRUCTURE_CODE & enumStructCode,
-		Structure * pMain );
-
-	virtual ~WEGStructure();  // virtual since Structure's one is
+enum OPENCITY_STRUCTURE_TYPE {
+	OC_TYPE_UNUSED = 0,
+	OC_TYPE_RESIDENCE,
+	OC_TYPE_COMMERCE,
+	OC_TYPE_INDUSTRY,
+	OC_TYPE_WATER,
+	OC_TYPE_ELECTRICITY,
+	OC_TYPE_GAS,
+	OC_TYPE_GOVERNMENT,
+	OC_TYPE_PATH,
+	OC_TYPE_TREE,
+	OC_TYPE_VEHICLE
 };
 
+
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

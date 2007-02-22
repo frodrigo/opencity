@@ -2,7 +2,7 @@
 						structure.cpp  -  description
 							-------------------
 	begin                : june 16th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -17,8 +17,14 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity header
 #include "structure.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 

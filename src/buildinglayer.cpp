@@ -17,6 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity header
 #include "buildinglayer.h"
 #include "city.h"
 #include "rcistructure.h"
@@ -26,6 +31,7 @@
 #include "guicontainer.h"
 #include "guibutton.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 

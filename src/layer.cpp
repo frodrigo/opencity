@@ -1,10 +1,11 @@
 /***************************************************************************
-                          layer.cpp  -  description
-          $Id$
-                             -------------------
-    begin                : september 20th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						layer.cpp  -  description
+							-------------------
+	begin                : september 20th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,8 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "layer.h"
+// Useful enumerations
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "layer.h"
 #include "structure.h"
 #include "guicontainer.h"	// for the "Query" function
 #include "guibutton.h"
@@ -30,7 +34,6 @@ GUIButton* Layer::pbtnQG;
 GUIButton* Layer::pbtnQR;
 GUIButton* Layer::pbtnQC;
 GUIButton* Layer::pbtnQI;
-//GUIButton* Layer::pbtnQP;
 
 
 Layer::Layer(){

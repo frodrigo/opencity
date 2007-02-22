@@ -2,7 +2,7 @@
 						renderer.cpp  -  description
 							-------------------
 	begin                : may 29th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -44,11 +44,16 @@ for the first time:
 */
 //========================================================================
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "renderer.h"
 #include "layer.h"
 #include "texture.h"					// Terrain texturing
-
 #include "font_8x8.h"					// 8x8 font definition
+
 /* Test, dec 28th, 06
 #include "font_mini_4x6.h"
 #include "font_7x14.h"
@@ -56,6 +61,7 @@ for the first time:
 #include "font_pearl_8x8.h"
 */
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 

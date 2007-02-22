@@ -17,8 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "commercialsim.h"
+// Useful enumeration
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "commercialsim.h"
 #include "buildinglayer.h"
 #include "structure.h"
 

@@ -17,9 +17,15 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "guicontainer.h"
 #include "texture.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 

@@ -17,6 +17,11 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "city.h"
 #include "vehicle.h"
 #include "mainsim.h"				// simulator
@@ -30,9 +35,11 @@
 #include "agentdemonstrator.h"
 #include "agentrobber.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 
+// Standard headers
 #include <sstream>					// For text output with data conversion
 
 #define OC_ACTION_FACTOR 10

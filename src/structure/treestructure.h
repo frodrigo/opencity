@@ -2,7 +2,7 @@
 							treestructure.h  -  description
 								-------------------
 	begin                : july 23th, 2006
-	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2006-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -22,6 +22,8 @@
 
 #include "structure.h"
 
+
+//========================================================================
 /** This is a specialisation of structure for trees.
 */
 class TreeStructure : public Structure  {

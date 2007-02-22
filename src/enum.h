@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_ENUM_H_
-#define _OPENCITY_ENUM_ 1
+#define _OPENCITY_ENUM_H_ 1
 
 /** OpenCity's error codes
 */
@@ -32,27 +32,6 @@
 	enum OPENCITY_MAP_VARIATION {
 		OC_MAP_UP = 1,
 		OC_MAP_DOWN = -1
-	};
-
-/** The directions used in map calculation, vehicle movement, path placement etc...
-*/
-	enum OPENCITY_DIRECTION {
-		OC_DIR_O_N = 0,					///< North
-		OC_DIR_O_E,						///< East
-		OC_DIR_O_S,						///< South
-		OC_DIR_O_W,						///< West
-		OC_DIR_S_N,
-		OC_DIR_W_E,     // +5
-		OC_DIR_N_E,
-		OC_DIR_N_W,
-		OC_DIR_S_E,
-		OC_DIR_S_W,
-		OC_DIR_S_N_E,   // +10
-		OC_DIR_S_W_E,
-		OC_DIR_S_N_W,
-		OC_DIR_N_W_E,
-		OC_DIR_S_N_W_E,
-		OC_DIR_UNDEFINED				///< What the heck is this ?
 	};
 
 /** The different layers of OpenCity's city
@@ -151,22 +130,6 @@
 		OC_STRUCTURE_HOSPITALDEPT,
 		OC_STRUCTURE_MILITARYDEPT,
 		OC_STRUCTURE_EDUCATIONDEPT
-	};
-
-/** Each type of structure has several different structure code
-	This is used for un/serialization
-*/
-	enum OPENCITY_STRUCTURE_TYPE {
-		OC_TYPE_UNUSED,
-		OC_TYPE_RESIDENCE,
-		OC_TYPE_COMMERCE,
-		OC_TYPE_INDUSTRY,
-		OC_TYPE_WATER,
-		OC_TYPE_ELECTRICITY,
-		OC_TYPE_GAS,
-		OC_TYPE_PATH,
-		OC_TYPE_GOVERNMENT,
-		OC_TYPE_TREE
 	};
 
 /** Opencity's graphic codes ( model internal code )

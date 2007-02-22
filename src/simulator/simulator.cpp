@@ -1,8 +1,8 @@
 /***************************************************************************
 						simulator.cpp  -  description
 							-------------------
-	begin                : dim sep 21 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	begin                : september 21th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -17,13 +17,20 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
+
+// OpenCity headers
 #include "simulator.h"
 #include "buildinglayer.h"
 #include "structure.h"
 
+// Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
 
+// Standard headers
 #include <cmath>				// For log10
 
 

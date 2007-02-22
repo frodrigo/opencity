@@ -1,10 +1,11 @@
 /***************************************************************************
-                          graphicmanager.h  -  description
-      $Id$
-                             -------------------
-    begin                : dim sep 21 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						graphicmanager.h  -  description
+							-------------------
+	begin                : september 21th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,9 +18,9 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_GRAPHICMANAGER_H_
-	#define _OPENCITY_GRAPHICMANAGER_H_
+#define _OPENCITY_GRAPHICMANAGER_H_ 1
 
-	#include "main.h"
+#include "main.h"
 
 
 class Renderer;
@@ -29,10 +30,11 @@ class Model;
 class Movement;
 class Agent;
 
-   //========================================================================
-   /** It handles the rendering of 3d objects
-   \sa Renderer
-   */
+
+//========================================================================
+/** It handles the rendering of 3d objects
+\sa Renderer
+*/
 class GraphicManager {
 public:
 	GraphicManager();

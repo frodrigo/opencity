@@ -1,8 +1,8 @@
 /***************************************************************************
 						simulator.h  -  description
 							-------------------
-	begin                : dim sep 21 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	begin                : september 21th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -21,7 +21,6 @@
 #define _OPENCITY_SIMULATOR_H_ 1
 
 #include "main.h"
-
 #include "persistence.h"
 
 // the maximum range of other structures
@@ -58,6 +57,7 @@ enum OPENCITY_STRUCTURE_CODE;
 class BuildingLayer;
 class Map;
 class Structure;
+
 
 //========================================================================
 /** The class from which all the simulators derive. It contains common

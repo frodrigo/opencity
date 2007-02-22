@@ -18,13 +18,19 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumeration
+#include "opencity_direction.h"
 
+// MAS headers
 #include "agentpolice.h"
 #include "kernel.h"
 #include "environment.h"
 #include "message.h"
+
+// OpenCity header
 #include "destination.h"
 
+// Standard header
 #include <cstdlib>
 
 // The max square distance for collaboration

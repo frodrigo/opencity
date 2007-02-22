@@ -1,10 +1,11 @@
 /***************************************************************************
-                          buildinglayer.h  -  description
-      $Id$
-                             -------------------
-    begin                : sam sep 20 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						buildinglayer.h  -  description
+							-------------------
+	begin                : september 20th, 2003
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,13 +21,14 @@
 #define _OPENCITY_BUILDINGLAYER_H_ 1
 
 #include "main.h"
-
 #include "layer.h"
+
 
 class City;
 
-/**
-	This class contains all the buildings added by the player
+
+//========================================================================
+/** This class contains all the buildings added by the player
 */
 class BuildingLayer : public Layer  {
 public:
