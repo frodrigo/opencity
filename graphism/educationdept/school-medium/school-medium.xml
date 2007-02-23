@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
-  <property radius='11' type='Gov'>
+  <property radius='11' type='government'>
     <cost build='60000' destroy='9000' support='5000'/>
     <r>
       <need max='30' min='1'/>

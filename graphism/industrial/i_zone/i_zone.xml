@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
-  <property type='I'>
+  <property type='i'>
     <cost build='10' income='60'/>
     <r>
       <need/>
