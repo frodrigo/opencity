@@ -116,7 +116,7 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 	Structure* p = NULL;
 	void* t = NULL;
 	uint w = 0, l = 0, anUint = 0, linear = 0;
-	OPENCITY_STRUCTURE_TYPE type = OC_TYPE_UNUSED;		///< Structure's object type
+	OPENCITY_STRUCTURE_TYPE type = OC_TYPE_UNDEFINED;		///< Structure's object type
 
 // Remove the old structures
 	uint citySurface = _uiLayerLength * _uiLayerWidth;

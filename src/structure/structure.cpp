@@ -52,7 +52,7 @@ Structure::SetNumber( const uint & rcuiNb )
 Structure::Structure():
 _eGC( OC_EMPTY ),
 _eSC( OC_STRUCTURE_UNDEFINED ),
-_eType( OC_TYPE_UNUSED ),
+_eType( OC_TYPE_UNDEFINED ),
 _uiStatus( 0 ),
 _uiLevel( OC_STRUCTURE_LEVEL_START ),
 _pstructureMain( NULL )

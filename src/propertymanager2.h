@@ -4,7 +4,7 @@
 	begin                : january 28th, 2007
 	copyright            : (C) 2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -23,6 +23,7 @@
 #include "main.h"
 
 enum OPENCITY_DIRECTION;
+enum OPENCITY_STRUCTURE_TYPE;
 struct Property;				// Forward declaration
 
 
@@ -53,7 +54,12 @@ private:
 	);
 
 
-	const OPENCITY_DIRECTION _Str2Enum(const string& rcstrDir);
+	const OPENCITY_DIRECTION
+	_Str2Direction(const string& rcstrDir);
+
+
+	const OPENCITY_STRUCTURE_TYPE
+	_Str2Type(const string& rcstrType);
 };
 
 #endif

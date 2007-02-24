@@ -25,7 +25,7 @@
 This is used for un/serialization and metadata loading
 */
 enum OPENCITY_STRUCTURE_TYPE {
-	OC_TYPE_UNUSED = 0,
+	OC_TYPE_UNDEFINED = 0,
 	OC_TYPE_RESIDENCE,
 	OC_TYPE_COMMERCE,
 	OC_TYPE_INDUSTRY,

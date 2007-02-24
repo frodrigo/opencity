@@ -343,18 +343,18 @@ PropertyManager::GetST(
 			tcode = OC_TYPE_TREE; break;
 
 		case OC_STRUCTURE_PART:
-			tcode = OC_TYPE_UNUSED; break;
+			tcode = OC_TYPE_UNDEFINED; break;
 
 	// TODO
 		case OC_STRUCTURE_UNDEFINED:
 		case OC_STRUCTURE_ANY:
 		case OC_STRUCTURE_ELECTRIC:
-			tcode = OC_TYPE_UNUSED; assert( 0 ); break;
+			tcode = OC_TYPE_UNDEFINED; assert( 0 ); break;
 
 		case OC_STRUCTURE_TEST:			// Development test feature
-			tcode = OC_TYPE_UNUSED; break;
+			tcode = OC_TYPE_UNDEFINED; break;
 		default:
-			tcode = OC_TYPE_UNUSED;
+			tcode = OC_TYPE_UNDEFINED;
 			OPENCITY_DEBUG( "WARNING: game design error" );
 			assert( 0 );
 	}

@@ -19,6 +19,7 @@
 
 // Useful enumerations
 #include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
 // OpenCity headers
 #include "propertymanager2.h"
@@ -166,10 +167,28 @@ PropertyManager2::_LoadProperties
 	pElement->QueryIntAttribute( "support",	(int*)&sProperty->uiSupportCost );
 	pElement->QueryIntAttribute( "income",	(int*)&sProperty->uiIncome );
 
-// Select the "/object/property/direction[@value]" attribute
+// Select the "/object/property" node
+	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROPERTY_NODE);
+	assert( pNode != NULL );
+// Initialize the default values
+	sProperty->uiInhabitant = 0;
+	sProperty->uiWorker = 0;
+	sProperty->uiRadius = 0;
+// Get the <cost> node and fill the structure with the model cost properties
+	pElement = pNode->ToElement();
+	pElement->QueryIntAttribute( "inhabitant",	(int*)&sProperty->uiInhabitant );
+	pElement->QueryIntAttribute( "worker",		(int*)&sProperty->uiWorker );
+	pElement->QueryIntAttribute( "radius",		(int*)&sProperty->uiRadius );
+
+// Select the "/object/property/@type" attribute
+	pAttribute = XAp_xpath_attribute(pRoot, OC_METADATA_STRUCTURE_TYPE_ATTRIBUTE);
+	assert( pAttribute != NULL );
+	sProperty->eStructureType = _Str2Type(pAttribute->ValueStr());
+
+// Select the "/object/property/direction/@value" attribute
 	pAttribute = XAp_xpath_attribute(pRoot, OC_METADATA_DIRECTION_ATTRIBUTE);
 	assert( pAttribute != NULL );
-	sProperty->eDirection = _Str2Enum(pAttribute->ValueStr());
+	sProperty->eDirection = _Str2Direction(pAttribute->ValueStr());
 
 // Select the "/object/model" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_MODEL_NODE);
@@ -180,32 +199,41 @@ PropertyManager2::_LoadProperties
 	pElement->QueryIntAttribute( "length",	(int*)&sProperty->uiLength );
 	pElement->QueryFloatAttribute( "height", &sProperty->fHeight );
 
-
-
-/* old code, kept for reference, feb 11th, 07
-	uint nbNode = 0;
-	xpath_processor* xpProcessor = NULL;
-	xpProcessor = new xpath_processor(pRoot, OC_METADATA_MODEL_NODE);
-	assert( xpProcessor != NULL );
-	nbNode = xpProcessor->u_compute_xpath_node_set();
-	assert( nbNode == 1 );	// There must be only 1 node
-	pElement = (xpProcessor->XNp_get_xpath_node(0))->ToElement();
-	delete xpProcessor;
-	xpProcessor = NULL;
-*/
-
 // Debug
 	OPENCITY_DEBUG(
 		"W/L/H: " << sProperty->uiWidth << "/" << sProperty->uiLength << "/" << sProperty->fHeight << " | " <<
 		"B/D/S/I: " << sProperty->uiBuildCost << "/" << sProperty->uiDestroyCost << "/" << sProperty->uiSupportCost << "/" << sProperty->uiIncome << " | " <<
-		"Dir: " << sProperty->eDirection
+		"Dir: " << sProperty->eDirection << " | " <<
+		"Type: " << sProperty->eStructureType << " | " <<
+		"i/w/r: " << sProperty->uiInhabitant << "/" << sProperty->uiWorker << "/" << sProperty->uiRadius
 	);
 }
 
 
    /*=====================================================================*/
+const OPENCITY_STRUCTURE_TYPE
+PropertyManager2::_Str2Type(const string& rcstrType)
+{
+	OPENCITY_STRUCTURE_TYPE type = OC_TYPE_UNDEFINED;
+
+	if (rcstrType =="r") type = OC_TYPE_RESIDENCE; else
+	if (rcstrType =="c") type = OC_TYPE_COMMERCE; else
+	if (rcstrType =="i") type = OC_TYPE_INDUSTRY; else
+	if (rcstrType =="w") type = OC_TYPE_WATER; else
+	if (rcstrType =="e") type = OC_TYPE_ELECTRICITY; else
+	if (rcstrType =="g") type = OC_TYPE_GAS; else
+	if (rcstrType =="government") type = OC_TYPE_GOVERNMENT; else
+	if (rcstrType =="path") type = OC_TYPE_PATH; else
+	if (rcstrType =="tree") type = OC_TYPE_TREE; else
+	if (rcstrType =="vehicle") type = OC_TYPE_VEHICLE;
+
+	return type;
+}
+
+
+   /*=====================================================================*/
 const OPENCITY_DIRECTION
-PropertyManager2::_Str2Enum(const string& rcstrDir)
+PropertyManager2::_Str2Direction(const string& rcstrDir)
 {
 	OPENCITY_DIRECTION dir = OC_DIR_UNDEFINED;
 
@@ -227,8 +255,6 @@ PropertyManager2::_Str2Enum(const string& rcstrDir)
 
 	return dir;
 }
-
-
 
 
 

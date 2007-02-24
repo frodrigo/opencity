@@ -4,7 +4,7 @@
 	begin                : january 28th, 2007
 	copyright            : (C) 2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -22,14 +22,19 @@
 
 
 // Object's properties XPath expressions
-#define OC_METADATA_PROPERTY_NODE		"/object/property"
-#define OC_METADATA_COST_NODE			"/object/property/cost"
-#define OC_METADATA_DIRECTION_ATTRIBUTE	"/object/property/direction/@value"
+#define OC_METADATA_PROPERTY_NODE				"/object/property"
+#define OC_METADATA_COST_NODE					"/object/property/cost"
+#define OC_METADATA_STRUCTURE_TYPE_ATTRIBUTE	"/object/property/@type"
+#define OC_METADATA_INHABITANT_ATTRIBUTE		"/object/property/@inhabitant"
+#define OC_METADATA_RADIUS_ATTRIBUTE			"/object/property/@radius"
+#define OC_METADATA_WORKER_ATTRIBUTE			"/object/property/@worker"
+#define OC_METADATA_DIRECTION_ATTRIBUTE			"/object/property/direction/@value"
 
-#define OC_METADATA_MODEL_NODE			"/object/model"
+#define OC_METADATA_MODEL_NODE					"/object/model"
 
 
 enum OPENCITY_DIRECTION;
+enum OPENCITY_STRUCTURE_TYPE;
 
 
 //========================================================================
@@ -49,10 +54,19 @@ struct Property
 	uint	uiWidth, uiLength;
 	float	fHeight;
 
+/** The generated number of inhabitant, worker and the radius of the influence
+upon the other objects
+*/
+	uint	uiInhabitant, uiWorker, uiRadius;
+
+/** The OpenCity type of the object. This type is used for un/serialization
+*/
+	OPENCITY_STRUCTURE_TYPE	eStructureType;
+
 /** The directions to which the object is connected to.
 "//object/property/direction[@value]"
 */
-	OPENCITY_DIRECTION	eDirection;
+	OPENCITY_DIRECTION		eDirection;
 };
 
 #endif
