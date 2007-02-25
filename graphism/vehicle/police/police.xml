@@ -18,10 +18,22 @@
       <need/>
       <provide/>
     </t>
-    <w/>
-    <e/>
-    <g/>
-    <nat/>
+    <w>
+      <need/>
+      <provide/>
+    </w>
+    <e>
+      <need/>
+      <provide/>
+    </e>
+    <g>
+      <need/>
+      <provide/>
+    </g>
+    <nature>
+      <need/>
+      <provide/>
+    </nature>
     <direction value='os'/>
   </property>
   <model length='1' height='1.1' width='1'>

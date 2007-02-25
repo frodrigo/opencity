@@ -18,10 +18,22 @@
       <need max='237' min='7'/>
       <provide max='20' min='10'/>
     </t>
-    <w need='5'/>
-    <e need='4'/>
-    <g need='3'/>
-    <nat provide='-4'/>
+    <w>
+      <need max='5'/>
+      <provide/>
+    </w>
+    <e>
+      <need max='4'/>
+      <provide/>
+    </e>
+    <g>
+      <need max='3'/>
+      <provide/>
+    </g>
+    <nature>
+      <need/>
+      <provide max='-4'/>
+    </nature>
     <direction value='os'/>
   </property>
   <model length='2' height='1.15' width='2'>
