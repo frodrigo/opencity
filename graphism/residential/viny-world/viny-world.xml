@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <object xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:object http://www.opencity.info/xml/object.xsd' xmlns='urn:oc:object'>
-  <property radius='13' type='r'>
+  <property radius='13' worker='8' inhabitant='1200' type='r'>
     <cost destroy='60000' income='136'/>
     <r>
       <need max='200' min='10'/>
