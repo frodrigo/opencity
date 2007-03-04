@@ -24,6 +24,25 @@
 // Object's properties XPath expressions
 #define OC_METADATA_PROPERTY_NODE				"/object/property"
 #define OC_METADATA_COST_NODE					"/object/property/cost"
+
+#define OC_METADATA_NEED_R_NODE					"/object/property/r/need"
+#define OC_METADATA_PROVIDE_R_NODE				"/object/property/r/provide"
+#define OC_METADATA_NEED_C_NODE					"/object/property/c/need"
+#define OC_METADATA_PROVIDE_C_NODE				"/object/property/c/provide"
+#define OC_METADATA_NEED_I_NODE					"/object/property/i/need"
+#define OC_METADATA_PROVIDE_I_NODE				"/object/property/i/provide"
+#define OC_METADATA_NEED_W_NODE					"/object/property/w/need"
+#define OC_METADATA_PROVIDE_W_NODE				"/object/property/w/provide"
+#define OC_METADATA_NEED_E_NODE					"/object/property/e/need"
+#define OC_METADATA_PROVIDE_E_NODE				"/object/property/e/provide"
+#define OC_METADATA_NEED_G_NODE					"/object/property/g/need"
+#define OC_METADATA_PROVIDE_G_NODE				"/object/property/g/provide"
+
+#define OC_METADATA_NEED_T_NODE					"/object/property/t/need"
+#define OC_METADATA_PROVIDE_T_NODE				"/object/property/t/provide"
+#define OC_METADATA_NEED_NATURE_NODE			"/object/property/nature/need"
+#define OC_METADATA_PROVIDE_NATURE_NODE			"/object/property/nature/provide"
+
 #define OC_METADATA_STRUCTURE_TYPE_ATTRIBUTE	"/object/property/@type"
 #define OC_METADATA_INHABITANT_ATTRIBUTE		"/object/property/@inhabitant"
 #define OC_METADATA_RADIUS_ATTRIBUTE			"/object/property/@radius"
@@ -38,18 +57,50 @@ enum OPENCITY_STRUCTURE_TYPE;
 
 
 //========================================================================
+/** A simple min/max type */
+class MinMax
+{
+public:
+	int iMin, iMax;
+
+	MinMax( int min, int max):
+	iMin(min), iMax(max)
+	{}
+};
+
+
+//========================================================================
+/** Each "need", "provide" property is limited by its min and max values.
+*/
+class NeedProvide
+{
+public:
+	MinMax mmNeed, mmProvide;
+
+	NeedProvide():
+	mmNeed(0, INT_MAX), mmProvide(0, 0)
+	{}
+};
+
+
+//========================================================================
 /** The properties of each building (structure) in OpenCity are
 encapsulated in this structure.
 */
-struct Property
+class Property
 {
+public:
 /** The financial aspects of the object
-"//object/property/cost"
 */
 	uint uiBuildCost, uiDestroyCost, uiSupportCost, uiIncome;
 
+/** The need/provide properties
+*/
+	NeedProvide sResidence, sCommerce, sIndustry;
+	NeedProvide sWater, sElectricity, sGas;
+	NeedProvide sTraffic, sNature;
+
 /** The dimensions of the model
-"//object/model"
 */
 	uint	uiWidth, uiLength;
 	float	fHeight;
@@ -64,9 +115,22 @@ upon the other objects
 	OPENCITY_STRUCTURE_TYPE	eStructureType;
 
 /** The directions to which the object is connected to.
-"//object/property/direction[@value]"
 */
 	OPENCITY_DIRECTION		eDirection;
+
+
+//========================================================================
+/** Default ctor. Initialize all the member variables with their default
+values.
+*/
+	Property():
+	uiBuildCost(0), uiDestroyCost(0), uiSupportCost(0), uiIncome(0),
+	uiWidth(0), uiLength(0),
+	fHeight(0),
+	uiInhabitant(0), uiWorker(0), uiRadius(0),
+	eStructureType(OC_TYPE_UNDEFINED),
+	eDirection(OC_DIR_UNDEFINED)
+	{}
 };
 
 #endif

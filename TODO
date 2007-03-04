@@ -38,6 +38,7 @@ XML metadata migration                (wip)
 	Load model direction              (done)
 	Load cost                         (done)
 	Load property attributes          (done)
+	Load RCI, WEG, TN values          (done)
 Add new vehicle models
 Fix the orthogonal projection
 Variable name clean up                (wip)
