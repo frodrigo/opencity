@@ -23,17 +23,6 @@
 #include "main.h"
 
 
-// OpenGL viewport default parameters
-#define OC_VIEW_ANGLE		50.0
-#define OC_Z_NEAR			0.1
-#define OC_Z_NEAR_ORTHO		-1000
-#define OC_Z_FAR			1000.0
-
-// OpenGL projection type paramaters
-#define OC_PERSPECTIVE		1
-#define OC_ORTHOGONAL		2
-
-
 class Layer;
 class Map;
 

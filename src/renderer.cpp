@@ -30,6 +30,7 @@ for the first time:
 		glEnable( GL_COLOR_MATERIAL );
 
 	- Default blending function:
+		glDisable( GL_BLEND );
 		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
 	- Default shade mode:
@@ -38,9 +39,14 @@ for the first time:
 	- Default structure display translation vector:
 		glTranslatef( 0., 0.05, 0. );
 
-	- Default lighting
+	- Default lighting:
 		glEnable( GL_LIGHTING );
 		glEnable( GL_LIGHT0 );
+
+	- Default culling mode:
+		glDisable( GL_CULL_FACE );
+		glCullFace( GL_BACK );
+		glFrontFace( GL_CCW );
 */
 //========================================================================
 
@@ -64,6 +70,31 @@ for the first time:
 // Global settings
 #include "globalvar.h"
 extern GlobalVar gVars;
+
+
+// OpenGL viewport default parameters
+#define OC_VIEW_ANGLE		50.0
+#define OC_Z_NEAR			0.1
+#define OC_Z_NEAR_ORTHO		-1000.0
+#define OC_Z_FAR			1000.0
+
+// OpenGL other view parameters
+#define OC_INITIAL_SCALE	8.0
+#define OC_INITIAL_EYE_X	200.0			// used for gluLookAt();
+#define OC_INITIAL_EYE_Y	100.0
+#define OC_INITIAL_EYE_Z	200.0
+
+#define OC_INITIAL_DELTA_X	-25.0			// used for the translation
+#define OC_INITIAL_DELTA_Z	-30.0
+#define OC_DELTA_X_STEP		2.0
+#define OC_DELTA_Z_STEP		2.0
+
+#define OC_Y_ROTATE_ANGLE	0.0				// used for the rotation
+#define OC_Y_ROTATE_STEP	10.0
+
+// OpenGL projection type paramaters
+#define OC_PERSPECTIVE		1
+#define OC_ORTHOGONAL		2
 
 
    /*=====================================================================*/
@@ -106,11 +137,10 @@ _uiCityLength( cityL )
 
 
 // Enable polygon culling. This can effect the texture alpha blending
-/*
-	glEnable( GL_CULL_FACE );
+//	glEnable( GL_CULL_FACE );
 	glCullFace( GL_BACK );
 	glFrontFace( GL_CCW );
-*/
+
 
 // select the flat rendering mode, default is GL_SMOOTH
 	glShadeModel( GL_FLAT );
@@ -308,14 +338,14 @@ Renderer::MoveDown( const uint & factor )
 void
 Renderer::Home()
 {
-	this->fScaleRatio = 1.0;
+	this->fScaleRatio = OC_INITIAL_SCALE;
 	this->fXTransDelta = OC_DELTA_X_STEP;
 	this->fZTransDelta = OC_DELTA_Z_STEP;
-	this->dEyeX = OC_EYE_X_START;
-	this->dEyeY = OC_EYE_Y_START;
-	this->dEyeZ = OC_EYE_Z_START;
-	this->dDeltaX = OC_DELTA_X_START;
-	this->dDeltaZ = OC_DELTA_Z_START;
+	this->dEyeX = OC_INITIAL_EYE_X;
+	this->dEyeY = OC_INITIAL_EYE_Y;
+	this->dEyeZ = OC_INITIAL_EYE_Z;
+	this->dDeltaX = OC_INITIAL_DELTA_X;
+	this->dDeltaZ = OC_INITIAL_DELTA_Z;
 	this->dYRotateAngle = OC_Y_ROTATE_ANGLE;
 
 //--- reinit the rotation matrix
@@ -329,9 +359,9 @@ Renderer::Home()
 void
 Renderer::ZoomIn(  )
 {
-	if (this->fScaleRatio < 15.) {
-		this->fScaleRatio += .1;
-		if (this->fScaleRatio < 3.) {
+	if (this->fScaleRatio < 150) {
+		this->fScaleRatio += 1;
+		if (this->fScaleRatio < 30) {
 			this->fXTransDelta -= .09;
 			this->fZTransDelta -= .09;
 		}
@@ -342,9 +372,9 @@ Renderer::ZoomIn(  )
    /*=====================================================================*/
 void Renderer::ZoomOut(  )
 {
-	if (this->fScaleRatio > .1) {
-		this->fScaleRatio -= .1;
-		if (this->fScaleRatio < 3.) {
+	if (this->fScaleRatio > 1) {
+		this->fScaleRatio -= 1;
+		if (this->fScaleRatio < 30) {
 			this->fXTransDelta += .09;
 			this->fZTransDelta += .09;
 		}
@@ -1170,6 +1200,7 @@ Renderer::_DisplayWater() const
 
 // Enable terrain texturing
 	glPushAttrib( GL_ENABLE_BIT );
+	glEnable( GL_BLEND );
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, _uiWaterTex );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
@@ -1417,7 +1448,8 @@ Renderer::_DisplayStatusBar() const
 		glVertex2i( _iWinWidth, _iWinHeight-20 );
 		glVertex2i( _iWinWidth, _iWinHeight );
 	glEnd();
-//	glDisable( GL_BLEND );
+
+// Restore the attributes
 	glPopAttrib();
 
 // Restore the projection matrix
@@ -1449,7 +1481,8 @@ Renderer::_PrepareView() const
 	// Zoom a bit
 		glScalef( 24., 24., 24. );
 	}
-	glScalef( fScaleRatio, fScaleRatio, fScaleRatio );
+	float ratio = fScaleRatio / 10;
+	glScalef( ratio, ratio, ratio);
 
 
 /* you can replace the above commands by this // absolete, outdated

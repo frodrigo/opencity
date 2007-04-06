@@ -98,19 +98,7 @@ class UI;
 	#define OC_MS_GLOBAL_LOG_FACTOR		500
 	#define OC_MS_STRUCTURE_LOG_FACTOR	400
 
-// OpenGL default view parameters
-	#define OC_EYE_X_START 200.0			// used for gluLookAt();
-	#define OC_EYE_Y_START 100.0
-	#define OC_EYE_Z_START 200.0
-
-	#define OC_DELTA_X_START 0.0			// used for the translation
-	#define OC_DELTA_Z_START 0.0
-	#define OC_DELTA_X_STEP  2.0
-	#define OC_DELTA_Z_STEP  2.0
-
-	#define OC_Y_ROTATE_ANGLE 0.0			// used for the rotation
-	#define OC_Y_ROTATE_STEP 10.0
-
+// Color defines
 	#define OC_CLEAR_COLOR		.0, .0, 0.25, 1.0
 	#define OC_RED_COLOR		255, 0, 0
 	#define OC_GREEN_COLOR		0, 255, 0
