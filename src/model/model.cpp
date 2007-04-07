@@ -1,10 +1,11 @@
 /***************************************************************************
-                          model.cpp  -  description
-          $Id$
-                             -------------------
-    begin                : sam mai 22 2004
-    copyright            : (C) by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						model.cpp  -  description
+							-------------------
+	begin                : may 22th, 2004
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -33,8 +34,9 @@ ftabData( data ),
 ftabRGB( NULL ),
 ftabTexCoord( NULL ),
 uitabTexName( NULL ),
-uiOpaqueList( 0 ),
-uiAlphaList( 0 )
+_uiOpaqueOneSide( 0 ),
+_uiOpaqueTwoSide( 0 ),
+_uiAlpha( 0 )
 {
 	OPENCITY_DEBUG( "ctor1" );
 
@@ -53,8 +55,9 @@ ftabData( data ),
 ftabRGB( rgb ),
 ftabTexCoord( tcoord ),
 uitabTexName( tname ),
-uiOpaqueList( 0 ),
-uiAlphaList( 0 )
+_uiOpaqueOneSide( 0 ),
+_uiOpaqueTwoSide( 0 ),
+_uiAlpha( 0 )
 {
 	OPENCITY_DEBUG( "ctor2" );
 
@@ -65,7 +68,8 @@ uiAlphaList( 0 )
    /*=====================================================================*/
 Model::Model
 (
-	GLuint dlOpaque,
+	GLuint dlOpaqueOneSide,
+	GLuint dlOpaqueTwoSide,
 	GLuint dlAlpha,
 	std::map<string, GLuint> mapTex
 ):
@@ -74,8 +78,9 @@ ftabRGB( NULL ),
 ftabTexCoord( NULL ),
 uitabTexName( NULL ),
 uiTabSize( 0 ),
-uiOpaqueList( dlOpaque ),
-uiAlphaList( dlAlpha ),
+_uiOpaqueOneSide( dlOpaqueOneSide ),
+_uiOpaqueTwoSide( dlOpaqueTwoSide ),
+_uiAlpha( dlAlpha ),
 mapTexture( mapTex )
 {
 	OPENCITY_DEBUG( "ctor3" );
@@ -96,10 +101,12 @@ Model::~Model()
 	delete [] uitabTexName;
 
 // Delete display lists
-	if (glIsList( this->uiOpaqueList ))
-		glDeleteLists( this->uiOpaqueList, 1 );
-	if (glIsList( this->uiAlphaList ))
-		glDeleteLists( this->uiAlphaList, 1 );
+	if (glIsList( _uiOpaqueOneSide ))
+		glDeleteLists( _uiOpaqueOneSide, 1 );
+	if (glIsList( _uiOpaqueTwoSide ))
+		glDeleteLists( _uiOpaqueTwoSide, 1 );
+	if (glIsList( _uiAlpha ))
+		glDeleteLists( _uiAlpha, 1 );
 
 // Delete texture
 	end = this->mapTexture.end();
@@ -332,10 +339,13 @@ Model::DisplayPoly(
 void
 Model::DisplayList() const
 {
-	assert( this->uiOpaqueList != 0 );
-	glCallList( this->uiOpaqueList );
-	if (glIsList( this->uiAlphaList ))
-		glCallList( this->uiAlphaList );
+	assert( _uiOpaqueOneSide != 0 );
+	assert( _uiOpaqueTwoSide != 0 );
+
+	glCallList( _uiOpaqueOneSide );
+	glCallList( _uiOpaqueTwoSide );
+	if (glIsList( _uiAlpha ))
+		glCallList( _uiAlpha );
 }
 
 
@@ -348,15 +358,17 @@ Model::DisplayList(
 	) const
 {
 	assert( tabY != NULL );
-	assert( this->uiOpaqueList != 0 );
+	assert( _uiOpaqueOneSide != 0 );
+	assert( _uiOpaqueTwoSide != 0 );
 
 // Call the opaque list first, then the alpha list
-//	glMatrixMode( GL_MODELVIEW );
+//	glMatrixMode( GL_MODELVIEW );		// default matrix mode
 	glPushMatrix();
 	glTranslatef( rcfW, tabY[0], rcfL );
-	glCallList( this->uiOpaqueList );
-	if (glIsList( this->uiAlphaList ))
-		glCallList( this->uiAlphaList );
+	glCallList( _uiOpaqueOneSide );
+	glCallList( _uiOpaqueTwoSide );
+	if (glIsList( _uiAlpha ))
+		glCallList( _uiAlpha );
 	glPopMatrix();
 }
 

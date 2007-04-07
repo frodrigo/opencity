@@ -204,7 +204,7 @@ ModelLoader::LoadAC3D(
 	AC3DModel ac3dmodel = AC3DModel( rcsFileName );
 	vector<AC3DMaterial> vMaterial;
 	map<string, GLuint> mapTexture;
-	GLuint list = 0, listAlpha = 0;
+	GLuint list = 0, listTwoSide = 0, listAlpha = 0;
 	string strPath = "";
 
 	if (!ac3dmodel.IsGood())
@@ -252,7 +252,7 @@ ModelLoader::LoadAC3D(
 	}
 
    /*=====================================================================*/
-// Recursively load all the objects into the _opaque_ display list
+// Recursively load all the objects into the _opaque_ one side display list
 	list = glGenLists( 1 );
 	glNewList( list, GL_COMPILE );
 // Save the all enabled GL bits
@@ -261,7 +261,6 @@ ModelLoader::LoadAC3D(
 // Enable the texture target and bind the _first_ texture only
 	if (mapTexture.size() > 0) {
 		glEnable( GL_TEXTURE_2D );
-//		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
 	}
@@ -271,12 +270,39 @@ ModelLoader::LoadAC3D(
 
 // Load all the vertex
 	glBegin( GL_TRIANGLES );
-	_AC3DVertexToGL( strPath, vMaterial, pObject, false );
+	_AC3DVertexToGL( strPath, vMaterial, pObject, false, false );
 	glEnd();
 
 // Restore all enabled bits
 	glPopAttrib();
 	glEndList();
+
+
+   /*=====================================================================*/
+// Recursively load all the objects into the _opaque_ two side display list
+	listTwoSide = glGenLists( 1 );
+	glNewList( listTwoSide, GL_COMPILE );
+// Save the all enabled GL bits
+	glPushAttrib( GL_ENABLE_BIT );
+// Enable the texture target and bind the _first_ texture only
+	if (mapTexture.size() > 0) {
+		glEnable( GL_TEXTURE_2D );
+		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
+	}
+	else {
+		glDisable( GL_TEXTURE_2D );
+	}
+
+// Load all the vertex
+	glBegin( GL_TRIANGLES );
+	_AC3DVertexToGL( strPath, vMaterial, pObject, false, true );
+	glEnd();
+
+// Restore all enabled bits
+	glPopAttrib();
+	glEndList();
+
 
    /*=====================================================================*/
 	if (bNeedAlpha) {
@@ -324,7 +350,7 @@ ModelLoader::LoadAC3D(
 //	cout << "Number of polygons: " << nbPoly
 //		 << " / vertex: " << nbVertex << endl;
 
-	return new Model( list, listAlpha, mapTexture );
+	return new Model( list, listTwoSide, listAlpha, mapTexture );
 }
 
 
@@ -653,16 +679,14 @@ process_child_objects:
 
    /*=====================================================================*/
 // TRIANGLES version, inline triangulation
-//#define TRIANGULATION_TEST 1
-#undef TRIANGULATION_TEST
-#ifndef TRIANGULATION_TEST
 void
 ModelLoader::_AC3DVertexToGL
 (
 	const string& strPath,
 	const vector<AC3DMaterial>& vMaterial,
 	const AC3DObject* const pObject,
-	const bool bProcessTranslucent
+	const bool bProcessTranslucent,
+	const bool bProcessTwoSide
 )
 {
 	const float* loc;
@@ -708,6 +732,11 @@ ModelLoader::_AC3DVertexToGL
 
 	size = vpSurface.size();
 	for (pos = 0; pos < size; pos++) {
+	// Process only the polygons with the requested number of sides
+		if (!bProcessTranslucent and (bProcessTwoSide xor vpSurface[pos]->IsTwoSide())) {
+			continue;
+		}
+
 // Debug ++nbPoly;
 	// Get the material of the current surface
 		mat = vMaterial[ vpSurface[pos]->GetMat() ];
@@ -764,7 +793,7 @@ process_child_objects:
 //debug
 //cout << "kids: " << pObject->GetNumberKid() << " / objects: " << sizeObj << endl;
 	for (posObj = 0; posObj < sizeObj; posObj++) {
-		_AC3DVertexToGL( strPath, vMaterial, vpObj[posObj], bProcessTranslucent );
+		_AC3DVertexToGL( strPath, vMaterial, vpObj[posObj], bProcessTranslucent, bProcessTwoSide );
 	}
 
 	locAccu[0] -= loc[0];
@@ -774,142 +803,6 @@ process_child_objects:
 // debug, location calculation
 //cout << "out : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
 }
-
-
-   /*=====================================================================*/
-// TRIANGLES version, external triangulation
-#else
-void
-ModelLoader::_AC3DVertexToGL
-(
-	const string& strPath,
-	const vector<AC3DMaterial>& vMaterial,
-	const AC3DObject* const pObject,
-	const bool bProcessTranslucent
-)
-{
-	const float* loc;
-	AC3DMaterial mat;
-	vector<Vertex> vVertex;
-
-	vector<AC3DSurface*>::size_type pos, size;
-	vector<AC3DSurface*> vpSurface;
-
-	vector<AC3DObject*>::size_type posObj, sizeObj;
-	vector<AC3DObject*> vpObj;
-
-	vector<Ref>::size_type posRef, sizeRef;
-	vector<Ref> vRef;
-	Ref r1, r2, r3;
-
-// Used for normal calculation
-	Vertex v1, v2, v3, normal;
-
-// Triangulation
-	triangulation::Triangulation* triangulator = new triangulation::Star();
-	triangulation::Triangle* triangles = NULL;
-	triangulation::Vertex* triVertices = NULL;
-
-
-	assert( pObject != NULL );
-
-
-// debug, location calculation
-//cout << "in  : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
-
-	loc = pObject->GetLoc();
-	locAccu[0] += loc[0];
-	locAccu[1] += loc[1];
-	locAccu[2] += loc[2];
-
-// Does this object need alpha processing ?
-	if (pObject->IsTranslucent()) {
-		bNeedAlpha = true;
-	}
-
-// Process only objects that we are asked to do
-	if (bProcessTranslucent xor pObject->IsTranslucent())
-		goto process_child_objects;
-
-	vVertex = pObject->GetVVertex();
-	vpSurface = pObject->GetVPSurface();
-
-	size = vpSurface.size();
-	for (pos = 0; pos < size; pos++) {
-// Debug ++nbPoly;
-	// Get the material of the current surface
-		mat = vMaterial[ vpSurface[pos]->GetMat() ];
-	// Set the color of the surface with COLOR_MATERIAL enabled
-		glColor3f( mat.rgb.fR, mat.rgb.fG, mat.rgb.fB );
-//		glColor4f( 1, 1, 1, 1 );
-
-		vRef = vpSurface[pos]->GetVRef();
-		sizeRef = vRef.size();
-
-// Debug cout << "Vertex per surface: " << sizeRef << endl;
-
-		assert( sizeRef >= 3 );		// We need at least one triangle
-// Debug nbVertex += sizeRef;
-
-		triVertices = new triangulation::Vertex[sizeRef];
-
-		for (posRef = 0; posRef < sizeRef; posRef++) {
-			r1 = vRef[posRef];
-			triVertices[posRef].x = vVertex[r1.uiVertIndex].x + locAccu[0];
-			triVertices[posRef].y = vVertex[r1.uiVertIndex].y + locAccu[1];
-			triVertices[posRef].z = vVertex[r1.uiVertIndex].z + locAccu[2];
-			triVertices[posRef].texCoord.fS = r1.fTexS;
-			triVertices[posRef].texCoord.fT = r1.fTexT;
-		}
-
-		triangles = triangulator->process( sizeRef, triVertices );
-		delete [] triVertices;
-
-		for (posRef = 0; posRef < sizeRef-2; posRef++) {
-		// Now issue the OpenGL commands
-		//	normal = GetNormal(
-		//		triangles[posRef].a, triangles[posRef].b, triangles[posRef].c );
-		//	glNormal3f( normal.x, normal.y, normal.z );
-
-			glTexCoord2f(
-				triangles[posRef].a.texCoord.fS, triangles[posRef].a.texCoord.fT );
-			glVertex3f(
-				triangles[posRef].a.x, triangles[posRef].a.y, triangles[posRef].a.z );
-			glTexCoord2f(
-				triangles[posRef].b.texCoord.fS, triangles[posRef].b.texCoord.fT );
-			glVertex3f(
-				triangles[posRef].b.x, triangles[posRef].b.y, triangles[posRef].b.z );
-			glTexCoord2f(
-				triangles[posRef].c.texCoord.fS, triangles[posRef].c.texCoord.fT );
-			glVertex3f(
-				triangles[posRef].c.x, triangles[posRef].c.y, triangles[posRef].c.z );
-		}
-
-		delete [] triangles;
-
-	} // For each surface
-
-process_child_objects:
-
-// Parse all the child objects
-	vpObj = pObject->GetVPObject();
-	sizeObj = vpObj.size();
-//debug
-//cout << "kids: " << pObject->GetNumberKid() << " / objects: " << sizeObj << endl;
-	for (posObj = 0; posObj < sizeObj; posObj++) {
-		_AC3DVertexToGL( strPath, vMaterial, vpObj[posObj], bProcessTranslucent );
-	}
-
-	locAccu[0] -= loc[0];
-	locAccu[1] -= loc[1];
-	locAccu[2] -= loc[2];
-
-	delete triangulator;
-
-// debug, location calculation
-//cout << "out : " << locAccu[0] << "/" << locAccu[1] << "/" << locAccu[2] << endl;
-}
-#endif
 
 
 

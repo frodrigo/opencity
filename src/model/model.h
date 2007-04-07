@@ -42,7 +42,8 @@ public:
 		const GLuint  tname [] );
 
 	Model(
-		GLuint dlOpaque,
+		GLuint dlOpaqueOneSide,
+		GLuint dlOpaqueTwoSide,
 		GLuint dlAlpha,
 		std::map<string, GLuint> mapTex );
 
@@ -112,9 +113,10 @@ private:
 	const GLuint*  uitabTexName;
 	GLuint uiTabSize;
 
-// Display list used with AC3D model
-	GLuint uiOpaqueList;
-	GLuint uiAlphaList;
+// Display lists used with AC3D model
+	GLuint _uiOpaqueOneSide;		///< One side opaque polygon display list
+	GLuint _uiOpaqueTwoSide;		///< Two side opaque polygon display list
+	GLuint _uiAlpha;				///< Alpha bleding polygon display list
 	std::map<string, GLuint> mapTexture;
 };
 

@@ -93,7 +93,8 @@ private:
 		const string& strPath,
 		const vector<AC3D::AC3DMaterial>& vMaterial,
 		const AC3D::AC3DObject* const pObject,
-		const bool bProcessTranslucent = false
+		const bool bProcessTranslucent = false,
+		const bool bProcessTwoSide = false
 	);
 };
 #endif

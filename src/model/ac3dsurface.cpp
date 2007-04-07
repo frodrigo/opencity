@@ -54,6 +54,14 @@ AC3DSurface::~AC3DSurface()
 
 
    /*=====================================================================*/
+bool
+AC3DSurface::IsTwoSide() const
+{
+	return this->bTwoSide;
+}
+
+
+   /*=====================================================================*/
 const unsigned int
 AC3DSurface::GetMat() const
 {

@@ -65,12 +65,17 @@ public:
 
 
 //========================================================================
+/** Tell whether the surface is twosided
+	\return True if the surface is twosided
+*/
+	bool IsTwoSide() const;
+
+//========================================================================
 /**
 	\return The index of the used material
 */
 	const unsigned int
 	GetMat() const;
-
 
 //========================================================================
 /**
