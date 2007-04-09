@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Type d&apos;arbre inconnu</name>
     <name lang='en'>An unknow tree quality</name>
+    <name lang='de'>Eine unbekannte Baumart</name>
     <description lang='fr'>Si un habitant d'OpenCity reconnaît ce type d'arbre, il est prié de venir le signaler au bureau de l'Office national des forêts le plus proche.</description>
     <description lang='en'>If any OpenCity inhabitant know this kind of tree, please tell name to the nearest Forest Service office.</description>
+    <description lang='de'>Falls ein OpenCity Bewohner diese Art von Baum kennen sollte, soll er dem nächsten Forst-Büro bericht erstatten.</description>
   </model>
 </object>

@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Ligne électrique</name>
     <name lang='en'>Electric line</name>
+    <name lang='de'>Stromleitung</name>
     <description lang='fr'>Ligne électrique basse tension</description>
     <description lang='en'>Low tension electric line</description>
+    <description lang='de'>Niederspannungs Leitung</description>
   </model>
 </object>

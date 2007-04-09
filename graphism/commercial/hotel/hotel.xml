@@ -43,9 +43,9 @@
       <license>GPL</license>
       <year>2006</year>
     </author>
-    <name lang='fr'>Hotel</name>
     <name lang='en'>Hotel</name>
     <description lang='fr'>Hotel et pension complète - Réservation uniquement par fax.</description>
     <description lang='en'>Hotel &amp; Resorts - Reserve with fax only.</description>
+    <description lang='de'>Hotel &amp; Erholungsort - Reservierung nur per Fax.</description>
   </model>
 </object>

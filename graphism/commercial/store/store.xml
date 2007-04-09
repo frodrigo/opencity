@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Quincaillerie</name>
     <name lang='en'>Hardware</name>
+    <name lang='de'>Metallwaren</name>
     <description lang='fr'>Mlle Mirty est heureuse de vous vendre de la colle et des planches (La maison ne fait pas cédit).</description>
     <description lang='en'>Miss Pancy is happy to sell you glue and board (Credit not allowed).</description>
+    <description lang='de'>Frl. Pancy ist glücklich ihnen Näge, Nieten und Platten zu verkaufen. (Kreditkarten werden nicht akzeptiert.)</description>
   </model>
 </object>

@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Pin</name>
     <name lang='en'>Pine</name>
+    <name lang='de'>Kiefer</name>
     <description lang='fr'>Le pin de la faim, la fin du pain.</description>
-    <description lang='en'>Pine whit cones</description>
+    <description lang='en'>Pine whit cones.</description>
+    <description lang='de'>Kiefer mit Zapfen.</description>
   </model>
 </object>

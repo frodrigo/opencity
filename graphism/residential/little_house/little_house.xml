@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Petite maison</name>
     <name lang='en'>Little house</name>
+    <name lang='de'>Kleines Haus</name>
     <description lang='fr'>Une maison ou les gens vivent heureux.</description>
     <description lang='en'>Happyfull house.</description>
+    <description lang='de'>Fröhliches Haus.</description>
   </model>
 </object>

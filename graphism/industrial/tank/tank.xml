@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Réservoir</name>
     <name lang='en'>Tank</name>
+    <name lang='de'>Tanks</name>
     <description lang='fr'>Réservoir de la E-Curv INC. international company. Ne l&apos;aisser pas vos enfants jouer par ici. Il est deja arrivé dans le passé que des réservoirs de la E-Curv INC. explosent.</description>
     <description lang='en'>Tank of the E-Curv INC. international company.  Don&apos;t let children play around. In the past, tanks of E-Curv INC. already explode.</description>
+    <description lang='de'>Tanks der E-Curv INC: international company. Lassen Sie ihre Kinder nicht hier spielen, in der Vergangenheit sind schon Tanks der E-Curv INC. explodiert.</description>
   </model>
 </object>

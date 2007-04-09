@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Cidatin</name>
     <name lang='en'>Cityzen</name>
+    <name lang='de'>Park</name>
     <description lang='fr'>Espace vert.</description>
     <description lang='en'>Green place.</description>
+    <description lang='de'>Grüner Platz.</description>
   </model>
 </object>

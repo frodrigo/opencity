@@ -46,5 +46,6 @@
     <name lang='en'>Station-P</name>
     <description lang='fr'>Station-P, le carburant qui vous fait avancer! G:1,056€, E:1,123€, ouvert le Dimanche.</description>
     <description lang='en'>Station-P, the Gaz where you run! G:$1.056, E:$1.123, open on Sunday.</description>
+    <description lang='de'>Station-P, der Kraftstoff der sie vorrantreibt! Super Benzin: 1,299€/l, Diesel: 1,179€/l, Sonntags geöffnet.</description>
   </model>
 </object>

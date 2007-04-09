@@ -46,5 +46,6 @@
     <name lang='fr'>Camion</name>
     <name lang='en'>Truck</name>
     <description lang='en'>Truck of the year 2001</description>
+    <description lang='de'>Truck des Jahres 2001</description>
   </model>
 </object>

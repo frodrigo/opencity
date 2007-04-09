@@ -67,7 +67,9 @@
     </author>
     <name lang='fr'>Grand hôpital</name>
     <name lang='en'>Large Hospital</name>
+    <name lang='de'>Kreiskrankenhaus</name>
     <description lang='fr'>Urgence - CHU - Maternité</description>
     <description lang='en'>Emergency - Maternity</description>
+    <description lang='de'>Ein großes Krankenhaus, mit vielem blink blink und tuuuuuuuut tuuuuuuuut und so :D</description>
   </model>
 </object>

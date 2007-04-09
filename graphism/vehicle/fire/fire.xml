@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Camion de pompier</name>
     <name lang='en'>Fire Departement truck</name>
+    <name lang='de'>Feuerwehrauto</name>
     <description lang='fr'>Camion de pompier.</description>
     <description lang='en'>Fire Departement truck.</description>
+    <description lang='de'>Feuerwehrauto, tatü tata die Feuerwehr ist da!</description>
   </model>
 </object>

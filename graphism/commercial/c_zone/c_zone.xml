@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Zone commerciale</name>
     <name lang='en'>Commercial zone</name>
+    <name lang='de'>Gewerbegebiet</name>
     <description lang='fr'>Zone commerciale</description>
     <description lang='en'>Commercial zone</description>
+    <description lang='de'>Gewerbegebiet</description>
   </model>
 </object>

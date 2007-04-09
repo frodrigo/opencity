@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Centale à charbon</name>
     <name lang='en'>Coal plant</name>
+    <name lang='de'>Kohlekraftwerk</name>
     <description lang='fr'>Centrale électric à charbon.</description>
     <description lang='en'>Coal electric plant.</description>
+    <description lang='de'>Ein Kohlekraftwerk, benötigt weniger Platz als ein Atomkraftwerk - bringt dafür aber auch nicht soviel Leistung und verschmutzt die Umwelt mehr.</description>
   </model>
 </object>

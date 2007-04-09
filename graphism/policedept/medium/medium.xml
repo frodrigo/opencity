@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Gendarmerie</name>
     <name lang='en'>Police Departement</name>
+    <name lang='de'>Polizeiwache</name>
     <description lang='fr'>Caserne de gendamerie de taille moyenne.</description>
     <description lang='en'>Medium size Police Station.</description>
+    <description lang='de'>Eine mittelgroße Polizeistation.</description>
   </model>
 </object>

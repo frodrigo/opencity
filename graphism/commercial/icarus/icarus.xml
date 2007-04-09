@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>L&apos;Icare</name>
     <name lang='en'>Icarus</name>
+    <name lang='de'>Ikarus</name>
     <description lang='fr'>Centre d&apos;affaire l&apos;Icare</description>
     <description lang='en'>Icarus Business Center</description>
+    <description lang='de'>Ikarus Geschäftszentrum</description>
   </model>
 </object>

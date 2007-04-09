@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Lumière d&apos;étoile</name>
     <name lang='en'>Light of Start</name>
+    <name lang='de'>Licht des Starts</name>
     <description lang='fr'>Cette maison a été conçue par le célèbre architecte JBK McHelen.</description>
     <description lang='en'>This house has been designed by the famous architect JBK McHelen.</description>
+    <description lang='de'>Dieses Haus wurde vom Berühmten Architekt JBK McHelen entworfen.</description>
   </model>
 </object>

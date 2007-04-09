@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Abattoir</name>
     <name lang='en'>Slaughterhouse</name>
+    <name lang='de'>Schlachthaus</name>
     <description lang='fr'>Attention, ne pas entrer si vous avez peur des fantomes de vaches.</description>
     <description lang='en'>Warning, if you dislike cows ghosts do not enter.</description>
+    <description lang='de'>Warnung, wenn Sie angst vor Geister-Kühen haben, sollten sie nicht eintreten.</description>
   </model>
 </object>

@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Les Charmilles</name>
     <name lang='en'>The Charmilles</name>
+    <name lang='de'>Das Charmilles</name>
     <description lang='fr'>Le concierge ne vous laisse pas entrer si vous ne vivez pas ici.</description>
     <description lang='en'>The superintendent doesn&apos;t let you enter if you don&apos;t live here.</description>
+    <description lang='de'>Der Hausmeister wird sie nicht reinlassen, wenn sie nicht hier wohnen.</description>
   </model>
 </object>

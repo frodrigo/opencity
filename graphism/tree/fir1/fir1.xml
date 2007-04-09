@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Sapin</name>
     <name lang='en'>Fir</name>
+    <name lang='de'>Tanne</name>
     <description lang='fr'>L&apos;arbre qui cache la forêt.</description>
     <description lang='en'>The tree hidding the forest.</description>
+    <description lang='de'>Der Baum der den Wald versteckt.</description>
   </model>
 </object>

@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Hangar</name>
     <name lang='en'>Penthouse</name>
+    <name lang='de'>Lagerhalle</name>
     <description lang='fr'>Stockage de tuyaux et de machins bizarres en metal.</description>
     <description lang='en'>Pipes and strange metal sheet storage.</description>
+    <description lang='de'>Rohre und komische Metallplatten werden hier gelagert.</description>
   </model>
 </object>

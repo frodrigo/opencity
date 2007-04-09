@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Nucléaire</name>
     <name lang='en'>Nuclear</name>
+    <name lang='de'>Atomkraftwerk</name>
     <description lang='fr'>Centrale nucléaire.</description>
     <description lang='en'>Nuclear electric plant.</description>
+    <description lang='de'>Ein Atomkraftwerk benötigt wesentlich mehr Platz als ein Kohlekraftwerk, bringt jedoch mehr Energie und belastet die Umwelt nicht so sehr,... sofern es nicht explodiert.</description>
   </model>
 </object>

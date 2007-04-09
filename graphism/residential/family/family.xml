@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Maison familiale des États-Unis</name>
     <name lang='en'>USA family&apos;s house</name>
+    <name lang='de'>USA Familienhaus</name>
     <description lang='fr'>Maison typique des États-Unis (mais le garage de celle-là est trop petit pour un hummer).</description>
     <description lang='en'>Typical USA house (but the garage of this one is too small for a hummer).</description>
+    <description lang='de'>Ein typisches Familien Haus aus den USA (allerdings ist die Garager ist zu klein für einen Hummer)</description>
   </model>
 </object>

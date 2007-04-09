@@ -44,8 +44,10 @@
       <year>2006</year>
     </author>
     <name lang='fr'>Pompier</name>
-    <name lang='en'>Fire Departement</name>
+    <name lang='en'>Fire Station</name>
+    <name lang='de'>Feuerwache</name>
     <description lang='fr'>Caserne de pompier de taille moyenne.</description>
     <description lang='en'>Medium size Fire Station.</description>
+    <description lang='de'>Eine Mittelgroße Feuerwache.</description>
   </model>
 </object>

@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Fabrique d&apos;acier</name>
     <name lang='en'>Steel industrie</name>
+    <name lang='de'>Stahlindustrie</name>
     <description lang='fr'>Fabrique d&apos;acier</description>
     <description lang='en'>Steel manufacturing</description>
+    <description lang='de'>Stahl verarbeitende Industrie</description>
   </model>
 </object>

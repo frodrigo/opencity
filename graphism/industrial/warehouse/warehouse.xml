@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Maçonnerie Aster&amp;Fils</name>
     <name lang='en'>Bricklaying Aster&amp;Sons</name>
+    <name lang='de'>Mauererei Aster&amp;Söhne</name>
     <description lang='fr'>Dépot de l&apos;entreprise de maçonnerie Aster&amp;Fils.</description>
     <description lang='en'>Warehouse of bricklaying Aster&amp;Sons.</description>
+    <description lang='de'>Werkstatt von Aster&amp;Söhne.</description>
   </model>
 </object>

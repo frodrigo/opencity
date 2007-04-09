@@ -47,5 +47,6 @@
     <name lang='en'>Renault R8 rally</name>
     <description lang='fr'>Une ancienne voiture de rallie française</description>
     <description lang='en'>An old french rally car</description>
+    <description lang='de'>Ein altes französisches Rally Auto</description>
   </model>
 </object>

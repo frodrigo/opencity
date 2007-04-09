@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Route</name>
     <name lang='en'>Road</name>
+    <name lang='de'>Straße</name>
     <description lang='fr'>Un bout de bitume.</description>
     <description lang='en'>A pice of asphalt.</description>
+    <description lang='de'>Ein Stück Asphalt.</description>
   </model>
 </object>

@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Supermarché</name>
     <name lang='en'>Market</name>
+    <name lang='de'>Supermarkt</name>
     <description lang='fr'>Les meilleurs prix de la ville. (C&apos;est vrais, c&apos;est écrit sur la publicité)</description>
     <description lang='en'>The best prices of the city. (True, it&apos;s write on advertisements)</description>
+    <description lang='de'>Der beste Preis der Stadt. (Es stimmt, die Werbung sagt es!)</description>
   </model>
 </object>

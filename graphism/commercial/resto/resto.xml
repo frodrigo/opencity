@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Restaurant les tonnelles</name>
     <name lang='en'>Restaurant the Arbors</name>
+    <name lang='de'>Restaurant die Laube</name>
     <description lang='fr'>Midi : du Lundi au Vendredi, 11h00 14h00 \  Rôti 5,50€ ou Poulet 5,00€. Soir : du Mardi au Samedi, 19h30 21h30 \ Spaghetti à la Boloniaise 5,25€ ou Poulet 5,25€.</description>
     <description lang='en'>Lunch: Monday - Friday, 11:00am - 2:00pm \ Pot Roast $5.50 or Chicken &amp; Dumplings $5.00.  Dinner: Monday - Saturday, 4:30pm - 7:30pm \ Spaghetti w/ Meatballs $5.25 or Chicken &amp; Dumplings $5.25</description>
+    <description lang='de'>Mittagessen:  Montag - Freitag, 11:00 - 14:00h \ Topf-Braten 5,50€ oder Huhn und Mehlklöße 5,00€. Abendessen: Montag - Samstag, 16:30 - 19:30h \ Spaghetti mit Fleischklöschen 5,25€ oder Huhn und Mehlklöße 5,25€</description>
   </model>
 </object>

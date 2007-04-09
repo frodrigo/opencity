@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Bureau d&apos;études aéronotiques</name>
     <name lang='en'>Aeronautics study office</name>
+    <name lang='de'>Zentrum für Raumfahr Studien</name>
     <description lang='fr'>Houston, on a un problème.</description>
     <description lang='en'>Houston, we&apos;ve have a problem.</description>
+    <description lang='de'>Houston, wir haben ein Problem.</description>
   </model>
 </object>

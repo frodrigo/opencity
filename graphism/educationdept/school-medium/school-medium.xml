@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>École</name>
     <name lang='en'>School</name>
+    <name lang='de'>Schule</name>
     <description lang='fr'>École de taille moyenne.</description>
     <description lang='en'>Medium size School.</description>
+    <description lang='de'>Mittelgroße Schule</description>
   </model>
 </object>

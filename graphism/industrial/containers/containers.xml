@@ -53,7 +53,9 @@
     </author>
     <name lang='fr'>Cargaisons</name>
     <name lang='en'>Shipping containers</name>
+    <name lang='de'>Frachtcontainer</name>
     <description lang='fr'>Des machins bidules d&apos;un peu partout.</description>
     <description lang='en'>Lot of stuff from anywhere.</description>
+    <description lang='de'>Eine Menge Dinge von überall her.</description>
   </model>
 </object>

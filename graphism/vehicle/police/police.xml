@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Voiture de police</name>
     <name lang='en'>Police Departement car</name>
+    <name lang='de'>Polizeiauto</name>
     <description lang='fr'>Voiture de police.</description>
     <description lang='en'>Police Departement car.</description>
+    <description lang='de'>Polizeiauto.</description>
   </model>
 </object>

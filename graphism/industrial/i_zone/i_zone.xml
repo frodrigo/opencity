@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Zone industrielle</name>
     <name lang='en'>Industrial zone</name>
+    <name lang='de'>Industriegebiet</name>
     <description lang='fr'>Zone industrielle</description>
     <description lang='en'>Industrial zone</description>
+    <description lang='de'>Industriegebiet</description>
   </model>
 </object>

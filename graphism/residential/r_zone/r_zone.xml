@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Zone résidentielle</name>
     <name lang='en'>Residential zone</name>
+    <name lang='de'>Wohngebiet</name>
     <description lang='fr'>Zone résidentielle</description>
     <description lang='en'>Residential zone</description>
+    <description lang='de'>Wohngebiet</description>
   </model>
 </object>

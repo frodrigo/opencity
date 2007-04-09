@@ -45,7 +45,9 @@
     </author>
     <name lang='fr'>Friche industrielle</name>
     <name lang='en'>Waste ground</name>
+    <name lang='de'>Industrielles Brachland</name>
     <description lang='fr'>Un fabuleux projet vit le jour ici, mais il ne dura guerre.</description>
     <description lang='en'>A fabulous project was born here, but it did not work.</description>
+    <description lang='de'>Ein Fabelhaftes Projekt wurde hier geboren, leider hat es nicht funktioniert..</description>
   </model>
 </object>
