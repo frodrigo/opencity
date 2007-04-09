@@ -79,7 +79,7 @@ extern GlobalVar gVars;
 #define OC_Z_FAR			1000.0
 
 // OpenGL other view parameters
-#define OC_INITIAL_SCALE	8.0
+#define OC_INITIAL_SCALE	12.0
 #define OC_INITIAL_EYE_X	200.0			// used for gluLookAt();
 #define OC_INITIAL_EYE_Y	100.0
 #define OC_INITIAL_EYE_Z	200.0
@@ -109,6 +109,7 @@ bDisplayCompass( true ),
 bWireFrame( false ),
 ubProjectionType( OC_PERSPECTIVE ),
 _uiSplashTex( 0 ),
+_bCalculateCulling( true ),
 _uiCityWidth( cityW ),
 _uiCityLength( cityL )
 {
@@ -118,6 +119,13 @@ _uiCityLength( cityL )
 	_uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
 	_uiWaterTex = Texture::Load( ocHomeDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
+// Initialize the model culling grid
+	uint size = _uiCityWidth * _uiCityLength;
+	_baCulledModel = new bool[size];
+	for ( uint i = 0; i < size; i++ ) {
+		_baCulledModel[i] = true;
+	}
+
 // Initialize the window's size, the viewport
 // and set the perspective's ratio
 	assert( gVars.gpVideoSrf != NULL );
@@ -125,7 +133,6 @@ _uiCityLength( cityL )
 
 // Settle "home" down ;)
 	this->Home();
-
 
 /* not need for the moment
 //--- translate all the scence according to dDeltaX & dDeltaZ
@@ -227,7 +234,7 @@ Renderer::~Renderer(  )
 {
 	OPENCITY_DEBUG("dtor");
 
-// Destroy GL list
+// Free GL list
 	glDeleteLists( this->_uiFontBase, 256 );
 
 	if (glIsList( this->_uiGridList ))
@@ -241,6 +248,9 @@ Renderer::~Renderer(  )
 	glDeleteTextures( 1, &_uiTerrainTex );
 	glDeleteTextures( 1, &_uiWaterTex );
 	glDeleteTextures( 1, &_uiSplashTex );
+
+// Free the model culling grid
+	delete [] _baCulledModel;
 }
 
 
@@ -270,6 +280,9 @@ Renderer::RotateLeft( const uint & factor )
 
 // Save the calculated rotation matrix
 	glGetDoublev( GL_MODELVIEW_MATRIX, dmatrixRotate );
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -299,6 +312,9 @@ Renderer::RotateRight( const uint & factor )
 
 // Save the calculated rotation matrix
 	glGetDoublev( GL_MODELVIEW_MATRIX, dmatrixRotate );
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -307,6 +323,9 @@ void
 Renderer::MoveLeft( const uint & factor )
 {
 	this->dDeltaX -= fXTransDelta*factor;
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -315,6 +334,9 @@ void
 Renderer::MoveRight( const uint & factor )
 {
 	this->dDeltaX += fXTransDelta*factor;
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -323,6 +345,9 @@ void
 Renderer::MoveUp( const uint & factor )
 {
 	this->dDeltaZ -= fZTransDelta*factor;
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -331,6 +356,9 @@ void
 Renderer::MoveDown( const uint & factor )
 {
 	this->dDeltaZ += fZTransDelta*factor;
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -348,10 +376,16 @@ Renderer::Home()
 	this->dDeltaZ = OC_INITIAL_DELTA_Z;
 	this->dYRotateAngle = OC_Y_ROTATE_ANGLE;
 
-//--- reinit the rotation matrix
+// Reinit the rotation matrix
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
 	glGetDoublev( GL_MODELVIEW_MATRIX, dmatrixRotate );
+
+// Reset the LOD
+	_SetLOD();
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -365,20 +399,28 @@ Renderer::ZoomIn(  )
 			this->fXTransDelta -= .09;
 			this->fZTransDelta -= .09;
 		}
+		_SetLOD();
 	}
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
    /*=====================================================================*/
 void Renderer::ZoomOut(  )
 {
-	if (this->fScaleRatio > 1) {
+	if (this->fScaleRatio > 2) {
 		this->fScaleRatio -= 1;
 		if (this->fScaleRatio < 30) {
 			this->fXTransDelta += .09;
 			this->fZTransDelta += .09;
 		}
+		_SetLOD();
 	}
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -546,8 +588,11 @@ Renderer::ToggleProjection()
 		ubProjectionType = OC_PERSPECTIVE;
 	}
 
-// reinit the projection matrix;
+// Reinit the projection matrix;
 	SetWinSize( _iWinWidth, _iWinHeight );
+
+// The culling grid must be recalculated
+	_bCalculateCulling = true;
 }
 
 
@@ -628,7 +673,7 @@ Renderer::Display(
 	glClearColor( OC_CLEAR_COLOR );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-//---- prepare the world for rendering
+// Prepare the world for rendering
 	_PrepareView();
 
 // Display all the structure
@@ -638,8 +683,11 @@ Renderer::Display(
 // IF the graphic manager is created THEN draw
 	if (gVars.gpGraphicMgr != NULL)
 	for (l = 0; l < (int)_uiCityLength; l++) {
-		for (w = 0; w < (int)_uiCityWidth; w++) {
-			pStructure = pcLayer->GetLinearStructure( linear++ );
+		for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
+			if (!_baCulledModel[linear])
+				continue;
+
+			pStructure = pcLayer->GetLinearStructure( linear );
 			if (pStructure != NULL)
 				gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
 		}
@@ -993,7 +1041,6 @@ Renderer::SetWinSize(
 
 // Set the view port
 	glViewport( 0, 0, rciWidth, rciHeight );
-
 
 // Set the projection matrix
 	glMatrixMode( GL_PROJECTION );
@@ -1463,7 +1510,7 @@ Renderer::_DisplayStatusBar() const
 
    /*=====================================================================*/
 void
-Renderer::_PrepareView() const
+Renderer::_PrepareView()
 {
 // Clear the ModelView matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -1497,15 +1544,58 @@ Renderer::_PrepareView() const
 
 // Rotate the scence to the required angle
 	glMultMatrixd( this->dmatrixRotate );
+
+// Calculate the culling grid if it's requested
+	if (_bCalculateCulling) {
+		_CalculateCullingGrid();
+	 	_bCalculateCulling = false;
+	}
 }
 
 
+   /*=====================================================================*/
+void
+Renderer::_CalculateCullingGrid()
+{
+	static GLdouble daModelViewMatrix[16], daProjectionMatrix[16];
+	static GLint iaViewport[4];
+	static double x, y, z;
+	static uint l, w, linear;
+
+// Get the OpenGL matrices
+	glGetDoublev( GL_MODELVIEW_MATRIX, daModelViewMatrix );
+	glGetDoublev( GL_PROJECTION_MATRIX, daProjectionMatrix );
+	glGetIntegerv( GL_VIEWPORT, iaViewport);
+
+// FOR each model object coordinates DO
+	linear = 0;
+	for (l = 0; l < _uiCityLength; l++) {
+		for (w = 0; w < _uiCityWidth; w++, linear++) {
+			gluProject( w, 0, l, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
+			_baCulledModel[linear] = (x > 0) and (x < _iWinWidth) and (y > 0) and (y < _iWinHeight);
+		}
+	}
+
+// debug
+//	gluProject( 10, 0, 10, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
+//	OPENCITY_DEBUG( "Culling passed x/y/z: " << x << " / " << y << " / " << z );
+}
 
 
+   /*=====================================================================*/
+void
+Renderer::_SetLOD() const
+{
+	if (gVars.gpGraphicMgr == NULL)
+		return;
 
-
-
-
+	if (this->fScaleRatio >= OC_INITIAL_SCALE)
+		gVars.gpGraphicMgr->SetLOD(OC_LOD_HIGH);
+	else if (this->fScaleRatio >= OC_INITIAL_SCALE - 8)
+		gVars.gpGraphicMgr->SetLOD(OC_LOD_MEDIUM);
+	else if (this->fScaleRatio >= OC_INITIAL_SCALE - 10)
+		gVars.gpGraphicMgr->SetLOD(OC_LOD_LOW);
+}
 
 
 

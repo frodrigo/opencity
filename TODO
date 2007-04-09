@@ -31,6 +31,8 @@ TinyXPath 1.2.4 integration           (done)
 Add save/load file versioning         (done)
 Fix TinyXPath 1.2.4 64 bits bug       (done)
 Add map generator commandline options (done)
+Basic LOD                             (done)
+Basic object culling                  (done)
 Integrate the new status bar          (wip)
 	Add speed button
 XML metadata migration                (wip)

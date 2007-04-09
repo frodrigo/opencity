@@ -373,8 +373,31 @@ Model::DisplayList(
 }
 
 
+   /*=====================================================================*/
+void
+Model::DisplayList(
+	const OC_FLOAT & rcfW,
+	const OC_FLOAT & rcfL,
+	const OC_BYTE tabY [],
+	const uint dlMask
+	) const
+{
+	assert( tabY != NULL );
+	assert( _uiOpaqueOneSide != 0 );
+	assert( _uiOpaqueTwoSide != 0 );
 
-
+// Call the selected lists
+//	glMatrixMode( GL_MODELVIEW );		// default matrix mode
+	glPushMatrix();
+	glTranslatef( rcfW, tabY[0], rcfL );
+	if (dlMask & OC_OPAQUE_ONESIZE_LIST)
+		glCallList( _uiOpaqueOneSide );
+	if (dlMask & OC_OPAQUE_TWOSIZE_LIST)
+		glCallList( _uiOpaqueTwoSide );
+	if (dlMask & OC_ALPHA_LIST and glIsList( _uiAlpha ))
+		glCallList( _uiAlpha );
+	glPopMatrix();
+}
 
 
 

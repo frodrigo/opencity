@@ -22,6 +22,10 @@
 
 #include "main.h"
 
+// Graphics Level Of Details
+#define OC_LOD_HIGH			1
+#define OC_LOD_MEDIUM		2
+#define OC_LOD_LOW			3
 
 class Renderer;
 class Structure;
@@ -125,12 +129,18 @@ public:
 		const OC_FLOAT & rcfH,
 		const Movement* const pm ) const;
 
+//========================================================================
+/** Set the new models level of details
+*/
+	void SetLOD( const uint lod );
+
 
 	void
 	DisplayAgent(float x, float y, const Agent* const pAgent) const;
 
 
 private:
+	uint _uiDisplayListMask;					///< The current models display list mask
 	Model* tabpModel [OC_GRAPHIC_CODE_MAX];		///< A table of Model pointers
 
 };

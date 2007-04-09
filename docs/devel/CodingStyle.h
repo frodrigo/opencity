@@ -102,6 +102,7 @@ private:
 	string	_strAString;				///< A member std::string
 	int		_iAnInt;
 	uint	_uiAnotherUInt;
+	double	_daADoubleArray[2];
 	MyStruct		_sSomething;
 	MyClass*		_pClassOne;			///< Use this
 	MyClass			*_pWrongClassOne;	///< Not this

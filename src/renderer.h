@@ -220,6 +220,10 @@ private:
 	GLdouble dYRotateAngle;
 	GLdouble dmatrixRotate[16];
 
+/// The model culling grid
+	bool _bCalculateCulling;
+	bool* _baCulledModel;
+
 /// used for calculating the viewport & the perspective ratio
 	int _iWinHeight;
 	int _iWinWidth;
@@ -235,35 +239,45 @@ private:
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
 /** Draw the terrain as an _unique_ TRIANGLE_STRIP which is known
-	as the fastest primitive in OpenGL. It starts at the north-west and
-	when it reaches the north-east map edge, it starts drawing from
-	the north-east to the north-west eadge. Finally the algorithm
-	draws from the north to the south.
+as the fastest primitive in OpenGL. It starts at the north-west and when
+it reaches the north-east map edge, it starts drawing from the north-east
+to the north-west eadge. Finally the algorithm draws from the north to
+the south.
 */
 	void _DisplayTerrain() const;
 
-
+//========================================================================
+/** This method uses the same algorithm as _DisplayTerrain() does to
+draw the water layer
+	\see _DisplayTerrain()
+*/
 	void _DisplayWater() const;
-
 
 //========================================================================
 /** Draw the dotted grid. This method uses OpenGL display list inside.
 */
-	void
-	_DisplayMapGrid(
-		const Map* pcmap );
+	void _DisplayMapGrid( const Map* pcmap );
 
 
 	void _DisplayCompass() const;
 
 	void _DisplayStatusBar() const;
 
-
 //========================================================================
 /** Prepare the world before drawing the entire scene
 */
-	void _PrepareView() const;
+	void _PrepareView();
 
+//========================================================================
+/** Calulate the culling grid. The culled models are drawn, the others
+are not drawn.
+*/
+	void _CalculateCullingGrid();
+
+//========================================================================
+/** Set the LOD according to the scale ratio
+*/
+	void _SetLOD() const;
 };
 
 #endif

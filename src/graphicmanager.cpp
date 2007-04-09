@@ -43,7 +43,8 @@ static GLfloat red, green, blue;
 
 
    /*======================================================================*/
-GraphicManager::GraphicManager()
+GraphicManager::GraphicManager():
+_uiDisplayListMask( OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_LIST )
 {
 	int i;					// Used in for loop
 
@@ -266,7 +267,7 @@ GraphicManager::DisplayStructure(
 		case OC_TREE_PEKINGWILLOW:
 		case OC_TREE_PINE1:
 		case OC_TREE_PINE2:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
+			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			break;
 
 	// Road part
@@ -305,7 +306,7 @@ GraphicManager::DisplayStructure(
 		case OC_ELINE_S_N_W:
 		case OC_ELINE_N_W_E:
 		case OC_ELINE_S_N_W_E:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
+			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			break;
 
 		case OC_EPLANT_COAL:
@@ -314,7 +315,7 @@ GraphicManager::DisplayStructure(
 		case OC_POLICE_DEPT:
 		case OC_HOSPITAL_DEPT:
 		case OC_EDUCATION_DEPT:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
+			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			break;
 
 		case OC_EMPTY:
@@ -324,7 +325,7 @@ GraphicManager::DisplayStructure(
 		// Test codes used by graphists
 		case OC_TEST_BUILDING:
 			if (tabpModel[OC_TEST_BUILDING] != NULL) {
-				tabpModel[OC_TEST_BUILDING]->DisplayList( rcuiW, rcuiL, tabH );
+				tabpModel[OC_TEST_BUILDING]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			}
 			break;
 
@@ -564,6 +565,26 @@ GraphicManager::Display(
 
 
    /*======================================================================*/
+void
+GraphicManager::SetLOD( const uint lod )
+{
+	switch (lod) {
+		case OC_LOD_HIGH:
+			_uiDisplayListMask = OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_LIST;
+			break;
+		case OC_LOD_MEDIUM:
+			_uiDisplayListMask = OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST;
+			break;
+		case OC_LOD_LOW:
+			_uiDisplayListMask = OC_OPAQUE_ONESIZE_LIST;
+			break;
+		default:
+			break;
+	}
+}
+
+
+   /*======================================================================*/
 
 /* WARNING: this is a special function used for agent rendering */
 void
@@ -577,8 +598,6 @@ GraphicManager::DisplayAgent(float x, float y, const Agent* const pAgent) const
 	gVars.gpMapMgr->GetSquareHeight( (uint)floorf(x), (uint)floorf(y), tabH );
 	tabpModel[pAgent->GetGraphicCode()]->DisplayList( x, y, tabH );
  }
-
-
 
 
 

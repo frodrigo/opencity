@@ -24,6 +24,11 @@
 
 #include <map>
 
+// The constants used to select the display list
+#define OC_OPAQUE_ONESIZE_LIST		0x01
+#define OC_OPAQUE_TWOSIZE_LIST		0x02
+#define OC_ALPHA_LIST				0x04
+
 
 //========================================================================
 /** This is an internal 3d model representation used by OpenCity.
@@ -103,6 +108,14 @@ public:
 		const OC_FLOAT & rcfW,
 		const OC_FLOAT & rcfL,
 		const OC_BYTE tabY []
+	) const;
+
+	void
+	DisplayList(
+		const OC_FLOAT & rcfW,
+		const OC_FLOAT & rcfL,
+		const OC_BYTE tabY [],
+		const uint dlMask
 	) const;
 
 
