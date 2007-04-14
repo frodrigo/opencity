@@ -274,6 +274,8 @@ are not drawn.
 */
 	void _CalculateCullingGrid();
 
+	void _CalculateCulledGrid(uint w1, uint l1, uint w2, uint l2, bool init = false);
+
 //========================================================================
 /** Set the LOD according to the scale ratio
 */

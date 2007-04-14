@@ -74,15 +74,16 @@ extern GlobalVar gVars;
 
 // OpenGL viewport default parameters
 #define OC_VIEW_ANGLE		50.0
-#define OC_Z_NEAR			0.1
-#define OC_Z_NEAR_ORTHO		-1000.0
-#define OC_Z_FAR			1000.0
+#define OC_Z_NEAR			1.0
+#define OC_Z_FAR			400.0
+#define OC_Z_NEAR_ORTHO		-10000.0
+#define OC_Z_FAR_ORTHO		1000.0
 
 // OpenGL other view parameters
 #define OC_INITIAL_SCALE	12.0
 #define OC_INITIAL_EYE_X	200.0			// used for gluLookAt();
 #define OC_INITIAL_EYE_Y	100.0
-#define OC_INITIAL_EYE_Z	200.0
+#define OC_INITIAL_EYE_Z	300.0
 
 #define OC_INITIAL_DELTA_X	-25.0			// used for the translation
 #define OC_INITIAL_DELTA_Z	-30.0
@@ -393,14 +394,15 @@ Renderer::Home()
 void
 Renderer::ZoomIn(  )
 {
-	if (this->fScaleRatio < 150) {
-		this->fScaleRatio += 1;
-		if (this->fScaleRatio < 30) {
-			this->fXTransDelta -= .09;
-			this->fZTransDelta -= .09;
-		}
-		_SetLOD();
+	if (this->fScaleRatio >= 140)
+		return;
+
+	this->fScaleRatio += 1;
+	if (this->fScaleRatio < 30) {
+		this->fXTransDelta -= .09;
+		this->fZTransDelta -= .09;
 	}
+	_SetLOD();
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -410,14 +412,15 @@ Renderer::ZoomIn(  )
    /*=====================================================================*/
 void Renderer::ZoomOut(  )
 {
-	if (this->fScaleRatio > 2) {
-		this->fScaleRatio -= 1;
-		if (this->fScaleRatio < 30) {
-			this->fXTransDelta += .09;
-			this->fZTransDelta += .09;
-		}
-		_SetLOD();
+	if (this->fScaleRatio <= 2)
+		return;
+
+	this->fScaleRatio -= 1;
+	if (this->fScaleRatio < 30) {
+		this->fXTransDelta += .09;
+		this->fZTransDelta += .09;
 	}
+	_SetLOD();
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -965,7 +968,7 @@ Renderer::GetSelectedWHFrom(
 		glOrtho(
 			0.0, (GLdouble)_iWinWidth,
 			0.0, (GLdouble)_iWinHeight,
-			OC_Z_NEAR_ORTHO, OC_Z_FAR);
+			OC_Z_NEAR_ORTHO, OC_Z_FAR_ORTHO);
 	}
 
 // Save all the enabled states
@@ -1055,7 +1058,7 @@ Renderer::SetWinSize(
 		glOrtho(
 			0.0, (GLdouble)_iWinWidth,
 			0.0, (GLdouble)_iWinHeight,
-			OC_Z_NEAR_ORTHO, OC_Z_FAR);
+			OC_Z_NEAR_ORTHO, OC_Z_FAR_ORTHO);
 	}
 }
 
@@ -1519,7 +1522,7 @@ Renderer::_PrepareView()
 // Translate & rotate the map to create an view angle
 	if ( ubProjectionType == OC_PERSPECTIVE ) {
 		glRotated( 35, 1., .0, .0 );
-		glTranslated( .0, -14.0, -20.0 );
+		glTranslated( .0, -18.0, -24.0 );
 	}
 	else {
 		glRotated( 45, 1., .0, .0 );
@@ -1547,13 +1550,15 @@ Renderer::_PrepareView()
 
 // Calculate the culling grid if it's requested
 	if (_bCalculateCulling) {
-		_CalculateCullingGrid();
+//		_CalculateCullingGrid();
+		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
 	 	_bCalculateCulling = false;
 	}
 }
 
 
    /*=====================================================================*/
+// TOKILL, old version, kept for reference
 void
 Renderer::_CalculateCullingGrid()
 {
@@ -1579,6 +1584,91 @@ Renderer::_CalculateCullingGrid()
 // debug
 //	gluProject( 10, 0, 10, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
 //	OPENCITY_DEBUG( "Culling passed x/y/z: " << x << " / " << y << " / " << z );
+}
+
+
+   /*=====================================================================*/
+void
+Renderer::_CalculateCulledGrid
+(
+	uint w1, uint l1,
+	uint w2, uint l2,
+	bool init
+)
+{
+#define MIN_SUBDIVISION_SIZE		4
+#define WINDOW_DELTA				0
+#define IS_CULLED( x, y )			(x > x1) and (x < x2) and (y > y1) and (y < y2)
+
+	static GLdouble daModelViewMatrix[16], daProjectionMatrix[16];
+	static GLint iaViewport[4];
+	static int x1, y1, x2, y2;
+
+// Get the OpenGL matrices if it's requested
+	if (init) {
+		glGetDoublev( GL_MODELVIEW_MATRIX, daModelViewMatrix );
+		glGetDoublev( GL_PROJECTION_MATRIX, daProjectionMatrix );
+		glGetIntegerv( GL_VIEWPORT, iaViewport);
+		x1 = -WINDOW_DELTA;
+		y1 = -WINDOW_DELTA;
+		x2 = _iWinWidth + WINDOW_DELTA;
+		y2 = _iWinHeight + WINDOW_DELTA;
+	}
+
+	double x, y, z;				// Window coordinates
+	uint linear;
+	bool a, b, c, d;			// True if the corresponding part is culled (selected)
+	bool culled;
+
+// First part A
+	gluProject( w1, 0, l1, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
+	a = IS_CULLED( x, y );
+//	OPENCITY_DEBUG( "a/x/y/z " << a << " / " << x << "/" << y << "/" << z );
+// Second part B
+	gluProject( w1, 0, l2, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
+	b = IS_CULLED( x, y );
+//	OPENCITY_DEBUG( "b/x/y/z " << b << " / " << x << "/" << y << "/" << z );
+// Third part C
+	gluProject( w2, 0, l2, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
+	c = IS_CULLED( x, y );
+//	OPENCITY_DEBUG( "c/x/y/z " << c << " / " << x << "/" << y << "/" << z );
+// Fourth part D
+	gluProject( w2, 0, l1, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
+	d = IS_CULLED( x, y );
+//	OPENCITY_DEBUG( "d/x/y/z " << d << " / " << x << "/" << y << "/" << z );
+
+// IF the working surface is small enough THEN
+	if ((w2-w1 <= MIN_SUBDIVISION_SIZE) || (l2-l1 <= MIN_SUBDIVISION_SIZE)) {
+		culled = a or b or c or d;
+//		OPENCITY_DEBUG( "culled? w1/l1_w2/l2: " << culled << " " << w1 << "/" << l1 << " _ " << w2 << "/" << l2 );
+		for (uint l = l1; l < l2; l++) {
+			linear = l*_uiCityWidth + w1;
+			for (uint w = w1; w < w2; w++, linear++)
+				_baCulledModel[linear] = culled;
+		}
+	}
+	else {
+	// IF all culled (selected) THEN
+		culled = a and b and c and d;
+		if (culled) {
+//			OPENCITY_DEBUG( "culled: w1/l1_w2/l2: " << w1 << "/" << l1 << " _ " << w2 << "/" << l2 );
+			for (uint l = l1; l < l2; l++) {
+				linear = l*_uiCityWidth + w1;
+				for (uint w = w1; w < w2; w++, linear++)
+					_baCulledModel[linear] = true;
+			}
+		} else
+	// IF all not culled (not selected) THEN divide the grid into four parts
+		{
+//			OPENCITY_DEBUG( "unknown: w1/l1_w2/l2: " << w1 << "/" << l1 << " _ " << w2 << "/" << l2 );
+			uint mw = (w2-w1)/2;
+			uint ml = (l2-l1)/2;
+			_CalculateCulledGrid(w1,    l1,    w1+mw, l1+ml);
+			_CalculateCulledGrid(w1,    l1+ml, w1+mw, l2);
+			_CalculateCulledGrid(w1+mw, l1+ml, w2,    l2);
+			_CalculateCulledGrid(w1+mw, l1,    w2,    l1+ml);
+		}
+	}
 }
 
 

@@ -207,7 +207,7 @@ void ocResize( const SDL_ResizeEvent& rcsResizeEvent)
    /*=====================================================================*/
 void ocActive( const SDL_ActiveEvent & e)
 {
-	OPENCITY_DEBUG( "Active event received" );
+//	OPENCITY_DEBUG( "Active event received" );
 
 	if (e.state & SDL_APPACTIVE) {
 		gVars.gboolActive = (e.gain == 1);

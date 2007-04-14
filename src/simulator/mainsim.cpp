@@ -2,7 +2,7 @@
 						mainsim.cpp  -  description
 							-------------------
 	begin                : febuary 21th, 2006
-	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2006-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -97,18 +97,18 @@ int
 MainSim::Main()
 {
 	static uint times = 0;
-	ostringstream oss;
+//	ostringstream oss;
 
 // Call the Main method of each micro simulator
 	while (this->enumSimState != SIMULATOR_RETURN) {
 		if (this->enumSimState == SIMULATOR_RUNNING) {
 			for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 				_tpSimulator[ui]->Main();
-				oss << ui << "=" << (int)Simulator::_tiVariation[ui] << " ";
+//				oss << ui << "=" << (int)Simulator::_tiVariation[ui] << " ";
 			}
 		}
-		OPENCITY_DEBUG( "RCIET: " << oss.str() );
-		oss.str("");
+//		OPENCITY_DEBUG( "RCIET: " << oss.str() );
+//		oss.str("");
 
 	// Refresh the simulator values every 5 turns
 		if (times == 0)

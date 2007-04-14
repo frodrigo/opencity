@@ -404,7 +404,7 @@ BuildingLayer::ResizeStructure(
 	OPENCITY_STRUCTURE_CODE structCode;
 	OPENCITY_STRUCTURE_CODE destroyedSC;			// The destroyed structure's code. It's used for rebuild
 
-	OPENCITY_DEBUG( "ResizeStructure - W/L " << w << "/" << l );
+//	OPENCITY_DEBUG( "ResizeStructure - W/L " << w << "/" << l );
 
 // Get the pointer to the structure that we need to modify
 	pStruct = _tabpStructure[ linearIndex ];
