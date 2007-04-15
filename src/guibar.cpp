@@ -21,6 +21,11 @@
 #include "guicontainer.h"
 
 
+#define OC_BAR_INITIAL_RATIO	1/20
+#define OC_BAR_INITIAL_VALUE	20
+#define OC_BAR_START_VALUE		1
+
+
    /*=====================================================================*/
 GUIBar::GUIBar()
 {
@@ -35,11 +40,11 @@ GUIBar::GUIBar(
 	const int ciY,
 	const uint cuiW,
 	const uint cuiH ):
-_eVariation( OC_HORIZONTAL ),
-_fInitialValue( 1 ),
-_fValue( 1 ),
+_eVariation( OC_VERTICAL ),
+_fInitialValue( OC_BAR_INITIAL_VALUE ),
+_fValue( OC_BAR_START_VALUE ),
 _fWidthRatio( 1 ),
-_fHeightRatio( 1 )
+_fHeightRatio( OC_BAR_INITIAL_RATIO )
 {
 	OPENCITY_DEBUG( "Pctor" );
 

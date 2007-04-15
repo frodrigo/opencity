@@ -649,8 +649,10 @@ int clientMode()
 	*/
 
 		while (!boolQuit) {
-		// Run the city at the LAST_SPEED (default parameter)
+		// Process input events
 			ocProcessSDLEvents();
+
+		// Process city's task
 			pNewCity->Run();
 			//gVars.gpKernel->live();
 

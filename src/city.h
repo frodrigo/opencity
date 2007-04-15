@@ -94,10 +94,8 @@ public:
 
 //========================================================================
 /** Process the city's task
-	\param enumSpeed Process the city's task at the desired speed
 */
-	void
-	Run( OPENCITY_CITY_SPEED enumSpeed = LAST_SPEED );
+	void Run();
 
 
 //========================================================================
@@ -161,7 +159,7 @@ private:
 	OPENCITY_CITY_LAYER enumCurrentLayer;
 
 // Current city's speed
-	OPENCITY_CITY_SPEED enumCurrentSpeed;
+	OPENCITY_CITY_SPEED _eSpeed;
 
 // Current active tool
 	OPENCITY_TOOL_CODE enumCurrentTool;
@@ -202,7 +200,12 @@ private:
 	GUILabel* plblFund;			// The fund label
 	GUILabel* plblPopulation;	// The population label
 	GUILabel* plblDate;			// The date label
+	GUIBar* pbarResidence;		// The residence bar
+	GUIBar* pbarCommerce;		// The commerce bar
+	GUIBar* pbarIndustry;		// The industry bar
 	GUIBar* pbarPower;			// The power bar
+	GUIButton* pbtnPause;		// Pause button
+	GUIButton* pbtnPlay;		// Play button
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
 	GUIContainer* pctr;
@@ -300,6 +303,8 @@ private:
 	void _RecordRessource();
 
 	void _DoBill( const OPENCITY_PROPERTY_CODE & );
+
+	void  _HandleStatusClick();
 
 	void _HandleGUIClick();
 

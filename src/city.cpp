@@ -42,6 +42,7 @@ extern GlobalVar gVars;
 // Standard headers
 #include <sstream>					// For text output with data conversion
 
+
 #define OC_ACTION_FACTOR 10
 
 
@@ -69,7 +70,7 @@ _cTool('N'),
 
 boolLMBPressed( false ),
 enumCurrentLayer( BUILDING_LAYER ),
-enumCurrentSpeed( NORMAL_SPEED ),
+_eSpeed( OC_SPEED_NORMAL ),
 enumCurrentTool( OC_NONE )
 {
 	OPENCITY_DEBUG( "City ctor - default parameters" );
@@ -234,63 +235,70 @@ void City::SetCurrentLayer( OPENCITY_CITY_LAYER enumNewLayer )
 
 
    /*=====================================================================*/
-void City::Run( OPENCITY_CITY_SPEED enumSpeed )
+void City::Run()
 {
 	static uint uiNumberFrame = 0;
-
-// IF another speed is requested THEN we switch to it
-	if (enumSpeed != LAST_SPEED) {
-		enumCurrentSpeed = enumSpeed;
-	}
 
 // Send the movement manager the move order 
 	gVars.gpMoveMgr->Move();
 
-	uint r = 0, c = 0, i = 0;
-	uint maxPower = 0;
-	if ( ++uiNumberFrame*gVars.guiMsPerFrame > OC_MS_PER_DAY ) {
-	// New day
-		if ( ++_uiDay > 30 ) {
-		// New month
-			_uiDay = 1;
+// IF the audio is enable THEN autoplay the background music
+// TODO: optimize this
+	if (gVars.gboolUseAudio && !gVars.gpAudioMgr->PlayingMusic()) {
+		gVars.gpAudioMgr->PlayNextMusic();
+	}
 
-		// Calculate the current population
-			r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
-			c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
-			i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
-			_uiPopulation = r + c/2 + i/3;
+// Do not process further if we are in pause mode
+	if (_eSpeed == OC_SPEED_PAUSE)
+		return;
 
-			if ( ++_uiMonth > 12 ) {
-			// New year
-				_uiMonth = 1;
-				_uiYear++;
+// IF not new day THEN return
+	if ( ++uiNumberFrame*gVars.guiMsPerFrame <= OC_MS_PER_DAY )
+		return;
 
-				_DoBill( OC_INCOME );
-				_RecordRessource();
-			}
-			else {
-				_DoBill( OC_MAINTENANCE_COST );
-			}
+// New day
+	uint r = _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
+	uint c = _pMSim->GetValue(Simulator::OC_COMMERCIAL);
+	uint i = _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
+
+	if ( ++_uiDay > 30 ) {
+	// New month
+		_uiDay = 1;
+
+	// Calculate the current population
+		_uiPopulation = r + c/2 + i/3;
+
+		if ( ++_uiMonth > 12 ) {
+		// New year
+			_uiMonth = 1;
+			_uiYear++;
+
+			_DoBill( OC_INCOME );
+			_RecordRessource();
 		}
-		uiNumberFrame = 0;
-
-	// Update the screen information every 3 days
-		if ( _uiDay%3 == 0 ) {
-			maxPower = _pMSim->GetMaxValue(Simulator::OC_ELECTRIC);
-			if (maxPower > 0) {
-				pbarPower->SetInitialValue( maxPower );
-				pbarPower->SetValue( _pMSim->GetValue(Simulator::OC_ELECTRIC) );
-			}
-			else {
-				pbarPower->SetInitialValue( 1 );
-				pbarPower->SetValue( 0 );
-			}
+		else {
+			_DoBill( OC_MAINTENANCE_COST );
 		}
+	}
+	uiNumberFrame = 0;
 
-	// IF the audio is enable THEN autoplay the background music
-		if (gVars.gboolUseAudio && !gVars.gpAudioMgr->PlayingMusic()) {
-			gVars.gpAudioMgr->PlayNextMusic();
-		}
+// Update the screen information every 3 days
+	if ( _uiDay%3 == 0 ) {
+		uint initialValue = 0;
+
+	// Update the RCI bar value
+		initialValue = (r+c+i)/2 + 1;
+		pbarResidence->SetInitialValue( initialValue );
+		pbarCommerce->SetInitialValue( initialValue );
+		pbarIndustry->SetInitialValue( initialValue );
+		pbarResidence->SetValue( r );
+		pbarCommerce->SetValue( c );
+		pbarIndustry->SetValue( i );
+
+	// Update the power bar value
+		initialValue = _pMSim->GetMaxValue(Simulator::OC_ELECTRIC) + 1;
+		pbarPower->SetInitialValue( initialValue );
+		pbarPower->SetValue( _pMSim->GetValue(Simulator::OC_ELECTRIC) );
 	}
 }
 
@@ -306,10 +314,11 @@ void City::Display()
 // now treat keys such as: up, down, left, right etc..
 	boolKeyDown = _HandleKeyPressed();
 
-// if the mouse reach the border of the screen, translate the map
-	_HandleMouseXY();
+// IF the mouse reach the border of the screen, translate the map
+// NOTE: unused at the moment because it disturbs the GUI
+//	_HandleMouseXY();
 
-// NOTE:We can move the following part to City::uiMouseMotion
+// NOTE: We can move the following part to City::uiMouseMotion
 // however, in this case City::uiMouseMotion is called each time
 // when the mouse moves, and this is no good
 // user is dragging
@@ -589,8 +598,7 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 #ifndef NDEBUG
 	// Testing PathFinder
 		case SDLK_a:
-			pctr->ResetAttribute(
-				OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+			pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 		// Avoid possible memory leak
 			if ( pctr == pctrQ ) {
 				pctr = NULL;
@@ -612,8 +620,7 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 
 	// MAS test toolcircle
 		case SDLK_v:
-			pctr->ResetAttribute(
-				OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+			pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 		// Avoid possible memory leak
 			if ( pctr == pctrQ ) {
 				pctr = NULL;
@@ -689,6 +696,7 @@ City::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 {
 //	OPENCITY_DEBUG("Mouse moved");
 	pctr->MouseMotion( rcEvent );
+	pctrStatus->MouseMotion( rcEvent );
 }
 
 
@@ -698,11 +706,17 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 {
 //	OPENCITY_DEBUG("Mouse button event received" );
 
-// Process the click concerning the GUI first
+// Process the mouse click on the status bar
+	pctrStatus->MouseButton( rcsMBE );
+	if ( pctrStatus->GetClick() != 0 ) {
+		_HandleStatusClick();
+		this->boolLMBPressed = false;
+		return;
+	}
+
+// Process the click concerning the GUI
 	pctr->MouseButton( rcsMBE );
 	if ( pctr->GetClick() != 0 ) {
-//debug
-//cout << "clicked: " << pctr->GetClick() << endl;
 		_HandleGUIClick();
 		this->boolLMBPressed = false;
 		return;
@@ -720,10 +734,6 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 					this->ptabLayer[ enumCurrentLayer ] ) == true ))
 			{
 				this->boolLMBPressed = true;
-//debug begin
-//cout << "step one, coco " << endl;
-//cout << "W: " << uiMapW1 << "/" << "H: " << uiMapL1 << endl;
-//debug end
 			} //if
 //debug begin
 //SDL_GL_SwapBuffers(); // uncomment this if you want to know how it works
@@ -888,15 +898,18 @@ void City::_CreateSimulator()
 // Simulators' initialization
 	_pMSim = new MainSim( gVars.gpmutexSim, (BuildingLayer*)ptabLayer[ BUILDING_LAYER ], gVars.gpMapMgr );
 
-// now initialize simulators threads
+// Now initialize simulators threads
 	_pthreadMSim = SDL_CreateThread( Simulator::ThreadWrapper, _pMSim );
 
-//testing: how can I put funcTSim into the TrafficSim class ?
+// Kept for future reference
+// How can I put funcTSim into the TrafficSim class ?
+//
 //	int (*fn)(void*);
 //	fn = reinterpret_cast<int (*)(void*)>(&TrafficSim::Run);
 //	pthreadTSim = SDL_CreateThread( TrafficSim::Run, pTSim );
+//
 
-// put all the simulators' threads into RUN state
+// Put all the simulators' threads into RUN state
 	_pMSim->Run();
 }
 
@@ -925,6 +938,10 @@ City::_CreateGUI()
 	ostringstream ossTemp;
 
 // The status bar
+	pbtnPause = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_pause" ));
+	pbtnPlay  = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_play" ));
+	pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
+
 	ossTemp << _liCityFund;
 	plblFund = new GUILabel( 125, 11, 80, 10, ossTemp.str() );
 	plblFund->SetAlign( GUILabel::OC_ALIGN_RIGHT );
@@ -942,15 +959,27 @@ City::_CreateGUI()
 	plblDate->SetAlign( GUILabel::OC_ALIGN_CENTER );
 	plblDate->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
+	pbarResidence = new GUIBar( 5, 5, 7, 53 );
+	pbarResidence->SetForeground( OPENCITY_PALETTE[Color::OC_GREEN] );
+
+	pbarCommerce = new GUIBar( 18, 5, 7, 53 );
+	pbarCommerce->SetForeground( OPENCITY_PALETTE[Color::OC_BLUE] );
+
+	pbarIndustry = new GUIBar( 29, 5, 7, 53 );
+	pbarIndustry->SetForeground( OPENCITY_PALETTE[Color::OC_YELLOW] );
+
 	pbarPower = new GUIBar( 42, 5, 7, 53 );
 	pbarPower->SetForeground( OPENCITY_PALETTE[Color::OC_PINK] );
-	pbarPower->SetVariation( GUIBar::OC_VERTICAL );
-	pbarPower->SetValue( 0 );
 
 	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ));
+	pctrStatus->Add( pbtnPause );
+	pctrStatus->Add( pbtnPlay );
 	pctrStatus->Add( plblFund );
 	pctrStatus->Add( plblPopulation );
 	pctrStatus->Add( plblDate );
+	pctrStatus->Add( pbarResidence );
+	pctrStatus->Add( pbarCommerce );
+	pctrStatus->Add( pbarIndustry );
 	pctrStatus->Add( pbarPower );
 	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 
@@ -1077,9 +1106,14 @@ City::_DeleteGUI()
 // Delete the status bar
 	delete pctrStatus;
 	delete pbarPower;
+	delete pbarIndustry;
+	delete pbarCommerce;
+	delete pbarResidence;
 	delete plblFund;
 	delete plblPopulation;
 	delete plblDate;
+	delete pbtnPlay;
+	delete pbtnPause;
 
 // delete the Query container if needed
 	if (pctrQ != NULL)
@@ -1531,6 +1565,38 @@ City::_DoBill(
 
    /*=====================================================================*/
 void
+City::_HandleStatusClick()
+{
+	uint uiObject = this->pctrStatus->GetClick();
+
+	switch (uiObject) {
+		case 1: // Pause button
+			OPENCITY_DEBUG( "Pause mode" );
+			pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
+			pbtnPlay->Set( OC_GUIMAIN_VISIBLE );
+			_eSpeed = OC_SPEED_PAUSE;
+			_pMSim->Stop();
+			break;
+		case 2: // Play button
+			OPENCITY_DEBUG( "Normal speed mode" );
+			pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
+			pbtnPause->Set( OC_GUIMAIN_VISIBLE );
+			_eSpeed = OC_SPEED_NORMAL;
+			_pMSim->Run();
+			break;
+
+		default:
+			OPENCITY_DEBUG( "WARNING: What's this control -> " << uiObject);
+			assert(0);
+			break;
+	}
+
+	pctrStatus->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+}
+
+
+   /*=====================================================================*/
+void
 City::_HandleGUIClick()
 {
 	uint uiObject;
@@ -1784,25 +1850,24 @@ City::_HandleGUIClick()
 	}
 
 
-// if the container has been changed then we reset
+// IF the container has been changed then we reset
 // the MouseOver & Clicked attributes
 // otherwise we reset only the Clicked attribute
 	if (pctr != pctrOld) {
-		pctrOld->ResetAttribute(
-			OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+		pctrOld->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 		pctrOld->GetLocation( iX, iY );
 		pctr->SetLocation( iX, iY );
 		pctr->Set( OC_GUIMAIN_VISIBLE );
 	}
 	else {
-		pctrOld->ResetAttribute(
-			OC_GUIMAIN_CLICKED );
+		pctrOld->ResetAttribute( OC_GUIMAIN_CLICKED );
 	}
 	pctrOld->Unset( OC_GUIMAIN_VISIBLE );
 }
 
 
    /*=====================================================================*/
+// Unused at the moment because it disturbs the GUI
 void
 City::_HandleMouseXY()
 {
