@@ -116,6 +116,8 @@ MainSim::Main()
 	
 	// Wait a bit
 		Simulator::RCIDelay();
+// debug
+//		SDL_Delay(50);
 		times = (times+1) % 5;
 	} // while
 

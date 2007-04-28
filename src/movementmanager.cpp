@@ -30,6 +30,7 @@
 MovementManager::MovementManager(
 	const GraphicManager* gm,
 	const Map* map):
+_uiCount(0),
 pcGraphicMgr( gm ),
 pcMap( map )
 {
@@ -49,7 +50,9 @@ MovementManager::~MovementManager()
 
 	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
 		delete tabmvt[ i ];
+		tabmvt[ i ] = NULL;		// Safe
 	}
+	_uiCount = 0;
 }
 
 
@@ -61,11 +64,20 @@ MovementManager::Add(
 	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
 		if (tabmvt[ i ] == NULL) {
 			tabmvt[ i ] = pNew;
+			++_uiCount;
 			return i;
 		}
 	}
 
 	return -1;
+}
+
+
+   /*=====================================================================*/
+const bool
+MovementManager::IsFull()
+{
+	return _uiCount == OC_MOVEMENT_MAX;
 }
 
 
@@ -80,6 +92,7 @@ MovementManager::Remove(
 		if (tabmvt[ ciIndex ] != NULL) {
 			delete tabmvt[ ciIndex ];
 			tabmvt[ ciIndex ] = NULL;
+			--_uiCount;
 		}
 		return;
 	}
@@ -91,6 +104,7 @@ MovementManager::Remove(
 			tabmvt[ i ] = NULL;
 		}
 	}
+	_uiCount = 0;
 }
 
 
@@ -102,20 +116,20 @@ MovementManager::Move(
 // IF the user has specified the index of the element
 // THEN only call that element
 	if ((ciIndex > -1) && (ciIndex < OC_MOVEMENT_MAX )) {
-		if (tabmvt[ ciIndex ] != NULL)
-		if (tabmvt[ ciIndex ]->Move() == false) {
+		if (tabmvt[ ciIndex ] != NULL and tabmvt[ ciIndex ]->Move() == false) {
 			delete tabmvt[ ciIndex ];
 			tabmvt[ ciIndex ] = NULL;
+			--_uiCount;
 		}
 		return;
 	}
 
 // ELSE move all the contained movement
 	for (uint i = 0; i < OC_MOVEMENT_MAX; i++) {
-		if (tabmvt[ i ] != NULL)
-		if (tabmvt[ i ]->Move() == false) {
+		if (tabmvt[ i ] != NULL and tabmvt[ i ]->Move() == false) {
 			delete tabmvt[ i ];
 			tabmvt[ i ] = NULL;
+			--_uiCount;
 		}
 	}
 }

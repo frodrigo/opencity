@@ -24,7 +24,6 @@
 
 #define OC_MOVEMENT_MAX		100
 
-using std::vector;
 
 class Movement;
 class GraphicManager;
@@ -42,18 +41,16 @@ public:
 	);
 	~MovementManager();
 
-	const int
-	Add(
-		Movement* const pNew );
+	const int Add( Movement* const pNew );
+
+	const bool IsFull();
 
 
 //========================================================================
 /** Explicitly remove the specified or all the movement object from the
 manager. The removed objects are destroyed by calling "delete" on them.
 */
-	void
-	Remove(
-		const int ciIndex = -1);
+	void Remove( const int ciIndex = -1 );
 
 
 //========================================================================
@@ -61,16 +58,13 @@ manager. The removed objects are destroyed by calling "delete" on them.
 The object which can not move anymore is removed from the manager and
 destroyed automatically by calling "delete" on it.
 */
-	void
-	Move(
-		const int ciIndex = -1 );
+	void Move( const int ciIndex = -1 );
 
-	void
-	Display(
-		const int ciIndex = - 1 );
+	void Display( const int ciIndex = - 1 );
 
 
 private:
+	uint _uiCount;							///< The current number of elements
 	Movement* tabmvt [OC_MOVEMENT_MAX];
 	const GraphicManager* pcGraphicMgr;
 	const Map* pcMap;

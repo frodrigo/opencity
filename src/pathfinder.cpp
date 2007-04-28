@@ -30,7 +30,6 @@
 
 // Local defines
 #define OC_PATHFINDER_MAX_LENGTH	0xFFFF0000
-#define OC_PATHFINDER_A_STAR		1		// use Dijkstra + A* algorithm
 
 
 //========================================================================
@@ -48,45 +47,35 @@ struct PathFinderNode {
 /** This is a functor, it's used for sorting node
 */
 static bool
-pathfinderCompareTraffic(
-	const PathFinderNode & rcA,
-	const PathFinderNode & rcB )
+pathfinderCompareTraffic( const PathFinderNode & rcA, const PathFinderNode & rcB )
 {
+	assert( rcA.ppath != NULL );
+	assert( rcB.ppath != NULL );
+
+	return rcA.ppath->GetLength() > rcB.ppath->GetLength();
+/*
 	uint uiA = rcA.ppath->GetLength();
 	uint uiB = rcB.ppath->GetLength();
 
-   // same length
+// Same length
 	if ( uiA == uiB ) {
-#ifdef OC_PATHFINDER_A_STAR
 		if ( rcA.uiEvaluation < rcB.uiEvaluation) {
 			return false;
 		}
 		else {
 			return true;
 		}
-#else
-		return true;
-#endif
-	   // this is not necessary since the
-	   // contained structures are not marked
-	   /*
-		if (rcA.ppath->IsSet( OC_STRUCTURE_MARK ) == false) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	   */
 	} else
 	if ( uiA < uiB) {
 		return false;
 	}
 	else {
-   // greater length, then put it at the beginning
+// Greater length, then put it at the beginning
 		return true;
 	}
+*/
 
-   //impossible here
+// Impossible here
 	assert( 0 );
 }
 
@@ -95,37 +84,35 @@ pathfinderCompareTraffic(
    /** This is a functor, it's used for sorting node
    */
 static bool
-pathfinderCompareDistance(
-	const PathFinderNode & rcA,
-	const PathFinderNode & rcB )
+pathfinderCompareDistance( const PathFinderNode& rcA, const PathFinderNode& rcB )
 {
-#ifdef OC_PATHFINDER_A_STAR
+	return rcA.uiEvaluation > rcB.uiEvaluation;
+/*
+	assert( rcA.ppath != NULL );
+	assert( rcB.ppath != NULL );
+
 	uint uiA = rcA.ppath->GetLength();
 	uint uiB = rcB.ppath->GetLength();
-#endif
 
-   // same length
+// Same length
 	if ( rcA.uiEvaluation == rcB.uiEvaluation ) {
-#ifdef OC_PATHFINDER_A_STAR
 		if ( uiA < uiB ) {
 			return false;
 		}
 		else {
 			return true;
 		}
-#else
-		return true;
-#endif
 	} else
 	if ( rcA.uiEvaluation < rcB.uiEvaluation ) {
 		return false;
 	}
 	else {
-   // greater length, then put it at the beginning
+// Greater length, then put it at the beginning
 		return true;
 	}
+*/
 
-   //impossible here
+// Impossible here
 	assert( 0 );
 }
 
@@ -191,8 +178,7 @@ PathFinder::~PathFinder()
 			3d)FOR each neighbour OC_ROAD DO
 				newLength = the length of the current node
 				+ the traffic of this neighbour;
-				IF newLength is
-				< to the length of the neighbour THEN
+				IF newLength is less than the length of the neighbour THEN
 					i)the length of the neighbour is = newLength
 					ii)father of the neighbour is = this node
 					iii)insert the neighbour to the processing list
@@ -244,14 +230,16 @@ PathFinder::findShortestPath(
 
 // WARNING the Start point is a PathStructure
 // do we need dynamic casting for automatic checking ?
-	ppathstruct = dynamic_cast<PathStructure*>
-		(pbuildlayer->GetStructure( rcuiW1, rcuiH1 ));
+	ppathstruct = dynamic_cast<PathStructure*>(pbuildlayer->GetStructure( rcuiW1, rcuiH1 ));
 	if ( ppathstruct == NULL ) {
 		OPENCITY_DEBUG("WARNING: Starting point NULL");
 		return false;
 	}
 
-   // initialize the functor
+// Block all the other threads while we play with the structures
+	SDL_LockMutex( this->pmutex );
+
+// Initialize the functor
 	switch (enumType) {
 		case OC_DISTANCE:
 			pFunctor = pathfinderCompareDistance;
@@ -261,27 +249,21 @@ PathFinder::findShortestPath(
 			break;
 	}
 
-   // block all the other threads
-   // while we play with the structures
-	SDL_LockMutex( this->pmutex );
-
-   // for each OC_ROAD structure
+// For each OC_ROAD structure
 	for ( uiLinear = 0; uiLinear <= uiMaxLinear; uiLinear++ ) {
 		pstruct = pbuildlayer->GetLinearStructure( uiLinear );
-		if ((pstruct != NULL)
-		&&  (pstruct->GetCode() == OC_STRUCTURE_ROAD )) {
-		   // clear the "mark"
+		if ((pstruct != NULL) and (pstruct->GetCode() == OC_STRUCTURE_ROAD )) {
+		// Clear the "mark"
 			pstruct->Unset( OC_STRUCTURE_MARK );
-		   // set the maximum "length"
-			((PathStructure*)pstruct)->SetLength(
-				OC_PATHFINDER_MAX_LENGTH );
+		// Set the maximum "length"
+			((PathStructure*)pstruct)->SetLength(OC_PATHFINDER_MAX_LENGTH );
 		}
 	}
 
-   // The length value of the starting point is 0 (minimum)
+// The length value of the starting point is 0 (minimum)
 	ppathstruct->SetLength( 0 );
 
-   // insert the starting point to the processing vector
+// Insert the starting point to the processing vector
 	node.iOwnLinear = this->uiWidth * rcuiH1 + rcuiW1;
 	node.iFatherLinear = -1;		// there's no precedent node
 	node.uiEvaluation = pathfinderEvaluate(rcuiW1, rcuiH1, rcuiW2, rcuiH2);
@@ -291,64 +273,21 @@ PathFinder::findShortestPath(
 // Loop until we finish or we found the arrival point
 	boolFound = false;
 
-	while ((!vProcessing.empty())
-	    and (boolFound == false)
-		and (vDone.size() < uiMaxLength)) {
-
-//debug: display the "vProcessing" list
-/*
-cout << "Processing list BEFORE sorted" << endl;
-for (unsigned int i = 0; i < vProcessing.size(); i++) {
-	node = vProcessing[i];
-// convert Linear <-> WH
-	uiH = node.iOwnLinear / uiWidth;
-	uiW = node.iOwnLinear % uiWidth;
-	cout << "W / H: " << uiW << " / " << uiH;
-	cout << " Length: " << node.ppath->GetLength();
-	cout << " Traffic: " << (int)node.ppath->GetTraffic();
-	cout << endl;
-}
-cout << "Processing list end" << endl << endl;
-*/
-
-	// sort the list so that the node with minimum "length" value
+	while (!boolFound and (!vProcessing.empty()) and (vDone.size() < uiMaxLength)) {
+	// Sort the list so that the node with minimum "length" value
 	// and not "marked" is placed at the bottom (back)
 		std::sort( vProcessing.begin(), vProcessing.end(), pFunctor );
-
-//debug
-/*
-cout << "Processing list AFTER sorted" << endl;
-for (unsigned int i = 0; i < vProcessing.size(); i++) {
-	node = vProcessing[i];
-// convert Linear <-> WH
-	uiH = node.iOwnLinear / uiWidth;
-	uiW = node.iOwnLinear % uiWidth;
-	cout << "W / H: " << uiW << " / " << uiH;
-	cout << " Length: " << node.ppath->GetLength();
-	cout << " Traffic: " << (int)node.ppath->GetTraffic();
-	cout << endl;
-}
-cout << "Processing list end" << endl << endl;
-*/
 
 	// get the sorted node with minimum length, and not marked
 	// NOTE: everything contained in the vProcessing is not marked !
 		node = vProcessing.back();
 		vProcessing.pop_back();
 
-	   // convert Linear <-> WH
+	// Conversion Linear <-> WH
 		uiH = node.iOwnLinear / uiWidth;
 		uiW = node.iOwnLinear % uiWidth;
 
-//debug: display the current working node
-/*
-cout << "Processing W / H: " << uiW << " / " << uiH;
-cout << " Length: " << node.ppath->GetLength();
-cout << " Traffic: " << (int)node.ppath->GetTraffic();
-cout << endl;
-*/
-
-	   // have we found the arrival point ?
+	// Did we we found the arrival point ?
 		if ((uiW == rcuiW2) && (uiH == rcuiH2)) {
 			boolFound = true;
 			vDone.push_back( node );
@@ -437,16 +376,14 @@ cout << endl;
 		}
 	   //---------------------- repeated procedure end ---------------------
 
-	// mark this node as "done"
+	// Mark this node as "done" then insert it into the "done" list
 		node.ppath->Set( OC_STRUCTURE_MARK );
-
-	// then insert it into the "done" list
 		vDone.push_back( node );
 	}
 
 
 // Build the destination vector from start to stop
-	if ((boolFound == true) or (vDone.size() >= uiMaxLength)) {
+	if (boolFound or (vDone.size() >= uiMaxLength)) {
 	// Put the last node to the list
 		int i = vDone.size()-1;
 		node = vDone[ i ];
@@ -464,48 +401,25 @@ cout << endl;
 
 		while (--i >= 0) {
 			node = vDone[i];
-		// Is this node is the father of the precedent node ?
-			if (node.iOwnLinear == iFatherLinear) {
-				iFatherLinear = node.iFatherLinear;
-				destTemp._uiW = node.iOwnLinear % uiWidth;
-				destTemp._uiL = node.iOwnLinear / uiWidth;
-				destTemp._iHMin = pmap->GetSquareMinHeight( destTemp._uiW, destTemp._uiL );
-				destTemp._iHMax = pmap->GetSquareMaxHeight( destTemp._uiW, destTemp._uiL );
-				destTemp._uiTime = 1;
-				destTemp._ubTraffic =
-					((PathStructure*)pbuildlayer->
-					GetLinearStructure( node.iOwnLinear ))->GetTraffic();
-			// NOTE: we're going from the back to the front
-				destTemp._eDir = Destination::GetDir( destTemp, destLast );
+		// IF this is NOT the father of the precedent node
+			if (node.iOwnLinear != iFatherLinear)
+				continue;
 
-				rvdest.push_back( destTemp );
-				destLast = destTemp;
-			}
-		}
+			iFatherLinear = node.iFatherLinear;
+			destTemp._uiW = node.iOwnLinear % uiWidth;
+			destTemp._uiL = node.iOwnLinear / uiWidth;
+			destTemp._iHMin = pmap->GetSquareMinHeight( destTemp._uiW, destTemp._uiL );
+			destTemp._iHMax = pmap->GetSquareMaxHeight( destTemp._uiW, destTemp._uiL );
+			destTemp._uiTime = 1;
+			destTemp._ubTraffic =
+				((PathStructure*)pbuildlayer->
+				GetLinearStructure( node.iOwnLinear ))->GetTraffic();
 
-/* old code, for reference, june 18th, 06
-	// Initialize the "iFatherLinear" variable as the stop point's linear index
-		node = vDone[ vDone.size()-1 ];
-		iFatherLinear = node.iOwnLinear;
-		for (int i = vDone.size()-1; i > -1; i--) {
-			node = vDone[i];
-		// Is this node is the father of the precedent node ?
-			if (node.iOwnLinear == iFatherLinear) {
-				iFatherLinear = node.iFatherLinear;
-				destTemp.uiW = node.iOwnLinear % uiWidth;
-				destTemp.uiH = node.iOwnLinear / uiWidth;
-				destTemp.uiTime = 1;
-			// Save the local traffic
-				destTemp.ubTraffic =
-					((PathStructure*)pbuildlayer->
-					GetLinearStructure( node.iOwnLinear ))->
-					GetTraffic();
-				rvdest.push_back( destTemp );
-			// FIXME: this one is not specified
-				//destTemp.enumDirection;
-			}
+		// NOTE: we're going from the back to the front
+			destTemp._eDir = Destination::GetDir( destTemp, destLast );
+			rvdest.push_back( destTemp );
+			destLast = destTemp;
 		}
-*/
 
 	// Reverse the destination vector so that the starting point is at the beginning
 		reverse( rvdest.begin(), rvdest.end() );
@@ -548,7 +462,7 @@ cout << endl;
 	}
 #endif
 
-   // let the other threads run now
+// Let the other threads run now
 	SDL_UnlockMutex( this->pmutex );
 
 	return boolFound;

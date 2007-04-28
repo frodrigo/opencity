@@ -2,7 +2,7 @@
 						commercialsim.cpp  -  description
 							-------------------
 	begin                : 31th jan, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -55,80 +55,75 @@ CommercialSim::Main()
 	static OPENCITY_GRAPHIC_CODE oldGC;
 
 
-	if (this->enumSimState == SIMULATOR_RUNNING) {
-	// get a random commercial structure
-		pstruct = pbuildlayer->GetRandomStructure(
-			w, l, OC_STRUCTURE_COM );
+	if (this->enumSimState != SIMULATOR_RUNNING)
+		return 0;
 
-		if (pstruct != NULL) {
-			boolLevelUp = false;
+// Get a random commercial structure
+	pstruct = pbuildlayer->GetRandomStructure(w, l, OC_STRUCTURE_COM);
+	if (pstruct == NULL)
+		return 0;
 
-		// try to lock the mutex
-		// prevent the others from deleting the structure
-		// pointed by "pstruct" while we're playing with
-			SDL_LockMutex( this->mutexMain );
+	boolLevelUp = false;
+// Try to lock the mutex to prevent the others from deleting the structure
+// pointed by "pstruct" while we're playing with
+	SDL_LockMutex( this->mutexMain );
 
-			pstruct->Unset(
-				OC_STRUCTURE_W |                  OC_STRUCTURE_G |
-				OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
-				OC_STRUCTURE_P );
-			pstruct->Set( OC_STRUCTURE_C );
+	pstruct->Unset(
+		OC_STRUCTURE_W |                  OC_STRUCTURE_G |
+		OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
+		OC_STRUCTURE_P );
+	pstruct->Set( OC_STRUCTURE_C );
 
-		// is there a P in range ?
-			if (CheckRange(w, l, OC_C_P_RANGE, OC_STRUCTURE_ROAD) == true)
-				pstruct->Set( OC_STRUCTURE_P );
-			else
-				_tiVariation[Simulator::OC_TRAFFIC]++;
+// is there a P in range ?
+	if (CheckRange(w, l, OC_C_P_RANGE, OC_STRUCTURE_ROAD) == true)
+		pstruct->Set( OC_STRUCTURE_P );
+	else
+		_tiVariation[Simulator::OC_TRAFFIC]++;
 
-		// is there a R in range ?
-			if (CheckRange(w, l, OC_C_R_RANGE, OC_STRUCTURE_RES) == true)
-				pstruct->Set( OC_STRUCTURE_R );
-			else
-				_tiVariation[Simulator::OC_RESIDENTIAL]++;
+// is there a R in range ?
+	if (CheckRange(w, l, OC_C_R_RANGE, OC_STRUCTURE_RES) == true)
+		pstruct->Set( OC_STRUCTURE_R );
+	else
+		_tiVariation[Simulator::OC_RESIDENTIAL]++;
 
-		// is there a I in range ?
-			if (CheckRange(w, l, OC_C_I_RANGE, OC_STRUCTURE_IND) == true)
-				pstruct->Set( OC_STRUCTURE_I );
-			else
-				_tiVariation[Simulator::OC_INDUSTRIAL]++;
+// is there a I in range ?
+	if (CheckRange(w, l, OC_C_I_RANGE, OC_STRUCTURE_IND) == true)
+		pstruct->Set( OC_STRUCTURE_I );
+	else
+		_tiVariation[Simulator::OC_INDUSTRIAL]++;
 
-			if (pstruct->IsSet(
-				OC_STRUCTURE_E |
-				OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
-				OC_STRUCTURE_P ) == true )
-				boolLevelUp = true;
+	if (pstruct->IsSet(
+		OC_STRUCTURE_E |
+		OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
+		OC_STRUCTURE_P ) == true )
+		boolLevelUp = true;
 
-//debug
-//cout << "CommercialSim speaking: " << iValue
-//     << " / w: " << w << " / l: " << l << endl;
-
-			iRandom = rand() % 100;
-			oldGC = pstruct->GetGraphicCode();
-			if (boolLevelUp == true) {
-			// really levelup ?
-				if (iRandom < OC_SIMULATOR_UP) {
-					if ((this->CheckLevelUp(w, l, pstruct) == true)
-					&&  (pstruct->LevelUp() == true)) {
-						pbuildlayer->ResizeStructure( w, l, oldGC );
-						_iValue++;
-						_tiVariation[Simulator::OC_COMMERCIAL]--;
-					}
-				}
-			}  // end if levelup
-			else {
-			// really level down ?
-				if (iRandom < OC_SIMULATOR_DOWN)
-					if ((this->CheckLevelDown(w, l, pstruct) == true)
-					&&  (pstruct->LevelDown() == true)) {
-						pbuildlayer->ResizeStructure( w, l, oldGC );
-						_iValue--;
-						_tiVariation[Simulator::OC_COMMERCIAL]++;
-					}
+	iRandom = rand() % 100;
+	oldGC = pstruct->GetGraphicCode();
+	if (boolLevelUp == true) {
+	// really levelup ?
+		if (iRandom < OC_SIMULATOR_UP) {
+			if ((this->CheckLevelUp(w, l, pstruct) == true)
+			&&  (pstruct->LevelUp() == true)) {
+				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_iValue++;
+				_tiVariation[Simulator::OC_COMMERCIAL]--;
 			}
+		}
+	}  // end if levelup
+	else {
+	// really level down ?
+		if (iRandom < OC_SIMULATOR_DOWN)
+			if ((this->CheckLevelDown(w, l, pstruct) == true)
+			&&  (pstruct->LevelDown() == true)) {
+				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_iValue--;
+				_tiVariation[Simulator::OC_COMMERCIAL]++;
+			}
+	}
 
-			SDL_UnlockMutex( this->mutexMain );
-		} // if pstruct != NULL
-	}  // if running
+	SDL_UnlockMutex( this->mutexMain );
+
 
 	return 0;
 }

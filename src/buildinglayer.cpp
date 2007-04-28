@@ -404,8 +404,6 @@ BuildingLayer::ResizeStructure(
 	OPENCITY_STRUCTURE_CODE structCode;
 	OPENCITY_STRUCTURE_CODE destroyedSC;			// The destroyed structure's code. It's used for rebuild
 
-//	OPENCITY_DEBUG( "ResizeStructure - W/L " << w << "/" << l );
-
 // Get the pointer to the structure that we need to modify
 	pStruct = _tabpStructure[ linearIndex ];
 	assert( pStruct != NULL );
@@ -413,6 +411,8 @@ BuildingLayer::ResizeStructure(
 // IF the graphic code has not changed THEN it's okay
 	if ( oldGC == pStruct->GetGraphicCode() )
 		return OC_ERR_FREE;
+
+//	OPENCITY_DEBUG( "Begin - W/L " << w << "/" << l );
 	structCode = pStruct->GetCode();
 
 // Get the old WLH
@@ -507,6 +507,8 @@ BuildingLayer::ResizeStructure(
 		} // for dw
 	} // for dl
 
+//	OPENCITY_DEBUG( "End - W/L " << w << "/" << l );
+
 	return OC_ERR_FREE;
 }
 
@@ -566,12 +568,12 @@ BuildingLayer::GetRandomStructure(
 	if (enumStructCode == OC_STRUCTURE_UNDEFINED)
 		return NULL;
 
-// nothing can be static because we can be called by more than 1 thread
+// Nothing can be static because we can be called by more than 1 thread
 	uint linear;
 	uint counter;
 	Structure* pstruct;
 
-// we try 100 times before giving up
+// We try 100 times before giving up
 // OC_CHANCE_COUNTER_MAX = 100
 	counter = 0;
 	do {
@@ -588,7 +590,6 @@ BuildingLayer::GetRandomStructure(
 		counter++;
 	} while (counter < OC_CHANCE_COUNTER_MAX);
 
-//debug	cout << "coco: " << linear << endl;
 	return NULL;
 }
 

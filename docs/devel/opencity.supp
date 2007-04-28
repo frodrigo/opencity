@@ -1,0 +1,37 @@
+# Valgrind-3.2.3 suppressions file for OpenCity
+# by neoneurone at users sf net
+#
+# usage:
+#  ../configure --enable-debug --enable-gdb
+#  valgrind --suppressions=./opencity.supp src/opencity --homedir ..
+
+
+{
+   IOCTL generic
+   Memcheck:Param
+   ioctl(generic)
+   fun:ioctl
+}
+
+
+{
+   glXGetStringFromTable
+   Memcheck:Cond
+   fun:__glXGetStringFromTable
+}
+
+
+{
+   r200_Vertex2f (in /usr/X11R6/lib/modules/dri/r200_dri.so)
+   Memcheck:Addr4
+   fun:r200_Vertex2f
+}
+
+
+{
+   emit_vector (in /usr/X11R6/lib/modules/dri/r200_dri.so)   
+   Memcheck:Addr4
+   fun:emit_vector
+}
+
+

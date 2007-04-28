@@ -55,82 +55,77 @@ IndustrialSim::Main()
 	static OPENCITY_GRAPHIC_CODE oldGC;
 
 
-	if (this->enumSimState == SIMULATOR_RUNNING) {
-	// get a random industrial structure
-		pstruct = pbuildlayer->GetRandomStructure(
-			w, l, OC_STRUCTURE_IND );
+	if (this->enumSimState != SIMULATOR_RUNNING)
+		return 0;
 
-		if (pstruct != NULL) {
-			boolLevelUp = false;
+// Get a random industrial structure
+	pstruct = pbuildlayer->GetRandomStructure(w, l, OC_STRUCTURE_IND);
+	if (pstruct == NULL)
+		return 0;
 
-		// try to lock the mutex
-		// prevent the others from deleting the structure
-		// pointed by "pstruct" while we're playing with
-			SDL_LockMutex( this->mutexMain );
+	boolLevelUp = false;
 
-			pstruct->Unset(
-				OC_STRUCTURE_W                  | OC_STRUCTURE_G |
-				OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
-				OC_STRUCTURE_P );
-			pstruct->Set( OC_STRUCTURE_I );
+// Try to lock the mutex to prevent the others from deleting the structure
+// pointed by "pstruct" while we're playing with
+	SDL_LockMutex( this->mutexMain );
 
-		// is there a P in range ?
-			if (CheckRange(w, l, OC_I_P_RANGE, OC_STRUCTURE_ROAD) == true)
-				pstruct->Set( OC_STRUCTURE_P );
-			else
-				_tiVariation[Simulator::OC_TRAFFIC]++;
+	pstruct->Unset(
+		OC_STRUCTURE_W                  | OC_STRUCTURE_G |
+		OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
+		OC_STRUCTURE_P );
+	pstruct->Set( OC_STRUCTURE_I );
 
-		// is there a R in range ?
-			if (CheckRange(
-				w, l, OC_I_R_RANGE, OC_STRUCTURE_RES ) == true)
-				pstruct->Set( OC_STRUCTURE_R );
-			else
-				_tiVariation[Simulator::OC_RESIDENTIAL]++;
+// is there a P in range ?
+	if (CheckRange(w, l, OC_I_P_RANGE, OC_STRUCTURE_ROAD) == true)
+		pstruct->Set( OC_STRUCTURE_P );
+	else
+		_tiVariation[Simulator::OC_TRAFFIC]++;
 
-		// is there a C in range ?
-			if (CheckRange(w, l, OC_I_C_RANGE, OC_STRUCTURE_COM) == true)
-				pstruct->Set( OC_STRUCTURE_C );
-			else
-				_tiVariation[Simulator::OC_COMMERCIAL]++;
+// is there a R in range ?
+	if (CheckRange(
+		w, l, OC_I_R_RANGE, OC_STRUCTURE_RES ) == true)
+		pstruct->Set( OC_STRUCTURE_R );
+	else
+		_tiVariation[Simulator::OC_RESIDENTIAL]++;
 
-			if (pstruct->IsSet(
-				OC_STRUCTURE_E |
-				OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
-				OC_STRUCTURE_P ) == true )
-				boolLevelUp = true;
+// is there a C in range ?
+	if (CheckRange(w, l, OC_I_C_RANGE, OC_STRUCTURE_COM) == true)
+		pstruct->Set( OC_STRUCTURE_C );
+	else
+		_tiVariation[Simulator::OC_COMMERCIAL]++;
 
+	if (pstruct->IsSet(
+		OC_STRUCTURE_E |
+		OC_STRUCTURE_R | OC_STRUCTURE_C | OC_STRUCTURE_I |
+		OC_STRUCTURE_P ) == true )
+		boolLevelUp = true;
 
-//debug
-//cout << "IndustrialSim speaking: " << _iValue
-//     << " / w: " << w << " / l: " << l << endl;
-
-			iRandom = rand() % 100;
-			oldGC = pstruct->GetGraphicCode();
-			if (boolLevelUp == true) {
-			// really levelup ?
-				if (iRandom < OC_SIMULATOR_UP) {
-					if ((this->CheckLevelUp(w, l, pstruct) == true)
-					&&  (pstruct->LevelUp() == true)) {
-						pbuildlayer->ResizeStructure( w, l, oldGC );
-						_iValue++;
-						_tiVariation[Simulator::OC_INDUSTRIAL]--;
-					}
-				}
-			}  // end if levelup
-			else {
-			// really level down ?
-				if (iRandom < OC_SIMULATOR_DOWN)
-					if ((this->CheckLevelDown(w, l, pstruct) == true)
-					&&  (pstruct->LevelDown() == true)) {
-						pbuildlayer->ResizeStructure( w, l, oldGC );
-						_iValue--;
-						_tiVariation[Simulator::OC_INDUSTRIAL]++;
-					}
+	iRandom = rand() % 100;
+	oldGC = pstruct->GetGraphicCode();
+	if (boolLevelUp == true) {
+	// really levelup ?
+		if (iRandom < OC_SIMULATOR_UP) {
+			if ((this->CheckLevelUp(w, l, pstruct) == true)
+			&&  (pstruct->LevelUp() == true)) {
+				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_iValue++;
+				_tiVariation[Simulator::OC_INDUSTRIAL]--;
 			}
+		}
+	}  // end if levelup
+	else {
+	// really level down ?
+		if (iRandom < OC_SIMULATOR_DOWN)
+			if ((this->CheckLevelDown(w, l, pstruct) == true)
+			&&  (pstruct->LevelDown() == true)) {
+				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_iValue--;
+				_tiVariation[Simulator::OC_INDUSTRIAL]++;
+			}
+	}
 
-			SDL_UnlockMutex( this->mutexMain );
-		} // if pstruct != NULL
-	}  // if running
+	SDL_UnlockMutex( this->mutexMain );
+
 
 	return 0;
 }
