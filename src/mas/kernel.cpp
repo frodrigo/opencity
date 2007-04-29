@@ -2,9 +2,9 @@
 						kernel.cpp  -  description
 							-------------------
 	begin                : nov 29th 2005
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	author               : Victor STINNER
+	author               : Duong-Khang NGUYEN and Victor STINNER
 
 	$Id$
  ***************************************************************************/
@@ -23,6 +23,7 @@
 #include "agent.h"
 #include "message.h"
 
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 

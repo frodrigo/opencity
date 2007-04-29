@@ -28,6 +28,9 @@
 #include "map.h"
 #include "pathfinder.h"
 
+// Standard headers
+#include <algorithm>
+
 // Local defines
 #define OC_PATHFINDER_MAX_LENGTH	0xFFFF0000
 
@@ -287,7 +290,7 @@ PathFinder::findShortestPath(
 		uiH = node.iOwnLinear / uiWidth;
 		uiW = node.iOwnLinear % uiWidth;
 
-	// Did we we found the arrival point ?
+	// IF the arrival point has been found THEN
 		if ((uiW == rcuiW2) && (uiH == rcuiH2)) {
 			boolFound = true;
 			vDone.push_back( node );

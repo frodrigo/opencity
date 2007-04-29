@@ -31,14 +31,14 @@ considered as a "Netnode" by the networking layer.
 */
 class Netnode {
 public:
-	Netnode() {};
-	Netnode( IPaddress ipAdr, TCPsocket sock ):ip(ipAdr), socket(sock) {};
+	Netnode() {}
+	Netnode( IPaddress ipAdr, TCPsocket sock ):ip(ipAdr), socket(sock) {}
 	bool operator==( const Netnode& rc ) {
 		return ((this->ip.host == rc.ip.host) && (this->ip.port == rc.ip.port)
 			 && (this->socket == rc.socket));
-	};
+	}
 
-	~Netnode() {};
+	~Netnode() {}
 
 	IPaddress ip;
 	TCPsocket socket;

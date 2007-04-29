@@ -30,6 +30,9 @@
 #include "globalvar.h"
 extern GlobalVar gVars;
 
+// Standard headers
+#include <algorithm>
+
 
    /*=====================================================================*/
 ElectricitySim::ElectricitySim(

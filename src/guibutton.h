@@ -2,7 +2,7 @@
 						guibutton.h    -  description
 							-------------------
 	begin                : march 22th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -28,7 +28,7 @@
 */
 class GUIButton : public GUIMain {
 public:
-	GUIButton() {};
+	GUIButton() {}
 	GUIButton(
 		const int & rciX,
 		const int & rciY,

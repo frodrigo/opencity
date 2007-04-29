@@ -28,8 +28,8 @@
    */
 class GUI3DView : public GUIMain {
 public:
-	GUI3DView() {};
-	virtual ~GUI3DView() {};
+	GUI3DView() {}
+	virtual ~GUI3DView() {}
 
 };
 

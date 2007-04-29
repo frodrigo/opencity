@@ -119,14 +119,14 @@ public:
 		const uint & w1,
 		const uint & h1,
 		const uint & w2,
-		const uint & h2 ) {};
+		const uint & h2 ) {}
 
 	virtual void
 	RemoveStructure(
 		const uint & w1,
 		const uint & h1,
 		const uint & w2,
-		const uint & h2 ) {};
+		const uint & h2 ) {}
 
 
 	void
