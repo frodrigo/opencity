@@ -57,6 +57,9 @@ public:
 	void ZoomIn(  );
 	void ZoomOut(  );
 
+	void ToggleTerrain();
+	void ToggleWater();
+	void ToggleStructure();
 	void ToggleGrid();
 	void ToggleCompass();
 	void ToggleProjection();
@@ -182,9 +185,13 @@ public:
 
 
 private:
-	bool bDisplayGrid;
-	bool bDisplayCompass;
-	bool bWireFrame;
+	bool _bDisplayTerrain;		///< Display the terrain
+	bool _bDisplayWater;		///< Display the water
+	bool _bDisplayStructure;	///< Display the structures built on the layer
+	bool _bDisplayGrid;			///< Display the terrain grid
+	bool _bDisplayCompass;		///< Display the GUI / compass
+	bool _bWireFrame;			///< Wireframe mode
+
 	OC_UBYTE ubProjectionType;
 	GLfloat fScaleRatio;
 	GLfloat fXTransDelta;	///< The delta used for translation in the X direction

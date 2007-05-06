@@ -46,40 +46,39 @@ static GLfloat red, green, blue;
 GraphicManager::GraphicManager():
 _uiDisplayListMask( OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_LIST )
 {
-	int i;					// Used in for loop
-
 	OPENCITY_DEBUG( "GraphicManager ctor" );
 
 // Initialize the model table
+	int i;
 	for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
 		tabpModel[i] = NULL;
 	}
 
-
-// Load all the specified models
+// Try to open the graphism config file
 	Conf* pConf = new Conf();
-	if (pConf->Open( ocHomeDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) == OC_ERR_FREE) {
-		string strPath;
-		std::stringstream ss;
-
-		for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
-			ss.str("");
-			ss << i;
-			strPath = pConf->GetValue( ss.str() );
-			if (strPath != "") {
-				tabpModel[i] = ModelLoader::Load( ocHomeDirPrefix(strPath) );
-				if (tabpModel[i] == NULL) {
-					cerr << "FATAL: Error in graphism config file, could not load file, see below: " 	 << endl
-						 << ocHomeDirPrefix(strPath) << endl;
-					abort();
-				}
-			}
-		} // for
-	}
-	else {
-		cerr << "FATAL: Error opening graphism config file. " << endl;
+	if (pConf->Open( ocHomeDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) != OC_ERR_FREE) {
+		OPENCITY_FATAL( "Failed to open the graphism config file" );
+		delete pConf;
 		abort();
 	}
+
+// Load all the specified models from the config file
+	string strPath;
+	std::stringstream ss;
+	for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
+		ss.str("");
+		ss << i;
+		strPath = pConf->GetValue( ss.str() );
+		if (strPath == "")
+			continue;
+
+		tabpModel[i] = ModelLoader::Load( ocHomeDirPrefix(strPath) );
+		if (tabpModel[i] == NULL) {
+			OPENCITY_FATAL( "Failed to load the file: " << ocHomeDirPrefix(strPath) );
+			abort();
+		}
+	} // for
+
 	delete pConf;
 }
 
@@ -454,49 +453,6 @@ GraphicManager::DisplayTerrainSelection(
 
 
    /*======================================================================*/
-/* TOKILL, old version, kept for future reference, nov 2nd 05
-void
-GraphicManager::DisplayTerrainSelection(
-	const uint & rcuiW,
-	const uint & rcuiL,
-	const uint & rcuiID ) const
-{
-	static OC_BYTE tabH [4];
-// this is suitable for up to 256^3 = 16777216 objects
-	static uint red;
-	static uint green;
-	static uint blue;
-
-// warning: we draw the polygon counter-clock wise
-//          however, the polygon OY heights are
-//          stored as the left,right heights of the first line
-//          then left, right heights of the second line
-	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
-
-	red =   (rcuiID & 0x00FF0000) >> 16;
-	green = (rcuiID & 0x0000FF00) >> 8;
-	blue =   rcuiID & 0x000000FF;
-
-// 16bits
-//	red =   (rcuiID & 0x0000F800) >> 11;
-//	green = (rcuiID & 0x000007E0) >> 5;
-//	blue =   rcuiID & 0x0000001F;
-
-
-	glColor4ub( red, green, blue, 0xFF );
-
-//NOTE: we are already in GL_QUADS mode
-//	glBegin( GL_QUADS );
-		glVertex3i( rcuiW,   tabH[0], rcuiL);
-		glVertex3i( rcuiW,   tabH[1], rcuiL+1 );
-		glVertex3i( rcuiW+1, tabH[2], rcuiL+1 );
-		glVertex3i( rcuiW+1, tabH[3], rcuiL);
-//	glEnd();
-}
-*/
-
-
-   /*======================================================================*/
 void
 GraphicManager::DisplayStructureSelection(
 	const Structure* pcStructure,
@@ -508,24 +464,6 @@ GraphicManager::DisplayStructureSelection(
 
 	this->DisplayStructure( pcStructure, rcuiW, rcuiL );
 }
-
-
-   /*======================================================================*/
-/* TOKILL, old version, kept for reference, nov 2nd 05.
-void
-GraphicManager::DisplayStructureSelection(
-		const Structure* pcStructure,
-		const uint & rcuiW,
-		const uint & rcuiL,
-		const uint & rcuiID ) const
-{
-//FIXME: do a correct display for structure
-	DisplayTerrainSelection(
-		rcuiW,
-		rcuiL,
-		rcuiID );
-}
-*/
 
 
    /*======================================================================*/

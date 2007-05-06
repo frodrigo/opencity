@@ -42,7 +42,7 @@ using std::cerr;
 
 // Error message macro
 	#define OPENCITY_ERROR( msg ) { \
-		cout << "<ERROR> " << msg << endl; \
+		cerr << "<ERROR> " << msg << endl; \
 	}
 
 // Fatal message macro

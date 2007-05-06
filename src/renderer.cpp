@@ -105,9 +105,12 @@ Renderer::Renderer
 	const uint cityL
 ):
 boolHeightChange( true ),
-bDisplayGrid( true ),
-bDisplayCompass( true ),
-bWireFrame( false ),
+_bDisplayTerrain( true ),
+_bDisplayWater( true ),
+_bDisplayStructure( true ),
+_bDisplayGrid( true ),
+_bDisplayCompass( true ),
+_bWireFrame( false ),
 ubProjectionType( OC_PERSPECTIVE ),
 _uiSplashTex( 0 ),
 _bCalculateCulling( true ),
@@ -563,9 +566,33 @@ Renderer::GetSelectedWHFromLayer(
 
    /*=====================================================================*/
 void
+Renderer::ToggleTerrain()
+{
+	_bDisplayTerrain = !_bDisplayTerrain;
+}
+
+
+   /*=====================================================================*/
+void
+Renderer::ToggleWater()
+{
+	_bDisplayWater = !_bDisplayWater;
+}
+
+
+   /*=====================================================================*/
+void
+Renderer::ToggleStructure()
+{
+	_bDisplayStructure = !_bDisplayStructure;
+}
+
+
+   /*=====================================================================*/
+void
 Renderer::ToggleGrid()
 {
-	this->bDisplayGrid = bDisplayGrid ? false : true;
+	_bDisplayGrid = !_bDisplayGrid;
 
 // If we turn the grid display back on, we need to update the display list
 	this->boolHeightChange = true;
@@ -576,7 +603,7 @@ Renderer::ToggleGrid()
 void
 Renderer::ToggleCompass()
 {
-	this->bDisplayCompass = !(bDisplayCompass);
+	_bDisplayCompass = !_bDisplayCompass;
 }
 
 
@@ -603,9 +630,11 @@ Renderer::ToggleProjection()
 void
 Renderer::ToggleWireFrame()
 {
-	this->bWireFrame = !(bWireFrame);
-	if (this->bWireFrame) {
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	_bWireFrame = !_bWireFrame;
+	if (_bWireFrame) {
+		//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+		glPolygonMode( GL_FRONT, GL_LINE );
+		glPolygonMode( GL_BACK, GL_POINT );
 	}
 	else {
 		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
@@ -679,27 +708,29 @@ Renderer::Display(
 // Prepare the world for rendering
 	_PrepareView();
 
-// Display all the structure
-	glPushMatrix();
-	glTranslatef( 0., 0.05, 0. );
-	linear = 0;
-// IF the graphic manager is created THEN draw
-	if (gVars.gpGraphicMgr != NULL)
-	for (l = 0; l < (int)_uiCityLength; l++) {
-		for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
-			if (!_baCulledModel[linear])
-				continue;
-
-			pStructure = pcLayer->GetLinearStructure( linear );
-			if (pStructure != NULL)
-				gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
+// Display all the structures built on the layer
+	if (_bDisplayStructure) {
+		glPushMatrix();
+		glTranslatef( 0., 0.05, 0. );
+		linear = 0;
+	// IF the graphic manager is created THEN draw
+		if (gVars.gpGraphicMgr != NULL)
+		for (l = 0; l < (int)_uiCityLength; l++) {
+			for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
+				if (!_baCulledModel[linear])
+					continue;
+	
+				pStructure = pcLayer->GetLinearStructure( linear );
+				if (pStructure != NULL)
+					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
+			}
 		}
+		glPopMatrix();
 	}
-	glPopMatrix();
 
 // Displays the grids of the map if the user wants it
 // it is translated up a little along the Oz axis
-	if (this->bDisplayGrid) {
+	if (_bDisplayGrid) {
 		_DisplayMapGrid( pcMap );
 	}
 
@@ -707,10 +738,14 @@ Renderer::Display(
 	_DisplayStatusBar();
 
 // Call the private method to display the height map
-	_DisplayTerrain();
+	if (_bDisplayTerrain) {
+		_DisplayTerrain();
+	}
 
 // Display the water texture
-	_DisplayWater();
+	if (_bDisplayWater) {
+		_DisplayWater();
+	}
 
 	glFlush();
 
@@ -719,11 +754,9 @@ Renderer::Display(
 	boolHeightChange = false;
 
 // GL error checking
-	static GLint glerr;
-	glerr = glGetError();
+	static GLint glerr = glGetError();
 	if (glerr != GL_NO_ERROR) {
-		OPENCITY_DEBUG( "GL ERROR" );
-		cerr << "GLError was: " << glerr << endl;
+		OPENCITY_ERROR( "GL error: " << glerr );
 	}
 }
 
@@ -1085,6 +1118,7 @@ Renderer::_DisplayTerrain() const
 
 // Enable terrain texturing
 	glPushAttrib( GL_ENABLE_BIT );
+	glEnable( GL_CULL_FACE );
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, _uiTerrainTex );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
@@ -1481,7 +1515,7 @@ Renderer::_DisplayStatusBar() const
 	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
 
 // Draw the compass
-	if (this->bDisplayCompass) {
+	if (_bDisplayCompass) {
 		_DisplayCompass();
 	}
 
@@ -1526,9 +1560,7 @@ Renderer::_PrepareView()
 	}
 	else {
 		glRotated( 45, 1., .0, .0 );
-	// Center the world
-		glTranslatef( _iWinWidth / 2, -5., -_iWinHeight / 2 );
-	// Zoom a bit
+		glTranslated( _iWinWidth / 2, -5.0, -_iWinHeight / 2 );
 		glScalef( 24., 24., 24. );
 	}
 	float ratio = fScaleRatio / 10;
@@ -1550,40 +1582,9 @@ Renderer::_PrepareView()
 
 // Calculate the culling grid if it's requested
 	if (_bCalculateCulling) {
-//		_CalculateCullingGrid();
 		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
 	 	_bCalculateCulling = false;
 	}
-}
-
-
-   /*=====================================================================*/
-// TOKILL, old version, kept for reference
-void
-Renderer::_CalculateCullingGrid()
-{
-	static GLdouble daModelViewMatrix[16], daProjectionMatrix[16];
-	static GLint iaViewport[4];
-	static double x, y, z;
-	static uint l, w, linear;
-
-// Get the OpenGL matrices
-	glGetDoublev( GL_MODELVIEW_MATRIX, daModelViewMatrix );
-	glGetDoublev( GL_PROJECTION_MATRIX, daProjectionMatrix );
-	glGetIntegerv( GL_VIEWPORT, iaViewport);
-
-// FOR each model object coordinates DO
-	linear = 0;
-	for (l = 0; l < _uiCityLength; l++) {
-		for (w = 0; w < _uiCityWidth; w++, linear++) {
-			gluProject( w, 0, l, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
-			_baCulledModel[linear] = (x > 0) and (x < _iWinWidth) and (y > 0) and (y < _iWinHeight);
-		}
-	}
-
-// debug
-//	gluProject( 10, 0, 10, daModelViewMatrix, daProjectionMatrix, iaViewport, &x, &y, &z );
-//	OPENCITY_DEBUG( "Culling passed x/y/z: " << x << " / " << y << " / " << z );
 }
 
 

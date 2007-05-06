@@ -343,7 +343,6 @@ void City::Display()
 	}
 
 
-//cityrun_display:
 // Display the screen as usual
 	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
 
@@ -361,6 +360,7 @@ cityrun_swap:
 	ossStatus << _uiPopulation;
 	plblPopulation->SetText( ossStatus.str() );
 
+/* TOKILL: obsolete, may 6th, 07
 // Display the R value
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
@@ -377,6 +377,7 @@ cityrun_swap:
 	ossStatus.str("");
 	ossStatus << _pMSim->GetValue(Simulator::OC_ELECTRIC);
 	gVars.gpRenderer->DisplayText( 300, this->_iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
+*/
 
 // display the tool
 	ossStatus.str("");
@@ -465,8 +466,8 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			this->booltabKeyPressed[KEY_LEFT] = true;
 			break;
 
-	// test networking support, connect to the localhost
-		case SDLK_t:
+	// Establish a connection to OCZen
+		case SDLK_z:
 			OPENCITY_NET_CODE netCode;
 			netCode = gVars.gpNetworking->Open( gVars.gsZenServer );
 			switch (netCode) {
@@ -484,65 +485,78 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			}
 			break;
 
-		case SDLK_n:  // set the tool to "None"
+		case SDLK_n:	// set the tool to "None"
 			enumCurrentTool = OC_NONE;
 			_cTool = 'N';
 			break;
-		case SDLK_r:  // set tool for "zone residential"
+		case SDLK_r:	// set tool for "zone residential"
 			enumCurrentTool = OC_ZONE_RES;
 			_cTool = 'R';
 			break;
-		case SDLK_c:  // set tool for "zone commercial"
+		case SDLK_c:	// set tool for "zone commercial"
 			enumCurrentTool = OC_ZONE_COM;
 			_cTool = 'C';
 			break;
-		case SDLK_i:  // set tool for "zone industrial"
+		case SDLK_i:	// set tool for "zone industrial"
 			enumCurrentTool = OC_ZONE_IND;
 			_cTool = 'I';
 			break;
 
-		case SDLK_p:  // set tool for "building road"
+		case SDLK_p:	// set tool for "building road"
 			enumCurrentTool = OC_BUILD_ROAD;
 			_cTool = 'P';
 			break;
-		case SDLK_l:  // set tool for building electric lines
+		case SDLK_l:	// set tool for building electric lines
 			enumCurrentTool = OC_BUILD_ELINE;
 			_cTool = 'L';
 			break;
-		case SDLK_e:  // set tool for building electric plants
+		case SDLK_e:	// set tool for building electric plants
 			enumCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
 			_cTool = 'E';
 			break;
 
-		case SDLK_u:  // height up
+		case SDLK_u:	// height up
 			enumCurrentTool = OC_HEIGHT_UP;
 			_cTool = 'U';
 			break;
-		case SDLK_d:  // height down
+		case SDLK_d:	// height down
 			enumCurrentTool = OC_HEIGHT_DOWN;
 			_cTool = 'D';
 			break;
-		case SDLK_q:		//query tool
+		case SDLK_q:	//query tool
 			enumCurrentTool = OC_QUERY;
 			_cTool = 'Q';
 			break;
+		case SDLK_x:	// destroy
+			enumCurrentTool = OC_DESTROY;
+			_cTool = 'X';
+			break;
 
 
-		case SDLK_g:  // toggle grid on/off
+		case SDLK_b:	// toggle structures on/off
+			gVars.gpRenderer->ToggleStructure();
+			break;
+		case SDLK_f:	// toggle wireframe on/off
+			gVars.gpRenderer->ToggleWireFrame();
+			break;
+		case SDLK_g:	// toggle grid on/off
 			gVars.gpRenderer->ToggleGrid();
 			break;
-		case SDLK_k:  // toggle compass on/off
+		case SDLK_k:	// toggle compass on/off
 			gVars.gpRenderer->ToggleCompass();
 			if (pctrStatus->IsSet( OC_GUIMAIN_VISIBLE ))
 				pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
 			else
 				pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 			break;
-		case SDLK_f:  // toggle wireframe on/off
-			gVars.gpRenderer->ToggleWireFrame();
-			break;
-		case SDLK_o:  // toggle projection mode
+		case SDLK_o:	// toggle projection mode
 			gVars.gpRenderer->ToggleProjection();
+			break;
+		case SDLK_t:	// toggle terrain display
+			gVars.gpRenderer->ToggleTerrain();
+			break;
+		case SDLK_w:	// toggle water display
+			gVars.gpRenderer->ToggleWater();
 			break;
 
 
@@ -553,25 +567,17 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			this->booltabKeyPressed[KEY_DELETE] = true;
 			break;
 
-		case SDLK_x: // destroy
-			enumCurrentTool = OC_DESTROY;
-			_cTool = 'X';
-			break;
-
 
 	// manipulating the music player
-		case SDLK_b:
+		case SDLK_GREATER:
 			gVars.gpAudioMgr->PlayNextMusic();
 			break;
-
-		case SDLK_z:
+		case SDLK_LESS:
 			gVars.gpAudioMgr->PlayPreviousMusic();
 			break;
-
 		case SDLK_s:
 			gVars.gpAudioMgr->ToggleSound();
 			break;
-
 		case SDLK_m:
 			gVars.gpAudioMgr->ToggleMusic();
 			break;
@@ -581,7 +587,6 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 		case SDLK_F2:
 			_Save( ocSaveDirPrefix( "opencity.save" ) );
 			break;
-
 		case SDLK_F6:
 			_Load( ocSaveDirPrefix( "opencity.save" ) );
 			break;
@@ -940,7 +945,7 @@ City::_CreateGUI()
 // The status bar
 	pbtnPause = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_pause" ));
 	pbtnPlay  = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_play" ));
-	pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
+	pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
 
 	ossTemp << _liCityFund;
 	plblFund = new GUILabel( 125, 11, 80, 10, ossTemp.str() );
@@ -1569,20 +1574,21 @@ City::_HandleStatusClick()
 {
 	uint uiObject = this->pctrStatus->GetClick();
 
+// WARNING: the GUI button displays the current speed
 	switch (uiObject) {
-		case 1: // Pause button
-			OPENCITY_DEBUG( "Pause mode" );
+		case 1:		// Pause button
+			OPENCITY_DEBUG( "Normal speed mode" );
 			pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
 			pbtnPlay->Set( OC_GUIMAIN_VISIBLE );
-			_eSpeed = OC_SPEED_PAUSE;
-			_pMSim->Stop();
-			break;
-		case 2: // Play button
-			OPENCITY_DEBUG( "Normal speed mode" );
-			pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
-			pbtnPause->Set( OC_GUIMAIN_VISIBLE );
 			_eSpeed = OC_SPEED_NORMAL;
 			_pMSim->Run();
+			break;
+		case 2:		// Play button
+			OPENCITY_DEBUG( "Pause mode" );
+			pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
+			pbtnPause->Set( OC_GUIMAIN_VISIBLE );
+			_eSpeed = OC_SPEED_PAUSE;
+			_pMSim->Stop();
 			break;
 
 		default:

@@ -44,6 +44,7 @@ XML metadata migration                (wip)
 	Load property attributes          (done)
 	Load RCI, WEG, TN values          (done)
 Fix STL comparison functor bug        (done)
+Toggle terrain/water/structure display(done)
 Add new vehicle models
 Fix the orthogonal projection
 Variable name clean up                (wip)
