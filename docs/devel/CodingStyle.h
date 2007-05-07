@@ -1,7 +1,7 @@
 /***************************************************************************
 						CodingStyle.h    -  description
 							-------------------
-	begin                : nov 10th, 2005
+	begin                : november 10th, 2005
 	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	

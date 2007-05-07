@@ -181,7 +181,8 @@ public:
 	height of the map has changed and the current buffered informations
 	need to be recalculated
 */
-	bool boolHeightChange;
+	bool bHeightChange;
+	bool bMinimapChange;
 
 
 private:
@@ -208,6 +209,7 @@ private:
 	GLuint _uiWaterList;	///< GL list of the water texture
 
 // Frequently use textures
+	GLuint _uiMinimapTex;	///< Minimap texture
 	GLuint _uiTerrainTex;	///< Terrain texture
 	GLuint _uiWaterTex;		///< Water texture
 	GLuint _uiSplashTex;	///< Splash texture

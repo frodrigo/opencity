@@ -17,8 +17,25 @@
  *                                                                         *
  ***************************************************************************/
 
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
+// OpenCity headers
 #include "CodingStyle.h"
+#include "layer.h"
+#include "texture.h"					// Terrain texturing
+
+// Global settings
+#include "globalvar.h"
+extern GlobalVar gVars;
+
+// Libraries headers
+#include "xpath_processor.h"
+#include "xpath_static.h"
+
+// Standard headers
+#include <deque>
 
 
    /*=====================================================================*/

@@ -75,21 +75,18 @@ public:
 /** Save the data to the specified fstream
 	\param rfs A reference to a file stream which is ready for writing
 */
-	void
-	SaveTo( std::fstream& rfs );
+	void SaveTo( std::fstream& rfs );
 
 
 //========================================================================
 /** Load the data from the specified stream
 	\param rfs A reference to a file stream which is ready for reading
 */
-	void
-	LoadFrom( std::fstream& rfs );
+	void LoadFrom( std::fstream& rfs );
 
 
 //========================================================================
-	void
-	SetCurrentLayer( OPENCITY_CITY_LAYER enumNewLayer );
+	void SetCurrentLayer( OPENCITY_CITY_LAYER enumNewLayer );
 
 
 //========================================================================
@@ -104,12 +101,10 @@ public:
 	void Display();
 
 
-	Layer*
-	GetLayer( OPENCITY_CITY_LAYER enumLayer ) const;
+	Layer* GetLayer( OPENCITY_CITY_LAYER enumLayer ) const;
 
 
-	const void GetWL(
-		uint & w, uint & l ) const;
+	const void GetWL( uint & w, uint & l ) const;
 
 
 //========================================================================
@@ -156,17 +151,17 @@ private:
 	bool		booltabKeyPressed [KEY_NUMBER];
 
 // Current city's layer
-	OPENCITY_CITY_LAYER enumCurrentLayer;
+	OPENCITY_CITY_LAYER _eCurrentLayer;
 
 // Current city's speed
 	OPENCITY_CITY_SPEED _eSpeed;
 
 // Current active tool
-	OPENCITY_TOOL_CODE enumCurrentTool;
+	OPENCITY_TOOL_CODE _eCurrentTool;
 
 
 // Others classes
-	Layer*		ptabLayer [4];			// table of our 4 differents layer
+	Layer*		_apLayer[4];			// The array of our 4 differents layer
 
 // Testing pathfinder, TODO maybe we need to move it to main.cpp
 	bool		boolPathGo;

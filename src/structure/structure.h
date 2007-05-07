@@ -24,7 +24,7 @@
 #include "persistence.h"
 
 
-// structure relative attributes
+// Structure relative attributes
 #define OC_STRUCTURE_X		0x00	// Unknown
 #define OC_STRUCTURE_R		0x01
 #define OC_STRUCTURE_C		0x02
@@ -68,7 +68,8 @@ public:
 	Structure( const OPENCITY_STRUCTURE_CODE enumStructCode );
 	Structure(
 		const OPENCITY_STRUCTURE_CODE enumStructCode,
-		Structure* pMain );
+		Structure* pMain
+	);
 
 
 	virtual ~Structure(  );
@@ -102,16 +103,13 @@ user to remap the pointer to the main structured correctly.
 	operator.
 */
 	void
-	Set(
-		const uint wegBit );
+	Set( const uint wegBit );
 
 	void
-	Unset(
-		const uint wegBit );
+	Unset( const uint wegBit );
 
 	const bool
-	IsSet(
-		const uint wegBit ) const;
+	IsSet( const uint wegBit ) const;
 
 
 //========================================================================
@@ -172,8 +170,7 @@ structure type
 	GetLevel() const;
 
 	void
-	SetLevel(
-		const uint uiLevel );
+	SetLevel( const uint uiLevel );
 
 
 //========================================================================

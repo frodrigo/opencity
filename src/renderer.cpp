@@ -104,7 +104,8 @@ Renderer::Renderer
 	const uint cityW,
 	const uint cityL
 ):
-boolHeightChange( true ),
+bHeightChange( true ),
+bMinimapChange( true ),
 _bDisplayTerrain( true ),
 _bDisplayWater( true ),
 _bDisplayStructure( true ),
@@ -112,6 +113,7 @@ _bDisplayGrid( true ),
 _bDisplayCompass( true ),
 _bWireFrame( false ),
 ubProjectionType( OC_PERSPECTIVE ),
+_uiMinimapTex( 0 ),
 _uiSplashTex( 0 ),
 _bCalculateCulling( true ),
 _uiCityWidth( cityW ),
@@ -249,9 +251,10 @@ Renderer::~Renderer(  )
 		glDeleteLists( _uiWaterList, 1 );
 
 // Free textures
-	glDeleteTextures( 1, &_uiTerrainTex );
-	glDeleteTextures( 1, &_uiWaterTex );
 	glDeleteTextures( 1, &_uiSplashTex );
+	glDeleteTextures( 1, &_uiWaterTex );
+	glDeleteTextures( 1, &_uiTerrainTex );
+	glDeleteTextures( 1, &_uiMinimapTex );
 
 // Free the model culling grid
 	delete [] _baCulledModel;
@@ -595,7 +598,7 @@ Renderer::ToggleGrid()
 	_bDisplayGrid = !_bDisplayGrid;
 
 // If we turn the grid display back on, we need to update the display list
-	this->boolHeightChange = true;
+	this->bHeightChange = true;
 }
 
 
@@ -657,23 +660,17 @@ Renderer::DisplaySplash(
 	glPushAttrib( GL_ENABLE_BIT );
 	glDisable( GL_LIGHTING );
 	glEnable( GL_BLEND );
-//	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ); already choosen
 	glEnable( GL_TEXTURE_2D );
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
 	glBindTexture( GL_TEXTURE_2D, _uiSplashTex );
 
 	glPushMatrix();
 	glLoadIdentity();
-	glTranslatef(
-		rcuiX + (_iWinWidth-w) / 2, 
-		rcuiY + (_iWinHeight-h) / 2,
-		0 );
+	glTranslatef( rcuiX + (_iWinWidth-w) / 2, rcuiY + (_iWinHeight-h) / 2, 0 );
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
 	glLoadIdentity();
 	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
-
-//debug cout << "W: " << w << " /H: " << h << endl;
 
 // Display the textured quad
 	glBegin( GL_QUADS );
@@ -693,9 +690,11 @@ Renderer::DisplaySplash(
 
    /*=====================================================================*/
 void
-Renderer::Display(
+Renderer::Display
+(
 	const Map* pcMap,
-	const Layer* pcLayer )
+	const Layer* pcLayer
+)
 {
 	static uint linear;
 	static int w, l;
@@ -734,6 +733,12 @@ Renderer::Display(
 		_DisplayMapGrid( pcMap );
 	}
 
+// Calculate the minimap
+	if (bMinimapChange) {
+		Texture::Building2Texture( (BuildingLayer*)pcLayer, _uiMinimapTex );
+		bMinimapChange = false;
+	}
+
 // Display the status bar
 	_DisplayStatusBar();
 
@@ -751,7 +756,7 @@ Renderer::Display(
 
 // The height map changes have been memorized
 // in the grid and the terrain displaylist
-	boolHeightChange = false;
+	bHeightChange = false;
 
 // GL error checking
 	static GLint glerr = glGetError();
@@ -1100,7 +1105,7 @@ Renderer::SetWinSize(
 void
 Renderer::_DisplayTerrain() const
 {
-	if (boolHeightChange == false)
+	if (bHeightChange == false)
 		goto displayterrain_return;
 
 	static OC_BYTE tabH [4];
@@ -1420,7 +1425,7 @@ displaywater_return:
 void
 Renderer::_DisplayMapGrid( const Map* pcmap )
 {
-	if (boolHeightChange == false)
+	if (bHeightChange == false)
 		goto displaymapgrid_return;
 
 	uint linear;
@@ -1476,11 +1481,12 @@ displaymapgrid_return:
 void
 Renderer::_DisplayCompass() const
 {
-// Display the compass over the main status bar
+	glPushAttrib( GL_ENABLE_BIT );
+	glDisable( GL_LIGHTING );
+
+// Display the compass
 	glMatrixMode( GL_MODELVIEW );
 	glTranslatef( _iWinWidth/2 + 223, 32, 0 );
-
-// Display a simple compass
 	glRotated( this->dYRotateAngle, .0, .0, 1. );
 	glBegin( GL_LINES );
 		glColor4f( .5, .5, .5, 1. );
@@ -1495,8 +1501,27 @@ Renderer::_DisplayCompass() const
 		glVertex2i(  5, 14 );
 		glVertex2i(  0, 20 );
 	glEnd();
+
+// Display the minimap
+	glEnable( GL_BLEND );
+	glEnable( GL_TEXTURE_2D );
+	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+	glBindTexture( GL_TEXTURE_2D, _uiMinimapTex );
+	glLoadIdentity();
+	glTranslatef( _iWinWidth/2 + 195, 3, 0 );
+
+// Display the textured quad
+	glBegin( GL_QUADS );
+	glTexCoord2i( 0, 0 ); glVertex2i( 0,   0 );
+	glTexCoord2i( 0, 1 ); glVertex2i( 0,  56 );
+	glTexCoord2i( 1, 1 ); glVertex2i( 56, 56 );
+	glTexCoord2i( 1, 0 ); glVertex2i( 56,  0 );
+	glEnd();
+
+// Restore the old values
 	glLoadIdentity();
 	glMatrixMode( GL_PROJECTION );
+	glPopAttrib();
 }
 
 

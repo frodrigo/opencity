@@ -17,8 +17,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "texture.h"
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
+// OpenCity headers
+#include "texture.h"
+#include "buildinglayer.h"
+#include "structure.h"
+
+// Global settings
+#include "globalvar.h"
+extern GlobalVar gVars;
+
+// Libraries headers
 #include "SDL_image.h"
 
 
@@ -168,14 +180,11 @@ Texture::Surface2Texture(
 	const SDL_Surface* const psurface,
 	GLuint & ruiTexture )
 {
-	uint glW, glH;
-	void* pPixels = NULL;
-
-// delete the existing texture
+// Delete the existing texture
 	if (glIsTexture( ruiTexture ) == GL_TRUE)
 		glDeleteTextures( 1, &ruiTexture );
 
-// create the texture to hold the image
+// Create the texture to hold the image
 	glGenTextures( 1, &ruiTexture );
 	glBindTexture( GL_TEXTURE_2D, ruiTexture );
 //	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
@@ -184,17 +193,14 @@ Texture::Surface2Texture(
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-//debug cout << "Tex W: " << psurface->w << " / H: " << psurface->h << endl;
-
 	SDL_LockSurface( const_cast<SDL_Surface*>(psurface) );
 
-// Fix the image size
-	Texture::GetCorrectSize( psurface->w, psurface->h, glW, glH );
-
 // If the image doesn't have the correct size then scale it before converting
-	if ((psurface->w != (int)glW) || (psurface->h != (int)glH)) {
+	uint glW, glH;
+	if (Texture::GetCorrectSize( psurface->w, psurface->h, glW, glH )) {
 		OPENCITY_DEBUG("Texture's size has been fixed");
-		pPixels = malloc( glW * glH * psurface->format->BytesPerPixel );
+		void* pPixels = malloc( glW * glH * psurface->format->BytesPerPixel );
+		assert( pPixels != NULL );
 
 	// Scale the input image
 		(void)gluScaleImage(
@@ -260,6 +266,114 @@ Texture::Surface2Texture(
 
    /*=====================================================================*/
 void
+Texture::Building2Texture
+(
+	const BuildingLayer* const pLayer,
+	GLuint& ruiTexture
+)
+{
+#define BYTE_PER_PIXEL	4
+
+	assert( pLayer != NULL );
+
+// Delete the existing texture
+	if (glIsTexture( ruiTexture ) == GL_TRUE)
+		glDeleteTextures( 1, &ruiTexture );
+
+// Create the texture to hold the image
+	glGenTextures( 1, &ruiTexture );
+	glBindTexture( GL_TEXTURE_2D, ruiTexture );
+//	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+// Create the minimap data
+	uint i = 0;
+	Structure* pStruct = NULL;
+	OC_UBYTE* pData = (OC_UBYTE*)malloc( gVars.guiCityWidth * gVars.guiCityLength * BYTE_PER_PIXEL );
+	for (int l = gVars.guiCityLength-1; l >= 0; l--) {
+		for (uint w = 0; w < gVars.guiCityWidth; w++, i+=BYTE_PER_PIXEL) {
+			pStruct = pLayer->GetStructure( w, l );
+			if (pStruct == NULL) {
+				pData[i] = 0x50; pData[i+1] = 0xA0; pData[i+2] = 0x50; pData[i+3] = 0xE5;
+				continue;
+			}
+
+			switch (pStruct->GetCode()) {
+				case OC_STRUCTURE_RES:
+					pData[i] = 0x50; pData[i+1] = 0xFF; pData[i+2] = 0x50; pData[i+3] = 0xE5;
+					break;
+				case OC_STRUCTURE_COM:
+					pData[i] = 0x50; pData[i+1] = 0x50; pData[i+2] = 0xFF; pData[i+3] = 0xE5;
+					break;
+				case OC_STRUCTURE_IND:
+					pData[i] = 0xFF; pData[i+1] = 0xFF; pData[i+2] = 0x50; pData[i+3] = 0xE5;
+					break;
+				default:
+					pData[i] = 0x50; pData[i+1] = 0x50; pData[i+2] = 0x50; pData[i+3] = 0xE5;
+					break;
+			}
+		}
+	}
+
+// If the image doesn't have the correct size then scale it before converting
+	uint glW, glH;
+	if (Texture::GetCorrectSize( gVars.guiCityWidth, gVars.guiCityLength, glW, glH )) {
+		OPENCITY_DEBUG("Texture's size has been fixed");
+		void* pPixels = malloc( glW * glH * BYTE_PER_PIXEL );
+		assert( pPixels != NULL );
+
+	// Scale the input image
+		(void)gluScaleImage(
+			GL_RGBA,			// Image format
+			gVars.guiCityWidth,	// The minimap size
+			gVars.guiCityLength,
+			GL_UNSIGNED_BYTE,	// The data type of the input pixel
+			pData,				// The minimap data
+			glW,				// The expected scaled image's size
+			glH,
+			GL_UNSIGNED_BYTE,	// The data type of the output pixel
+			pPixels				// The pointer which will holds the output data
+		);
+
+	// Convert the scaled image to texture
+		glTexImage2D(
+			GL_TEXTURE_2D,		// Texture 2D
+			0,					// Base image
+			GL_RGBA,			// Internal format
+			glW,				// Texture width, must be 2n >= 64
+			glH,				// Texture height, must be 2n >= 64
+			0,					// No border
+			GL_RGBA,			// Pixel format
+			GL_UNSIGNED_BYTE,	// Pixel data format
+			pPixels				// point to the pixels' data
+			);
+
+		free( pPixels );
+		pPixels = NULL;			// Safe
+	}
+	else {
+	// Convert directly the minimap data to the OpenGL texture
+		glTexImage2D(
+			GL_TEXTURE_2D,		// Texture 2D
+			0,					// Base image
+			GL_RGBA,			// Internal format
+			gVars.guiCityWidth,	// Texture width, must be 2n >= 64
+			gVars.guiCityLength,// Texture height, must be 2n >= 64
+			0,					// No border
+			GL_RGBA,			// Pixel format
+			GL_UNSIGNED_BYTE,	// Pixel data format
+			pData				// point to the pixels' data
+			);
+	}
+
+	free( pData );
+	pData = NULL;
+}
+
+
+   /*=====================================================================*/
+bool
 Texture::GetCorrectSize(
 	const uint w, const uint h,
 	uint & rW,    uint & rH )
@@ -269,7 +383,10 @@ Texture::GetCorrectSize(
 
 	rH = 64;
 	while (rH < h) rH = rH << 1;
+
+	return (w != rW || h != rH);
 }
+
 
 
 

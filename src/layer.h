@@ -163,9 +163,7 @@ It starts from 0.
 	\see GlobalVar
 */
 	void
-	GetLayerSize(
-		uint & w,
-		uint & l) const;
+	GetLayerSize( uint& w, uint& l) const;
 
 
 //========================================================================
@@ -173,8 +171,7 @@ It starts from 0.
 	\param status The new status of the structures
 */
 	virtual void
-	StructureSet(
-		const OC_BYTE & status ) = 0;
+	StructureSet( const OC_BYTE& status ) = 0;
 
 
 //========================================================================
@@ -182,8 +179,7 @@ It starts from 0.
 	\param status The status to unset
 */
 	virtual void
-	StructureUnset(
-		const OC_BYTE & status ) = 0;
+	StructureUnset( const OC_BYTE& status ) = 0;
 
 
 //========================================================================

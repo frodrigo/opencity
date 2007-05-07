@@ -148,8 +148,7 @@ linear index of a structure is calculated by this formula:
 	\return A pointer to a structure if it exists NULL otherwise
 */
 	Structure*
-	GetLinearStructure(
-		const uint cuiLinearIndex ) const;
+	GetLinearStructure( const uint cuiLinearIndex ) const;
 
 
 	Structure*
@@ -174,8 +173,7 @@ linear index of a structure is calculated by this formula:
 	\param status = The new status of the structures
 */
 	void
-	StructureSet(
-		const OC_BYTE & status );
+	StructureSet( const OC_BYTE& status );
 
 
 //========================================================================
@@ -184,8 +182,7 @@ linear index of a structure is calculated by this formula:
 	\param status = The status of the structures to be unset
 */
 	void
-	StructureUnset(
-		const OC_BYTE & status );
+	StructureUnset( const OC_BYTE& status );
 
 
 //========================================================================

@@ -2,7 +2,7 @@
 						texture.h    -  description
 							-------------------
 	begin                : july, 2nd 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -17,10 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#if !defined(_OPENCITY_TEXTURE_H_)
-	#define _OPENCITY_TEXTURE_ 1
+#ifndef _OPENCITY_TEXTURE_H_
+#define _OPENCITY_TEXTURE_H_ 1
 
-	#include "main.h"
+#include "main.h"
+
+class BuildingLayer;
 
 
    //========================================================================
@@ -47,7 +49,8 @@ checking right now.
 */
 	static const GLuint
 	Load(
-		const string & rcFile );
+		const string & rcFile
+	);
 
 
 //========================================================================
@@ -89,7 +92,15 @@ returned surface must be freed by the caller
 	static void
 	Surface2Texture(
 		const SDL_Surface* const psurface,
-		GLuint & ruiTexture );
+		GLuint& ruiTexture
+	);
+
+
+	static void
+	Building2Texture(
+		const BuildingLayer* const pLayer,
+		GLuint& ruiTexture
+	);
 
 
    //========================================================================
@@ -105,8 +116,9 @@ private:
 /** Find the correct OpenGL dimensions for given width w and height h
 	\param w, h The origial texture width and height
 	\param rW, rH The corrected texture width and height
+	\return True if the size has changed, false otherwise
 */
-	static void
+	static bool
 	GetCorrectSize(
 		const uint w, const uint h,
 		uint & rW,    uint & rH );

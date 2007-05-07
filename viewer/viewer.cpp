@@ -13,14 +13,25 @@
     - add geometry commands line argument
 */
 
-#include "string"
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
-#include "pngfuncs.h"
-#include "modelloader.h"
-#include "model.h"
-#include "texture.h"
+// OpenCity headers
+#include "buildinglayer.h"
 #include "conf.h"
 #include "macros.h"
+#include "modelloader.h"
+#include "model.h"
+#include "structure.h"
+#include "texture.h"
+
+// Standard headers
+#include <string>
+
+// Libraries headers
+#include "pngfuncs.h"
+
 
 int W = 640;
 int H = 480;

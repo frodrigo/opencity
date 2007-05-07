@@ -641,7 +641,7 @@ int clientMode()
 	// Create the necessary classes for the Multi-Agent System
 		gVars.gpKernel = new Kernel();
 		gVars.gpEnvironment = new Environment(
-			gVars.guiCityWidth, gVars.guiCityLength, pNewCity->GetLayer( BUILDING_LAYER ), gVars.gpKernel );
+			gVars.guiCityWidth, gVars.guiCityLength, pNewCity->GetLayer( OC_LAYER_BUILDING ), gVars.gpKernel );
 
 		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 1, 2);
     	new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 3, 4);

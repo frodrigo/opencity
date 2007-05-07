@@ -1,8 +1,8 @@
 /***************************************************************************
 						globalvar.h    -  description
 							-------------------
-	begin                : oct 17th, 2006
-	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	begin                : october 17th, 2006
+	copyright            : (C) 2006-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$

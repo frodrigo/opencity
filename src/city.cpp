@@ -47,11 +47,13 @@ extern GlobalVar gVars;
 
 
    /*=====================================================================*/
-City::City(
+City::City
+(
 	const uint width,
 	const uint length,
 	const int difficulty,
-	const bool bGUIEnabled ):
+	const bool bGUIEnabled
+):
 strCityName("OpenCity"),
 iDifficulty( difficulty ),
 _bGUIEnabled( bGUIEnabled ),
@@ -69,9 +71,9 @@ _uiLength( length ),
 _cTool('N'),
 
 boolLMBPressed( false ),
-enumCurrentLayer( BUILDING_LAYER ),
+_eCurrentLayer( OC_LAYER_BUILDING ),
 _eSpeed( OC_SPEED_NORMAL ),
-enumCurrentTool( OC_NONE )
+_eCurrentTool( OC_NONE )
 {
 	OPENCITY_DEBUG( "City ctor - default parameters" );
 
@@ -94,13 +96,13 @@ enumCurrentTool( OC_NONE )
 	}
 
 // Layers' initialization
-	ptabLayer[ BUILDING_LAYER ] = new BuildingLayer( *this );
-	gVars.gpMapMgr->SetLayer( ptabLayer[BUILDING_LAYER] );
+	_apLayer[ OC_LAYER_BUILDING ] = new BuildingLayer( *this );
+	gVars.gpMapMgr->SetLayer( _apLayer[OC_LAYER_BUILDING] );
 
 // Pathfinder initialization
 	gVars.gpPathFinder = new PathFinder(
 		gVars.gpmutexSim,
-		(BuildingLayer*)ptabLayer[ BUILDING_LAYER ],
+		(BuildingLayer*)_apLayer[ OC_LAYER_BUILDING ],
 		gVars.gpMapMgr,
 		_uiWidth, _uiLength );
 
@@ -152,9 +154,9 @@ City::~City(){
 	delete gVars.gpPathFinder;
 	gVars.gpPathFinder = NULL;
 
-// delete only the BUILDING_LAYER instead of delete [] ptabLayer
-	delete ptabLayer[ BUILDING_LAYER ];
-	ptabLayer[ BUILDING_LAYER ] = NULL;
+// delete only the OC_LAYER_BUILDING instead of delete [] _apLayer
+	delete _apLayer[ OC_LAYER_BUILDING ];
+	_apLayer[ OC_LAYER_BUILDING ] = NULL;
 
 // this must be done AFTER deleting the layers
 //	delete gVars.gpMapMgr;
@@ -299,6 +301,9 @@ void City::Run()
 		initialValue = _pMSim->GetMaxValue(Simulator::OC_ELECTRIC) + 1;
 		pbarPower->SetInitialValue( initialValue );
 		pbarPower->SetValue( _pMSim->GetValue(Simulator::OC_ELECTRIC) );
+
+	// Request the renderer to update the minimap
+		gVars.gpRenderer->bMinimapChange = true;
 	}
 }
 
@@ -323,20 +328,20 @@ void City::Display()
 // when the mouse moves, and this is no good
 // user is dragging
 	if ((this->boolLMBPressed == true)
-	&& (enumCurrentTool != OC_NONE )) {
+	&& (_eCurrentTool != OC_NONE )) {
 	// is the user dragging with the left mouse button ?
 		if ( SDL_GetMouseState( &iMouseX, &iMouseY ) & SDL_BUTTON(1) ) {
 			gVars.gpRenderer->GetSelectedWHFrom(
 				iMouseX, iMouseY,
 				this->uiMapW2, this->uiMapL2,
-				gVars.gpMapMgr, this->ptabLayer[ enumCurrentLayer ] );
+				gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
 
 		// draw the map with the highlighted area
 			gVars.gpRenderer->DisplayHighlight(
-				gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ],
+				gVars.gpMapMgr, _apLayer[ _eCurrentLayer ],
 				this->uiMapW1, this->uiMapL1,
 				this->uiMapW2, this->uiMapL2,
-				enumCurrentTool );
+				_eCurrentTool );
 
 			goto cityrun_swap;
 		}
@@ -344,7 +349,7 @@ void City::Display()
 
 
 // Display the screen as usual
-	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
+	gVars.gpRenderer->Display( gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
 
 cityrun_swap:
 // Display build preview
@@ -412,7 +417,7 @@ cityrun_swap:
 Layer*
 City::GetLayer( OPENCITY_CITY_LAYER enumLayer ) const
 {
-	return this->ptabLayer[ enumLayer ];
+	return _apLayer[ enumLayer ];
 }
 
 
@@ -486,49 +491,49 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			break;
 
 		case SDLK_n:	// set the tool to "None"
-			enumCurrentTool = OC_NONE;
+			_eCurrentTool = OC_NONE;
 			_cTool = 'N';
 			break;
 		case SDLK_r:	// set tool for "zone residential"
-			enumCurrentTool = OC_ZONE_RES;
+			_eCurrentTool = OC_ZONE_RES;
 			_cTool = 'R';
 			break;
 		case SDLK_c:	// set tool for "zone commercial"
-			enumCurrentTool = OC_ZONE_COM;
+			_eCurrentTool = OC_ZONE_COM;
 			_cTool = 'C';
 			break;
 		case SDLK_i:	// set tool for "zone industrial"
-			enumCurrentTool = OC_ZONE_IND;
+			_eCurrentTool = OC_ZONE_IND;
 			_cTool = 'I';
 			break;
 
 		case SDLK_p:	// set tool for "building road"
-			enumCurrentTool = OC_BUILD_ROAD;
+			_eCurrentTool = OC_BUILD_ROAD;
 			_cTool = 'P';
 			break;
 		case SDLK_l:	// set tool for building electric lines
-			enumCurrentTool = OC_BUILD_ELINE;
+			_eCurrentTool = OC_BUILD_ELINE;
 			_cTool = 'L';
 			break;
 		case SDLK_e:	// set tool for building electric plants
-			enumCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
+			_eCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
 			_cTool = 'E';
 			break;
 
 		case SDLK_u:	// height up
-			enumCurrentTool = OC_HEIGHT_UP;
+			_eCurrentTool = OC_HEIGHT_UP;
 			_cTool = 'U';
 			break;
 		case SDLK_d:	// height down
-			enumCurrentTool = OC_HEIGHT_DOWN;
+			_eCurrentTool = OC_HEIGHT_DOWN;
 			_cTool = 'D';
 			break;
 		case SDLK_q:	//query tool
-			enumCurrentTool = OC_QUERY;
+			_eCurrentTool = OC_QUERY;
 			_cTool = 'Q';
 			break;
 		case SDLK_x:	// destroy
-			enumCurrentTool = OC_DESTROY;
+			_eCurrentTool = OC_DESTROY;
 			_cTool = 'X';
 			break;
 
@@ -736,7 +741,7 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 					rcsMBE.x, rcsMBE.y,
 					this->uiMapW1, this->uiMapL1,
 					gVars.gpMapMgr,
-					this->ptabLayer[ enumCurrentLayer ] ) == true ))
+					_apLayer[ _eCurrentLayer ] ) == true ))
 			{
 				this->boolLMBPressed = true;
 			} //if
@@ -815,7 +820,7 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 					rcsMBE.x, rcsMBE.y,
 					this->uiMapW2, this->uiMapL2,
 					gVars.gpMapMgr,
-					this->ptabLayer[ enumCurrentLayer ] ))
+					_apLayer[ _eCurrentLayer ] ))
 			{
 //debug
 //cout << "W2: " << uiMapW2 << "/" << "H2: "
@@ -839,7 +844,7 @@ City::Expose( const SDL_ExposeEvent& rcEvent )
 {
 	OPENCITY_DEBUG( "Expose event received" );
 
-	gVars.gpRenderer->Display( gVars.gpMapMgr, ptabLayer[ enumCurrentLayer ] );
+	gVars.gpRenderer->Display( gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
 	pctr->Expose( rcEvent );
 	pctrStatus->Expose( rcEvent );
 
@@ -901,7 +906,7 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 void City::_CreateSimulator()
 {
 // Simulators' initialization
-	_pMSim = new MainSim( gVars.gpmutexSim, (BuildingLayer*)ptabLayer[ BUILDING_LAYER ], gVars.gpMapMgr );
+	_pMSim = new MainSim( gVars.gpmutexSim, (BuildingLayer*)_apLayer[ OC_LAYER_BUILDING ], gVars.gpMapMgr );
 
 // Now initialize simulators threads
 	_pthreadMSim = SDL_CreateThread( Simulator::ThreadWrapper, _pMSim );
@@ -1189,7 +1194,7 @@ void
 City::_DoTool(
 	const SDL_MouseButtonEvent & sdlMBEvent )
 {
-	if ( enumCurrentTool == OC_NONE )
+	if ( _eCurrentTool == OC_NONE )
 		return;
 
 	static uint cost;
@@ -1215,9 +1220,9 @@ City::_DoTool(
 // block all the sim threads while modifying the game datas
 	SDL_LockMutex( gVars.gpmutexSim );
 
-	switch (this->enumCurrentTool) {
+	switch (_eCurrentTool) {
 	case OC_ZONE_RES:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_RES, cost )) == OC_ERR_FREE) {
@@ -1226,7 +1231,7 @@ City::_DoTool(
 		break;
 
 	case OC_ZONE_COM:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_COM, cost )) == OC_ERR_FREE) {
@@ -1235,7 +1240,7 @@ City::_DoTool(
 		break;
 
 	case OC_ZONE_IND:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_IND, cost )) == OC_ERR_FREE) {
@@ -1244,7 +1249,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_ROAD:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_ROAD, cost )) == OC_ERR_FREE) {
@@ -1253,7 +1258,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_ELINE:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure( 
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_ELINE, cost )) == OC_ERR_FREE) {
@@ -1262,7 +1267,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_EPLANT_COAL:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EPLANT_COAL, cost )) == OC_ERR_FREE) {
@@ -1272,7 +1277,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_EPLANT_NUCLEAR:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EPLANT_NUCLEAR, cost )) == OC_ERR_FREE) {
@@ -1282,7 +1287,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_PARK:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_PARK, cost )) == OC_ERR_FREE) {
@@ -1291,7 +1296,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_FLORA:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_FLORA, cost )) == OC_ERR_FREE) {
@@ -1300,7 +1305,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_FIRE:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_FIREDEPT, cost )) == OC_ERR_FREE) {
@@ -1310,7 +1315,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_POLICE:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_POLICEDEPT, cost )) == OC_ERR_FREE) {
@@ -1320,7 +1325,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_HOSPITAL:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_HOSPITALDEPT, cost )) == OC_ERR_FREE) {
@@ -1330,7 +1335,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_EDUCATION:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_EDUCATIONDEPT, cost )) == OC_ERR_FREE) {
@@ -1340,7 +1345,7 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_TEST_BUILDING:
-		if ((enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
 				OC_STRUCTURE_TEST, cost )) == OC_ERR_FREE) {
@@ -1349,19 +1354,19 @@ City::_DoTool(
 		break;
 
 	case OC_BUILD_AGENT_POLICE:
-		pstruct = ptabLayer[ BUILDING_LAYER ]->GetStructure( uiMapW1, uiMapL1 );
+		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( uiMapW1, uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
 		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
 		break;
 
 	case OC_BUILD_AGENT_DEMONSTRATOR:
-		pstruct = ptabLayer[ BUILDING_LAYER ]->GetStructure( uiMapW1, uiMapL1 );
+		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( uiMapW1, uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
 		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
 		break;
 
 	case OC_BUILD_AGENT_ROBBER:
-		pstruct = ptabLayer[ BUILDING_LAYER ]->GetStructure( uiMapW1, uiMapL1 );
+		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( uiMapW1, uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
 		new AgentRobber(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
 		break;
@@ -1370,7 +1375,7 @@ City::_DoTool(
 	case OC_HEIGHT_UP:
 		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_UP );
 		if ( enumErrCode == OC_ERR_FREE ) {
-			gVars.gpRenderer->boolHeightChange = true;
+			gVars.gpRenderer->bHeightChange = true;
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 			cost = 5;		// Quick hack
 		}
@@ -1379,7 +1384,7 @@ City::_DoTool(
 	case OC_HEIGHT_DOWN:
 		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_DOWN );
 		if ( enumErrCode == OC_ERR_FREE ) {
-			gVars.gpRenderer->boolHeightChange = true;
+			gVars.gpRenderer->bHeightChange = true;
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
 			cost = 5;		// Quick hack
 		}
@@ -1393,7 +1398,7 @@ City::_DoTool(
 			delete pctrQ;
 
 	// get the new query container
-		pctrQ = ptabLayer[ enumCurrentLayer ]->
+		pctrQ = _apLayer[ _eCurrentLayer ]->
 			QueryStructure( uiMapW1, uiMapL1 );
 	// reset the old container
 		pctr->ResetAttribute(
@@ -1414,7 +1419,7 @@ City::_DoTool(
 	// The following part tell the simulators to remove the collected data concerning
 	// the structures which are going to be destroyed
 		_pMSim->RemoveStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2 );
-		enumErrCode = ptabLayer[ enumCurrentLayer ]->
+		enumErrCode = _apLayer[ _eCurrentLayer ]->
 			DestroyStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, cost );
 		if (enumErrCode == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_DESTROY );
@@ -1536,7 +1541,7 @@ City::_DoBill(
 	surface = _uiWidth * _uiLength;
 	maintenance = 0;
 	for (index = 0; index < surface; index++) {
-		pStruct = ptabLayer[ BUILDING_LAYER ]->GetLinearStructure( index );
+		pStruct = _apLayer[ OC_LAYER_BUILDING ]->GetLinearStructure( index );
 		if (pStruct != NULL)
 			maintenance +=
 				gVars.gpPropertyMgr->Get(OC_MAINTENANCE_COST, pStruct->GetCode());
@@ -1628,7 +1633,7 @@ City::_HandleGUIClick()
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 4:  // P button, set tool for "building road"
-			enumCurrentTool = OC_BUILD_ROAD;
+			_eCurrentTool = OC_BUILD_ROAD;
 			_cTool = 'P';
 			break;
 		case 5: // T button, open the "Terrain" toolcircle
@@ -1654,15 +1659,15 @@ City::_HandleGUIClick()
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2: // R button
-			enumCurrentTool = OC_ZONE_RES;
+			_eCurrentTool = OC_ZONE_RES;
 			_cTool = 'R';
 			break;
 		case 3:  // C button, set tool for "zone commercial"
-			enumCurrentTool = OC_ZONE_COM;
+			_eCurrentTool = OC_ZONE_COM;
 			_cTool = 'C';
 			break;
 		case 4:  // I button, set tool for "zone industrial"
-			enumCurrentTool = OC_ZONE_IND;
+			_eCurrentTool = OC_ZONE_IND;
 			_cTool = 'I';
 			break;
 
@@ -1681,15 +1686,15 @@ City::_HandleGUIClick()
 			pctr->Set( 3, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // L button, set tool for building electric lines
-			enumCurrentTool = OC_BUILD_ELINE;
+			_eCurrentTool = OC_BUILD_ELINE;
 			_cTool = 'L';
 			break;
 		case 3:  // set tool for building nuclear power plant
-			enumCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
+			_eCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
 			_cTool = 'E';
 			break;
 		case 4:  // set tool for building coal power plant
-			enumCurrentTool = OC_BUILD_EPLANT_COAL;
+			_eCurrentTool = OC_BUILD_EPLANT_COAL;
 			_cTool = '?';
 			break;
 
@@ -1707,19 +1712,19 @@ City::_HandleGUIClick()
 			pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // height up
-			enumCurrentTool = OC_HEIGHT_UP;
+			_eCurrentTool = OC_HEIGHT_UP;
 			_cTool = 'U';
 			break;
 		case 3:  // height down
-			enumCurrentTool = OC_HEIGHT_DOWN;
+			_eCurrentTool = OC_HEIGHT_DOWN;
 			_cTool = 'D';
 			break;
 		case 4:  // destroy tool
-			enumCurrentTool = OC_DESTROY;
+			_eCurrentTool = OC_DESTROY;
 			_cTool = 'X';
 			break;
 		case 5: // query tool
-			enumCurrentTool = OC_QUERY;
+			_eCurrentTool = OC_QUERY;
 			_cTool = 'Q';
 			break;
 
@@ -1741,19 +1746,19 @@ City::_HandleGUIClick()
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 3:
-			enumCurrentTool = OC_BUILD_EDUCATION;
+			_eCurrentTool = OC_BUILD_EDUCATION;
 			_cTool = '?';
 			break;
 		case 4:
-			enumCurrentTool = OC_BUILD_HOSPITAL;
+			_eCurrentTool = OC_BUILD_HOSPITAL;
 			_cTool = '?';
 			break;
 		case 5:
-			enumCurrentTool = OC_BUILD_POLICE;
+			_eCurrentTool = OC_BUILD_POLICE;
 			_cTool = '?';
 			break;
 		case 6:
-			enumCurrentTool = OC_BUILD_FIRE;
+			_eCurrentTool = OC_BUILD_FIRE;
 			_cTool = '?';
 			break;
 
@@ -1771,11 +1776,11 @@ City::_HandleGUIClick()
 			pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // build park
-			enumCurrentTool = OC_BUILD_PARK;
+			_eCurrentTool = OC_BUILD_PARK;
 			_cTool = '?';
 			break;
 		case 3:  // build tree
-			enumCurrentTool = OC_BUILD_FLORA;
+			_eCurrentTool = OC_BUILD_FLORA;
 			_cTool = '?';
 			break;
 
@@ -1810,25 +1815,25 @@ City::_HandleGUIClick()
 	switch (uiObject) {
 		case 1: // start button
 			_cTool = 'N';
-			enumCurrentTool = OC_NONE;
+			_eCurrentTool = OC_NONE;
 			boolPathGo = false;
 //debug cout << "changed to false" << endl;
 			break;
 		case 2: // stop button
 			_cTool = 'N';
-			enumCurrentTool = OC_NONE;
+			_eCurrentTool = OC_NONE;
 			boolPathGo = true;
 			this->uiVehicleType = Vehicle::VEHICLE_BUS;
 			break;
 		case 3: // stop button
 			_cTool = 'N';
-			enumCurrentTool = OC_NONE;
+			_eCurrentTool = OC_NONE;
 			boolPathGo = true;
 			this->uiVehicleType = Vehicle::VEHICLE_SPORT;
 //debug cout << "changed to true" << endl;
 			break;
 		case 4: // build test building
-			enumCurrentTool = OC_BUILD_TEST_BUILDING;
+			_eCurrentTool = OC_BUILD_TEST_BUILDING;
 			_cTool = '?';
 			break;
 		default:
@@ -1840,15 +1845,15 @@ City::_HandleGUIClick()
 	switch (uiObject) {
 		case 1: // start button
 			_cTool = 'N';
-			enumCurrentTool = OC_BUILD_AGENT_POLICE;
+			_eCurrentTool = OC_BUILD_AGENT_POLICE;
 			break;
 		case 2: // stop button
 			_cTool = 'N';
-			enumCurrentTool = OC_BUILD_AGENT_DEMONSTRATOR;
+			_eCurrentTool = OC_BUILD_AGENT_DEMONSTRATOR;
 			break;
 		case 3: // stop button
 			_cTool = 'N';
-			enumCurrentTool = OC_BUILD_AGENT_ROBBER;
+			_eCurrentTool = OC_BUILD_AGENT_ROBBER;
 			break;
 
 		default:
@@ -1972,8 +1977,8 @@ City::_BuildPreview()
 
 
 // Get the corresponding structure code of the tool
-	if (tcode != this->enumCurrentTool) {
-		tcode = this->enumCurrentTool;
+	if (tcode != _eCurrentTool) {
+		tcode = _eCurrentTool;
 		switch (tcode) {
 		/* not implemented yet
 			case OC_ZONE_RES:
@@ -2031,7 +2036,7 @@ City::_BuildPreview()
 // Get the corresponding graphic code
 	if ((scode != OC_STRUCTURE_UNDEFINED)
 	 && (this->boolLMBPressed == true)) {
-		ecode = ptabLayer[ enumCurrentLayer ]->
+		ecode = _apLayer[ _eCurrentLayer ]->
 			BuildPreview( uiMapW1, uiMapL1, scode, gcode );
 
 		if (ecode == OC_ERR_FREE) {
@@ -2077,7 +2082,7 @@ City::_Save( const string& strFilename )
 	gVars.gpMapMgr->SaveTo( fs );
 
 // Save layers's data
-	ptabLayer[ BUILDING_LAYER ]->SaveTo( fs );
+	_apLayer[ OC_LAYER_BUILDING ]->SaveTo( fs );
 
 // Save simulators data
 	_pMSim->SaveTo( fs );
@@ -2128,10 +2133,11 @@ City::_Load( const string& strFilename )
 
 // Load map data
 	gVars.gpMapMgr->LoadFrom( fs );
-	gVars.gpRenderer->boolHeightChange = true;
+	gVars.gpRenderer->bHeightChange = true;
+	gVars.gpRenderer->bMinimapChange = true;
 
 // Load layers' data
-	ptabLayer[ BUILDING_LAYER ]->LoadFrom( fs );
+	_apLayer[ OC_LAYER_BUILDING ]->LoadFrom( fs );
 
 // Load simulators' data
 	_pMSim->LoadFrom( fs );

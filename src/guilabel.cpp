@@ -226,7 +226,11 @@ GUILabel::Resize( const SDL_ResizeEvent& rcEvent )
 void
 GUILabel::_CreateFont()
 {
+// Save the current unpack alignment value
+	GLint alignment;
+	glGetIntegerv( GL_UNPACK_ALIGNMENT, &alignment );
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+
 	GUILabel::_uiFontBase = glGenLists( 256 );
 	for ( uint i = 0; i < 256; i++ ) {
 		glNewList( GUILabel::_uiFontBase + i, GL_COMPILE );
@@ -238,6 +242,9 @@ GUILabel::_CreateFont()
 		);
 		glEndList();
 	}
+
+// Restore the previous unpack alignment value
+	glPixelStorei( GL_UNPACK_ALIGNMENT, alignment );
 }
 
 

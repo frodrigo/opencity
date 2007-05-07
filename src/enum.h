@@ -37,10 +37,10 @@
 /** The different layers of OpenCity's city
 */
 	enum OPENCITY_CITY_LAYER {
-		BUILDING_LAYER = 0,		///< The building layer contains buildings :)
-		WATER_LAYER,			///< The water layer shows the water pipes
-		GAS_LAYER,				///< ?
-		SUBWAY_LAYER			///< ?
+		OC_LAYER_BUILDING = 0,		///< The building layer contains buildings :)
+		OC_LAYER_WATER,				///< The water layer shows the water pipes
+		OC_LAYER_GAS,				///< ?
+		OC_LAYER_SUBWAY				///< ?
 	};
 
 	enum OPENCITY_CITY_SPEED {
