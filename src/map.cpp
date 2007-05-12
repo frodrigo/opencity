@@ -46,12 +46,12 @@ _pclayer( NULL )
 
 	MapGen::MapMaker mapMaker =
 		MapGen::MapMaker(
-			width+1, height+1, 
-                        gVars.guiGeneratorMapType,
-                        gVars.guiGeneratorWaterType,
-                        gVars.guiGeneratorMapShapeType,
-                        gVars.guiGeneratorTreeDensityType,
-                        gVars.guiGeneratorSeed
+			width+1, height+1,
+			gVars.guiGeneratorMapType,
+			gVars.guiGeneratorWaterType,
+			gVars.guiGeneratorMapShapeType,
+			gVars.guiGeneratorTreeDensityType,
+			gVars.guiGeneratorSeed
 		);
 	int* heightMap = mapMaker.getMap();
 

@@ -75,6 +75,15 @@ Texture::Load( const string & rcFile )
 
    /*=====================================================================*/
 const GLuint
+Texture::Load3D( const string & rcFile )
+{
+	uint w, h;
+	return Texture::Load3D( rcFile, w, h );
+}
+
+
+   /*=====================================================================*/
+const GLuint
 Texture::Load
 (
 	const string & rcFile,
@@ -115,6 +124,45 @@ Texture::Load
 	Texture::Surface2Texture( pMirror, uiTexture );
 	SDL_FreeSurface( pImage );
 	SDL_FreeSurface( pMirror );
+
+	return uiTexture;
+}
+
+
+   /*=====================================================================*/
+const GLuint
+Texture::Load3D
+(
+	const string & rcFile,
+	uint & ruiW,
+	uint & ruiH
+)
+{
+	GLuint uiTexture = 0;	// tell glIsTexture that this is not a texture name
+
+	OPENCITY_DEBUG( rcFile.c_str() );
+
+// Load the image to the SDL surface
+	SDL_Surface* pImage = IMG_Load( rcFile.c_str() );
+	assert( pImage != NULL );
+
+// Return the width and height
+	ruiW = pImage->w;
+	ruiH = pImage->h;
+
+// Check the bytes per pixel
+//	cout << "Bytes per pixel: " << (int)pImage->format->BytesPerPixel << endl;
+	assert( pImage->format->BytesPerPixel == 4 );
+/*
+	SDL_Surface* pMirror = Texture::HorizontalMirror( pImage );
+
+// Convert the surface to texture and create the new texture if needed
+	Texture::Surface2Texture3D( pMirror, uiTexture );
+	SDL_FreeSurface( pImage );
+	SDL_FreeSurface( pMirror );
+*/
+	Texture::Surface2Texture3D( pImage, uiTexture );
+	SDL_FreeSurface( pImage );
 
 	return uiTexture;
 }
@@ -245,6 +293,56 @@ Texture::Surface2Texture(
 			psurface->pixels	// point to the pixels' data
 			);
 	}
+
+	SDL_UnlockSurface( const_cast<SDL_Surface*>(psurface) );
+
+// GL error checking
+	GLenum glError = glGetError();
+	if (glError != GL_NO_ERROR) {
+		GLint maxTexSize;
+		glGetIntegerv( GL_MAX_TEXTURE_SIZE, &maxTexSize );
+
+		OPENCITY_DEBUG( "CRITIC GL ERROR while loading texture" );
+		cout << "Max texture size is: " << maxTexSize << endl;
+		cout << "GL error code: 0x";
+		cout.flags( cout.hex );
+		cout << glError << endl;
+		cout.flags( cout.dec );
+	}
+}
+
+
+   /*=====================================================================*/
+void
+Texture::Surface2Texture3D
+(
+	const SDL_Surface* const psurface,
+	GLuint & ruiTexture
+)
+{
+// Delete the existing texture
+	if (glIsTexture( ruiTexture ) == GL_TRUE)
+		glDeleteTextures( 1, &ruiTexture );
+
+// Create the texture to hold the image
+	glGenTextures( 1, &ruiTexture );
+	glBindTexture( GL_TEXTURE_3D, ruiTexture );
+	SDL_LockSurface( const_cast<SDL_Surface*>(psurface) );
+
+// If the image doesn't have the correct size then scale it before converting
+// Convert the surface to the OpenGL texture
+	glTexImage3D(
+		GL_TEXTURE_3D,		// texture 3D
+		0,					// base image
+		GL_RGBA,			// internal format
+		psurface->w,		// texture width, must be 2n >= 64
+		psurface->w,		// texture width, must be 2n >= 64		// The 3D texture is 64x64x64 RGBA
+		64,
+		0,					// no border
+		GL_RGBA,			// pixel format
+		GL_UNSIGNED_BYTE,	// pixel data format
+		psurface->pixels	// point to the pixels' data
+		);
 
 	SDL_UnlockSurface( const_cast<SDL_Surface*>(psurface) );
 

@@ -48,9 +48,10 @@ checking right now.
 	\return The index of the new OpenGL texture (type const GLuint)
 */
 	static const GLuint
-	Load(
-		const string & rcFile
-	);
+	Load( const string & rcFile );
+
+	static const GLuint
+	Load3D( const string & rcFile );
 
 
 //========================================================================
@@ -64,7 +65,15 @@ checking right now.
 	Load(
 		const string & rcFile,
 		uint & ruiW,
-		uint & ruiH );
+		uint & ruiH
+	);
+
+	static const GLuint
+	Load3D(
+		const string & rcFile,
+		uint & ruiW,
+		uint & ruiH
+	);
 
 
 //========================================================================
@@ -91,6 +100,12 @@ returned surface must be freed by the caller
 */
 	static void
 	Surface2Texture(
+		const SDL_Surface* const psurface,
+		GLuint& ruiTexture
+	);
+
+	static void
+	Surface2Texture3D(
 		const SDL_Surface* const psurface,
 		GLuint& ruiTexture
 	);

@@ -122,7 +122,12 @@ _uiCityLength( cityL )
 	OPENCITY_DEBUG( "Renderer ctor" );
 
 // Load frequently used textures
-	_uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
+//	_uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
+//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512.png" ));
+//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512_texture.png" ));
+//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512_gradient.png" ));
+//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x512_texture.png" ));
+	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x4096_texture.png" ));
 	_uiWaterTex = Texture::Load( ocHomeDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
 // Initialize the model culling grid
@@ -155,8 +160,9 @@ _uiCityLength( cityL )
 	glFrontFace( GL_CCW );
 
 
-// select the flat rendering mode, default is GL_SMOOTH
+// Select the flat rendering mode, default is GL_SMOOTH
 	glShadeModel( GL_FLAT );
+//	glShadeModel( GL_SMOOTH );
 
 //debug testing
 //the maximal number of lights we can set is: 8
@@ -1102,6 +1108,7 @@ Renderer::SetWinSize(
 
 
    /*=====================================================================*/
+/* TOKILL, kept for reference 2D version
 void
 Renderer::_DisplayTerrain() const
 {
@@ -1127,16 +1134,18 @@ Renderer::_DisplayTerrain() const
 	glEnable( GL_TEXTURE_2D );
 	glBindTexture( GL_TEXTURE_2D, _uiTerrainTex );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
 
 // BEGIN, draw the terrain as an unique TRIANGLE_STRIP
 // which is known as the fastest figure in OpenGL
-/* This is the secret formula: c = a^b ;)
-		cx = ay * bz - by * az;
-		cy = bx * az - ax * bz;
-		cz = ax * by - bx * ay;
-*/
+// This is the secret formula: c = a^b ;)
+//		cx = ay * bz - by * az;
+//		cy = bx * az - ax * bz;
+//		cz = ax * by - bx * ay;
+//
 	glBegin( GL_TRIANGLE_STRIP );
 
 	for (l = 0; l < (int)_uiCityLength; l++) {
@@ -1242,6 +1251,227 @@ Renderer::_DisplayTerrain() const
 			glVertex3i( w+1, tabH[0], l );
 			glNormal3f( n2x, n2y, n2z );
 			glTexCoord2i( w+1, l+1 );
+			glVertex3i( w+1, tabH[1], l+1 );
+		// Then prepare the triangles for the next line
+			glVertex3i( w+1, tabH[1], l+1 );
+		}
+	}
+// then restore the default normal
+	glNormal3f( 0., 0., 1. );
+	glEnd();
+// END: Draw the terrain by using GL_TRIANGLE_STRIP
+
+// Restore old attribs
+	glPopAttrib();
+	glEndList();
+
+displayterrain_return:
+	glCallList( _uiTerrainList );
+}
+*/
+
+
+   /*=====================================================================*/
+void
+Renderer::_DisplayTerrain() const
+{
+#define OC_TERRAIN_TEXTURE_DEPTH	64
+
+//	static const GLfloat envColor[4] = {.5, .5, .5, 1};
+//	static const GLfloat rPlane[4] = { 0, 0, .5, -.5 };
+
+	if (bHeightChange == false)
+		goto displayterrain_return;
+
+	static OC_BYTE tabH[4];				// Terrain height
+	static GLfloat tabR[4];				// Texture R (depth) coordinate
+	static GLfloat ax, ay, az;
+	static GLfloat bx, by, bz;
+	static GLfloat n1x, n1y, n1z;		// normal 1 coordinates
+	static GLfloat n2x, n2y, n2z;		// normal 2 coordinates
+	static int l, w;					// WARNING: yes, we use INT not UINT
+
+// Reserve a new display list for the terrain
+	glNewList( _uiTerrainList, GL_COMPILE );
+
+// WARNING: this is used to calculated the final textured fragment.
+//	glColor4f( .3, .25, .2, 1. );
+	glColor4f( .9, .8, .6, 1 );
+
+// Enable terrain texturing
+	glPushAttrib( GL_ENABLE_BIT );
+//	glDisable( GL_LIGHTING );
+//	glDisable( GL_LIGHT0 );
+//	glEnable( GL_BLEND );
+	glEnable( GL_CULL_FACE );
+	glEnable( GL_TEXTURE_3D );
+//	glEnable( GL_TEXTURE_GEN_S );
+//	glEnable( GL_TEXTURE_GEN_T );
+//	glEnable( GL_TEXTURE_GEN_R );
+	glBindTexture( GL_TEXTURE_3D, _uiTerrainTex );
+	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+//	glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, envColor );			// Used by TexEnvf - GL_BLEND
+//	glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR );
+//	glTexGenfv( GL_R, GL_EYE_PLANE, rPlane );
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP );
+
+// BEGIN, draw the terrain as an unique TRIANGLE_STRIP
+// which is known as the fastest figure in OpenGL
+/* This is the secret formula: c = a^b ;)
+		cx = ay * bz - by * az;
+		cy = bx * az - ax * bz;
+		cz = ax * by - bx * ay;
+*/
+	glBegin( GL_TRIANGLE_STRIP );
+
+	for (l = 0; l < (int)_uiCityLength; l++) {
+	// IF we draw the squares from left to right THEN
+		if (l % 2 == 0) {
+		// Get the 4 heights of the current square
+			w = 0;
+			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
+			for (int i = 0; i < 4; i++) {
+				if (tabH[i] > 0)
+					tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
+				else
+					tabR[i] = 0;
+			}
+
+		// calculate the new normal 1 (the cross product)
+			ax = 0.;   ay = (GLfloat)(tabH[1]-tabH[0]); az = 1.;
+			bx = 1.;   by = (GLfloat)(tabH[3]-tabH[0]); bz = .0;
+			n1x = -by; n1y = 1.;                        n1z = -ay;
+		// calculate the new normal 2 (the cross product)
+			ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
+			bx = .0;   by = (GLfloat)(tabH[3]-tabH[2]); bz = -1.;
+			n2x = -ay; n2y = 1.;                        n2z = by;
+
+		// Set the first normal and the first pair of vertices
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord3f( w, l, tabR[0] );
+			glVertex3i( w, tabH[0], l );
+			glTexCoord3f( w, l+1, tabR[1] );
+			glVertex3i( w, tabH[1], l+1 );
+
+			for (w = 1; w < (int)_uiCityWidth; w++) {
+			// Get the 4 heights of the current square
+				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
+				for (int i = 0; i < 4; i++) {
+					if (tabH[i] > 0)
+						tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
+					else
+						tabR[i] = 0;
+				}
+/* testing
+				for (int i = 0; i < 4; i++) {
+					if (tabH[i] > 0 and tabH[i] <= 2)
+						tabR[i] = (float)(rand() % 4) / OC_MAP_HEIGHT_MAX;
+					else if (tabH[i] > 2 and tabH[i] <= 4)
+						tabR[i] = (float)((rand() % 4) + 2) / OC_MAP_HEIGHT_MAX;
+					else if (tabH[i] > 4 and tabH[i] <= 7)
+						tabR[i] = (float)((rand() % 4) + 4) / OC_MAP_HEIGHT_MAX;
+					else if (tabH[i] > 7 and tabH[i] <= OC_MAP_HEIGHT_MAX)
+						tabR[i] = (float)((rand() % 5) + 6) / OC_MAP_HEIGHT_MAX;
+					else
+						tabR[i] = 0;
+				}
+*/
+
+			// draw the stuff
+				glNormal3f( n1x, n1y, n1z );
+				glTexCoord3f( w, l, tabR[0] );
+				glVertex3i( w, tabH[0], l );
+				glNormal3f( n2x, n2y, n2z );
+				glTexCoord3f( w, l+1, tabR[1] );
+				glVertex3i( w, tabH[1], l+1 );
+
+			// calculate the new normal 1 (the cross product)
+				ax = 0.;   ay = (GLfloat)(tabH[1]-tabH[0]); az = 1.;
+				bx = 1.;   by = (GLfloat)(tabH[3]-tabH[0]); bz = .0;
+				n1x = -by; n1y = 1.;                        n1z = -ay;
+			// calculate the new normal 2 (the cross product)
+				ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
+				bx = .0;   by = (GLfloat)(tabH[3]-tabH[2]); bz = -1.;
+				n2x = -ay; n2y = 1.;                        n2z = by;
+			} // for
+
+		// Draw the last edge
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord3f( w, l, tabR[3] );
+			glVertex3i( w, tabH[3], l );
+			glNormal3f( n2x, n2y, n2z );
+			glTexCoord3f( w, l+1, tabR[2] );
+			glVertex3i( w, tabH[2], l+1 );
+		// Then prepare the triangles for the next line
+			glVertex3i( w, tabH[2], l+1 );
+		}
+		else {
+		// WARNING: repeated codes as above ================================
+		// We draw the square from right to left
+		// Get the 4 heights of the current square
+			w = _uiCityWidth-1;
+			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
+			for (int i = 0; i < 4; i++) {
+				if (tabH[i] > 0)
+					tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
+				else
+					tabR[i] = 0;
+			}
+
+		// calculate the new normal 1 (the cross product)
+			ax = -1.;  ay = (GLfloat)(tabH[0]-tabH[3]); az = .0;
+			bx =  .0;  by = (GLfloat)(tabH[2]-tabH[3]); bz = 1.;
+			n1x = ay;  n1y = 1.;                        n1z = -by;
+		// calculate the new normal 2 (the cross product)
+			ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
+			bx = .0;   by = (GLfloat)(tabH[0]-tabH[1]); bz = -1.;
+			n2x = -ay; n2y = 1.;                        n2z = by;
+
+		// Set the first normal and the first pair of vertices
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord3f( w+1, l, tabR[3] );
+			glVertex3i( w+1, tabH[3], l );
+			glTexCoord3f( w+1, l+1, tabR[2] );
+			glVertex3i( w+1, tabH[2], l+1 );
+
+			for (w = _uiCityWidth-2; w >= 0; w--) {
+			// Get the 4 heights of the current square
+				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
+				for (int i = 0; i < 4; i++) {
+					if (tabH[i] > 0)
+						tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
+					else
+						tabR[i] = 0;
+				}
+
+			// draw the stuff
+				glNormal3f( n1x, n1y, n1z );
+				glTexCoord3f( w+1, l, tabR[3] );
+				glVertex3i( w+1, tabH[3], l );
+				glNormal3f( n2x, n2y, n2z );
+				glTexCoord3f( w+1, l+1, tabR[2] );
+				glVertex3i( w+1, tabH[2], l+1 );
+
+			// calculate the new normal 1 (the cross product)
+				ax = -1.;  ay = (GLfloat)(tabH[0]-tabH[3]); az = .0;
+				bx =  .0;  by = (GLfloat)(tabH[2]-tabH[3]); bz = 1.;
+				n1x = ay;  n1y = 1.;                        n1z = -by;
+			// calculate the new normal 2 (the cross product)
+				ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
+				bx = .0;   by = (GLfloat)(tabH[0]-tabH[1]); bz = -1.;
+				n2x = -ay; n2y = 1.;                        n2z = by;
+			}
+
+		// Draw the last edge
+			glNormal3f( n1x, n1y, n1z );
+			glTexCoord3f( w+1, l, tabR[0] );
+			glVertex3i( w+1, tabH[0], l );
+			glNormal3f( n2x, n2y, n2z );
+			glTexCoord3f( w+1, l+1, tabR[1] );
 			glVertex3i( w+1, tabH[1], l+1 );
 		// Then prepare the triangles for the next line
 			glVertex3i( w+1, tabH[1], l+1 );
