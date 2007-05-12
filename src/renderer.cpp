@@ -1296,7 +1296,7 @@ Renderer::_DisplayTerrain() const
 
 // WARNING: this is used to calculated the final textured fragment.
 //	glColor4f( .3, .25, .2, 1. );
-	glColor4f( .9, .8, .6, 1 );
+	glColor4f( .8, .7, .6, .8 );
 
 // Enable terrain texturing
 	glPushAttrib( GL_ENABLE_BIT );
@@ -1335,10 +1335,14 @@ Renderer::_DisplayTerrain() const
 			w = 0;
 			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 			for (int i = 0; i < 4; i++) {
-				if (tabH[i] > 0)
+				if (tabH[i] >= 0) {
 					tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-				else
+					if (tabR[i] == 0)
+						tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
+				}
+				else {
 					tabR[i] = 0;
+				}
 			}
 
 		// calculate the new normal 1 (the cross product)
@@ -1361,10 +1365,14 @@ Renderer::_DisplayTerrain() const
 			// Get the 4 heights of the current square
 				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 				for (int i = 0; i < 4; i++) {
-					if (tabH[i] > 0)
+					if (tabH[i] >= 0) {
 						tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-					else
+						if (tabR[i] == 0)
+							tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
+						}
+					else {
 						tabR[i] = 0;
+					}
 				}
 /* testing
 				for (int i = 0; i < 4; i++) {
@@ -1416,10 +1424,14 @@ Renderer::_DisplayTerrain() const
 			w = _uiCityWidth-1;
 			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 			for (int i = 0; i < 4; i++) {
-				if (tabH[i] > 0)
+				if (tabH[i] >= 0) {
 					tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-				else
+					if (tabR[i] == 0)
+						tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
+				}
+				else {
 					tabR[i] = 0;
+				}
 			}
 
 		// calculate the new normal 1 (the cross product)
@@ -1442,10 +1454,14 @@ Renderer::_DisplayTerrain() const
 			// Get the 4 heights of the current square
 				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 				for (int i = 0; i < 4; i++) {
-					if (tabH[i] > 0)
+					if (tabH[i] >= 0) {
 						tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-					else
+						if (tabR[i] == 0)
+							tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
+						}
+					else {
 						tabR[i] = 0;
+					}
 				}
 
 			// draw the stuff
