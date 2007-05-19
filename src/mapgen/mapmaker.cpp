@@ -2,7 +2,7 @@
 						mapmaker.cpp    -  description
 							-------------------
 	begin                : july 2nd, 2006
-	copyright            : (C) 2006 by Frédéric RODRIGO
+	copyright            : (C) 2006-2007 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
 	$Id$
@@ -20,6 +20,7 @@
 #include "mapmaker.h"
 
 #include "diamon.h"
+#include "heightMap.h"
 #include "gaussblur.h"
 #include "flattern.h"
 #include "normalize.h"
@@ -41,6 +42,7 @@ namespace MapGen
 MapMaker::MapMaker(
 	const uint w,
 	const uint h,
+	const string heightMap,
 	const MAP_TYPE mapType,
 	const WATER_TYPE waterType,
 	const MAP_SHAPE_TYPE mapShapeType,
@@ -62,7 +64,14 @@ _seed(seed)
 	uint mapSeed = rand();
 	uint treeDensitySeed = rand();
 
-	_generateMap( mapSeed );
+	if( heightMap != "" ) {
+		_loadMap( heightMap );
+	}
+	else
+	{
+		_generateMap( mapSeed );
+	}
+
 	_generateTreeDensity( treeDensitySeed );
 
 	srand( time(NULL) );
@@ -105,6 +114,18 @@ Map* MapMaker::_generate(
 
 
    /*=====================================================================*/
+void MapMaker::_loadMap( const string heightMap )
+{
+	Generator* generator;
+	vector<Filter*> filters;
+
+	generator = new HeightMap( heightMap );
+
+	_map = _generate( generator, filters );
+}
+
+
+   /*=====================================================================*/
 void MapMaker::_generateMap( const uint seed )
 {
 	Generator* generator;
@@ -114,11 +135,10 @@ void MapMaker::_generateMap( const uint seed )
 	switch( _mapType )
 	{
 		default:
-			{
-				uint largerSide = _w > _h ? _w : _h;
-				uint side = (uint) ceil( log2( (float)largerSide ) );
-				generator = new Diamon( seed, side );
-			} break;
+			uint largerSide = _w > _h ? _w : _h;
+			uint side = (uint) ceil( log2( (float)largerSide ) );
+			generator = new Diamon( seed, side );
+			break;
 	}
 
 	// Set waterLevel

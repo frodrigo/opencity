@@ -46,15 +46,16 @@ XML metadata migration                (wip)
 Fix STL comparison functor bug        (done)
 Toggle terrain/water/structure display(done)
 Mini RCI map                          (done)
-Add new vehicle models
-Fix the orthogonal projection
+Fix culling algorithm while dragging
 Variable name clean up                (wip)
-Water layer                           (delayed)
+Water layer                           (wip)
 Water pipe
 Water pump
 Water tower
 Water micro simulator
 Tree micro simulator
+Add new vehicle models
+Fix the orthogonal projection
 Fire
 Explosion
 Nature micro simulator: earthquake

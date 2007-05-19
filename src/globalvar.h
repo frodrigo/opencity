@@ -55,7 +55,9 @@ struct GlobalVar
 	uint guiScreenWidth;
 	uint guiScreenHeight;
 	uint guiVideoBpp;
+
 	uint guiGeneratorSeed;
+	string gsGeneratorHeightMap;
 	MapGen::MapMaker::MAP_TYPE guiGeneratorMapType;
 	MapGen::MapMaker::WATER_TYPE guiGeneratorWaterType;
 	MapGen::MapMaker::MAP_SHAPE_TYPE guiGeneratorMapShapeType;

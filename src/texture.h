@@ -107,7 +107,8 @@ returned surface must be freed by the caller
 	static void
 	Surface2Texture3D(
 		const SDL_Surface* const psurface,
-		GLuint& ruiTexture
+		GLuint& ruiTexture,
+		GLint format
 	);
 
 

@@ -138,8 +138,6 @@ Texture::Load3D
 	uint & ruiH
 )
 {
-	GLuint uiTexture = 0;	// tell glIsTexture that this is not a texture name
-
 	OPENCITY_DEBUG( rcFile.c_str() );
 
 // Load the image to the SDL surface
@@ -150,20 +148,21 @@ Texture::Load3D
 	ruiW = pImage->w;
 	ruiH = pImage->h;
 
-// Check the bytes per pixel
-//	cout << "Bytes per pixel: " << (int)pImage->format->BytesPerPixel << endl;
-	assert( pImage->format->BytesPerPixel == 4 );
-/*
-	SDL_Surface* pMirror = Texture::HorizontalMirror( pImage );
+// Load the texture
+	GLuint uiTexture = 0;
+	uint bpp = pImage->format->BytesPerPixel;
+	if (bpp == 3) {
+		OPENCITY_DEBUG( "3D texture format: GL_RGB" );
+		Texture::Surface2Texture3D( pImage, uiTexture, GL_RGB );
+	}
+	else if (bpp == 4) {
+		OPENCITY_DEBUG( "3D texture format: GL_RGBA" );
+		Texture::Surface2Texture3D( pImage, uiTexture, GL_RGBA );
+	}
 
-// Convert the surface to texture and create the new texture if needed
-	Texture::Surface2Texture3D( pMirror, uiTexture );
-	SDL_FreeSurface( pImage );
-	SDL_FreeSurface( pMirror );
-*/
-	Texture::Surface2Texture3D( pImage, uiTexture );
 	SDL_FreeSurface( pImage );
 
+	assert( uiTexture != 0 );
 	return uiTexture;
 }
 
@@ -317,7 +316,8 @@ void
 Texture::Surface2Texture3D
 (
 	const SDL_Surface* const psurface,
-	GLuint & ruiTexture
+	GLuint & ruiTexture,
+	GLint format
 )
 {
 // Delete the existing texture
@@ -331,15 +331,16 @@ Texture::Surface2Texture3D
 
 // If the image doesn't have the correct size then scale it before converting
 // Convert the surface to the OpenGL texture
+// NOTE: the texture internal format is the same as the pixels' one
 	glTexImage3D(
 		GL_TEXTURE_3D,		// texture 3D
 		0,					// base image
-		GL_RGBA,			// internal format
+		format,				// internal format
 		psurface->w,		// texture width, must be 2n >= 64
 		psurface->w,		// texture width, must be 2n >= 64		// The 3D texture is 64x64x64 RGBA
-		64,
+		psurface->h / psurface->w,				// Depth
 		0,					// no border
-		GL_RGBA,			// pixel format
+		format,				// pixel format
 		GL_UNSIGNED_BYTE,	// pixel data format
 		psurface->pixels	// point to the pixels' data
 		);

@@ -2,7 +2,7 @@
 						map.h  -  description
 							-------------------
 	begin                : july 2nd, 2006
-	copyright            : (C) 2006 by Frédéric RODRIGO
+	copyright            : (C) 2006-2007 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
 	$Id$
@@ -34,6 +34,8 @@ using std::string;
 	#define MAP_DEBUG( msg )
 #endif
 
+#define MAP_INFO( msg ) OPENCITY_INFO( msg )
+
 namespace MapGen
 {
 
@@ -50,7 +52,7 @@ public:
 
 
 //========================================================================
-/** Module setter */
+/** Setter */
 	void setAt(
 		int x,
 		int y,
@@ -58,7 +60,7 @@ public:
 
 
 //========================================================================
-/** Modulo getter */
+/** Getter */
 	float getAt(
 		int x,
 		int y ) const;
@@ -68,7 +70,7 @@ public:
 
 	inline uint getW() const { return _w; }
 
-	inline uint getL() const { return _l; }
+	inline uint getL() const { return _h; }
 
 
 //========================================================================
@@ -85,7 +87,7 @@ public:
 
 private:
 	uint	_w;
-	uint	_l;
+	uint	_h;
 	float**	_map;
 
 };

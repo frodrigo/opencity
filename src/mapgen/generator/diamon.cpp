@@ -78,6 +78,8 @@ void Diamon::_sub(
 	while ( p != 0 ) {
 		p2 = 2*p;
 
+		#define getAt(x,y) getAt( (x)%mapW, (y)%mapL )
+
 		// Diamond
 		for ( i = p; i < mapW; i+=p2 )
 			for ( j = p; j < mapL; j+=p2 )
@@ -100,6 +102,8 @@ void Diamon::_sub(
 					i, j,
 					( map->getAt(i-p,j) + map->getAt(i+p,j) + map->getAt(i,j-p) + map->getAt(i,j+p) )/4 + _all(p)
 				);
+
+		#undef getAt
 
 		p /= 2;
 	}

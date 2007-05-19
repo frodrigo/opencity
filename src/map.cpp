@@ -47,6 +47,7 @@ _pclayer( NULL )
 	MapGen::MapMaker mapMaker =
 		MapGen::MapMaker(
 			width+1, height+1,
+			gVars.gsGeneratorHeightMap,
 			gVars.guiGeneratorMapType,
 			gVars.guiGeneratorWaterType,
 			gVars.guiGeneratorMapShapeType,

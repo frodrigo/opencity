@@ -447,6 +447,16 @@ void parseArg(int argc, char *argv[])
 			formatHomeDir();
 			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
 		} else
+		if (strcmp( argv[counter], "--generator-height-map" ) == 0 || strcmp( argv[counter], "-ghp" ) == 0) {
+			cout << "<OPTION> " << argv[counter] << " detected" << endl;
+			if (++counter < argc) {
+				gVars.gsGeneratorHeightMap = argv[counter];
+			}
+			else {
+				gVars.gsGeneratorHeightMap = "";
+				OPENCITY_ERROR( "Invalid argument to --generator-height-map." );
+			}
+		} else
 		if (strcmp( argv[counter], "--generator-seed" ) == 0 || strcmp( argv[counter], "-gs" ) == 0) {
 			cout << "<OPTION> " << argv[counter] << " detected" << endl;
 			if (++counter < argc) {
@@ -519,15 +529,18 @@ void parseArg(int argc, char *argv[])
 		else {
 			cout << "Unknown option: [" << argv[counter] << "]" << endl;
 			cout << "Usage: " << argv[0]
-			     << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio] [--generator-seed seed] [--generator-map MAP-TYPE] [--generator-water WATER-TYPE] [--generator-map-shape MAP-SHAPE-TYPE] [--generator-tree-density TREE-DENSITY-TYPE]" << endl << endl
-			     << "Where the map generator constants are: " << endl
-			     << "   MAP-TYPE         : 0=plain (default), 1=hill, 2=mountain" << endl
-			     << "   TREE-DENSITY-TYPE: 0=sparse (default), 1=normal, 2=dense" << endl
-			     << "   MAP-SHAPE-TYPE   : 0=none (default), 1=island, 2=volcano, 3=crater" << endl
-			     << "   WATER-TYPE       : 0=dry, 1=lake (default), 2=coast" << endl
-			     << endl;
+				 << " [--fullscreen] [--gl-version] [--homedir newHomePath] [--no-audio] "
+				 << " [--generator-height-map heightMapPicture | (--generator-seed seed [--generator-map MAP-TYPE] [--generator-water WATER-TYPE] "
+				 << " [--generator-map-shape MAP-SHAPE-TYPE] [--generator-tree-density TREE-DENSITY-TYPE])]"
+				 << endl << endl
+				 << "Where the map generator constants are: " << endl
+				 << "   MAP-TYPE         : 0=plain (default), 1=hill, 2=mountain" << endl
+				 << "   TREE-DENSITY-TYPE: 0=sparse (default), 1=normal, 2=dense" << endl
+				 << "   MAP-SHAPE-TYPE   : 0=none (default), 1=island, 2=volcano, 3=crater" << endl
+				 << "   WATER-TYPE       : 0=dry, 1=lake (default), 2=coast" << endl
+				 << endl;
 			cout << "Warning: the command option overwrite the config file settings."
-			     << endl;
+				 << endl;
 			exit( OC_ARGUMENT_ERROR );
 		}
 	} // while
@@ -943,6 +956,8 @@ void initGlobalVar()
 	gVars.guiScreenWidth			= OC_WINDOW_WIDTH;
 	gVars.guiScreenHeight			= OC_WINDOW_HEIGHT;
 	gVars.guiVideoBpp				= OC_WINDOW_BPP_DEFAULT;
+
+	gVars.gsGeneratorHeightMap		= "";
 	gVars.guiGeneratorSeed			= time(NULL);
 	gVars.guiGeneratorMapType		= MapGen::MapMaker::PLAIN;
 	gVars.guiGeneratorWaterType		= MapGen::MapMaker::LAKE;

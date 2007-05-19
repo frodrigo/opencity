@@ -2,7 +2,7 @@
 						mapmaker.h    -  description
 							-------------------
 	begin                : july 2nd, 2006
-	copyright            : (C) 2006 by Frédéric RODRIGO
+	copyright            : (C) 2006-2007 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	
 	$Id$
@@ -24,6 +24,8 @@
 
 #include <vector>
 using std::vector;
+#include <string>
+using std::string;
 
 
 namespace MapGen
@@ -68,6 +70,7 @@ public:
 	MapMaker(
 		const uint w,
 		const uint h,
+		const string heightMap,
 		const MAP_TYPE mapType,
 		const WATER_TYPE waterType,
 		const MAP_SHAPE_TYPE mapShapeType,
@@ -101,6 +104,7 @@ private:
     	const Generator* generator,
     	vector<Filter*> filters ) const;
 
+	void _loadMap( const string heightMap );
 	void _generateMap( const uint seed );
 
 	void _generateTreeDensity( const uint seed );

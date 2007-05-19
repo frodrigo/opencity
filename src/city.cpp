@@ -316,20 +316,19 @@ void City::Display()
 	static int iMouseX, iMouseY;
 
 
-// now treat keys such as: up, down, left, right etc..
+// Process key events such as: up, down, left, right etc..
 	boolKeyDown = _HandleKeyPressed();
 
 // IF the mouse reach the border of the screen, translate the map
 // NOTE: unused at the moment because it disturbs the GUI
 //	_HandleMouseXY();
 
-// NOTE: We can move the following part to City::uiMouseMotion
+// NOTE: We can move the following part to City::uiMouseMotion 
 // however, in this case City::uiMouseMotion is called each time
-// when the mouse moves, and this is no good
-// user is dragging
-	if ((this->boolLMBPressed == true)
-	&& (_eCurrentTool != OC_NONE )) {
-	// is the user dragging with the left mouse button ?
+// when the mouse moves, and this is no good.
+// The user is dragging
+	if ((this->boolLMBPressed == true) && (_eCurrentTool != OC_NONE )) {
+	// IF the user is dragging with the left mouse button THEN
 		if ( SDL_GetMouseState( &iMouseX, &iMouseY ) & SDL_BUTTON(1) ) {
 			gVars.gpRenderer->GetSelectedWHFrom(
 				iMouseX, iMouseY,
@@ -346,7 +345,6 @@ void City::Display()
 			goto cityrun_swap;
 		}
 	}
-
 
 // Display the screen as usual
 	gVars.gpRenderer->Display( gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
@@ -1443,21 +1441,17 @@ City::_DoTool(
 bool
 City::_HandleKeyPressed()
 {
-	static int actionFactor = 1;
+	int actionFactor = 1;
 	int key;
-	bool boolKeyDown;
+	bool boolKeyDown = false;		// There is no key pressed
 
-	if (this->booltabKeyPressed[KEY_ALT] == true) {
+// Key multiplier
+	if (this->booltabKeyPressed[KEY_ALT] == true)
 		actionFactor = OC_ACTION_FACTOR;
-	}
-	else {
+	else
 		actionFactor = 1;
-	}
 
-// there is no key pressed
-	boolKeyDown = false;
-
-// look for pressed keys
+// Look for pressed keys
 	for (key = KEY_UP; key < KEY_NUMBER; key++) {
 		if (this->booltabKeyPressed[key] == true) {
 			switch (key) {
@@ -1489,12 +1483,12 @@ City::_HandleKeyPressed()
 				break;
 			} // switch
 
-		// there's at least one key pressed
+		// There's at least one key pressed
 			boolKeyDown = true;
 		} // if
 	} // for
 
-// tell the caller that there's whether at least a key pressed or not
+// Tell the caller that there's whether at least a key pressed or not
 	return boolKeyDown;
 }
 

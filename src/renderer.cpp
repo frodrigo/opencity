@@ -128,6 +128,7 @@ _uiCityLength( cityL )
 //	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512_gradient.png" ));
 //	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x512_texture.png" ));
 	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x4096_texture.png" ));
+//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x8192_texture.png" ));
 	_uiWaterTex = Texture::Load( ocHomeDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
 // Initialize the model culling grid
@@ -821,8 +822,7 @@ Renderer::DisplayHighlight(
 		linear = l*_uiCityWidth + uiW2;
 		for (w = uiW1; w <= uiW2; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear );
-		// display the correction structure/terrain
-		// with "linear" as objectID
+		// Display the correction structure/terrain with "linear" as objectID
 			if ( pStructure == NULL)
 				gVars.gpGraphicMgr->DisplayTerrainHighlight( w, l, enumTool );
 			else
@@ -1313,11 +1313,11 @@ Renderer::_DisplayTerrain() const
 //	glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, envColor );			// Used by TexEnvf - GL_BLEND
 //	glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR );
 //	glTexGenfv( GL_R, GL_EYE_PLANE, rPlane );
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP );
+	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );
 
 // BEGIN, draw the terrain as an unique TRIANGLE_STRIP
 // which is known as the fastest figure in OpenGL
@@ -1335,14 +1335,10 @@ Renderer::_DisplayTerrain() const
 			w = 0;
 			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 			for (int i = 0; i < 4; i++) {
-				if (tabH[i] >= 0) {
-					tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-					if (tabR[i] == 0)
-						tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
-				}
-				else {
-					tabR[i] = 0;
-				}
+				if (tabH[i] >= 0)
+					tabR[i] = (((float)tabH[i] / OC_MAP_HEIGHT_MAX) * 55 / 64) + 9.0 / 64;
+				else
+					tabR[i] = ((float)OC_MAP_HEIGHT_MAX+tabH[i]) / OC_MAP_HEIGHT_MAX * 8 / 64;
 			}
 
 		// calculate the new normal 1 (the cross product)
@@ -1365,29 +1361,11 @@ Renderer::_DisplayTerrain() const
 			// Get the 4 heights of the current square
 				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 				for (int i = 0; i < 4; i++) {
-					if (tabH[i] >= 0) {
-						tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-						if (tabR[i] == 0)
-							tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
-						}
-					else {
-						tabR[i] = 0;
-					}
-				}
-/* testing
-				for (int i = 0; i < 4; i++) {
-					if (tabH[i] > 0 and tabH[i] <= 2)
-						tabR[i] = (float)(rand() % 4) / OC_MAP_HEIGHT_MAX;
-					else if (tabH[i] > 2 and tabH[i] <= 4)
-						tabR[i] = (float)((rand() % 4) + 2) / OC_MAP_HEIGHT_MAX;
-					else if (tabH[i] > 4 and tabH[i] <= 7)
-						tabR[i] = (float)((rand() % 4) + 4) / OC_MAP_HEIGHT_MAX;
-					else if (tabH[i] > 7 and tabH[i] <= OC_MAP_HEIGHT_MAX)
-						tabR[i] = (float)((rand() % 5) + 6) / OC_MAP_HEIGHT_MAX;
+					if (tabH[i] >= 0)
+						tabR[i] = (((float)tabH[i] / OC_MAP_HEIGHT_MAX) * 55 / 64) + 9.0 / 64;
 					else
-						tabR[i] = 0;
+						tabR[i] = ((float)OC_MAP_HEIGHT_MAX+tabH[i]) / OC_MAP_HEIGHT_MAX * 8 / 64;
 				}
-*/
 
 			// draw the stuff
 				glNormal3f( n1x, n1y, n1z );
@@ -1424,14 +1402,10 @@ Renderer::_DisplayTerrain() const
 			w = _uiCityWidth-1;
 			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 			for (int i = 0; i < 4; i++) {
-				if (tabH[i] >= 0) {
-					tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-					if (tabR[i] == 0)
-						tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
-				}
-				else {
-					tabR[i] = 0;
-				}
+				if (tabH[i] >= 0)
+					tabR[i] = (((float)tabH[i] / OC_MAP_HEIGHT_MAX) * 55 / 64) + 9.0 / 64;
+				else
+					tabR[i] = ((float)OC_MAP_HEIGHT_MAX+tabH[i]) / OC_MAP_HEIGHT_MAX * 8 / 64;
 			}
 
 		// calculate the new normal 1 (the cross product)
@@ -1454,14 +1428,10 @@ Renderer::_DisplayTerrain() const
 			// Get the 4 heights of the current square
 				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
 				for (int i = 0; i < 4; i++) {
-					if (tabH[i] >= 0) {
-						tabR[i] = ((float)tabH[i] / OC_MAP_HEIGHT_MAX) * OC_TERRAIN_TEXTURE_DEPTH / OC_TERRAIN_TEXTURE_DEPTH;
-						if (tabR[i] == 0)
-							tabR[i] = 1.0 / OC_TERRAIN_TEXTURE_DEPTH;
-						}
-					else {
-						tabR[i] = 0;
-					}
+					if (tabH[i] >= 0)
+						tabR[i] = (((float)tabH[i] / OC_MAP_HEIGHT_MAX) * 55 / 64) + 9.0 / 64;
+					else
+						tabR[i] = ((float)OC_MAP_HEIGHT_MAX+tabH[i]) / OC_MAP_HEIGHT_MAX * 8 / 64;
 				}
 
 			// draw the stuff
@@ -1853,6 +1823,7 @@ Renderer::_PrepareView()
 
 // Calculate the culling grid if it's requested
 	if (_bCalculateCulling) {
+		OPENCITY_DEBUG( "Calculate culling" );
 		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
 	 	_bCalculateCulling = false;
 	}

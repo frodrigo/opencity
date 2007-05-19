@@ -22,7 +22,8 @@ filter/shapeBubble.cpp \
 filter/shapeTopRound.cpp \
 filter/shapeVolcano.cpp \
 generator/diamon.cpp \
-generator/generator.cpp
+generator/generator.cpp \
+generator/heightMap.cpp
 
 
 noinst_HEADERS = \
@@ -39,6 +40,8 @@ filter/shapeBubble.h \
 filter/shapeTopRound.h \
 filter/shapeVolcano.cpp \
 generator/diamon.h \
-generator/generator.h
+generator/generator.h \
+generator/heightMap.h
+
 
 
