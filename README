@@ -42,15 +42,15 @@ Network:
 Software requirements:
 ------------------------------------------------------------------------------
 Operating System:
-	Linux
-	or Mac OS
-	or Win32
+	Linux (recommended)
+	or Mac OS or later
+	or Microsoft Windows XP/2000 or later
 	or Wine
 
 Graphic User Interface:
 	X Windows with DRI activated (recommended)
 	or Darwin
-	or MS Windows
+	or Microsotf Windows
 	or Wine
 
 Libraries:
@@ -72,7 +72,7 @@ will be installed on your computer, and an icon will be created inside the
 
 
 ------------------------------------------------------------------------------
-Windows binary release's notes:
+Microsoft Windows binary release's notes:
 ------------------------------------------------------------------------------
 	In order to play the game, you must install it first. Once it's done,
 click on the OpenCity's icon in the start menu to begin.
@@ -105,10 +105,13 @@ Navigation:
 		escape: quit immediately
 
 Option:
-		g: Toggle grid on/off
-		k: Toggle compass on/off
-		f: Toggle wire frame mode on/off
+		b: Toggle building display on/off
+		g: Toggle grid display on/off
+		k: Toggle compass display on/off
+		f: Toggle wire frame mode display on/off
 		o: Toggle perspective/orthogonal projection
+		t: Toggle terrain display on/off
+		w: Toggle water display on/off
 
 Sound & music:
 		z / b: play previous / next music
@@ -122,21 +125,7 @@ Experimental:
 Undocumented features, try it at your own risks:
 		a: various test codes menu
 		v: MAS test menu
-		t: connect to local ZeN server
-
-
-------------------------------------------------------------------------------
-Autoscrolling
-------------------------------------------------------------------------------
-	Simple autoscrolling now comes with OpenCity. Just move your mouse
-near to the window's edges and OpenCity will scroll the map
-automatically for you.
-
-	Autorotating is also implemented. Put your mouse cursor either
-in the upper left or right corner to see how it works.
-
-	For the moment, you can not disable them. I know, not everybody
-like auto stuff.
+		z: connect to local ZeN server
 
 
 ------------------------------------------------------------------------------

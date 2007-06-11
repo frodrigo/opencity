@@ -71,35 +71,33 @@ PropertyManager2::PropertyManager2()
 	assert( nbFile > 0 );
 	OPENCITY_DEBUG( "Number of files expected: " << nbFile );
 
-// Allocate the array to hold all the object properties
-	_aProperty = new Property[nbFile];
-
 // FOR each <file> node DO
 	uint i = 0;
 	string strAc = string(".ac");
 	string strOcm = string(".ocm");
 	string strXml = string(".xml");
-	string filename;
+	string fileGraphism, fileXml;
 	string::size_type pos;
 	TiXmlElement* pElement = NULL;
 	for (i = 0; i < nbFile; i++) {
 		pElement = (xpProcessor->XNp_get_xpath_node(i))->ToElement();
-		filename = pElement->GetText();
+		fileGraphism = pElement->GetText();
+		fileXml = fileGraphism;
 
 		// Replace ".ac" and ".ocm" by ".xml"
-		pos = filename.rfind( strAc );
-		if (pos != filename.npos ) {
-			filename.replace( pos, strXml.size(), strXml );
+		pos = fileXml.rfind( strAc );
+		if (pos != fileXml.npos) {
+			fileXml.replace( pos, strXml.size(), strXml );
 		}
 		else {
-			pos = filename.rfind( strOcm );
-			if (pos != filename.npos ) {
-				filename.replace( pos, strXml.size(), strXml );
+			pos = fileXml.rfind( strOcm );
+			if (pos != fileXml.npos) {
+				fileXml.replace( pos, strXml.size(), strXml );
 			}
 		}
 
 	// Load the properties at the index i
-		_LoadProperties( i, ocHomeDirPrefix(filename) );
+		_mapProperty[fileGraphism] = _LoadProperties( i, ocHomeDirPrefix(fileXml) );
 	}
 
 // Clean up
@@ -113,14 +111,25 @@ PropertyManager2::~PropertyManager2()
 {
 	OPENCITY_DEBUG( "dtor" );
 
-	delete [] _aProperty;
+	std::map<string, Property*>::iterator it;
+	for (it = _mapProperty.begin(); it != _mapProperty.end(); ++it)
+		delete it->second;
+}
+
+
+   /*=====================================================================*/
+const Property* const
+PropertyManager2::Get(const string& key) const
+{
+	std::map<string, Property*>::const_iterator cit = _mapProperty.find(key);
+	return cit != _mapProperty.end() ? cit->second : NULL;
 }
 
 
    /*=====================================================================*/
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
-void
+Property*
 PropertyManager2::_LoadProperties
 (
 	uint index,
@@ -150,17 +159,17 @@ PropertyManager2::_LoadProperties
 	TiXmlNode* pNode = NULL;
 	TiXmlElement* pElement = NULL;
 	TiXmlAttribute* pAttribute = NULL;
-	Property* sProperty = &_aProperty[index];
+	Property* pProperty = new Property();
 
 // Select the "/object/property/cost" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_COST_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "build",	(int*)&sProperty->uiBuildCost );
-	pElement->QueryIntAttribute( "destroy",	(int*)&sProperty->uiDestroyCost );
-	pElement->QueryIntAttribute( "support",	(int*)&sProperty->uiSupportCost );
-	pElement->QueryIntAttribute( "income",	(int*)&sProperty->uiIncome );
+	pElement->QueryIntAttribute( "build",	(int*)&pProperty->uiBuildCost );
+	pElement->QueryIntAttribute( "destroy",	(int*)&pProperty->uiDestroyCost );
+	pElement->QueryIntAttribute( "support",	(int*)&pProperty->uiSupportCost );
+	pElement->QueryIntAttribute( "income",	(int*)&pProperty->uiIncome );
 
 // RCI ========================================================================
 // Select the "/object/property/r/need" node
@@ -168,48 +177,48 @@ PropertyManager2::_LoadProperties
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sResidence.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sResidence.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sResidence.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sResidence.mmNeed.iMax);
 
 // Select the "/object/property/r/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_R_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sResidence.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sResidence.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sResidence.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sResidence.mmProvide.iMax);
 
 // Select the "/object/property/c/need" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_NEED_C_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sCommerce.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sCommerce.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sCommerce.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sCommerce.mmNeed.iMax);
 
 // Select the "/object/property/c/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_C_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sCommerce.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sCommerce.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sCommerce.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sCommerce.mmProvide.iMax);
 
 // Select the "/object/property/i/need" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_NEED_I_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sIndustry.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sIndustry.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sIndustry.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sIndustry.mmNeed.iMax);
 
 // Select the "/object/property/i/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_I_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sIndustry.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sIndustry.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sIndustry.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sIndustry.mmProvide.iMax);
 
 // WEG ========================================================================
 // Select the "/object/property/w/need" node
@@ -217,48 +226,48 @@ PropertyManager2::_LoadProperties
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sWater.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sWater.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sWater.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sWater.mmNeed.iMax);
 
 // Select the "/object/property/w/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_W_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sWater.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sWater.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sWater.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sWater.mmProvide.iMax);
 
 // Select the "/object/property/e/need" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_NEED_E_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sElectricity.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sElectricity.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sElectricity.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sElectricity.mmNeed.iMax);
 
 // Select the "/object/property/e/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_E_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sElectricity.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sElectricity.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sElectricity.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sElectricity.mmProvide.iMax);
 
 // Select the "/object/property/g/need" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_NEED_G_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sGas.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sGas.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sGas.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sGas.mmNeed.iMax);
 
 // Select the "/object/property/e/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_G_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sGas.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sGas.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sGas.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sGas.mmProvide.iMax);
 
 // TN  ========================================================================
 // Select the "/object/property/t/need" node
@@ -266,32 +275,32 @@ PropertyManager2::_LoadProperties
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sTraffic.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sTraffic.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sTraffic.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sTraffic.mmNeed.iMax);
 
 // Select the "/object/property/t/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_T_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sTraffic.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sTraffic.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sTraffic.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sTraffic.mmProvide.iMax);
 
 // Select the "/object/property/nature/need" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_NEED_NATURE_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sNature.mmNeed.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sNature.mmNeed.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sNature.mmNeed.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sNature.mmNeed.iMax);
 
 // Select the "/object/property/nature/provide" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_PROVIDE_NATURE_NODE);
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "min",	(int*)&sProperty->sNature.mmProvide.iMin);
-	pElement->QueryIntAttribute( "max",	(int*)&sProperty->sNature.mmProvide.iMax);
+	pElement->QueryIntAttribute( "min",	(int*)&pProperty->sNature.mmProvide.iMin);
+	pElement->QueryIntAttribute( "max",	(int*)&pProperty->sNature.mmProvide.iMax);
 
 // ??? ========================================================================
 // Select the "/object/property" node
@@ -299,66 +308,67 @@ PropertyManager2::_LoadProperties
 	assert( pNode != NULL );
 // Get the <cost> node and fill the structure with the model cost properties
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "inhabitant",	(int*)&sProperty->uiInhabitant );
-	pElement->QueryIntAttribute( "worker",		(int*)&sProperty->uiWorker );
-	pElement->QueryIntAttribute( "radius",		(int*)&sProperty->uiRadius );
+	pElement->QueryIntAttribute( "inhabitant",	(int*)&pProperty->uiInhabitant );
+	pElement->QueryIntAttribute( "worker",		(int*)&pProperty->uiWorker );
+	pElement->QueryIntAttribute( "radius",		(int*)&pProperty->uiRadius );
 
 // Select the "/object/property/@type" attribute
 	pAttribute = XAp_xpath_attribute(pRoot, OC_METADATA_STRUCTURE_TYPE_ATTRIBUTE);
 	assert( pAttribute != NULL );
-	sProperty->eStructureType = _Str2Type(pAttribute->ValueStr());
+	pProperty->eStructureType = _Str2Type(pAttribute->ValueStr());
 
 // Select the "/object/property/direction/@value" attribute
 	pAttribute = XAp_xpath_attribute(pRoot, OC_METADATA_DIRECTION_ATTRIBUTE);
 	assert( pAttribute != NULL );
-	sProperty->eDirection = _Str2Direction(pAttribute->ValueStr());
+	pProperty->eDirection = _Str2Direction(pAttribute->ValueStr());
 
 // Select the "/object/model" node
 	pNode = XNp_xpath_node(pRoot, OC_METADATA_MODEL_NODE);
 	assert( pNode != NULL );
 // Get the <model> node and fill the structure with the model dimension
 	pElement = pNode->ToElement();
-	pElement->QueryIntAttribute( "width",	(int*)&sProperty->uiWidth );
-	pElement->QueryIntAttribute( "length",	(int*)&sProperty->uiLength );
-	pElement->QueryFloatAttribute( "height", &sProperty->fHeight );
-
+	pElement->QueryIntAttribute( "width",	(int*)&pProperty->uiWidth );
+	pElement->QueryIntAttribute( "length",	(int*)&pProperty->uiLength );
+	pElement->QueryFloatAttribute( "height", &pProperty->fHeight );
 
 // Debug
 	OPENCITY_DEBUG(
 		endl <<
 		"W/L/H: " <<
-			sProperty->uiWidth << "/" << sProperty->uiLength << "/" << sProperty->fHeight << " | " <<
+			pProperty->uiWidth << "/" << pProperty->uiLength << "/" << pProperty->fHeight << " | " <<
 		"B/D/S/I: " <<
-			sProperty->uiBuildCost << "/" << sProperty->uiDestroyCost << "/" << sProperty->uiSupportCost << "/" << sProperty->uiIncome << " | " <<
+			pProperty->uiBuildCost << "/" << pProperty->uiDestroyCost << "/" << pProperty->uiSupportCost << "/" << pProperty->uiIncome << " | " <<
 		"Dir: " <<
-			sProperty->eDirection << " | " <<
+			pProperty->eDirection << " | " <<
 		"Type: " <<
-			sProperty->eStructureType << " | " <<
+			pProperty->eStructureType << " | " <<
 		"i/w/r: " <<
-			sProperty->uiInhabitant << "/" << sProperty->uiWorker << "/" << sProperty->uiRadius << " | " <<
+			pProperty->uiInhabitant << "/" << pProperty->uiWorker << "/" << pProperty->uiRadius << " | " <<
 			endl <<
 		"r/c/i: " <<
-			sProperty->sResidence.mmNeed.iMin << "-" << sProperty->sResidence.mmNeed.iMax << " " <<
-			sProperty->sResidence.mmProvide.iMin << "-" << sProperty->sResidence.mmProvide.iMax << " / " <<
-			sProperty->sCommerce.mmNeed.iMin << "-" << sProperty->sCommerce.mmNeed.iMax << " " <<
-			sProperty->sCommerce.mmProvide.iMin << "-" << sProperty->sCommerce.mmProvide.iMax << " / " <<
-			sProperty->sIndustry.mmNeed.iMin << "-" << sProperty->sIndustry.mmNeed.iMax << " " <<
-			sProperty->sIndustry.mmProvide.iMin << "-" << sProperty->sIndustry.mmProvide.iMax << " / " <<
+			pProperty->sResidence.mmNeed.iMin << "-" << pProperty->sResidence.mmNeed.iMax << " " <<
+			pProperty->sResidence.mmProvide.iMin << "-" << pProperty->sResidence.mmProvide.iMax << " / " <<
+			pProperty->sCommerce.mmNeed.iMin << "-" << pProperty->sCommerce.mmNeed.iMax << " " <<
+			pProperty->sCommerce.mmProvide.iMin << "-" << pProperty->sCommerce.mmProvide.iMax << " / " <<
+			pProperty->sIndustry.mmNeed.iMin << "-" << pProperty->sIndustry.mmNeed.iMax << " " <<
+			pProperty->sIndustry.mmProvide.iMin << "-" << pProperty->sIndustry.mmProvide.iMax << " / " <<
 			endl <<
 		"w/e/g: " <<
-			sProperty->sWater.mmNeed.iMin << "-" << sProperty->sWater.mmNeed.iMax << " " <<
-			sProperty->sWater.mmProvide.iMin << "-" << sProperty->sWater.mmProvide.iMax << " / " <<
-			sProperty->sElectricity.mmNeed.iMin << "-" << sProperty->sElectricity.mmNeed.iMax << " " <<
-			sProperty->sElectricity.mmProvide.iMin << "-" << sProperty->sElectricity.mmProvide.iMax << " / " <<
-			sProperty->sGas.mmNeed.iMin << "-" << sProperty->sGas.mmNeed.iMax << " " <<
-			sProperty->sGas.mmProvide.iMin << "-" << sProperty->sGas.mmProvide.iMax << " / " <<
+			pProperty->sWater.mmNeed.iMin << "-" << pProperty->sWater.mmNeed.iMax << " " <<
+			pProperty->sWater.mmProvide.iMin << "-" << pProperty->sWater.mmProvide.iMax << " / " <<
+			pProperty->sElectricity.mmNeed.iMin << "-" << pProperty->sElectricity.mmNeed.iMax << " " <<
+			pProperty->sElectricity.mmProvide.iMin << "-" << pProperty->sElectricity.mmProvide.iMax << " / " <<
+			pProperty->sGas.mmNeed.iMin << "-" << pProperty->sGas.mmNeed.iMax << " " <<
+			pProperty->sGas.mmProvide.iMin << "-" << pProperty->sGas.mmProvide.iMax << " / " <<
 			endl <<
 		"t/n: " <<
-			sProperty->sTraffic.mmNeed.iMin << "-" << sProperty->sTraffic.mmNeed.iMax << " " <<
-			sProperty->sTraffic.mmProvide.iMin << "-" << sProperty->sTraffic.mmProvide.iMax << " / " <<
-			sProperty->sNature.mmNeed.iMin << "-" << sProperty->sNature.mmNeed.iMax << " " <<
-			sProperty->sNature.mmProvide.iMin << "-" << sProperty->sNature.mmProvide.iMax
+			pProperty->sTraffic.mmNeed.iMin << "-" << pProperty->sTraffic.mmNeed.iMax << " " <<
+			pProperty->sTraffic.mmProvide.iMin << "-" << pProperty->sTraffic.mmProvide.iMax << " / " <<
+			pProperty->sNature.mmNeed.iMin << "-" << pProperty->sNature.mmNeed.iMax << " " <<
+			pProperty->sNature.mmProvide.iMin << "-" << pProperty->sNature.mmProvide.iMax
 	);
+
+	return pProperty;
 }
 
 

@@ -148,7 +148,7 @@ private:
 	uint		uiMapL2;
 
 // Handle pressed keyboards
-	bool		booltabKeyPressed [KEY_NUMBER];
+	bool		_abKeyPressed[KEY_NUMBER];
 
 // Current city's layer
 	OPENCITY_CITY_LAYER _eCurrentLayer;

@@ -20,6 +20,8 @@
 #ifndef _OPENCITY_PROPERTY_H_
 #define _OPENCITY_PROPERTY_H_ 1
 
+//#include "main.h"			// OPENCITY_DEBUG macro
+
 
 // Object's properties XPath expressions
 #define OC_METADATA_PROPERTY_NODE				"/object/property"
@@ -130,7 +132,14 @@ values.
 	uiInhabitant(0), uiWorker(0), uiRadius(0),
 	eStructureType(OC_TYPE_UNDEFINED),
 	eDirection(OC_DIR_UNDEFINED)
-	{}
+	{
+		//OPENCITY_DEBUG( "ctor" );
+	}
+
+	~Property()
+	{
+		//OPENCITY_DEBUG( "dtor" );
+	}
 };
 
 #endif

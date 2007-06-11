@@ -719,18 +719,22 @@ Renderer::Display
 		glPushMatrix();
 		glTranslatef( 0., 0.05, 0. );
 		linear = 0;
+//		uint counter = 0;
 	// IF the graphic manager is created THEN draw
 		if (gVars.gpGraphicMgr != NULL)
 		for (l = 0; l < (int)_uiCityLength; l++) {
 			for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
-				if (!_baCulledModel[linear])
+				if (!_baCulledModel[linear]) {
+//					counter++;
 					continue;
+				}
 	
 				pStructure = pcLayer->GetLinearStructure( linear );
 				if (pStructure != NULL)
 					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
 			}
 		}
+//		OPENCITY_DEBUG( "There were " << counter << " structures clipped out" );
 		glPopMatrix();
 	}
 
@@ -780,11 +784,15 @@ Renderer::DisplayHighlight(
 	const Layer* pcLayer,
 	const OPENCITY_TOOL_CODE & enumTool )
 {
+	OPENCITY_DEBUG( "Not implemented" );
+	assert( 0 );
+
 	DisplayHighlight(
 		pcMap, pcLayer,
 		0, 0,
 		_uiCityWidth-1, _uiCityLength-1,
-		enumTool );
+		enumTool
+	);
 }
 
 
@@ -801,7 +809,7 @@ Renderer::DisplayHighlight(
 {
 	uint linear;
 	uint w, l;
-	const Structure * pStructure;
+	const Structure* pStructure;
 
 // Doing some swapping
 	OPENCITY_SWAP( uiW1, uiW2, uint );
@@ -887,7 +895,8 @@ Renderer::DisplaySelection(
 	DisplaySelection(
 		pcMap, pcLayer,
 		0, 0,
-		_uiCityWidth-1, _uiCityLength-1 );
+		_uiCityWidth-1, _uiCityLength-1
+	);
 }
 
 
@@ -943,13 +952,15 @@ Renderer::DisplayText(
 
    /*=====================================================================*/
 const bool
-Renderer::GetSelectedWHFrom(
+Renderer::GetSelectedWHFrom
+(
 	const uint & rcuiMouseX,
 	const uint & rcuiMouseY,
 	uint & ruiW,
 	uint & ruiL,
 	const Map* pcMap,
-	const Layer* pcLayer )
+	const Layer* pcLayer
+)
 {
 // call the right method with appropriate values
 	return GetSelectedWHFrom(
@@ -960,13 +971,15 @@ Renderer::GetSelectedWHFrom(
 		pcMap,
 		pcLayer,
 		0, 0,
-		_uiCityWidth-1, _uiCityLength-1 );
+		_uiCityWidth-1, _uiCityLength-1
+	);
 }
 
 
    /*=====================================================================*/
 const bool
-Renderer::GetSelectedWHFrom(
+Renderer::GetSelectedWHFrom
+(
 	const uint & rcuiMouseX,
 	const uint & rcuiMouseY,
 	uint & ruiW,
@@ -976,7 +989,8 @@ Renderer::GetSelectedWHFrom(
 	const uint & rcuiW1,
 	const uint & rcuiL1,
 	const uint & rcuiW2,
-	const uint & rcuiL2 )
+	const uint & rcuiL2
+)
 {
 	static uint id;
 	static uint linear;
@@ -1859,7 +1873,6 @@ Renderer::_CalculateCulledGrid
 	}
 
 	double x, y, z;				// Window coordinates
-	uint linear;
 	bool a, b, c, d;			// True if the corresponding part is culled (selected)
 	bool culled;
 
@@ -1881,6 +1894,7 @@ Renderer::_CalculateCulledGrid
 //	OPENCITY_DEBUG( "d/x/y/z " << d << " / " << x << "/" << y << "/" << z );
 
 // IF the working surface is small enough THEN
+	uint linear;				// Array linear index
 	if ((w2-w1 <= MIN_SUBDIVISION_SIZE) || (l2-l1 <= MIN_SUBDIVISION_SIZE)) {
 		culled = a or b or c or d;
 //		OPENCITY_DEBUG( "culled? w1/l1_w2/l2: " << culled << " " << w1 << "/" << l1 << " _ " << w2 << "/" << l2 );

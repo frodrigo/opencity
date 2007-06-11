@@ -22,6 +22,8 @@
 
 #include "main.h"
 
+#include <map>
+
 enum OPENCITY_DIRECTION;
 enum OPENCITY_STRUCTURE_TYPE;
 struct Property;				// Forward declaration
@@ -38,17 +40,24 @@ public:
 	PropertyManager2();
 	~PropertyManager2();
 
-
 //========================================================================
+/** Get the Property of the graphism file given as the key. If the
+requested Property for the given key is not found then NULL is returned.
+	\return The pointer to the requested Property of NULL if not found
+*/
+	const Property* const
+	Get(const string& key) const;
+
 
 private:
-	Property* _aProperty;		///< The array which contains all object properties
+	std::map<string, Property*> _mapProperty;		/// The property map
 
 
 //========================================================================
 // Private methods
 //========================================================================
-	void _LoadProperties(
+	Property*
+	_LoadProperties(
 		uint index,
 		string filename
 	);

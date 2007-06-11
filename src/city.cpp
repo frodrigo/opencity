@@ -87,7 +87,7 @@ _eCurrentTool( OC_NONE )
 // Keyboard bool table's initialization
 	int i;
 	for (i = 0; i < KEY_NUMBER; i++)
-		this->booltabKeyPressed[i] = false;
+		_abKeyPressed[i] = false;
 
 // Initialize the statistics
 	Ressource res = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -289,7 +289,7 @@ void City::Run()
 		uint initialValue = 0;
 
 	// Update the RCI bar value
-		initialValue = (r+c+i)/2 + 1;
+		initialValue = (r+c+i) + 1;
 		pbarResidence->SetInitialValue( initialValue );
 		pbarCommerce->SetInitialValue( initialValue );
 		pbarIndustry->SetInitialValue( initialValue );
@@ -363,25 +363,6 @@ cityrun_swap:
 	ossStatus << _uiPopulation;
 	plblPopulation->SetText( ossStatus.str() );
 
-/* TOKILL: obsolete, may 6th, 07
-// Display the R value
-	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(Simulator::OC_RESIDENTIAL);
-	gVars.gpRenderer->DisplayText( 120, this->_iWinHeight-15, OC_GREEN_COLOR, ossStatus.str() );
-// display the C value
-	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(Simulator::OC_COMMERCIAL);
-	gVars.gpRenderer->DisplayText( 180, this->_iWinHeight-15, OC_BLUE_COLOR, ossStatus.str() );
-// display the I value
-	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(Simulator::OC_INDUSTRIAL);
-	gVars.gpRenderer->DisplayText( 240, this->_iWinHeight-15, OC_YELLOW_COLOR, ossStatus.str() );
-// display the E value
-	ossStatus.str("");
-	ossStatus << _pMSim->GetValue(Simulator::OC_ELECTRIC);
-	gVars.gpRenderer->DisplayText( 300, this->_iWinHeight-15, OC_PINK_COLOR, ossStatus.str() );
-*/
-
 // display the tool
 	ossStatus.str("");
 	ossStatus << "Tool: " << _cTool;
@@ -444,29 +425,29 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 	if (rcEvent.type == SDL_KEYDOWN) {
 	// test if ALT is pressed
 		if (rcEvent.keysym.mod & KMOD_ALT) {
-			this->booltabKeyPressed[KEY_ALT] = true;
+			_abKeyPressed[KEY_ALT] = true;
 		}
 
 	// key symbols treatment
 		switch (rcEvent.keysym.sym) {
 		case SDLK_PAGEUP:
-			this->booltabKeyPressed[KEY_PAGEUP] = true;
+			_abKeyPressed[KEY_PAGEUP] = true;
 			break;
 		case SDLK_PAGEDOWN:
-			this->booltabKeyPressed[KEY_PAGEDOWN] = true;
+			_abKeyPressed[KEY_PAGEDOWN] = true;
 			break;
 
 		case SDLK_UP:
-			this->booltabKeyPressed[KEY_UP] = true;
+			_abKeyPressed[KEY_UP] = true;
 			break;
 		case SDLK_DOWN:
-			this->booltabKeyPressed[KEY_DOWN] = true;
+			_abKeyPressed[KEY_DOWN] = true;
 			break;
 		case SDLK_RIGHT:
-			this->booltabKeyPressed[KEY_RIGHT] = true;
+			_abKeyPressed[KEY_RIGHT] = true;
 			break;
 		case SDLK_LEFT:
-			this->booltabKeyPressed[KEY_LEFT] = true;
+			_abKeyPressed[KEY_LEFT] = true;
 			break;
 
 	// Establish a connection to OCZen
@@ -564,10 +545,10 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 
 
 		case SDLK_INSERT: // zoom in
-			this->booltabKeyPressed[KEY_INSERT] = true;
+			_abKeyPressed[KEY_INSERT] = true;
 			break;
 		case SDLK_DELETE: // zoom out
-			this->booltabKeyPressed[KEY_DELETE] = true;
+			_abKeyPressed[KEY_DELETE] = true;
 			break;
 
 
@@ -657,37 +638,37 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 	else {
 	// test if ALT is released
 		if (!(rcEvent.keysym.mod & KMOD_ALT)) {
-			this->booltabKeyPressed[KEY_ALT] = false;
+			_abKeyPressed[KEY_ALT] = false;
 		}
 
 	// other key symbols treatment
 		switch (rcEvent.keysym.sym) {
 
 		case SDLK_PAGEUP:
-			this->booltabKeyPressed[KEY_PAGEUP] = false;
+			_abKeyPressed[KEY_PAGEUP] = false;
 			break;
 		case SDLK_PAGEDOWN:
-			this->booltabKeyPressed[KEY_PAGEDOWN] = false;
+			_abKeyPressed[KEY_PAGEDOWN] = false;
 			break;
 
 		case SDLK_UP:
-			this->booltabKeyPressed[KEY_UP] = false;
+			_abKeyPressed[KEY_UP] = false;
 			break;
 		case SDLK_DOWN:
-			this->booltabKeyPressed[KEY_DOWN] = false;
+			_abKeyPressed[KEY_DOWN] = false;
 			break;
 		case SDLK_RIGHT:
-			this->booltabKeyPressed[KEY_RIGHT] = false;
+			_abKeyPressed[KEY_RIGHT] = false;
 			break;
 		case SDLK_LEFT:
-			this->booltabKeyPressed[KEY_LEFT] = false;
+			_abKeyPressed[KEY_LEFT] = false;
 			break;
 
 		case SDLK_INSERT: // zoom in
-			this->booltabKeyPressed[KEY_INSERT] = false;
+			_abKeyPressed[KEY_INSERT] = false;
 			break;
 		case SDLK_DELETE: // zoom out
-			this->booltabKeyPressed[KEY_DELETE] = false;
+			_abKeyPressed[KEY_DELETE] = false;
 			break;
 
 		default:
@@ -1446,14 +1427,14 @@ City::_HandleKeyPressed()
 	bool boolKeyDown = false;		// There is no key pressed
 
 // Key multiplier
-	if (this->booltabKeyPressed[KEY_ALT] == true)
+	if (_abKeyPressed[KEY_ALT] == true)
 		actionFactor = OC_ACTION_FACTOR;
 	else
 		actionFactor = 1;
 
 // Look for pressed keys
 	for (key = KEY_UP; key < KEY_NUMBER; key++) {
-		if (this->booltabKeyPressed[key] == true) {
+		if (_abKeyPressed[key] == true) {
 			switch (key) {
 			case KEY_UP:
 				gVars.gpRenderer->MoveDown(actionFactor);
