@@ -584,7 +584,7 @@ int clientMode()
 		return errCode;
 	}
 
-	
+
 // set the window's caption
 	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
 	SDL_WM_SetIcon( IMG_Load(ocHomeDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
@@ -957,10 +957,10 @@ void initGlobalVar()
 	gVars.guiScreenHeight			= OC_WINDOW_HEIGHT;
 	gVars.guiVideoBpp				= OC_WINDOW_BPP_DEFAULT;
 
-	gVars.gsGeneratorHeightMap		= "";
-	gVars.guiGeneratorSeed			= time(NULL);
-	gVars.guiGeneratorMapType		= MapGen::MapMaker::PLAIN;
-	gVars.guiGeneratorWaterType		= MapGen::MapMaker::LAKE;
+	gVars.gsGeneratorHeightMap			= "";
+	gVars.guiGeneratorSeed				= time(NULL);
+	gVars.guiGeneratorMapType			= MapGen::MapMaker::PLAIN;
+	gVars.guiGeneratorWaterType			= MapGen::MapMaker::LAKE;
 	gVars.guiGeneratorMapShapeType		= MapGen::MapMaker::NONE;
 	gVars.guiGeneratorTreeDensityType	= MapGen::MapMaker::SPARSE;
 

@@ -37,6 +37,7 @@ Improved 3D object culling            (done)
 Fix STL comparison functor bug        (done)
 Toggle terrain/water/structure display(done)
 Mini RCI map                          (done)
+Create trees on the map at start      (done)
 
 Integrate the new status bar          (wip)
 	Add speed button                  (done)

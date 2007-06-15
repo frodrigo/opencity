@@ -99,6 +99,9 @@ _eCurrentTool( OC_NONE )
 	_apLayer[ OC_LAYER_BUILDING ] = new BuildingLayer( *this );
 	gVars.gpMapMgr->SetLayer( _apLayer[OC_LAYER_BUILDING] );
 
+// Put few trees on the building layer
+	_CreateTree();
+
 // Pathfinder initialization
 	gVars.gpPathFinder = new PathFinder(
 		gVars.gpmutexSim,
@@ -879,9 +882,35 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 
 
 
+void City::_CreateTree()
+{
+// Create a new tree density map
+	MapGen::MapMaker mapMaker =
+		MapGen::MapMaker(
+			_uiWidth, _uiLength,
+			gVars.gsGeneratorHeightMap,
+			gVars.guiGeneratorMapType,
+			gVars.guiGeneratorWaterType,
+			gVars.guiGeneratorMapShapeType,
+			gVars.guiGeneratorTreeDensityType,
+			gVars.guiGeneratorSeed
+		);
+	int* treeDensity = mapMaker.getTreeDensity();
+
+// Build the trees according to the density map
+	uint cost = 0;
+	for (uint w = 0, linear = 0; w < _uiWidth; w++)
+	for (uint l = 0; l < _uiLength; l++, linear++) {
+		if (treeDensity[linear] > 4) {
+			_apLayer[ OC_LAYER_BUILDING ]->BuildStructure( w, l, w, l, OC_STRUCTURE_FLORA, cost );
+		}
+	}
+
+	delete [] treeDensity;
+}
 
 
-
+   /*=====================================================================*/
 void City::_CreateSimulator()
 {
 // Simulators' initialization

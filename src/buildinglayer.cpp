@@ -302,7 +302,7 @@ BuildingLayer::BuildStructure(
 	const OPENCITY_STRUCTURE_CODE & enumStructCode,
 	uint& rCost )
 {
-	OPENCITY_DEBUG( "I'm building some structures" );
+//	OPENCITY_DEBUG( "I'm building some structures" );
 
 // For more obvious coding
 	OPENCITY_ERR_CODE errCode;
@@ -1127,7 +1127,7 @@ BuildingLayer::_BuildFloraStructure(
 	const OPENCITY_STRUCTURE_CODE & enumStructCode,
 	uint& rCost )
 {
-	OPENCITY_DEBUG( "I'm building some flora structures" );
+//	OPENCITY_DEBUG( "I'm building some flora structures" );
 
 	static uint w, l;
 	static uint linearIndex;

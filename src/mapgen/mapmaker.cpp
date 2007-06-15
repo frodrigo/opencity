@@ -30,10 +30,10 @@
 #include "shapeTopRound.h"
 #include "shapeVolcano.h"
 
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-using std::vector;
 
 namespace MapGen
 {
@@ -210,35 +210,30 @@ void MapMaker::_generateMap( const uint seed )
    /*=====================================================================*/
 void MapMaker::_generateTreeDensity( const uint seed )
 {
-	Generator* generator;
 	vector<Filter*> filters;
 
-	// Select generator
-	switch( _treeDensityType )
-	{
-		default:
-			{
-				uint largerSide = _w > _h ? _w : _h;
-				uint side = (uint) ceil( log2( (float)largerSide ) );
-				generator = new Diamon( seed, side );
-			} break;
-	}
+	// Create a new map generator
+	uint largerSide = _w > _h ? _w : _h;
+	uint side = (uint) ceil( log2( (float)largerSide ) );
+	Generator* generator = new Diamon( seed, side );
+	assert( generator != NULL );
 
 	// Add filter
 	switch( _treeDensityType )
 	{
-		case SPARSE :
-			filters.push_back( new Flattern(8) );
-			filters.push_back( new GaussBlur(2) );
-			filters.push_back( new Normalize(0,8) );
+		case SPARSE:
+			filters.push_back( new GaussBlur(5) );
+			filters.push_back( new Normalize(0,5) );
 			break;
-		case DENSE :
+
+		case DENSE:
 			filters.push_back( new Flattern(1) );
 			filters.push_back( new GaussBlur(2) );
 			filters.push_back( new Normalize(3,20) );
 			break;
+
+		case NORMAL:
 		default:
-		case NORMAL :
 			filters.push_back( new Flattern(4) );
 			filters.push_back( new GaussBlur(2) );
 			filters.push_back( new Normalize(0,10) );

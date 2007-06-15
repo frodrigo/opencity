@@ -262,6 +262,13 @@ private:
    /*=====================================================================*/
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
+
+//========================================================================
+/** Create few trees on the map according to the density map
+*/
+	void _CreateTree();
+
+
 //========================================================================
 /** Create all the threads which handle the simulation aspect
 	\sa _DeleteSimulator()
