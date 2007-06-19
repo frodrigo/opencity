@@ -29,6 +29,8 @@
 #include "shapeBubble.h"
 #include "shapeTopRound.h"
 #include "shapeVolcano.h"
+#include "contextualizer.h"
+#include "contextOnlyPositive.h"
 
 #include <cassert>
 #include <cmath>
@@ -222,23 +224,27 @@ void MapMaker::_generateTreeDensity( const uint seed )
 	switch( _treeDensityType )
 	{
 		case SPARSE:
+			filters.push_back( new Flattern(1) );
 			filters.push_back( new GaussBlur(5) );
 			filters.push_back( new Normalize(0,5) );
 			break;
 
 		case DENSE:
-			filters.push_back( new Flattern(1) );
-			filters.push_back( new GaussBlur(2) );
-			filters.push_back( new Normalize(3,20) );
+			filters.push_back( new Flattern(4) );
+			filters.push_back( new GaussBlur(5) );
+			filters.push_back( new Normalize(0,20) );
 			break;
 
 		case NORMAL:
 		default:
-			filters.push_back( new Flattern(4) );
+			filters.push_back( new Flattern(2) );
 			filters.push_back( new GaussBlur(2) );
 			filters.push_back( new Normalize(0,10) );
 			break;
 	}
+
+	// Remove trees under water
+	filters.push_back( new Contextualizer( new ContextOnlyPositive(), _map ) );
 
 	_treeDensity = _generate( generator, filters );
 }

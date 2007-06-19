@@ -12,6 +12,9 @@ libmapgen_a_SOURCES = \
 map.cpp \
 mapmaker.cpp \
 filter/choper.cpp \
+filter/context.cpp \
+filter/contextOnlyPositive.cpp \
+filter/contextualizer.cpp \
 filter/filter.cpp \
 filter/flattern.cpp \
 filter/gaussblur.cpp \
@@ -30,6 +33,9 @@ noinst_HEADERS = \
 map.h \
 mapmaker.h \
 filter/choper.h \
+filter/context.h \
+filter/contextOnlyPositive.h \
+filter/contextualizer.h \
 filter/filter.h \
 filter/flattern.h \
 filter/gaussblur.h \
@@ -38,7 +44,7 @@ filter/shaper.h \
 filter/shape.h \
 filter/shapeBubble.h \
 filter/shapeTopRound.h \
-filter/shapeVolcano.cpp \
+filter/shapeVolcano.h \
 generator/diamon.h \
 generator/generator.h \
 generator/heightMap.h
