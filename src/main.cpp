@@ -64,6 +64,7 @@ extern GlobalVar gVars;
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
 #include "tinyxml.h"
+#include "SimpleOpt.h"			// Simple command line argument parser
 
 // Standard headers
 #include <cmath>				// For log10
@@ -415,6 +416,189 @@ void formatHomeDir()
    /*=====================================================================*/
 void parseArg(int argc, char *argv[])
 {
+// Command-line options definition
+	enum {
+		OPT_GL_VERSION,
+		OPT_FULLSCREEN,
+		OPT_NO_AUDIO,
+		OPT_HOMEDIR,
+		OPT_GENERATOR_HEIGHT_MAP,
+		OPT_GENERATOR_SEED,
+		OPT_GENERATOR_MAP,
+		OPT_GENERATOR_WATER,
+		OPT_GENERATOR_MAP_SHAPE,
+		OPT_GENERATOR_TREE_DENSITY,
+		OPT_HELP
+	};
+
+	CSimpleOpt::SOption g_rgOptions[] = {
+		{ OPT_GL_VERSION,				"--gl-version",				SO_NONE		},
+		{ OPT_FULLSCREEN,				"--glv",					SO_NONE		},
+		{ OPT_FULLSCREEN,				"--fullscreen",				SO_NONE		},
+		{ OPT_FULLSCREEN,				"-fs",						SO_NONE		},
+		{ OPT_NO_AUDIO,					"--no-audio",				SO_NONE		},
+		{ OPT_NO_AUDIO,					"-na",						SO_NONE		},
+		{ OPT_HOMEDIR,					"--homedir",				SO_REQ_SEP	},
+		{ OPT_HOMEDIR,					"-hd",						SO_REQ_SEP	},
+		{ OPT_GENERATOR_HEIGHT_MAP,		"--generator-height-map",	SO_REQ_SEP	},
+		{ OPT_GENERATOR_SEED,			"--generator-seed",			SO_REQ_SEP	},
+		{ OPT_GENERATOR_MAP,			"--generator-map",			SO_REQ_SEP	},
+		{ OPT_GENERATOR_WATER,			"--generator-water",		SO_REQ_SEP	},
+		{ OPT_GENERATOR_MAP_SHAPE,		"--generator-map-shape",	SO_REQ_SEP	},
+		{ OPT_GENERATOR_TREE_DENSITY,	"--generator-tree-density",	SO_REQ_SEP	},
+		{ OPT_HELP,						"--help",					SO_NONE		},
+		{ OPT_HELP,						"-h",						SO_NONE		},
+		SO_END_OF_OPTIONS // END
+	};
+
+// SimpleOpt parser initialization
+	CSimpleOpt args(argc, argv, g_rgOptions, SO_O_EXACT | SO_O_NOSLASH | SO_O_SHORTARG | SO_O_CLUMP );
+	int i = 0;
+	while (args.Next()) {
+		switch (args.LastError()) {
+		case SO_OPT_INVALID:
+			cout << "<OPTION> " << args.OptionText() << " unrecognized" << endl;
+			break;
+		case SO_OPT_MULTIPLE:
+			cout << "<OPTION> " << args.OptionText() << " matched multiple options" << endl;
+			break;
+		case SO_ARG_INVALID:
+			cout << "<OPTION> " << args.OptionText() << " does not accept any argument" << endl;
+			break;
+		case SO_ARG_INVALID_TYPE:
+			cout << "<OPTION> " << args.OptionText() << " has an invalid argument format" << endl;
+			break;
+		case SO_ARG_MISSING:
+			cout << "<OPTION> " << args.OptionText() << " requires an argument" << endl;
+			break;
+		case SO_ARG_INVALID_DATA:
+			cout << "<OPTION> " << args.OptionText() << " has an invalid argument data" << endl;
+			break;
+		case SO_SUCCESS:
+			cout << "<OPTION> " << args.OptionText() << " detected" << endl;
+			break;
+		} // switch (args.LastError())
+
+		// Exit the program on error
+		if (args.LastError() != SO_SUCCESS) {
+			cout << "Try " << argv[0] << " --help for usage information" << endl;
+			exit( OC_ARGUMENT_ERROR );
+		}
+
+		switch (args.OptionId()) {
+		case OPT_GL_VERSION:
+			if (gVars.gpVideoSrf == NULL) {
+				(void)initSDL();
+			}
+			cout << "GL Vendor: " << glGetString( GL_VENDOR ) << endl;
+			cout << "GL Renderer: " << glGetString( GL_RENDERER ) << endl;
+			cout << "GL Version: " << glGetString( GL_VERSION ) << endl;
+			cout << "GL Extensions: " << glGetString( GL_EXTENSIONS ) << endl;
+			break;
+
+		case OPT_FULLSCREEN:
+			gVars.gboolFullScreen = true;
+			break;
+
+		case OPT_NO_AUDIO:
+			gVars.gboolUseAudio = false;
+			break;
+
+		case OPT_HOMEDIR:
+			sHomeDir = args.OptionArg();
+			formatHomeDir();
+			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
+			break;
+
+		case OPT_GENERATOR_HEIGHT_MAP:
+			gVars.gsGeneratorHeightMap = args.OptionArg();
+			break;
+
+		case OPT_GENERATOR_SEED:
+			i = atoi( args.OptionArg() ); // return 0 as error value
+			if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
+				gVars.guiGeneratorSeed = i;
+			}
+			else {
+				OPENCITY_INFO(
+					"Argument provided to --generator-seed must be an integer. The default value is used instead."
+				);
+			}
+			break;
+
+		case OPT_GENERATOR_MAP:
+			i = atoi( args.OptionArg() ); // return 0 as error value
+			if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
+				gVars.guiGeneratorMapType = MapGen::MapMaker::MAP_TYPE(i);
+			}
+			else {
+				OPENCITY_INFO(
+					"Argument provided to --generator-map must be an integer. The default value is used instead."
+				);
+			}
+			break;
+
+		case OPT_GENERATOR_WATER:
+			i = atoi( args.OptionArg() ); // return 0 as error value
+			if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
+				gVars.guiGeneratorWaterType = MapGen::MapMaker::WATER_TYPE(i);
+			}
+			else {
+				OPENCITY_INFO(
+					"Argument provided to --generator-water must be an integer. The default value is used instead." );
+			}
+			break;
+
+		case OPT_GENERATOR_MAP_SHAPE:
+			i = atoi( args.OptionArg() ); // return 0 as error value
+			if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
+				gVars.guiGeneratorMapShapeType = MapGen::MapMaker::MAP_SHAPE_TYPE(i);
+			}
+			else {
+				OPENCITY_INFO(
+					"Argument provided to --generator-map-shape must be an integer. The default value is used instead."
+				);
+			}
+			break;
+
+		case OPT_GENERATOR_TREE_DENSITY:
+			i = atoi( args.OptionArg() ); // return 0 as error value
+			if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
+				gVars.guiGeneratorTreeDensityType = MapGen::MapMaker::TREE_DENSITY_TYPE(i);
+			}
+			else {
+				OPENCITY_INFO(
+					"Argument provided to --generator-tree-density must be an integer. The default value is used instead."
+				);
+			}
+			break;
+
+		case OPT_HELP:
+			cout << "Usage: " << argv[0]
+				<< " [-fs|--fullscreen] [-glv|--gl-version] [-hd|--homedir newHomePath]"
+				<< " [-na|--no-audio] [--generator-height-map heightMapPicture |"
+				<< " (--generator-seed seed [--generator-map MAP-TYPE] [--generator-water WATER-TYPE]"
+				<< " [--generator-map-shape MAP-SHAPE-TYPE] [--generator-tree-density TREE-DENSITY-TYPE])]"
+				<< endl << endl
+				<< "Where the map generator constants are: " << endl
+				<< "   MAP-TYPE         : 0=plain (default), 1=hill, 2=mountain" << endl
+				<< "   TREE-DENSITY-TYPE: 0=sparse (default), 1=normal, 2=dense" << endl
+				<< "   MAP-SHAPE-TYPE   : 0=none (default), 1=island, 2=volcano, 3=crater" << endl
+				<< "   WATER-TYPE       : 0=dry, 1=lake (default), 2=coast" << endl
+				<< endl;
+			cout << "Warning: the command option overwrite the config file settings."
+				<< endl;
+			exit( OC_ARGUMENT_ERROR );
+			break;
+		}	// switch (args.OptionId())
+	} // while (args.Next())
+}
+
+
+   /*=====================================================================*/
+/* TOKILL, old version, kept for reference, jul 1st 07
+void parseArg(int argc, char *argv[])
+{
 	int counter;
 
 	counter = 0;
@@ -483,26 +667,22 @@ void parseArg(int argc, char *argv[])
 						"Argument provided to --generator-map must be an integer. The default value is used instead."
 					);
 				}
-			}
-		} else
-		if (strcmp( argv[counter], "--generator-water" ) == 0 || strcmp( argv[counter], "-gw" ) == 0) {
-			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			if (++counter < argc) {
-				int i = atoi( argv[counter] ); // return 0 as error value
-				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+				break;
+
+			case OPT_GENERATOR_WATER:
+				i = atoi( args.OptionArg() ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
 	    			gVars.guiGeneratorWaterType = MapGen::MapMaker::WATER_TYPE(i);
 				}
 				else {
 					OPENCITY_INFO(
 						"Argument provided to --generator-water must be an integer. The default value is used instead." );
 				}
-			}
-		} else
-		if (strcmp( argv[counter], "--generator-map-shape" ) == 0 || strcmp( argv[counter], "-gms" ) == 0) {
-			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			if (++counter < argc) {
-				int i = atoi( argv[counter] ); // return 0 as error value
-				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+				break;
+
+			case OPT_GENERATOR_MAP_SHAPE:
+				i = atoi( args.OptionArg() ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
 		    		gVars.guiGeneratorMapShapeType = MapGen::MapMaker::MAP_SHAPE_TYPE(i);
 				}
 				else {
@@ -510,13 +690,11 @@ void parseArg(int argc, char *argv[])
 						"Argument provided to --generator-map-shape must be an integer. The default value is used instead."
 					);
 				}
-			}
-		} else
-		if (strcmp( argv[counter], "--generator-tree-density" ) == 0 || strcmp( argv[counter], "-gtd" ) == 0) {
-			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			if (++counter < argc) {
-				int i = atoi( argv[counter] ); // return 0 as error value
-				if (i != 0 || ( i == 0 && strcmp(argv[counter], "0") == 0 )) {
+				break;
+
+			case OPT_GENERATOR_TREE_DENSITY:
+				i = atoi( args.OptionArg() ); // return 0 as error value
+				if (i != 0 || ( i == 0 && strcmp(args.OptionArg(), "0") == 0 )) {
 	    			gVars.guiGeneratorTreeDensityType = MapGen::MapMaker::TREE_DENSITY_TYPE(i);
 				}
 				else {
@@ -545,6 +723,7 @@ void parseArg(int argc, char *argv[])
 		}
 	} // while
 }
+*/
 
 
    /*=====================================================================*/

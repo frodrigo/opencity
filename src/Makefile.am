@@ -103,6 +103,7 @@ property.h \
 propertymanager.h \
 propertymanager2.h \
 renderer.h \
+SimpleOpt.h \
 texture.h \
 ui.h \
 vehicle.h \

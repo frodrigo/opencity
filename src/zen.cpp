@@ -38,6 +38,7 @@ extern GlobalVar gVars;
 #include "SDL_image.h"
 #include "binreloc.h"			// BinReloc routines from AutoPackage
 #include "tinyxml/tinyxml.h"
+#include "SimpleOpt.h"			// Simple command line argument parser
 
 // Standard headers
 #include <cmath>				// For log10
@@ -167,29 +168,66 @@ void formatHomeDir()
    /*=====================================================================*/
 void parseArg(int argc, char *argv[])
 {
-	int counter;
+	enum {
+		OPT_HOMEDIR,
+		OPT_HELP
+	};
 
-	counter = 0;
+	CSimpleOpt::SOption g_rgOptions[] = {
+		{ OPT_HOMEDIR,					"--homedir",				SO_REQ_SEP	},
+		{ OPT_HOMEDIR,					"-hd",						SO_REQ_SEP	},
+		{ OPT_HELP,						"--help",					SO_NONE		},
+		{ OPT_HELP,						"-h",						SO_NONE		},
+		SO_END_OF_OPTIONS // END
+	};
 
-	while (++counter < argc) {
-		if (strcmp( argv[counter], "--homedir" ) == 0) {
-			cout << "<OPTION> " << argv[counter] << " detected" << endl;
-			if (++counter < argc)
-				sHomeDir = argv[counter];
-			else
-				sHomeDir = "";
+	CSimpleOpt args(argc, argv, g_rgOptions, SO_O_EXACT | SO_O_NOSLASH | SO_O_SHORTARG | SO_O_CLUMP );
+	while (args.Next()) {
+		switch (args.LastError()) {
+		case SO_OPT_INVALID:
+			cout << "<OPTION> " << args.OptionText() << " unrecognized" << endl;
+			break;
+		case SO_OPT_MULTIPLE:
+			cout << "<OPTION> " << args.OptionText() << " matched multiple options" << endl;
+			break;
+		case SO_ARG_INVALID:
+			cout << "<OPTION> " << args.OptionText() << " does not accept any argument" << endl;
+			break;
+		case SO_ARG_INVALID_TYPE:
+			cout << "<OPTION> " << args.OptionText() << " has an invalid argument format" << endl;
+			break;
+		case SO_ARG_MISSING:
+			cout << "<OPTION> " << args.OptionText() << " requires an argument" << endl;
+			break;
+		case SO_ARG_INVALID_DATA:
+			cout << "<OPTION> " << args.OptionText() << " has an invalid argument data" << endl;
+			break;
+		case SO_SUCCESS:
+			cout << "<OPTION> " << args.OptionText() << " detected" << endl;
+			break;
+		}
+
+		// Exit the program on error
+		if (args.LastError() != SO_SUCCESS) {
+			cout << "Try " << argv[0] << " --help for usage information" << endl;
+			exit( -1 );
+		}
+
+		switch (args.OptionId()) {
+		case OPT_HOMEDIR:
+			sHomeDir = args.OptionArg();
 			formatHomeDir();
 			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
-		}
-		else {
-			cout << "Unknown option: [" << argv[counter] << "]" << endl;
+			break;
+
+		case OPT_HELP:
 			cout << "Usage: " << argv[0]
-			     << " [--homedir newHomePath]"
-				 << endl << endl;
-			cout << "Warning: any command line switch will overwrite the config file settings"
-			     << endl;
-			exit(-1);
-		}
+				 << " [-hd|--homedir newHomePath]" << endl << endl;
+			cout << "Warning: the command option overwrite the config file settings."
+				 << endl;
+			exit( -2 );
+			break;
+		} // switch
 	} // while
 }
 

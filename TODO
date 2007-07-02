@@ -1,5 +1,5 @@
 ==============================================================================
-OpenCity TODO version 0.0.5 BETA (rad)
+OpenCity TODO version 0.0.5 BETA
 --------------------------------------
 Last modified:
 	$Id$
@@ -38,6 +38,7 @@ Fix STL comparison functor bug        (done)
 Toggle terrain/water/structure display(done)
 Mini RCI map                          (done)
 Create trees on the map at start      (done)
+Add SimpleOpt as command line parser  (done)
 
 Integrate the new status bar          (wip)
 	Add speed button                  (done)
