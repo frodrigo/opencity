@@ -9,8 +9,9 @@
 // Code modifed by Frederic Rodrigo 2005-2007 as viewer of object loaded by OpenCity
 /*
     TODO:
-    - done a better command ligne parser
     - add geometry commands line argument
+    - improve help display: key
+    - mine type for .ac
 */
 
 // Useful enumerations
@@ -28,6 +29,9 @@
 
 // Standard headers
 #include <string>
+
+// Commande line argument parser
+#include "../src/SimpleOpt.h"
 
 // Libraries headers
 #include "pngfuncs.h"
@@ -172,26 +176,77 @@ Conf *loadConf( const string &acFile )
 }
 
 
-string *parseArgLine( const int argc, const char **argv, bool *shot )
+string *parseArgLine( int argc, char **argv, bool *shot )
 {
-	if( argc <= 1 )
-	{
-		printf( "Usage: %s [s] model.ac\n", argv[0] );
-		return 0;
+	enum {
+		OPT_SCREENSHOT,
+		OPT_HELP
+	};
+
+	CSimpleOpt::SOption g_rgOptions[] = {
+		{ OPT_SCREENSHOT,				"--screenshot",				SO_NONE		},
+		{ OPT_SCREENSHOT,				"-s",						SO_NONE		},
+		{ OPT_HELP,						"--help",					SO_NONE		},
+		{ OPT_HELP,						"-h",						SO_NONE		},
+		SO_END_OF_OPTIONS // END
+	};
+
+	CSimpleOpt args(argc, argv, g_rgOptions, SO_O_EXACT | SO_O_NOSLASH | SO_O_SHORTARG | SO_O_CLUMP );
+
+	while (args.Next()) {
+		switch (args.LastError()) {
+			case SO_OPT_INVALID:
+				cout << "<OPTION> " << args.OptionText() << " unrecognized" << endl;
+				break;
+			case SO_OPT_MULTIPLE:
+				cout << "<OPTION> " << args.OptionText() << " matched multiple options" << endl;
+				break;
+			case SO_ARG_INVALID:
+				cout << "<OPTION> " << args.OptionText() << " does not accept argument" << endl;
+				break;
+			case SO_ARG_INVALID_TYPE:
+				cout << "<OPTION> " << args.OptionText() << " have an invalid argument format" << endl;
+				break;
+			case SO_ARG_MISSING:
+				cout << "<OPTION> " << args.OptionText() << " require an argument" << endl;
+				break;
+			case SO_ARG_INVALID_DATA:
+            	cout << "<OPTION> " << args.OptionText() << " has an invalid argument data" << endl;
+				break;
+			case SO_SUCCESS:
+				break;
+		}
+
+		switch (args.LastError()) {
+			case SO_SUCCESS:
+				cout << "<OPTION> " << args.OptionText() << " detected" << endl;
+				break;
+			default:
+				cout << "try " << argv[0] << " --help for usage information" << endl;
+				exit( -1 );
+				break;
+		}
+
+		switch (args.OptionId()) {
+
+			case OPT_SCREENSHOT:
+				*shot = true;
+				break;
+
+			case OPT_HELP:
+				cout << "Usage: " << argv[0]
+					<< " [-s|--screenshot] model.ac" << endl << endl;
+				exit( -1 );
+				break;
+		}
 	}
 
-	if( argc == 2 )
-	{
-		return new string( argv[1] );
+	if( args.FileCount() >= 1 ) {
+		return new string( args.File(0) );
 	}
-
-	if( argc >= 3 )
-	{
-		*shot = true;
-		return new string( argv[2] );
+	else {
+		return NULL;
 	}
-
-	return NULL;
 }
 
 
@@ -248,7 +303,7 @@ Model *loadModel( const string &modelFile, float *width, float *length, float *h
 }
 
 
-int main( const int argc, const char **argv )
+int main( int argc, char **argv )
 {
 	bool shot = false;
 	string *modelFile = parseArgLine( argc, argv, &shot );
