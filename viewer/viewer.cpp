@@ -30,11 +30,9 @@
 // Standard headers
 #include <string>
 
-// Commande line argument parser
-#include "../src/SimpleOpt.h"
-
 // Libraries headers
 #include "pngfuncs.h"
+#include "SimpleOpt.h"			// Simple command line argument parser
 
 
 int W = 640;
@@ -106,13 +104,13 @@ void screenshot( const string name, int w, int h )
 	// Build the screen shot surface
 	unsigned int* someBuffer = new unsigned int[ w * h * 4 ];
 
-        Uint32 rmask, gmask, bmask, amask;
-        #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-        rmask = 0xff000000; gmask = 0x00ff0000; bmask = 0x0000ff00; amask = 0x000000ff;
-        #else
-        rmask = 0x000000ff; gmask = 0x0000ff00; bmask = 0x00ff0000; amask = 0xff000000;
-        #endif
-									
+	Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+	rmask = 0xff000000; gmask = 0x00ff0000; bmask = 0x0000ff00; amask = 0x000000ff;
+#else
+	rmask = 0x000000ff; gmask = 0x0000ff00; bmask = 0x00ff0000; amask = 0xff000000;
+#endif
+
 	SDL_Surface *shot = SDL_CreateRGBSurfaceFrom( someBuffer, w, h, 8*4, w*4, rmask, gmask, bmask, amask );
 //	SDL_Surface *shot = SDL_CreateRGBSurfaceFrom( someBuffer, w, h, 8*4, w*4, 0, 0, 0, 0 );
 
@@ -176,7 +174,7 @@ Conf *loadConf( const string &acFile )
 }
 
 
-string *parseArgLine( int argc, char **argv, bool *shot )
+string parseArgLine( int argc, char **argv, bool *shot )
 {
 	enum {
 		OPT_SCREENSHOT,
@@ -205,7 +203,7 @@ string *parseArgLine( int argc, char **argv, bool *shot )
 				cout << "<OPTION> " << args.OptionText() << " does not accept argument" << endl;
 				break;
 			case SO_ARG_INVALID_TYPE:
-				cout << "<OPTION> " << args.OptionText() << " have an invalid argument format" << endl;
+				cout << "<OPTION> " << args.OptionText() << " has an invalid argument format" << endl;
 				break;
 			case SO_ARG_MISSING:
 				cout << "<OPTION> " << args.OptionText() << " require an argument" << endl;
@@ -242,10 +240,10 @@ string *parseArgLine( int argc, char **argv, bool *shot )
 	}
 
 	if( args.FileCount() >= 1 ) {
-		return new string( args.File(0) );
+		return args.File(0);
 	}
 	else {
-		return NULL;
+		return "";
 	}
 }
 
@@ -306,9 +304,9 @@ Model *loadModel( const string &modelFile, float *width, float *length, float *h
 int main( int argc, char **argv )
 {
 	bool shot = false;
-	string *modelFile = parseArgLine( argc, argv, &shot );
+	string modelFile = parseArgLine( argc, argv, &shot );
 
-	if( modelFile == NULL )
+	if( modelFile == "" )
 	{
 		exit( 0 );
 	}
@@ -327,10 +325,10 @@ int main( int argc, char **argv )
 	}
 
 	float width, length, height;
-	Model *model = loadModel( *modelFile, &width, &length, &height );
+	Model *model = loadModel( modelFile, &width, &length, &height );
 	if( model == NULL )
 	{
-		OPENCITY_ERROR( "Can't load model from file : \"" << *modelFile << "\"" );
+		OPENCITY_ERROR( "Can't load model from file : \"" << modelFile << "\"" );
 		exit( -3 );
 	}
 
@@ -338,7 +336,7 @@ int main( int argc, char **argv )
 	
 	if( shot )
 	{
-		screenshot( *modelFile, W, H );
+		screenshot( modelFile, W, H );
 	}
 	else
 	{
@@ -412,7 +410,7 @@ int main( int argc, char **argv )
 								glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 								break;
 							case SDLK_s:
-								screenshot( *modelFile, W, H );
+								screenshot( modelFile, W, H );
 								break;
 							default:
 								redraw=false;
@@ -439,7 +437,6 @@ int main( int argc, char **argv )
 	} // shot
 
 	delete model;
-	delete modelFile;
 
 	SDL_Quit();
 	return 1;

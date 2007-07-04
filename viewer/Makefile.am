@@ -28,4 +28,5 @@ pngfuncs.h \
 ../src/globalvar.h \
 ../src/persistence.h \
 ../src/propertymanager.h \
+../src/SimpleOpt.h \
 ../src/texture.h
