@@ -44,13 +44,11 @@ Contextualizer::~Contextualizer()
    /*=====================================================================*/
 void Contextualizer::apply( Map* map )
 {
-	uint w, h;
+	uint w = map->getW();
+	uint h = map->getL();
 
-	w = map->getW();
-	h = map->getL();
-
-	for( uint x = 0 ; x < w; ++x )
-		for( uint y = 0 ; y < h; ++y )
+	for( uint x=0 ; x<w ; ++x )
+		for( uint y=0 ; y<h ; ++y )
 			map->setAt( x, y, _context->contextualize( map->getAt(x,y), _contextMap->getAt(x,y) ) );
 }
 

@@ -40,7 +40,11 @@ ContextOnlyPositive::~ContextOnlyPositive()
    /*=====================================================================*/
 float ContextOnlyPositive::contextualize( const float height, const float context ) const
 {
-	return context > 0 ? height : 0;
+	// Cmp context on 0 must be on int(context), because all map are finaly in int
+	// int(-0.99)=0
+	return int(context) >= 0 ? height : 0;
+	// Can also be written as
+	// return context > -1 ? height : 0;
 }
 
 }

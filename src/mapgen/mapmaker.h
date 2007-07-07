@@ -101,8 +101,10 @@ private:
 // Private methods
 //========================================================================
 	Map* _generate(
-    	const Generator* generator,
-    	vector<Filter*> filters ) const;
+		const uint w,
+		const uint h,
+		const Generator* generator,
+		vector<Filter*> filters ) const;
 
 	void _loadMap( const string heightMap );
 	void _generateMap( const uint seed );

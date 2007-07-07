@@ -901,7 +901,7 @@ void City::_CreateTree()
 	uint cost = 0;
 	for (uint w = 0, linear = 0; w < _uiWidth; w++)
 	for (uint l = 0; l < _uiLength; l++, linear++) {
-		if (treeDensity[linear] > 4) {
+		if (treeDensity[linear] > 0) {
 			_apLayer[ OC_LAYER_BUILDING ]->BuildStructure( w, l, w, l, OC_STRUCTURE_FLORA, cost );
 		}
 	}

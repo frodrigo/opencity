@@ -31,6 +31,7 @@
 #include "shapeVolcano.h"
 #include "contextualizer.h"
 #include "contextOnlyPositive.h"
+#include "cutter.h"
 
 #include <cassert>
 #include <cmath>
@@ -95,6 +96,8 @@ MapMaker::~MapMaker()
 
    /*=====================================================================*/
 Map* MapMaker::_generate(
+	const uint w,
+	const uint h,
 	const Generator* generator,
 	vector<Filter*> filters ) const
 {
@@ -102,15 +105,17 @@ Map* MapMaker::_generate(
 	Map* map = generator->render();
 	delete generator;
 
+	// Crop the map
+	Map* cropedMap = map->crop( w, h );
+	delete map;
+
 	// Apply filters
 	for( vector<Filter*>::iterator i=filters.begin() ; i!=filters.end() ; i++ )
 	{
-		(*i)->apply( map );
+		(*i)->apply( cropedMap );
 		delete *i;
 	}
 
-	Map* cropedMap = map->crop( _w, _h );
-	delete map;
 	return cropedMap;
 }
 
@@ -123,7 +128,7 @@ void MapMaker::_loadMap( const string heightMap )
 
 	generator = new HeightMap( heightMap );
 
-	_map = _generate( generator, filters );
+	_map = _generate( _w+1, _h+1, generator, filters );
 }
 
 
@@ -137,7 +142,7 @@ void MapMaker::_generateMap( const uint seed )
 	switch( _mapType )
 	{
 		default:
-			uint largerSide = _w > _h ? _w : _h;
+			uint largerSide = (_w+1) > (_h+1) ? (_w+1) : (_h+1);
 			uint side = (uint) ceil( log2( (float)largerSide ) );
 			generator = new Diamon( seed, side );
 			break;
@@ -205,7 +210,7 @@ void MapMaker::_generateMap( const uint seed )
 	// Smooth the result
 	filters.push_back( new GaussBlur(2) );
 
-	_map = _generate( generator, filters );
+	_map = _generate( _w+1, _h+1, generator, filters );
 }
 
 
@@ -226,27 +231,35 @@ void MapMaker::_generateTreeDensity( const uint seed )
 		case SPARSE:
 			filters.push_back( new Flattern(1) );
 			filters.push_back( new GaussBlur(5) );
-			filters.push_back( new Normalize(0,5) );
+			filters.push_back( new Normalize(-15,5) );
 			break;
 
 		case DENSE:
-			filters.push_back( new Flattern(4) );
+			filters.push_back( new Flattern(1) );
 			filters.push_back( new GaussBlur(5) );
-			filters.push_back( new Normalize(0,20) );
+			filters.push_back( new Normalize(0,5) );
 			break;
 
 		case NORMAL:
 		default:
-			filters.push_back( new Flattern(2) );
-			filters.push_back( new GaussBlur(2) );
-			filters.push_back( new Normalize(0,10) );
+			filters.push_back( new Flattern(1) );
+			filters.push_back( new GaussBlur(5) );
+			filters.push_back( new Normalize(-5,5) );
 			break;
 	}
 
-	// Remove trees under water
-	filters.push_back( new Contextualizer( new ContextOnlyPositive(), _map ) );
+	// Optain halfShifted map
+	Map* halfShiftMap = _map->halfShift();
 
-	_treeDensity = _generate( generator, filters );
+	// Remove trees under water
+	filters.push_back( new Contextualizer( new ContextOnlyPositive(), halfShiftMap ) );
+
+	// Remove negative density
+	filters.push_back( new Cutter( new CutterFunctorOnlyPositive() ) );
+
+	_treeDensity = _generate( _w, _h, generator, filters );
+
+	delete halfShiftMap;
 }
 
 

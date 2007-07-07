@@ -30,6 +30,7 @@ using std::string;
 
 #ifndef MAP_NDEBUG
 	#define MAP_DEBUG( msg ) OPENCITY_DEBUG( msg )
+	#define MAP_ERROR( msg ) OPENCITY_ERROR( msg )
 #else
 	#define MAP_DEBUG( msg )
 #endif
@@ -83,6 +84,11 @@ public:
 //========================================================================
 /** Convert the private float array to an allocated int array */
 	int* toIntArray() const;
+
+
+//========================================================================
+/** Return a (w-1)x-(h-1) sized map, each place is average of four corners */
+	Map* halfShift() const;
 
 
 private:

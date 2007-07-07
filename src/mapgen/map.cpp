@@ -22,6 +22,11 @@
 #include <cmath>
 #include <fstream>
 #include <assert.h>
+
+// Libraries headers
+#include "SDL.h"
+#include "pngfuncs.h"
+
 using namespace std;
 
 
@@ -77,34 +82,57 @@ Map::getAt(
 	int x,
 	int y ) const
 {
-	if( x>=0 && y>=0 && x<(int)_w && y<(int)_h )
-		return _map[x][y];
-	else
-		return 0;
+	// bordered getter
+	x = x<0 ? 0 : x;
+	x = x>=(long int)_w ? _w-1 : x;
+	y = y<0 ? 0 : y;
+	y = y>=(long int)_h ? _h-1 : y;
+	return _map[x][y];
 }
 
 
    /*=====================================================================*/
 bool Map::save(	const string &file )
 {
-	ofstream f( file.c_str(), ios::out );
-		
-	if ( !f ) {
-		return false;
-	}
-	else {
-		f << "P2" << endl;
-		f << _w << " " << _h << endl;
-		f << "256" << endl;
-		for( uint x=0 ; x<_w ; x++ )
-			for( uint y=0 ; y<_h ; y++ )
-				f << int(_map[x][y]) << endl;
+	Uint8* buffer = new Uint8[_w*_h*3];
+	assert( buffer != NULL );
 
-		f.close();
-		return true;
+	for( uint x=0 ; x<_w ; x++ )
+		for( uint y=0 ; y<_h ; y++ )
+		{
+			uint offset = ( y*_w + x ) * 3;
+			buffer[offset+0] = buffer[offset+1] = buffer[offset+2] = int(_map[x][y]) + 128;
+		}
+
+	bool retValue = false;
+
+	SDL_Surface* heightMap = SDL_CreateRGBSurfaceFrom( buffer, _w, _h, 3*8, _w*3, 0, 0, 0, 0);
+
+	if( heightMap == NULL )
+	{
+		MAP_INFO( "Cant create surface for heightmap : \"" << SDL_GetError() << "\"" );
+		retValue = false;
 	}
+	else
+	{
+		if( png_save_surface( (file+".png").c_str(), heightMap ) == 0 )
+		{
+			MAP_INFO( "Map saved under \"" << file << "\"" );
+			retValue = true;
+		}
+		else
+		{
+			MAP_ERROR( "C'ant save map under \"" << file << "\"" );
+			retValue = false;
+		}
+
+		SDL_FreeSurface( heightMap );
+	}
+
+	delete[] buffer;
+
+	return retValue;
 }
-
 
    /*=====================================================================*/
 Map* Map::crop(
@@ -119,7 +147,7 @@ Map* Map::crop(
 
 	for( uint x=0 ; x<w ; ++x )
 	    for( uint y=0 ; y<h ; ++y )
-		map->setAt( x, y, getAt( x+dcx, y+dcy ) );
+			map->setAt( x, y, getAt( x+dcx, y+dcy ) );
 
 	return map;
 }
@@ -132,9 +160,23 @@ int* Map::toIntArray() const
 
 	for( uint x=0 ; x<_w ; x++ )
 		for( uint y=0 ; y<_h ; y++ )
-			map[x+y*_w] = (int) round( getAt( x, y ) );
+			map[x+y*_w] = (int) getAt( x, y );
 
 	return map;
+}
+
+
+   /*=====================================================================*/
+Map* Map::halfShift() const
+{
+	Map* halfShiftMap = new Map( _w-1, _h-1 );
+
+	// FIXME produce positive value even if one is negative => tree under water on coast (not displayed because not plane)
+	for( uint x=0 ; x<_w-1 ; ++x )
+		for( uint y=0 ; y<_h-1 ; ++y )
+			halfShiftMap->setAt( x, y, ( getAt(x,y)+getAt(x+1,y)+getAt(x,y+1)+getAt(x+1,y+1) ) / 4 );
+
+	return halfShiftMap;
 }
 
 

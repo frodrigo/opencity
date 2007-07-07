@@ -11,10 +11,12 @@ noinst_LIBRARIES = libmapgen.a
 libmapgen_a_SOURCES = \
 map.cpp \
 mapmaker.cpp \
+pngfuncs.c \
 filter/choper.cpp \
 filter/context.cpp \
 filter/contextOnlyPositive.cpp \
 filter/contextualizer.cpp \
+filter/cutter.cpp \
 filter/filter.cpp \
 filter/flattern.cpp \
 filter/gaussblur.cpp \
@@ -32,10 +34,12 @@ generator/heightMap.cpp
 noinst_HEADERS = \
 map.h \
 mapmaker.h \
+pngfuncs.h \
 filter/choper.h \
 filter/context.h \
 filter/contextOnlyPositive.h \
 filter/contextualizer.h \
+filter/cutter.h \
 filter/filter.h \
 filter/flattern.h \
 filter/gaussblur.h \
