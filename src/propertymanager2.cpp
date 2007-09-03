@@ -137,7 +137,7 @@ PropertyManager2::_LoadProperties
 )
 {
 // Parameters checking
-	OPENCITY_DEBUG( "Load file: " << filename );
+	OPENCITY_DEBUG( "Loading file: " << filename );
 	assert( index >= 0 );
 	assert( filename != "" );
 
@@ -332,6 +332,7 @@ PropertyManager2::_LoadProperties
 	pElement->QueryFloatAttribute( "height", &pProperty->fHeight );
 
 // Debug
+/*
 	OPENCITY_DEBUG(
 		endl <<
 		"W/L/H: " <<
@@ -367,6 +368,7 @@ PropertyManager2::_LoadProperties
 			pProperty->sNature.mmNeed.iMin << "-" << pProperty->sNature.mmNeed.iMax << " " <<
 			pProperty->sNature.mmProvide.iMin << "-" << pProperty->sNature.mmProvide.iMax
 	);
+*/
 
 	return pProperty;
 }

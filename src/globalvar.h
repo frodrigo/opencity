@@ -79,6 +79,7 @@ struct GlobalVar
 	AudioManager* gpAudioMgr;
 	GraphicManager* gpGraphicMgr;
 	PropertyManager* gpPropertyMgr;
+	MapGen::MapMaker* gpMapMaker;	///< The MapMaker is used to create the height map
 	Map* gpMapMgr;
 	Networking* gpNetworking;
 	PathFinder* gpPathFinder;

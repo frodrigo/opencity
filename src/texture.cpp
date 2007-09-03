@@ -95,7 +95,7 @@ Texture::Load
 	SDL_Surface* pMirror = NULL;
 	GLuint uiTexture = 0;	// tell glIsTexture that this is not a texture name
 
-	OPENCITY_DEBUG( rcFile.c_str() );
+//	OPENCITY_DEBUG( rcFile.c_str() );
 
 // TODO: error checking
 // load the image to the SDL surface

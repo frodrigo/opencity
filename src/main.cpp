@@ -738,7 +738,7 @@ void displaySplash()
 
 
    /*=====================================================================*/
-void displayStatus( const string & str )
+static void displayStatus( const string & str )
 {
 	uint x, y;
 
@@ -753,7 +753,7 @@ void displayStatus( const string & str )
 
 
    /*=====================================================================*/
-int clientMode()
+static int clientMode()
 {
 	int errCode = 0;
 
@@ -802,6 +802,17 @@ int clientMode()
 
 
 // Create the other required global managers
+	displayStatus( "Initializing the vibration detector..." );
+	gVars.gpMapMaker = new MapGen::MapMaker(
+		gVars.guiCityWidth + 1, gVars.guiCityLength + 1,
+		gVars.gsGeneratorHeightMap,
+		gVars.guiGeneratorMapType,
+		gVars.guiGeneratorWaterType,
+		gVars.guiGeneratorMapShapeType,
+		gVars.guiGeneratorTreeDensityType,
+		gVars.guiGeneratorSeed
+	);
+
 	displayStatus( "Activating embedded GPS...");
 	gVars.gpMapMgr = new Map( gVars.guiCityWidth, gVars.guiCityLength );
 
@@ -886,6 +897,7 @@ int clientMode()
 	delete gVars.gpPropertyMgr;
 	delete gVars.gpGraphicMgr;
 	delete gVars.gpMapMgr;
+	delete gVars.gpMapMaker;
 
 // close the audio device then delete the audio manager
 	gVars.gpAudioMgr->CloseAudio();
@@ -1159,6 +1171,7 @@ void initGlobalVar()
 	gVars.gpAudioMgr				= NULL;		// global Audio Manager
 	gVars.gpGraphicMgr				= NULL;		// global Graphic Manager
 	gVars.gpPropertyMgr				= NULL;		// global Property Manager
+	gVars.gpMapMaker				= NULL;		// global map maker
 	gVars.gpMapMgr					= NULL;		// global height Map Manager
 	gVars.gpNetworking				= NULL;		// global networking support class
 	gVars.gpPathFinder				= NULL;		// global pathfinder class

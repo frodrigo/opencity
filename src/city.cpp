@@ -70,7 +70,7 @@ _uiWidth( width ),
 _uiLength( length ),
 _cTool('N'),
 
-boolLMBPressed( false ),
+_bLMBPressed( false ),
 _eCurrentLayer( OC_LAYER_BUILDING ),
 _eSpeed( OC_SPEED_NORMAL ),
 _eCurrentTool( OC_NONE )
@@ -303,7 +303,8 @@ void City::Run()
 	// Update the power bar value
 		initialValue = _pMSim->GetMaxValue(Simulator::OC_ELECTRIC) + 1;
 		pbarPower->SetInitialValue( initialValue );
-		pbarPower->SetValue( _pMSim->GetValue(Simulator::OC_ELECTRIC) );
+		uint p = _pMSim->GetValue(Simulator::OC_ELECTRIC) > 0 ? _pMSim->GetValue(Simulator::OC_ELECTRIC) : 0;
+		pbarPower->SetValue( p );
 
 	// Request the renderer to update the minimap
 		gVars.gpRenderer->bMinimapChange = true;
@@ -330,19 +331,19 @@ void City::Display()
 // however, in this case City::uiMouseMotion is called each time
 // when the mouse moves, and this is no good.
 // The user is dragging
-	if ((this->boolLMBPressed == true) && (_eCurrentTool != OC_NONE )) {
+	if ((_bLMBPressed == true) && (_eCurrentTool != OC_NONE )) {
 	// IF the user is dragging with the left mouse button THEN
 		if ( SDL_GetMouseState( &iMouseX, &iMouseY ) & SDL_BUTTON(1) ) {
 			gVars.gpRenderer->GetSelectedWHFrom(
 				iMouseX, iMouseY,
-				this->uiMapW2, this->uiMapL2,
+				_uiMapW2, _uiMapL2,
 				gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
 
 		// draw the map with the highlighted area
 			gVars.gpRenderer->DisplayHighlight(
 				gVars.gpMapMgr, _apLayer[ _eCurrentLayer ],
-				this->uiMapW1, this->uiMapL1,
-				this->uiMapW2, this->uiMapL2,
+				_uiMapW1, _uiMapL1,
+				_uiMapW2, _uiMapL2,
 				_eCurrentTool );
 
 			goto cityrun_swap;
@@ -702,7 +703,7 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 	pctrStatus->MouseButton( rcsMBE );
 	if ( pctrStatus->GetClick() != 0 ) {
 		_HandleStatusClick();
-		this->boolLMBPressed = false;
+		_bLMBPressed = false;
 		return;
 	}
 
@@ -710,22 +711,22 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 	pctr->MouseButton( rcsMBE );
 	if ( pctr->GetClick() != 0 ) {
 		_HandleGUIClick();
-		this->boolLMBPressed = false;
+		_bLMBPressed = false;
 		return;
 	}
 
 // The user didn't click on a GUI object so we look for clicks on the map
 	switch (rcsMBE.state) {
 		case SDL_PRESSED: {
-			this->boolLMBPressed = false;
+			_bLMBPressed = false;
 			if ((rcsMBE.button == SDL_BUTTON_LEFT)
 				&& (gVars.gpRenderer->GetSelectedWHFrom(
 					rcsMBE.x, rcsMBE.y,
-					this->uiMapW1, this->uiMapL1,
+					_uiMapW1, _uiMapL1,
 					gVars.gpMapMgr,
 					_apLayer[ _eCurrentLayer ] ) == true ))
 			{
-				this->boolLMBPressed = true;
+				_bLMBPressed = true;
 			} //if
 //debug begin
 //SDL_GL_SwapBuffers(); // uncomment this if you want to know how it works
@@ -797,21 +798,21 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 			// AND mouse button was correctly released in the map
 			// THEN do tool
 			if (!(SDL_GetModState() & KMOD_CTRL)
-				&& (this->boolLMBPressed == true)
+				&& (_bLMBPressed == true)
 				&& gVars.gpRenderer->GetSelectedWHFrom(
 					rcsMBE.x, rcsMBE.y,
-					this->uiMapW2, this->uiMapL2,
+					_uiMapW2, _uiMapL2,
 					gVars.gpMapMgr,
 					_apLayer[ _eCurrentLayer ] ))
 			{
 //debug
-//cout << "W2: " << uiMapW2 << "/" << "H2: "
-//     << uiMapL2 << endl;
+//cout << "W2: " << _uiMapW2 << "/" << "H2: "
+//     << _uiMapL2 << endl;
 //test pathfinding
 				_TestPathfinding();
 				_DoTool( rcsMBE );
 			} //if
-			boolLMBPressed = false;
+			_bLMBPressed = false;
 			break;
 
 		} //case SDL_RELEASED
@@ -885,17 +886,7 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 void City::_CreateTree()
 {
 // Create a new tree density map
-	MapGen::MapMaker mapMaker =
-		MapGen::MapMaker(
-			_uiWidth, _uiLength,
-			gVars.gsGeneratorHeightMap,
-			gVars.guiGeneratorMapType,
-			gVars.guiGeneratorWaterType,
-			gVars.guiGeneratorMapShapeType,
-			gVars.guiGeneratorTreeDensityType,
-			gVars.guiGeneratorSeed
-		);
-	int* treeDensity = mapMaker.getTreeDensity();
+	int* treeDensity = gVars.gpMapMaker->getTreeDensity();
 
 // Build the trees according to the density map
 	uint cost = 0;
@@ -1212,10 +1203,10 @@ City::_DoTool(
 	Structure* pstruct = NULL;		// for MAS
 
 	cost = 0;
-	w1 = uiMapW1;
-	h1 = uiMapL1;
-	w2 = uiMapW2;
-	h2 = uiMapL2;
+	w1 = _uiMapW1;
+	h1 = _uiMapL1;
+	w2 = _uiMapW2;
+	h2 = _uiMapL2;
 	OPENCITY_SWAP( w1, w2, int );
 	OPENCITY_SWAP( h1, h2, int );
 
@@ -1232,7 +1223,7 @@ City::_DoTool(
 	case OC_ZONE_RES:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_RES, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_RCI );
 		}
@@ -1241,7 +1232,7 @@ City::_DoTool(
 	case OC_ZONE_COM:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_COM, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_RCI );
 		}
@@ -1250,7 +1241,7 @@ City::_DoTool(
 	case OC_ZONE_IND:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_IND, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_RCI );
 		}
@@ -1259,7 +1250,7 @@ City::_DoTool(
 	case OC_BUILD_ROAD:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_ROAD, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_ROAD );
 		}
@@ -1268,7 +1259,7 @@ City::_DoTool(
 	case OC_BUILD_ELINE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure( 
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_ELINE, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_ELINE );
 		}
@@ -1277,9 +1268,9 @@ City::_DoTool(
 	case OC_BUILD_EPLANT_COAL:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_EPLANT_COAL, cost )) == OC_ERR_FREE) {
-			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, Simulator::OC_ELECTRIC );
+			_pMSim->AddStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, Simulator::OC_ELECTRIC );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1287,9 +1278,9 @@ City::_DoTool(
 	case OC_BUILD_EPLANT_NUCLEAR:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_EPLANT_NUCLEAR, cost )) == OC_ERR_FREE) {
-			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, Simulator::OC_ELECTRIC );
+			_pMSim->AddStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, Simulator::OC_ELECTRIC );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1297,7 +1288,7 @@ City::_DoTool(
 	case OC_BUILD_PARK:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_PARK, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_PARK );
 		}
@@ -1306,7 +1297,7 @@ City::_DoTool(
 	case OC_BUILD_FLORA:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_FLORA, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_PARK );
 		}
@@ -1315,9 +1306,9 @@ City::_DoTool(
 	case OC_BUILD_FIRE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_FIREDEPT, cost )) == OC_ERR_FREE) {
-// not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
+// not used			_pMSim->AddStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, MainSim::OC_MICROSIM_ELE );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1325,9 +1316,9 @@ City::_DoTool(
 	case OC_BUILD_POLICE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_POLICEDEPT, cost )) == OC_ERR_FREE) {
-// not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
+// not used			_pMSim->AddStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, MainSim::OC_MICROSIM_ELE );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1335,9 +1326,9 @@ City::_DoTool(
 	case OC_BUILD_HOSPITAL:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_HOSPITALDEPT, cost )) == OC_ERR_FREE) {
-// not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
+// not used			_pMSim->AddStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, MainSim::OC_MICROSIM_ELE );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1345,9 +1336,9 @@ City::_DoTool(
 	case OC_BUILD_EDUCATION:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_EDUCATIONDEPT, cost )) == OC_ERR_FREE) {
-// not used			_pMSim->AddStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, MainSim::OC_MICROSIM_ELE );
+// not used			_pMSim->AddStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, MainSim::OC_MICROSIM_ELE );
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
@@ -1355,33 +1346,33 @@ City::_DoTool(
 	case OC_BUILD_TEST_BUILDING:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
-				uiMapW1, uiMapL1, uiMapW2, uiMapL2,
+				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_TEST, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_EPLANT );
 		}
 		break;
 
 	case OC_BUILD_AGENT_POLICE:
-		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( uiMapW1, uiMapL1 );
+		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( _uiMapW1, _uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
-		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
+		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, _uiMapW1, _uiMapL1);
 		break;
 
 	case OC_BUILD_AGENT_DEMONSTRATOR:
-		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( uiMapW1, uiMapL1 );
+		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( _uiMapW1, _uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
-		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
+		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, _uiMapW1, _uiMapL1);
 		break;
 
 	case OC_BUILD_AGENT_ROBBER:
-		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( uiMapW1, uiMapL1 );
+		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( _uiMapW1, _uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
-		new AgentRobber(*gVars.gpKernel, *gVars.gpEnvironment, uiMapW1, uiMapL1);
+		new AgentRobber(*gVars.gpKernel, *gVars.gpEnvironment, _uiMapW1, _uiMapL1);
 		break;
 
 //FIXME: cost
 	case OC_HEIGHT_UP:
-		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_UP );
+		enumErrCode = gVars.gpMapMgr->ChangeHeight( _uiMapW1, _uiMapL1, OC_MAP_UP );
 		if ( enumErrCode == OC_ERR_FREE ) {
 			gVars.gpRenderer->bHeightChange = true;
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
@@ -1390,7 +1381,7 @@ City::_DoTool(
 		break;
 
 	case OC_HEIGHT_DOWN:
-		enumErrCode = gVars.gpMapMgr->ChangeHeight( uiMapW1, uiMapL1, OC_MAP_DOWN );
+		enumErrCode = gVars.gpMapMgr->ChangeHeight( _uiMapW1, _uiMapL1, OC_MAP_DOWN );
 		if ( enumErrCode == OC_ERR_FREE ) {
 			gVars.gpRenderer->bHeightChange = true;
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_TERRAIN );
@@ -1407,7 +1398,7 @@ City::_DoTool(
 
 	// get the new query container
 		pctrQ = _apLayer[ _eCurrentLayer ]->
-			QueryStructure( uiMapW1, uiMapL1 );
+			QueryStructure( _uiMapW1, _uiMapL1 );
 	// reset the old container
 		pctr->ResetAttribute(
 			OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
@@ -1426,9 +1417,9 @@ City::_DoTool(
 	// the whole structure will be then destroyed
 	// The following part tell the simulators to remove the collected data concerning
 	// the structures which are going to be destroyed
-		_pMSim->RemoveStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2 );
+		_pMSim->RemoveStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2 );
 		enumErrCode = _apLayer[ _eCurrentLayer ]->
-			DestroyStructure( uiMapW1, uiMapL1, uiMapW2, uiMapL2, cost );
+			DestroyStructure( _uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2, cost );
 		if (enumErrCode == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_DESTROY );
 		}
@@ -1923,15 +1914,15 @@ void
 City::_TestPathfinding() {
 	if (pctr == pctrPath)
 		if (this->boolPathGo == false) {
-			this->uiPathStartW = this->uiMapW2;
-			this->uiPathStartH = this->uiMapL2;
+			this->uiPathStartW = _uiMapW2;
+			this->uiPathStartH = _uiMapL2;
 		}
 		else {
 		//TODO: put this somewhere else
 			vector<Destination> vdest;
 	
-			this->uiPathStopW = this->uiMapW2;
-			this->uiPathStopH = this->uiMapL2;
+			this->uiPathStopW = _uiMapW2;
+			this->uiPathStopH = _uiMapL2;
 	
 		// Buses prefer short distance
 			if (this->uiVehicleType == Vehicle::VEHICLE_BUS) {
@@ -2039,17 +2030,17 @@ City::_BuildPreview()
 
 // Get the corresponding graphic code
 	if ((scode != OC_STRUCTURE_UNDEFINED)
-	 && (this->boolLMBPressed == true)) {
+	 && (_bLMBPressed == true)) {
 		ecode = _apLayer[ _eCurrentLayer ]->
-			BuildPreview( uiMapW1, uiMapL1, scode, gcode );
+			BuildPreview( _uiMapW1, _uiMapL1, scode, gcode );
 
 		if (ecode == OC_ERR_FREE) {
 			gVars.gpRenderer->DisplayBuildPreview(
-				uiMapW1, uiMapL1, OC_GREEN_COLOR, gcode );
+				_uiMapW1, _uiMapL1, OC_GREEN_COLOR, gcode );
 		}
 		else {
 			gVars.gpRenderer->DisplayBuildPreview(
-				uiMapW1, uiMapL1, OC_RED_COLOR, gcode );
+				_uiMapW1, _uiMapL1, OC_RED_COLOR, gcode );
 		}
 	}
 }

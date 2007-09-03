@@ -711,7 +711,7 @@ Renderer::Display
 	glClearColor( OC_CLEAR_COLOR );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-// Prepare the world for rendering
+// Prepare the world for rendering: calculate the view volume, culling
 	_PrepareView();
 
 // Display all the structures built on the layer
@@ -992,10 +992,10 @@ Renderer::GetSelectedWHFrom
 	const uint & rcuiL2
 )
 {
-	static uint id;
-	static uint linear;
-	static uint w, l;
-	static const Structure * pStructure;
+	static uint id = 0;
+	static uint linear = 0;
+	static uint w = 0, l = 0;
+	static const Structure* pStructure = NULL;
 
 	#define OC_SELECT_BUFFER_SIZE 100
 	static GLuint selectBuffer[OC_SELECT_BUFFER_SIZE];
@@ -1037,18 +1037,22 @@ Renderer::GetSelectedWHFrom
 	glClearColor( 0.0, 0.0, 0.0, 0.0 );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-// Prepare the world for rendering
+// Prepare the world for rendering without culling calculation because
+// calculating the culling with the pick matrix gives unpredictable results
+	bool bCulling = _bCalculateCulling;
+	_bCalculateCulling = false;
 	_PrepareView();
+	_bCalculateCulling = bCulling;
 
 // Now let's display all the structures in selection mode
 	linear = 0;
 	for (l = 0; l < _uiCityLength; l++) {
 		for (w = 0; w < _uiCityWidth; w++) {
 			pStructure = pcLayer->GetLinearStructure( linear );
-		// display the correction structure/terrain
-		// with "linear" as objectID
-		// note: linear = 0 is not used since it means blank
-		// bland = there's no structure under the selection
+		// Display the correction structure/terrain with "linear" as objectID
+		// Note:
+		//		linear = 0 is not used since it means blank
+		//		blank = there's no structure under the selection
 			if ( pStructure == NULL)
 				gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
 			else

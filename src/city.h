@@ -141,11 +141,11 @@ private:
 	int			_iWinHeight;
 
 // Dragging mode and mouse click
-	bool		boolLMBPressed;
-	uint		uiMapW1;
-	uint		uiMapL1;
-	uint		uiMapW2;
-	uint		uiMapL2;
+	bool		_bLMBPressed;		///< Is the left mouse button pressed ?
+	uint		_uiMapW1;
+	uint		_uiMapL1;
+	uint		_uiMapW2;
+	uint		_uiMapL2;
 
 // Handle pressed keyboards
 	bool		_abKeyPressed[KEY_NUMBER];

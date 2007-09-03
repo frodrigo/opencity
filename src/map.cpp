@@ -44,18 +44,7 @@ _pclayer( NULL )
 	uint size = (width + 1) * (height + 1);
 	_btabSquareHeight = new OC_BYTE [ size ];
 
-	MapGen::MapMaker mapMaker =
-		MapGen::MapMaker(
-			width, height,
-			gVars.gsGeneratorHeightMap,
-			gVars.guiGeneratorMapType,
-			gVars.guiGeneratorWaterType,
-			gVars.guiGeneratorMapShapeType,
-			gVars.guiGeneratorTreeDensityType,
-			gVars.guiGeneratorSeed
-		);
-	int* heightMap = mapMaker.getMap();
-
+	int* heightMap = gVars.gpMapMaker->getMap();
 	for (uint i = 0; i < size; i++)
 		_btabSquareHeight[i] = heightMap[i];
 
