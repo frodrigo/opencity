@@ -980,7 +980,7 @@ City::_CreateGUI()
 	pbarPower = new GUIBar( 42, 5, 7, 53 );
 	pbarPower->SetForeground( OPENCITY_PALETTE[Color::OC_PINK] );
 
-	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ));
+	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ) );
 	pctrStatus->Add( pbtnPause );
 	pctrStatus->Add( pbtnPlay );
 	pctrStatus->Add( plblFund );
@@ -993,14 +993,14 @@ City::_CreateGUI()
 	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 
 // GUI main toolcircle
-	pbtnZ = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
-	pbtnS = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
-	pbtnL = new GUIButton(  20,  20, 30, 30, ocHomeDirPrefix( "graphism/gui/power" ));
-	pbtnP = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/road" ));
-	pbtnX = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/bulldozer" ));
-	pbtnG = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/government" ));
+	pbtnZ = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
+	pbtnS = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
+	pbtnL = new GUIButton( 19, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/power" ));
+	pbtnP = new GUIButton( 55, 13, 30, 30, ocHomeDirPrefix( "graphism/gui/road" ));
+	pbtnX = new GUIButton( 91, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/bulldozer" ));
+	pbtnG = new GUIButton( 55, 93, 30, 30, ocHomeDirPrefix( "graphism/gui/government" ));
 
-	pctrMain = new GUIContainer( 100, 100, 140, 140 );
+	pctrMain = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrMain->Add( pbtnZ );
 	pctrMain->Add( pbtnS );
 	pctrMain->Add( pbtnL );
@@ -1010,12 +1010,12 @@ City::_CreateGUI()
 
 
 // GUI Z toolcircle for RCI buttons
-	pbtnZB = new GUIButton( 20,  70,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnZR = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
-	pbtnZC = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/commercial" ));
-	pbtnZI = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/industrial" ));
+	pbtnZB = new GUIButton( 19, 73,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnZR = new GUIButton( 19, 33,  30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
+	pbtnZC = new GUIButton( 55, 13,  30, 30, ocHomeDirPrefix( "graphism/gui/commercial" ));
+	pbtnZI = new GUIButton( 91, 33,  30, 30, ocHomeDirPrefix( "graphism/gui/industrial" ));
 
-	pctrZ = new GUIContainer( 100, 100, 140, 140 );
+	pctrZ = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrZ->Add( pbtnZB );
 	pctrZ->Add( pbtnZR );
 	pctrZ->Add( pbtnZC );
@@ -1023,12 +1023,12 @@ City::_CreateGUI()
 
 
 // GUI L toolcircle ( electric lines, electric plants )
-	pbtnLB = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnLL = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/power_line" ));
-	pbtnLN = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_nuclear" ));
-	pbtnLC = new GUIButton( 100, 70,  30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_coal" ));
+	pbtnLB = new GUIButton( 19, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnLL = new GUIButton( 55, 13, 30, 30, ocHomeDirPrefix( "graphism/gui/power_line" ));
+	pbtnLN = new GUIButton( 91, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_nuclear" ));
+	pbtnLC = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/power_plant_coal" ));
 
-	pctrL = new GUIContainer( 100, 100, 140, 140 );
+	pctrL = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrL->Add( pbtnLB );
 	pctrL->Add( pbtnLL );
 	pctrL->Add( pbtnLN );
@@ -1036,13 +1036,13 @@ City::_CreateGUI()
 
 
 // GUI T toolcircle ( raise, lower terrain )
-	pbtnTU = new GUIButton( 20,  20,  30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
-	pbtnTD = new GUIButton( 60,  0,   30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
-	pbtnTB = new GUIButton( 100, 20,  30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnTX = new GUIButton( 20,  70,  30, 30, ocHomeDirPrefix( "graphism/gui/destroy" ));
-	pbtnTQ = new GUIButton( 100, 70, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
+	pbtnTU = new GUIButton( 19, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/raise" ));
+	pbtnTD = new GUIButton( 55, 13, 30, 30, ocHomeDirPrefix( "graphism/gui/lower" ));
+	pbtnTB = new GUIButton( 91, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnTX = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/destroy" ));
+	pbtnTQ = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/query" ));
 
-	pctrT = new GUIContainer( 100, 100, 140, 140 );
+	pctrT = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrT->Add( pbtnTB );
 	pctrT->Add( pbtnTU );
 	pctrT->Add( pbtnTD );
@@ -1051,14 +1051,14 @@ City::_CreateGUI()
 
 
 // GUI Gouvernement toolcircle ( park, education, hospital, police and fire )
-	pbtnGB = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnGP = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
-	pbtnGE = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/education" ));
-	pbtnGH = new GUIButton(  20,  20, 30, 30, ocHomeDirPrefix( "graphism/gui/hospital" ));
-	pbtnGL = new GUIButton(  60,   0, 30, 30, ocHomeDirPrefix( "graphism/gui/police" ));
-	pbtnGF = new GUIButton(  100, 20, 30, 30, ocHomeDirPrefix( "graphism/gui/fire" ));
+	pbtnGB = new GUIButton( 55, 93, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnGP = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
+	pbtnGE = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/education" ));
+	pbtnGH = new GUIButton( 19, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/hospital" ));
+	pbtnGL = new GUIButton( 55, 13, 30, 30, ocHomeDirPrefix( "graphism/gui/police" ));
+	pbtnGF = new GUIButton( 91, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/fire" ));
 
-	pctrG = new GUIContainer( 100, 100, 140, 140 );
+	pctrG = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrG->Add( pbtnGB );
 	pctrG->Add( pbtnGP );
 	pctrG->Add( pbtnGE );
@@ -1068,22 +1068,22 @@ City::_CreateGUI()
 
 
 // Create the nature container
-	pbtnNB = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnNP = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
-	pbtnNT = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
+	pbtnNB = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnNP = new GUIButton( 55, 91, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
+	pbtnNT = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
 
-	pctrN = new GUIContainer( 100, 100, 140, 140 );
+	pctrN = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrN->Add( pbtnNB );
 	pctrN->Add( pbtnNP );
 	pctrN->Add( pbtnNT );
 
 
 // Create save/load buttons and the container
-	pbtnSL = new GUIButton(  20,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/save_load" ));
-	pbtnSS = new GUIButton(  60,  90, 30, 30, ocHomeDirPrefix( "graphism/gui/save_save" ));
-	pbtnSB = new GUIButton( 100,  70, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
+	pbtnSL = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/save_load" ));
+	pbtnSS = new GUIButton( 55, 91, 30, 30, ocHomeDirPrefix( "graphism/gui/save_save" ));
+	pbtnSB = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
 
-	pctrS = new GUIContainer( 100, 100, 140, 140 );
+	pctrS = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrS->Add( pbtnSB );
 	pctrS->Add( pbtnSS );
 	pctrS->Add( pbtnSL );
