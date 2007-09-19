@@ -25,10 +25,8 @@
 #include "ac3dobject.h"			// Vertex struct
 #include "ac3dmaterial.h"
 
-#include <map>					// Used for texture loading cache
 #include <vector>
 
-using std::map;
 using std::vector;
 
 using AC3D::Vertex;
@@ -84,7 +82,7 @@ private:
 	_AC3DTextureToGL(
 		const string& strPath,
 		const AC3D::AC3DObject* const pObject,
-		map<string, GLuint>& mapTexture
+		GLuint& tex
 	);
 
 

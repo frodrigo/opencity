@@ -22,8 +22,6 @@
 
 #include "main.h"
 
-#include <map>
-
 // The constants used to select the display list
 #define OC_OPAQUE_ONESIZE_LIST		0x01
 #define OC_OPAQUE_TWOSIZE_LIST		0x02
@@ -50,7 +48,7 @@ public:
 		GLuint dlOpaqueOneSide,
 		GLuint dlOpaqueTwoSide,
 		GLuint dlAlpha,
-		std::map<string, GLuint> mapTex );
+		GLuint tex );
 
 	~Model();
 
@@ -130,7 +128,7 @@ private:
 	GLuint _uiOpaqueOneSide;		///< One side opaque polygon display list
 	GLuint _uiOpaqueTwoSide;		///< Two side opaque polygon display list
 	GLuint _uiAlpha;				///< Alpha bleding polygon display list
-	std::map<string, GLuint> mapTexture;
+	GLuint _uiTexture;				///< The unique texture unit
 };
 
 

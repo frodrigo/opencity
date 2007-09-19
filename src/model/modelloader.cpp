@@ -155,8 +155,8 @@ ModelLoader::LoadOCM(
 			} else
 			if (fValue
 			== OC_OCM_TEXFILE) {
-				OPENCITY_DEBUG("Loading texture file");
-				vui.push_back( Texture::Load( ocHomeDirPrefix( tempStr )));
+			//	OPENCITY_DEBUG( "Loading texture file: " << ocHomeDirPrefix( tempStr ) );
+				vui.push_back( Texture::Load( ocHomeDirPrefix( tempStr )) );
 //debug cout << "Texture id got: " << vui.back() << endl;
 			} else
 			if (fValue
@@ -203,8 +203,7 @@ ModelLoader::LoadAC3D(
 {
 	AC3DModel ac3dmodel = AC3DModel( rcsFileName );
 	vector<AC3DMaterial> vMaterial;
-	map<string, GLuint> mapTexture;
-	GLuint list = 0, listTwoSide = 0, listAlpha = 0;
+	GLuint tex =0, list = 0, listTwoSide = 0, listAlpha = 0;
 	string strPath = "";
 
 	if (!ac3dmodel.IsGood())
@@ -243,13 +242,8 @@ ModelLoader::LoadAC3D(
 //	nbVertex = 0;
 
 // Load all the texture used by the model
-	_AC3DTextureToGL( strPath, pObject, mapTexture );
+	_AC3DTextureToGL( strPath, pObject, tex );
 
-// Debug
-	if (mapTexture.size() > 1) {
-		OPENCITY_DEBUG("WARNING: more than 1 texture used by the model");
-		assert( 0 );
-	}
 
    /*=====================================================================*/
 // Recursively load all the objects into the _opaque_ one side display list
@@ -259,10 +253,10 @@ ModelLoader::LoadAC3D(
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_CULL_FACE );
 // Enable the texture target and bind the _first_ texture only
-	if (mapTexture.size() > 0) {
+	if ( glIsTexture(tex) == GL_TRUE ) {
 		glEnable( GL_TEXTURE_2D );
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
+		glBindTexture( GL_TEXTURE_2D, tex );
 	}
 	else {
 		glDisable( GL_TEXTURE_2D );
@@ -285,10 +279,10 @@ ModelLoader::LoadAC3D(
 // Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
 // Enable the texture target and bind the _first_ texture only
-	if (mapTexture.size() > 0) {
+	if ( glIsTexture(tex) == GL_TRUE ) {
 		glEnable( GL_TEXTURE_2D );
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
+		glBindTexture( GL_TEXTURE_2D, tex );
 	}
 	else {
 		glDisable( GL_TEXTURE_2D );
@@ -319,7 +313,7 @@ ModelLoader::LoadAC3D(
 //	glBlendFunc( GL_DST_ALPHA, GL_ONE_MINUS_DST_ALPHA );
 //	glBlendFunc( GL_ONE, GL_ZERO );
 // Enable the texture target and bind the _first_ texture only
-	if (mapTexture.size() > 0) {
+	if ( glIsTexture(tex) == GL_TRUE ) {
 		glEnable( GL_TEXTURE_2D );
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 // Test
@@ -329,7 +323,7 @@ ModelLoader::LoadAC3D(
 //		glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );
 //		GLfloat obj_color [] = { 01, 01, 01, 01 };
 //		glColor4fv( obj_color );
-		glBindTexture( GL_TEXTURE_2D, (mapTexture.begin())->second);
+		glBindTexture( GL_TEXTURE_2D, tex );
 	}
 	else {
 		glDisable( GL_TEXTURE_2D );
@@ -350,7 +344,7 @@ ModelLoader::LoadAC3D(
 //	cout << "Number of polygons: " << nbPoly
 //		 << " / vertex: " << nbVertex << endl;
 
-	return new Model( list, listTwoSide, listAlpha, mapTexture );
+	return new Model( list, listTwoSide, listAlpha, tex );
 }
 
 
@@ -394,37 +388,35 @@ ModelLoader::_AC3DTextureToGL
 (
 	const string& strPath,
 	const AC3DObject* const pObject,
-	map<string, GLuint>& mapTexture
+	GLuint& tex
 )
 {
 	vector<AC3DObject*>::size_type posObj, sizeObj;
 	vector<AC3DObject*> vpObj;
 
-	GLuint tex = 0;
-
 
 	assert( pObject != NULL );
 
 // Get the texture
+// WARNING: we are aware of the automanaged texture loading cache
 	if ( pObject->GetTextureFile() != "" ) {
-	// IF the specified texture has not been loaded already THEN
-		if (mapTexture.find( pObject->GetTextureFile() ) == mapTexture.end() ) {
-		// Load the texture as specified by the texture command
-			tex = Texture::Load( strPath + "/" + pObject->GetTextureFile() );
-			mapTexture[ pObject->GetTextureFile() ] = tex;
-		}
-		else {
-		// Assign the cached texture to the model
-		//	OPENCITY_DEBUG("Texture loading cache hit");
-			tex = mapTexture[ pObject->GetTextureFile() ];
-		}
+		GLuint newTex = Texture::Load( strPath + "/" + pObject->GetTextureFile() );
+		if (newTex != tex) {
+			if (tex != 0) {
+				OPENCITY_FATAL( "The model tries to use multiple textures" );
+				assert( 0 );
+			}
+			else {
+				tex = newTex;
+			}
+		} // if (newTex != tex)
 	}
 
 // Parse all the child objects and retrieve the texture
 	vpObj = pObject->GetVPObject();
 	sizeObj = vpObj.size();
 	for (posObj = 0; posObj < sizeObj; posObj++) {
-		_AC3DTextureToGL( strPath, vpObj[posObj], mapTexture );
+		_AC3DTextureToGL( strPath, vpObj[posObj], tex );
 	}
 }
 

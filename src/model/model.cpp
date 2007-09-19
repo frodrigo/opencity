@@ -36,7 +36,8 @@ ftabTexCoord( NULL ),
 uitabTexName( NULL ),
 _uiOpaqueOneSide( 0 ),
 _uiOpaqueTwoSide( 0 ),
-_uiAlpha( 0 )
+_uiAlpha( 0 ),
+_uiTexture( 0 )
 {
 	OPENCITY_DEBUG( "ctor1" );
 
@@ -57,7 +58,8 @@ ftabTexCoord( tcoord ),
 uitabTexName( tname ),
 _uiOpaqueOneSide( 0 ),
 _uiOpaqueTwoSide( 0 ),
-_uiAlpha( 0 )
+_uiAlpha( 0 ),
+_uiTexture( 0 )
 {
 	OPENCITY_DEBUG( "ctor2" );
 
@@ -71,7 +73,7 @@ Model::Model
 	GLuint dlOpaqueOneSide,
 	GLuint dlOpaqueTwoSide,
 	GLuint dlAlpha,
-	std::map<string, GLuint> mapTex
+	GLuint tex
 ):
 ftabData( NULL ),
 ftabRGB( NULL ),
@@ -81,7 +83,7 @@ uiTabSize( 0 ),
 _uiOpaqueOneSide( dlOpaqueOneSide ),
 _uiOpaqueTwoSide( dlOpaqueTwoSide ),
 _uiAlpha( dlAlpha ),
-mapTexture( mapTex )
+_uiTexture( tex )
 {
 	OPENCITY_DEBUG( "ctor3" );
 }
@@ -92,9 +94,6 @@ Model::~Model()
 {
 	OPENCITY_DEBUG( "dtor" );
 
-	std::map<string, GLuint>::iterator iter;
-	std::map<string, GLuint>::const_iterator end;
-	
 	delete [] ftabData;
 	delete [] ftabRGB;
 	delete [] ftabTexCoord;
@@ -109,9 +108,8 @@ Model::~Model()
 		glDeleteLists( _uiAlpha, 1 );
 
 // Delete texture
-	end = this->mapTexture.end();
-	for (iter = this->mapTexture.begin(); iter != end; iter++)
-		glDeleteTextures( 1, &(iter->second) );
+	if (glIsTexture(_uiTexture))
+		glDeleteTextures( 1, &_uiTexture );
 }
 
 

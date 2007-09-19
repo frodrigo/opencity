@@ -34,6 +34,9 @@ extern GlobalVar gVars;
 #include "SDL_image.h"
 
 
+map<string, GLuint> Texture::mapTexture;		// Automanaged texture cache
+
+
    /*=====================================================================*/
 Texture::Texture():
 uiWidth( 0 ),
@@ -66,19 +69,49 @@ Texture::~Texture()
    //                       PRIVATE STATIC METHODS
    //========================================================================
 const GLuint
-Texture::Load( const string & rcFile )
+Texture::Load( const string& rcFile )
 {
 	uint w, h;
-	return Texture::Load( rcFile, w, h );
+	GLuint tex = 0;
+
+// IF the requested texture is not already in the cache
+// OR it's no more a valid texture THEN
+	if ((Texture::mapTexture.find( rcFile ) == Texture::mapTexture.end())
+		or (glIsTexture( Texture::mapTexture[ rcFile ] ) == GL_FALSE) )
+	{
+		tex = Texture::Load( rcFile, w, h );
+		Texture::mapTexture[ rcFile ] = tex;
+	}
+	else {
+		OPENCITY_DEBUG( "Texture cache hit for: " << rcFile );
+		tex = Texture::mapTexture[ rcFile ];
+	}
+
+	return tex;
 }
 
 
    /*=====================================================================*/
 const GLuint
-Texture::Load3D( const string & rcFile )
+Texture::Load3D( const string& rcFile )
 {
 	uint w, h;
-	return Texture::Load3D( rcFile, w, h );
+	GLuint tex = 0;
+
+// IF the requested texture is not already in the cache
+// OR it's no more a valid texture THEN
+	if ((Texture::mapTexture.find( rcFile ) == Texture::mapTexture.end())
+		or (glIsTexture( Texture::mapTexture[ rcFile ] ) == GL_FALSE) )
+	{
+		tex = Texture::Load3D( rcFile, w, h );
+		Texture::mapTexture[ rcFile ] = tex;
+	}
+	else {
+		OPENCITY_DEBUG( "3D texture cache hit for: " << rcFile );
+		tex = Texture::mapTexture[ rcFile ];
+	}
+
+	return tex;
 }
 
 
@@ -95,7 +128,7 @@ Texture::Load
 	SDL_Surface* pMirror = NULL;
 	GLuint uiTexture = 0;	// tell glIsTexture that this is not a texture name
 
-//	OPENCITY_DEBUG( rcFile.c_str() );
+	OPENCITY_DEBUG( "Loading texture file: " << rcFile.c_str() );
 
 // TODO: error checking
 // load the image to the SDL surface
