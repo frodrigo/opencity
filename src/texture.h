@@ -141,10 +141,19 @@ private:
 	\return True if the size has changed, false otherwise
 */
 	static bool
-	GetCorrectSize(
+	_GetCorrectSize(
 		const uint w, const uint h,
 		uint & rW,    uint & rH );
 
+
+//========================================================================
+/** Remove unnecessary relative path token. For example: from "abc/../file.jpg"
+to "file.jpg". However it returns "/../" unchanged.
+	\param rcsPath The path to process
+	\return The resolved relative path
+*/
+	static string
+	_ResolveRelativePath(const string& rcsPath);
 
 };
 

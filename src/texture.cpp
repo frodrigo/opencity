@@ -73,18 +73,19 @@ Texture::Load( const string& rcFile )
 {
 	uint w, h;
 	GLuint tex = 0;
+	string filename = Texture::_ResolveRelativePath( rcFile );
 
 // IF the requested texture is not already in the cache
 // OR it's no more a valid texture THEN
-	if ((Texture::mapTexture.find( rcFile ) == Texture::mapTexture.end())
-		or (glIsTexture( Texture::mapTexture[ rcFile ] ) == GL_FALSE) )
+	if ((Texture::mapTexture.find( filename ) == Texture::mapTexture.end())
+		or (glIsTexture( Texture::mapTexture[ filename ] ) == GL_FALSE) )
 	{
-		tex = Texture::Load( rcFile, w, h );
-		Texture::mapTexture[ rcFile ] = tex;
+		tex = Texture::Load( filename, w, h );
+		Texture::mapTexture[ filename ] = tex;
 	}
 	else {
-		OPENCITY_DEBUG( "Texture cache hit for: " << rcFile );
-		tex = Texture::mapTexture[ rcFile ];
+		OPENCITY_DEBUG( "Texture cache hit for: " << filename );
+		tex = Texture::mapTexture[ filename ];
 	}
 
 	return tex;
@@ -97,18 +98,19 @@ Texture::Load3D( const string& rcFile )
 {
 	uint w, h;
 	GLuint tex = 0;
+	string filename = Texture::_ResolveRelativePath( rcFile );
 
 // IF the requested texture is not already in the cache
 // OR it's no more a valid texture THEN
-	if ((Texture::mapTexture.find( rcFile ) == Texture::mapTexture.end())
-		or (glIsTexture( Texture::mapTexture[ rcFile ] ) == GL_FALSE) )
+	if ((Texture::mapTexture.find( filename ) == Texture::mapTexture.end())
+		or (glIsTexture( Texture::mapTexture[ filename ] ) == GL_FALSE) )
 	{
-		tex = Texture::Load3D( rcFile, w, h );
-		Texture::mapTexture[ rcFile ] = tex;
+		tex = Texture::Load3D( filename, w, h );
+		Texture::mapTexture[ filename ] = tex;
 	}
 	else {
-		OPENCITY_DEBUG( "3D texture cache hit for: " << rcFile );
-		tex = Texture::mapTexture[ rcFile ];
+		OPENCITY_DEBUG( "3D texture cache hit for: " << filename );
+		tex = Texture::mapTexture[ filename ];
 	}
 
 	return tex;
@@ -277,7 +279,7 @@ Texture::Surface2Texture(
 
 // If the image doesn't have the correct size then scale it before converting
 	uint glW, glH;
-	if (Texture::GetCorrectSize( psurface->w, psurface->h, glW, glH )) {
+	if (Texture::_GetCorrectSize( psurface->w, psurface->h, glW, glH )) {
 		OPENCITY_DEBUG("Texture's size has been fixed");
 		void* pPixels = malloc( glW * glH * psurface->format->BytesPerPixel );
 		assert( pPixels != NULL );
@@ -450,7 +452,7 @@ Texture::Building2Texture
 
 // If the image doesn't have the correct size then scale it before converting
 	uint glW, glH;
-	if (Texture::GetCorrectSize( gVars.guiCityWidth, gVars.guiCityLength, glW, glH )) {
+	if (Texture::_GetCorrectSize( gVars.guiCityWidth, gVars.guiCityLength, glW, glH )) {
 		OPENCITY_DEBUG("Texture's size has been fixed");
 		void* pPixels = malloc( glW * glH * BYTE_PER_PIXEL );
 		assert( pPixels != NULL );
@@ -506,7 +508,7 @@ Texture::Building2Texture
 
    /*=====================================================================*/
 bool
-Texture::GetCorrectSize(
+Texture::_GetCorrectSize(
 	const uint w, const uint h,
 	uint & rW,    uint & rH )
 {
@@ -520,7 +522,33 @@ Texture::GetCorrectSize(
 }
 
 
+   /*=====================================================================*/
+string
+Texture::_ResolveRelativePath(const string& rcsPath)
+{
+	string output = rcsPath;
 
+// Search for "/../"
+	string::size_type start, end = 0;
+	while ((end = output.find("/../")) != output.npos) {
+	// Search for the first "/" before "/../"
+		if (end > 0)
+			start = output.rfind("/", end-1);
+		else
+			break;
+
+		if (start == output.npos)
+			start = 0;
+
+	// Resolve the relative path if necessary
+		if (start < end)
+			output.erase(start, end+3-start);
+		else
+			break;
+	}
+
+	return output;
+}
 
 
 
