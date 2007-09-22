@@ -68,12 +68,13 @@ _uiYear( 0 ),
 
 _uiWidth( width ),
 _uiLength( length ),
-_cTool('N'),
 
 _bLMBPressed( false ),
 _eCurrentLayer( OC_LAYER_BUILDING ),
 _eSpeed( OC_SPEED_NORMAL ),
-_eCurrentTool( OC_NONE )
+_eCurrentTool( OC_NONE ),
+
+_pctrMenu( NULL )
 {
 	OPENCITY_DEBUG( "City ctor - default parameters" );
 
@@ -367,11 +368,6 @@ cityrun_swap:
 	ossStatus << _uiPopulation;
 	plblPopulation->SetText( ossStatus.str() );
 
-// display the tool
-	ossStatus.str("");
-	ossStatus << "Tool: " << _cTool;
-	gVars.gpRenderer->DisplayText( 550, this->_iWinHeight-15, OC_WHITE_COLOR, ossStatus.str() );
-
 // display the date
 	ossStatus.str("");
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
@@ -387,9 +383,13 @@ cityrun_swap:
 
 // Display the current container
 	pctr->Display();
-
+	
 // Display the status bar
 	pctrStatus->Display();
+
+// Display the menu
+	if (_pctrMenu != NULL)
+		_pctrMenu->Display();
 
 // Swap the buffers and update the screen
 	SDL_GL_SwapBuffers();
@@ -475,49 +475,38 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 
 		case SDLK_n:	// set the tool to "None"
 			_eCurrentTool = OC_NONE;
-			_cTool = 'N';
 			break;
 		case SDLK_r:	// set tool for "zone residential"
 			_eCurrentTool = OC_ZONE_RES;
-			_cTool = 'R';
 			break;
 		case SDLK_c:	// set tool for "zone commercial"
 			_eCurrentTool = OC_ZONE_COM;
-			_cTool = 'C';
 			break;
 		case SDLK_i:	// set tool for "zone industrial"
 			_eCurrentTool = OC_ZONE_IND;
-			_cTool = 'I';
 			break;
 
 		case SDLK_p:	// set tool for "building road"
 			_eCurrentTool = OC_BUILD_ROAD;
-			_cTool = 'P';
 			break;
 		case SDLK_l:	// set tool for building electric lines
 			_eCurrentTool = OC_BUILD_ELINE;
-			_cTool = 'L';
 			break;
 		case SDLK_e:	// set tool for building electric plants
 			_eCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
-			_cTool = 'E';
 			break;
 
 		case SDLK_u:	// height up
 			_eCurrentTool = OC_HEIGHT_UP;
-			_cTool = 'U';
 			break;
 		case SDLK_d:	// height down
 			_eCurrentTool = OC_HEIGHT_DOWN;
-			_cTool = 'D';
 			break;
 		case SDLK_q:	//query tool
 			_eCurrentTool = OC_QUERY;
-			_cTool = 'Q';
 			break;
 		case SDLK_x:	// destroy
 			_eCurrentTool = OC_DESTROY;
-			_cTool = 'X';
 			break;
 
 
@@ -583,9 +572,15 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 		case SDLK_h:
 			gVars.gpRenderer->Home();
 			break;
-		case SDLK_ESCAPE:
-		// quit the program when ESCAPE is pressed
-			ocQuit();
+
+
+		case SDLK_ESCAPE:	// Open/close the main menu
+			if (_pctrMenu == NULL) {
+				_LoadMenu();
+			}
+			else {
+				_UnloadMenu();
+			}
 			break;
 
 #ifndef NDEBUG
@@ -688,8 +683,15 @@ void
 City::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 {
 //	OPENCITY_DEBUG("Mouse moved");
-	pctr->MouseMotion( rcEvent );
-	pctrStatus->MouseMotion( rcEvent );
+
+// We process the menu first
+	if (_pctrMenu != NULL) {
+		_pctrMenu->MouseMotion( rcEvent );
+	}
+	else {
+		pctr->MouseMotion( rcEvent );
+		pctrStatus->MouseMotion( rcEvent );
+	}
 }
 
 
@@ -698,6 +700,16 @@ void
 City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 {
 //	OPENCITY_DEBUG("Mouse button event received" );
+
+// Process the mouse click on the menu
+	if (_pctrMenu != NULL ) {
+		_pctrMenu->MouseButton( rcsMBE );
+		if ( _pctrMenu->GetClick() != 0 ) {
+			_HandleMenuClick();
+			_bLMBPressed = false;
+			return;
+		}
+	}
 
 // Process the mouse click on the status bar
 	pctrStatus->MouseButton( rcsMBE );
@@ -830,6 +842,9 @@ City::Expose( const SDL_ExposeEvent& rcEvent )
 	gVars.gpRenderer->Display( gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
 	pctr->Expose( rcEvent );
 	pctrStatus->Expose( rcEvent );
+	if (_pctrMenu != NULL) {
+		_pctrMenu->Expose( rcEvent );
+	}
 
 	SDL_GL_SwapBuffers();
 }
@@ -859,6 +874,12 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 	pctrS->Resize( rcEvent );
 	pctrPath->Resize( rcEvent );
 	pctrMAS->Resize( rcEvent );
+
+	if (_pctrMenu != NULL) {
+		_pctrMenu->Resize( rcEvent );
+		_pctrMenu->SetSize( _iWinWidth, _iWinHeight );
+		_CenterMenu();
+	}
 }
 
 
@@ -1185,6 +1206,57 @@ City::_DeleteGUI()
 	delete pbtnP;
 	delete pbtnX;
 	delete pbtnG;
+}
+
+
+   /*=====================================================================*/
+void
+City::_LoadMenu()
+{
+	_pbtnMenuNew  = new GUIButton( 0, 0, 128, 128, ocHomeDirPrefix("graphism/gui/main_menu_new") );
+	_pbtnMenuLoad = new GUIButton( 0, 0, 128, 128, ocHomeDirPrefix("graphism/gui/main_menu_load") );
+	_pbtnMenuSave = new GUIButton( 0, 0, 128, 128, ocHomeDirPrefix("graphism/gui/main_menu_save") );
+	_pbtnMenuQuit = new GUIButton( 0, 0, 128, 128, ocHomeDirPrefix("graphism/gui/main_menu_quit") );
+
+	_pctrMenu = new GUIContainer(
+		0, 0, _iWinWidth, _iWinHeight, ocHomeDirPrefix("graphism/gui/main_menu_bg.png")
+	);
+	_pctrMenu->Add( _pbtnMenuNew );
+	_pctrMenu->Add( _pbtnMenuLoad );
+	_pctrMenu->Add( _pbtnMenuSave );
+	_pctrMenu->Add( _pbtnMenuQuit );
+	_pctrMenu->Set( OC_GUIMAIN_VISIBLE );
+
+	_CenterMenu();
+}
+
+
+   /*=====================================================================*/
+void
+City::_CenterMenu()
+{
+	assert( _pctrMenu != NULL );
+
+	int x = _iWinWidth/2;
+	int y = _iWinHeight/2;
+	_pbtnMenuNew->SetLocation( x-264, y );
+	_pbtnMenuLoad->SetLocation( x-64, y );
+	_pbtnMenuSave->SetLocation( x+136, y );
+	_pbtnMenuQuit->SetLocation( _iWinWidth-150, 22 );
+}
+
+
+   /*=====================================================================*/
+void
+City::_UnloadMenu()
+{
+	delete _pctrMenu;
+	delete _pbtnMenuQuit;
+	delete _pbtnMenuSave;
+	delete _pbtnMenuLoad;
+	delete _pbtnMenuNew;
+
+	_pctrMenu = NULL;
 }
 
 
@@ -1570,6 +1642,39 @@ City::_DoBill(
 
    /*=====================================================================*/
 void
+City::_HandleMenuClick()
+{
+	assert( _pctrMenu != NULL );
+
+	uint uiObject = _pctrMenu->GetClick();
+
+	switch (uiObject) {
+		case 1:
+			ocRestart();
+			break;
+
+		case 2:		// Load
+			_Load( ocSaveDirPrefix( "opencity.save" ) );
+			break;
+		case 3:		// Save
+			_Save( ocSaveDirPrefix( "opencity.save" ) );
+			break;
+
+		case 4:		// Quit button
+			ocQuit();
+			break;
+
+		default:
+			OPENCITY_DEBUG( "Menu design error");
+			assert(0);
+	}
+
+	_UnloadMenu();
+}
+
+
+   /*=====================================================================*/
+void
 City::_HandleStatusClick()
 {
 	uint uiObject = this->pctrStatus->GetClick();
@@ -1629,7 +1734,6 @@ City::_HandleGUIClick()
 			break;
 		case 4:  // P button, set tool for "building road"
 			_eCurrentTool = OC_BUILD_ROAD;
-			_cTool = 'P';
 			break;
 		case 5: // T button, open the "Terrain" toolcircle
 			pctr = pctrT;
@@ -1655,15 +1759,12 @@ City::_HandleGUIClick()
 			break;
 		case 2: // R button
 			_eCurrentTool = OC_ZONE_RES;
-			_cTool = 'R';
 			break;
 		case 3:  // C button, set tool for "zone commercial"
 			_eCurrentTool = OC_ZONE_COM;
-			_cTool = 'C';
 			break;
 		case 4:  // I button, set tool for "zone industrial"
 			_eCurrentTool = OC_ZONE_IND;
-			_cTool = 'I';
 			break;
 
 		default:
@@ -1682,15 +1783,12 @@ City::_HandleGUIClick()
 			break;
 		case 2:  // L button, set tool for building electric lines
 			_eCurrentTool = OC_BUILD_ELINE;
-			_cTool = 'L';
 			break;
 		case 3:  // set tool for building nuclear power plant
 			_eCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
-			_cTool = 'E';
 			break;
 		case 4:  // set tool for building coal power plant
 			_eCurrentTool = OC_BUILD_EPLANT_COAL;
-			_cTool = '?';
 			break;
 
 		default:
@@ -1708,19 +1806,15 @@ City::_HandleGUIClick()
 			break;
 		case 2:  // height up
 			_eCurrentTool = OC_HEIGHT_UP;
-			_cTool = 'U';
 			break;
 		case 3:  // height down
 			_eCurrentTool = OC_HEIGHT_DOWN;
-			_cTool = 'D';
 			break;
 		case 4:  // destroy tool
 			_eCurrentTool = OC_DESTROY;
-			_cTool = 'X';
 			break;
 		case 5: // query tool
 			_eCurrentTool = OC_QUERY;
-			_cTool = 'Q';
 			break;
 
 		default:
@@ -1742,19 +1836,15 @@ City::_HandleGUIClick()
 			break;
 		case 3:
 			_eCurrentTool = OC_BUILD_EDUCATION;
-			_cTool = '?';
 			break;
 		case 4:
 			_eCurrentTool = OC_BUILD_HOSPITAL;
-			_cTool = '?';
 			break;
 		case 5:
 			_eCurrentTool = OC_BUILD_POLICE;
-			_cTool = '?';
 			break;
 		case 6:
 			_eCurrentTool = OC_BUILD_FIRE;
-			_cTool = '?';
 			break;
 
 		default:
@@ -1772,11 +1862,9 @@ City::_HandleGUIClick()
 			break;
 		case 2:  // build park
 			_eCurrentTool = OC_BUILD_PARK;
-			_cTool = '?';
 			break;
 		case 3:  // build tree
 			_eCurrentTool = OC_BUILD_FLORA;
-			_cTool = '?';
 			break;
 
 		default:
@@ -1809,19 +1897,16 @@ City::_HandleGUIClick()
 	else if (pctr == pctrPath)
 	switch (uiObject) {
 		case 1: // start button
-			_cTool = 'N';
 			_eCurrentTool = OC_NONE;
 			boolPathGo = false;
 //debug cout << "changed to false" << endl;
 			break;
 		case 2: // stop button
-			_cTool = 'N';
 			_eCurrentTool = OC_NONE;
 			boolPathGo = true;
 			this->uiVehicleType = Vehicle::VEHICLE_BUS;
 			break;
 		case 3: // stop button
-			_cTool = 'N';
 			_eCurrentTool = OC_NONE;
 			boolPathGo = true;
 			this->uiVehicleType = Vehicle::VEHICLE_SPORT;
@@ -1829,7 +1914,6 @@ City::_HandleGUIClick()
 			break;
 		case 4: // build test building
 			_eCurrentTool = OC_BUILD_TEST_BUILDING;
-			_cTool = '?';
 			break;
 		default:
 			break;
@@ -1839,15 +1923,12 @@ City::_HandleGUIClick()
 	else if (pctr == pctrMAS)
 	switch (uiObject) {
 		case 1: // start button
-			_cTool = 'N';
 			_eCurrentTool = OC_BUILD_AGENT_POLICE;
 			break;
 		case 2: // stop button
-			_cTool = 'N';
 			_eCurrentTool = OC_BUILD_AGENT_DEMONSTRATOR;
 			break;
 		case 3: // stop button
-			_cTool = 'N';
 			_eCurrentTool = OC_BUILD_AGENT_ROBBER;
 			break;
 

@@ -122,17 +122,18 @@ extern GlobalVar gVars;
    /*                         LOCAL    VARIABLES                          */
    /*=====================================================================*/
 /// The current user interface is pointed by this pointer
-	static UI * uipCurrentUI		= NULL;
+	static UI* uipCurrentUI		= NULL;
 
 /// Set to true when the user request to quit the program
-	static bool boolQuit			= false;
+	static bool bQuit			= false;
+	static bool bRestart		= false;
 
 /// Flags we will pass into SDL_SetVideoMode.
-	static int flags				= 0;
+	static int flags			= 0;
 
 /// Static so that the others can not access this
-	static string sHomeDir			= "";
-	static string sSaveDir			= "";
+	static string sHomeDir		= "";
+	static string sSaveDir		= "";
 
 
    /*=====================================================================*/
@@ -142,7 +143,15 @@ void ocQuit( const int quit_code )
 	     << endl
 	     << "Bye bye !"
 	     << endl;
-	boolQuit = true;
+	bQuit = true;
+}
+
+
+   /*=====================================================================*/
+void ocRestart()
+{
+	cout << "Restart with a new city from scratch. " << endl;
+	bRestart = true;
 }
 
 
@@ -263,7 +272,7 @@ void ocProcessSDLEvents( void )
 		case SDL_QUIT:
 		// Handle quit requests (like Ctrl-c).
 			cout << "Quit requested, stoping " << OC_PROGRAM_NAME << "..." << endl;
-			boolQuit = true;
+			bQuit = true;
 			break;
 		}
 	}
@@ -829,61 +838,88 @@ static int clientMode()
 	gVars.gpMoveMgr = new MovementManager( gVars.gpGraphicMgr, gVars.gpMapMgr );
 
 
-// the pointer of our new city
+// The pointer of our new city
 	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
 		return OC_OUT_OF_MEMORY;
 	}
-	else {
-		displayStatus( "Almost done...");
-// debug SDL_Delay( 5000 );
+	displayStatus( "Almost done...");
 
-	// FIXME: buggy MAS
-	/*
-	// Create the necessary classes for the Multi-Agent System
-		gVars.gpKernel = new Kernel();
-		gVars.gpEnvironment = new Environment(
-			gVars.guiCityWidth, gVars.guiCityLength, pNewCity->GetLayer( OC_LAYER_BUILDING ), gVars.gpKernel );
 
-		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 1, 2);
-    	new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 3, 4);
-		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, 4, 2);
-	*/
+// FIXME: buggy MAS
+/*
+// Create the necessary classes for the Multi-Agent System
+	gVars.gpKernel = new Kernel();
+	gVars.gpEnvironment = new Environment(
+		gVars.guiCityWidth, gVars.guiCityLength, pNewCity->GetLayer( OC_LAYER_BUILDING ), gVars.gpKernel );
 
-		while (!boolQuit) {
-		// Process input events
-			ocProcessSDLEvents();
+	new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 1, 2);
+	new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, 3, 4);
+	new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, 4, 2);
+*/
 
-		// Process city's task
-			pNewCity->Run();
-			//gVars.gpKernel->live();
+	while (!bQuit) {
+	// Process input events
+		ocProcessSDLEvents();
 
-		// IF the application is not iconified THEN update the display
-			if (gVars.gboolActive)
-				pNewCity->Display();
+	// Restart with a new city from scratch
+	// WARNING: code duplication
+		if (bRestart) {
+			delete pNewCity;
+			delete gVars.gpMapMgr;
+			delete gVars.gpMapMaker;
+
+			gVars.guiGeneratorSeed = time(NULL);
+			gVars.gpMapMaker = new MapGen::MapMaker(
+				gVars.guiCityWidth + 1, gVars.guiCityLength + 1,
+				gVars.gsGeneratorHeightMap,
+				gVars.guiGeneratorMapType,
+				gVars.guiGeneratorWaterType,
+				gVars.guiGeneratorMapShapeType,
+				gVars.guiGeneratorTreeDensityType,
+				gVars.guiGeneratorSeed
+			);
+			gVars.gpMapMgr = new Map( gVars.guiCityWidth, gVars.guiCityLength );
+			pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength );
+			if (pNewCity == NULL) {
+				OPENCITY_FATAL( "Error while creating new city" );
+				return OC_OUT_OF_MEMORY;
+			}
+			gVars.gpRenderer->bHeightChange = true;
+			gVars.gpRenderer->bMinimapChange = true;
+
+			bRestart = false;
+		}
+
+	// Process city's task
+		pNewCity->Run();
+		//gVars.gpKernel->live();
+
+	// IF the application is not iconified THEN update the display
+		if (gVars.gboolActive)
+			pNewCity->Display();
 
 #undef OC_PRINT_FPS
 #ifndef OC_PRINT_FPS
-			SDL_Delay( gVars.guiMsPerFrame );
+		SDL_Delay( gVars.guiMsPerFrame );
 #else
-			static Uint32 uiNumberTick = SDL_GetTicks();
-			static uint uiNumberFrame = 0;
+		static Uint32 uiNumberTick = SDL_GetTicks();
+		static uint uiNumberFrame = 0;
 
-			uiNumberFrame++;
-			if ((SDL_GetTicks() - uiNumberTick) > 5000) {
-				cout << uiNumberFrame << " frames per 5 seconds = "
-				     << uiNumberFrame / 5 << " FPS" << endl;
-				uiNumberTick = SDL_GetTicks();
-				uiNumberFrame = 0;
-			}
-			SDL_Delay( gVars.guiMsPerFrame );
-#endif
+		uiNumberFrame++;
+		if ((SDL_GetTicks() - uiNumberTick) > 5000) {
+			cout << uiNumberFrame << " frames per 5 seconds = "
+					<< uiNumberFrame / 5 << " FPS" << endl;
+			uiNumberTick = SDL_GetTicks();
+			uiNumberFrame = 0;
 		}
+		SDL_Delay( gVars.guiMsPerFrame );
+#endif
+	} // while (!bQuit)
 
-		//delete gVars.gpEnvironment;
-		//delete gVars.gpKernel;
-	}
+	//delete gVars.gpEnvironment;
+	//delete gVars.gpKernel;
 
 
 // Close the network connection

@@ -83,14 +83,15 @@ extern GlobalVar gVars;
    /*                         LOCAL    VARIABLES                          */
    /*=====================================================================*/
 /// The current user interface is pointed by this pointer
-	static UI * uipCurrentUI		= NULL;
+	static UI* uipCurrentUI		= NULL;
 
 /// Set to true when the user request to quit the program
-	static bool boolQuit			= false;
+	static bool boolQuit		= false;
+	static bool bRestart		= false;
 
 /// Static so that the others can not access this
-	static string sHomeDir			= "";
-	static string sSaveDir			= "";
+	static string sHomeDir		= "";
+	static string sSaveDir		= "";
 
 
    /*=====================================================================*/
@@ -112,6 +113,14 @@ void ocQuit( const int quit_code )
 	     << "Bye bye !"
 	     << endl;
 	boolQuit = true;
+}
+
+
+   /*=====================================================================*/
+void ocRestart()
+{
+	cout << "Restart with a new city from scratch. " << endl;
+	bRestart = true;
 }
 
 

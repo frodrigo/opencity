@@ -750,8 +750,10 @@ Renderer::Display
 		bMinimapChange = false;
 	}
 
-// Display the status bar
-	_DisplayStatusBar();
+// Draw the compass
+	if (_bDisplayCompass) {
+		_DisplayCompass();
+	}
 
 // Call the private method to display the height map
 	if (_bDisplayTerrain) {
@@ -1715,13 +1717,23 @@ displaymapgrid_return:
 void
 Renderer::_DisplayCompass() const
 {
+// Save the old projection matrix before processing
+	glMatrixMode( GL_PROJECTION );
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
+
+// We save the modelview matrix
+	glMatrixMode( GL_MODELVIEW );
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef( _iWinWidth/2 + 223, 32, 0 );
+	glRotated( this->dYRotateAngle, .0, .0, 1. );
+
 	glPushAttrib( GL_ENABLE_BIT );
 	glDisable( GL_LIGHTING );
 
 // Display the compass
-	glMatrixMode( GL_MODELVIEW );
-	glTranslatef( _iWinWidth/2 + 223, 32, 0 );
-	glRotated( this->dYRotateAngle, .0, .0, 1. );
 	glBegin( GL_LINES );
 		glColor4f( .5, .5, .5, 1. );
 		glVertex2i( -20, 0 );
@@ -1753,54 +1765,13 @@ Renderer::_DisplayCompass() const
 	glEnd();
 
 // Restore the old values
-	glLoadIdentity();
-	glMatrixMode( GL_PROJECTION );
 	glPopAttrib();
-}
-
-
-   /*=====================================================================*/
-void
-Renderer::_DisplayStatusBar() const
-{
-// We save the modelview matrix
-	glPushMatrix();
-	glLoadIdentity();
-
-// Save the old projection matrix before processing
+	glPopMatrix();
 	glMatrixMode( GL_PROJECTION );
-	glPushMatrix();
-	glLoadIdentity();
-	gluOrtho2D( 0, _iWinWidth-1, 0, _iWinHeight-1 );
-
-// Draw the compass
-	if (_bDisplayCompass) {
-		_DisplayCompass();
-	}
-
-// Enable alpha blending
-	glPushAttrib( GL_ENABLE_BIT );
-	glDisable( GL_LIGHTING );
-	glEnable( GL_BLEND );
-
-// Draw the blended status rectangle
-	glColor4f( .1, .1, .1, .8 );
-	glBegin( GL_QUADS );
-		glVertex2i( 0, _iWinHeight );
-		glVertex2i( 0, _iWinHeight-20 );
-		glVertex2i( _iWinWidth, _iWinHeight-20 );
-		glVertex2i( _iWinWidth, _iWinHeight );
-	glEnd();
-
-// Restore the attributes
-	glPopAttrib();
-
-// Restore the projection matrix
 	glPopMatrix();
 
 // Restore the modelview matrix
 	glMatrixMode( GL_MODELVIEW );
-	glPopMatrix();
 }
 
 

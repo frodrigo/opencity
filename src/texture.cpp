@@ -84,7 +84,7 @@ Texture::Load( const string& rcFile )
 		Texture::mapTexture[ filename ] = tex;
 	}
 	else {
-		OPENCITY_DEBUG( "Texture cache hit for: " << filename );
+//		OPENCITY_DEBUG( "Texture cache hit for: " << filename );
 		tex = Texture::mapTexture[ filename ];
 	}
 
@@ -109,7 +109,7 @@ Texture::Load3D( const string& rcFile )
 		Texture::mapTexture[ filename ] = tex;
 	}
 	else {
-		OPENCITY_DEBUG( "3D texture cache hit for: " << filename );
+//		OPENCITY_DEBUG( "3D texture cache hit for: " << filename );
 		tex = Texture::mapTexture[ filename ];
 	}
 

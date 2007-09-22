@@ -41,6 +41,7 @@ Create trees on the map at start      (done)
 Add SimpleOpt as command line parser  (done)
 Add MapMaker as global class          (done)
 Fix culling algorithm while dragging  (done)
+Add main menu                         (done)
 
 Integrate the new status bar          (wip)
 	Add speed button                  (done)

@@ -255,12 +255,14 @@ the south.
 */
 	void _DisplayTerrain() const;
 
+
 //========================================================================
 /** This method uses the same algorithm as _DisplayTerrain() does to
 draw the water layer
 	\see _DisplayTerrain()
 */
 	void _DisplayWater() const;
+
 
 //========================================================================
 /** Draw the dotted grid. This method uses OpenGL display list inside.
@@ -270,7 +272,6 @@ draw the water layer
 
 	void _DisplayCompass() const;
 
-	void _DisplayStatusBar() const;
 
 //========================================================================
 /** Prepare the world before drawing the entire scene
@@ -284,6 +285,7 @@ are not drawn.
 	void _CalculateCullingGrid();
 
 	void _CalculateCulledGrid(uint w1, uint l1, uint w2, uint l2, bool init = false);
+
 
 //========================================================================
 /** Set the LOD according to the scale ratio

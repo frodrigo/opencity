@@ -136,7 +136,6 @@ private:
 	uint		_uiWidth;			///< City's width, length
 	uint		_uiLength;
 
-	OC_CHAR		_cTool;				///< Tool hotkey
 	int			_iWinWidth;			///< Windows' width, height
 	int			_iWinHeight;
 
@@ -187,8 +186,15 @@ private:
 	SDL_Thread*	_pthreadMSim;
 
 // GUI Splash screen
-//debug, test
-	GUIButton*	pbtnSplash;
+// TOKILL
+//	GUIButton*	pbtnSplash;
+
+// The main menu
+	GUIContainer* _pctrMenu;		// The main menu container
+	GUIButton* _pbtnMenuNew;		//               new button
+	GUIButton* _pbtnMenuLoad;		//               load button
+	GUIButton* _pbtnMenuSave;		//               save button
+	GUIButton* _pbtnMenuQuit;		//               quit button
 
 // The status bar
 	GUIContainer* pctrStatus;	// The main status bar container
@@ -289,11 +295,16 @@ private:
 */
 	void _CreateGUI();
 
+
 //========================================================================
 /** Free the memory used by the GUI
 	\sa _CreateGUI()
 */
 	void _DeleteGUI();
+
+	void _LoadMenu();
+	void _CenterMenu();
+	void _UnloadMenu();
 
 	void _DoTool( const SDL_MouseButtonEvent & sdlMBEvent );
 
@@ -306,7 +317,9 @@ private:
 
 	void _DoBill( const OPENCITY_PROPERTY_CODE & );
 
-	void  _HandleStatusClick();
+	void _HandleMenuClick();
+
+	void _HandleStatusClick();
 
 	void _HandleGUIClick();
 

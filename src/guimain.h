@@ -145,6 +145,19 @@ the "display" call from the GUIContainer
 
 
 //========================================================================
+/** Set the new size of the control
+	\param rcuiW,rcuiH The width and height of the container
+*/
+	void
+	SetSize(
+		const uint& rcuiW,
+		const uint& rcuiH ) {
+		_uiWidth = rcuiW;
+		_uiHeight = rcuiH;
+	}
+
+
+//========================================================================
 /** Set the attirbute of the control
 	\param rcubAttribute The new attribute value. You can use the bit
 operations here.
