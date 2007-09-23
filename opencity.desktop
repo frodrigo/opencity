@@ -1,13 +1,12 @@
 [Desktop Entry]
-Categories=Game
-Comment=A 3D city simulator
-Comment[fr]=Jeu de simulation de Ville en OpenGL
+Name=OpenCity
 Encoding=UTF-8
+Comment=A 3D city simulator
+Comment[fr]=Jeu de simulation de Ville en 3D
+Categories=Game;StrategyGame;
 Exec=opencity
 GenericName=City simulator
 GenericName[fr]=Simulateur de ville
-Icon=OpenCity
-Name=OpenCity
-Name[fr]=OpenCity
+Icon=opencity
 Terminal=false
 Type=Application

@@ -11,7 +11,7 @@ EXTRA_DIST = \
 
 
 dist_pkgdata_DATA = \
-	OpenCity.desktop OpenCity.png
+	opencity.desktop opencity.png
 
 
 nobase_dist_pkgdata_DATA = \
@@ -44,9 +44,9 @@ install-data-local:
 		fi; \
 	done;
 #	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps/;
-#	$(INSTALL_DATA) $(srcdir)/OpenCity.png $(DESTDIR)$(datadir)/pixmaps/;
+#	$(INSTALL_DATA) $(srcdir)/opencity.png $(DESTDIR)$(datadir)/pixmaps/;
 #	$(mkinstalldirs) $(DESTDIR)$(datadir)/applications/;
-#	$(INSTALL_DATA) $(srcdir)/OpenCity.desktop $(DESTDIR)$(datadir)/applications/;
+#	$(INSTALL_DATA) $(srcdir)/opencity.desktop $(DESTDIR)$(datadir)/applications/;
 
 	@echo -e "\n\r";
 	@echo "========================================================================";
@@ -60,8 +60,8 @@ install-data-local:
 # Uninstall = Delete everything
 #==============================================================================
 uninstall-local:
-#	$(RM) -f $(DESTDIR)$(datadir)/pixmaps/OpenCity.png
-#	$(RM) -f $(DESTDIR)$(datadir)/applications/OpenCity.desktop
+#	$(RM) -f $(DESTDIR)$(datadir)/pixmaps/opencity.png
+#	$(RM) -f $(DESTDIR)$(datadir)/applications/opencity.desktop
 	$(RM) -f $(DESTDIR)$(bindir)/opencity
 	$(RM) -rf $(DESTDIR)$(pkgdatadir)
 
