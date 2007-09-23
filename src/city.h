@@ -122,6 +122,7 @@ private:
 	string		strCityName;		///< The name of the city
 	int			iDifficulty;		///< The difficulty of current game
 	bool		_bGUIEnabled;		///< GUI mode ?
+	bool		_bStatusVisible;	///< Is the status bar visible ?
 	string		strFileName;		///< The fileName of current city
 
 	uint		_uiIncome;			///< Monthly income accumulator

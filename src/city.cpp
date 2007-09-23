@@ -57,6 +57,7 @@ City::City
 strCityName("OpenCity"),
 iDifficulty( difficulty ),
 _bGUIEnabled( bGUIEnabled ),
+_bStatusVisible( true ),
 strFileName(""),
 _uiIncome( 0 ),
 _liCityFund( OC_FUND_START ),
@@ -520,11 +521,16 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			gVars.gpRenderer->ToggleGrid();
 			break;
 		case SDLK_k:	// toggle compass on/off
+		// Do not mess up the menu
+			if (_pctrMenu != NULL)
+				break;
+
+			_bStatusVisible = !_bStatusVisible;
 			gVars.gpRenderer->ToggleCompass();
-			if (pctrStatus->IsSet( OC_GUIMAIN_VISIBLE ))
-				pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
-			else
+			if (_bStatusVisible)
 				pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+			else
+				pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
 			break;
 		case SDLK_o:	// toggle projection mode
 			gVars.gpRenderer->ToggleProjection();
@@ -701,14 +707,14 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 {
 //	OPENCITY_DEBUG("Mouse button event received" );
 
-// Process the mouse click on the menu
+// IF the menu is opened THEN process the mouse click on the menu and return
 	if (_pctrMenu != NULL ) {
 		_pctrMenu->MouseButton( rcsMBE );
 		if ( _pctrMenu->GetClick() != 0 ) {
 			_HandleMenuClick();
 			_bLMBPressed = false;
-			return;
 		}
+		return;
 	}
 
 // Process the mouse click on the status bar
@@ -1227,6 +1233,12 @@ City::_LoadMenu()
 	_pctrMenu->Add( _pbtnMenuQuit );
 	_pctrMenu->Set( OC_GUIMAIN_VISIBLE );
 
+// Hide the status bar and the compass
+	if (_bStatusVisible) {
+		gVars.gpRenderer->ToggleCompass();
+		pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
+	}
+
 	_CenterMenu();
 }
 
@@ -1257,6 +1269,12 @@ City::_UnloadMenu()
 	delete _pbtnMenuNew;
 
 	_pctrMenu = NULL;
+
+// IF the status bar was visible THEN display it now
+	if (_bStatusVisible) {
+		gVars.gpRenderer->ToggleCompass();
+		pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+	}
 }
 
 
