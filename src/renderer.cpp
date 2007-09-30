@@ -112,8 +112,10 @@ _bDisplayStructure( true ),
 _bDisplayGrid( true ),
 _bDisplayCompass( true ),
 _bWireFrame( false ),
-ubProjectionType( OC_PERSPECTIVE ),
+_ubProjectionType( OC_PERSPECTIVE ),
 _uiMinimapTex( 0 ),
+_uiCloudTex( 0 ),
+_uiTerrainTex( 0 ),
 _uiSplashTex( 0 ),
 _bCalculateCulling( true ),
 _uiCityWidth( cityW ),
@@ -122,13 +124,8 @@ _uiCityLength( cityL )
 	OPENCITY_DEBUG( "Renderer ctor" );
 
 // Load frequently used textures
-//	_uiTerrainTex = Texture::Load( ocHomeDirPrefix( "texture/terrain_plane_128.png" ));
-//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512.png" ));
-//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512_texture.png" ));
-//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_128x512_gradient.png" ));
-//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x512_texture.png" ));
+	_uiCloudTex = Texture::Load( ocHomeDirPrefix( "texture/cloud.png" ));
 	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x4096_texture.png" ));
-//	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x8192_texture.png" ));
 	_uiWaterTex = Texture::Load( ocHomeDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
 // Initialize the model culling grid
@@ -248,10 +245,10 @@ Renderer::~Renderer(  )
 	OPENCITY_DEBUG("dtor");
 
 // Free GL list
-	glDeleteLists( this->_uiFontBase, 256 );
+	glDeleteLists( _uiFontBase, 256 );
 
-	if (glIsList( this->_uiGridList ))
-		glDeleteLists( this->_uiGridList, 1 );
+	if (glIsList( _uiGridList ))
+		glDeleteLists( _uiGridList, 1 );
 	if (glIsList( _uiTerrainList ))
 		glDeleteLists( _uiTerrainList, 1 );
 	if (glIsList( _uiWaterList ))
@@ -261,6 +258,7 @@ Renderer::~Renderer(  )
 	glDeleteTextures( 1, &_uiSplashTex );
 	glDeleteTextures( 1, &_uiWaterTex );
 	glDeleteTextures( 1, &_uiTerrainTex );
+	glDeleteTextures( 1, &_uiCloudTex );
 	glDeleteTextures( 1, &_uiMinimapTex );
 
 // Free the model culling grid
@@ -621,11 +619,11 @@ Renderer::ToggleCompass()
 void
 Renderer::ToggleProjection()
 {
-	if (this->ubProjectionType == OC_PERSPECTIVE) {
-		ubProjectionType = OC_ORTHOGONAL;
+	if (_ubProjectionType == OC_PERSPECTIVE) {
+		_ubProjectionType = OC_ORTHOGONAL;
 	}
 	else {
-		ubProjectionType = OC_PERSPECTIVE;
+		_ubProjectionType = OC_PERSPECTIVE;
 	}
 
 // Reinit the projection matrix;
@@ -745,15 +743,14 @@ Renderer::Display
 	}
 
 // Calculate the minimap
-	if (bMinimapChange) {
+// NOTE: IF the compass is not displayed THEN it is not necessary to calculate the minimap
+	if (bMinimapChange && _bDisplayCompass) {
 		Texture::Building2Texture( (BuildingLayer*)pcLayer, _uiMinimapTex );
 		bMinimapChange = false;
 	}
 
-// Draw the compass
-	if (_bDisplayCompass) {
-		_DisplayCompass();
-	}
+// Draw the compass and the cloud
+	_DisplayCompass();
 
 // Call the private method to display the height map
 	if (_bDisplayTerrain) {
@@ -1018,7 +1015,7 @@ Renderer::GetSelectedWHFrom
 	viewport[2] = _iWinWidth;
 	viewport[3] = _iWinHeight;
 	gluPickMatrix( rcuiMouseX, _iWinHeight-rcuiMouseY, 2, 2, viewport );
-	if ( this->ubProjectionType == OC_PERSPECTIVE ) {
+	if ( _ubProjectionType == OC_PERSPECTIVE ) {
 		gluPerspective(
 			OC_VIEW_ANGLE,
 			(GLfloat)_iWinWidth / (GLfloat)_iWinHeight,
@@ -1112,7 +1109,7 @@ Renderer::SetWinSize(
 // Set the projection matrix
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
-	if ( this->ubProjectionType == OC_PERSPECTIVE ) {
+	if ( _ubProjectionType == OC_PERSPECTIVE ) {
 		gluPerspective(
 			OC_VIEW_ANGLE,
 			(GLfloat)_iWinWidth / (GLfloat)_iWinHeight,
@@ -1717,6 +1714,10 @@ displaymapgrid_return:
 void
 Renderer::_DisplayCompass() const
 {
+// Save the OpenGL attributes
+	glPushAttrib( GL_ENABLE_BIT );
+	glDisable( GL_LIGHTING );
+
 // Save the old projection matrix before processing
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
@@ -1726,14 +1727,15 @@ Renderer::_DisplayCompass() const
 // We save the modelview matrix
 	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
+
+// Do not display the compass if unrequired
+	if (!_bDisplayCompass)
+		goto _displayCloud;
+
+// Display the compass
 	glLoadIdentity();
 	glTranslatef( _iWinWidth/2 + 223, 32, 0 );
 	glRotated( this->dYRotateAngle, .0, .0, 1. );
-
-	glPushAttrib( GL_ENABLE_BIT );
-	glDisable( GL_LIGHTING );
-
-// Display the compass
 	glBegin( GL_LINES );
 		glColor4f( .5, .5, .5, 1. );
 		glVertex2i( -20, 0 );
@@ -1764,11 +1766,28 @@ Renderer::_DisplayCompass() const
 	glTexCoord2i( 1, 0 ); glVertex2i( 56,  0 );
 	glEnd();
 
+// Display the cloud
+_displayCloud:
+	glDisable( GL_BLEND );
+	glEnable( GL_TEXTURE_2D );
+	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
+	glBindTexture( GL_TEXTURE_2D, _uiCloudTex );
+	glLoadIdentity();
+	glTranslatef( 0, 0, -1 );
+
+// Display the textured quad
+	glBegin( GL_QUADS );
+	glTexCoord2i( 0, 0 ); glVertex2i( 0         , 0 );
+	glTexCoord2i( 0, 1 ); glVertex2i( 0         , _iWinHeight );
+	glTexCoord2i( 1, 1 ); glVertex2i( _iWinWidth, _iWinHeight );
+	glTexCoord2i( 1, 0 ); glVertex2i( _iWinWidth, 0 );
+	glEnd();
+
 // Restore the old values
-	glPopAttrib();
 	glPopMatrix();
 	glMatrixMode( GL_PROJECTION );
 	glPopMatrix();
+	glPopAttrib();
 
 // Restore the modelview matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -1784,7 +1803,7 @@ Renderer::_PrepareView()
 	glLoadIdentity();
 
 // Translate & rotate the map to create an view angle
-	if ( ubProjectionType == OC_PERSPECTIVE ) {
+	if ( _ubProjectionType == OC_PERSPECTIVE ) {
 		glRotated( 35, 1., .0, .0 );
 		glTranslated( .0, -18.0, -24.0 );
 	}

@@ -59,6 +59,9 @@ XML metadata migration                (wip)
 
 Variable name clean up                (wip)
 Water layer                           (wip)
+LBS/FHS layout
+Review the licensing
+
 Water pipe
 Water pump
 Water tower
@@ -83,7 +86,6 @@ ZeN online map loading
 Fix city size settings bug
 Add the simulator accelerator key
 Make the simulator CPU independant
-LBS files layout
 Texture lighting
 
 

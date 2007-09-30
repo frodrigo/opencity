@@ -193,7 +193,7 @@ private:
 	bool _bDisplayCompass;		///< Display the GUI / compass
 	bool _bWireFrame;			///< Wireframe mode
 
-	OC_UBYTE ubProjectionType;
+	OC_UBYTE _ubProjectionType;
 	GLfloat fScaleRatio;
 	GLfloat fXTransDelta;	///< The delta used for translation in the X direction
 	GLfloat fZTransDelta;
@@ -210,6 +210,7 @@ private:
 
 // Frequently use textures
 	GLuint _uiMinimapTex;	///< Minimap texture
+	GLuint _uiCloudTex;		///< Cloud texture
 	GLuint _uiTerrainTex;	///< Terrain texture
 	GLuint _uiWaterTex;		///< Water texture
 	GLuint _uiSplashTex;	///< Splash texture
@@ -241,8 +242,6 @@ private:
 	uint _uiCityWidth;
 	uint _uiCityLength;
 
-/// pointer to the screen SDL display surface
-	SDL_Surface* psurfaceScreen;
 
    /*=====================================================================*/
    /*                        PRIVATE     METHODS                          */
