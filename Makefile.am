@@ -16,6 +16,9 @@ desktop_DATA = opencity.desktop
 pixmapdir = $(datadir)/pixmaps
 pixmap_DATA = opencity.png
 
+dist_pkgdata_DATA = \
+	opencity.desktop opencity.png
+
 nobase_dist_pkgdata_DATA = \
 	autopackage/opencity.apspec
 
