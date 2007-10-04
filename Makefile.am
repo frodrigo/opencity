@@ -10,9 +10,11 @@ EXTRA_DIST = \
 	graphism model sound texture COPYRIGHT
 
 
-dist_pkgdata_DATA = \
-	opencity.desktop opencity.png
+desktopdir = $(datadir)/applications
+desktop_DATA = opencity.desktop
 
+pixmapdir = $(datadir)/pixmaps
+pixmap_DATA = opencity.png
 
 nobase_dist_pkgdata_DATA = \
 	autopackage/opencity.apspec
@@ -22,7 +24,7 @@ nobase_dist_pkgdata_DATA = \
 # "config" directory
 #==============================================================================
 nobase_dist_pkgdata_DATA += \
-	config/graphism.conf config/opencity.xml
+	config/graphism.conf config/opencity.xml config/graphism.xml
 
 
 #==============================================================================

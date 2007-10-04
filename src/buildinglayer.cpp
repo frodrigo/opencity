@@ -63,7 +63,6 @@ BuildingLayer::~BuildingLayer()
 
 	uint citySurface = _uiLayerLength * _uiLayerWidth;
 	for ( uint counter = 0; counter < citySurface; counter++ ) {
-	// delete NULL pointer is allowed ?
 	// delete seems to have no effects on NULL
 		if (_tabpStructure[counter] != NULL) {
 			delete _tabpStructure[counter];
@@ -89,20 +88,21 @@ BuildingLayer::SaveTo( std::fstream& rfs )
 
 	for ( l = 0; l < _uiLayerLength; l++ )
 	for ( w = 0; w < _uiLayerWidth; w++ ) {
-// debug
-//		rfs << w << " " << l << std::endl;
-
 		p = _tabpStructure[linear++];
 
-	// We save only extra information for main structures
+	// IF this is a part of a bigger structure THEN
 		if ((p != NULL) && (p->GetMain() != NULL)) {
 			p = NULL;
 		}
-		rfs << p << std::ends;
 
+	// IF there is structure's information to save THEN
 		if (p != NULL) {
+			rfs << 1 << std::ends;
 			rfs << p->GetType() << std::ends;
 			p->SaveTo( rfs );
+		}
+		else {
+			rfs << 0 << std::ends;
 		}
 	} // for
 }
@@ -114,7 +114,7 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 {
 	OPENCITY_DEBUG( __PRETTY_FUNCTION__ << "loading" );
 	Structure* p = NULL;
-	void* t = NULL;
+	uint extra = 0;			// Extra info ? 1 = true; 0 = false;
 	uint w = 0, l = 0, anUint = 0, linear = 0;
 	OPENCITY_STRUCTURE_TYPE type = OC_TYPE_UNDEFINED;		///< Structure's object type
 
@@ -139,51 +139,45 @@ BuildingLayer::LoadFrom( std::fstream& rfs )
 		_tabpStructure[linear] = NULL;
 	}
 
-// debug
-//	uint wt = 0, lt = 0;
-
 // Load the structures
 	for ( l = 0; l < _uiLayerLength; l++ )
 	for ( w = 0; w < _uiLayerWidth; w++ ) {
-// debug
-//		rfs >> wt; rfs.ignore();
-//		rfs >> lt; rfs.ignore();
+		rfs >> extra; rfs.ignore();
 
-		rfs >> t; rfs.ignore();
-//		OPENCITY_DEBUG( "Current w/l: " << w << " / " << l << " | Reading w/l/t: " << wt << " / " << lt << " / " << t );
+	// IF there is no extra information to read THEN continue
+		if (extra == 0)
+			continue;
 
-		if (t != NULL) {
-			rfs >> anUint; rfs.ignore(); type = (OPENCITY_STRUCTURE_TYPE)anUint;
-			switch (type) {
-				case OC_TYPE_RESIDENCE:
-				case OC_TYPE_COMMERCE:
-				case OC_TYPE_INDUSTRY:
-					p = new RCIStructure();
-					break;
+		rfs >> anUint; rfs.ignore(); type = (OPENCITY_STRUCTURE_TYPE)anUint;
+		switch (type) {
+			case OC_TYPE_RESIDENCE:
+			case OC_TYPE_COMMERCE:
+			case OC_TYPE_INDUSTRY:
+				p = new RCIStructure();
+				break;
 
-				case OC_TYPE_WATER:
-				case OC_TYPE_ELECTRICITY:
-				case OC_TYPE_GAS:
-				case OC_TYPE_GOVERNMENT:		// hack
-					p = new WEGStructure();
-					break;
+			case OC_TYPE_WATER:
+			case OC_TYPE_ELECTRICITY:
+			case OC_TYPE_GAS:
+			case OC_TYPE_GOVERNMENT:		// hack
+				p = new WEGStructure();
+				break;
 
-				case OC_TYPE_PATH:
-					p = new PathStructure();
-					break;
+			case OC_TYPE_PATH:
+				p = new PathStructure();
+				break;
 
-				case OC_TYPE_TREE:
-					p = new TreeStructure();
-					break;
+			case OC_TYPE_TREE:
+				p = new TreeStructure();
+				break;
 
-				default:
-					OPENCITY_DEBUG( "Unknown structure's type: " << type );
-					assert( 0 );
-			}
+			default:
+				OPENCITY_DEBUG( "Unknown structure's type: " << type );
+				assert( 0 );
+		}
 
-			p->LoadFrom( rfs );
-			_LoadStructure( w, l, p );
-		} // if (p != NULL)
+		p->LoadFrom( rfs );
+		_LoadStructure( w, l, p );
 	} // for
 }
 
@@ -1247,13 +1241,13 @@ BuildingLayer::_BuildWEGStructure(
    /*=====================================================================*/
 void
 BuildingLayer::_LoadStructure(
-	const uint & w1,
-	const uint & l1,
+	const uint& w1,
+	const uint& l1,
 	Structure* pMainStruct )
 {
 	OPENCITY_DEBUG( "Loading some structures" );
 
-	uint w = 0, l = 0, w2 = 0, l2 = 0;
+	uint w = 0, l = 0, w2 = 0, l2 = 0;			// Map coordinates
 	uint sw = 0, sl = 0, sh = 0;				// Structure's width, length and height
 	OPENCITY_GRAPHIC_CODE gcode = OC_EMPTY;
 	uint linearIndex = 0;
@@ -1261,7 +1255,7 @@ BuildingLayer::_LoadStructure(
 // Get the graphic code of the structure
 	gcode = pMainStruct->GetGraphicCode();
 	if ( gcode == OC_EMPTY ) {
-		OPENCITY_DEBUG( "WARNING: not implemented" );
+		OPENCITY_FATAL( "Not implemented" );
 		assert(0);
 	}
 

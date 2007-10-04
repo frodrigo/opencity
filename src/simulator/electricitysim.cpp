@@ -187,7 +187,7 @@ ElectricitySim::Main()
 
 				// What's the heck ?
 					default:
-						OPENCITY_DEBUG( "What's the heck ?" );
+						OPENCITY_DEBUG( "What is this structure code: " << pstruct->GetCode() );
 						assert( 0 );
 						break;
 				} // switch

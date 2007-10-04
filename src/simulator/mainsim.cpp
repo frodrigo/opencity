@@ -267,7 +267,7 @@ fluctuations in between.
 				break;
 
 			default:
-				OPENCITY_DEBUG( "What is this ?" );
+				OPENCITY_DEBUG( "What is this structure code: " << pstruct->GetCode() );
 				assert( 0 );
 		}
 	} // for
