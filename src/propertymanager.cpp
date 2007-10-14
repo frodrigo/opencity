@@ -108,7 +108,7 @@ PropertyManager::Get(
 	static int value;
 
 	switch (pCode) {
-		case OC_BUILD_COST:
+		case OC_TOOL_COST:
 			switch (sCode) {
 				case OC_STRUCTURE_RES:
 				case OC_STRUCTURE_COM:

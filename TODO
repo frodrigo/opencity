@@ -43,12 +43,12 @@ Add MapMaker as global class          (done)
 Fix culling algorithm while dragging  (done)
 Add main menu                         (done)
 
-Integrate the new status bar          (wip)
+Integrate the new status bar          (done)
 	Add speed button                  (done)
 	Add RCI bars                      (done)
 	Fix RCI bars ratio                (done)
 	Fix P bar ratio                   (done)
-	Add toolcircle button
+	Add toolcircle button             (done)
 
 XML metadata migration                (wip)
 	Load model dimensions             (done)

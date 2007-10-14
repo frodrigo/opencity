@@ -376,23 +376,23 @@ GraphicManager::DisplayTerrainHighlight(
 
 // compare the tool code
 	switch (enumTool) {
-		case OC_ZONE_RES:
+		case OC_TOOL_ZONE_RES:
 			red = .2; green = .5; blue = .2;
 			break;
 
-		case OC_ZONE_COM:
+		case OC_TOOL_ZONE_COM:
 			red = .2; green = .2; blue = .5;
 			break;
 
-		case OC_ZONE_IND:
+		case OC_TOOL_ZONE_IND:
 			red = .5; green = .5; blue = .2;
 			break;
 
-		case OC_BUILD_ROAD:
+		case OC_TOOL_ROAD:
 			red = .5; green = .65; blue = .5;
 			break;
 
-		case OC_BUILD_ELINE:
+		case OC_TOOL_ELINE:
 			red = .55; green = .55; blue = .45;
 			break;
 

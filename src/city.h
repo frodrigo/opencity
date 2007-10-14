@@ -157,8 +157,8 @@ private:
 	OPENCITY_CITY_SPEED _eSpeed;
 
 // Current active tool
-	OPENCITY_TOOL_CODE _eCurrentTool;
-
+	OPENCITY_TOOL_CODE	_eCurrentTool;
+	GUIButton*			_apbtnCurrentTool[OC_TOOL_NUMBER];
 
 // Others classes
 	Layer*		_apLayer[4];			// The array of our 4 differents layer
@@ -185,10 +185,6 @@ private:
 // Simulator
 	MainSim*	_pMSim;
 	SDL_Thread*	_pthreadMSim;
-
-// GUI Splash screen
-// TOKILL
-//	GUIButton*	pbtnSplash;
 
 // The main menu
 	GUIContainer* _pctrMenu;		// The main menu container
@@ -307,7 +303,8 @@ private:
 	void _CenterMenu();
 	void _UnloadMenu();
 
-	void _DoTool( const SDL_MouseButtonEvent & sdlMBEvent );
+	void _SetCurrentTool( const OPENCITY_TOOL_CODE& tool );
+	void _DoTool( const SDL_MouseButtonEvent& sdlMBEvent );
 
 	bool _HandleKeyPressed();
 
@@ -316,7 +313,7 @@ private:
 */
 	void _RecordRessource();
 
-	void _DoBill( const OPENCITY_PROPERTY_CODE & );
+	void _DoBill( const OPENCITY_PROPERTY_CODE& );
 
 	void _HandleMenuClick();
 

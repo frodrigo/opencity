@@ -28,7 +28,7 @@
 */
 class GUIButton : public GUIMain {
 public:
-	GUIButton() {}
+	GUIButton();
 	GUIButton(
 		const int & rciX,
 		const int & rciY,

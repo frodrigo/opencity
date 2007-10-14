@@ -73,7 +73,7 @@ _uiLength( length ),
 _bLMBPressed( false ),
 _eCurrentLayer( OC_LAYER_BUILDING ),
 _eSpeed( OC_SPEED_NORMAL ),
-_eCurrentTool( OC_NONE ),
+_eCurrentTool( OC_TOOL_NONE ),
 
 _pctrMenu( NULL )
 {
@@ -130,7 +130,7 @@ _pctrMenu( NULL )
 		pctrPath->Add( pbtnTestBuilding );
 		pvehicle = NULL;
 	
-	// create the GUI
+	// Create the GUI
 		_CreateGUI();
 	}
 }
@@ -333,7 +333,7 @@ void City::Display()
 // however, in this case City::uiMouseMotion is called each time
 // when the mouse moves, and this is no good.
 // The user is dragging
-	if ((_bLMBPressed == true) && (_eCurrentTool != OC_NONE )) {
+	if ((_bLMBPressed == true) && (_eCurrentTool != OC_TOOL_NONE )) {
 	// IF the user is dragging with the left mouse button THEN
 		if ( SDL_GetMouseState( &iMouseX, &iMouseY ) & SDL_BUTTON(1) ) {
 			gVars.gpRenderer->GetSelectedWHFrom(
@@ -475,39 +475,39 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			break;
 
 		case SDLK_n:	// set the tool to "None"
-			_eCurrentTool = OC_NONE;
+			_SetCurrentTool(  OC_TOOL_NONE );
 			break;
 		case SDLK_r:	// set tool for "zone residential"
-			_eCurrentTool = OC_ZONE_RES;
+			_SetCurrentTool( OC_TOOL_ZONE_RES );
 			break;
 		case SDLK_c:	// set tool for "zone commercial"
-			_eCurrentTool = OC_ZONE_COM;
+			_SetCurrentTool( OC_TOOL_ZONE_COM );
 			break;
 		case SDLK_i:	// set tool for "zone industrial"
-			_eCurrentTool = OC_ZONE_IND;
+			_SetCurrentTool( OC_TOOL_ZONE_IND );
 			break;
 
 		case SDLK_p:	// set tool for "building road"
-			_eCurrentTool = OC_BUILD_ROAD;
+			_SetCurrentTool( OC_TOOL_ROAD );
 			break;
 		case SDLK_l:	// set tool for building electric lines
-			_eCurrentTool = OC_BUILD_ELINE;
+			_SetCurrentTool( OC_TOOL_ELINE );
 			break;
 		case SDLK_e:	// set tool for building electric plants
-			_eCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
+			_SetCurrentTool( OC_TOOL_EPLANT_NUCLEAR );
 			break;
 
 		case SDLK_u:	// height up
-			_eCurrentTool = OC_HEIGHT_UP;
+			_SetCurrentTool( OC_TOOL_HEIGHT_UP );
 			break;
 		case SDLK_d:	// height down
-			_eCurrentTool = OC_HEIGHT_DOWN;
+			_SetCurrentTool( OC_TOOL_HEIGHT_DOWN );
 			break;
 		case SDLK_q:	//query tool
-			_eCurrentTool = OC_QUERY;
+			_SetCurrentTool( OC_TOOL_QUERY );
 			break;
 		case SDLK_x:	// destroy
-			_eCurrentTool = OC_DESTROY;
+			_SetCurrentTool( OC_TOOL_DESTROY );
 			break;
 
 
@@ -753,13 +753,11 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 
 		// RMB (right mouse button) close/open the toolcircle
 			if (rcsMBE.button == SDL_BUTTON_RIGHT) {
-			// if the user has invoked "Query"
-			// then we destroy it first
+			// IF the user has invoked "Query" THEN we destroy it first
 				if (pctr == pctrQ) {
 					pctr = pctrMain;
-				// enable the visible bit
-				// since, it is disabled later, the main circletool
-				// won't be displayed
+				// Enable the visible bit since, it is disabled later
+				// the main toolcircle won't be displayed
 					pctr->Set( OC_GUIMAIN_VISIBLE );
 					delete pctrQ;
 					pctrQ = NULL;		// YES, we need it
@@ -769,9 +767,7 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 					pctr->Unset( OC_GUIMAIN_VISIBLE );
 				}
 				else {
-					pctr->SetLocation(
-						rcsMBE.x - 70,
-						_iWinHeight - rcsMBE.y - 70 );
+					pctr->SetLocation( rcsMBE.x - 70, _iWinHeight - rcsMBE.y - 70 );
 					pctr->Set( OC_GUIMAIN_VISIBLE );
 				}
 			}
@@ -973,6 +969,49 @@ City::_CreateGUI()
 {
 	ostringstream ossTemp;
 
+// Load the buttons used by the status bar
+	_apbtnCurrentTool[OC_TOOL_NONE] = new GUIButton();
+	_apbtnCurrentTool[OC_TOOL_DESTROY]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/bulldozer" ));
+	_apbtnCurrentTool[OC_TOOL_ZONE_RES]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/residential" ));
+	_apbtnCurrentTool[OC_TOOL_ZONE_COM]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/commercial" ));
+	_apbtnCurrentTool[OC_TOOL_ZONE_IND]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/industrial" ));
+	_apbtnCurrentTool[OC_TOOL_HEIGHT_UP]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/raise" ));
+	_apbtnCurrentTool[OC_TOOL_HEIGHT_DOWN]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/lower" ));
+	_apbtnCurrentTool[OC_TOOL_ROAD]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/road" ));
+	_apbtnCurrentTool[OC_TOOL_ELINE]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/power_line" ));
+	_apbtnCurrentTool[OC_TOOL_EPLANT_COAL]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/power_plant_coal" ));
+	_apbtnCurrentTool[OC_TOOL_EPLANT_NUCLEAR]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/power_plant_nuclear" ));
+	_apbtnCurrentTool[OC_TOOL_PARK]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/park" ));
+	_apbtnCurrentTool[OC_TOOL_FLORA]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/tree" ));
+	_apbtnCurrentTool[OC_TOOL_FIRE]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/fire" ));
+	
+	_apbtnCurrentTool[OC_TOOL_POLICE]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/police" ));
+	_apbtnCurrentTool[OC_TOOL_HOSPITAL]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/hospital" ));
+	_apbtnCurrentTool[OC_TOOL_EDUCATION]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/education" ));
+	_apbtnCurrentTool[OC_TOOL_QUERY]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/query" ));
+
+	_apbtnCurrentTool[OC_TOOL_AGENT_POLICE]			= new GUIButton();
+	_apbtnCurrentTool[OC_TOOL_AGENT_DEMONSTRATOR]	= new GUIButton();
+	_apbtnCurrentTool[OC_TOOL_AGENT_ROBBER]			= new GUIButton();
+	_apbtnCurrentTool[OC_TOOL_TEST_BUILDING]		= new GUIButton();
+
 // The status bar
 	pbtnPause = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_pause" ));
 	pbtnPlay  = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_play" ));
@@ -1018,6 +1057,12 @@ City::_CreateGUI()
 	pctrStatus->Add( pbarIndustry );
 	pctrStatus->Add( pbarPower );
 	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+
+// The status bar buttons
+	for (int i = 0; i < OC_TOOL_NUMBER; i++) {
+		_apbtnCurrentTool[i]->Unset( OC_GUIMAIN_VISIBLE );
+		pctrStatus->Add( _apbtnCurrentTool[i] );
+	}
 
 // GUI main toolcircle
 	pbtnZ = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
@@ -1139,18 +1184,6 @@ City::_CreateGUI()
 void
 City::_DeleteGUI()
 {
-// Delete the status bar
-	delete pctrStatus;
-	delete pbarPower;
-	delete pbarIndustry;
-	delete pbarCommerce;
-	delete pbarResidence;
-	delete plblFund;
-	delete plblPopulation;
-	delete plblDate;
-	delete pbtnPlay;
-	delete pbtnPause;
-
 // delete the Query container if needed
 	if (pctrQ != NULL)
 		delete pctrQ;
@@ -1212,6 +1245,24 @@ City::_DeleteGUI()
 	delete pbtnP;
 	delete pbtnX;
 	delete pbtnG;
+
+// Delete the status bar
+	delete pctrStatus;
+	delete pbarPower;
+	delete pbarIndustry;
+	delete pbarCommerce;
+	delete pbarResidence;
+	delete plblFund;
+	delete plblPopulation;
+	delete plblDate;
+	delete pbtnPlay;
+	delete pbtnPause;
+
+// The status bar buttons
+	for (int i = 0; i < OC_TOOL_NUMBER; i++) {
+		delete _apbtnCurrentTool[i];
+		_apbtnCurrentTool[i] = NULL;		// Safe
+	}
 }
 
 
@@ -1293,10 +1344,20 @@ City::_UnloadMenu()
 
    /*=====================================================================*/
 void
+City::_SetCurrentTool( const OPENCITY_TOOL_CODE& tool )
+{
+	_apbtnCurrentTool[ _eCurrentTool ]->Unset( OC_GUIMAIN_VISIBLE );
+	_eCurrentTool = tool;
+	_apbtnCurrentTool[ _eCurrentTool ]->Set( OC_GUIMAIN_VISIBLE );
+}
+
+
+   /*=====================================================================*/
+void
 City::_DoTool(
 	const SDL_MouseButtonEvent & sdlMBEvent )
 {
-	if ( _eCurrentTool == OC_NONE )
+	if ( _eCurrentTool == OC_TOOL_NONE )
 		return;
 
 	static uint cost;
@@ -1323,7 +1384,7 @@ City::_DoTool(
 	SDL_LockMutex( gVars.gpmutexSim );
 
 	switch (_eCurrentTool) {
-	case OC_ZONE_RES:
+	case OC_TOOL_ZONE_RES:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1332,7 +1393,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_ZONE_COM:
+	case OC_TOOL_ZONE_COM:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1341,7 +1402,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_ZONE_IND:
+	case OC_TOOL_ZONE_IND:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1350,7 +1411,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_ROAD:
+	case OC_TOOL_ROAD:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1359,7 +1420,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_ELINE:
+	case OC_TOOL_ELINE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure( 
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1368,7 +1429,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_EPLANT_COAL:
+	case OC_TOOL_EPLANT_COAL:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1378,7 +1439,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_EPLANT_NUCLEAR:
+	case OC_TOOL_EPLANT_NUCLEAR:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1388,7 +1449,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_PARK:
+	case OC_TOOL_PARK:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1397,7 +1458,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_FLORA:
+	case OC_TOOL_FLORA:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1406,7 +1467,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_FIRE:
+	case OC_TOOL_FIRE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1416,7 +1477,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_POLICE:
+	case OC_TOOL_POLICE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1426,7 +1487,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_HOSPITAL:
+	case OC_TOOL_HOSPITAL:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1436,7 +1497,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_EDUCATION:
+	case OC_TOOL_EDUCATION:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1446,7 +1507,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_TEST_BUILDING:
+	case OC_TOOL_TEST_BUILDING:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
 			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
@@ -1455,26 +1516,26 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_BUILD_AGENT_POLICE:
+	case OC_TOOL_AGENT_POLICE:
 		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( _uiMapW1, _uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
 		new AgentPolice(*gVars.gpKernel, *gVars.gpEnvironment, _uiMapW1, _uiMapL1);
 		break;
 
-	case OC_BUILD_AGENT_DEMONSTRATOR:
+	case OC_TOOL_AGENT_DEMONSTRATOR:
 		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( _uiMapW1, _uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
 		new AgentDemonstrator(*gVars.gpKernel, *gVars.gpEnvironment, _uiMapW1, _uiMapL1);
 		break;
 
-	case OC_BUILD_AGENT_ROBBER:
+	case OC_TOOL_AGENT_ROBBER:
 		pstruct = _apLayer[ OC_LAYER_BUILDING ]->GetStructure( _uiMapW1, _uiMapL1 );
 		if ((pstruct != NULL) && (pstruct->GetCode() == OC_STRUCTURE_ROAD))
 		new AgentRobber(*gVars.gpKernel, *gVars.gpEnvironment, _uiMapW1, _uiMapL1);
 		break;
 
 //FIXME: cost
-	case OC_HEIGHT_UP:
+	case OC_TOOL_HEIGHT_UP:
 		enumErrCode = gVars.gpMapMgr->ChangeHeight( _uiMapW1, _uiMapL1, OC_MAP_UP );
 		if ( enumErrCode == OC_ERR_FREE ) {
 			gVars.gpRenderer->bHeightChange = true;
@@ -1483,7 +1544,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_HEIGHT_DOWN:
+	case OC_TOOL_HEIGHT_DOWN:
 		enumErrCode = gVars.gpMapMgr->ChangeHeight( _uiMapW1, _uiMapL1, OC_MAP_DOWN );
 		if ( enumErrCode == OC_ERR_FREE ) {
 			gVars.gpRenderer->bHeightChange = true;
@@ -1492,7 +1553,7 @@ City::_DoTool(
 		}
 		break;
 
-	case OC_QUERY:
+	case OC_TOOL_QUERY:
 	// Delete the old query container
 	// we don't need to assign it to NULL since
 	// it will contain another value later
@@ -1515,7 +1576,7 @@ City::_DoTool(
 		enumErrCode = OC_ERR_SOMETHING;		// avoid to calculate the cost
 		break;
 
-	case OC_DESTROY:
+	case OC_TOOL_DESTROY:
 	// If it is a part of a bigger structure (an EPLANT for example),
 	// the whole structure will be then destroyed
 	// The following part tell the simulators to remove the collected data concerning
@@ -1729,7 +1790,7 @@ City::_HandleStatusClick()
 
 		default:
 			OPENCITY_DEBUG( "WARNING: What's this control -> " << uiObject);
-			assert(0);
+			//assert(0);
 			break;
 	}
 
@@ -1764,7 +1825,7 @@ City::_HandleGUIClick()
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 4:  // P button, set tool for "building road"
-			_eCurrentTool = OC_BUILD_ROAD;
+			_SetCurrentTool( OC_TOOL_ROAD );
 			break;
 		case 5: // T button, open the "Terrain" toolcircle
 			pctr = pctrT;
@@ -1789,13 +1850,13 @@ City::_HandleGUIClick()
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2: // R button
-			_eCurrentTool = OC_ZONE_RES;
+			_SetCurrentTool( OC_TOOL_ZONE_RES );
 			break;
 		case 3:  // C button, set tool for "zone commercial"
-			_eCurrentTool = OC_ZONE_COM;
+			_SetCurrentTool( OC_TOOL_ZONE_COM );
 			break;
 		case 4:  // I button, set tool for "zone industrial"
-			_eCurrentTool = OC_ZONE_IND;
+			_SetCurrentTool( OC_TOOL_ZONE_IND );
 			break;
 
 		default:
@@ -1813,13 +1874,13 @@ City::_HandleGUIClick()
 			pctr->Set( 3, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // L button, set tool for building electric lines
-			_eCurrentTool = OC_BUILD_ELINE;
+			_SetCurrentTool( OC_TOOL_ELINE );
 			break;
 		case 3:  // set tool for building nuclear power plant
-			_eCurrentTool = OC_BUILD_EPLANT_NUCLEAR;
+			_SetCurrentTool( OC_TOOL_EPLANT_NUCLEAR );
 			break;
 		case 4:  // set tool for building coal power plant
-			_eCurrentTool = OC_BUILD_EPLANT_COAL;
+			_SetCurrentTool( OC_TOOL_EPLANT_COAL );
 			break;
 
 		default:
@@ -1836,16 +1897,16 @@ City::_HandleGUIClick()
 			pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // height up
-			_eCurrentTool = OC_HEIGHT_UP;
+			_SetCurrentTool( OC_TOOL_HEIGHT_UP );
 			break;
 		case 3:  // height down
-			_eCurrentTool = OC_HEIGHT_DOWN;
+			_SetCurrentTool( OC_TOOL_HEIGHT_DOWN );
 			break;
 		case 4:  // destroy tool
-			_eCurrentTool = OC_DESTROY;
+			_SetCurrentTool( OC_TOOL_DESTROY );
 			break;
 		case 5: // query tool
-			_eCurrentTool = OC_QUERY;
+			_SetCurrentTool( OC_TOOL_QUERY );
 			break;
 
 		default:
@@ -1866,16 +1927,16 @@ City::_HandleGUIClick()
 			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 3:
-			_eCurrentTool = OC_BUILD_EDUCATION;
+			_SetCurrentTool( OC_TOOL_EDUCATION );
 			break;
 		case 4:
-			_eCurrentTool = OC_BUILD_HOSPITAL;
+			_SetCurrentTool( OC_TOOL_HOSPITAL );
 			break;
 		case 5:
-			_eCurrentTool = OC_BUILD_POLICE;
+			_SetCurrentTool( OC_TOOL_POLICE );
 			break;
 		case 6:
-			_eCurrentTool = OC_BUILD_FIRE;
+			_SetCurrentTool( OC_TOOL_FIRE );
 			break;
 
 		default:
@@ -1892,10 +1953,10 @@ City::_HandleGUIClick()
 			pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // build park
-			_eCurrentTool = OC_BUILD_PARK;
+			_SetCurrentTool( OC_TOOL_PARK );
 			break;
 		case 3:  // build tree
-			_eCurrentTool = OC_BUILD_FLORA;
+			_SetCurrentTool( OC_TOOL_FLORA );
 			break;
 
 		default:
@@ -1928,23 +1989,23 @@ City::_HandleGUIClick()
 	else if (pctr == pctrPath)
 	switch (uiObject) {
 		case 1: // start button
-			_eCurrentTool = OC_NONE;
+			_SetCurrentTool( OC_TOOL_NONE );
 			boolPathGo = false;
 //debug cout << "changed to false" << endl;
 			break;
 		case 2: // stop button
-			_eCurrentTool = OC_NONE;
+			_SetCurrentTool( OC_TOOL_NONE );
 			boolPathGo = true;
 			this->uiVehicleType = Vehicle::VEHICLE_BUS;
 			break;
 		case 3: // stop button
-			_eCurrentTool = OC_NONE;
+			_SetCurrentTool( OC_TOOL_NONE );
 			boolPathGo = true;
 			this->uiVehicleType = Vehicle::VEHICLE_SPORT;
 //debug cout << "changed to true" << endl;
 			break;
 		case 4: // build test building
-			_eCurrentTool = OC_BUILD_TEST_BUILDING;
+			_SetCurrentTool( OC_TOOL_TEST_BUILDING );
 			break;
 		default:
 			break;
@@ -1954,13 +2015,13 @@ City::_HandleGUIClick()
 	else if (pctr == pctrMAS)
 	switch (uiObject) {
 		case 1: // start button
-			_eCurrentTool = OC_BUILD_AGENT_POLICE;
+			_SetCurrentTool( OC_TOOL_AGENT_POLICE );
 			break;
 		case 2: // stop button
-			_eCurrentTool = OC_BUILD_AGENT_DEMONSTRATOR;
+			_SetCurrentTool( OC_TOOL_AGENT_DEMONSTRATOR );
 			break;
 		case 3: // stop button
-			_eCurrentTool = OC_BUILD_AGENT_ROBBER;
+			_SetCurrentTool( OC_TOOL_AGENT_ROBBER );
 			break;
 
 		default:
@@ -2079,7 +2140,7 @@ City::_BuildPreview()
 {
 	static OPENCITY_STRUCTURE_CODE scode = OC_STRUCTURE_UNDEFINED;
 	static OPENCITY_GRAPHIC_CODE gcode = OC_EMPTY;
-	static OPENCITY_TOOL_CODE tcode = OC_NONE;
+	static OPENCITY_TOOL_CODE tcode = OC_TOOL_NONE;
 	static OPENCITY_ERR_CODE ecode = OC_ERR_FREE;
 
 
@@ -2088,49 +2149,49 @@ City::_BuildPreview()
 		tcode = _eCurrentTool;
 		switch (tcode) {
 		/* not implemented yet
-			case OC_ZONE_RES:
+			case OC_TOOL_ZONE_RES:
 				scode = OC_STRUCTURE_RES;
 				break;
-			case OC_ZONE_COM:
+			case OC_TOOL_ZONE_COM:
 				scode = OC_STRUCTURE_COM;
 				break;
-			case OC_ZONE_IND:
+			case OC_TOOL_ZONE_IND:
 				scode = OC_STRUCTURE_IND;
 				break;
-			case OC_BUILD_ROAD:
+			case OC_TOOL_ROAD:
 				scode = OC_STRUCTURE_ROAD;
 				break;	
-			case OC_BUILD_ELINE:
+			case OC_TOOL_ELINE:
 				scode = OC_STRUCTURE_ELINE;
 				break;
 		*/
 
-			case OC_BUILD_EPLANT_COAL:
+			case OC_TOOL_EPLANT_COAL:
 				scode = OC_STRUCTURE_EPLANT_COAL;
 				break;
-			case OC_BUILD_EPLANT_NUCLEAR:
+			case OC_TOOL_EPLANT_NUCLEAR:
 				scode = OC_STRUCTURE_EPLANT_NUCLEAR;
 				break;
-			case OC_BUILD_PARK:
+			case OC_TOOL_PARK:
 				scode = OC_STRUCTURE_PARK;
 				break;
-			case OC_BUILD_FLORA:
+			case OC_TOOL_FLORA:
 				scode = OC_STRUCTURE_FLORA;
 				break;
-			case OC_BUILD_FIRE:
+			case OC_TOOL_FIRE:
 				scode = OC_STRUCTURE_FIREDEPT;
 				break;
-			case OC_BUILD_POLICE:
+			case OC_TOOL_POLICE:
 				scode = OC_STRUCTURE_POLICEDEPT;
 				break;
-			case OC_BUILD_HOSPITAL:
+			case OC_TOOL_HOSPITAL:
 				scode = OC_STRUCTURE_HOSPITALDEPT;
 				break;
-			case OC_BUILD_EDUCATION:
+			case OC_TOOL_EDUCATION:
 				scode = OC_STRUCTURE_EDUCATIONDEPT;
 				break;
 		
-			case OC_BUILD_TEST_BUILDING:
+			case OC_TOOL_TEST_BUILDING:
 				scode = OC_STRUCTURE_TEST;
 				break;
 

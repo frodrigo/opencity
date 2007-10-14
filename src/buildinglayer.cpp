@@ -1004,7 +1004,7 @@ BuildingLayer::_BuildPathStructure(
 
 // Build the new road
 	pNewStructure = new PathStructure(enumStructCode);
-	rCost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	rCost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 	_tabpStructure[ linearIndex ] = pNewStructure;
 
 // Get the neighbour in the North
@@ -1090,7 +1090,7 @@ BuildingLayer::_BuildRCIStructure(
 //cout << "size of RCIStructure is: " << sizeof( RCIStructure ) << endl;
 
 	rCost = 0;
-	cost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	cost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 
 // Let's GO !
 	l = L1;
@@ -1135,7 +1135,7 @@ BuildingLayer::_BuildFloraStructure(
 //cout << "size of RCIStructure is: " << sizeof( RCIStructure ) << endl;
 
 	rCost = 0;
-	cost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	cost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 
 // Let's GO !
 	l = L1;
@@ -1211,7 +1211,7 @@ BuildingLayer::_BuildWEGStructure(
 
 // Create the main structure first, but we don't insert it
 	pMainStructure = new WEGStructure( enumStructCode );
-	rCost = gVars.gpPropertyMgr->Get( OC_BUILD_COST, enumStructCode );
+	rCost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 
 // Create all the area as parts of a bigger main structure
 	l = L1;

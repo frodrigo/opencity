@@ -22,6 +22,15 @@
 
 #include "texture.h"		// textures loading
 
+
+   /*=====================================================================*/
+GUIButton::GUIButton():
+_uiTexNormal(0),
+_uiTexOver(0)
+{
+}
+
+
    /*=====================================================================*/
 GUIButton::GUIButton(
 	const int & rciX,
@@ -99,52 +108,48 @@ GUIButton::Display() const
 	if ( IsSet( OC_GUIMAIN_VISIBLE ) == false )
 		return;
 
+// IF there is nothing to display THEN return
+	if (!glIsTexture( _uiTexNormal ))
+		return;
+
 // Translate the button to the correct position
 	glPushAttrib( GL_ENABLE_BIT );
 	glDisable( GL_LIGHTING );
 	glPushMatrix();
 	glTranslatef( _iX, _iY, 0.0 );
 
-	if (glIsTexture( _uiTexNormal ) == GL_TRUE ) {
-	   // activate the texture 2D processing
-		glEnable( GL_TEXTURE_2D );
+// Activate the texture 2D processing
+	glEnable( GL_TEXTURE_2D );
 
-		if ( IsSet( OC_GUIMAIN_BLENDING ) == true ) {
-		   // activate the alpha blending
-			glEnable( GL_BLEND );
-//			glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	// Already choosen
-			glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
-
-//test
-//			glBlendFunc( GL_ZERO, GL_ONE );
-//			glBlendColor( 1., 0.5, 1., 0. );
-//test
-//			glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, env_color );
-		}
-		else {
-			glColor4ub(
-				_cBackground.r,
-				_cBackground.g,
-				_cBackground.b,
-				_cBackground.a );
-			glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
-		}
-
-	// Select the appropriate texture
-	// IF the mouse is over THEN choose the over texture
-	// ELSE, use the normal texture
-		if ( IsSet( OC_GUIMAIN_MOUSEOVER ) == true )
-			glBindTexture( GL_TEXTURE_2D, _uiTexOver );
-		else
-			glBindTexture( GL_TEXTURE_2D, _uiTexNormal );
-
-		glBegin( GL_QUADS );
-		glTexCoord2i( 0, 0 );	glVertex2i( 0, 0 );
-		glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth-1, 0 );
-		glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth-1, _uiHeight-1 );
-		glTexCoord2i( 0, 1 );	glVertex2i( 0, _uiHeight-1 );
-		glEnd();
+	if ( IsSet( OC_GUIMAIN_BLENDING ) == true ) {
+	// Activate the alpha blending
+		glEnable( GL_BLEND );
+//		glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );	// Already choosen
+		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
 	}
+	else {
+		glColor4ub(
+			_cBackground.r,
+			_cBackground.g,
+			_cBackground.b,
+			_cBackground.a );
+		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL );
+	}
+
+// Select the appropriate texture
+// IF the mouse is over THEN choose the over texture
+// ELSE, use the normal texture
+	if ( IsSet( OC_GUIMAIN_MOUSEOVER ) == true )
+		glBindTexture( GL_TEXTURE_2D, _uiTexOver );
+	else
+		glBindTexture( GL_TEXTURE_2D, _uiTexNormal );
+
+	glBegin( GL_QUADS );
+	glTexCoord2i( 0, 0 );	glVertex2i( 0, 0 );
+	glTexCoord2i( 1, 0 );	glVertex2i( _uiWidth-1, 0 );
+	glTexCoord2i( 1, 1 );	glVertex2i( _uiWidth-1, _uiHeight-1 );
+	glTexCoord2i( 0, 1 );	glVertex2i( 0, _uiHeight-1 );
+	glEnd();
 
 // Restore the old matrix and attribs
 	glPopMatrix();
