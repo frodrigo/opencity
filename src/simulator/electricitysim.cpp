@@ -262,24 +262,25 @@ ElectricitySim::AddStructure(
 	Structure* pstruct;
 
 	pstruct = pbuildlayer->GetStructure( w1, h1 );
-	if ( pstruct != NULL ) {
-		switch( pstruct->GetCode() ) {
-			case OC_STRUCTURE_EPLANT_COAL:
-				_iValueMax += OC_EPLANT_COAL_POWER;
-				_uiNumberEPlant++;
-				vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
-				break;
+	if ( pstruct == NULL )
+		return;
 
-			case OC_STRUCTURE_EPLANT_NUCLEAR:
-				_iValueMax += OC_EPLANT_NUCLEAR_POWER;
-				_uiNumberEPlant++;
-				vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
-				break;
+	switch( pstruct->GetCode() ) {
+		case OC_STRUCTURE_EPLANT_COAL:
+			_iValueMax += OC_EPLANT_COAL_POWER;
+			_uiNumberEPlant++;
+			vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
+			break;
 
-			default: // keep gcc happy
-				break;
-		}
-	}
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
+			_iValueMax += OC_EPLANT_NUCLEAR_POWER;
+			_uiNumberEPlant++;
+			vectorpairuiEPlant.push_back( pair<uint, uint>( w1, h1 ) );
+			break;
+
+		default: // keep gcc happy
+			break;
+	} // switch
 }
 
 
@@ -298,91 +299,94 @@ ElectricitySim::RemoveStructure(
 	bool boolFound = false;
 	uint sw, sl, sh;				// Structure's width, length and height
 
-   // remove the w, h of the main structure
+// Remove the w, h of the main structure
 	vector< pair<uint, uint> >::iterator iter;
 
 	pstruct = pbuildlayer->GetStructure( mainW, mainH );
-	if ( pstruct != NULL ) {
-		enumStructCode = pstruct->GetCode();
-		switch ( enumStructCode ) {
-			case OC_STRUCTURE_PART:
-			   // get the main structure pointer, and code
-				pstruct = pstruct->GetMain();
-				enumStructCode = pstruct->GetCode();
+	if ( pstruct == NULL )
+		return;
 
-			   // Calculate the structure's range
-				gVars.gpPropertyMgr->GetWLH( pstruct->GetGraphicCode(), sw, 4, sl, 4, sh, 1 );
-				sw--; sl--;
-			   // now look for the main w, h
-				this->pmapOfCity->GetPossibleWH( mainW1, mainH1, -sw, -sl );
-				this->pmapOfCity->GetPossibleWH( mainW2, mainH2,  sw,  sl );
-				mainH = mainH1;
+// Normal structure codes
+	enumStructCode = pstruct->GetCode();
+	switch ( enumStructCode ) {
+		case OC_STRUCTURE_PART:
+			// get the main structure pointer, and code
+			pstruct = pstruct->GetMain();
+			enumStructCode = pstruct->GetCode();
+
+			// Calculate the structure's range
+			gVars.gpPropertyMgr->GetWLH( pstruct->GetGraphicCode(), sw, 4, sl, 4, sh, 1 );
+			sw--; sl--;
+			// now look for the main w, h
+			this->pmapOfCity->GetPossibleWH( mainW1, mainH1, -sw, -sl );
+			this->pmapOfCity->GetPossibleWH( mainW2, mainH2,  sw,  sl );
+			mainH = mainH1;
+			while ( (boolFound == false)
+					&& (mainH <= mainH2) ) {
+				mainW = mainW1;
 				while ( (boolFound == false)
-				     && (mainH <= mainH2) ) {
-					mainW = mainW1;
-					while ( (boolFound == false)
-					     && (mainW <= mainW2) ) {
-					   // if the current structure at mainW, mainH
-					   // is the main structure then we found it
-						if ( pbuildlayer->GetStructure( mainW, mainH )
-						  == pstruct )
-							boolFound = true;
-						else
-							mainW++;
-					}
-					mainH++;
+						&& (mainW <= mainW2) ) {
+					// if the current structure at mainW, mainH
+					// is the main structure then we found it
+					if ( pbuildlayer->GetStructure( mainW, mainH )
+						== pstruct )
+						boolFound = true;
+					else
+						mainW++;
 				}
-				break;
+				mainH++;
+			}
+			break;
 
-			case OC_STRUCTURE_RES:
-			case OC_STRUCTURE_COM:
-			case OC_STRUCTURE_IND:
-			case OC_STRUCTURE_FIREDEPT:
-			case OC_STRUCTURE_POLICEDEPT:
-			case OC_STRUCTURE_EDUCATIONDEPT:
-				// See MainSim::RefreshSimValue(), 16 sep 2006
-				//if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
-				//	_iValue++;
-				break;
+		case OC_STRUCTURE_RES:
+		case OC_STRUCTURE_COM:
+		case OC_STRUCTURE_IND:
+		case OC_STRUCTURE_FIREDEPT:
+		case OC_STRUCTURE_POLICEDEPT:
+		case OC_STRUCTURE_EDUCATIONDEPT:
+			// See MainSim::RefreshSimValue(), 16 sep 2006
+			//if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
+			//	_iValue++;
+			break;
 
-			default: // keep gcc happy
-				break;
-		}
+		default: // keep gcc happy
+			break;
+	}
 
-		switch ( enumStructCode ) {
-			case OC_STRUCTURE_EPLANT_COAL:
-				_iValueMax -= OC_EPLANT_COAL_POWER;
-				_uiNumberEPlant--;
+// Power plant structure codes
+	switch ( enumStructCode ) {
+		case OC_STRUCTURE_EPLANT_COAL:
+			_iValueMax -= OC_EPLANT_COAL_POWER;
+			_uiNumberEPlant--;
 
-			   // search for the pair of mainW, mainH in
-			   // the "vectorpairuiEPlant"
-			   // and delete it if found
+			// search for the pair of mainW, mainH in
+			// the "vectorpairuiEPlant"
+			// and delete it if found
 
-				iter = std::find( vectorpairuiEPlant.begin(),
-						  vectorpairuiEPlant.end(),
-						  make_pair( mainW, mainH ) );
-				if ( iter != vectorpairuiEPlant.end() )
-					vectorpairuiEPlant.erase( iter );
-				break;
+			iter = std::find( vectorpairuiEPlant.begin(),
+						vectorpairuiEPlant.end(),
+						make_pair( mainW, mainH ) );
+			if ( iter != vectorpairuiEPlant.end() )
+				vectorpairuiEPlant.erase( iter );
+			break;
 
-			case OC_STRUCTURE_EPLANT_NUCLEAR:
-				_iValueMax -= OC_EPLANT_NUCLEAR_POWER;
-				_uiNumberEPlant--;
+		case OC_STRUCTURE_EPLANT_NUCLEAR:
+			_iValueMax -= OC_EPLANT_NUCLEAR_POWER;
+			_uiNumberEPlant--;
 
-			   // search for the pair of mainW, mainH in
-			   // the "vectorpairuiEPlant"
-			   // and delete it if found
+			// search for the pair of mainW, mainH in
+			// the "vectorpairuiEPlant"
+			// and delete it if found
 
-				iter = std::find( vectorpairuiEPlant.begin(),
-						  vectorpairuiEPlant.end(),
-						  make_pair( mainW, mainH ) );
-				if ( iter != vectorpairuiEPlant.end() )
-					vectorpairuiEPlant.erase( iter );
-				break;
+			iter = std::find( vectorpairuiEPlant.begin(),
+						vectorpairuiEPlant.end(),
+						make_pair( mainW, mainH ) );
+			if ( iter != vectorpairuiEPlant.end() )
+				vectorpairuiEPlant.erase( iter );
+			break;
 
-			default: // keep gcc happy
-				break;
-		}
+		default: // keep gcc happy
+			break;
 	}
 }
 

@@ -1249,12 +1249,25 @@ City::_CenterMenu()
 {
 	assert( _pctrMenu != NULL );
 
+// Center the menu
 	int x = _iWinWidth/2;
 	int y = _iWinHeight/2;
 	_pbtnMenuNew->SetLocation( x-264, y );
 	_pbtnMenuLoad->SetLocation( x-64, y );
 	_pbtnMenuSave->SetLocation( x+136, y );
 	_pbtnMenuQuit->SetLocation( _iWinWidth-150, 22 );
+
+// Push the mouse motion event to activate the over state if necessary
+	SDL_Event event;
+	int mouseX, mouseY;
+	event.type = SDL_MOUSEMOTION;
+	event.motion.type = SDL_MOUSEMOTION;
+	event.motion.state = SDL_GetMouseState(&mouseX, &mouseY);
+	event.motion.x = mouseX;
+	event.motion.y = mouseY;
+	event.motion.xrel = 0;
+	event.motion.yrel = 0;
+	SDL_PushEvent(&event);
 }
 
 
