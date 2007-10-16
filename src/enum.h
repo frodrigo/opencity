@@ -2,7 +2,7 @@
 						enum.h  -  description
 							-------------------
 	begin                : may 8th, 2006
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -65,7 +65,7 @@
 
 // OpenCity's code for tool
 	enum OPENCITY_TOOL_CODE {
-		OC_TOOL_NONE,
+		OC_TOOL_NONE = 0,
 		OC_TOOL_DESTROY,
 
 		OC_TOOL_ZONE_RES,

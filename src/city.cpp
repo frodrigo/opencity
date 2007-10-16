@@ -382,11 +382,11 @@ cityrun_swap:
 // FIXME: buggy MAS environment
 //	gVars.gpEnvironment->displayAgent();
 
-// Display the current container
-	pctr->Display();
-	
 // Display the status bar
 	pctrStatus->Display();
+
+// Display the current container
+	pctr->Display();
 
 // Display the menu
 	if (_pctrMenu != NULL)
@@ -970,9 +970,10 @@ City::_CreateGUI()
 	ostringstream ossTemp;
 
 // Load the buttons used by the status bar
-	_apbtnCurrentTool[OC_TOOL_NONE] = new GUIButton();
+	_apbtnCurrentTool[OC_TOOL_NONE]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/unknown" ));
 	_apbtnCurrentTool[OC_TOOL_DESTROY]
-		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/bulldozer" ));
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/destroy" ));
 	_apbtnCurrentTool[OC_TOOL_ZONE_RES]
 		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/residential" ));
 	_apbtnCurrentTool[OC_TOOL_ZONE_COM]
@@ -1007,10 +1008,14 @@ City::_CreateGUI()
 	_apbtnCurrentTool[OC_TOOL_QUERY]
 		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/query" ));
 
-	_apbtnCurrentTool[OC_TOOL_AGENT_POLICE]			= new GUIButton();
-	_apbtnCurrentTool[OC_TOOL_AGENT_DEMONSTRATOR]	= new GUIButton();
-	_apbtnCurrentTool[OC_TOOL_AGENT_ROBBER]			= new GUIButton();
-	_apbtnCurrentTool[OC_TOOL_TEST_BUILDING]		= new GUIButton();
+	_apbtnCurrentTool[OC_TOOL_AGENT_POLICE]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/unknown" ));
+	_apbtnCurrentTool[OC_TOOL_AGENT_DEMONSTRATOR]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/unknown" ));
+	_apbtnCurrentTool[OC_TOOL_AGENT_ROBBER]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/unknown" ));
+	_apbtnCurrentTool[OC_TOOL_TEST_BUILDING]
+		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/unknown" ));
 
 // The status bar
 	pbtnPause = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_pause" ));
@@ -1063,6 +1068,7 @@ City::_CreateGUI()
 		_apbtnCurrentTool[i]->Unset( OC_GUIMAIN_VISIBLE );
 		pctrStatus->Add( _apbtnCurrentTool[i] );
 	}
+	_apbtnCurrentTool[OC_TOOL_NONE]->Set( OC_GUIMAIN_VISIBLE );
 
 // GUI main toolcircle
 	pbtnZ = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
