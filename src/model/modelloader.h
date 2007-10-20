@@ -1,7 +1,7 @@
 /***************************************************************************
 						modelloader.h  -  description
 							-------------------
-	begin                : sam mai 22 2004
+	begin                : may 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	

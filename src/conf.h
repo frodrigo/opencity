@@ -22,7 +22,6 @@
 
 #include "main.h"
 
-//#include <ext/hash_map>			// for parameters stockage
 #include <map>
 
 using std::map;

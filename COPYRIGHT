@@ -1,14 +1,43 @@
-OpenCity: a 3D city simulator written in OpenGL and SDL
+===============================================================================
+                     O P E N C I T Y     C O P Y R I G H T
+===============================================================================
 
-Copyright (C) by Duong-Khang NGUYEN 2003-2006.
-Web  : www.opencity.info
-Email: neoneurone _at_ users _dot_ sourceforge _dot_ net
-(replace _at_ by @ and _dot_ by .)
+Description:
+    OpenCity is another 3D city simulation game.
+    http://www.opencity.info
+    neoneurone _at_ users _dot_ sourceforge _dot_ net
 
+Authors:
+    * Duong-Khang NGUYEN <neoneurone at users sf net>
+    * Frédéric RODRIGO <f.rodrigo at free fr>
+
+    Minor parts are from Victor Stinner, Hongli Lai, Jeff Molofee, Sam Lantinga,
+    Brodie Thiesfield, Angelo "Encelo" Theodorou, Yves Berquin, Lee Thomason
+    and Tyge Løvset.
+
+Graphist:
+    * Frédéric RODRIGO <f.rodrigo at free fr>
+
+Contributors:
+    * Bartosz DEBSKI
+    * Stephen M. WEBB
+    * Victor STINNER
+    * Nicolas PASCOLI
+    * "pucelo"
+    * Jacopo SIRIANNI
+
+OpenCity copyrights:
+    Copyright (C) 2003-2007 Duong-Khang NGUYEN
+    Copyright (C) 2003-2007 Frédéric RODRIGO
+    Copyright (C) 2006-2007 Brodie THIESFIELD
+    Copyright (C) 2006 Angelo "Encelo" THEODOROU
+    Copyright (C) 2002-2004 Yves BERQUIN
+    Copyright (C) 1999 Jeff MOLOFEE
 
     This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License version 2
-    as published by the Free Software Foundation
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    any later version.
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -19,5 +48,35 @@ Email: neoneurone _at_ users _dot_ sourceforge _dot_ net
     along with this program; if not, write to the Free Software
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
+    Please read the file COPYING for the GNU General Public License.
 
-Please read the file COPYING for the GNU General Public License.
+BinReloc copyright:
+    The files under "src/binreloc/" directory have been put in the public
+    domain by Hongli Lai <h.lai@chello.nl>: This source code is public
+    domain. You can relicense this code under whatever license you want.
+    For more information, see http://autopackage.org/.
+
+SimpleOpt copyright:
+    The file "src/SimpleOpt.h" is licensed under the terms of the "MIT Licence"
+    and copyrighted by Brodie Thiesfield. Please refer to the comments included
+    in the file for more information.
+
+TinyXML copyrights:
+    The files under "src/tinyxml/" are licensed under the terms of a GNU GPL
+    compatible license and copyrighted by Yves Berquin, Lee Thomason
+    and Tyge Løvset. Please refer to the comments included in those files
+    for more information.
+
+TinyXPath copyright:
+    Copyright (c) 2002-2004 Yves Berquin (yvesb@users.sourceforge.net)
+
+    The files under "src/tinyxpath/" are licensed under the terms of a GNU GPL
+    compatible license and copyrighted by Yves Berquin. Please refer to the
+    comments included in those files for more information.
+
+Last modified:
+    $Id$
+
+===============================================================================
+                            E N D     O F     F I L E
+===============================================================================

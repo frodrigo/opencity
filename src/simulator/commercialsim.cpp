@@ -1,7 +1,7 @@
 /***************************************************************************
 						commercialsim.cpp  -  description
 							-------------------
-	begin                : 31th jan, 2004
+	begin                : jan 31th, 2004
 	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 

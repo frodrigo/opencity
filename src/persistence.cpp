@@ -1,10 +1,11 @@
 /***************************************************************************
-                          persistence.cpp  -  description
-       $Id$
-                             -------------------
-    begin                : ven jun 6 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						persistence.cpp  -  description
+							-------------------
+	begin                : june 6th, 2003
+	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

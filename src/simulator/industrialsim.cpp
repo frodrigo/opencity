@@ -1,7 +1,7 @@
 /***************************************************************************
 						industrialsim.cpp  -  description
 							-------------------
-	begin                : dim fév  1 2004
+	begin                : feb 1st, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	

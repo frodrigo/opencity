@@ -1,7 +1,7 @@
 /***************************************************************************
-							AC3DObject.h  -  description
-								-------------------
-	begin                : mer juin 29 05
+						AC3DObject.h  -  description
+							-------------------
+	begin                : june 29th, 05
 	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	

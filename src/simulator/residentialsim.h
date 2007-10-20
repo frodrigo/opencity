@@ -1,10 +1,11 @@
 /***************************************************************************
-                          residentialsim.h  -  description
-      $Id$
-                             -------------------
-    begin                : dim sep 21 2003
-    copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						residentialsim.h  -  description
+							-------------------
+	begin                : sep 21th, 2003
+	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

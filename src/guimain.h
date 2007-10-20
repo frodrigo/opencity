@@ -1,7 +1,7 @@
 /***************************************************************************
 						guimain.h    -  description
 							-------------------
-	begin                : march, 22th 2004
+	begin                : march 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 

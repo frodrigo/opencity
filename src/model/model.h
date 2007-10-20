@@ -1,7 +1,7 @@
 /***************************************************************************
-							model.h  -  description
-								-------------------
-	begin                : sam mai 22 2004
+						model.h  -  description
+							-------------------
+	begin                : may 22th, 2004
 	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	

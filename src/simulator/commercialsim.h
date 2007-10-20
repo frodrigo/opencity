@@ -1,10 +1,11 @@
 /***************************************************************************
-                          commercialsim.h  -  description
-      $Id$
-                             -------------------
-    begin                : sam jan 31 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						commercialsim.h  -  description
+							-------------------
+	begin                : jan 31th, 2004
+	copyright            : (C) 2004 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+	
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

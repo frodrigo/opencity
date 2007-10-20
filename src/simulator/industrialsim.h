@@ -1,10 +1,11 @@
 /***************************************************************************
-                          industrialsim.h  -  description
-      $Id$
-                             -------------------
-    begin                : dim fév 1 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						industrialsim.h  -  description
+							-------------------
+	begin                : feb 1st, 2004
+	copyright            : (C) 2004 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

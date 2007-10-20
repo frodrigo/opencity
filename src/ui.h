@@ -4,7 +4,7 @@
 	begin                : june 6th, 2003
 	copyright            : (C) 2003 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 

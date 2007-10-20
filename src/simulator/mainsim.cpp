@@ -1,7 +1,7 @@
 /***************************************************************************
 						mainsim.cpp  -  description
 							-------------------
-	begin                : febuary 21th, 2006
+	begin                : february 21th, 2006
 	copyright            : (C) 2006-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 

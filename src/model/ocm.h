@@ -1,10 +1,11 @@
 /***************************************************************************
-                          ocm.h  -  description
-          $Id
-                             -------------------
-    begin                : sam mai 22 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						ocm.h  -  description
+							-------------------
+	begin                : may 22th, 2004
+	copyright            : (C) 2004 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

@@ -1,7 +1,7 @@
 /***************************************************************************
 						heightMap.h  -  description
 							-------------------
-	begin                : April 1first, 2007
+	begin                : April 1st, 2007
 	copyright            : (C) 2007 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	

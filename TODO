@@ -57,11 +57,12 @@ XML metadata migration                (wip)
 	Load property attributes          (done)
 	Load RCI, WEG, TN values          (done)
 
+Review the licensing                  (done)
 Variable name clean up                (wip)
-Water layer                           (wip)
 LBS/FHS layout
-Review the licensing
 
+
+Water layer
 Water pipe
 Water pump
 Water tower

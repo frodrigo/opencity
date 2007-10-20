@@ -1,7 +1,7 @@
 /***************************************************************************
 						choper.cpp  -  description
 							-------------------
-	begin                : fev 10th, 2007
+	begin                : feb 10th, 2007
 	copyright            : (C) 2006 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
 	

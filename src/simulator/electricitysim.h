@@ -5,7 +5,7 @@
 	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	internal sim version : 0.0.2
-	
+
 	$Id$
  ***************************************************************************/
 

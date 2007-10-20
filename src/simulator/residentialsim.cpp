@@ -1,10 +1,10 @@
 /***************************************************************************
 						residentialsim.cpp  -  description
 							-------------------
-	begin                : dim sep 21 2003
+	begin                : sep 21th, 2003
 	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 

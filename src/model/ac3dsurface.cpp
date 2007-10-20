@@ -1,10 +1,11 @@
 /***************************************************************************
-                          AC3DSurface.cpp  -  description
-          $Id$
-                             -------------------
-    begin                : mer juin 29 05
-    copyright            : (C) 2005 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						AC3DSurface.cpp  -  description
+							-------------------
+	begin                : june 29th, 05
+	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

@@ -1,10 +1,11 @@
 /***************************************************************************
-                          persistence.h  -  description
-        $Id$
-                             -------------------
-    begin                : jun 6th, 2003
-    copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						persistence.h  -  description
+							-------------------
+	begin                : june 6th, 2003
+	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

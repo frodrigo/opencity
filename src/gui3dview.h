@@ -1,10 +1,11 @@
 /***************************************************************************
-                          gui3dview.h    -  description
-    $Id$
-                             -------------------
-    begin                : lun 22 mar 2004
-    copyright            : (C) 2004 by Duong-Khang NGUYEN
-    email                : neoneurone @ users sourceforge net
+						gui3dview.h    -  description
+							-------------------
+	begin                : mar 22th, 2004
+	copyright            : (C) 2004 by Duong-Khang NGUYEN
+	email                : neoneurone @ users sourceforge net
+
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
