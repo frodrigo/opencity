@@ -60,7 +60,6 @@ class UI;
 	#define OC_ULINT unsigned long int
 	#define OC_SUINT short unsigned int
 	#define OC_FLOAT float
-	#define OC_CHAR char
 	#define OC_BYTE char
 	#define OC_UBYTE unsigned char
 

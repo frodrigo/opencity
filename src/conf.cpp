@@ -27,8 +27,7 @@
 
    /*=====================================================================*/
 const OPENCITY_ERR_CODE
-Conf::Open(
-	const string& fname )
+Conf::Open( const string& fname )
 {
 	std::ifstream inFile( fname.c_str() );
 
@@ -39,11 +38,11 @@ Conf::Open(
 		return OC_ERR_FILE;
 	}
 
-	OC_CHAR strTemp[ OC_MAX_CONF_LINE ];
-	OC_CHAR* strNew;
-	OC_CHAR* strFirst;
-	OC_CHAR* strSecond;
-	OC_CHAR* strEmpty = "";
+	char strTemp[ OC_MAX_CONF_LINE ];
+	char* strNew;
+	char* strFirst;
+	char* strSecond;
+	char* strEmpty = (char*)"";
 
 // read the first line
 	inFile.getline( strTemp, OC_MAX_CONF_LINE );
@@ -229,10 +228,10 @@ Conf::GetFloat(
    /*=====================================================================*/
    /*                             STATIC     METHOD                       */
    /*=====================================================================*/
-OC_CHAR* const
-Conf::RTrim( OC_CHAR* const str )
+char* const
+Conf::RTrim( char* const str )
 {
-	OC_CHAR* strSpace = NULL;
+	char* strSpace = NULL;
 
 	if (str != NULL) {
 		strSpace = str + strlen( str ) - 1;
@@ -245,11 +244,11 @@ Conf::RTrim( OC_CHAR* const str )
 
 
    /*=====================================================================*/
-OC_CHAR* const
-Conf::LTrim( OC_CHAR* const str )
+char* const
+Conf::LTrim( char* const str )
 {
-	OC_CHAR* strSpace = NULL;
-	OC_CHAR* strEnd = NULL;
+	char* strSpace = NULL;
+	char* strEnd = NULL;
 
 	if (str != NULL) {
 		strSpace = str;

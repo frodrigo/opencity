@@ -83,7 +83,7 @@ enum OPENCITY_NET_CMD {
 	OC_NET_CMD_NUMBER
 };
 
-const OC_CHAR OPENCITY_NET_CMD_ARRAY [OC_NET_CMD_NUMBER][4] = {
+const char OPENCITY_NET_CMD_ARRAY [OC_NET_CMD_NUMBER][4] = {
 	"CNT", "DNT",
 	"ACK", "NCK",
 	"PIN", "PON",
@@ -112,7 +112,7 @@ design documentation for more details about each member.
 struct NetMessage {
 	OPENCITY_NET_CMD cmd;					///< Command opcode
 	uint dataLength;						///< Data length
-	OC_CHAR data [OC_NET_DATA_LENGTH];
+	char data [OC_NET_DATA_LENGTH];
 };
 
 

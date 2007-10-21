@@ -183,10 +183,10 @@ void parseArg(int argc, char *argv[])
 	};
 
 	CSimpleOpt::SOption g_rgOptions[] = {
-		{ OPT_HOMEDIR,					"--homedir",				SO_REQ_SEP	},
-		{ OPT_HOMEDIR,					"-hd",						SO_REQ_SEP	},
-		{ OPT_HELP,						"--help",					SO_NONE		},
-		{ OPT_HELP,						"-h",						SO_NONE		},
+		{ OPT_HOMEDIR,	(char*)"--homedir",		SO_REQ_SEP	},
+		{ OPT_HOMEDIR,	(char*)"-hd",			SO_REQ_SEP	},
+		{ OPT_HELP,		(char*)"--help",		SO_NONE		},
+		{ OPT_HELP,		(char*)"-h",			SO_NONE		},
 		SO_END_OF_OPTIONS // END
 	};
 

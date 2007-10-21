@@ -80,8 +80,8 @@ ModelLoader::LoadOCM(
 	vector<GLfloat> vf;
 	vector<GLuint> vui;
 	GLfloat fValue;
-	OC_CHAR tempStr [OC_OCM_MAX_LINE_LENGTH];
-	OC_CHAR* endStr;
+	char tempStr [OC_OCM_MAX_LINE_LENGTH];
+	char* endStr;
 
 // model's parameter
 	GLfloat* ftab;

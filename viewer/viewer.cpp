@@ -182,10 +182,10 @@ string parseArgLine( int argc, char **argv, bool *shot )
 	};
 
 	CSimpleOpt::SOption g_rgOptions[] = {
-		{ OPT_SCREENSHOT,				"--screenshot",				SO_NONE		},
-		{ OPT_SCREENSHOT,				"-s",						SO_NONE		},
-		{ OPT_HELP,						"--help",					SO_NONE		},
-		{ OPT_HELP,						"-h",						SO_NONE		},
+		{ OPT_SCREENSHOT,	(char*)"--screenshot",		SO_NONE	},
+		{ OPT_SCREENSHOT,	(char*)"-s",				SO_NONE	},
+		{ OPT_HELP,			(char*)"--help",			SO_NONE	},
+		{ OPT_HELP,			(char*)"-h",				SO_NONE	},
 		SO_END_OF_OPTIONS // END
 	};
 

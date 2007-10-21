@@ -501,13 +501,13 @@ AudioManager::ParseM3UList(
 		return OC_ERR_SOMETHING;
 	}
 
-	OC_CHAR tempStr [OC_MAX_FILENAME_LENGTH];
+	char tempStr [OC_MAX_FILENAME_LENGTH];
 	do {
 	// Read the next info line
 		listFile.getline( tempStr, OC_MAX_FILENAME_LENGTH );
 		if ((strlen(tempStr) != 0)
 		 && (tempStr[0] != '#')) {
-		// Implicite conversion from OC_CHAR* to string
+		// Implicite conversion from char* to string
 			vectorFilename.push_back( tempStr );
 			uiNumberFiles++;
 //debug	cout << tempStr << endl;

@@ -210,8 +210,8 @@ Texture::HorizontalMirror(
 {
 	SDL_Surface* psNew = NULL;
 	int h, iBytesPerRow;
-	OC_CHAR* pPixelDest;
-	OC_CHAR* pPixelSrc;
+	char* pPixelDest;
+	char* pPixelSrc;
 
 // IF the surface needs locking THEN
 	if (SDL_MUSTLOCK( psurface )) {
@@ -233,8 +233,8 @@ Texture::HorizontalMirror(
 
 // Variables initialization
 	iBytesPerRow = psurface->w * psurface->format->BytesPerPixel;
-	pPixelDest = (OC_CHAR*)psNew->pixels;
-	pPixelSrc = (OC_CHAR*)psurface->pixels + ((psurface->h-1) * iBytesPerRow);
+	pPixelDest = (char*)psNew->pixels;
+	pPixelSrc = (char*)psurface->pixels + ((psurface->h-1) * iBytesPerRow);
 //debug cout << "BPR: " << iBytesPerRow << endl;
 
 // Copy the pixels

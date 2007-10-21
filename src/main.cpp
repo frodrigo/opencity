@@ -441,22 +441,22 @@ void parseArg(int argc, char *argv[])
 	};
 
 	CSimpleOpt::SOption g_rgOptions[] = {
-		{ OPT_GL_VERSION,				"--gl-version",				SO_NONE		},
-		{ OPT_FULLSCREEN,				"--glv",					SO_NONE		},
-		{ OPT_FULLSCREEN,				"--fullscreen",				SO_NONE		},
-		{ OPT_FULLSCREEN,				"-fs",						SO_NONE		},
-		{ OPT_NO_AUDIO,					"--no-audio",				SO_NONE		},
-		{ OPT_NO_AUDIO,					"-na",						SO_NONE		},
-		{ OPT_HOMEDIR,					"--homedir",				SO_REQ_SEP	},
-		{ OPT_HOMEDIR,					"-hd",						SO_REQ_SEP	},
-		{ OPT_GENERATOR_HEIGHT_MAP,		"--generator-height-map",	SO_REQ_SEP	},
-		{ OPT_GENERATOR_SEED,			"--generator-seed",			SO_REQ_SEP	},
-		{ OPT_GENERATOR_MAP,			"--generator-map",			SO_REQ_SEP	},
-		{ OPT_GENERATOR_WATER,			"--generator-water",		SO_REQ_SEP	},
-		{ OPT_GENERATOR_MAP_SHAPE,		"--generator-map-shape",	SO_REQ_SEP	},
-		{ OPT_GENERATOR_TREE_DENSITY,	"--generator-tree-density",	SO_REQ_SEP	},
-		{ OPT_HELP,						"--help",					SO_NONE		},
-		{ OPT_HELP,						"-h",						SO_NONE		},
+		{ OPT_GL_VERSION,				(char*)"--gl-version",				SO_NONE		},
+		{ OPT_FULLSCREEN,				(char*)"--glv",						SO_NONE		},
+		{ OPT_FULLSCREEN,				(char*)"--fullscreen",				SO_NONE		},
+		{ OPT_FULLSCREEN,				(char*)"-fs",						SO_NONE		},
+		{ OPT_NO_AUDIO,					(char*)"--no-audio",				SO_NONE		},
+		{ OPT_NO_AUDIO,					(char*)"-na",						SO_NONE		},
+		{ OPT_HOMEDIR,					(char*)"--homedir",					SO_REQ_SEP	},
+		{ OPT_HOMEDIR,					(char*)"-hd",						SO_REQ_SEP	},
+		{ OPT_GENERATOR_HEIGHT_MAP,		(char*)"--generator-height-map",	SO_REQ_SEP	},
+		{ OPT_GENERATOR_SEED,			(char*)"--generator-seed",			SO_REQ_SEP	},
+		{ OPT_GENERATOR_MAP,			(char*)"--generator-map",			SO_REQ_SEP	},
+		{ OPT_GENERATOR_WATER,			(char*)"--generator-water",			SO_REQ_SEP	},
+		{ OPT_GENERATOR_MAP_SHAPE,		(char*)"--generator-map-shape",		SO_REQ_SEP	},
+		{ OPT_GENERATOR_TREE_DENSITY,	(char*)"--generator-tree-density",	SO_REQ_SEP	},
+		{ OPT_HELP,						(char*)"--help",					SO_NONE		},
+		{ OPT_HELP,						(char*)"-h",						SO_NONE		},
 		SO_END_OF_OPTIONS // END
 	};
 

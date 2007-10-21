@@ -125,11 +125,11 @@ public:
 //========================================================================
 /** Static right and left trim tool
 */
-	static OC_CHAR* const
-	RTrim( OC_CHAR* const str );
+	static char* const
+	RTrim( char* const str );
 
-	static OC_CHAR* const
-	LTrim( OC_CHAR* const str );
+	static char* const
+	LTrim( char* const str );
 
 
 private:
