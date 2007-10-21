@@ -741,7 +741,7 @@ static int clientMode()
 
 			gVars.guiGeneratorSeed = time(NULL);
 			gVars.gpMapMaker = new MapGen::MapMaker(
-				gVars.guiCityWidth + 1, gVars.guiCityLength + 1,
+				gVars.guiCityWidth, gVars.guiCityLength,
 				gVars.gsGeneratorHeightMap,
 				gVars.guiGeneratorMapType,
 				gVars.guiGeneratorWaterType,
