@@ -65,7 +65,6 @@ public:
 	City(
 		const uint width = OC_CITY_W,
 		const uint length = OC_CITY_L,
-		const int difficulty = 2,
 		const bool bGUIEnabled = true );
 
 	~City();
@@ -119,18 +118,15 @@ public:
 
 private:
 // City's informations
-	string		strCityName;		///< The name of the city
-	int			iDifficulty;		///< The difficulty of current game
 	bool		_bGUIEnabled;		///< GUI mode ?
 	bool		_bStatusVisible;	///< Is the status bar visible ?
-	string		strFileName;		///< The fileName of current city
 
 	uint		_uiIncome;			///< Monthly income accumulator
 	OC_LINT		_liCityFund;		///< Money, money, money !
 	uint		_uiPopulation;		///< Number of "oczens"
 	std::deque<Ressource>	_dqRessource;	///< Store the last city ressources
 
-	uint		_uiDay;
+	uint		_uiDay;				///< The game date
 	uint		_uiMonth;
 	uint		_uiYear;
 
@@ -194,16 +190,16 @@ private:
 	GUIButton* _pbtnMenuQuit;		//               quit button
 
 // The status bar
-	GUIContainer* pctrStatus;	// The main status bar container
-	GUILabel* plblFund;			// The fund label
-	GUILabel* plblPopulation;	// The population label
-	GUILabel* plblDate;			// The date label
-	GUIBar* pbarResidence;		// The residence bar
-	GUIBar* pbarCommerce;		// The commerce bar
-	GUIBar* pbarIndustry;		// The industry bar
-	GUIBar* pbarPower;			// The power bar
-	GUIButton* pbtnPause;		// Pause button
-	GUIButton* pbtnPlay;		// Play button
+	GUIContainer*	_pctrStatus;		///< The main status bar container
+	GUILabel*		_plblFund;			///< The fund label
+	GUILabel*		_plblPopulation;	///< The population label
+	GUILabel*		_plblDate;			///< The date label
+	GUIBar*			_pbarResidence;		///< The residence bar
+	GUIBar*			_pbarCommerce;		///< The commerce bar
+	GUIBar*			_pbarIndustry;		///< The industry bar
+	GUIBar*			_pbarPower;			///< The power bar
+	GUIButton*		_pbtnPause;			///< Pause button
+	GUIButton*		_pbtnPlay;			///< Play button
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
 	GUIContainer* pctr;

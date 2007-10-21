@@ -141,7 +141,7 @@ public:
 
 private:
 	uint _uiDisplayListMask;					///< The current models display list mask
-	Model* tabpModel [OC_GRAPHIC_CODE_MAX];		///< A table of Model pointers
+	Model* _tabpModel [OC_GRAPHIC_CODE_MAX];	///< A table of Model pointers
 
 };
 

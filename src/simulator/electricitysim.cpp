@@ -99,152 +99,140 @@ ElectricitySim::Main()
 	static pair<uint, uint> pairstructWH;
 	static uint nW, nH;
 
+// IF the simulators are not running THEN return
+	if (this->enumSimState != SIMULATOR_RUNNING)
+		return 0;
 
-	if (this->enumSimState == SIMULATOR_RUNNING) {
-		SDL_LockMutex( this->mutexMain );
-		// See MainSim::RefreshSimValue(), 16 sep 2006
-		//_iValue = _iValueMax;
+	SDL_LockMutex( this->mutexMain );
+	// See MainSim::RefreshSimValue(), 16 sep 2006
+	//_iValue = _iValueMax;
 
-		// clear the mark and E bit of ALL structure
-		pbuildlayer->StructureUnset( OC_STRUCTURE_MARK | OC_STRUCTURE_E );
+// clear the mark and E bit of ALL structure
+	pbuildlayer->StructureUnset( OC_STRUCTURE_MARK | OC_STRUCTURE_E );
 
-		// for each EPLANT do
-		iter = vectorpairuiEPlant.begin();
-		while ( iter != vectorpairuiEPlant.end() ) {
-			pairstructWH = *iter;
+// for each EPLANT do
+	iter = vectorpairuiEPlant.begin();
+	while ( iter != vectorpairuiEPlant.end() ) {
+		pairstructWH = *iter;
+		pstruct = pbuildlayer->GetStructure( pairstructWH.first, pairstructWH.second );
+
+	// only process the EPLANT if it is not marked yet
+		if (pstruct != NULL)
+		if (pstruct->IsSet( OC_STRUCTURE_MARK ) == false )
+			dequepairui.push_back( pairstructWH );
+
+	// now process the deque
+		while ( !dequepairui.empty() ) {
+			pairstructWH = dequepairui.front();
+			dequepairui.pop_front();
+		// process the front structure
 			pstruct = pbuildlayer->GetStructure( pairstructWH.first, pairstructWH.second );
+		// WARNING: pstruct is never NULL here !
+			switch (pstruct->GetCode()) {
+		// turn the E bit of the following structures on
+			case OC_STRUCTURE_EPLANT_COAL:
+			case OC_STRUCTURE_EPLANT_NUCLEAR:
+				pstruct->Set(OC_STRUCTURE_E);
+				break;
 
-			// only process the EPLANT if it is not marked yet
-			if (pstruct != NULL)
-			if (pstruct->IsSet( OC_STRUCTURE_MARK ) == false )
-				dequepairui.push_back( pairstructWH );
-
-			// now process the deque
-			while ( !dequepairui.empty() ) {
-				pairstructWH = dequepairui.front();
-				dequepairui.pop_front();
-				// process the front structure
-				pstruct = pbuildlayer->GetStructure(
-					pairstructWH.first, pairstructWH.second );
-				// WARNING: pstruct is never NULL here !
-				switch (pstruct->GetCode()) {
-					// turn the E bit of the following structures on
-					case OC_STRUCTURE_EPLANT_COAL:
-					case OC_STRUCTURE_EPLANT_NUCLEAR:
-						pstruct->Set(OC_STRUCTURE_E);
-						break;
-
-					// the RCI zones need nearby electric zone
-					// in order to be connected to the E system
-					case OC_STRUCTURE_RES:
-					case OC_STRUCTURE_COM:
-					case OC_STRUCTURE_IND:
-					case OC_STRUCTURE_PART:
-					case OC_STRUCTURE_FIREDEPT:
-					case OC_STRUCTURE_POLICEDEPT:
-					case OC_STRUCTURE_EDUCATIONDEPT:
-					case OC_STRUCTURE_HOSPITALDEPT:
-						if (CheckRange(
-							pairstructWH.first,
-							pairstructWH.second,
-							OC_E_RCI_RANGE,
-							OC_STRUCTURE_ELECTRIC )
-							== true) {
-							pstruct->Set(OC_STRUCTURE_E);
-							// See MainSim::RefreshSimValue(), 16 sep 2006
-							//_iValue--;
-						}
-						break;
-
-					// the ELINE structure have a shorter range
-					case OC_STRUCTURE_ELINE:
-						if (CheckRange(
-							pairstructWH.first,
-							pairstructWH.second,
-							OC_E_E_RANGE,
-							OC_STRUCTURE_ELECTRIC )
-							== true) {
-							pstruct->Set(OC_STRUCTURE_E);
-							// See MainSim::RefreshSimValue(), 16 sep 2006
-							//_iValue--;
-						}
-						break;
-
-				// Ignored structures
-					case OC_STRUCTURE_PARK:
-					case OC_STRUCTURE_FLORA:
-					case OC_STRUCTURE_ROAD:
-					case OC_STRUCTURE_TEST:			// Development test feature
-						break;
-
-				// What's the heck ?
-					case OC_STRUCTURE_UNDEFINED:
-					case OC_STRUCTURE_ANY:
-					case OC_STRUCTURE_ELECTRIC:
-
-				// Future asserts
-					case OC_STRUCTURE_MILITARYDEPT:
-
-				// What's the heck ?
-					default:
-						OPENCITY_DEBUG( "What is this structure code: " << pstruct->GetCode() );
-						assert( 0 );
-						break;
-				} // switch
-
-				// mark the structure we have just processed
-				pstruct->Set( OC_STRUCTURE_MARK );
-
-				// put all the neighbour into the deque
-				// if they are not yet marked (processed)
-				// look for the neighour in the NORTH
-				if ((pmapOfCity->GetNeighbourWH(
+		// the RCI zones need nearby electric zone
+		// in order to be connected to the E system
+			case OC_STRUCTURE_RES:
+			case OC_STRUCTURE_COM:
+			case OC_STRUCTURE_IND:
+			case OC_STRUCTURE_PART:
+			case OC_STRUCTURE_FIREDEPT:
+			case OC_STRUCTURE_POLICEDEPT:
+			case OC_STRUCTURE_EDUCATIONDEPT:
+			case OC_STRUCTURE_HOSPITALDEPT:
+				if (CheckRange(
 					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_O_N ) == true )
-					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
-					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-					&&(dequeContain(make_pair(nW, nH)) == false))
-					dequepairui.push_back(
-						pair<uint,uint>( nW, nH) );
+					OC_E_RCI_RANGE, OC_STRUCTURE_ELECTRIC ) == true) {
+					pstruct->Set(OC_STRUCTURE_E);
+				// See MainSim::RefreshSimValue(), 16 sep 2006
+					//_iValue--;
+				}
+				break;
 
-				// look for the neighour in the EAST
-				if ((pmapOfCity->GetNeighbourWH(
+		// the ELINE structure have a shorter range
+			case OC_STRUCTURE_ELINE:
+				if (CheckRange(
 					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_O_E ) == true )
-					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
-					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-					&&(dequeContain(make_pair(nW, nH)) == false))
-					dequepairui.push_back(
-						pair<uint,uint>( nW, nH) );
+					OC_E_E_RANGE, OC_STRUCTURE_ELECTRIC ) == true) {
+					pstruct->Set(OC_STRUCTURE_E);
+				// See MainSim::RefreshSimValue(), 16 sep 2006
+					//_iValue--;
+				}
+				break;
 
-				// look for the neighour in the SOUTH
-				if ((pmapOfCity->GetNeighbourWH(
-					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_O_S ) == true )
-					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
-					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-					&&(dequeContain(make_pair(nW, nH)) == false))
-					dequepairui.push_back(
-						pair<uint,uint>( nW, nH) );
+		// Ignored structures
+			case OC_STRUCTURE_PARK:
+			case OC_STRUCTURE_FLORA:
+			case OC_STRUCTURE_ROAD:
+			case OC_STRUCTURE_TEST:			// Development test feature
+				break;
 
-				// look for the neighour in the WEST
-				if ((pmapOfCity->GetNeighbourWH(
-					pairstructWH.first, pairstructWH.second,
-					nW, nH, OC_DIR_O_W ) == true )
-					&&(pstruct = pbuildlayer->GetStructure( nW, nH ))
-					&&(pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-					&&(dequeContain(make_pair(nW, nH)) == false))
-					dequepairui.push_back(
-						pair<uint,uint>( nW, nH) );
-			} // while
+		// What's the heck ?
+			case OC_STRUCTURE_UNDEFINED:
+			case OC_STRUCTURE_ANY:
+			case OC_STRUCTURE_ELECTRIC:
 
-			// next EPLANT
-			iter++;
-		} // while vectorpairuiEPlant
+		// Future asserts
+			case OC_STRUCTURE_MILITARYDEPT:
 
-		SDL_UnlockMutex( this->mutexMain );
-	} // if run
+		// What's the heck ?
+			default:
+				OPENCITY_DEBUG( "What is this structure code: " << pstruct->GetCode() );
+				assert( 0 );
+				break;
+			} // switch
 
+		// Mark the structure we have just processed
+			pstruct->Set( OC_STRUCTURE_MARK );
+
+		// Put all the neighbour into the deque if they are not yet marked (processed)
+		// look for the neighour in the NORTH
+			if ((pmapOfCity->GetNeighbourWH(
+				pairstructWH.first, pairstructWH.second,
+				nW, nH, OC_DIR_O_N ) == true )
+				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
+				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				&& (dequeContain(make_pair(nW, nH)) == false))
+				dequepairui.push_back( pair<uint,uint>( nW, nH) );
+
+		// look for the neighour in the EAST
+			if ((pmapOfCity->GetNeighbourWH(
+				pairstructWH.first, pairstructWH.second,
+				nW, nH, OC_DIR_O_E ) == true )
+				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
+				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				&& (dequeContain(make_pair(nW, nH)) == false))
+				dequepairui.push_back( pair<uint,uint>( nW, nH) );
+
+		// look for the neighour in the SOUTH
+			if ((pmapOfCity->GetNeighbourWH(
+				pairstructWH.first, pairstructWH.second,
+				nW, nH, OC_DIR_O_S ) == true )
+				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
+				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				&& (dequeContain(make_pair(nW, nH)) == false))
+				dequepairui.push_back( pair<uint,uint>( nW, nH) );
+
+		// look for the neighour in the WEST
+			if ((pmapOfCity->GetNeighbourWH(
+				pairstructWH.first, pairstructWH.second,
+				nW, nH, OC_DIR_O_W ) == true )
+				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
+				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				&& (dequeContain(make_pair(nW, nH)) == false))
+				dequepairui.push_back( pair<uint,uint>( nW, nH) );
+		} // while
+
+		// next EPLANT
+		iter++;
+	} // while vectorpairuiEPlant
+
+	SDL_UnlockMutex( this->mutexMain );
 
 	return 0;
 }

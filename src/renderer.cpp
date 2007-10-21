@@ -81,10 +81,6 @@ extern GlobalVar gVars;
 
 // OpenGL other view parameters
 #define OC_INITIAL_SCALE	12.0
-#define OC_INITIAL_EYE_X	200.0			// used for gluLookAt();
-#define OC_INITIAL_EYE_Y	100.0
-#define OC_INITIAL_EYE_Z	300.0
-
 #define OC_INITIAL_DELTA_X	-25.0			// used for the translation
 #define OC_INITIAL_DELTA_Z	-30.0
 #define OC_DELTA_X_STEP		2.0
@@ -144,11 +140,11 @@ _uiCityLength( cityL )
 	this->Home();
 
 /* not need for the moment
-//--- translate all the scence according to dDeltaX & dDeltaZ
-	glTranslated( this->dDeltaX, 0.0, this->dDeltaZ );
+//--- translate all the scence according to _dDeltaX & _dDeltaZ
+	glTranslated( _dDeltaX, 0.0, _dDeltaZ );
 
 //--- rotate the scence to the required angle
-	glRotated( this->dYRotateAngle, 0.0, 1.0, 0.0 );
+	glRotated( _dYRotateAngle, 0.0, 1.0, 0.0 );
 */
 
 
@@ -271,7 +267,7 @@ void
 Renderer::RotateLeft( const uint & factor )
 {
 	GLdouble dYCurrentAngle = OC_Y_ROTATE_STEP*factor;
-	this->dYRotateAngle = (GLint)(this->dYRotateAngle + dYCurrentAngle) % 360;
+	_dYRotateAngle = (GLint)(_dYRotateAngle + dYCurrentAngle) % 360;
 
 // Toggle to the model view matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -280,18 +276,18 @@ Renderer::RotateLeft( const uint & factor )
 // Rotate the scence to the required angle
 	glRotated( dYCurrentAngle, 0.0, 1.0, 0.0 );
 
-// Translate all the scence according to dDeltaX & dDeltaZ
-	glTranslated( this->dDeltaX, 0.0, this->dDeltaZ );
+// Translate all the scence according to _dDeltaX & _dDeltaZ
+	glTranslated( _dDeltaX, 0.0, _dDeltaZ );
 
 // Apply the new changes to the old rotation's matrix
-	glMultMatrixd( this->dmatrixRotate );
+	glMultMatrixd( _dmatrixRotate );
 
 // Clear the translation
-	this->dDeltaX = 0.0;
-	this->dDeltaZ = 0.0;
+	_dDeltaX = 0.0;
+	_dDeltaZ = 0.0;
 
 // Save the calculated rotation matrix
-	glGetDoublev( GL_MODELVIEW_MATRIX, dmatrixRotate );
+	glGetDoublev( GL_MODELVIEW_MATRIX, _dmatrixRotate );
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -303,7 +299,7 @@ void
 Renderer::RotateRight( const uint & factor )
 {
 	GLdouble dYCurrentAngle = -OC_Y_ROTATE_STEP*factor;
-	this->dYRotateAngle = (GLint)(this->dYRotateAngle + dYCurrentAngle) % 360;
+	_dYRotateAngle = (GLint)(_dYRotateAngle + dYCurrentAngle) % 360;
 
 // Toggle to the model view matrix
 	glMatrixMode( GL_MODELVIEW );
@@ -312,18 +308,18 @@ Renderer::RotateRight( const uint & factor )
 // Rotate the scence to the required angle
 	glRotated( dYCurrentAngle, 0.0, 1.0, 0.0 );
 
-// Translate all the scence according to dDeltaX & dDeltaZ
-	glTranslated( this->dDeltaX, 0.0, this->dDeltaZ );
+// Translate all the scence according to _dDeltaX & _dDeltaZ
+	glTranslated( _dDeltaX, 0.0, _dDeltaZ );
 
 // Apply the new changes to the old rotation's matrix
-	glMultMatrixd( this->dmatrixRotate );
+	glMultMatrixd( _dmatrixRotate );
 
 // Clear the translation
-	this->dDeltaX = 0.0;
-	this->dDeltaZ = 0.0;
+	_dDeltaX = 0.0;
+	_dDeltaZ = 0.0;
 
 // Save the calculated rotation matrix
-	glGetDoublev( GL_MODELVIEW_MATRIX, dmatrixRotate );
+	glGetDoublev( GL_MODELVIEW_MATRIX, _dmatrixRotate );
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -334,7 +330,7 @@ Renderer::RotateRight( const uint & factor )
 void
 Renderer::MoveLeft( const uint & factor )
 {
-	this->dDeltaX -= fXTransDelta*factor;
+	_dDeltaX -= _fXTransDelta*factor;
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -345,7 +341,7 @@ Renderer::MoveLeft( const uint & factor )
 void
 Renderer::MoveRight( const uint & factor )
 {
-	this->dDeltaX += fXTransDelta*factor;
+	_dDeltaX += _fXTransDelta*factor;
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -356,7 +352,7 @@ Renderer::MoveRight( const uint & factor )
 void
 Renderer::MoveUp( const uint & factor )
 {
-	this->dDeltaZ -= fZTransDelta*factor;
+	_dDeltaZ -= _fZTransDelta*factor;
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -367,7 +363,7 @@ Renderer::MoveUp( const uint & factor )
 void
 Renderer::MoveDown( const uint & factor )
 {
-	this->dDeltaZ += fZTransDelta*factor;
+	_dDeltaZ += _fZTransDelta*factor;
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
@@ -378,20 +374,17 @@ Renderer::MoveDown( const uint & factor )
 void
 Renderer::Home()
 {
-	this->fScaleRatio = OC_INITIAL_SCALE;
-	this->fXTransDelta = OC_DELTA_X_STEP;
-	this->fZTransDelta = OC_DELTA_Z_STEP;
-	this->dEyeX = OC_INITIAL_EYE_X;
-	this->dEyeY = OC_INITIAL_EYE_Y;
-	this->dEyeZ = OC_INITIAL_EYE_Z;
-	this->dDeltaX = OC_INITIAL_DELTA_X;
-	this->dDeltaZ = OC_INITIAL_DELTA_Z;
-	this->dYRotateAngle = OC_Y_ROTATE_ANGLE;
+	_fScaleRatio = OC_INITIAL_SCALE;
+	_fXTransDelta = OC_DELTA_X_STEP;
+	_fZTransDelta = OC_DELTA_Z_STEP;
+	_dDeltaX = OC_INITIAL_DELTA_X;
+	_dDeltaZ = OC_INITIAL_DELTA_Z;
+	_dYRotateAngle = OC_Y_ROTATE_ANGLE;
 
 // Reinit the rotation matrix
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
-	glGetDoublev( GL_MODELVIEW_MATRIX, dmatrixRotate );
+	glGetDoublev( GL_MODELVIEW_MATRIX, _dmatrixRotate );
 
 // Reset the LOD
 	_SetLOD();
@@ -405,13 +398,13 @@ Renderer::Home()
 void
 Renderer::ZoomIn(  )
 {
-	if (this->fScaleRatio >= 140)
+	if (_fScaleRatio >= 140)
 		return;
 
-	this->fScaleRatio += 1;
-	if (this->fScaleRatio < 30) {
-		this->fXTransDelta -= .09;
-		this->fZTransDelta -= .09;
+	_fScaleRatio += 1;
+	if (_fScaleRatio < 30) {
+		_fXTransDelta -= .09;
+		_fZTransDelta -= .09;
 	}
 	_SetLOD();
 
@@ -423,153 +416,19 @@ Renderer::ZoomIn(  )
    /*=====================================================================*/
 void Renderer::ZoomOut(  )
 {
-	if (this->fScaleRatio <= 2)
+	if (_fScaleRatio <= 2)
 		return;
 
-	this->fScaleRatio -= 1;
-	if (this->fScaleRatio < 30) {
-		this->fXTransDelta += .09;
-		this->fZTransDelta += .09;
+	_fScaleRatio -= 1;
+	if (_fScaleRatio < 30) {
+		_fXTransDelta += .09;
+		_fZTransDelta += .09;
 	}
 	_SetLOD();
 
 // The culling grid must be recalculated
 	_bCalculateCulling = true;
 }
-
-
-   /*=====================================================================*/
-   /*
-	Divide the map to something like this :
-	_________
-	| A | B |
-	_________
-	| C | D |
-	_________
-
-	A: 1, B: 2, C: 3, D: 4
-	This algorithm help speed up a lot while calculating the selected
-	map W,H on a big big map
-   */
-//TOKILL, for future reference
-/*
-const bool
-Renderer::GetSelectedWHFromLayer(
-		const uint & rcuiMouseX,
-		const uint & rcuiMouseY,
-		uint & ruiMapW, uint & ruiMapH,
-		const Layer & rcLayer,
-		const uint & rcW1, const uint & rcH1,
-		const uint & rcW2, const uint & rcH2 ) const
-{
-#define MAX_MAP_DELTA 20 // cut the map WH down to this size in the worst case
-
-//debug
-//	cout << "W1,H1,W2,H2: " << rcW1 << "," << rcH1 << "," << rcW2 << "," << rcH2 << endl;
-//debug
-	if ((rcW2 - rcW1 > MAX_MAP_DELTA)
-	 && (rcH2 - rcH1 > MAX_MAP_DELTA)) {
-//debug
-//	cout << "W1,H1,W2,H2: " << rcW1 << "," << rcH1 << "," << rcW2 << "," << rcH2 << endl;
-//debug
-		uint aW1 = rcW1; uint aH1 = rcH1;
-		uint aW2 = (rcW1+rcW2) / 2; uint aH2 = (rcH1 + rcH2) / 2;
-
-		uint bW1 = aW2 + 1; uint bH1 = aH1;
-		uint bW2 = rcW2; uint bH2 = aH2;
-
-		uint cW1 = aW1; uint cH1 = aH2 + 1;
-		uint cW2 = aW2; uint cH2 = rcH2;
-
-		uint dW1 = aW2 + 1; uint dH1 = aH2 + 1;
-		uint dW2 = rcW2; uint dH2 = rcH2;
-
-		GLubyte rgbTab[3];
-
-	//---- prepare the world for rendering
-		_PrepareView();
-
-	//---- save the current ModelView matrix ----
-		glPushMatrix();
-
-	//---- clear the color buffer ( the screen )
-		glClearColor( 0.0, 0.0, 0.0, 0.0 );
-		glClear( GL_COLOR_BUFFER_BIT );
-
-		glBegin( GL_QUADS );
-		glColor3ub( 0, 0, 10 ); // 10 for polygon A
-		glVertex3d( aW1 * OC_SQUARE_WIDTH, 0.0, aH1 * OC_SQUARE_HEIGHT );
-		glVertex3d( aW1 * OC_SQUARE_WIDTH, 0.0, (aH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (aW2+1) * OC_SQUARE_WIDTH, 0.0, (aH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (aW2+1) * OC_SQUARE_WIDTH, 0.0, aH1 * OC_SQUARE_HEIGHT );
-
-		glColor3ub( 0, 0, 20 ); // 20 for polygon B
-		glVertex3d( bW1 * OC_SQUARE_WIDTH, 0.0, bH1 * OC_SQUARE_HEIGHT );
-		glVertex3d( bW1 * OC_SQUARE_WIDTH, 0.0, (bH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (bW2+1) * OC_SQUARE_WIDTH, 0.0, (bH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (bW2+1) * OC_SQUARE_WIDTH, 0.0, bH1 * OC_SQUARE_HEIGHT );
-
-		glColor3ub( 0, 0, 30 ); // 30 for polygon C
-		glVertex3d( cW1 * OC_SQUARE_WIDTH, 0.0, cH1 * OC_SQUARE_HEIGHT );
-		glVertex3d( cW1 * OC_SQUARE_WIDTH, 0.0, (cH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (cW2+1) * OC_SQUARE_WIDTH, 0.0, (cH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (cW2+1) * OC_SQUARE_WIDTH, 0.0, cH1 * OC_SQUARE_HEIGHT );
-
-		glColor3ub( 0, 0, 40 ); // 40 for polygon D
-		glVertex3d( dW1 * OC_SQUARE_WIDTH, 0.0, dH1 * OC_SQUARE_HEIGHT );
-		glVertex3d( dW1 * OC_SQUARE_WIDTH, 0.0, (dH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (dW2+1) * OC_SQUARE_WIDTH, 0.0, (dH2+1) * OC_SQUARE_HEIGHT );
-		glVertex3d( (dW2+1) * OC_SQUARE_WIDTH, 0.0, dH1 * OC_SQUARE_HEIGHT );
-
-		glEnd();
-		glPopMatrix();
-
-	//---- read the back buffer, double-buffering must be supported ! ----
-		glReadBuffer( GL_BACK );
-		glReadPixels( rcuiMouseX, _iWinHeight-rcuiMouseY, 1, 1,
-				GL_RGB, GL_UNSIGNED_BYTE, rgbTab );
-
-		switch (rgbTab[2]) {
-			case 0: return false;
-			case 10: // polygon A;
-				return GetSelectedWHFromLayer(
-					rcuiMouseX, rcuiMouseY,
-					ruiMapW, ruiMapH,
-					rcLayer,
-					aW1, aH1, aW2, aH2 );
-
-			case 20: // polygon B;
-				return GetSelectedWHFromLayer(
-					rcuiMouseX, rcuiMouseY,
-					ruiMapW, ruiMapH,
-					rcLayer,
-					bW1, bH1, bW2, bH2 );
-
-			case 30: // polygon C;
-				return GetSelectedWHFromLayer(
-					rcuiMouseX, rcuiMouseY,
-					ruiMapW, ruiMapH,
-					rcLayer,
-					cW1, cH1, cW2, cH2 );
-
-			case 40: // polygon D;
-				return GetSelectedWHFromLayer(
-					rcuiMouseX, rcuiMouseY,
-					ruiMapW, ruiMapH,
-					rcLayer,
-					dW1, dH1, dW2, dH2 );
-		}  // end of switch (rgbTab[2])
-	}
-	else {
-// the layer size is small enough so we consider each square as a polygon
-		DisplayLayerSelection( rcLayer,
-					rcW1, rcH1, rcW2, rcH2 );
-		return GetSelectedMapWH( rcuiMouseX, rcuiMouseY,
-						 ruiMapW, ruiMapH );
-	}
-// never reached
-}
-*/
 
 
    /*=====================================================================*/
@@ -1125,170 +984,6 @@ Renderer::SetWinSize(
 
 
    /*=====================================================================*/
-/* TOKILL, kept for reference 2D version
-void
-Renderer::_DisplayTerrain() const
-{
-	if (bHeightChange == false)
-		goto displayterrain_return;
-
-	static OC_BYTE tabH [4];
-	static GLfloat ax, ay, az;
-	static GLfloat bx, by, bz;
-	static GLfloat n1x, n1y, n1z;		// normal 1 coordinates
-	static GLfloat n2x, n2y, n2z;		// normal 2 coordinates
-	static int l, w;					// WARNING: yes, we use INT not UINT
-
-// Reserve a new display list for the terrain
-	glNewList( _uiTerrainList, GL_COMPILE );
-
-// WARNING: this is used to calculated the final textured fragment.
-	glColor4f( .3, .25, .2, 1. );
-
-// Enable terrain texturing
-	glPushAttrib( GL_ENABLE_BIT );
-	glEnable( GL_CULL_FACE );
-	glEnable( GL_TEXTURE_2D );
-	glBindTexture( GL_TEXTURE_2D, _uiTerrainTex );
-	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-
-// BEGIN, draw the terrain as an unique TRIANGLE_STRIP
-// which is known as the fastest figure in OpenGL
-// This is the secret formula: c = a^b ;)
-//		cx = ay * bz - by * az;
-//		cy = bx * az - ax * bz;
-//		cz = ax * by - bx * ay;
-//
-	glBegin( GL_TRIANGLE_STRIP );
-
-	for (l = 0; l < (int)_uiCityLength; l++) {
-	// IF we draw the squares from left to right THEN
-		if (l % 2 == 0) {
-		// Get the 4 heights of the current square
-			w = 0;
-			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
-		// calculate the new normal 1 (the cross product)
-			ax = 0.;   ay = (GLfloat)(tabH[1]-tabH[0]); az = 1.;
-			bx = 1.;   by = (GLfloat)(tabH[3]-tabH[0]); bz = .0;
-			n1x = -by; n1y = 1.;                        n1z = -ay;
-		// calculate the new normal 2 (the cross product)
-			ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
-			bx = .0;   by = (GLfloat)(tabH[3]-tabH[2]); bz = -1.;
-			n2x = -ay; n2y = 1.;                        n2z = by;
-
-		// Set the first normal and the first pair of vertices
-			glNormal3f( n1x, n1y, n1z );
-			glTexCoord2i( w, l );
-			glVertex3i( w, tabH[0], l );
-			glTexCoord2i( w, l+1 );
-			glVertex3i( w, tabH[1], l+1 );
-
-			for (w = 1; w < (int)_uiCityWidth; w++) {
-			// Get the 4 heights of the current square
-				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
-			// draw the stuff
-				glNormal3f( n1x, n1y, n1z );
-				glTexCoord2i( w, l );
-				glVertex3i( w, tabH[0], l );
-				glNormal3f( n2x, n2y, n2z );
-				glTexCoord2i( w, l+1 );
-				glVertex3i( w, tabH[1], l+1 );
-
-			// calculate the new normal 1 (the cross product)
-				ax = 0.;   ay = (GLfloat)(tabH[1]-tabH[0]); az = 1.;
-				bx = 1.;   by = (GLfloat)(tabH[3]-tabH[0]); bz = .0;
-				n1x = -by; n1y = 1.;                        n1z = -ay;
-			// calculate the new normal 2 (the cross product)
-				ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
-				bx = .0;   by = (GLfloat)(tabH[3]-tabH[2]); bz = -1.;
-				n2x = -ay; n2y = 1.;                        n2z = by;
-			} // for
-
-		// Draw the last edge
-			glNormal3f( n1x, n1y, n1z );
-			glTexCoord2i( w, l );
-			glVertex3i( w, tabH[3], l );
-			glNormal3f( n2x, n2y, n2z );
-			glTexCoord2i( w, l+1 );
-			glVertex3i( w, tabH[2], l+1 );
-		// Then prepare the triangles for the next line
-			glVertex3i( w, tabH[2], l+1 );
-		}
-		else {
-		// WARNING: repeated codes as above ================================
-		// We draw the square from right to left
-		// Get the 4 heights of the current square
-			w = _uiCityWidth-1;
-			gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
-
-		// calculate the new normal 1 (the cross product)
-			ax = -1.;  ay = (GLfloat)(tabH[0]-tabH[3]); az = .0;
-			bx =  .0;  by = (GLfloat)(tabH[2]-tabH[3]); bz = 1.;
-			n1x = ay;  n1y = 1.;                        n1z = -by;
-		// calculate the new normal 2 (the cross product)
-			ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
-			bx = .0;   by = (GLfloat)(tabH[0]-tabH[1]); bz = -1.;
-			n2x = -ay; n2y = 1.;                        n2z = by;
-
-		// Set the first normal and the first pair of vertices
-			glNormal3f( n1x, n1y, n1z );
-			glTexCoord2i( w+1, l );
-			glVertex3i( w+1, tabH[3], l );
-			glTexCoord2i( w+1, l+1 );
-			glVertex3i( w+1, tabH[2], l+1 );
-
-			for (w = _uiCityWidth-2; w >= 0; w--) {
-		// Get the 4 heights of the current square
-				gVars.gpMapMgr->GetSquareHeight( w, l, tabH );
-		// draw the stuff
-				glNormal3f( n1x, n1y, n1z );
-				glTexCoord2i( w+1, l );
-				glVertex3i( w+1, tabH[3], l );
-				glNormal3f( n2x, n2y, n2z );
-				glTexCoord2i( w+1, l+1 );
-				glVertex3i( w+1, tabH[2], l+1 );
-
-			// calculate the new normal 1 (the cross product)
-				ax = -1.;  ay = (GLfloat)(tabH[0]-tabH[3]); az = .0;
-				bx =  .0;  by = (GLfloat)(tabH[2]-tabH[3]); bz = 1.;
-				n1x = ay;  n1y = 1.;                        n1z = -by;
-			// calculate the new normal 2 (the cross product)
-				ax = 1.;   ay = (GLfloat)(tabH[2]-tabH[1]); az = .0;
-				bx = .0;   by = (GLfloat)(tabH[0]-tabH[1]); bz = -1.;
-				n2x = -ay; n2y = 1.;                        n2z = by;
-			}
-
-		// Draw the last edge
-			glNormal3f( n1x, n1y, n1z );
-			glTexCoord2i( w+1, l );
-			glVertex3i( w+1, tabH[0], l );
-			glNormal3f( n2x, n2y, n2z );
-			glTexCoord2i( w+1, l+1 );
-			glVertex3i( w+1, tabH[1], l+1 );
-		// Then prepare the triangles for the next line
-			glVertex3i( w+1, tabH[1], l+1 );
-		}
-	}
-// then restore the default normal
-	glNormal3f( 0., 0., 1. );
-	glEnd();
-// END: Draw the terrain by using GL_TRIANGLE_STRIP
-
-// Restore old attribs
-	glPopAttrib();
-	glEndList();
-
-displayterrain_return:
-	glCallList( _uiTerrainList );
-}
-*/
-
-
-   /*=====================================================================*/
 void
 Renderer::_DisplayTerrain() const
 {
@@ -1735,7 +1430,7 @@ Renderer::_DisplayCompass() const
 // Display the compass
 	glLoadIdentity();
 	glTranslatef( _iWinWidth/2 + 223, 32, 0 );
-	glRotated( this->dYRotateAngle, .0, .0, 1. );
+	glRotated( _dYRotateAngle, .0, .0, 1. );
 	glBegin( GL_LINES );
 		glColor4f( .5, .5, .5, 1. );
 		glVertex2i( -20, 0 );
@@ -1812,7 +1507,7 @@ Renderer::_PrepareView()
 		glTranslated( _iWinWidth / 2, -5.0, -_iWinHeight / 2 );
 		glScalef( 24., 24., 24. );
 	}
-	float ratio = fScaleRatio / 10;
+	float ratio = _fScaleRatio / 10;
 	glScalef( ratio, ratio, ratio);
 
 
@@ -1822,12 +1517,12 @@ Renderer::_PrepareView()
 		   0.0, 1.0, 0.0 );
 */
 
-// Translate all the scence according to dDeltaX & dDeltaZ
+// Translate all the scence according to _dDeltaX & _dDeltaZ
 // this translation is due to the direction keys
-	glTranslated( this->dDeltaX, 0.0, this->dDeltaZ );
+	glTranslated( _dDeltaX, 0.0, _dDeltaZ );
 
 // Rotate the scence to the required angle
-	glMultMatrixd( this->dmatrixRotate );
+	glMultMatrixd( _dmatrixRotate );
 
 // Calculate the culling grid if it's requested
 	if (_bCalculateCulling) {
@@ -1930,11 +1625,11 @@ Renderer::_SetLOD() const
 	if (gVars.gpGraphicMgr == NULL)
 		return;
 
-	if (this->fScaleRatio >= OC_INITIAL_SCALE)
+	if (_fScaleRatio >= OC_INITIAL_SCALE)
 		gVars.gpGraphicMgr->SetLOD(OC_LOD_HIGH);
-	else if (this->fScaleRatio >= OC_INITIAL_SCALE - 8)
+	else if (_fScaleRatio >= OC_INITIAL_SCALE - 8)
 		gVars.gpGraphicMgr->SetLOD(OC_LOD_MEDIUM);
-	else if (this->fScaleRatio >= OC_INITIAL_SCALE - 10)
+	else if (_fScaleRatio >= OC_INITIAL_SCALE - 10)
 		gVars.gpGraphicMgr->SetLOD(OC_LOD_LOW);
 }
 

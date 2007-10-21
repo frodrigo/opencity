@@ -51,7 +51,7 @@ _uiDisplayListMask( OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_L
 // Initialize the model table
 	int i;
 	for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
-		tabpModel[i] = NULL;
+		_tabpModel[i] = NULL;
 	}
 
 // Try to open the graphism config file
@@ -72,8 +72,8 @@ _uiDisplayListMask( OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_L
 		if (strPath == "")
 			continue;
 
-		tabpModel[i] = ModelLoader::Load( ocHomeDirPrefix(strPath) );
-		if (tabpModel[i] == NULL) {
+		_tabpModel[i] = ModelLoader::Load( ocHomeDirPrefix(strPath) );
+		if (_tabpModel[i] == NULL) {
 			OPENCITY_FATAL( "Failed to load the file: " << ocHomeDirPrefix(strPath) );
 			abort();
 		}
@@ -89,8 +89,8 @@ GraphicManager::~GraphicManager()
 	OPENCITY_DEBUG( "GraphicManager dtor" );
 
 	for (int i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
-		delete tabpModel[i];	// delete NULL won't hurt
-		tabpModel[i] = NULL;	// safe
+		delete _tabpModel[i];	// delete NULL won't hurt
+		_tabpModel[i] = NULL;	// safe
 	}
 }
 
@@ -144,16 +144,6 @@ GraphicManager::DisplayTerrain(
 
 	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
-//debug begin
-/*
-cout << (int)tabH[0] << ":"
-     << (int)tabH[1] << ":"
-     << (int)tabH[2] << ":"
-     << (int)tabH[3] << ":"
-     << endl;
-*/
-//debug end
-
 //WARNING: GL_COLOR_MATERIAL is enabled
 	glColor3f( .25, .2, .15 );
 
@@ -202,7 +192,7 @@ GraphicManager::DisplayStructure(
 	static OC_BYTE tabH [4];
 	static GLfloat delta;
 
-//NOTE: avoid segfault
+
 	assert( pcStructure != NULL );
 
 // Get the heights from the map manager
@@ -211,21 +201,11 @@ GraphicManager::DisplayStructure(
 // get the level of the structure
 	delta = (GLfloat)(pcStructure->GetLevel() + 1) / 20;
 
-/* debug test for the electricity conductivity
-	if (pcStructure->IsSet( OC_STRUCTURE_E ))
-		redE = .15;	//20
-	else
-		redE = .0;
-*/
-
-
 // Get the graphic code
 	enumGC = pcStructure->GetGraphicCode();
-	
-//NOTE: null pointer can lead to SIGSEGV
-	assert( (enumGC == OC_EMPTY) || (tabpModel[enumGC] != NULL) );
+	assert( (enumGC == OC_EMPTY) || (_tabpModel[enumGC] != NULL) );
 
-//NOTE: the "switch" instruction will be removed once we have enough models
+// The "switch" instruction will be removed once we have enough models
 	switch (enumGC) {
 		case OC_RES_ZONE0:
 		case OC_RES_ZONE1:
@@ -266,7 +246,7 @@ GraphicManager::DisplayStructure(
 		case OC_TREE_PEKINGWILLOW:
 		case OC_TREE_PINE1:
 		case OC_TREE_PINE2:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
+			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			break;
 
 	// Road part
@@ -285,8 +265,8 @@ GraphicManager::DisplayStructure(
 		case OC_ROAD_S_N_W:
 		case OC_ROAD_N_W_E:
 		case OC_ROAD_S_N_W_E:
-			tabpModel[enumGC]->Display2( rcuiW, rcuiL, tabH );
-//			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
+			_tabpModel[enumGC]->Display2( rcuiW, rcuiL, tabH );
+//			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
 
 	// Electric lines part
@@ -305,7 +285,7 @@ GraphicManager::DisplayStructure(
 		case OC_ELINE_S_N_W:
 		case OC_ELINE_N_W_E:
 		case OC_ELINE_S_N_W_E:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
+			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			break;
 
 		case OC_EPLANT_COAL:
@@ -314,7 +294,7 @@ GraphicManager::DisplayStructure(
 		case OC_POLICE_DEPT:
 		case OC_HOSPITAL_DEPT:
 		case OC_EDUCATION_DEPT:
-			tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
+			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			break;
 
 		case OC_EMPTY:
@@ -323,8 +303,8 @@ GraphicManager::DisplayStructure(
 
 		// Test codes used by graphists
 		case OC_TEST_BUILDING:
-			if (tabpModel[OC_TEST_BUILDING] != NULL) {
-				tabpModel[OC_TEST_BUILDING]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
+			if (_tabpModel[OC_TEST_BUILDING] != NULL) {
+				_tabpModel[OC_TEST_BUILDING]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 			}
 			break;
 
@@ -355,10 +335,9 @@ GraphicManager::DisplayGC(
 // Get the heights from the map manager
 	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
 
-//NOTE: null pointer can lead to SIGSEGV
-	assert( (enumGC == OC_EMPTY) || (tabpModel[enumGC] != NULL) );
+	assert( (enumGC == OC_EMPTY) || (_tabpModel[enumGC] != NULL) );
 
-	tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
+	_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 }
 
 
@@ -487,16 +466,16 @@ GraphicManager::Display(
 	glRotatef( pm->_fRY, 0, 1, 0 );			// Model rotation
 	glRotatef( pm->_fRX, 1, 0, 0 );			// Slope
 	glRotatef( pm->_fRZ, 0, 0, 1 );
-	tabpModel[pm->GetGraphicCode()]->DisplayList();
+	_tabpModel[pm->GetGraphicCode()]->DisplayList();
 	glPopMatrix();
 
 /*
 // FIXME: testing new AC3D vehicle models
 	if (pm->GetGraphicCode() == OC_VEHICLE_STD) {
-		tabpModel[OC_VEHICLE_STD]->DisplayPoly( rcfW, rcfH, tabH );
+		_tabpModel[OC_VEHICLE_STD]->DisplayPoly( rcfW, rcfH, tabH );
 	}
 	else {
-		tabpModel[pm->GetGraphicCode()]->Display( rcfW, rcfH, tabH[0] );
+		_tabpModel[pm->GetGraphicCode()]->Display( rcfW, rcfH, tabH[0] );
 	}
 */
 }
@@ -534,7 +513,7 @@ GraphicManager::DisplayAgent(float x, float y, const Agent* const pAgent) const
 
 // warning: see warning in DisplayTerrain
 	gVars.gpMapMgr->GetSquareHeight( (uint)floorf(x), (uint)floorf(y), tabH );
-	tabpModel[pAgent->GetGraphicCode()]->DisplayList( x, y, tabH );
+	_tabpModel[pAgent->GetGraphicCode()]->DisplayList( x, y, tabH );
  }
 
 

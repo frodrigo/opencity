@@ -194,13 +194,9 @@ private:
 	bool _bWireFrame;			///< Wireframe mode
 
 	OC_UBYTE _ubProjectionType;
-	GLfloat fScaleRatio;
-	GLfloat fXTransDelta;	///< The delta used for translation in the X direction
-	GLfloat fZTransDelta;
-
-	GLdouble dEyeX;			///< kept for the future when the user can
-	GLdouble dEyeY;			///< move the eye's coordinates
-	GLdouble dEyeZ;
+	GLfloat _fScaleRatio;
+	GLfloat _fXTransDelta;	///< The delta used for translation in the X direction
+	GLfloat _fZTransDelta;
 
 // GL display lists
 	GLuint _uiGridList;		///< GL list of the grid
@@ -219,16 +215,16 @@ private:
 /** Contains the X value for the translation of the layer. It is used by
 	MoveLeft() and MoveRight()
    */
-	GLdouble dDeltaX;
+	GLdouble _dDeltaX;
 
 /** Contains the Z value for the translation. It is used by
 	MoveUp() and MoveDown()
 */
-	GLdouble dDeltaZ;
+	GLdouble _dDeltaZ;
 
 /// used for calculating the rotation of the map
-	GLdouble dYRotateAngle;
-	GLdouble dmatrixRotate[16];
+	GLdouble _dYRotateAngle;
+	GLdouble _dmatrixRotate[16];
 
 /// The model culling grid
 	bool _bCalculateCulling;

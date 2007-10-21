@@ -282,7 +282,7 @@ int serverMode()
 
 
 // the pointer of our new city
-	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength, 2, false );
+	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength, false );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
 		return (-15);

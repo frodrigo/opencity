@@ -51,14 +51,10 @@ City::City
 (
 	const uint width,
 	const uint length,
-	const int difficulty,
 	const bool bGUIEnabled
 ):
-strCityName("OpenCity"),
-iDifficulty( difficulty ),
 _bGUIEnabled( bGUIEnabled ),
 _bStatusVisible( true ),
-strFileName(""),
 _uiIncome( 0 ),
 _liCityFund( OC_FUND_START ),
 _uiPopulation( 0 ),
@@ -295,18 +291,18 @@ void City::Run()
 
 	// Update the RCI bar value
 		initialValue = (r+c+i) + 1;
-		pbarResidence->SetInitialValue( initialValue );
-		pbarCommerce->SetInitialValue( initialValue );
-		pbarIndustry->SetInitialValue( initialValue );
-		pbarResidence->SetValue( r );
-		pbarCommerce->SetValue( c );
-		pbarIndustry->SetValue( i );
+		_pbarResidence->SetInitialValue( initialValue );
+		_pbarCommerce->SetInitialValue( initialValue );
+		_pbarIndustry->SetInitialValue( initialValue );
+		_pbarResidence->SetValue( r );
+		_pbarCommerce->SetValue( c );
+		_pbarIndustry->SetValue( i );
 
 	// Update the power bar value
 		initialValue = _pMSim->GetMaxValue(Simulator::OC_ELECTRIC) + 1;
-		pbarPower->SetInitialValue( initialValue );
+		_pbarPower->SetInitialValue( initialValue );
 		uint p = _pMSim->GetValue(Simulator::OC_ELECTRIC) > 0 ? _pMSim->GetValue(Simulator::OC_ELECTRIC) : 0;
-		pbarPower->SetValue( p );
+		_pbarPower->SetValue( p );
 
 	// Request the renderer to update the minimap
 		gVars.gpRenderer->bMinimapChange = true;
@@ -362,17 +358,17 @@ cityrun_swap:
 // Display the city's funds
 	ossStatus.str("");
 	ossStatus << _liCityFund;
-	plblFund->SetText( ossStatus.str() );
+	_plblFund->SetText( ossStatus.str() );
 
 // Display the city population
 	ossStatus.str("");
 	ossStatus << _uiPopulation;
-	plblPopulation->SetText( ossStatus.str() );
+	_plblPopulation->SetText( ossStatus.str() );
 
 // display the date
 	ossStatus.str("");
 	ossStatus << _uiDay << "/" << _uiMonth << "/" << _uiYear;
-	plblDate->SetText( ossStatus.str() );
+	_plblDate->SetText( ossStatus.str() );
 
 
 // Display all the contained movements
@@ -383,7 +379,7 @@ cityrun_swap:
 //	gVars.gpEnvironment->displayAgent();
 
 // Display the status bar
-	pctrStatus->Display();
+	_pctrStatus->Display();
 
 // Display the current container
 	pctr->Display();
@@ -528,9 +524,9 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			_bStatusVisible = !_bStatusVisible;
 			gVars.gpRenderer->ToggleCompass();
 			if (_bStatusVisible)
-				pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+				_pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 			else
-				pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
+				_pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
 			break;
 		case SDLK_o:	// toggle projection mode
 			gVars.gpRenderer->ToggleProjection();
@@ -696,7 +692,7 @@ City::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 	}
 	else {
 		pctr->MouseMotion( rcEvent );
-		pctrStatus->MouseMotion( rcEvent );
+		_pctrStatus->MouseMotion( rcEvent );
 	}
 }
 
@@ -718,8 +714,8 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 	}
 
 // Process the mouse click on the status bar
-	pctrStatus->MouseButton( rcsMBE );
-	if ( pctrStatus->GetClick() != 0 ) {
+	_pctrStatus->MouseButton( rcsMBE );
+	if ( _pctrStatus->GetClick() != 0 ) {
 		_HandleStatusClick();
 		_bLMBPressed = false;
 		return;
@@ -843,7 +839,7 @@ City::Expose( const SDL_ExposeEvent& rcEvent )
 
 	gVars.gpRenderer->Display( gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
 	pctr->Expose( rcEvent );
-	pctrStatus->Expose( rcEvent );
+	_pctrStatus->Expose( rcEvent );
 	if (_pctrMenu != NULL) {
 		_pctrMenu->Expose( rcEvent );
 	}
@@ -863,8 +859,8 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 	gVars.gpRenderer->SetWinSize( _iWinWidth, _iWinHeight );
 
 // Resize the main status bar and reposition it
-	pctrStatus->Resize( rcEvent );
-	pctrStatus->SetLocation( (_iWinWidth-512)/2, 0 );
+	_pctrStatus->Resize( rcEvent );
+	_pctrStatus->SetLocation( (_iWinWidth-512)/2, 0 );
 
 // tell the containers about the event
 	pctrMain->Resize( rcEvent );
@@ -1018,55 +1014,55 @@ City::_CreateGUI()
 		= new GUIButton( 85, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/unknown" ));
 
 // The status bar
-	pbtnPause = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_pause" ));
-	pbtnPlay  = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_play" ));
-	pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
+	_pbtnPause = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_pause" ));
+	_pbtnPlay  = new GUIButton( 54, 4, 24, 24, ocHomeDirPrefix( "graphism/gui/status/speed_play" ));
+	_pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
 
 	ossTemp << _liCityFund;
-	plblFund = new GUILabel( 125, 11, 80, 10, ossTemp.str() );
-	plblFund->SetAlign( GUILabel::OC_ALIGN_RIGHT );
-	plblFund->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
+	_plblFund = new GUILabel( 125, 11, 80, 10, ossTemp.str() );
+	_plblFund->SetAlign( GUILabel::OC_ALIGN_RIGHT );
+	_plblFund->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
 	ossTemp.str("");
 	ossTemp << _uiPopulation;
-	plblPopulation = new GUILabel( 240, 11, 80, 10, ossTemp.str() );
-	plblPopulation->SetAlign( GUILabel::OC_ALIGN_RIGHT );
-	plblPopulation->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
+	_plblPopulation = new GUILabel( 240, 11, 80, 10, ossTemp.str() );
+	_plblPopulation->SetAlign( GUILabel::OC_ALIGN_RIGHT );
+	_plblPopulation->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
 	ossTemp.str("");
 	ossTemp << _uiDay << "/" << _uiMonth << "/" << _uiYear;
-	plblDate = new GUILabel( 348, 11, 80, 10, ossTemp.str() );
-	plblDate->SetAlign( GUILabel::OC_ALIGN_CENTER );
-	plblDate->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
+	_plblDate = new GUILabel( 348, 11, 80, 10, ossTemp.str() );
+	_plblDate->SetAlign( GUILabel::OC_ALIGN_CENTER );
+	_plblDate->SetForeground( OPENCITY_PALETTE[Color::OC_WHITE] );
 
-	pbarResidence = new GUIBar( 5, 5, 7, 53 );
-	pbarResidence->SetForeground( OPENCITY_PALETTE[Color::OC_GREEN] );
+	_pbarResidence = new GUIBar( 5, 5, 7, 53 );
+	_pbarResidence->SetForeground( OPENCITY_PALETTE[Color::OC_GREEN] );
 
-	pbarCommerce = new GUIBar( 18, 5, 7, 53 );
-	pbarCommerce->SetForeground( OPENCITY_PALETTE[Color::OC_BLUE] );
+	_pbarCommerce = new GUIBar( 18, 5, 7, 53 );
+	_pbarCommerce->SetForeground( OPENCITY_PALETTE[Color::OC_BLUE] );
 
-	pbarIndustry = new GUIBar( 29, 5, 7, 53 );
-	pbarIndustry->SetForeground( OPENCITY_PALETTE[Color::OC_YELLOW] );
+	_pbarIndustry = new GUIBar( 29, 5, 7, 53 );
+	_pbarIndustry->SetForeground( OPENCITY_PALETTE[Color::OC_YELLOW] );
 
-	pbarPower = new GUIBar( 42, 5, 7, 53 );
-	pbarPower->SetForeground( OPENCITY_PALETTE[Color::OC_PINK] );
+	_pbarPower = new GUIBar( 42, 5, 7, 53 );
+	_pbarPower->SetForeground( OPENCITY_PALETTE[Color::OC_PINK] );
 
-	pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ) );
-	pctrStatus->Add( pbtnPause );
-	pctrStatus->Add( pbtnPlay );
-	pctrStatus->Add( plblFund );
-	pctrStatus->Add( plblPopulation );
-	pctrStatus->Add( plblDate );
-	pctrStatus->Add( pbarResidence );
-	pctrStatus->Add( pbarCommerce );
-	pctrStatus->Add( pbarIndustry );
-	pctrStatus->Add( pbarPower );
-	pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+	_pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocHomeDirPrefix( "graphism/gui/main_status_bar.png" ) );
+	_pctrStatus->Add( _pbtnPause );
+	_pctrStatus->Add( _pbtnPlay );
+	_pctrStatus->Add( _plblFund );
+	_pctrStatus->Add( _plblPopulation );
+	_pctrStatus->Add( _plblDate );
+	_pctrStatus->Add( _pbarResidence );
+	_pctrStatus->Add( _pbarCommerce );
+	_pctrStatus->Add( _pbarIndustry );
+	_pctrStatus->Add( _pbarPower );
+	_pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 
 // The status bar buttons
 	for (int i = 0; i < OC_TOOL_NUMBER; i++) {
 		_apbtnCurrentTool[i]->Unset( OC_GUIMAIN_VISIBLE );
-		pctrStatus->Add( _apbtnCurrentTool[i] );
+		_pctrStatus->Add( _apbtnCurrentTool[i] );
 	}
 	_apbtnCurrentTool[OC_TOOL_NONE]->Set( OC_GUIMAIN_VISIBLE );
 
@@ -1253,16 +1249,16 @@ City::_DeleteGUI()
 	delete pbtnG;
 
 // Delete the status bar
-	delete pctrStatus;
-	delete pbarPower;
-	delete pbarIndustry;
-	delete pbarCommerce;
-	delete pbarResidence;
-	delete plblFund;
-	delete plblPopulation;
-	delete plblDate;
-	delete pbtnPlay;
-	delete pbtnPause;
+	delete _pctrStatus;
+	delete _pbarPower;
+	delete _pbarIndustry;
+	delete _pbarCommerce;
+	delete _pbarResidence;
+	delete _plblFund;
+	delete _plblPopulation;
+	delete _plblDate;
+	delete _pbtnPlay;
+	delete _pbtnPause;
 
 // The status bar buttons
 	for (int i = 0; i < OC_TOOL_NUMBER; i++) {
@@ -1293,7 +1289,7 @@ City::_LoadMenu()
 // Hide the status bar and the compass
 	if (_bStatusVisible) {
 		gVars.gpRenderer->ToggleCompass();
-		pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
+		_pctrStatus->Unset( OC_GUIMAIN_VISIBLE );
 	}
 
 	_CenterMenu();
@@ -1343,7 +1339,7 @@ City::_UnloadMenu()
 // IF the status bar was visible THEN display it now
 	if (_bStatusVisible) {
 		gVars.gpRenderer->ToggleCompass();
-		pctrStatus->Set( OC_GUIMAIN_VISIBLE );
+		_pctrStatus->Set( OC_GUIMAIN_VISIBLE );
 	}
 }
 
@@ -1775,21 +1771,21 @@ City::_HandleMenuClick()
 void
 City::_HandleStatusClick()
 {
-	uint uiObject = this->pctrStatus->GetClick();
+	uint uiObject = _pctrStatus->GetClick();
 
 // WARNING: the GUI button displays the current speed
 	switch (uiObject) {
 		case 1:		// Pause button
 			OPENCITY_DEBUG( "Normal speed mode" );
-			pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
-			pbtnPlay->Set( OC_GUIMAIN_VISIBLE );
+			_pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
+			_pbtnPlay->Set( OC_GUIMAIN_VISIBLE );
 			_eSpeed = OC_SPEED_NORMAL;
 			_pMSim->Run();
 			break;
 		case 2:		// Play button
 			OPENCITY_DEBUG( "Pause mode" );
-			pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
-			pbtnPause->Set( OC_GUIMAIN_VISIBLE );
+			_pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
+			_pbtnPause->Set( OC_GUIMAIN_VISIBLE );
 			_eSpeed = OC_SPEED_PAUSE;
 			_pMSim->Stop();
 			break;
@@ -1800,7 +1796,7 @@ City::_HandleStatusClick()
 			break;
 	}
 
-	pctrStatus->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+	_pctrStatus->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 }
 
 
