@@ -137,8 +137,8 @@ private:
 	bool boolRandomMusic;
 
 	string strSoundList;
-	vector<string> vectorSoundFilename;
-	vector<Mix_Chunk*> vectorpSoundChunk;
+	vector<string> _vSoundFilename;
+	vector<Mix_Chunk*> _vpSoundChunk;
 	uint uiNumberSound;
 
 	string strMusicList;

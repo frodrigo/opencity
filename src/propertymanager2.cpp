@@ -97,6 +97,11 @@ PropertyManager2::PropertyManager2()
 		}
 
 	// Load the properties at the index i
+		if (_mapProperty.find(fileGraphism) != _mapProperty.end()) {
+			OPENCITY_DEBUG( "XML file already exists" );
+			continue;
+		}
+
 		_mapProperty[fileGraphism] = _LoadProperties( i, ocHomeDirPrefix(fileXml) );
 	}
 
@@ -111,9 +116,22 @@ PropertyManager2::~PropertyManager2()
 {
 	OPENCITY_DEBUG( "dtor" );
 
+// WARNING: we do not delete it->second since it breaks the map precondition
+	uint size = _mapProperty.size();
+	Property** apProperty = new Property*[size];
+
+// Copy the pointers from the map
+	uint i = 0;
 	std::map<string, Property*>::iterator it;
-	for (it = _mapProperty.begin(); it != _mapProperty.end(); ++it)
-		delete it->second;
+	for (it = _mapProperty.begin(); it != _mapProperty.end(); ++it, ++i) {
+		apProperty[i] = it->second;
+	}
+	_mapProperty.clear();
+
+// Delete the pointers
+	for (i = 0; i < size; i++)
+		delete apProperty[i];
+	delete [] apProperty;
 }
 
 

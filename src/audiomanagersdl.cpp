@@ -65,16 +65,15 @@ AudioManager::~AudioManager()
 	}
 
    // clear the sound filename list
-	this->vectorSoundFilename.clear();
+	_vSoundFilename.clear();
 	this->uiNumberSound = 0;
 
    // now free all chunks
-	uint uiVectorSize;
-	uiVectorSize = vectorpSoundChunk.size();
+	uint uiVectorSize = _vpSoundChunk.size();
 	for (uint i = 0; i < uiVectorSize; i++) {
-		Mix_FreeChunk( vectorpSoundChunk[i] );
+		Mix_FreeChunk( _vpSoundChunk[i] );
 	}
-	this->vectorpSoundChunk.clear();
+	_vpSoundChunk.clear();
 
   // quit the audio device
 	SDL_QuitSubSystem( SDL_INIT_AUDIO );
@@ -357,33 +356,25 @@ AudioManager::LoadSoundList(
 	this->strSoundList = csrFilename;
 
 // Now parse the list
-	if (ParseM3UList( 
-			csrFilename, this->vectorSoundFilename, this->uiNumberSound )
+	if (ParseM3UList(csrFilename, _vSoundFilename, this->uiNumberSound )
 	 == OC_ERR_SOMETHING) {
 	   // list parsing error
 		return OC_ERR_SOMETHING;
 	}
 
 // Free any old vector of sounds loaded
-	if (!this->vectorpSoundChunk.empty()) {
-		uint uiVectorSize = vectorpSoundChunk.size();
+	if (!_vpSoundChunk.empty()) {
+		uint uiVectorSize = _vpSoundChunk.size();
 		for (uint i = 0; i < uiVectorSize; i++) {
-			if (vectorpSoundChunk[i] != NULL) {
-				Mix_FreeChunk(vectorpSoundChunk[i]);
-			}
+			Mix_FreeChunk(_vpSoundChunk[i]);
 		} // for
-	   // free the vector itself
-		vectorpSoundChunk.clear();
+		_vpSoundChunk.clear();
 	} // if 
 
 // Then load all the new sounds
 	for (uint i = 0; i < this->uiNumberSound; i++) {
-	   // store all pointer's values even if that's NULL;
-//debug		cout << i << " : " << vectorSoundFilename[i] << endl;
-		vectorpSoundChunk.push_back( new (Mix_Chunk) );
-		vectorpSoundChunk[i] = Mix_LoadWAV(
-			(csrPrefix+this->vectorSoundFilename[i]).c_str());
-//debug		cout << i << " : " << vectorpSoundChunk[i] << endl;
+	// Store all pointer's values even if that's NULL;
+		_vpSoundChunk.push_back( Mix_LoadWAV((csrPrefix+_vSoundFilename[i]).c_str()) );
 	}
 
 // Even if some sound files don't exist
@@ -419,39 +410,37 @@ AudioManager::PlaySound(
 		OPENCITY_DEBUG( "Audio play sound error" );
 		return OC_ERR_SOMETHING;
 	}
-	else {
-		if (this->vectorpSoundChunk[ rcuiSoundIndex ] == NULL) {
-			OPENCITY_DEBUG( "Audio play sound error" );
-			return OC_ERR_SOMETHING;
-		}
-		else {
-		   // play the sound once
-			if (Mix_PlayChannel( enumChannel,
-				vectorpSoundChunk[ rcuiSoundIndex ], 0 ) == -1) {
-				return OC_ERR_SOMETHING;
-			}
-			else {
-			   // re-register effects for next use
-			switch ( enumChannel ) {
-			case AUDIO_LEFT_CHANNEL:
-				Mix_SetPanning( enumChannel, 254, 1 );
-				break;
-			case AUDIO_LEFT_HALF_CHANNEL:
-				Mix_SetPanning( enumChannel, 254, 127 );
-				break;
-			case AUDIO_RIGHT_CHANNEL:
-				Mix_SetPanning( enumChannel, 1, 254 );
-				break;
-			case AUDIO_RIGHT_HALF_CHANNEL:
-				Mix_SetPanning( enumChannel, 127, 254 );
-				break;
-			default:
-				break;
-			}
-			return OC_ERR_FREE;
-			}
-		}
-	} // if rcuiSoundIndex
+
+	if (_vpSoundChunk[ rcuiSoundIndex ] == NULL) {
+		OPENCITY_DEBUG( "The sound chunk is null" );
+		return OC_ERR_SOMETHING;
+	}
+
+	// play the sound once
+	if (Mix_PlayChannel( enumChannel, _vpSoundChunk[ rcuiSoundIndex ], 0 ) == -1) {
+		OPENCITY_DEBUG( "Could not play the sound" );
+		return OC_ERR_SOMETHING;
+	}
+
+	// re-register effects for next use
+	switch ( enumChannel ) {
+	case AUDIO_LEFT_CHANNEL:
+		Mix_SetPanning( enumChannel, 254, 1 );
+		break;
+	case AUDIO_LEFT_HALF_CHANNEL:
+		Mix_SetPanning( enumChannel, 254, 127 );
+		break;
+	case AUDIO_RIGHT_CHANNEL:
+		Mix_SetPanning( enumChannel, 1, 254 );
+		break;
+	case AUDIO_RIGHT_HALF_CHANNEL:
+		Mix_SetPanning( enumChannel, 127, 254 );
+		break;
+	default:
+		break;
+	}
+
+	return OC_ERR_FREE;
 }
 
 
