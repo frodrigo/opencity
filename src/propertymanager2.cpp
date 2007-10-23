@@ -116,22 +116,16 @@ PropertyManager2::~PropertyManager2()
 {
 	OPENCITY_DEBUG( "dtor" );
 
-// WARNING: we do not delete it->second since it breaks the map precondition
-	uint size = _mapProperty.size();
-	Property** apProperty = new Property*[size];
-
 // Copy the pointers from the map
-	uint i = 0;
-	std::map<string, Property*>::iterator it;
-	for (it = _mapProperty.begin(); it != _mapProperty.end(); ++it, ++i) {
-		apProperty[i] = it->second;
+	Property* pProperty = NULL;
+	std::map<string, Property*>::iterator curr, previous;
+	curr = _mapProperty.begin();
+	while (curr != _mapProperty.end()) {
+		previous = curr++;
+		pProperty = previous->second;
+		_mapProperty.erase(previous);
+		delete pProperty;
 	}
-	_mapProperty.clear();
-
-// Delete the pointers
-	for (i = 0; i < size; i++)
-		delete apProperty[i];
-	delete [] apProperty;
 }
 
 
