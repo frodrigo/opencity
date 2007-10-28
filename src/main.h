@@ -120,7 +120,9 @@ class UI;
 	\param s The path to be prefixed
 	\return The modified path
 */
-	string ocHomeDirPrefix( const string & s );
+	string ocHomeDirPrefix( const string& s );
+
+	string ocConfigDirPrefix( const string& s );
 
 
 //========================================================================
@@ -128,7 +130,7 @@ class UI;
 	\param s The path to be prefixed
 	\return The modified path
 */
-	string ocSaveDirPrefix( const string & s );
+	string ocSaveDirPrefix( const string& s );
 
 	string ocStrVersion();
 	long ocLongVersion();

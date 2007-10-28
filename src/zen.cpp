@@ -92,6 +92,7 @@ extern GlobalVar gVars;
 /// Static so that the others can not access this
 	static string sHomeDir		= "";
 	static string sSaveDir		= "";
+	static string sConfigDir	= "";
 
 
    /*=====================================================================*/
@@ -155,22 +156,26 @@ void ocSetNewUI( UI * pcNewUI)
 
 
    /*=====================================================================*/
-void formatHomeDir()
+string
+formatPath(const string& rcsPath)
 {
-    string::size_type pos;
+	string result = rcsPath;
 
-	if (sHomeDir.size() > 0) {
-    // Delete all quotes "
-	    while ( (pos = sHomeDir.find( '\"' )) != sHomeDir.npos ) {
-		    sHomeDir.erase( pos );
+	if (result.size() > 0) {
+	// Delete all quotes "
+		string::size_type pos;
+		while ( (pos = result.find( '\"' )) != result.npos ) {
+		    result.erase( pos );
 		}
-    // Append the "/" to HOMEDIR    
-		if (sHomeDir[ sHomeDir.size()-1 ] != '/')
-			sHomeDir += '/';
+	// Append the "/" to HOMEDIR
+		if (result[ result.size()-1 ] != '/')
+			result += '/';
 	}
 	else {
-		sHomeDir = "/";
+		result = "/";
 	}
+
+	return result;
 }
 
 
@@ -224,9 +229,9 @@ void parseArg(int argc, char *argv[])
 
 		switch (args.OptionId()) {
 		case OPT_HOMEDIR:
-			sHomeDir = args.OptionArg();
-			formatHomeDir();
-			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
+			sHomeDir = formatPath(args.OptionArg());
+			sConfigDir = sHomeDir;
+			cout << "<OPTION> HomeDir and ConfigDir are: \"" << sHomeDir << "\"" << endl;
 			break;
 
 		case OPT_HELP:
@@ -265,6 +270,17 @@ int serverMode()
 //	gVars.gpAudioMgr = new AudioManager();
 
 // Create the other required global managers
+	displayStatus( "Initializing the vibration detector..." );
+	gVars.gpMapMaker = new MapGen::MapMaker(
+		gVars.guiCityWidth, gVars.guiCityLength,
+		gVars.gsGeneratorHeightMap,
+		gVars.guiGeneratorMapType,
+		gVars.guiGeneratorWaterType,
+		gVars.guiGeneratorMapShapeType,
+		gVars.guiGeneratorTreeDensityType,
+		gVars.guiGeneratorSeed
+	);
+
 	displayStatus( "Activating embedded GPS...");
 	gVars.gpMapMgr = new Map( gVars.guiCityWidth, gVars.guiCityLength );
 
@@ -281,29 +297,30 @@ int serverMode()
 	gVars.gpMoveMgr = new MovementManager( gVars.gpGraphicMgr, gVars.gpMapMgr );
 
 
-// the pointer of our new city
+// Create a new city map
 	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength, false );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
 		return (-15);
 	}
-	else {
-		boolQuit = (gVars.gpNetworking->StartServer() == OC_NET_OK) ? false : true;
-		if (!boolQuit)
-			displayStatus( "Online world conquero activated");
-		else
-			displayStatus( "Online world conquero activation has failed" );
 
-		while (!boolQuit) {
-		// Run the city at the LAST_SPEED (default parameter)
-			cout << ".";
-			(void)gVars.gpNetworking->ProcessServerData();
-			ocProcessSDLEvents();
-			pNewCity->Run();
+// Start the server
+	boolQuit = (gVars.gpNetworking->StartServer() == OC_NET_OK) ? false : true;
+	if (!boolQuit)
+		displayStatus( "Online world conquero activated");
+	else
+		displayStatus( "Online world conquero activation has failed" );
 
-			cout.flush();
-			SDL_Delay( gVars.guiMsPerFrame );
-		}
+// The main loop
+	while (!boolQuit) {
+	// Run the city at the LAST_SPEED (default parameter)
+		cout << ".";
+		(void)gVars.gpNetworking->ProcessServerData();
+		ocProcessSDLEvents();
+		pNewCity->Run();
+
+		cout.flush();
+		SDL_Delay( gVars.guiMsPerFrame );
 	}
 
 // Stop the zen server and close the network connection
@@ -416,8 +433,13 @@ void detectProgramPath()
 			sHomeDir = pTemp;
 			sHomeDir += "/share/";
 			sHomeDir += PACKAGE;
+			sHomeDir = formatPath( sHomeDir );
+		// Construct the pkgsysconfdir from the prefix
+			sConfigDir = pTemp;
+			sConfigDir += "/etc/";
+			sConfigDir += PACKAGE;
+			sConfigDir = formatPath( sConfigDir );
 			free(pTemp);
-			formatHomeDir();
 		}
 	}
 
@@ -457,11 +479,11 @@ string readSettings()
 
 // Now try to open the config file then read it
 	OPENCITY_INFO(
-		"Reading XML config file: \"" << ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
+		"Reading XML config file: \"" << ocConfigDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
 	);
 
 // Load the settings file
-	string fn = ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME);
+	string fn = ocConfigDirPrefix(OC_CONFIG_FILE_FILENAME);
 	if (!settings.LoadFile(fn)) {
 		errorString = settings.ErrorDesc();
 		return errorString;
@@ -532,6 +554,13 @@ void initGlobalVar()
 	gVars.guiScreenHeight			= OC_WINDOW_HEIGHT;
 	gVars.guiVideoBpp				= OC_WINDOW_BPP_DEFAULT;
 
+	gVars.gsGeneratorHeightMap			= "";
+	gVars.guiGeneratorSeed				= time(NULL);
+	gVars.guiGeneratorMapType			= MapGen::MapMaker::PLAIN;
+	gVars.guiGeneratorWaterType			= MapGen::MapMaker::LAKE;
+	gVars.guiGeneratorMapShapeType		= MapGen::MapMaker::NONE;
+	gVars.guiGeneratorTreeDensityType	= MapGen::MapMaker::SPARSE;
+
 	gVars.gfMsSimDelayMax			= 0;
 	gVars.gsZenServer				= "localhost";
 
@@ -548,6 +577,7 @@ void initGlobalVar()
 	gVars.gpAudioMgr				= NULL;		// global Audio Manager
 	gVars.gpGraphicMgr				= NULL;		// global Graphic Manager
 	gVars.gpPropertyMgr				= NULL;		// global Property Manager
+	gVars.gpMapMaker				= NULL;		// global map maker
 	gVars.gpMapMgr					= NULL;		// global height Map Manager
 	gVars.gpNetworking				= NULL;		// global networking support class
 	gVars.gpPathFinder				= NULL;		// global pathfinder class
@@ -613,7 +643,7 @@ int main(int argc, char *argv[])
    /*                       GLOBAL       FUNCTIONS                        */
    /*=====================================================================*/
 string
-ocHomeDirPrefix( const string & s )
+ocHomeDirPrefix( const string& s )
 {
 	return sHomeDir + s;
 }
@@ -621,7 +651,15 @@ ocHomeDirPrefix( const string & s )
 
    /*=====================================================================*/
 string
-ocSaveDirPrefix( const string & s )
+ocConfigDirPrefix( const string& s )
+{
+	return sConfigDir + s;
+}
+
+
+   /*=====================================================================*/
+string
+ocSaveDirPrefix( const string& s )
 {
 	return sSaveDir + s;
 }

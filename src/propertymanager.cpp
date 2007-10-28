@@ -45,40 +45,39 @@ vpConf(OC_GRAPHIC_CODE_MAX, NULL)
 
 // read the main config file
 	Conf* pConf = new Conf();
-	if (pConf->Open( ocHomeDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) == OC_ERR_FREE) {
-	// initialize the Conf* vector
-		for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
-			ss << i;
-//debugcout << "Mub: " << ss.str() << " / i: " << i << endl;
-			str = pConf->GetValue(ss.str(), "");
-			ss.str("");
-
-		// IF the key is not defined in the config file THEN
-			if (str != "") {
-			// Reverse search for the ".ac" file extension
-				pos = str.rfind( strAc );
-				if (pos != str.npos ) {
-				// Replace ".ac" by ".conf"
-					str.replace( pos, strConf.size(), strConf );
-				}
-
-				pconfFile = new Conf();
-				if (pconfFile->Open( ocHomeDirPrefix(str) ) == OC_ERR_FREE) {
-//debug cout << "Loading: " << str.c_str() << " / at: " << i << endl;
-					this->vpConf[i] = pconfFile;
-				}
-				else {
-					delete pconfFile;
-				}
-			} // if (str=="")
-		} // for
-
-		pConf->Close();
-	}
-	else {
+	if (pConf->Open( ocConfigDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) != OC_ERR_FREE) {
 		cerr << "WARNING: Error opening graphism config file." << endl;
+		delete pConf;
+		pConf = NULL;
 		abort();
 	}
+
+// initialize the Conf* vector
+	for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
+		ss << i;
+		str = pConf->GetValue(ss.str(), "");
+		ss.str("");
+
+	// IF the key is not defined in the config file THEN
+		if (str != "") {
+		// Reverse search for the ".ac" file extension
+			pos = str.rfind( strAc );
+			if (pos != str.npos ) {
+			// Replace ".ac" by ".conf"
+				str.replace( pos, strConf.size(), strConf );
+			}
+
+			pconfFile = new Conf();
+			if (pconfFile->Open( ocHomeDirPrefix(str) ) == OC_ERR_FREE) {
+				this->vpConf[i] = pconfFile;
+			}
+			else {
+				delete pconfFile;
+			}
+		} // if (str=="")
+	} // for
+
+	pConf->Close();
 	delete pConf;
 }
 

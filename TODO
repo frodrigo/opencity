@@ -59,8 +59,30 @@ XML metadata migration                (wip)
 
 Review the licensing                  (done)
 Variable name clean up                (done)
-LBS/FHS layout
+LBS/FHS layout                        (done)
 
+
+
+==============================================================================
+Planed for future version
+-------------------------
+Subdivide map for better performance  (0.0.3 +)
+Settings GUI                          (0.0.3 +)
+Help system
+Internationalization
+Zone density
+Sea-port
+Air-port
+Gas
+Highway
+Subway
+Arcologies
+Land-mark
+Shanties
+Rendering plugins:
+        Snow, rain, fall, night
+Event plugin:
+        French attitude ...
 
 Water layer
 Water pipe
@@ -88,29 +110,6 @@ Fix city size settings bug
 Add the simulator accelerator key
 Make the simulator CPU independant
 Texture lighting
-
-
-
-==============================================================================
-Planed for future version
--------------------------
-Subdivide map for better performance  (0.0.3 +)
-Settings GUI                          (0.0.3 +)
-Help system
-Internationalization
-Zone density
-Sea-port
-Air-port
-Gas
-Highway
-Subway
-Arcologies
-Land-mark
-Shanties
-Rendering plugins:
-        Snow, rain, fall, night
-Event plugin:
-        French attitude ...
 
 
 

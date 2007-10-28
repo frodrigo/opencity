@@ -443,7 +443,13 @@ int main( int argc, char **argv )
 }
 
 
-string ocHomeDirPrefix( const string & s )
+string ocHomeDirPrefix( const string& s )
+{
+	return s;
+}
+
+
+string ocConfigDirPrefix( const string& s )
 {
 	return s;
 }

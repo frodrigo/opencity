@@ -184,7 +184,8 @@ dnl ===========================================================================
 dnl Output makefiles
 dnl ===========================================================================
 
-
+AC_CONFIG_FILES([config/Makefile])
+AC_CONFIG_FILES([docs/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/binreloc/Makefile])
 AC_CONFIG_FILES([src/enum/Makefile])
@@ -203,13 +204,14 @@ AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT
 
+echo "========================================================================"
+echo "    Configure has finished."
+echo "    To install OpenCity, do 'make && make install'"
+echo "    To remove OpenCity, do 'make uninstall'"
 echo
-echo "Configure finished."
-echo "To install OpenCity, do 'make && make install'"
-echo "To remove OpenCity, do 'make uninstall'"
-echo
-echo "Or to run OpenCity from here without installation, do 'make && src/opencity --homedir `pwd`/'"
-echo
+echo "    Or to run OpenCity from here without installation, do: "
+echo "        'make && src/opencity --homedir `pwd`/'"
+echo "========================================================================"
 
 
 

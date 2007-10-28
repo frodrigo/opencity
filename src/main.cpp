@@ -110,7 +110,7 @@ extern GlobalVar gVars;
 	#define OC_SDL_FULLSCREEN_ERROR		-24
 
 // Settings file
-	#define OC_CONFIG_FILE_FILENAME	"config/opencity.xml"
+	#define OC_CONFIG_FILE_FILENAME		"config/opencity.xml"
 
 // Others macros
 	#define OC_WINDOW_NAME PACKAGE VERSION
@@ -131,9 +131,10 @@ extern GlobalVar gVars;
 /// Flags we will pass into SDL_SetVideoMode.
 	static int flags			= 0;
 
-/// Static so that the others can not access this
+/// The paths are static so that the others can not access this
 	static string sHomeDir		= "";
 	static string sSaveDir		= "";
+	static string sConfigDir	= "";
 
 
    /*=====================================================================*/
@@ -403,22 +404,26 @@ int initSDL()
 
 
    /*=====================================================================*/
-void formatHomeDir()
+string
+formatPath(const string& rcsPath)
 {
-    string::size_type pos;
+	string result = rcsPath;
 
-	if (sHomeDir.size() > 0) {
-    // Delete all quotes "
-	    while ( (pos = sHomeDir.find( '\"' )) != sHomeDir.npos ) {
-		    sHomeDir.erase( pos );
+	if (result.size() > 0) {
+	// Delete all quotes "
+		string::size_type pos;
+		while ( (pos = result.find( '\"' )) != result.npos ) {
+		    result.erase( pos );
 		}
-    // Append the "/" to HOMEDIR    
-		if (sHomeDir[ sHomeDir.size()-1 ] != '/')
-			sHomeDir += '/';
+	// Append the "/" to HOMEDIR
+		if (result[ result.size()-1 ] != '/')
+			result += '/';
 	}
 	else {
-		sHomeDir = "/";
+		result = "/";
 	}
+
+	return result;
 }
 
 
@@ -514,9 +519,9 @@ void parseArg(int argc, char *argv[])
 			break;
 
 		case OPT_HOMEDIR:
-			sHomeDir = args.OptionArg();
-			formatHomeDir();
-			cout << "<OPTION> HomeDir is: \"" << sHomeDir << "\"" << endl;
+			sHomeDir = formatPath(args.OptionArg());
+			sConfigDir = sHomeDir;
+			cout << "<OPTION> HomeDir and ConfigDir are: \"" << sHomeDir << "\"" << endl;
 			break;
 
 		case OPT_GENERATOR_HEIGHT_MAP:
@@ -903,8 +908,13 @@ void detectProgramPath()
 			sHomeDir = pTemp;
 			sHomeDir += "/share/";
 			sHomeDir += PACKAGE;
+			sHomeDir = formatPath( sHomeDir );
+		// Construct the pkgsysconfdir from the prefix
+			sConfigDir = pTemp;
+			sConfigDir += "/etc/";
+			sConfigDir += PACKAGE;
+			sConfigDir = formatPath( sConfigDir );
 			free(pTemp);
-			formatHomeDir();
 		}
 	}
 
@@ -944,11 +954,11 @@ string readSettings()
 
 // Now try to open the config file then read it
 	OPENCITY_INFO(
-		"Reading XML config file: \"" << ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
+		"Reading XML config file: \"" << ocConfigDirPrefix(OC_CONFIG_FILE_FILENAME) << "\""
 	);
 
 // Load the settings file
-	string fn = ocHomeDirPrefix(OC_CONFIG_FILE_FILENAME);
+	string fn = ocConfigDirPrefix(OC_CONFIG_FILE_FILENAME);
 	if (!settings.LoadFile(fn)) {
 		errorString = settings.ErrorDesc();
 		return errorString;
@@ -1148,7 +1158,7 @@ int main(int argc, char *argv[])
    /*                       GLOBAL       FUNCTIONS                        */
    /*=====================================================================*/
 string
-ocHomeDirPrefix( const string & s )
+ocHomeDirPrefix( const string& s )
 {
 	return sHomeDir + s;
 }
@@ -1156,7 +1166,15 @@ ocHomeDirPrefix( const string & s )
 
    /*=====================================================================*/
 string
-ocSaveDirPrefix( const string & s )
+ocConfigDirPrefix( const string& s )
+{
+	return sConfigDir + s;
+}
+
+
+   /*=====================================================================*/
+string
+ocSaveDirPrefix( const string& s )
 {
 	return sSaveDir + s;
 }

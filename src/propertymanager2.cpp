@@ -46,11 +46,11 @@ PropertyManager2::PropertyManager2()
 
 // Now try to open the config file then read it
 	OPENCITY_INFO(
-		"Reading XML metadata file: \"" << ocHomeDirPrefix(OC_METADATA_XML_FILE) << "\""
+		"Reading XML metadata file: \"" << ocConfigDirPrefix(OC_METADATA_XML_FILE) << "\""
 	);
 
 // Load the XML metadata file list
-	string fn = ocHomeDirPrefix(OC_METADATA_XML_FILE);
+	string fn = ocConfigDirPrefix(OC_METADATA_XML_FILE);
 	if (!fileList.LoadFile(fn) || fileList.Error()) {
 		OPENCITY_FATAL( fileList.ErrorDesc() );
 		abort();

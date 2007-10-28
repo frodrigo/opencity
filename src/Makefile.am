@@ -16,10 +16,17 @@ AM_CPPFLAGS = \
 
 
 #==============================================================================
-# The binary executables.
+# The main binary executable.
 # It's necessary to compile the other programs after the main binary.
 #==============================================================================
-bin_PROGRAMS = opencity oczen
+bin_PROGRAMS = opencity
+
+
+#==============================================================================
+# The OpenCity Zen server.
+# We compile it but we do not install it yet
+#==============================================================================
+noinst_PROGRAMS = oczen
 
 
 #==============================================================================

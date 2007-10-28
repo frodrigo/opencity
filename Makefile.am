@@ -1,40 +1,28 @@
 #==============================================================================
 # OpenCity's main automake file
 #==============================================================================
-
 SUBDIRS = \
-	src viewer
+	config docs src viewer
 
 
+#==============================================================================
+# EXTRA_DIST is used to package the files we need
+# See the install-data-local target for more information
+#==============================================================================
 EXTRA_DIST = \
-	graphism model sound texture COPYRIGHT
+	graphism model sound texture \
+	opencity.desktop opencity.png \
+	autopackage/opencity.apspec
 
 
+#==============================================================================
+# Icon and desktop file installation
+#==============================================================================
 desktopdir = $(datadir)/applications
 desktop_DATA = opencity.desktop
 
 pixmapdir = $(datadir)/pixmaps
 pixmap_DATA = opencity.png
-
-dist_pkgdata_DATA = \
-	opencity.desktop opencity.png
-
-nobase_dist_pkgdata_DATA = \
-	autopackage/opencity.apspec
-
-
-#==============================================================================
-# "config" directory
-#==============================================================================
-nobase_dist_pkgdata_DATA += \
-	config/graphism.conf config/opencity.xml config/graphism.xml
-
-
-#==============================================================================
-# "docs" directory
-#==============================================================================
-nobase_dist_pkgdata_DATA += \
-	docs/FAQ.txt docs/FAQ_it.txt docs/README_it.txt
 
 
 #==============================================================================
@@ -48,10 +36,6 @@ install-data-local:
 			cp -r $(srcdir)/$$data/* $(DESTDIR)$(pkgdatadir)/$$data/; \
 		fi; \
 	done;
-#	$(mkinstalldirs) $(DESTDIR)$(datadir)/pixmaps/;
-#	$(INSTALL_DATA) $(srcdir)/opencity.png $(DESTDIR)$(datadir)/pixmaps/;
-#	$(mkinstalldirs) $(DESTDIR)$(datadir)/applications/;
-#	$(INSTALL_DATA) $(srcdir)/opencity.desktop $(DESTDIR)$(datadir)/applications/;
 
 	@echo -e "\n\r";
 	@echo "========================================================================";
@@ -65,10 +49,15 @@ install-data-local:
 # Uninstall = Delete everything
 #==============================================================================
 uninstall-local:
-#	$(RM) -f $(DESTDIR)$(datadir)/pixmaps/opencity.png
-#	$(RM) -f $(DESTDIR)$(datadir)/applications/opencity.desktop
 	$(RM) -f $(DESTDIR)$(bindir)/opencity
 	$(RM) -rf $(DESTDIR)$(pkgdatadir)
+
+	@echo -e "\n\r";
+	@echo "========================================================================";
+	@echo "   OpenCity has been uninstalled successfully";
+	@echo "   Thank you for trying.";
+	@echo "========================================================================";
+	@echo -e "\n\r";
 
 
 #==============================================================================

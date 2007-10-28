@@ -44,6 +44,7 @@ _pclayer( NULL )
 	uint size = (width + 1) * (height + 1);
 	_btabSquareHeight = new OC_BYTE [ size ];
 
+	assert(gVars.gpMapMaker != NULL);
 	int* heightMap = gVars.gpMapMaker->getMap();
 	for (uint i = 0; i < size; i++)
 		_btabSquareHeight[i] = heightMap[i];

@@ -285,7 +285,11 @@ void City::Run()
 	}
 	uiNumberFrame = 0;
 
-// Update the screen information every 3 days
+// IF the GUI is not enabled THEN do not update it
+	if (!_bGUIEnabled)
+		return;
+
+// Update the GUI information every 3 days
 	if ( _uiDay%3 == 0 ) {
 		uint initialValue = 0;
 

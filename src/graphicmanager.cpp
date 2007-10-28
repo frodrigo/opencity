@@ -56,7 +56,7 @@ _uiDisplayListMask( OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_L
 
 // Try to open the graphism config file
 	Conf* pConf = new Conf();
-	if (pConf->Open( ocHomeDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) != OC_ERR_FREE) {
+	if (pConf->Open( ocConfigDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) != OC_ERR_FREE) {
 		OPENCITY_FATAL( "Failed to open the graphism config file" );
 		delete pConf;
 		abort();
