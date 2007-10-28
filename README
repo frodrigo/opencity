@@ -13,10 +13,10 @@ Audience:
 		INSTALL file.
 
 Description:
-	This is just another city simulation. The idea is simple: you have
-to build a city with 3 types of "zones" Residential, Commercial and
-Industrial. They depend on each other during their development.
-Try to give them what they need and watch your city growing up.
+	This is just another city simulation. The idea is simple: you have to
+build a city with 3 types of "zones" Residential, Commercial and Industrial.
+They depend on each other during their development. Try to give them what
+they need and watch your city growing up.
 
 
 ------------------------------------------------------------------------------
@@ -65,10 +65,16 @@ Libraries:
 ------------------------------------------------------------------------------
 Linux autopackage release's notes:
 ------------------------------------------------------------------------------
-	Have you just downloaded the "something.package" stuff ? Install OpenCity
-by running it from the console or in a file browser like Konqueror. OpenCity
+	Have you just downloaded the "opencity-x.y.zsomething.package" stuff ?
+Give it the run permission by issuing the correct "chmod" command (refer to
+your Linux distribution for more information about the "chmod" command)
+
+	Now run it from the console or in a file browser like Konqueror. OpenCity
 will be installed on your computer, and an icon will be created inside the
 "Game" group.
+
+	After installation, you can launch OpenCity by clicking on its icon or
+typing "opencity" in your favorite console.
 
 
 ------------------------------------------------------------------------------
@@ -96,18 +102,18 @@ Hotkey:
 		u / d: raise / lower cells tool
 
 Navigation:
-		up / down / left / right: translate the map
+		up / down / left / right: move the map
 		pageup / pagedown: rotate the map
 		insert / delete: zoom in/out
 		alt: multiply the effects of the buttons above by 10
 	
 		h: as Home
-		escape: quit immediately
+		escape: toggle the main menu
 
 Option:
 		b: Toggle building display on/off
 		g: Toggle grid display on/off
-		k: Toggle compass display on/off
+		k: Toggle the main status bar display on/off
 		f: Toggle wire frame mode display on/off
 		o: Toggle perspective/orthogonal projection
 		t: Toggle terrain display on/off
@@ -125,7 +131,7 @@ Experimental:
 Undocumented features, try it at your own risks:
 		a: various test codes menu
 		v: MAS test menu
-		z: connect to local ZeN server
+		z: connect to the local ZeN server
 
 
 ------------------------------------------------------------------------------
@@ -153,12 +159,11 @@ off (key 'm').
 ------------------------------------------------------------------------------
 Mouse action
 ------------------------------------------------------------------------------
-	From OpenCity 0.0.2, whenever you click the RMB (Right Mouse Button),
-you will open the last toolcircle. Click RMB again to hide the opened
-toolcircle. I try to make everything simple and handy. But sometimes you
-still need your keyboard.
+	In OpenCity, whenever you click the RMB (Right Mouse Button), you will
+open the toolcircle. Click RMB again to hide the toolcircle. I try to make
+everything simple and handy. But sometimes you still need your keyboard.
 
-	OpenCity now understand the mouse's wheel ! Push the wheel forward
+	OpenCity also understands the mouse's wheel ! Push the wheel forward
 does a zoom in (as 'Insert' key) and roll the wheel backward does a
 zoom out (as 'Delete' key).
 
@@ -168,7 +173,7 @@ translates the map along another axis.
 
 
 ------------------------------------------------------------------------------
-Main config file "opencity.conf"
+Main config file "opencity.xml"
 ------------------------------------------------------------------------------
 	See the in-line comments for more details.
 
@@ -176,32 +181,60 @@ Main config file "opencity.conf"
 ------------------------------------------------------------------------------
 Command-line options
 ------------------------------------------------------------------------------
-NOTE: command-line options overwrite config file's options.
+	In OpenCity, you can overwrite the config file's options with the
+command-line options. Few options are available in both short and long format.
 
-	--fullscreen:
+	-fs | --fullscreen
 	Enable fullscreen mode
 
-	--gl-version:
+	-glv | --gl-version
 	Show the informations of the current available OpenGL implementation
-on your machine
+on your machine then quit
 
-	--homedir newHomePath
+	-hd | --homedir newHomePath
 	Specify to new path to OpenCity's data. For example:
 		Under linux: --homedir /home/foo/bar/share/opencity/"
 		Under win32: --homedir "C:/Program Files/OpenCity/share"
 
-	--no-audio:
+	-na | --no-audio:
 	Disable the audio system
+
+	--generator-seed seed
+	The seed is the random integer seed used by the map generator
+
+	--generator-map MAP-TYPE
+		MAP-TYPE         : 0=plain (default), 1=hill, 2=mountain
+
+	--generator-water WATER-TYPE
+		WATER-TYPE       : 0=dry, 1=lake (default), 2=coast
+
+	--generator-map-shape MAP-SHAPE-TYPE
+		MAP-SHAPE-TYPE   : 0=none (default), 1=island, 2=volcano, 3=crater
+
+	--generator-tree-density TREE-DENSITY-TYPE
+		TREE-DENSITY-TYPE: 0=sparse (default), 1=normal, 2=dense
+
+	--generator-height-map heightMapPicture
+	Load a gray-level picture as height map (PNG). The water level is gray
+level 128, each map level is one gray level. That's why the whole picture seems
+to be in a medium gray, because there's only a minor difference between the
+pixels. You can draw yourself the height-map or generate from any map sources.
+The interesting data for this work are the DEM satellite data. The map
+generator in OpenCity will crop the picture if it's too big.
 
 
 ------------------------------------------------------------------------------
 Save/Load issues
 ------------------------------------------------------------------------------
 	The following directory is used for save/load
-		GNU/Linux:
+
+		* GNU/Linux:
 			$HOME/.OpenCity/
-		Windows:
+
+		* Windows:
 			C:\Documents and Settings\username\Application Data\OpenCity\
+			If you are running a localized version of Windows, the above
+		path may be different
 
 
 ------------------------------------------------------------------------------
