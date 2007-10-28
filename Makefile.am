@@ -54,8 +54,8 @@ uninstall-local:
 
 	@echo -e "\n\r";
 	@echo "========================================================================";
-	@echo "   OpenCity has been uninstalled successfully";
-	@echo "   Thank you for trying.";
+	@echo "             OpenCity has been uninstalled successfully                 ";
+	@echo "                       Thank you for trying.                            ";
 	@echo "========================================================================";
 	@echo -e "\n\r";
 

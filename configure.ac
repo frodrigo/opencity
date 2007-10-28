@@ -210,7 +210,7 @@ echo "    To install OpenCity, do 'make && make install'"
 echo "    To remove OpenCity, do 'make uninstall'"
 echo
 echo "    Or to run OpenCity from here without installation, do: "
-echo "        'make && src/opencity --homedir `pwd`/'"
+echo "    'make && src/opencity --homedir /full/path/to/opencity'"
 echo "========================================================================"
 
 

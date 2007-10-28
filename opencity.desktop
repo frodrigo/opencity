@@ -7,6 +7,6 @@ Categories=Game;StrategyGame;
 Exec=opencity
 GenericName=City simulator
 GenericName[fr]=Simulateur de ville
-Icon=opencity
+Icon=opencity.png
 Terminal=false
 Type=Application
