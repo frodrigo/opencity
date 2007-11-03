@@ -369,16 +369,18 @@ int main( int argc, char **argv )
 							case SDLK_DOWN:
 								xrot += 15;
 								break;
+							case SDLK_PAGEUP:
 							case SDLK_LEFT:
 								yrot -= 15;
 								break;
+							case SDLK_PAGEDOWN:
 							case SDLK_RIGHT:
 								yrot += 15;
 								break;
-							case SDLK_PAGEUP:
+							case SDLK_INSERT:
 								zoom -= 1;
 								break;
-							case SDLK_PAGEDOWN:
+							case SDLK_DELETE:
 								zoom += 1;
 								break;
 							case SDLK_l:
