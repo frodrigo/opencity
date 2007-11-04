@@ -531,20 +531,16 @@ Texture::_ResolveRelativePath(const string& rcsPath)
 // Search for "/../"
 	string::size_type start, end = 0;
 	while ((end = output.find("/../")) != output.npos) {
+		if (end <= 0)
+			break;
+
 	// Search for the first "/" before "/../"
-		if (end > 0)
-			start = output.rfind("/", end-1);
-		else
-			break;
-
+		start = output.rfind("/", end-1);
 		if (start == output.npos)
-			start = 0;
-
-	// Resolve the relative path if necessary
-		if (start < end)
-			output.erase(start, end+3-start);
-		else
 			break;
+
+	// Resolve the relative path
+		output.erase(start, end+3-start);
 	}
 
 	return output;
