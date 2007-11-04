@@ -193,7 +193,7 @@ on your machine then quit
 
 	-hd | --homedir newHomePath
 	Specify to new path to OpenCity's data. For example:
-		Under linux: --homedir /home/foo/bar/share/opencity/"
+		Under linux: --homedir /home/foo/bar/share/opencity/
 		Under win32: --homedir "C:/Program Files/OpenCity/share"
 
 	-na | --no-audio:

@@ -1135,8 +1135,8 @@ int main(int argc, char *argv[])
 	}
 
 // Test XPath
-	PropertyManager2* pPropertyMgr = new PropertyManager2();
-	delete pPropertyMgr;
+//	PropertyManager2* pPropertyMgr = new PropertyManager2();
+//	delete pPropertyMgr;
 //	abort();
 
 

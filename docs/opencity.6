@@ -1,0 +1,80 @@
+.TH "OpenCity" "6" "October 4th, 2007" "The 3D city simulator game" "The 3D city simulator game"
+.SH "NAME"
+opencity \(em a 3D city simulator game
+.SH "SYNOPSIS"
+.PP
+\fBopencity\fR [\-fs | \-\-fullscreen] [\-glv | \-\-gl\-version] [\-hd | \-\-homedir newHomePath] [\-na | \-\-no\-audio] [\-\-generator\-height\-map heightMapPicture | (\-\-generator\-seed seed [\-\-generator\-map MAP\-TYPE] [\-\-generator\-water WATER\-TYPE] [\-\-generator\-map\-shape MAP\-SHAPE\-TYPE] [\-\-generator\-tree\-density TREE\-DENSITY\-TYPE])] 
+.PP
+.SH "DESCRIPTION"
+.PP
+This manual page documents \fBopencity\fR command.
+.PP
+.SH "OPTIONS"
+.PP
+.IP "          \fB\-fs | \-\-fullscreen\fP         " 10
+Enable fullscreen mode
+.IP "          \fB\-glv | \-\-gl\-version\fP         " 10
+Show the informations of the current available OpenGL implementation on your machine then quit
+.IP "          \fB\-hd | \-\-homedir newHomePath\fP         " 10
+Specify to new path to OpenCity's data. For example: \-\-homedir /home/foo/bar/share/opencity/
+.IP "          \fB\-na | \-\-no\-audio\fP         " 10
+Disable the audio system 
+.IP "          \fB\-\-generator\-height\-map heightMapPicture\fP         " 10
+Load a gray\-level picture as height map (PNG). The water level is gray level 128, each map level is one gray level. That's why the whole picture seems to be in a medium gray, because there's only a minor difference between the pixels. You can draw yourself the height\-map or generate from any map sources. The interesting data for this work are the DEM satellite data. The map generator in OpenCity will crop the picture if it's too big.
+.IP "          \fB\-\-generator\-seed seed\fP         " 10
+The seed is the random integer seed used by the map generator
+.IP "          \fB\-\-generator\-map MAP\-TYPE\fP         " 10
+MAP\-TYPE: 0=plain (default), 1=hill, 2=mountain 
+.IP "          \fB\-\-generator\-water WATER\-TYPE\fP         " 10
+WATER\-TYPE: 0=dry, 1=lake (default), 2=coast 
+.IP "          \fB\-\-generator\-map\-shape MAP\-SHAPE\-TYPE\fP         " 10
+MAP\-SHAPE\-TYPE: 0=none (default), 1=island, 2=volcano, 3=crater 
+.IP "          \fB\-\-generator\-tree\-density TREE\-DENSITY\-TYPE\fP         " 10
+TREE\-DENSITY\-TYPE: 0=sparse (default), 1=normal, 2=dense 
+.SH "KEYBOARD CONTROL"
+.PP
+Hotkey:
+        n: "Blank" tool
+        r: Zone Residential tool
+        c: Zone Commercial tool
+        i: Zone Industrial tool
+        p: Lay Paths tool
+        l: Lay electric Lines tool
+        x: Destroy tool
+        q: Query tool
+        e: Build a coal power plant
+        ctrl: cancel the zoning tool action
+
+        u / d: raise / lower cells tool
+
+Navigation:
+        up / down / left / right: move the map
+        pageup / pagedown: rotate the map
+        insert / delete: zoom in/out
+        alt: multiply the effects of the buttons above by 10
+
+        h: as Home
+        escape: toggle the main menu
+
+Option:
+        b: Toggle building display on/off
+        g: Toggle grid display on/off
+        k: Toggle the main status bar display on/off
+        f: Toggle wire frame mode display on/off
+        o: Toggle perspective/orthogonal projection
+        t: Toggle terrain display on/off
+        w: Toggle water display on/off
+
+Sound & music:
+        z / b: play previous / next music
+        m: music on / off
+        s: sound on / off
+
+Experimental:
+        F2: Save
+        F6: Load
+.PP
+.SH ""
+.SH "AUTHORS"
+.PP
+This manual page was written by OpenCity team. It is distributed under same license as OpenCity application. See the AUTHORS file for the full list of other contributors.
