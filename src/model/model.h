@@ -23,8 +23,8 @@
 #include "main.h"
 
 // The constants used to select the display list
-#define OC_OPAQUE_ONESIZE_LIST		0x01
-#define OC_OPAQUE_TWOSIZE_LIST		0x02
+#define OC_OPAQUE_ONESIDE_LIST		0x01
+#define OC_OPAQUE_TWOSIDE_LIST		0x02
 #define OC_ALPHA_LIST				0x04
 
 

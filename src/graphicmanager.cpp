@@ -44,7 +44,7 @@ static GLfloat red, green, blue;
 
    /*======================================================================*/
 GraphicManager::GraphicManager():
-_uiDisplayListMask( OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_LIST )
+_uiDisplayListMask( OC_OPAQUE_ONESIDE_LIST | OC_OPAQUE_TWOSIDE_LIST | OC_ALPHA_LIST )
 {
 	OPENCITY_DEBUG( "GraphicManager ctor" );
 
@@ -487,13 +487,13 @@ GraphicManager::SetLOD( const uint lod )
 {
 	switch (lod) {
 		case OC_LOD_HIGH:
-			_uiDisplayListMask = OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST | OC_ALPHA_LIST;
+			_uiDisplayListMask = OC_OPAQUE_ONESIDE_LIST | OC_OPAQUE_TWOSIDE_LIST | OC_ALPHA_LIST;
 			break;
 		case OC_LOD_MEDIUM:
-			_uiDisplayListMask = OC_OPAQUE_ONESIZE_LIST | OC_OPAQUE_TWOSIZE_LIST;
+			_uiDisplayListMask = OC_OPAQUE_ONESIDE_LIST | OC_OPAQUE_TWOSIDE_LIST;
 			break;
 		case OC_LOD_LOW:
-			_uiDisplayListMask = OC_OPAQUE_ONESIZE_LIST;
+			_uiDisplayListMask = OC_OPAQUE_ONESIDE_LIST;
 			break;
 		default:
 			break;

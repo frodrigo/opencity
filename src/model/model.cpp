@@ -388,9 +388,9 @@ Model::DisplayList(
 //	glMatrixMode( GL_MODELVIEW );		// default matrix mode
 	glPushMatrix();
 	glTranslatef( rcfW, tabY[0], rcfL );
-	if (dlMask & OC_OPAQUE_ONESIZE_LIST)
+	if (dlMask & OC_OPAQUE_ONESIDE_LIST)
 		glCallList( _uiOpaqueOneSide );
-	if (dlMask & OC_OPAQUE_TWOSIZE_LIST)
+	if (dlMask & OC_OPAQUE_TWOSIDE_LIST)
 		glCallList( _uiOpaqueTwoSide );
 	if (dlMask & OC_ALPHA_LIST and glIsList( _uiAlpha ))
 		glCallList( _uiAlpha );
