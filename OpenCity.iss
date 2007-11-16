@@ -6,8 +6,8 @@
 ; ------------------------------------------------------------------------------
 
 [Setup]
-AppName=OpenCity 0.0.5 beta
-AppVerName=OpenCity 0.0.5 beta
+AppName=OpenCity 0.0.6 beta
+AppVerName=OpenCity 0.0.6 beta
 AppPublisherURL=http://opencity.sourceforge.net
 AppCopyright=Copyright © 2006 Duong-Khang (neoneurone) NGUYEN
 DefaultDirName={pf}\OpenCity
@@ -16,11 +16,11 @@ DefaultGroupName=Open City
 Compression=lzma
 SolidCompression=yes
 LicenseFile=COPYING
-VersionInfoVersion=0.0.5
+VersionInfoVersion=0.0.6
 WindowVisible=Yes
 
 [Files]
-Source: "OpenCity-0.0.5beta.exe"; DestDir: "{app}\bin";
+Source: "OpenCity-0.0.6beta.exe"; DestDir: "{app}\bin";
 Source: "*.dll"; DestDir: "{app}\bin"
 Source: "config\*"; DestDir: "{app}\share\opencity\config"; Excludes: ".svn"
 Source: "docs\FAQ.txt"; DestDir: "{app}\share\opencity\docs";
@@ -31,7 +31,7 @@ Source: "texture\*"; DestDir: "{app}\share\opencity\texture"; Excludes: ".svn"
 Source: "README.txt"; DestDir: "{app}"; Flags: isreadme
 
 [Icons]
-Name: "{group}\OpenCity 0.0.5beta"; Filename: "{app}\bin\OpenCity-0.0.5beta.exe"; Parameters: "--homedir ""{app}\share\opencity"""; WorkingDir: "{app}\share\opencity"
+Name: "{group}\OpenCity 0.0.6beta"; Filename: "{app}\bin\OpenCity-0.0.6beta.exe"; Parameters: "--homedir ""{app}\share\opencity"""; WorkingDir: "{app}\share\opencity"
 Name: "{group}\FAQ"; Filename: "{app}\share\opencity\docs\FAQ.txt"
 Name: "{group}\ReadMe"; Filename: "{app}\README.txt";
 Name: "{group}\Uninstall"; Filename: "{uninstallexe}";

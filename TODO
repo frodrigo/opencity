@@ -1,8 +1,71 @@
 ==============================================================================
-OpenCity TODO version 0.0.5 BETA
+OpenCity TODO version 0.0.6 DEV
 --------------------------------------
 Last modified:
 	$Id$
+
+
+Save file version check
+Crime
+Review the message system
+Review the agent creation process
+Police agent system
+Mouse cursor support
+Unblocking networking layer
+ZeN online map loading
+XML parameters accessors
+Earthquake
+
+
+
+==============================================================================
+Planed for future version
+-------------------------
+Subdivide map for better performance  (0.0.3 +)
+Settings GUI                          (0.0.3 +)
+Help system
+Internationalization
+Zone density
+Sea-port
+Air-port
+Gas
+Highway
+Subway
+Arcologies
+Land-mark
+Shanties
+Rendering plugins:
+	Snow, rain, fall, night
+Event plugin:
+	French attitude ...
+
+Water layer
+Water pipe
+Water pump
+Water tower
+Water micro simulator
+Tree micro simulator
+Add new vehicle models
+Fix the orthogonal projection
+Fire
+Explosion
+Improve vehicle rendering
+Rail road
+Rail station
+Train models
+Crime
+Add online operation notification clock
+Fix city size settings bug
+Add the simulator accelerator key
+Make the simulator CPU independant
+Texture lighting
+
+
+
+==============================================================================
+OpenCity TODO version 0.0.5 BETA - STABLE
+-----------------------------------------
+Last updated nov 16th, 2007
 
 Remove -no-dl option                  (done)
 Fullscreen config variable support    (done)
@@ -61,56 +124,6 @@ Review the licensing                  (done)
 Variable name clean up                (done)
 LBS/FHS layout                        (done)
 Add the manual page                   (done)
-
-
-
-==============================================================================
-Planed for future version
--------------------------
-Subdivide map for better performance  (0.0.3 +)
-Settings GUI                          (0.0.3 +)
-Help system
-Internationalization
-Zone density
-Sea-port
-Air-port
-Gas
-Highway
-Subway
-Arcologies
-Land-mark
-Shanties
-Rendering plugins:
-        Snow, rain, fall, night
-Event plugin:
-        French attitude ...
-
-Water layer
-Water pipe
-Water pump
-Water tower
-Water micro simulator
-Tree micro simulator
-Add new vehicle models
-Fix the orthogonal projection
-Fire
-Explosion
-Nature micro simulator: earthquake
-Improve vehicle rendering
-Review the agent creation process
-Review the message system
-Rail road
-Rail station
-Train models
-Crime
-Police agent system
-Unblocking networking layer
-Add online operation notification clock
-ZeN online map loading
-Fix city size settings bug
-Add the simulator accelerator key
-Make the simulator CPU independant
-Texture lighting
 
 
 
@@ -189,9 +202,9 @@ HomeDir config variable               (done)
 One texture file per model            (done)
 
 Code cleaning up
-    mapGetSquareHeight2               (done)
-    debug message                     (done)
-    enumeration                       (done)
+	mapGetSquareHeight2               (done)
+	debug message                     (done)
+	enumeration                       (done)
 Update the UML design                 (done)
 Update the OpenCity design draft      (done)
 NURBS surface                         (held over)
@@ -266,7 +279,7 @@ Sound & Music support                 (done)
 Terraforming                          (done)
 Road                                  (done)
 Electricity:
-        Powerline, powerplant         (done)
+	Powerline, powerplant             (done)
 RCI simulator                         (done)
 WEG simulator (Electricity)           (done)
 -

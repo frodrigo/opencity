@@ -1,13 +1,13 @@
 [Project]
 FileName=OpenCity.dev
-Name=OpenCity-0.0.4beta
+Name=OpenCity-0.0.6beta
 UnitCount=130
 Type=1
 Ver=1
 ObjFiles=
 Includes=src;src\binreloc;src\mapgen;src\mapgen\filter;src\mapgen\generator;src\mas;src\model;src\networking;src\simulator;src\structure;src\triangulation;C:\DevCpp\include\SDL
 Libs=C:\DevCpp\lib\SDL
-PrivateResource=OpenCity-0.0.4beta_private.rc
+PrivateResource=OpenCity-0.0.6beta_private.rc
 ResourceIncludes=
 MakeIncludes=
 Compiler=
@@ -18,10 +18,10 @@ Icon=OpenCity.ico
 ExeOutput=
 ObjectOutput=
 OverrideOutput=1
-OverrideOutputName=OpenCity-0.0.4beta.exe
+OverrideOutputName=OpenCity-0.0.6beta.exe
 HostApplication=
 Folders=src,src/binreloc,src/mapgen,src/mapgen/filter,src/mapgen/generator,src/mas,src/model,src/networking,src/simulator,src/structure,src/triangulation
-CommandLine=--homedir D:\Travail\opencity-0.0.4beta
+CommandLine=--homedir D:\Travail\opencity-0.0.6beta
 UseCustomMakefile=0
 CustomMakefile=
 IncludeVersionInfo=1
@@ -1292,19 +1292,19 @@ BuildCmd=
 [VersionInfo]
 Major=0
 Minor=0
-Release=4
+Release=6
 Build=1
 LanguageID=1033
 CharsetID=1252
 CompanyName=
-FileVersion=0.0.4beta
+FileVersion=0.0.6beta
 FileDescription=Developed using the Dev-C++ IDE
 InternalName=Delphine
-LegalCopyright=2006 by Duong-Khang NGUYEN
+LegalCopyright=2007 by Duong-Khang NGUYEN
 LegalTrademarks=
 OriginalFilename=OpenCity.exe
 ProductName=OpenCity
-ProductVersion=0.0.4beta
+ProductVersion=0.0.6beta
 AutoIncBuildNr=0
 
 [Unit127]

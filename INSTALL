@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-INSTALL/COMPILE instructions for OpenCity 0.0.5beta
+INSTALL/COMPILE instructions for OpenCity
 ------------------------------------------------------------------------------
 Last modified:
 	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
@@ -23,7 +23,7 @@ First, if you've downloaded a opencity-x.y.z.tar.bz2 file you need to extract
 the sources by typing the following command at the prompt of your console:
 
 
-	tar xjf opencity-x.y.tar.bz2
+	tar xjf opencity-x.y.z.tar.bz2
 
 
 You do not need to perform this step if you  downloaded the sources from SVN.

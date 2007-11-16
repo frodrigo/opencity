@@ -9,7 +9,7 @@ Maintainer: Duong-Khang NGUYEN <neoneurone at users dot sf dot net>
 Packager: Duong-Khang NGUYEN <neoneurone at users dot sf dot net>
 URL: http://www.opencity.info
 License: GNU General Public License, Version 2
-SoftwareVersion: 0.0.5
+SoftwareVersion: 0.0.6
 AutopackageTarget: 1.0
 Compression: bzip2
 CPUArchitectures: x86
