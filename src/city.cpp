@@ -1071,7 +1071,7 @@ City::_CreateGUI()
 	_apbtnCurrentTool[OC_TOOL_NONE]->Set( OC_GUIMAIN_VISIBLE );
 
 // GUI main toolcircle
-	pbtnZ = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/residential" ));
+	pbtnZ = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/zone" ));
 	pbtnS = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/save" ));
 	pbtnL = new GUIButton( 19, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/power" ));
 	pbtnP = new GUIButton( 55, 13, 30, 30, ocHomeDirPrefix( "graphism/gui/road" ));
@@ -1147,7 +1147,7 @@ City::_CreateGUI()
 
 // Create the nature container
 	pbtnNB = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/back" ));
-	pbtnNP = new GUIButton( 55, 91, 30, 30, ocHomeDirPrefix( "graphism/gui/park" ));
+	pbtnNP = new GUIButton( 55, 91, 30, 30, ocHomeDirPrefix( "graphism/gui/park_city" ));
 	pbtnNT = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/tree" ));
 
 	pctrN = new GUIContainer( 100, 100, 140, 140, ocHomeDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
