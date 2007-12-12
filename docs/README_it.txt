@@ -1,10 +1,10 @@
 ------------------------------------------------------------------------------
-LEGGIMI per OpenCity 0.0.5beta
+README per OpenCity 0.0.5stable
 ------------------------------------------------------------------------------
 Last modified:
 	$Id$
 Last translated:
-	2006/11/24 morpheus
+	2007/11/20 morpheus
 
 Destinatari:
 	# Utenti finali:
@@ -28,13 +28,12 @@ INDICE
 3)	Note sull'autopackage per Linux
 4)	Note sui files binari per Windows
 5)	Descrizione dei tasti
-6)	Autoscrolling
-7)	Suono & musica
-8)	Comandi del mouse
-9)	File di configurazione principale "opencity.conf"
-10)	Opzioni della linea di comando
-11)	Note sul salvataggio / caricamento
-12)	Problemi noti
+6)	Suono & musica
+7)	Comandi del mouse
+8)	File di configurazione principale "opencity.xml"
+9)	Opzioni della linea di comando
+10)	Note sul salvataggio / caricamento
+11)	Problemi noti
 
 
 ------------------------------------------------------------------------------
@@ -78,9 +77,15 @@ Librerie:
 ------------------------------------------------------------------------------
 3) Note sull'autopackage per Linux
 ------------------------------------------------------------------------------
-	Hai appena scaricato "qualcosa.package"? Installa OpenCity eseguendolo
-dalla console o in un file browser come Konqueror. Opencity verrà installato
-sul tuo computer e un'icona verrà creata all'interno del gruppo "Game".
+	Hai appena scaricato "opencity-x.y.zqualcosa.package"?
+Abilita il permesso di esecuzione del file usando correttamente il comando "chmod"
+(fai riferimento alla tua distribuzione Linux per altre informazioni sul comando).
+
+	Adesso eseguilo dalla console o da un file browser come Konqueror. Opencity
+verrà installato sul tuo computer e un'icona verrà creata all'interno del gruppo "Game".
+
+	Dopo l'installazione, potrai avviare OpenCity cliccando sull'icona o
+scrivendo "opencity" in un terminale.
 
 
 ------------------------------------------------------------------------------
@@ -103,25 +108,28 @@ Scorciatoie da tastiera:
 		e: 				centrale nucleare
 		x:				distruggi
 		q:				interroga
-		ctrl:				elimina l'azione dei tasti zona
-		u / d:				alza / abbassa terreno
+		ctrl:			elimina l'azione dei tasti zona
+		u / d:			alza / abbassa terreno
 
 Esplorazione:
 		su / giù / sinistra / destra:	scorri la mappa
-		pagina sù / giù:		ruota la mappa
-		insert / delete:		zoom in / out
-		alt:				moltiplica per 10 l'effetto del comando
-		h:				torna alla cella iniziale
-		escape:				esci
+		pagina sù / pagina giù:			ruota la mappa
+		insert / delete:				zoom in / out
+		alt:							moltiplica per 10 l'effetto del comando
+		h:								torna alla cella iniziale
+		escape:							menu principale
 
 Opzioni:
+		b:				costruzioni on / off
 		g:				griglia on / off
-		k:				bussola on / off
+		k:				barra di stato on / off
 		f:				modalità wire frame on / off
 		o:				prospettiva / proiezione ortogonale
+		t:				terreno on / off
+		w:				acqua on / off
 
 Suono & musica:
-		z / b:				riproduci brano percedente / successivo
+		< / >:			riproduci brano percedente / successivo
 		m:				musica on / off
 		s:				suono on / off
 
@@ -132,25 +140,11 @@ Sperimentale:
 Caratteristiche non documentate, provale a tuo richio:
 		a: 				vari menù di test
 		v:				menù di test MAS
-		t:				connetti al server ZeN locale
+		z:				connetti al server ZeN locale
 
 
 ------------------------------------------------------------------------------
-6) Autoscrolling
-------------------------------------------------------------------------------
-	Un semplice sistema di autoscrolling [auto scorrimento, Nota del Traduttore]
-è stato incluso in OpenCity. Basta portare il mouse vicino ai bordi della finestra e
-OpenCity scorrerà automaticamente la mappa.
-
-	É stato implementato anche l'autorotazione. Porta il cursore
-negli angoli superiori destro e sinistro per vedere come funziona.
-
-	Per il momento non puoi disabilitarli. Lo so, non a tutti piacciono
-gli automatismi.
-
-
-------------------------------------------------------------------------------
-7) Suono & musica
+6) Suono & musica
 ------------------------------------------------------------------------------
 	OpenCity usa SDL_mixer per riprodurre suoni e musica, quindi supporta
 tutti i formati che supporta SDL_mixer.
@@ -166,67 +160,107 @@ e OpenCity riprodurrà la tua musica preferita. Se non trovi nessuna cartella
 
 	Ti avviso che SDL_mixer non è stabile e potrebbe bloccare OpenCity
 mentre riproduce certi file ".mp3". Prenditela con quelli di SDL_mixer,
-non con me :) . Se rilevi problemi disabilita la musica (tasto 'm').
+non con me ;) . Se rilevi problemi disabilita la musica (tasto 'm').
 
 
 ------------------------------------------------------------------------------
-8) Comandi del mouse
+7) Comandi del mouse
 ------------------------------------------------------------------------------
-	A partire da OpenCity 0.0.2, quando clicchi il tasto destro del mouse,
-apri l'ultimo toolcircle [menù a forma di cerchio, NdT]. Clicca di nuovo per nasconderlo.
+	In OpenCity, quando clicchi il tasto destro del mouse, apri l'ultimo
+toolcircle [menù a forma di cerchio, NdT]. Clicca di nuovo per nasconderlo.
 Voglio rendere tutto semplice e facile da usare, ma ogni tanto hai ancora bisogno
 della tastiera.
 
-	OpenCity adesso supporta la rotella del mouse! Se la ruoti in avanti
+	OpenCity supporta anche la rotella del mouse! Se la ruoti in avanti
 zoommerai in avanti (come con il tasto 'Insert'), altrimenti zoommerai indietro
 (come con il tasto 'Delete').
 
 	Quando premi 'Shift' e ruoti la rotella del mouse noterai che la mappa
-si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà nell'altro senso.
+si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà lungo un altro asse.
 
 
 ------------------------------------------------------------------------------
-9) File di configurazione principale "opencity.conf"
+8) File di configurazione principale "opencity.xml"
 ------------------------------------------------------------------------------
 	Vedi i commenti in-line per maggiori informazioni.
 
 
 ------------------------------------------------------------------------------
-10) Opzioni della linea di comando
+9) Opzioni della linea di comando
 ------------------------------------------------------------------------------
-NOTA: le opzioni della linea di comando bypassano il file di configurazione.
+	In OpenCity, puoi bypassare le opzioni del file di configurazione
+con le opzioni a riga di comando. Alcune opzioni possono essere espresse
+sia in forma estesa sia in forma compatta.
 
---fullscreen			Abilita la modalità a pieno schermo.
+-fs | --fullscreen
+	Abilita la modalità a pieno schermo.
 
---gl-version			Mostra informazioni sull'implementazione di
-				OpenGL della tua macchina.
+-glv | --gl-version
+	Mostra informazioni sull'implementazione di OpenGL della tua macchina ed esce.
 
---homedir newHomePath		Specifica una cartella per i dati di OpenCity.
-				Per esempio:
-				Sotto linux: --homedir /home/foo/bar/share/opencity/"
-				Sotto win32: --homedir "C:/Programmi/OpenCity/share"
+-dd | --datadir newDataPath
+	Specifica una nuova cartella per i dati di OpenCity.
+	Per esempio:
+	Sotto linux: --datadir /home/foo/bar/share/opencity/"
+	Sotto win32: --datadir "C:/Programmi/OpenCity/share"
 
---no-audio			Disabilita l'audio.
+-cd | --confdir newConfigPath
+	Specifica una nuova cartella per la configurazione di OpenCity.
+	Per esempio:
+	Sotto linux: --confdir /home/foo/bar/etc/opencity/"
+	Sotto win32: --confdir "C:/Programmi/OpenCity/etc"
+
+-na | --no-audio	
+	Disabilita l'audio.
+
+--generator-seed seed	
+	Il seed è un numero intero casuale usato dal generatore di mappe.
+
+--generator-map MAP-TYPE
+	MAP-TYPE: 0 = pianura (default), 1 = collina, 2 = montagna
+
+--generator-water WATER-TYPE
+	WATER-TYPE: 0 = arido, 1 = lago (default), 2 = costa
+
+--generator-map-shape MAP-SHAPE-TYPE
+	MAP-SHAPE-TYPE: 0 = nessuno (default), 1 = isola, 2 = vulcano, 3 = cratere
+
+--generator-tree-density TREE-DENSITY-TYPE
+	TREE-DENSITY-TYPE: 0 = scarsa (default), 1 = normale, 2 = densa
+
+--generator-height-map heightMapPicture
+	Carica un'immagine a scala di grigi per la mappa (PNG). Il livello
+	dell'acqua è un grigio a livello 128, ogni livello superiore è un
+	livello di grigio in più. Per questo motivo l'immagine sembra
+	totalmente grigia, perchè c'è solo una minima differenza tra i pixels.
+	Puoi disegnare tu stesso la mappa o generarla partendo dalla sorgente
+	che vuoi. Dei dati interessanti per sfruttare questa funzionalità sono
+	i dati satellitari DEM. Il generatore di mappe di OpenCity taglierà
+	l'immagine se è troppo grande.
 
 
 ------------------------------------------------------------------------------
-11) Note sul salvataggio / caricamento 
+10) Note sul salvataggio / caricamento 
 ------------------------------------------------------------------------------
 	La seguente directory è usata per salvare/caricare
 
-GNU/Linux:	$HOME/.OpenCity/
-Windows:	C:\Documents and Settings\username\Application Data\OpenCity\
+GNU/Linux:		$HOME/.OpenCity/
+Windows 2000/XP:	C:\Documents and Settings\username\Dati applicazioni\OpenCity\
+Windows Vista:		C:\Utenti\username\AppData\Roaming\OpenCity\
+
+	Se esegui una versione localizzata di Windows il percorso potrebbe
+essere diverso.
 
 
 ------------------------------------------------------------------------------
-12) Problemi noti
+11) Problemi noti
 ------------------------------------------------------------------------------
 	1) Ho una ATI Radeon 9000M. Quando provo il gioco con "EnablePageFlip"
 (vedi man radeon) il gioco viene eseguito stranamente. Se riscontri lo stesso
 problema prova a disabilitare questa funzionalità del server Xfree
 (vedi man XF86Config)
 
-	2) Con la ATI Radeon 9000m bisogna disattivare SmoothVision(tm) per
+	2) Con la ATI Radeon 9000M bisogna disattivare SmoothVision(tm) per
 eseguire OpenCity correttamente.
 
 	3) Questa è la mia versione del server X
@@ -234,7 +268,7 @@ eseguire OpenCity correttamente.
  - XFree86 versione 4.3.0
  - Data di rilascio: 9 Maggio 2003
  - X Protocol versione 11, revisione 0, release 6.6
- - Sistema operativo di build: Linux 2.4.18-23mdksmp i686 [ELF]
+ - Build del sistema operativo: Linux 2.4.18-23mdksmp i686 [ELF]
  - Data di build: 10 Settembre 2003
 
 	Sembrerebbe che i driver per la mia ATI Radeon 9000M siano pieni di bugs.

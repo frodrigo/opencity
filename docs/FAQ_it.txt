@@ -24,7 +24,7 @@ griglia con il tasto "g" e/o eseguire OpenCity a pieno schermo.
 subito dopo. Cos'ho sbagliato?
 	R: Controlla il contenuto dei files "stderr.txt" e "stdout.txt".
 A volte succede perchè OpenCity non trova i suoi dati. Puoi usare
-l'opzione da riga di comando "--homedir" per specificare il percorso
+l'opzione da riga di comando "--datadir" per specificare il percorso
 giusto. Leggi il file README_it.txt per maggiori informazioni sulle
 opzioni da linea di comando.
 

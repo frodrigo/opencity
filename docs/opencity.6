@@ -1,9 +1,9 @@
-.TH "OpenCity" "6" "October 4th, 2007" "The 3D city simulator game" "The 3D city simulator game"
+.TH "OpenCity" "6" "December 1st, 2007" "The 3D city simulator game" "The 3D city simulator game"
 .SH "NAME"
 opencity \(em a 3D city simulator game
 .SH "SYNOPSIS"
 .PP
-\fBopencity\fR [\-fs | \-\-fullscreen] [\-glv | \-\-gl\-version] [\-hd | \-\-homedir newHomePath] [\-na | \-\-no\-audio] [\-\-generator\-height\-map heightMapPicture | (\-\-generator\-seed seed [\-\-generator\-map MAP\-TYPE] [\-\-generator\-water WATER\-TYPE] [\-\-generator\-map\-shape MAP\-SHAPE\-TYPE] [\-\-generator\-tree\-density TREE\-DENSITY\-TYPE])] 
+\fBopencity\fR [\-fs | \-\-fullscreen] [\-glv | \-\-gl\-version] [\-dd | \-\-datadir newDataPath] [\-na | \-\-no\-audio] [\-\-generator\-height\-map heightMapPicture | (\-\-generator\-seed seed [\-\-generator\-map MAP\-TYPE] [\-\-generator\-water WATER\-TYPE] [\-\-generator\-map\-shape MAP\-SHAPE\-TYPE] [\-\-generator\-tree\-density TREE\-DENSITY\-TYPE])] 
 .PP
 .SH "DESCRIPTION"
 .PP
@@ -15,8 +15,10 @@ This manual page documents \fBopencity\fR command.
 Enable fullscreen mode
 .IP "          \fB\-glv | \-\-gl\-version\fP         " 10
 Show the informations of the current available OpenGL implementation on your machine then quit
-.IP "          \fB\-hd | \-\-homedir newHomePath\fP         " 10
-Specify to new path to OpenCity's data. For example: \-\-homedir /home/foo/bar/share/opencity/
+.IP "          \fB\-dd | \-\-datadir newDataPath\fP         " 10
+Specify to new path to OpenCity's data. For example: \-\-datadir /home/foo/bar/share/opencity/
+.IP "          \fB\-cd | \-\-confdir newConfigPath\fP         " 10
+Specify to new path to OpenCity's configuration. For example: \-\-confdir /home/foo/bar/etc/opencity/
 .IP "          \fB\-na | \-\-no\-audio\fP         " 10
 Disable the audio system 
 .IP "          \fB\-\-generator\-height\-map heightMapPicture\fP         " 10

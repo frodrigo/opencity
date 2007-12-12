@@ -23,7 +23,7 @@ First, if you've downloaded a opencity-x.y.z.tar.bz2 file you need to extract
 the sources by typing the following command at the prompt of your console:
 
 
-	tar xjf opencity-x.y.z.tar.bz2
+	tar xjf opencity-x.y.tar.bz2
 
 
 You do not need to perform this step if you  downloaded the sources from SVN.
@@ -40,7 +40,7 @@ You need to be "root" when you call "make install".
 
 Refer to the configure help file for more information about the configure's
 options. In case you don't have a configure script, the following command
-will creat one:
+will create one:
 
 
 	./autogen.sh

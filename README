@@ -120,7 +120,7 @@ Option:
 		w: Toggle water display on/off
 
 Sound & music:
-		z / b: play previous / next music
+		< / >: play previous / next music
 		m: music on / off
 		s: sound on / off
 
@@ -191,10 +191,15 @@ command-line options. Few options are available in both short and long format.
 	Show the informations of the current available OpenGL implementation
 on your machine then quit
 
-	-hd | --homedir newHomePath
+	-dd | --datadir newDataPath
 	Specify to new path to OpenCity's data. For example:
-		Under linux: --homedir /home/foo/bar/share/opencity/
-		Under win32: --homedir "C:/Program Files/OpenCity/share"
+		Under linux: --datadir /home/foo/bar/share/opencity/
+		Under win32: --datadir "C:/Program Files/OpenCity/share"
+
+	-cd | --confdir newConfigPath
+	Specify to new path to OpenCity's config. For example:
+		Under linux: --confdir /home/foo/bar/etc/opencity/
+		Under win32: --confdir "C:/Program Files/OpenCity/etc"
 
 	-na | --no-audio:
 	Disable the audio system
@@ -235,6 +240,9 @@ Save/Load issues
 			C:\Documents and Settings\username\Application Data\OpenCity\
 			If you are running a localized version of Windows, the above
 		path may be different
+
+		* Windows Vista:
+			C:\Users\username\AppData\Roaming\OpenCity\
 
 
 ------------------------------------------------------------------------------

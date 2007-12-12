@@ -16,7 +16,7 @@ fullscreen mode.
 Q: When I launch OpenCity, a window shows up then disappears, what's wrong ?
 A: Please check the content of the files "stderr.txt" and "stdout.txt".
 Often it's because OpenCity couldn't find its data. You can use the
-command-line option "--homedir" to specify the right path to OpenCity.
+command-line option "--datadir" to specify the right path to OpenCity.
 Please refer to the README file for more information concerning the
 command-line options.
 
