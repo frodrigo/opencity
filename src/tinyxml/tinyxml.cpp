@@ -23,6 +23,7 @@ distribution.
 */
 
 #include <cctype>
+#include <cstring>				// Added by neoneurone on 27th november, 2007
 
 #ifdef TIXML_USE_STL
 #include <sstream>

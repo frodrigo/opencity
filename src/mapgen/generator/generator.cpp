@@ -19,6 +19,7 @@
 
 #include "generator.h"
 
+#include <cstdlib>
 
 namespace MapGen
 {

@@ -120,9 +120,9 @@ _uiCityLength( cityL )
 	OPENCITY_DEBUG( "Renderer ctor" );
 
 // Load frequently used textures
-	_uiCloudTex = Texture::Load( ocHomeDirPrefix( "texture/cloud.png" ));
-	_uiTerrainTex = Texture::Load3D( ocHomeDirPrefix( "texture/terrain_64x4096_texture.png" ));
-	_uiWaterTex = Texture::Load( ocHomeDirPrefix( "graphism/water/texture/blue_water_512.png" ));
+	_uiCloudTex = Texture::Load( ocDataDirPrefix( "texture/cloud.png" ));
+	_uiTerrainTex = Texture::Load3D( ocDataDirPrefix( "texture/terrain_64x4096_texture.png" ));
+	_uiWaterTex = Texture::Load( ocDataDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
 // Initialize the model culling grid
 	uint size = _uiCityWidth * _uiCityLength;
@@ -518,7 +518,7 @@ Renderer::DisplaySplash(
 	static uint w, h;
 
 	if (!glIsTexture(_uiSplashTex))
-		_uiSplashTex = Texture::Load( ocHomeDirPrefix( "graphism/gui/splash.png"), w, h );
+		_uiSplashTex = Texture::Load( ocDataDirPrefix( "graphism/gui/splash.png"), w, h );
 
 // Store and translate the splash to the specified OpenGL coordinates
 	glPushAttrib( GL_ENABLE_BIT );

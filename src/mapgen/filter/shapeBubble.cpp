@@ -55,7 +55,7 @@ float ShapeBubble::value( const uint x, const uint y ) const
 	int _x = x - _w2;
 	int _y = y - _h2;
 
-	return ( -exp(sqrt(_x*_x+_y*_y)/_c*_rude) / exp(sqrt(2)*_rude) + _base ) * _l;
+	return ( -exp(sqrt((double)(_x*_x+_y*_y))/_c*_rude) / exp(sqrt(2.0)*_rude) + _base ) * _l;
 }
 
 

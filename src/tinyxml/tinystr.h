@@ -41,6 +41,7 @@ distribution.
 
 #include <cassert>
 #include <string>
+#include <cstring>				// Added by neoneurone on 27th november, 2007
 
 /*	The support for explicit isn't that universal, and it isn't really
 	required - it is used to check that the TiXmlString class isn't incorrectly

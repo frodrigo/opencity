@@ -24,6 +24,7 @@ distribution.
 
 #include <cctype>
 #include <cstddef>
+#include <cstring>				// Added by neoneurone on 27th november, 2007
 
 #include "tinyxml.h"
 

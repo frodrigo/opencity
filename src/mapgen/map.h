@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_MAP_H_
-#define _OPENCITY_MAP_H_ 1
+#ifndef _OPENCITY_MAPGEN_MAP_H_
+#define _OPENCITY_MAPGEN_MAP_H_ 1
 
 #define MAP_NDEBUG 1			// Debugging off
 #undef MAP_NDEBUG

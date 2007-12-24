@@ -102,7 +102,7 @@ PropertyManager2::PropertyManager2()
 			continue;
 		}
 
-		_mapProperty[fileGraphism] = _LoadProperties( i, ocHomeDirPrefix(fileXml) );
+		_mapProperty[fileGraphism] = _LoadProperties( i, ocDataDirPrefix(fileXml) );
 	}
 
 // Clean up

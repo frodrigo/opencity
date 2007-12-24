@@ -12,7 +12,8 @@ AM_CPPFLAGS = \
 	-I@top_srcdir@/src/tinyxml/ \
 	-I@top_srcdir@/src/tinyxpath/ \
 	-I@top_srcdir@/src/triangulation/ \
-	-DPREFIX=\"@prefix@/\"
+	-DDATADIR=\"@datadir@\" \
+	-DSYSCONFDIR=\"@sysconfdir@\"
 
 
 #==============================================================================
@@ -98,6 +99,7 @@ guibutton.h \
 guicontainer.h \
 guilabel.h \
 guimain.h \
+header_msvc.h \
 layer.h \
 macros.h \
 main.h \

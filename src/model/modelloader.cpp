@@ -79,9 +79,8 @@ ModelLoader::LoadOCM(
 {
 	vector<GLfloat> vf;
 	vector<GLuint> vui;
-	GLfloat fValue;
+	GLfloat fValue, fValue2, fValue3, fValue4;
 	char tempStr [OC_OCM_MAX_LINE_LENGTH];
-	char* endStr;
 
 // model's parameter
 	GLfloat* ftab;
@@ -102,16 +101,8 @@ ModelLoader::LoadOCM(
 	while (!ocmFile.eof()) {
 //debug printf("tempstr: '%s' \n", tempStr );
 	// if not NULL nor commented out then
-		if ((strlen(tempStr) != 0)
-		&&  (tempStr[0] != '#')) {
-			fValue = strtof( tempStr, &endStr );
-
-		// is there any conversion error ?
-			if ( tempStr == endStr ) {
-				OPENCITY_DEBUG( "can not load file : " );
-				ocmFile.close();
-				return NULL;
-			}
+		if ((strlen(tempStr) != 0) and (tempStr[0] != '#')) {
+			fValue = atof( tempStr );
 
 		// WARNING no error checking below here, tired of this :)
 		// store the OCM value type code
@@ -121,48 +112,36 @@ ModelLoader::LoadOCM(
 		// read the primitive's values
 			ocmFile.getline( tempStr, OC_OCM_MAX_LINE_LENGTH );
 
-			if (fValue
-			== OC_OCM_VERTEX) {
+			if (fValue == OC_OCM_VERTEX) {
 			// read 3 floats
-				fValue = strtof( tempStr, &endStr );
+				sscanf( tempStr, "%f %f %f", &fValue, &fValue2, &fValue3 );
 				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
+				vf.push_back( fValue2 );
+				vf.push_back( fValue3 );
 			} else
-			if (fValue
-			== OC_OCM_COLOR) {
+			if (fValue == OC_OCM_COLOR) {
 			// read 4 floats
-				fValue = strtof( tempStr, &endStr );
+				sscanf( tempStr, "%f %f %f %f", &fValue, &fValue2, &fValue3, &fValue4 );
 				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
+				vf.push_back( fValue2 );
+				vf.push_back( fValue3 );
+				vf.push_back( fValue4 );
 			} else
-			if (fValue
-			== OC_OCM_TEXCOOR) {
+			if (fValue == OC_OCM_TEXCOOR) {
 			// read 3 floats
-				fValue = strtof( tempStr, &endStr );
+				sscanf( tempStr, "%f %f %f", &fValue, &fValue2, &fValue3 );
 				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
-				fValue = strtof( endStr, &endStr );
-				vf.push_back( fValue );
+				vf.push_back( fValue2 );
+				vf.push_back( fValue3 );
 			} else
-			if (fValue
-			== OC_OCM_TEXFILE) {
-			//	OPENCITY_DEBUG( "Loading texture file: " << ocHomeDirPrefix( tempStr ) );
-				vui.push_back( Texture::Load( ocHomeDirPrefix( tempStr )) );
+			if (fValue == OC_OCM_TEXFILE) {
+			//	OPENCITY_DEBUG( "Loading texture file: " << ocDataDirPrefix( tempStr ) );
+				vui.push_back( Texture::Load( ocDataDirPrefix( tempStr )) );
 //debug cout << "Texture id got: " << vui.back() << endl;
 			} else
-			if (fValue
-			== OC_OCM_TEXBIND) {
+			if (fValue == OC_OCM_TEXBIND) {
 			// read 1 float
-				fValue = strtof( tempStr, &endStr );
+				fValue = atof( tempStr );
 			// WARNING: no error checking
 			// it's quite dangerous
 			// 0 is a default texture in OpenGL
@@ -201,7 +180,7 @@ Model* const
 ModelLoader::LoadAC3D(
 	const string & rcsFileName )
 {
-	AC3DModel ac3dmodel = AC3DModel( rcsFileName );
+	AC3DModel ac3dmodel( rcsFileName );
 	vector<AC3DMaterial> vMaterial;
 	GLuint tex =0, list = 0, listTwoSide = 0, listAlpha = 0;
 	string strPath = "";

@@ -22,9 +22,6 @@
 
 #include "generator.h"
 
-#include <string>
-using std::string;
-
 #include "SDL.h"
 
 namespace MapGen

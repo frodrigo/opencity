@@ -68,7 +68,7 @@ vpConf(OC_GRAPHIC_CODE_MAX, NULL)
 			}
 
 			pconfFile = new Conf();
-			if (pconfFile->Open( ocHomeDirPrefix(str) ) == OC_ERR_FREE) {
+			if (pconfFile->Open( ocDataDirPrefix(str) ) == OC_ERR_FREE) {
 				this->vpConf[i] = pconfFile;
 			}
 			else {

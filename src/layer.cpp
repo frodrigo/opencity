@@ -43,12 +43,12 @@ Layer::Layer(){
 // we do it here, because we need an initialized OpenGL context
 // if we do it on the declaration line, there will be runtime errors !
 	if ( Layer::uiNumberLayer++ == 0) {
-		Layer::pbtnQW = new GUIButton( 19, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/query_water" ));
-		Layer::pbtnQE = new GUIButton( 55, 13, 30, 30, ocHomeDirPrefix( "graphism/gui/query_electricity" ));
-		Layer::pbtnQG = new GUIButton( 91, 33, 30, 30, ocHomeDirPrefix( "graphism/gui/query_gas" ));
-		Layer::pbtnQR = new GUIButton( 19, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/query_residential" ));
-		Layer::pbtnQC = new GUIButton( 55, 93, 30, 30, ocHomeDirPrefix( "graphism/gui/query_commercial" ));
-		Layer::pbtnQI = new GUIButton( 91, 73, 30, 30, ocHomeDirPrefix( "graphism/gui/query_industrial" ));
+		Layer::pbtnQW = new GUIButton( 19, 33, 30, 30, ocDataDirPrefix( "graphism/gui/query_water" ));
+		Layer::pbtnQE = new GUIButton( 55, 13, 30, 30, ocDataDirPrefix( "graphism/gui/query_electricity" ));
+		Layer::pbtnQG = new GUIButton( 91, 33, 30, 30, ocDataDirPrefix( "graphism/gui/query_gas" ));
+		Layer::pbtnQR = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/query_residential" ));
+		Layer::pbtnQC = new GUIButton( 55, 93, 30, 30, ocDataDirPrefix( "graphism/gui/query_commercial" ));
+		Layer::pbtnQI = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/query_industrial" ));
 
 	// Disable the default alpha blending behaviour
 		Layer::pbtnQW->Unset( OC_GUIMAIN_BLENDING );

@@ -445,7 +445,7 @@ int main( int argc, char **argv )
 }
 
 
-string ocHomeDirPrefix( const string& s )
+string ocDataDirPrefix( const string& s )
 {
 	return s;
 }

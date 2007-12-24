@@ -355,6 +355,11 @@ Texture::Surface2Texture3D
 	GLint format
 )
 {
+#ifdef __WIN32__
+	PFNGLTEXIMAGE3DPROC glTexImage3D;
+	glTexImage3D = (PFNGLTEXIMAGE3DPROC) wglGetProcAddress("glTexImage3D");
+#endif
+
 // Delete the existing texture
 	if (glIsTexture( ruiTexture ) == GL_TRUE)
 		glDeleteTextures( 1, &ruiTexture );

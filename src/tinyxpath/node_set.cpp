@@ -23,7 +23,9 @@ distribution.
 */
 
 #include "node_set.h"
-#include "stdint.h"			// for intptr_t (32/64 bits void* pointer compatibility)
+#ifdef HAVE_STDINT_H
+	#include "stdint.h"			// for intptr_t (32/64 bits void* pointer compatibility)
+#endif
 
 namespace TinyXPath
 {

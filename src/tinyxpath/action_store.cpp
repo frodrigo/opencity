@@ -29,6 +29,8 @@ distribution.
 
 #include "action_store.h"
 
+#include <cstring>				// Added by neoneurone on 27th november, 2007
+
 namespace TinyXPath
 {
 

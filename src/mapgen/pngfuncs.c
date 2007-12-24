@@ -21,10 +21,10 @@
    you can find other examples on http://marsnomercy.org
 */
 
-#include <stdlib.h>
-#include <png.h>
 #include "pngfuncs.h"
+#include "png.h"
 
+#include <stdlib.h>
 
 static int png_colortype_from_surface(const SDL_Surface *surface)
 {

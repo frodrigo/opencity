@@ -23,6 +23,7 @@
 #include "ac3dmacros.h"			// AC3D specific macros
 
 #include <cstring>
+#include <cstdlib>
 
 
 namespace AC3D {

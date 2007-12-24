@@ -20,7 +20,7 @@
 #ifndef _OPENCITY_PROPERTY_H_
 #define _OPENCITY_PROPERTY_H_ 1
 
-//#include "main.h"			// OPENCITY_DEBUG macro
+#include <climits>								// INT_MAX
 
 
 // Object's properties XPath expressions

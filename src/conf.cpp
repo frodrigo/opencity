@@ -219,7 +219,9 @@ Conf::GetFloat(
 		return OC_ERR_FREE;
 	}
 
-	rfloat = strtof(_mapData[key].c_str(), NULL);
+	// Win32 port
+	//rfloat = strtof(_mapData[key].c_str(), NULL);
+	rfloat = atof(_mapData[key].c_str());
 
 	return OC_ERR_FREE;
 }
@@ -254,7 +256,7 @@ Conf::LTrim( char* const str )
 		strSpace = str;
 		strEnd = str;
 		strEnd = strEnd + strlen( str );
-		while ((strSpace < strEnd) && (isspace(*strSpace) != 0))
+		while ((strSpace < strEnd) && (isspace((unsigned char)*strSpace) != 0))
 			*strSpace++ = '\0';
 	}
 

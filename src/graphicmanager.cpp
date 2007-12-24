@@ -72,9 +72,9 @@ _uiDisplayListMask( OC_OPAQUE_ONESIDE_LIST | OC_OPAQUE_TWOSIDE_LIST | OC_ALPHA_L
 		if (strPath == "")
 			continue;
 
-		_tabpModel[i] = ModelLoader::Load( ocHomeDirPrefix(strPath) );
+		_tabpModel[i] = ModelLoader::Load( ocDataDirPrefix(strPath) );
 		if (_tabpModel[i] == NULL) {
-			OPENCITY_FATAL( "Failed to load the file: " << ocHomeDirPrefix(strPath) );
+			OPENCITY_FATAL( "Failed to load the file: " << ocDataDirPrefix(strPath) );
 			abort();
 		}
 	} // for

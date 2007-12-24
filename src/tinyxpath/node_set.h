@@ -25,6 +25,8 @@ distribution.
 #ifndef __NODE_SET_H
 #define __NODE_SET_H
 
+#include <cstring>				// Added by neoneurone on 27th november, 2007
+
 #include "tinyxml.h"
 
 namespace TinyXPath

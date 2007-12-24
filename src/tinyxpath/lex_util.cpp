@@ -30,6 +30,7 @@ distribution.
 
 #include <string>
 #include <cstdio>
+#include <cstring>				// Added by neoneurone on 27th november, 2007
 
 #include "lex_util.h"
 

@@ -2,7 +2,7 @@
 						AC3DObject.h  -  description
 							-------------------
 	begin                : june 29th, 05
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$

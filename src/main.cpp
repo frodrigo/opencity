@@ -70,6 +70,7 @@ extern GlobalVar gVars;
 #include <cmath>				// For log10
 #include <cstdlib>				// For getenv
 #include <sstream>
+#include <ctime>				// For time
 
 // Test XPath
 #include "propertymanager2.h"
@@ -78,12 +79,13 @@ extern GlobalVar gVars;
    /*=====================================================================*/
    /*                           LOCAL     MACROS                          */
    /*=====================================================================*/
-#ifndef WIN32
+#ifndef __WIN32__
 	#include <sys/stat.h>		// mkdir
 #else
 // Win32 specifics
 	#include <shlobj.h>			// Windows shell technologies
-	#define PREFIX "C:/Program Files"
+	#define DATADIR "C:/Program Files"
+	#define SYSCONFDIR DATADIR
 #endif
 
 // Window's settings
@@ -132,7 +134,7 @@ extern GlobalVar gVars;
 	static int flags			= 0;
 
 /// The paths are static so that the others can not access this
-	static string sHomeDir		= "";
+	static string sDataDir		= "";
 	static string sSaveDir		= "";
 	static string sConfigDir	= "";
 
@@ -193,7 +195,7 @@ void ocMouseMotion( const SDL_MouseMotionEvent& motionEvent )
    /*=====================================================================*/
 void ocResize( const SDL_ResizeEvent& rcsResizeEvent)
 {
-#ifndef WIN32
+#ifndef __WIN32__
 // Linux needs this whereas Win32 does not
 // Set the new window's size
 	if( SDL_SetVideoMode(
@@ -415,7 +417,7 @@ formatPath(const string& rcsPath)
 		while ( (pos = result.find( '\"' )) != result.npos ) {
 		    result.erase( pos );
 		}
-	// Append the "/" to HOMEDIR
+	// Append the "/" to path
 		if (result[ result.size()-1 ] != '/')
 			result += '/';
 	}
@@ -435,7 +437,8 @@ void parseArg(int argc, char *argv[])
 		OPT_GL_VERSION,
 		OPT_FULLSCREEN,
 		OPT_NO_AUDIO,
-		OPT_HOMEDIR,
+		OPT_DATADIR,
+		OPT_CONFDIR,
 		OPT_GENERATOR_HEIGHT_MAP,
 		OPT_GENERATOR_SEED,
 		OPT_GENERATOR_MAP,
@@ -452,8 +455,10 @@ void parseArg(int argc, char *argv[])
 		{ OPT_FULLSCREEN,				(char*)"-fs",						SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"--no-audio",				SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"-na",						SO_NONE		},
-		{ OPT_HOMEDIR,					(char*)"--homedir",					SO_REQ_SEP	},
-		{ OPT_HOMEDIR,					(char*)"-hd",						SO_REQ_SEP	},
+		{ OPT_DATADIR,					(char*)"--datadir",					SO_REQ_SEP	},
+		{ OPT_DATADIR,					(char*)"-dd",						SO_REQ_SEP	},
+		{ OPT_CONFDIR,					(char*)"--confdir",					SO_REQ_SEP	},
+		{ OPT_CONFDIR,					(char*)"-cd",						SO_REQ_SEP	},
 		{ OPT_GENERATOR_HEIGHT_MAP,		(char*)"--generator-height-map",	SO_REQ_SEP	},
 		{ OPT_GENERATOR_SEED,			(char*)"--generator-seed",			SO_REQ_SEP	},
 		{ OPT_GENERATOR_MAP,			(char*)"--generator-map",			SO_REQ_SEP	},
@@ -518,10 +523,14 @@ void parseArg(int argc, char *argv[])
 			gVars.gboolUseAudio = false;
 			break;
 
-		case OPT_HOMEDIR:
-			sHomeDir = formatPath(args.OptionArg());
-			sConfigDir = sHomeDir;
-			cout << "<OPTION> HomeDir and ConfigDir are: \"" << sHomeDir << "\"" << endl;
+		case OPT_DATADIR:
+			sDataDir = formatPath(args.OptionArg());
+			cout << "<OPTION> DataDir is: \"" << sDataDir << "\"" << endl;
+			break;
+
+		case OPT_CONFDIR:
+			sConfigDir = formatPath(args.OptionArg());
+			cout << "<OPTION> ConfDir is: \"" << sConfigDir << "\"" << endl;
 			break;
 
 		case OPT_GENERATOR_HEIGHT_MAP:
@@ -589,7 +598,8 @@ void parseArg(int argc, char *argv[])
 
 		case OPT_HELP:
 			cout << "Usage: " << argv[0]
-				<< " [-fs|--fullscreen] [-glv|--gl-version] [-hd|--homedir newHomePath]"
+				<< " [-fs|--fullscreen] [-glv|--gl-version]"
+				<< " [-dd|--datadir newDataPath] [-cd|--confdir newConfigPath]"
 				<< " [-na|--no-audio] [--generator-height-map heightMapPicture |"
 				<< " (--generator-seed seed [--generator-map MAP-TYPE] [--generator-water WATER-TYPE]"
 				<< " [--generator-map-shape MAP-SHAPE-TYPE] [--generator-tree-density TREE-DENSITY-TYPE])]"
@@ -649,7 +659,7 @@ static int clientMode()
 
 // set the window's caption
 	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
-	SDL_WM_SetIcon( IMG_Load(ocHomeDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
+	SDL_WM_SetIcon( IMG_Load(ocDataDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
 
 
 // Create the mutex first
@@ -678,9 +688,9 @@ static int clientMode()
 
 // Load musics and sounds
 	displayStatus( "Warming up central processing unit...");
-	gVars.gpAudioMgr->LoadMusicList( ocHomeDirPrefix(OC_MUSIC_LIST_FILENAME), ocHomeDirPrefix("") );
+	gVars.gpAudioMgr->LoadMusicList( ocDataDirPrefix(OC_MUSIC_LIST_FILENAME), ocDataDirPrefix("") );
 	OPENCITY_INFO( "Loaded " << gVars.gpAudioMgr->GetNumberMusic() << " musics." );
-	gVars.gpAudioMgr->LoadSoundList( ocHomeDirPrefix(OC_SOUND_LIST_FILENAME), ocHomeDirPrefix("") );
+	gVars.gpAudioMgr->LoadSoundList( ocDataDirPrefix(OC_SOUND_LIST_FILENAME), ocDataDirPrefix("") );
 	OPENCITY_INFO( "Loaded " << gVars.gpAudioMgr->GetNumberSound() << " sounds." );
 
 
@@ -850,7 +860,7 @@ char* findSaveDir()
 {
 	char* ret = NULL;
 
-#ifndef WIN32
+#ifndef __WIN32__
 // Get the home directory from the environment variable
 	char* env = getenv("HOME");
 	if (env != NULL) {
@@ -885,37 +895,56 @@ char* findSaveDir()
 
 
    /*=====================================================================*/
-/** Detect and set the homedir and the savedir using BinReloc library
-and win32 standard function
+/** Try to detect and set the datadir, the confdir and the savedir using
+BinReloc library and win32 standard function
 */
 void detectProgramPath()
 {
 	char* pTemp = NULL;
 	BrInitError brError;
 
-// IF the homedir is not set THEN try to get it from BinReloc routines
-	if (sHomeDir == "") {
+// IF the datadir is not set THEN try to get it from BinReloc routines
+	if (sDataDir == "") {
+	// Default system directory settings
+		sDataDir = DATADIR;
+
 	// Init the BinReloc routines
 		if (br_init(&brError) != 1) {
 			OPENCITY_INFO(
-				"The initialization of BinReloc routines has failed." << endl
-				 << "The error was: " << brError
+				"Failed to initialized BinReloc routines to search for the datadir. " <<
+				"The error was: " << brError
 			);
 		}
-		else {
-		// Construct the datadir from the prefix
-			pTemp = br_find_prefix( PREFIX );
-			sHomeDir = pTemp;
-			sHomeDir += "/share/";
-			sHomeDir += PACKAGE;
-			sHomeDir = formatPath( sHomeDir );
-		// Construct the pkgsysconfdir from the prefix
-			sConfigDir = pTemp;
-			sConfigDir += "/etc/";
-			sConfigDir += PACKAGE;
-			sConfigDir = formatPath( sConfigDir );
-			free(pTemp);
+
+	// Construct the datadir from the prefix
+		pTemp = br_find_data_dir( sDataDir.c_str() );
+		sDataDir = pTemp;
+		sDataDir += "/";
+		sDataDir += PACKAGE;
+		sDataDir = formatPath( sDataDir );
+		free(pTemp);
+	}
+
+// IF the configdir is not set THEN try to get it from BinReloc routines
+	if (sConfigDir == "") {
+	// Default system directory settings
+		sConfigDir = SYSCONFDIR;
+
+	// Init the BinReloc routines
+		if (br_init(&brError) != 1) {
+			OPENCITY_INFO(
+				"Failed to initialized BinReloc routines to search for the confdir. " <<
+				"The error was: " << brError
+			);
 		}
+
+	// Construct the pkgsysconfdir from the prefix
+		pTemp = br_find_etc_dir( sConfigDir.c_str() );
+		sConfigDir = pTemp;
+		sConfigDir += "/";
+		sConfigDir += PACKAGE;
+		sConfigDir = formatPath( sConfigDir );
+		free(pTemp);
 	}
 
 // IF the save directory is not set the find it
@@ -923,12 +952,12 @@ void detectProgramPath()
 		pTemp = findSaveDir();
 		sSaveDir = pTemp;
 		free(pTemp);
-#ifndef WIN32
-		sSaveDir += "/.OpenCity/";
+#ifndef __WIN32__
+		sSaveDir += "/.opencity/";
 		mkdir( sSaveDir.c_str(), 0755 );
 #else
 	// Win32 uses \ as directory separtor
-		sSaveDir += "\\OpenCity\\";
+		sSaveDir += "\\opencity\\";
         CreateDirectory( sSaveDir.c_str(), NULL );		
     // Replace \ by /
 	    string::size_type pos;
@@ -937,6 +966,11 @@ void detectProgramPath()
 		}
 #endif
 	}
+
+// Print out some information
+	OPENCITY_INFO( "Detected data directory   : " << sDataDir );
+	OPENCITY_INFO( "Detected config directory : " << sConfigDir );
+	OPENCITY_INFO( "Detected save directory   : " << sSaveDir );
 }
 
 
@@ -1102,7 +1136,7 @@ void initGlobalVar()
 
 
    /*=====================================================================*/
-#if defined(WIN32) || defined(_WIN32)
+#ifdef __WIN32__
 extern "C"
 #endif
 int main(int argc, char *argv[])
@@ -1116,7 +1150,7 @@ int main(int argc, char *argv[])
 // Parse the command-line options
 	parseArg( argc, argv );
 
-// Detect the main path: sHomeDir and sSaveDir
+// Detect the main path: sDataDir and sSaveDir
 	detectProgramPath();
 
 // Read the application settings from the XML settings file
@@ -1125,11 +1159,14 @@ int main(int argc, char *argv[])
 		OPENCITY_FATAL(
 			"The was an error while loading the settings file: \"" << errorDesc << "\"" << endl
 			<< "If the main config file \"" << OC_CONFIG_FILE_FILENAME << "\" has not been found then" << endl
-			<< "try to specify the home directory with ""--homedir""." << endl
+			<< "try to specify the data directory with ""--datadir"" "
+			<< "and the configuration directory with ""--confdir""." << endl
 			<< "For example:" << endl
-			<< "    " << argv[0] << " --homedir \"/absolute/path/to/opencity/data\"" << endl
+			<< "    " << argv[0] << " --datadir \"/absolute/path/to/opencity/data\" "
+			<< "--confdir \"/absolute/path/to/opencity/conf\"" << endl
 			<< "or" << endl
-			<< "    " << argv[0] << " --homedir \"../relative/path/to/opencity/data\"" << endl			
+			<< "    " << argv[0] << " --datadir \"../relative/path/to/opencity/data\" "
+			<< "--confdir \"../relative/path/to/opencity/conf\"" << endl
 		);
 		exit(OC_CONFIG_NOT_FOUND);
 	}
@@ -1158,9 +1195,9 @@ int main(int argc, char *argv[])
    /*                       GLOBAL       FUNCTIONS                        */
    /*=====================================================================*/
 string
-ocHomeDirPrefix( const string& s )
+ocDataDirPrefix( const string& s )
 {
-	return sHomeDir + s;
+	return sDataDir + s;
 }
 
 

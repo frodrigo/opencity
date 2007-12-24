@@ -64,6 +64,26 @@ using std::cerr;
 		typedef unsigned int uint;
 	#endif
 
+// Define some missing magical macros for Visual Studio 2005
+	#ifdef __WIN32__
+		#if !defined(__PRETTY_FUNCTION__)
+			#define __PRETTY_FUNCTION__ __FUNCTION__
+		#endif
 
+	// Include the text operator "and"
+		#if !defined(and)
+			#include <ciso646>
+		#endif
+	// strcasecmp workaround
+		#if !defined(strcasecmp)
+			#define strcasecmp _stricmp
+		#endif
+	/*
+	// log2 workaround
+		#if !defined(log2)
+			#define log2(value) log((double)value)/log(2.0)
+		#endif
+	*/
+	#endif // #if defined(__WIN32__)
 #endif
 

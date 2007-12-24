@@ -34,6 +34,11 @@
 	#ifdef __WIN32__
 		#include <GL/glext.h>
 	#endif
+
+	// Use glext prototypes from SDL library
+	#if defined(__WIN32__) && !defined(GL_GLEXT_PROTOTYPES)
+		#define GL_GLEXT_PROTOTYPES 1
+	#endif
 */
 
 /* for reference, included by GCC's option "-ansi"
@@ -42,6 +47,7 @@
 										// This avoids "long long" from SDL.h
 	#endif
 */
+
 #include "SDL.h"				// Simple Directmedia Library
 #include "SDL_thread.h"			// thread
 #include "SDL_opengl.h"			// portable OpenGL headers
@@ -120,7 +126,7 @@ class UI;
 	\param s The path to be prefixed
 	\return The modified path
 */
-	string ocHomeDirPrefix( const string& s );
+	string ocDataDirPrefix( const string& s );
 
 	string ocConfigDirPrefix( const string& s );
 

@@ -20,6 +20,7 @@
 #include "diamon.h"
 
 #include <cmath>
+#include <cstdlib>
 
 namespace MapGen
 {
@@ -28,7 +29,7 @@ namespace MapGen
    /*=====================================================================*/
 Diamon::Diamon( const uint seed, const uint order ):
 Generator( seed ),
-_side((uint)pow(2,order))
+_side((uint)pow(2.0,(int)order))
 {
 	MAP_DEBUG("ctor");
 }
