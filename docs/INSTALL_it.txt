@@ -1,0 +1,91 @@
+------------------------------------------------------------------------------
+Istruzioni per l'INSTALLAZIONE/COMPILAZIONE di OpenCity 0.0.5stable
+------------------------------------------------------------------------------
+Last modified:
+	$Id: INSTALL_it.txt 291 2007-11-27 21:09:32Z neoneurone $
+Last translated:
+	2007/11/18 morpheus
+
+Destinatari:
+	# Utenti GNU/Linux:
+		Leggi questo file se stai provando a compilare OpenCity dai sorgenti.
+	# Utenti Windows:
+		Non leggere questo file!
+	# Packagers:
+		Questo file contiene informazioni sull'installazione e sulla
+		compilazione. Si parla inoltre della portabilità di OpenCity.
+		Ti consigliamo di usare autopackage per GNU/Linux e InnoSetup
+		per Windows.
+
+
+------------------------------------------------------------------------------
+INSTALLAZIONE da sorgenti su GNU/Linux
+------------------------------------------------------------------------------
+	Innanzitutto, se hai scaricato un file opencity-x.y.z.tar.bz2, hai
+bisogno di estrarlo eseguendo in una console:
+
+
+	tar xjf opencity-x.y.tar.bz2
+
+
+	Non hai bisogno di fare questo passaggio se hai scaricato i sorgenti
+da SVN. I seguenti comandi compileranno e installeranno OpenCity sul tuo sistema.
+"make install" necessita si essere eseguito da "root".
+
+
+	mkdir obj
+	cd obj
+	../configure --enable-debug
+	make
+	make install
+
+
+Per ulteriori informazioni sulle opzioni di configure guarda il relativo help file.
+Se non hai uno script configure, il seguente comando ne creerà uno:
+
+
+	./autogen.sh
+
+
+Quando l'installazione è completata, potrai lanciare OpenCity da linea di comando
+scrivendo:
+
+
+	opencity
+
+
+È tutto, gente!
+
+
+------------------------------------------------------------------------------
+INSTALLAZIONE da un file .package su GNU/Linux
+------------------------------------------------------------------------------
+	L'installer per GNU/Linux si chiama opencity-x.y.z.package.
+Rendilo eseguibile ed avvialo.
+
+
+------------------------------------------------------------------------------
+PACKAGE per GNU/Linux
+------------------------------------------------------------------------------
+	Per favore, utilizza autopackage. Il file di configurazione è nella
+cartella "autopackage". Per ulteriori informazioni consulta:
+
+
+	http://www.autopackage.org
+
+
+------------------------------------------------------------------------------
+PACKAGE per Windows
+------------------------------------------------------------------------------
+	Per favore, utilizza InnoSetup. Il file di configuazione si chiama
+"OpenCity.iss" ed è nella cartella radice. Per altre informazioni vedi:
+
+
+	http://www.innosetup.com
+
+
+Buona fortuna!
+
+Duong-Khang (neoneurone) NGUYEN.
+
+Translated by Jacopo (morpheus) SIRIANNI

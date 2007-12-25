@@ -1,12 +1,76 @@
 ==============================================================================
 OpenCity TODO version 0.0.6 DEV
 --------------------------------------
+Last modified:
+	$Id$
+
+Save file version check
+Crime
+Review the message system
+Review the agent creation process
+Police agent system
+Mouse cursor support
+Unblocking networking layer
+ZeN online map loading
+XML parameters accessors
+Earthquake
+
+
+
+==============================================================================
+Planed for future version
+-------------------------
+Subdivide map for better performance  (0.0.3 +)
+Settings GUI                          (0.0.3 +)
+Help system
+Internationalization
+Zone density
+Sea-port
+Air-port
+Gas
+Highway
+Subway
+Arcologies
+Land-mark
+Shanties
+Rendering plugins:
+        Snow, rain, fall, night
+Event plugin:
+        French attitude ...
+
+Water layer
+Water pipe
+Water pump
+Water tower
+Water micro simulator
+Tree micro simulator
+Add new vehicle models
+Fix the orthogonal projection
+Fire
+Explosion
+Nature micro simulator: earthquake
+Improve vehicle rendering
+Review the agent creation process
+Review the message system
+Rail road
+Rail station
+Train models
+Crime
+Police agent system
+Unblocking networking layer
+Add online operation notification clock
+ZeN online map loading
+Fix city size settings bug
+Add the simulator accelerator key
+Make the simulator CPU independant
+Texture lighting
+
+
 
 ==============================================================================
 OpenCity TODO version 0.0.5 BETA - STABLE
 --------------------------------------
-Last modified:
-	$Id$
+Last updated dec 12th, 2007
 
 Remove -no-dl option                  (done)
 Fullscreen config variable support    (done)
@@ -65,56 +129,6 @@ Review the licensing                  (done)
 Variable name clean up                (done)
 LBS/FHS layout                        (done)
 Add the manual page                   (done)
-
-
-
-==============================================================================
-Planed for future version
--------------------------
-Subdivide map for better performance  (0.0.3 +)
-Settings GUI                          (0.0.3 +)
-Help system
-Internationalization
-Zone density
-Sea-port
-Air-port
-Gas
-Highway
-Subway
-Arcologies
-Land-mark
-Shanties
-Rendering plugins:
-        Snow, rain, fall, night
-Event plugin:
-        French attitude ...
-
-Water layer
-Water pipe
-Water pump
-Water tower
-Water micro simulator
-Tree micro simulator
-Add new vehicle models
-Fix the orthogonal projection
-Fire
-Explosion
-Nature micro simulator: earthquake
-Improve vehicle rendering
-Review the agent creation process
-Review the message system
-Rail road
-Rail station
-Train models
-Crime
-Police agent system
-Unblocking networking layer
-Add online operation notification clock
-ZeN online map loading
-Fix city size settings bug
-Add the simulator accelerator key
-Make the simulator CPU independant
-Texture lighting
 
 
 
