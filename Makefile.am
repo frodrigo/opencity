@@ -33,7 +33,7 @@ install-data-local:
 	for data in $(EXTRA_DIST); do \
 		if [ -d $(srcdir)/$$data ]; then \
 			$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/$$data && \
-			cp -r $(srcdir)/$$data/* $(DESTDIR)$(pkgdatadir)/$$data/; \
+			find $(srcdir)/$$data -not -wholename "*/.svn*" -not -type d | xargs cp --parents -t $(DESTDIR)$(pkgdatadir)/; \
 		fi; \
 	done;
 
