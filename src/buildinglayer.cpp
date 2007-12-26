@@ -665,8 +665,8 @@ BuildingLayer::ContainStructure(
 						  ||(enumStructCode == OC_STRUCTURE_ANY))
 							return true;
 					}
-				}  // while w
-			}  // while h
+				}
+			}
 			break;
 
 		case OC_STRUCTURE_ELECTRIC:
@@ -680,8 +680,8 @@ BuildingLayer::ContainStructure(
 						if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
 							return true;
 					}
-				}  // while w
-			}  // while h
+				}
+			}
 			break;
 
 		default:
@@ -746,8 +746,8 @@ BuildingLayer::ContainStructureOnly(
 						if (pMain->GetCode() != enumStructCode)
 							return false;
 					}
-				}  // while w
-			}  // while l
+				}
+			}
 			break;
 
 		case OC_STRUCTURE_ELECTRIC:
@@ -762,8 +762,8 @@ BuildingLayer::ContainStructureOnly(
 						if (pstruct->IsSet( OC_STRUCTURE_E ) == false)
 							return false;
 					}
-				}  // while w
-			}  // while h
+				}
+			}
 			break;
 
 		default:
@@ -1093,21 +1093,16 @@ BuildingLayer::_BuildRCIStructure(
 	cost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 
 // Let's GO !
-	l = L1;
-	while (l <= L2) {
+	for (l = L1; l <= L2; l++) {
 		linearIndex = (l*_uiLayerWidth) + W1;
-		w = W1;
-		while (w <= W2) {
+		for (w = W1; w <= W2; w++, linearIndex++) {
 			if ((_tabpStructure[ linearIndex ] == NULL)
 			 && (gVars.gpMapMgr->IsSquarePlane(w, l) == true )) {
 				_tabpStructure[ linearIndex ] = new RCIStructure(enumStructCode);
 				rCost += cost;
 			}
-			w++;
-			linearIndex++;
-		} // while w
-		l++;
-	} // while l
+		}
+	}
 
 	return (rCost > 0) ? OC_ERR_FREE : OC_ERR_SOMETHING;
 }
@@ -1138,21 +1133,16 @@ BuildingLayer::_BuildFloraStructure(
 	cost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 
 // Let's GO !
-	l = L1;
-	while (l <= L2) {
+	for (l = L1; l <= L2; l++) {
 		linearIndex = (l*_uiLayerWidth) + W1;
-		w = W1;
-		while (w <= W2) {
+		for (w = W1; w <= W2; w++, linearIndex++) {
 			if ((_tabpStructure[ linearIndex ] == NULL)
 			 && (gVars.gpMapMgr->IsSquarePlane(w, l) == true )) {
 				_tabpStructure[ linearIndex ] = new TreeStructure(enumStructCode);
 				rCost += cost;
 			}
-			w++;
-			linearIndex++;
-		} // while w
-		l++;
-	} // while l
+		}
+	}
 
 	return (rCost > 0) ? OC_ERR_FREE : OC_ERR_SOMETHING;
 }
@@ -1214,19 +1204,14 @@ BuildingLayer::_BuildWEGStructure(
 	rCost = gVars.gpPropertyMgr->Get( OC_TOOL_COST, enumStructCode );
 
 // Create all the area as parts of a bigger main structure
-	l = L1;
-	while (l <= L2) {
+	for (l = L1; l <= L2; l++) {
 		linearIndex = (l*_uiLayerWidth) + W1;
-		w = W1;
-		while (w <= W2) {
+		for (w = W1; w <= W2; w++) {
 		// Build new WEG as a structure part
 			_tabpStructure[ linearIndex++ ] =
 				new Structure( OC_STRUCTURE_PART, pMainStructure );
 //				new WEGStructure( OC_STRUCTURE_PART, pMainStructure );
-			w++;
-			// linearIndex++; already done
 		}
-		l++;
 	}
 
 // Delete the part structure at the coordinates W1,L1
@@ -1267,18 +1252,13 @@ BuildingLayer::_LoadStructure(
 
 // Create all the area as parts of a bigger main structure
 	if (sw > 1 || sl > 1 || sh > 1) {
-		l = l1;
-		while (l <= l2) {
+		for( l = l1; l <= l2; l++) {
 			linearIndex = (l*_uiLayerWidth) + w1;
-			w = w1;
-			while (w <= w2) {
+			for( w = w1; w <= w2; w++) {
 			// Build new WEG as a structure part
 				_tabpStructure[ linearIndex++ ] =
 					new Structure( OC_STRUCTURE_PART, pMainStruct );
-				w++;
-				// linearIndex++; already done
 			}
-			l++;
 		}
 	
 	// Delete the part structure at the coordinates W1, L1
