@@ -23,7 +23,7 @@
 #ifndef pngfuncs_h
 #define pngfuncs_h
 
-#include "SDL/SDL.h"
+#include "SDL.h"
 
 #ifdef __cplusplus
 extern "C" {
