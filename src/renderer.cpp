@@ -436,6 +436,10 @@ void
 Renderer::ToggleTerrain()
 {
 	_bDisplayTerrain = !_bDisplayTerrain;
+
+// If we turn the terrain display back on, we need to update the display list
+	if (_bDisplayTerrain)
+		bHeightChange = true;
 }
 
 
@@ -462,7 +466,8 @@ Renderer::ToggleGrid()
 	_bDisplayGrid = !_bDisplayGrid;
 
 // If we turn the grid display back on, we need to update the display list
-	this->bHeightChange = true;
+	if (_bDisplayGrid)
+		bHeightChange = true;
 }
 
 
