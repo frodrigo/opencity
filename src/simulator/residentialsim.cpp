@@ -2,7 +2,7 @@
 						residentialsim.cpp  -  description
 							-------------------
 	begin                : sep 21th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -147,7 +147,6 @@ ResidentialSim::Main()
 	SDL_UnlockMutex( this->mutexMain );
 
 //	OPENCITY_DEBUG( "End - ResidentialSim - w/l: " << w << "/" << l );
-
 
 	return 0;
 }

@@ -2,7 +2,7 @@
 						industrialsim.cpp  -  description
 							-------------------
 	begin                : feb 1st, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -125,7 +125,6 @@ IndustrialSim::Main()
 	}
 
 	SDL_UnlockMutex( this->mutexMain );
-
 
 	return 0;
 }

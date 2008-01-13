@@ -2,7 +2,7 @@
 						trafficsim.cpp  -  description
                              -------------------
 	begin                : may 1st, 2004
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -135,7 +135,6 @@ TrafficSim::Main()
 		trafficsimNewVehicle(startW, startH);
 		_tiVariation[Simulator::OC_TRAFFIC]--;
 	}
-
 
 	return 0;
 }

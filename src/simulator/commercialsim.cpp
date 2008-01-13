@@ -2,7 +2,7 @@
 						commercialsim.cpp  -  description
 							-------------------
 	begin                : jan 31th, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -123,7 +123,6 @@ CommercialSim::Main()
 	}
 
 	SDL_UnlockMutex( this->mutexMain );
-
 
 	return 0;
 }

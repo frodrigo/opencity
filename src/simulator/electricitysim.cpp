@@ -2,7 +2,7 @@
 						electricitysim.cpp  -  description
 							-------------------
 	begin                : march 2nd, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -104,8 +104,6 @@ ElectricitySim::Main()
 		return 0;
 
 	SDL_LockMutex( this->mutexMain );
-	// See MainSim::RefreshSimValue(), 16 sep 2006
-	//_iValue = _iValueMax;
 
 // clear the mark and E bit of ALL structure
 	pbuildlayer->StructureUnset( OC_STRUCTURE_MARK | OC_STRUCTURE_E );
@@ -149,8 +147,6 @@ ElectricitySim::Main()
 					pairstructWH.first, pairstructWH.second,
 					OC_E_RCI_RANGE, OC_STRUCTURE_ELECTRIC ) == true) {
 					pstruct->Set(OC_STRUCTURE_E);
-				// See MainSim::RefreshSimValue(), 16 sep 2006
-					//_iValue--;
 				}
 				break;
 
@@ -160,8 +156,6 @@ ElectricitySim::Main()
 					pairstructWH.first, pairstructWH.second,
 					OC_E_E_RANGE, OC_STRUCTURE_ELECTRIC ) == true) {
 					pstruct->Set(OC_STRUCTURE_E);
-				// See MainSim::RefreshSimValue(), 16 sep 2006
-					//_iValue--;
 				}
 				break;
 
@@ -332,9 +326,6 @@ ElectricitySim::RemoveStructure(
 		case OC_STRUCTURE_FIREDEPT:
 		case OC_STRUCTURE_POLICEDEPT:
 		case OC_STRUCTURE_EDUCATIONDEPT:
-			// See MainSim::RefreshSimValue(), 16 sep 2006
-			//if (pstruct->IsSet( OC_STRUCTURE_E ) == true)
-			//	_iValue++;
 			break;
 
 		default: // keep gcc happy

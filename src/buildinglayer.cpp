@@ -2,7 +2,7 @@
 						buildinglayer.cpp  -  description
 							-------------------
 	begin                : september 20th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -1206,11 +1206,9 @@ BuildingLayer::_BuildWEGStructure(
 // Create all the area as parts of a bigger main structure
 	for (l = L1; l <= L2; l++) {
 		linearIndex = (l*_uiLayerWidth) + W1;
-		for (w = W1; w <= W2; w++) {
+		for (w = W1; w <= W2; w++, linearIndex++) {
 		// Build new WEG as a structure part
-			_tabpStructure[ linearIndex++ ] =
-				new Structure( OC_STRUCTURE_PART, pMainStructure );
-//				new WEGStructure( OC_STRUCTURE_PART, pMainStructure );
+			_tabpStructure[linearIndex] = new Structure( OC_STRUCTURE_PART, pMainStructure );
 		}
 	}
 
@@ -1254,10 +1252,9 @@ BuildingLayer::_LoadStructure(
 	if (sw > 1 || sl > 1 || sh > 1) {
 		for( l = l1; l <= l2; l++) {
 			linearIndex = (l*_uiLayerWidth) + w1;
-			for( w = w1; w <= w2; w++) {
+			for( w = w1; w <= w2; w++, linearIndex++) {
 			// Build new WEG as a structure part
-				_tabpStructure[ linearIndex++ ] =
-					new Structure( OC_STRUCTURE_PART, pMainStruct );
+				_tabpStructure[linearIndex] = new Structure( OC_STRUCTURE_PART, pMainStruct );
 			}
 		}
 	
