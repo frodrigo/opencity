@@ -355,10 +355,18 @@ Texture::Surface2Texture3D
 	GLint format
 )
 {
+/* old code, non portable
 #ifdef __WIN32__
 	PFNGLTEXIMAGE3DPROC glTexImage3D;
 	glTexImage3D = (PFNGLTEXIMAGE3DPROC) wglGetProcAddress("glTexImage3D");
 #endif
+*/
+
+	PFNGLTEXIMAGE3DEXTPROC glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC) SDL_GL_GetProcAddress("glTexImage3D");
+	if (glTexImage3D == NULL) {
+		OPENCITY_FATAL( "glTexImage3D function not found" );
+		abort();
+	}
 
 // Delete the existing texture
 	if (glIsTexture( ruiTexture ) == GL_TRUE)
