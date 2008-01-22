@@ -49,7 +49,9 @@
 */
 
 #include "SDL.h"				// Simple Directmedia Library
-#include "SDL_thread.h"			// thread
+#include "SDL_thread.h"			// Portable thread
+
+#define GL_GLEXT_PROTOTYPES 1	// Use GL extension defines from SDL
 #include "SDL_opengl.h"			// portable OpenGL headers
 
 #include <string> 				// New standard not something.h ok ?
