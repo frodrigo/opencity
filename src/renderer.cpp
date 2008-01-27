@@ -1195,6 +1195,8 @@ displayterrain_return:
 
 
    /*=====================================================================*/
+// old version, kept for reference, jan 27th, 08
+/*
 void
 Renderer::_DisplayWater() const
 {
@@ -1231,11 +1233,11 @@ Renderer::_DisplayWater() const
 
 // BEGIN, draw the terrain as an unique TRIANGLE_STRIP
 // which is known as the fastest figure in OpenGL
-/* This is the secret formula: c = a^b ;)
-		cx = ay * bz - by * az;
-		cy = bx * az - ax * bz;
-		cz = ax * by - bx * ay;
-*/
+// This is the secret formula: c = a^b ;)
+//		cx = ay * bz - by * az;
+//		cy = bx * az - ax * bz;
+//		cz = ax * by - bx * ay;
+
 	glBegin( GL_TRIANGLE_STRIP );
 
 	for (l = 0; l < (int)_uiCityLength; l++) {
@@ -1344,6 +1346,62 @@ Renderer::_DisplayWater() const
 	glNormal3f( 0., 0., 1. );
 	glEnd();
 // END: Draw the terrain by using GL_TRIANGLE_STRIP
+
+// Restore old attribs
+	glPopAttrib();
+	glEndList();
+
+displaywater_return:
+	glCallList( _uiWaterList );
+}
+*/
+
+
+   /*=====================================================================*/
+void
+Renderer::_DisplayWater() const
+{
+#define WATER_HEIGHT	-.15
+
+	static bool initialized = false;
+
+// IF the display list is already initialized THEN
+	if (initialized)
+		goto displaywater_return;
+	else
+		initialized = true;
+
+// Reserve a new display list for the terrain
+	glNewList( _uiWaterList, GL_COMPILE );
+
+// WARNING: this is used to calculated the final textured fragment.
+	glColor4f( .3, .25, .2, 1. );
+
+// Enable terrain texturing
+	glPushAttrib( GL_ENABLE_BIT );
+	glEnable( GL_BLEND );
+	glEnable( GL_TEXTURE_2D );
+	glBindTexture( GL_TEXTURE_2D, _uiWaterTex );
+	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+// Render the triangle strip
+	glBegin( GL_TRIANGLE_STRIP );
+	glNormal3i( 0, 1, 0 );
+
+	glTexCoord2i( 0, 0 );
+	glVertex3f  ( 0, WATER_HEIGHT, 0 );
+	glTexCoord2i( 0, _uiCityLength );
+	glVertex3f  ( 0, WATER_HEIGHT, _uiCityLength );
+	glTexCoord2i( _uiCityWidth, 0 );
+	glVertex3f  ( _uiCityWidth, WATER_HEIGHT, 0 );
+	glTexCoord2i( _uiCityWidth, _uiCityLength );
+	glVertex3f  ( _uiCityWidth, WATER_HEIGHT, _uiCityLength );
+
+// then restore the default normal
+	glNormal3i( 0, 0, 1 );
+	glEnd();
 
 // Restore old attribs
 	glPopAttrib();
