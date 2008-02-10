@@ -4,6 +4,8 @@ OpenCity TODO version 0.0.6 DEV
 Last modified:
 	$Id$
 
+Use less triangles to render water    (done)
+Improve alpha display                 (done)
 Save file version check
 Crime
 Review the message system

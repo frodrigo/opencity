@@ -2,7 +2,7 @@
 						graphicmanager.cpp  -  description
 							-------------------
 	begin                : september 21th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -183,10 +183,12 @@ GraphicManager::DisplayTerrain(
 
    /*======================================================================*/
 void
-GraphicManager::DisplayStructure(
+GraphicManager::DisplayStructure
+(
 	const Structure* pcStructure,
 	const uint & rcuiW,
-	const uint & rcuiL ) const
+	const uint & rcuiL
+) const
 {
 	static OPENCITY_GRAPHIC_CODE enumGC;
 	static OC_BYTE tabH [4];
@@ -498,6 +500,21 @@ GraphicManager::SetLOD( const uint lod )
 		default:
 			break;
 	}
+}
+
+   /*======================================================================*/
+uint
+GraphicManager::GetListMask() const
+{
+	return _uiDisplayListMask;
+}
+
+
+   /*======================================================================*/
+void
+GraphicManager::SetListMask( const uint mask )
+{
+	_uiDisplayListMask = mask;
 }
 
 

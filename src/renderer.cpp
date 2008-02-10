@@ -59,6 +59,7 @@ for the first time:
 #include "layer.h"
 #include "texture.h"					// Terrain texturing
 #include "font_8x8.h"					// 8x8 font definition
+#include "model.h"						// Display list mask definitions
 
 /* Test, dec 28th, 06
 #include "font_mini_4x6.h"
@@ -565,7 +566,7 @@ Renderer::Display
 	const Layer* pcLayer
 )
 {
-	static uint linear;
+	static uint linear, oldmask, newmask;
 	static int w, l;
 	static const Structure* pStructure;
 
@@ -576,27 +577,28 @@ Renderer::Display
 // Prepare the world for rendering: calculate the view volume, culling
 	_PrepareView();
 
-// Display all the structures built on the layer
-	if (_bDisplayStructure) {
+// IF the graphic manager is created AND display structure is requested
+// THEN display all _opaque_ structures built on the layer
+	if (_bDisplayStructure && gVars.gpGraphicMgr != NULL) {
+	// Build the opaque display list mask
+		oldmask = gVars.gpGraphicMgr->GetListMask();
+		newmask = oldmask & ( UINT_MAX xor OC_ALPHA_LIST);
+		gVars.gpGraphicMgr->SetListMask( newmask );
+
+	// Display the structures
 		glPushMatrix();
 		glTranslatef( 0., 0.05, 0. );
 		linear = 0;
-//		uint counter = 0;
-	// IF the graphic manager is created THEN draw
-		if (gVars.gpGraphicMgr != NULL)
 		for (l = 0; l < (int)_uiCityLength; l++) {
 			for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
 				if (!_baCulledModel[linear]) {
-//					counter++;
 					continue;
-				}
-	
+				}	
 				pStructure = pcLayer->GetLinearStructure( linear );
 				if (pStructure != NULL)
 					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
 			}
 		}
-//		OPENCITY_DEBUG( "There were " << counter << " structures clipped out" );
 		glPopMatrix();
 	}
 
@@ -626,13 +628,39 @@ Renderer::Display
 		_DisplayWater();
 	}
 
-	glFlush();
+// IF the graphic manager is created AND display structure is requested
+// THEN display all _alpha_ structures built on the layer
+	if (_bDisplayStructure && gVars.gpGraphicMgr != NULL) {
+	//	oldmask = gVars.gpGraphicMgr->GetListMask();		// previously set
+		newmask = oldmask & OC_ALPHA_LIST;
+		gVars.gpGraphicMgr->SetListMask( newmask );
+
+	// Display the structures
+		glPushMatrix();
+		glTranslatef( 0., 0.05, 0. );
+		linear = 0;
+		for (l = 0; l < (int)_uiCityLength; l++) {
+			for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
+				if (!_baCulledModel[linear]) {
+					continue;
+				}	
+				pStructure = pcLayer->GetLinearStructure( linear );
+				if (pStructure != NULL)
+					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
+			}
+		}
+		glPopMatrix();
+
+	// Restore the old display list mask
+		gVars.gpGraphicMgr->SetListMask( oldmask );
+	}
 
 // The height map changes have been memorized
 // in the grid and the terrain displaylist
 	bHeightChange = false;
 
 // GL error checking
+	glFlush();
 	static GLint glerr = glGetError();
 	if (glerr != GL_NO_ERROR) {
 		OPENCITY_ERROR( "GL error: " << glerr );

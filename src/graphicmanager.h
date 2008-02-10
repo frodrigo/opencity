@@ -134,6 +134,8 @@ public:
 */
 	void SetLOD( const uint lod );
 
+	uint GetListMask() const;
+	void SetListMask( const uint mask );
 
 	void
 	DisplayAgent(float x, float y, const Agent* const pAgent) const;
