@@ -60,6 +60,7 @@ for the first time:
 #include "texture.h"					// Terrain texturing
 #include "font_8x8.h"					// 8x8 font definition
 #include "model.h"						// Display list mask definitions
+#include "structure.h"
 
 /* Test, dec 28th, 06
 #include "font_mini_4x6.h"
@@ -567,7 +568,7 @@ Renderer::Display
 )
 {
 	static uint linear, oldmask, newmask;
-	static int w, l;
+	static uint w, l;
 	static const Structure* pStructure;
 
 // Clear the color buffer ( the screen ) and the depth buffer
@@ -576,6 +577,13 @@ Renderer::Display
 
 // Prepare the world for rendering: calculate the view volume, culling
 	_PrepareView();
+
+// Calculate the culling grid and the culled models if it's requested
+	if (_bCalculateCulling) {
+		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
+		_CalculateCulledModel( pcLayer );
+		_bCalculateCulling = false;
+	}
 
 // IF the graphic manager is created AND display structure is requested
 // THEN display all _opaque_ structures built on the layer
@@ -589,11 +597,12 @@ Renderer::Display
 		glPushMatrix();
 		glTranslatef( 0., 0.05, 0. );
 		linear = 0;
-		for (l = 0; l < (int)_uiCityLength; l++) {
-			for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
+		for (l = 0; l < _uiCityLength; l++) {
+			for (w = 0; w < _uiCityWidth; w++, linear++) {
+			// IF the model is not selected then continue
 				if (!_baCulledModel[linear]) {
 					continue;
-				}	
+				}
 				pStructure = pcLayer->GetLinearStructure( linear );
 				if (pStructure != NULL)
 					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
@@ -639,11 +648,12 @@ Renderer::Display
 		glPushMatrix();
 		glTranslatef( 0., 0.05, 0. );
 		linear = 0;
-		for (l = 0; l < (int)_uiCityLength; l++) {
-			for (w = 0; w < (int)_uiCityWidth; w++, linear++) {
+		for (l = 0; l < _uiCityLength; l++) {
+			for (w = 0; w < _uiCityWidth; w++, linear++) {
+			// IF the model is not selected then continue
 				if (!_baCulledModel[linear]) {
 					continue;
-				}	
+				}
 				pStructure = pcLayer->GetLinearStructure( linear );
 				if (pStructure != NULL)
 					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
@@ -655,8 +665,7 @@ Renderer::Display
 		gVars.gpGraphicMgr->SetListMask( oldmask );
 	}
 
-// The height map changes have been memorized
-// in the grid and the terrain displaylist
+// The height map changes have been memorized in the grid and the terrain displaylist
 	bHeightChange = false;
 
 // GL error checking
@@ -711,6 +720,13 @@ Renderer::DisplayHighlight(
 
 // Prepare the world for rendering
 	_PrepareView();
+
+// Calculate the culling grid and the culled models if it's requested
+	if (_bCalculateCulling) {
+		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
+		_CalculateCulledModel( pcLayer );
+		_bCalculateCulling = false;
+	}
 
 // Now let's display all the structures in selection mode
 	glPushAttrib( GL_ENABLE_BIT );	
@@ -930,10 +946,7 @@ Renderer::GetSelectedWHFrom
 
 // Prepare the world for rendering without culling calculation because
 // calculating the culling with the pick matrix gives unpredictable results
-	bool bCulling = _bCalculateCulling;
-	_bCalculateCulling = false;
 	_PrepareView();
-	_bCalculateCulling = bCulling;
 
 // Now let's display all the structures in selection mode
 	linear = 0;
@@ -1614,13 +1627,6 @@ Renderer::_PrepareView()
 
 // Rotate the scence to the required angle
 	glMultMatrixd( _dmatrixRotate );
-
-// Calculate the culling grid if it's requested
-	if (_bCalculateCulling) {
-		OPENCITY_DEBUG( "Calculate culling" );
-		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
-	 	_bCalculateCulling = false;
-	}
 }
 
 
@@ -1641,7 +1647,7 @@ Renderer::_CalculateCulledGrid
 	static GLint iaViewport[4];
 	static int x1, y1, x2, y2;
 
-// Get the OpenGL matrices if it's requested
+// IF the initialization operation is requested THEN get the OpenGL matrices
 	if (init) {
 		glGetDoublev( GL_MODELVIEW_MATRIX, daModelViewMatrix );
 		glGetDoublev( GL_PROJECTION_MATRIX, daProjectionMatrix );
@@ -1706,6 +1712,45 @@ Renderer::_CalculateCulledGrid
 			_CalculateCulledGrid(w1+mw, l1,    w2,    l1+ml);
 		}
 	}
+}
+
+
+   /*=====================================================================*/
+void
+Renderer::_CalculateCulledModel( const Layer* pcLayer )
+{
+	uint linear, w, l;
+	const Structure* pStructure;
+	uint sw, sl, sh;			// Structure's width, length and height
+	bool a, b, c, d;			// True if the corresponding part is culled (selected)
+	bool culled;
+
+	linear = 0;
+	for (l = 0; l < _uiCityLength; l++) {
+		for (w = 0; w < _uiCityWidth; w++, linear++) {
+		// We process main structures only
+			pStructure = pcLayer->GetLinearStructure( linear );
+			if (pStructure == NULL || pStructure->GetMain() != NULL)
+				continue;
+
+		// Calculate the structure's range
+			gVars.gpPropertyMgr->GetWLH( pStructure->GetGraphicCode(), sw, 1, sl, 1, sh, 1 );
+
+		// Extra size test
+		// IF pStructure is a big structure THEN its dimensions can not be 1, 1, 1
+			if (sw == 1 and sl == 1 and sh == 1)
+				continue;
+
+		// 4 taps culling calculation
+			sw--; sl--;
+			a = _baCulledModel[linear];
+			b = _baCulledModel[linear + sw];
+			c = _baCulledModel[linear + (_uiCityWidth*sl)];
+			d = _baCulledModel[linear + (_uiCityWidth*sl) + sw];
+			culled = a or b or c or d;
+			_baCulledModel[linear] = culled;
+		}
+	} // for
 }
 
 

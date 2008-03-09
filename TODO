@@ -6,6 +6,7 @@ Last modified:
 
 Use less triangles to render water    (done)
 Improve alpha display                 (done)
+Improve culling calculation           (done)
 Save file version check
 Crime
 Review the message system

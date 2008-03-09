@@ -274,12 +274,15 @@ draw the water layer
 	void _PrepareView();
 
 //========================================================================
-/** Calulate the culling grid. The culled models are drawn, the others
-are not drawn.
+/** Calulate the culled grid.
 */
-	void _CalculateCullingGrid();
-
 	void _CalculateCulledGrid(uint w1, uint l1, uint w2, uint l2, bool init = false);
+
+//========================================================================
+/** Calulate the culled (selected) models from the culled grid.
+The culled models are drawn, the others are not drawn.
+*/
+	void _CalculateCulledModel( const Layer* pcLayer );
 
 
 //========================================================================

@@ -151,6 +151,9 @@ structure type
 	GetCode() const;
 
 
+//========================================================================
+/** Get the pointer to main structure. NULL if unavailable
+*/
 	Structure*
 	GetMain() const;
 
