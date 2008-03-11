@@ -228,7 +228,8 @@ private:
 
 /// The model culling grid
 	bool _bCalculateCulling;
-	bool* _baCulledModel;
+	bool* _baCulledGrid;			// The culled grid has w+1 x l+1 nodes
+	bool* _baCulledModel;			// The culled model array has w x l models
 
 /// used for calculating the viewport & the perspective ratio
 	int _iWinHeight;
@@ -274,9 +275,13 @@ draw the water layer
 	void _PrepareView();
 
 //========================================================================
-/** Calulate the culled grid.
+/** Calulate the culled grid which has city_width + 1 and city_length + 1
+nodes
 */
-	void _CalculateCulledGrid(uint w1, uint l1, uint w2, uint l2, bool init = false);
+	void _CalculateCulledGrid(
+		uint w1, uint l1,
+		uint w2, uint l2,
+		bool init = false);
 
 //========================================================================
 /** Calulate the culled (selected) models from the culled grid.

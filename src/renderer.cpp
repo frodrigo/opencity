@@ -126,11 +126,18 @@ _uiCityLength( cityL )
 	_uiTerrainTex = Texture::Load3D( ocDataDirPrefix( "texture/terrain_64x4096_texture.png" ));
 	_uiWaterTex = Texture::Load( ocDataDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
-// Initialize the model culling grid
-	uint size = _uiCityWidth * _uiCityLength;
+// Initialize the culled grid
+	uint size = _uiCityWidth+1 * _uiCityLength+1;
+	_baCulledGrid = new bool[size];
+	for ( uint i = 0; i < size; i++ ) {
+		_baCulledGrid[i] = true;
+	}
+
+// Initialize the culled models grid
+	size = _uiCityWidth * _uiCityLength;
 	_baCulledModel = new bool[size];
 	for ( uint i = 0; i < size; i++ ) {
-		_baCulledModel[i] = true;
+		_baCulledModel[i] = false;
 	}
 
 // Initialize the window's size, the viewport
@@ -259,8 +266,9 @@ Renderer::~Renderer(  )
 	glDeleteTextures( 1, &_uiCloudTex );
 	glDeleteTextures( 1, &_uiMinimapTex );
 
-// Free the model culling grid
+// Free the culled grid and the models grid
 	delete [] _baCulledModel;
+	delete [] _baCulledGrid;
 }
 
 
@@ -580,10 +588,10 @@ Renderer::Display
 
 // Calculate the culling grid and the culled models if it's requested
 	if (_bCalculateCulling) {
-		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
-		_CalculateCulledModel( pcLayer );
+		_CalculateCulledGrid( 0, 0, _uiCityWidth+1, _uiCityLength+1, true);
 		_bCalculateCulling = false;
 	}
+	_CalculateCulledModel( pcLayer );
 
 // IF the graphic manager is created AND display structure is requested
 // THEN display all _opaque_ structures built on the layer
@@ -600,12 +608,13 @@ Renderer::Display
 		for (l = 0; l < _uiCityLength; l++) {
 			for (w = 0; w < _uiCityWidth; w++, linear++) {
 			// IF the model is not selected then continue
-				if (!_baCulledModel[linear]) {
+				if (!_baCulledModel[linear])
 					continue;
-				}
+
+			// The structure is not NULL here (see _CalculateCulledModel)
 				pStructure = pcLayer->GetLinearStructure( linear );
-				if (pStructure != NULL)
-					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
+				assert( pStructure != NULL );
+				gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
 			}
 		}
 		glPopMatrix();
@@ -651,12 +660,13 @@ Renderer::Display
 		for (l = 0; l < _uiCityLength; l++) {
 			for (w = 0; w < _uiCityWidth; w++, linear++) {
 			// IF the model is not selected then continue
-				if (!_baCulledModel[linear]) {
+				if (!_baCulledModel[linear])
 					continue;
-				}
+
+			// The structure is not NULL here (see _CalculateCulledModel)
 				pStructure = pcLayer->GetLinearStructure( linear );
-				if (pStructure != NULL)
-					gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
+				assert( pStructure != NULL );
+				gVars.gpGraphicMgr->DisplayStructure( pStructure, w, l );
 			}
 		}
 		glPopMatrix();
@@ -720,13 +730,6 @@ Renderer::DisplayHighlight(
 
 // Prepare the world for rendering
 	_PrepareView();
-
-// Calculate the culling grid and the culled models if it's requested
-	if (_bCalculateCulling) {
-		_CalculateCulledGrid( 0, 0, _uiCityWidth, _uiCityLength, true);
-		_CalculateCulledModel( pcLayer );
-		_bCalculateCulling = false;
-	}
 
 // Now let's display all the structures in selection mode
 	glPushAttrib( GL_ENABLE_BIT );	
@@ -1659,6 +1662,7 @@ Renderer::_CalculateCulledGrid
 	}
 
 	double x, y, z;				// Window coordinates
+	uint gridWidth = _uiCityWidth+1;
 	bool a, b, c, d;			// True if the corresponding part is culled (selected)
 	bool culled;
 
@@ -1685,9 +1689,9 @@ Renderer::_CalculateCulledGrid
 		culled = a or b or c or d;
 //		OPENCITY_DEBUG( "culled? w1/l1_w2/l2: " << culled << " " << w1 << "/" << l1 << " _ " << w2 << "/" << l2 );
 		for (uint l = l1; l < l2; l++) {
-			linear = l*_uiCityWidth + w1;
+			linear = l*gridWidth + w1;
 			for (uint w = w1; w < w2; w++, linear++)
-				_baCulledModel[linear] = culled;
+				_baCulledGrid[linear] = culled;
 		}
 	}
 	else {
@@ -1696,9 +1700,9 @@ Renderer::_CalculateCulledGrid
 		if (culled) {
 //			OPENCITY_DEBUG( "culled: w1/l1_w2/l2: " << w1 << "/" << l1 << " _ " << w2 << "/" << l2 );
 			for (uint l = l1; l < l2; l++) {
-				linear = l*_uiCityWidth + w1;
+				linear = l*gridWidth + w1;
 				for (uint w = w1; w < w2; w++, linear++)
-					_baCulledModel[linear] = true;
+					_baCulledGrid[linear] = true;
 			}
 		} else
 	// IF all not culled (not selected) THEN divide the grid into four parts
@@ -1720,34 +1724,29 @@ void
 Renderer::_CalculateCulledModel( const Layer* pcLayer )
 {
 	uint linear, w, l;
-	const Structure* pStructure;
-	uint sw, sl, sh;			// Structure's width, length and height
-	bool a, b, c, d;			// True if the corresponding part is culled (selected)
+	uint sw, sl, sh;				// Structure's width, length and height
+	uint gridWidth = _uiCityWidth+1;
+	bool x0y0, x1y0, x1y1, x0y1;	// True if the corresponding part is culled (selected)
 	bool culled;
+	const Structure* pStructure;
 
 	linear = 0;
 	for (l = 0; l < _uiCityLength; l++) {
 		for (w = 0; w < _uiCityWidth; w++, linear++) {
 		// We process main structures only
 			pStructure = pcLayer->GetLinearStructure( linear );
-			if (pStructure == NULL || pStructure->GetMain() != NULL)
+			if (pStructure == NULL || pStructure->GetMain() != NULL) {
+				_baCulledModel[linear] = false;
 				continue;
+			}
 
-		// Calculate the structure's range
+		// 4 taps culling calculation from the structure's dimensions
 			gVars.gpPropertyMgr->GetWLH( pStructure->GetGraphicCode(), sw, 1, sl, 1, sh, 1 );
-
-		// Extra size test
-		// IF pStructure is a big structure THEN its dimensions can not be 1, 1, 1
-			if (sw == 1 and sl == 1 and sh == 1)
-				continue;
-
-		// 4 taps culling calculation
-			sw--; sl--;
-			a = _baCulledModel[linear];
-			b = _baCulledModel[linear + sw];
-			c = _baCulledModel[linear + (_uiCityWidth*sl)];
-			d = _baCulledModel[linear + (_uiCityWidth*sl) + sw];
-			culled = a or b or c or d;
+			x0y0 = _baCulledGrid[ w     + (l      * gridWidth)];
+			x1y0 = _baCulledGrid[(w+sw) + (l      * gridWidth)];
+			x1y1 = _baCulledGrid[(w+sw) + ((l+sl) * gridWidth)];
+			x0y1 = _baCulledGrid[ w     + ((l+sl) * gridWidth)];
+			culled = x0y0 or x1y0 or x1y1 or x0y1;
 			_baCulledModel[linear] = culled;
 		}
 	} // for
