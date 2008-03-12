@@ -267,7 +267,7 @@ GraphicManager::DisplayStructure
 		case OC_ROAD_S_N_W:
 		case OC_ROAD_N_W_E:
 		case OC_ROAD_S_N_W_E:
-			_tabpModel[enumGC]->Display2( rcuiW, rcuiL, tabH );
+			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
 //			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
 

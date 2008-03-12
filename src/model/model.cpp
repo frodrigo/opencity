@@ -387,7 +387,18 @@ Model::DisplayList(
 // Call the selected lists
 //	glMatrixMode( GL_MODELVIEW );		// default matrix mode
 	glPushMatrix();
-	glTranslatef( rcfW, tabY[0], rcfL );
+	
+	// Correct for a 1x1 model
+	GLdouble matrix[16] = {
+		1,tabY[3]-tabY[0],0,0,
+		0,1,0,0,
+		0,tabY[1]-tabY[0],1,0,
+		0,0,0,1
+	};
+	glMultMatrixd(matrix);
+
+	glTranslatef( rcfW, tabY[0]-rcfW*(tabY[3]-tabY[0])-rcfL*(tabY[1]-tabY[0]), rcfL );
+//	glTranslatef( rcfW, tabY[0], rcfL );
 	if (dlMask & OC_OPAQUE_ONESIDE_LIST)
 		glCallList( _uiOpaqueOneSide );
 	if (dlMask & OC_OPAQUE_TWOSIDE_LIST)
