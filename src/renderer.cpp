@@ -127,7 +127,7 @@ _uiCityLength( cityL )
 	_uiWaterTex = Texture::Load( ocDataDirPrefix( "graphism/water/texture/blue_water_512.png" ));
 
 // Initialize the culled grid
-	uint size = _uiCityWidth+1 * _uiCityLength+1;
+	uint size = (_uiCityWidth+1) * (_uiCityLength+1);
 	_baCulledGrid = new bool[size];
 	for ( uint i = 0; i < size; i++ ) {
 		_baCulledGrid[i] = true;
