@@ -10,7 +10,7 @@ SUBDIRS = \
 # See the install-data-local target for more information
 #==============================================================================
 EXTRA_DIST = \
-	graphism model sound texture \
+	graphism sound texture \
 	opencity.desktop opencity.png \
 	autopackage/opencity.apspec
 
