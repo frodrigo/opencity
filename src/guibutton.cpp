@@ -2,7 +2,7 @@
 						guibutton.cpp    -  description
 							-------------------
 	begin                : march 22th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -25,6 +25,7 @@
 
    /*=====================================================================*/
 GUIButton::GUIButton():
+_uiNumberState(0),
 _uiTexNormal(0),
 _uiTexOver(0)
 {
@@ -32,12 +33,18 @@ _uiTexOver(0)
 
 
    /*=====================================================================*/
-GUIButton::GUIButton(
-	const int & rciX,
-	const int & rciY,
-	const uint & rcuiW,
-	const uint & rcuiH,
-	const string & strFile )
+GUIButton::GUIButton
+(
+	const int& rciX,
+	const int& rciY,
+	const uint& rcuiW,
+	const uint& rcuiH,
+	const string& strFile,
+	uint numberState
+):
+_uiNumberState(numberState),
+_uiTexNormal(0),
+_uiTexOver(0)
 {
 	OPENCITY_DEBUG( "Ctor" );
 
@@ -55,7 +62,9 @@ GUIButton::GUIButton(
 
 // Load the texture from the image
 	_uiTexNormal = Texture::Load( strFile + ".png" );
-	_uiTexOver = Texture::Load( strFile + "_over.png" );
+	if (_uiNumberState == 2) {
+		_uiTexOver = Texture::Load( strFile + "_over.png" );
+	}
 
 // Set the default colors
 	_cForeground = OPENCITY_PALETTE[ Color::OC_BLACK ];
@@ -84,8 +93,7 @@ GUIButton::~GUIButton()
 
    /*=====================================================================*/
 void
-GUIButton::SetBackground(
-	const Color& color )
+GUIButton::SetBackground( const Color& color )
 {
 	_cBackground = color;
 }
@@ -93,8 +101,7 @@ GUIButton::SetBackground(
 
    /*=====================================================================*/
 void
-GUIButton::SetForeground(
-	const Color& color )
+GUIButton::SetForeground( const Color& color )
 {
 	_cForeground = color;
 }
@@ -139,7 +146,7 @@ GUIButton::Display() const
 // Select the appropriate texture
 // IF the mouse is over THEN choose the over texture
 // ELSE, use the normal texture
-	if ( IsSet( OC_GUIMAIN_MOUSEOVER ) == true )
+	if ( IsSet(OC_GUIMAIN_MOUSEOVER) && _uiNumberState > 1 )
 		glBindTexture( GL_TEXTURE_2D, _uiTexOver );
 	else
 		glBindTexture( GL_TEXTURE_2D, _uiTexNormal );

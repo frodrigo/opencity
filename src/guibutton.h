@@ -2,7 +2,7 @@
 						guibutton.h    -  description
 							-------------------
 	begin                : march 22th, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -22,19 +22,28 @@
 
 #include "guimain.h"
 
+#define GUIBUTTON_POSITION_1		19, 73, 30, 30
+#define GUIBUTTON_POSITION_2		19, 33, 30, 30
+#define GUIBUTTON_POSITION_3		55, 13, 30, 30
+#define GUIBUTTON_POSITION_4		91, 33, 30, 30
+#define GUIBUTTON_POSITION_5		91, 73, 30, 30
+#define GUIBUTTON_POSITION_6		55, 93, 30, 30
+
 
 //========================================================================
-/** This is a 2-state button: onMouseOver and onMouseOut.
+/** One or two states button: onMouseOver and onMouseOut. The default
+is a two state button
 */
 class GUIButton : public GUIMain {
 public:
 	GUIButton();
 	GUIButton(
-		const int & rciX,
-		const int & rciY,
-		const uint & rcuiW,
-		const uint & rcuiH,
-		const string & strFile );
+		const int& rciX,
+		const int& rciY,
+		const uint& rcuiW,
+		const uint& rcuiH,
+		const string& strFile,
+		uint numberState = 2 );
 	~GUIButton();
 
 
@@ -65,10 +74,11 @@ public:
 
 
 private:
-	GLuint _uiTexNormal, _uiTexOver;
+	uint	_uiNumberState;				///< Number of state (default is 2)
+	GLuint	_uiTexNormal, _uiTexOver;
 
-	Color _cForeground;				///< Foreground color
-	Color _cBackground;				///< Background color
+	Color	_cForeground;				///< Foreground color
+	Color	_cBackground;				///< Background color
 };
 
 #endif

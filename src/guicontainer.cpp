@@ -2,7 +2,7 @@
 						guicontainer.cpp    -  description
 							-------------------
 	begin                : mar 22th, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -90,7 +90,7 @@ GUIContainer::~GUIContainer()
 	std::vector<GUIMain*>::size_type stvector;
 	GUIMain* pguimain;
 
-//--- now remove the container pointer from all the contained controls
+// Now remove the container pointer from all the contained controls
 	for ( stvector = 0; stvector < this->vectorpguimain.size(); stvector++ ) {
 		if ( (pguimain = vectorpguimain[ stvector ]) != NULL )
 			pguimain->SetContainer( NULL );
@@ -111,14 +111,13 @@ GUIContainer::~GUIContainer()
 
    /*=====================================================================*/
 const uint
-GUIContainer::Add(
-	GUIMain* const pguimain )
+GUIContainer::Add( GUIMain* const pguimain )
 {
-// add the new pointer to the end
+// Add the new pointer to the end
 	pguimain->SetContainer( this );
 	this->vectorpguimain.push_back( pguimain );
 
-// get its index for future use
+// Get its index for future use
 	return this->vectorpguimain.size();
 }
 

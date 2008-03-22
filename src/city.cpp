@@ -24,13 +24,13 @@
 // OpenCity headers
 #include "city.h"
 #include "vehicle.h"
-#include "mainsim.h"				// simulator
+#include "mainsim.h"				// Simulator
 #include "structure.h"
 #include "buildinglayer.h"
-#include "guibar.h"
-#include "guibutton.h"				// GUI management
-#include "guilabel.h"
-#include "guicontainer.h"
+#include "guibar.h"					// RCI bar
+#include "guibutton.h"				// Tool button
+#include "guilabel.h"				// Status label
+#include "guicontainer.h"			// GUI control container
 #include "agentpolice.h"
 #include "agentdemonstrator.h"
 #include "agentrobber.h"
@@ -44,6 +44,7 @@ extern GlobalVar gVars;
 
 
 #define OC_ACTION_FACTOR 10
+#define GUIBUTTON_POSITION_TOOL		85, 4, 24, 24
 
 
    /*=====================================================================*/
@@ -971,51 +972,51 @@ City::_CreateGUI()
 
 // Load the buttons used by the status bar
 	_apbtnCurrentTool[OC_TOOL_NONE]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/unknown" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/unknown" ));
 	_apbtnCurrentTool[OC_TOOL_DESTROY]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/destroy" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/destroy" ));
 	_apbtnCurrentTool[OC_TOOL_ZONE_RES]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/residential" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/residential" ));
 	_apbtnCurrentTool[OC_TOOL_ZONE_COM]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/commercial" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/commercial" ));
 	_apbtnCurrentTool[OC_TOOL_ZONE_IND]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/industrial" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/industrial" ));
 	_apbtnCurrentTool[OC_TOOL_HEIGHT_UP]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/raise" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/raise" ));
 	_apbtnCurrentTool[OC_TOOL_HEIGHT_DOWN]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/lower" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/lower" ));
 	_apbtnCurrentTool[OC_TOOL_ROAD]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/road" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/road" ));
 	_apbtnCurrentTool[OC_TOOL_ELINE]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/power_line" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/power_line" ));
 	_apbtnCurrentTool[OC_TOOL_EPLANT_COAL]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/power_plant_coal" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/power_plant_coal" ));
 	_apbtnCurrentTool[OC_TOOL_EPLANT_NUCLEAR]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/power_plant_nuclear" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/power_plant_nuclear" ));
 	_apbtnCurrentTool[OC_TOOL_PARK]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/park" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/park" ));
 	_apbtnCurrentTool[OC_TOOL_FLORA]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/tree" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/tree" ));
 	_apbtnCurrentTool[OC_TOOL_FIRE]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/fire" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/fire" ));
 	
 	_apbtnCurrentTool[OC_TOOL_POLICE]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/police" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/police" ));
 	_apbtnCurrentTool[OC_TOOL_HOSPITAL]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/hospital" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/hospital" ));
 	_apbtnCurrentTool[OC_TOOL_EDUCATION]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/education" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/education" ));
 	_apbtnCurrentTool[OC_TOOL_QUERY]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/query" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/query" ));
 
 	_apbtnCurrentTool[OC_TOOL_AGENT_POLICE]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/unknown" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/unknown" ));
 	_apbtnCurrentTool[OC_TOOL_AGENT_DEMONSTRATOR]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/unknown" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/unknown" ));
 	_apbtnCurrentTool[OC_TOOL_AGENT_ROBBER]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/unknown" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/unknown" ));
 	_apbtnCurrentTool[OC_TOOL_TEST_BUILDING]
-		= new GUIButton( 85, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/unknown" ));
+		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/unknown" ));
 
 // The status bar
 	_pbtnPause = new GUIButton( 54, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/speed_pause" ));
@@ -1071,12 +1072,12 @@ City::_CreateGUI()
 	_apbtnCurrentTool[OC_TOOL_NONE]->Set( OC_GUIMAIN_VISIBLE );
 
 // GUI main toolcircle
-	pbtnZ = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/zone" ));
-	pbtnS = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/save" ));
-	pbtnL = new GUIButton( 19, 33, 30, 30, ocDataDirPrefix( "graphism/gui/power" ));
-	pbtnP = new GUIButton( 55, 13, 30, 30, ocDataDirPrefix( "graphism/gui/road" ));
-	pbtnX = new GUIButton( 91, 33, 30, 30, ocDataDirPrefix( "graphism/gui/bulldozer" ));
-	pbtnG = new GUIButton( 55, 93, 30, 30, ocDataDirPrefix( "graphism/gui/government" ));
+	pbtnZ = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/zone" ));
+	pbtnS = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/save" ));
+	pbtnL = new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix( "graphism/gui/power" ));
+	pbtnP = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/road" ));
+	pbtnX = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/bulldozer" ));
+	pbtnG = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/government" ));
 
 	pctrMain = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrMain->Add( pbtnZ );
@@ -1088,10 +1089,10 @@ City::_CreateGUI()
 
 
 // GUI Z toolcircle for RCI buttons
-	pbtnZB = new GUIButton( 19, 73,  30, 30, ocDataDirPrefix( "graphism/gui/back" ));
-	pbtnZR = new GUIButton( 19, 33,  30, 30, ocDataDirPrefix( "graphism/gui/residential" ));
-	pbtnZC = new GUIButton( 55, 13,  30, 30, ocDataDirPrefix( "graphism/gui/commercial" ));
-	pbtnZI = new GUIButton( 91, 33,  30, 30, ocDataDirPrefix( "graphism/gui/industrial" ));
+	pbtnZB = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/back" ));
+	pbtnZR = new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix( "graphism/gui/residential" ));
+	pbtnZC = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/commercial" ));
+	pbtnZI = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/industrial" ));
 
 	pctrZ = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrZ->Add( pbtnZB );
@@ -1101,10 +1102,10 @@ City::_CreateGUI()
 
 
 // GUI L toolcircle ( electric lines, electric plants )
-	pbtnLB = new GUIButton( 19, 33, 30, 30, ocDataDirPrefix( "graphism/gui/back" ));
-	pbtnLL = new GUIButton( 55, 13, 30, 30, ocDataDirPrefix( "graphism/gui/power_line" ));
-	pbtnLN = new GUIButton( 91, 33, 30, 30, ocDataDirPrefix( "graphism/gui/power_plant_nuclear" ));
-	pbtnLC = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/power_plant_coal" ));
+	pbtnLB = new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix( "graphism/gui/back" ));
+	pbtnLL = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/power_line" ));
+	pbtnLN = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/power_plant_nuclear" ));
+	pbtnLC = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/power_plant_coal" ));
 
 	pctrL = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrL->Add( pbtnLB );
@@ -1114,11 +1115,11 @@ City::_CreateGUI()
 
 
 // GUI T toolcircle ( raise, lower terrain )
-	pbtnTU = new GUIButton( 19, 33, 30, 30, ocDataDirPrefix( "graphism/gui/raise" ));
-	pbtnTD = new GUIButton( 55, 13, 30, 30, ocDataDirPrefix( "graphism/gui/lower" ));
-	pbtnTB = new GUIButton( 91, 33, 30, 30, ocDataDirPrefix( "graphism/gui/back" ));
-	pbtnTX = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/destroy" ));
-	pbtnTQ = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/query" ));
+	pbtnTU = new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix( "graphism/gui/raise" ));
+	pbtnTD = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/lower" ));
+	pbtnTB = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/back" ));
+	pbtnTX = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/destroy" ));
+	pbtnTQ = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/query" ));
 
 	pctrT = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrT->Add( pbtnTB );
@@ -1129,12 +1130,12 @@ City::_CreateGUI()
 
 
 // GUI Gouvernement toolcircle ( park, education, hospital, police and fire )
-	pbtnGB = new GUIButton( 55, 93, 30, 30, ocDataDirPrefix( "graphism/gui/back" ));
-	pbtnGP = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/park" ));
-	pbtnGE = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/education" ));
-	pbtnGH = new GUIButton( 19, 33, 30, 30, ocDataDirPrefix( "graphism/gui/hospital" ));
-	pbtnGL = new GUIButton( 55, 13, 30, 30, ocDataDirPrefix( "graphism/gui/police" ));
-	pbtnGF = new GUIButton( 91, 33, 30, 30, ocDataDirPrefix( "graphism/gui/fire" ));
+	pbtnGB = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/back" ));
+	pbtnGP = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/park" ));
+	pbtnGE = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/education" ));
+	pbtnGH = new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix( "graphism/gui/hospital" ));
+	pbtnGL = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/police" ));
+	pbtnGF = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/fire" ));
 
 	pctrG = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrG->Add( pbtnGB );
@@ -1146,9 +1147,9 @@ City::_CreateGUI()
 
 
 // Create the nature container
-	pbtnNB = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/back" ));
-	pbtnNP = new GUIButton( 55, 91, 30, 30, ocDataDirPrefix( "graphism/gui/park_city" ));
-	pbtnNT = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/tree" ));
+	pbtnNB = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/back" ));
+	pbtnNP = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/park_city" ));
+	pbtnNT = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/tree" ));
 
 	pctrN = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrN->Add( pbtnNB );
@@ -1157,9 +1158,9 @@ City::_CreateGUI()
 
 
 // Create save/load buttons and the container
-	pbtnSL = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/save_load" ));
-	pbtnSS = new GUIButton( 55, 91, 30, 30, ocDataDirPrefix( "graphism/gui/save_save" ));
-	pbtnSB = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/back" ));
+	pbtnSL = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/save_load" ));
+	pbtnSS = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/save_save" ));
+	pbtnSB = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/back" ));
 
 	pctrS = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
 	pctrS->Add( pbtnSB );
@@ -1567,23 +1568,18 @@ City::_DoTool(
 
 	case OC_TOOL_QUERY:
 	// Delete the old query container
-	// we don't need to assign it to NULL since
-	// it will contain another value later
+	// We don't need to assign it to NULL since it will contain another value later
 		if (pctrQ != NULL)
 			delete pctrQ;
 
-	// get the new query container
-		pctrQ = _apLayer[ _eCurrentLayer ]->
-			QueryStructure( _uiMapW1, _uiMapL1 );
-	// reset the old container
-		pctr->ResetAttribute(
-			OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+	// Get the new query container
+		pctrQ = _apLayer[ _eCurrentLayer ]->QueryStructure( _uiMapW1, _uiMapL1 );
+	// Reset the old container
+		pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 		pctr->Unset( OC_GUIMAIN_VISIBLE );
-	// show the informations queried
+	// Show the informations queried
 		pctr = pctrQ;
-		pctr->SetLocation(
-			sdlMBEvent.x - 70,
-			_iWinHeight - sdlMBEvent.y - 70 );
+		pctr->SetLocation( sdlMBEvent.x - 70, _iWinHeight - sdlMBEvent.y - 70 );
 		pctr->Set( OC_GUIMAIN_VISIBLE );
 		enumErrCode = OC_ERR_SOMETHING;		// avoid to calculate the cost
 		break;

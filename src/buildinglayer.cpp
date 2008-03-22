@@ -784,40 +784,44 @@ BuildingLayer::QueryStructure(
 {
 	GUIContainer* pcontainer = new GUIContainer( 100, 100, 140, 140 );
 	Structure* pstruct = _tabpStructure[ l*_uiLayerWidth + w ];
-	Color red = { 255, 0, 0, 255 };
-	Color green = { 0, 255, 0, 255 };
 
-// everything is RED :D
-	Layer::pbtnQW->SetBackground( red );
-	Layer::pbtnQE->SetBackground( red );
-	Layer::pbtnQG->SetBackground( red );
-	Layer::pbtnQR->SetBackground( red );
-	Layer::pbtnQC->SetBackground( red );
-	Layer::pbtnQI->SetBackground( red );
 
-// look for the RCI structures around
-// and WEG properties
+// Look for the RCI structures around and WEG properties
 	if ( pstruct != NULL ) {
-	// we check only the E bit, WG are NOT implemented yet
-		if ( pstruct->IsSet( OC_STRUCTURE_E ) )
-			Layer::pbtnQE->SetBackground( green );
-
-	// check for RCI
+	// Check for RCI
 		if ( pstruct->IsSet( OC_STRUCTURE_R ) )
-			Layer::pbtnQR->SetBackground( green );
-		if ( pstruct->IsSet( OC_STRUCTURE_C ) )
-			Layer::pbtnQC->SetBackground( green );
-		if ( pstruct->IsSet( OC_STRUCTURE_I ) )
-			Layer::pbtnQI->SetBackground( green );
-	}
+			pcontainer->Add( Layer::pbtnQRo );
+		else
+			pcontainer->Add( Layer::pbtnQRf );
 
-// add all the controls
-	pcontainer->Add( Layer::pbtnQW );
-	pcontainer->Add( Layer::pbtnQE );
-	pcontainer->Add( Layer::pbtnQG );
-	pcontainer->Add( Layer::pbtnQR );
-	pcontainer->Add( Layer::pbtnQC );
-	pcontainer->Add( Layer::pbtnQI );
+		if ( pstruct->IsSet( OC_STRUCTURE_C ) )
+			pcontainer->Add( Layer::pbtnQCo );
+		else
+			pcontainer->Add( Layer::pbtnQCf );
+
+		if ( pstruct->IsSet( OC_STRUCTURE_I ) )
+			pcontainer->Add( Layer::pbtnQIo );
+		else
+			pcontainer->Add( Layer::pbtnQIf );
+
+	// We check only the E bit, WG are NOT implemented yet
+		pcontainer->Add( Layer::pbtnQWf );
+		if ( pstruct->IsSet( OC_STRUCTURE_E ) )
+			pcontainer->Add( Layer::pbtnQEo );
+		else
+			pcontainer->Add( Layer::pbtnQEf );
+
+		pcontainer->Add( Layer::pbtnQGf );
+	}
+	else {
+	// Add all the controls with their off state
+		pcontainer->Add( Layer::pbtnQRf );
+		pcontainer->Add( Layer::pbtnQCf );
+		pcontainer->Add( Layer::pbtnQIf );
+		pcontainer->Add( Layer::pbtnQWf );
+		pcontainer->Add( Layer::pbtnQEf );
+		pcontainer->Add( Layer::pbtnQGf );
+	}
 
 	return pcontainer;
 }

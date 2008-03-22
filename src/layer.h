@@ -2,7 +2,7 @@
 						layer.h  -  description
 							-------------------
 	begin                : september 20th, 2003
-	copyright            : (C) 2003-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	
 	$Id$
@@ -196,7 +196,7 @@ It starts from 0.
 
 //========================================================================
 /** Does the specified surface contain _only_ the required structure or
-	nothing ?
+nothing ?
 */
 	virtual const bool
 	ContainStructureOnly(
@@ -208,9 +208,9 @@ It starts from 0.
 
 
 //========================================================================
-/** This methods returns a pointer to a container which contains
-	the queried informations. The user must call "delete pointer" to
-	destroy that pointer once he/she've done with it.
+/** This methods returns a pointer to a container which contains the
+queried informations. The user must call "delete pointer" to destroy
+that pointer once he/she've done with it.
 */
 	virtual GUIContainer*
 	QueryStructure(
@@ -233,15 +233,15 @@ protected:
 
 //========================================================================
 /** Used by the "Query" function
-	these controls are shared by all the derived layers
+these controls are shared by all the derived layers
 */
-	static GUIButton* pbtnQW;			///< Water query button
-	static GUIButton* pbtnQE;			///< Electricity query button
-	static GUIButton* pbtnQG;			///< Gas query button
-	static GUIButton* pbtnQR;			///< Residential query button
-	static GUIButton* pbtnQC;			///< Commercial query button
-	static GUIButton* pbtnQI;			///< Industrial query button
-	static GUIButton* pbtnQP;			///< Path query button
+	static GUIButton* pbtnQRo, *pbtnQRf;			///< Residential query button
+	static GUIButton* pbtnQCo, *pbtnQCf;			///< Commercial query button
+	static GUIButton* pbtnQIo, *pbtnQIf;			///< Industrial query button
+	static GUIButton* pbtnQWo, *pbtnQWf;			///< Water query button
+	static GUIButton* pbtnQEo, *pbtnQEf;			///< Electricity query button
+	static GUIButton* pbtnQGo, *pbtnQGf;			///< Gas query button
+	static GUIButton* pbtnQP;						///< Path query button
 };
 
 #endif

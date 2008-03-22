@@ -28,36 +28,50 @@
 
 // Static variables
 uint Layer::uiNumberLayer = 0;
-GUIButton* Layer::pbtnQW;
-GUIButton* Layer::pbtnQE;
-GUIButton* Layer::pbtnQG;
-GUIButton* Layer::pbtnQR;
-GUIButton* Layer::pbtnQC;
-GUIButton* Layer::pbtnQI;
+GUIButton* Layer::pbtnQRo, * Layer::pbtnQRf;			///< Residential query button
+GUIButton* Layer::pbtnQCo, * Layer::pbtnQCf;			///< Commercial query button
+GUIButton* Layer::pbtnQIo, * Layer::pbtnQIf;			///< Industrial query button
+GUIButton* Layer::pbtnQWo, * Layer::pbtnQWf;			///< Water query button
+GUIButton* Layer::pbtnQEo, * Layer::pbtnQEf;			///< Electricity query button
+GUIButton* Layer::pbtnQGo, * Layer::pbtnQGf;			///< Gas query button
 
 
 Layer::Layer(){
 	OPENCITY_DEBUG( "ctor" );
 
-// If called first time, create all the static variables
+// IF called first time THEN create all the static variables
 // we do it here, because we need an initialized OpenGL context
 // if we do it on the declaration line, there will be runtime errors !
-	if ( Layer::uiNumberLayer++ == 0) {
-		Layer::pbtnQW = new GUIButton( 19, 33, 30, 30, ocDataDirPrefix( "graphism/gui/query_water" ));
-		Layer::pbtnQE = new GUIButton( 55, 13, 30, 30, ocDataDirPrefix( "graphism/gui/query_electricity" ));
-		Layer::pbtnQG = new GUIButton( 91, 33, 30, 30, ocDataDirPrefix( "graphism/gui/query_gas" ));
-		Layer::pbtnQR = new GUIButton( 19, 73, 30, 30, ocDataDirPrefix( "graphism/gui/query_residential" ));
-		Layer::pbtnQC = new GUIButton( 55, 93, 30, 30, ocDataDirPrefix( "graphism/gui/query_commercial" ));
-		Layer::pbtnQI = new GUIButton( 91, 73, 30, 30, ocDataDirPrefix( "graphism/gui/query_industrial" ));
+	if ( Layer::uiNumberLayer++ > 0)
+		return;
 
-	// Disable the default alpha blending behaviour
-		Layer::pbtnQW->Unset( OC_GUIMAIN_BLENDING );
-		Layer::pbtnQE->Unset( OC_GUIMAIN_BLENDING );
-		Layer::pbtnQG->Unset( OC_GUIMAIN_BLENDING );
-		Layer::pbtnQR->Unset( OC_GUIMAIN_BLENDING );
-		Layer::pbtnQC->Unset( OC_GUIMAIN_BLENDING );
-		Layer::pbtnQI->Unset( OC_GUIMAIN_BLENDING );
-	}
+// On buttons
+	Layer::pbtnQRo =
+		new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix("graphism/gui/query_residential_on"), 1);
+	Layer::pbtnQWo =
+		new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix("graphism/gui/query_water_on"), 1);
+	Layer::pbtnQEo =
+		new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix("graphism/gui/query_electricity_on"), 1);
+	Layer::pbtnQGo =
+		new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix("graphism/gui/query_gas_on"), 1);
+	Layer::pbtnQIo =
+		new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix("graphism/gui/query_industrial_on"), 1);
+	Layer::pbtnQCo =
+		new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix("graphism/gui/query_commercial_on"), 1);
+
+// Off buttons
+	Layer::pbtnQRf =
+		new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix("graphism/gui/query_residential_off"), 1);
+	Layer::pbtnQWf =
+		new GUIButton( GUIBUTTON_POSITION_2, ocDataDirPrefix("graphism/gui/query_water_off"), 1);
+	Layer::pbtnQEf =
+		new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix("graphism/gui/query_electricity_off"), 1);
+	Layer::pbtnQGf =
+		new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix("graphism/gui/query_gas_off"), 1);
+	Layer::pbtnQIf =
+		new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix("graphism/gui/query_industrial_off"), 1);
+	Layer::pbtnQCf =
+		new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix("graphism/gui/query_commercial_off"), 1);
 }
 
 
@@ -65,16 +79,24 @@ Layer::Layer(){
 Layer::~Layer(){
 	OPENCITY_DEBUG( "dtor" );
 
-// called for the last derived class ?
-// yes, then destroy all the static stuff
-	if ( Layer::uiNumberLayer-- == 1) {
-		delete Layer::pbtnQW;
-		delete Layer::pbtnQE;
-		delete Layer::pbtnQG;
-		delete Layer::pbtnQR;
-		delete Layer::pbtnQC;
-		delete Layer::pbtnQI;
-	}
+// IF not called for the last derived class THEN return
+	if ( Layer::uiNumberLayer-- > 1)
+		return;
+
+// Destroy all the static stuff when called by the last derived class
+	delete Layer::pbtnQCf;
+	delete Layer::pbtnQIf;
+	delete Layer::pbtnQGf;
+	delete Layer::pbtnQEf;
+	delete Layer::pbtnQWf;
+	delete Layer::pbtnQRf;
+
+	delete Layer::pbtnQCo;
+	delete Layer::pbtnQIo;
+	delete Layer::pbtnQGo;
+	delete Layer::pbtnQEo;
+	delete Layer::pbtnQWo;
+	delete Layer::pbtnQRo;
 }
 
 
