@@ -106,7 +106,7 @@ ElectricitySim::Main()
 	SDL_LockMutex( this->mutexMain );
 
 // clear the mark and E bit of ALL structure
-	pbuildlayer->StructureUnset( OC_STRUCTURE_MARK | OC_STRUCTURE_E );
+	pbuildlayer->StructureUnset( (OC_BYTE)( OC_STRUCTURE_MARK | OC_STRUCTURE_E ) );
 
 // for each EPLANT do
 	iter = vectorpairuiEPlant.begin();

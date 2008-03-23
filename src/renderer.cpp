@@ -50,6 +50,8 @@ for the first time:
 */
 //========================================================================
 
+#include <climits> // need for UINT_MAX
+
 // Useful enumerations
 #include "opencity_direction.h"
 #include "opencity_structure_type.h"

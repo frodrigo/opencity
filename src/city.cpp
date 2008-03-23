@@ -2093,7 +2093,7 @@ City::_HandleMouseXY()
    /*=====================================================================*/
 void
 City::_TestPathfinding() {
-	if (pctr == pctrPath)
+	if (pctr == pctrPath) {
 		if (this->boolPathGo == false) {
 			this->uiPathStartW = _uiMapW2;
 			this->uiPathStartH = _uiMapL2;
@@ -2134,6 +2134,7 @@ City::_TestPathfinding() {
 				}
 			}
 		}
+	}
 //debug: pathfinding
 /*
 cout << "StW: " << uiPathStartW << " / " << " StH: " << uiPathStartH
