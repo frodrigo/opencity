@@ -867,7 +867,7 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 	_pctrStatus->Resize( rcEvent );
 	_pctrStatus->SetLocation( (_iWinWidth-512)/2, 0 );
 
-// tell the containers about the event
+// Tell the containers about the event
 	pctrMain->Resize( rcEvent );
 	pctrL->Resize( rcEvent );
 	pctrT->Resize( rcEvent );
@@ -882,6 +882,11 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 		_pctrMenu->Resize( rcEvent );
 		_pctrMenu->SetSize( _iWinWidth, _iWinHeight );
 		_CenterMenu();
+	}
+
+// IF the query tool is displayed THEN invoke the resize event
+	if (pctrQ != NULL) {
+		pctrQ->Resize( rcEvent );
 	}
 }
 
