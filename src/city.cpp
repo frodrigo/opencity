@@ -138,7 +138,7 @@ City::~City(){
 	OPENCITY_DEBUG( "City dtor" );
 
 	if (_bGUIEnabled) {
-	// delete the GUI
+	// Delete the GUI
 		_DeleteGUI();
 	
 	// testing, delete the pathfinder
@@ -594,12 +594,6 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 	// Testing PathFinder
 		case SDLK_a:
 			pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
-		// Avoid possible memory leak
-			if ( pctr == pctrQ ) {
-				pctr = NULL;
-				delete pctrQ;
-				pctrQ = NULL;
-			}
 
 		// Toggle Main <-> Pathfinding toolcircle
 			if ( pctr == pctrPath ) {
@@ -616,12 +610,6 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 	// MAS test toolcircle
 		case SDLK_v:
 			pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
-		// Avoid possible memory leak
-			if ( pctr == pctrQ ) {
-				pctr = NULL;
-				delete pctrQ;
-				pctrQ = NULL;
-			}
 
 		// Toggle Main <-> MAS toolcircle
 			if ( pctr == pctrMAS ) {
@@ -760,8 +748,6 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 				// Enable the visible bit since, it is disabled later
 				// the main toolcircle won't be displayed
 					pctr->Set( OC_GUIMAIN_VISIBLE );
-					delete pctrQ;
-					pctrQ = NULL;		// YES, we need it
 				}
 	
 				if (pctr->IsSet( OC_GUIMAIN_VISIBLE ) == true) {
@@ -1057,7 +1043,8 @@ City::_CreateGUI()
 	_pbarPower = new GUIBar( 42, 5, 7, 53 );
 	_pbarPower->SetForeground( OPENCITY_PALETTE[Color::OC_PINK] );
 
-	_pctrStatus = new GUIContainer( (_iWinWidth-512) / 2, 0, 512, 64, ocDataDirPrefix( "graphism/gui/main_status_bar.png" ) );
+	_pctrStatus =
+		new GUIContainer( (_iWinWidth-512)/2, 0, 512, 64, ocDataDirPrefix( "graphism/gui/main_status_bar.png" ) );
 	_pctrStatus->Add( _pbtnPause );
 	_pctrStatus->Add( _pbtnPlay );
 	_pctrStatus->Add( _plblFund );
@@ -1196,9 +1183,7 @@ City::_CreateGUI()
 void
 City::_DeleteGUI()
 {
-// delete the Query container if needed
-	if (pctrQ != NULL)
-		delete pctrQ;
+	pctrQ = NULL;
 
 // MAS toolcircle
 	delete pctrMAS;
@@ -1572,16 +1557,13 @@ City::_DoTool(
 		break;
 
 	case OC_TOOL_QUERY:
-	// Delete the old query container
-	// We don't need to assign it to NULL since it will contain another value later
-		if (pctrQ != NULL)
-			delete pctrQ;
-
 	// Get the new query container
 		pctrQ = _apLayer[ _eCurrentLayer ]->QueryStructure( _uiMapW1, _uiMapL1 );
+
 	// Reset the old container
 		pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 		pctr->Unset( OC_GUIMAIN_VISIBLE );
+
 	// Show the informations queried
 		pctr = pctrQ;
 		pctr->SetLocation( sdlMBEvent.x - 70, _iWinHeight - sdlMBEvent.y - 70 );

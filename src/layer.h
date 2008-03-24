@@ -211,8 +211,9 @@ nothing ?
 /** This methods returns a pointer to a container which contains the
 queried informations. The user must call "delete pointer" to destroy
 that pointer once he/she've done with it.
+	\see _CreateQueryContainer(), _DeleteQueryContainer()
 */
-	virtual GUIContainer*
+	virtual GUIContainer* const
 	QueryStructure(
 		const uint & w,
 		const uint & l ) const = 0;
@@ -223,18 +224,11 @@ protected:
 	uint _uiLayerLength;
 
 
-protected:
-   /*=====================================================================*/
-   /*                       STATIC       ATTRIBUTES                       */
-   /*=====================================================================*/
-
-   /// total derived classes
-	static uint uiNumberLayer;
-
 //========================================================================
 /** Used by the "Query" function
 these controls are shared by all the derived layers
 */
+	static GUIContainer* pctrQ;						///< The query container
 	static GUIButton* pbtnQRo, *pbtnQRf;			///< Residential query button
 	static GUIButton* pbtnQCo, *pbtnQCf;			///< Commercial query button
 	static GUIButton* pbtnQIo, *pbtnQIf;			///< Industrial query button
@@ -242,6 +236,19 @@ these controls are shared by all the derived layers
 	static GUIButton* pbtnQEo, *pbtnQEf;			///< Electricity query button
 	static GUIButton* pbtnQGo, *pbtnQGf;			///< Gas query button
 	static GUIButton* pbtnQP;						///< Path query button
+
+
+private:
+   /*=====================================================================*/
+   /*                  PRIVATE   STATIC   ATTRIBUTES                      */
+   /*=====================================================================*/
+
+/// Total derived classes
+	static uint _uiNumberLayer;
+
+//========================================================================
+	void _CreateQueryContainer();
+	void _DeleteQueryContainer();
 };
 
 #endif

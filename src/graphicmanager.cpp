@@ -268,7 +268,6 @@ GraphicManager::DisplayStructure
 		case OC_ROAD_N_W_E:
 		case OC_ROAD_S_N_W_E:
 			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH, _uiDisplayListMask );
-//			_tabpModel[enumGC]->DisplayList( rcuiW, rcuiL, tabH );
 			break;
 
 	// Electric lines part
@@ -410,14 +409,16 @@ GraphicManager::DisplayStructureHighlight(
 
   /*======================================================================*/
 void
-GraphicManager::DisplayTerrainSelection(
+GraphicManager::DisplayTerrainSelection
+(
 	const uint & rcuiW,
 	const uint & rcuiL,
-	const uint & rcuiID ) const
+	const uint & rcuiID
+) const
 {
 	static OC_BYTE tabH [4];
 
-// warning: we draw the polygon counter-clock wise
+// Warning: we draw the polygon counter-clock wise
 //          however, the polygon OY heights are
 //          stored as the left,right heights of the first line
 //          then left, right heights of the second line
@@ -435,11 +436,13 @@ GraphicManager::DisplayTerrainSelection(
 
    /*======================================================================*/
 void
-GraphicManager::DisplayStructureSelection(
+GraphicManager::DisplayStructureSelection
+(
 	const Structure* pcStructure,
 	const uint & rcuiW,
 	const uint & rcuiL,
-	const uint & rcuiID ) const
+	const uint & rcuiID
+) const
 {
 	glLoadName( rcuiID );
 
@@ -449,11 +452,13 @@ GraphicManager::DisplayStructureSelection(
 
    /*======================================================================*/
 void
-GraphicManager::Display(
+GraphicManager::Display
+(
 	const OC_FLOAT & rcfW,
 	const OC_FLOAT & rcfL,
 	const OC_FLOAT & rcfH,
-	const Movement* const pm ) const
+	const Movement* const pm
+) const
 {
 	assert( pm != NULL );
 //	static OC_BYTE tabH [4];
@@ -470,16 +475,6 @@ GraphicManager::Display(
 	glRotatef( pm->_fRZ, 0, 0, 1 );
 	_tabpModel[pm->GetGraphicCode()]->DisplayList();
 	glPopMatrix();
-
-/*
-// FIXME: testing new AC3D vehicle models
-	if (pm->GetGraphicCode() == OC_VEHICLE_STD) {
-		_tabpModel[OC_VEHICLE_STD]->DisplayPoly( rcfW, rcfH, tabH );
-	}
-	else {
-		_tabpModel[pm->GetGraphicCode()]->Display( rcfW, rcfH, tabH[0] );
-	}
-*/
 }
 
 

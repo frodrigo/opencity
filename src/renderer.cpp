@@ -2,7 +2,7 @@
 						renderer.cpp  -  description
 							-------------------
 	begin                : may 29th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -886,6 +886,125 @@ Renderer::GetSelectedWHFrom
 		_uiCityWidth-1, _uiCityLength-1
 	);
 }
+
+
+   /*=====================================================================*/
+// Old version, kept for reference, march 24th, 2008
+/*
+const bool
+Renderer::GetSelectedWHFrom
+(
+	const uint & rcuiMouseX,
+	const uint & rcuiMouseY,
+	uint & ruiW,
+	uint & ruiL,
+	const Map* pcMap,
+	const Layer* pcLayer,
+	const uint & rcuiW1,
+	const uint & rcuiL1,
+	const uint & rcuiW2,
+	const uint & rcuiL2
+)
+{
+	static uint id = 0;
+	static uint linear = 0;
+	static uint w = 0, l = 0;
+	static const Structure* pStructure = NULL;
+
+	#define OC_SELECT_BUFFER_SIZE 100
+	static GLuint selectBuffer[OC_SELECT_BUFFER_SIZE];
+	static GLuint uiDepthMin;
+	static GLint iHits;
+	static GLint viewport[4] = {0, 0, 0, 0};
+
+// Prepare the select buffer and enter selection mode
+	glSelectBuffer( OC_SELECT_BUFFER_SIZE, selectBuffer );
+	(void)glRenderMode( GL_SELECT );
+	glInitNames();
+	glPushName(0);
+
+// Create the pick matrix
+	glMatrixMode( GL_PROJECTION );
+	glPushMatrix();
+	glLoadIdentity();
+	viewport[2] = _iWinWidth;
+	viewport[3] = _iWinHeight;
+	gluPickMatrix( rcuiMouseX, _iWinHeight-rcuiMouseY, 2, 2, viewport );
+	if ( _ubProjectionType == OC_PERSPECTIVE ) {
+		gluPerspective(
+			OC_VIEW_ANGLE,
+			(GLfloat)_iWinWidth / (GLfloat)_iWinHeight,
+			OC_Z_NEAR, OC_Z_FAR );
+	}
+	else {
+		glOrtho(
+			0.0, (GLdouble)_iWinWidth,
+			0.0, (GLdouble)_iWinHeight,
+			OC_Z_NEAR_ORTHO, OC_Z_FAR_ORTHO);
+	}
+
+// Save all the enabled states
+	glPushAttrib( GL_ENABLE_BIT );
+	glDisable( GL_LIGHTING );
+
+// Clear the color buffer ( the screen )
+	glClearColor( 0.0, 0.0, 0.0, 0.0 );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
+// Prepare the world for rendering without culling calculation because
+// calculating the culling with the pick matrix gives unpredictable results
+	_PrepareView();
+
+// Now let's display all the structures in selection mode
+	linear = 0;
+	for (l = 0; l < _uiCityLength; l++) {
+		for (w = 0; w < _uiCityWidth; w++) {
+			pStructure = pcLayer->GetLinearStructure( linear );
+		// Display the correction structure/terrain with "linear" as objectID
+		// Note:
+		//		linear = 0 is not used since it means blank
+		//		blank = there's no structure under the selection
+			if ( pStructure == NULL)
+				gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
+			else
+				gVars.gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
+			//ATTENTION: "linear++;" already done !
+		}
+	}
+
+// Restore all the enabled states
+	glPopAttrib();
+	glMatrixMode( GL_PROJECTION );
+	glPopMatrix();
+	glMatrixMode( GL_MODELVIEW );
+	glFlush();
+
+// GL error checking
+	if (glGetError() != GL_NO_ERROR) {
+		OPENCITY_DEBUG( "GL ERROR" );
+	}
+
+// Process the hits
+	iHits = glRenderMode( GL_RENDER );
+//debug cout << "Number of hits: " << iHits << endl;
+	if (iHits > 0) {
+	// We only consider the hit which is nearest to the user
+		uiDepthMin = 0xFFFFFFFF - 1;
+		while (iHits-- > 0) {
+			if (uiDepthMin > selectBuffer[ iHits*4 + 1 ]) {
+				uiDepthMin = selectBuffer[ iHits*4 + 1 ];
+				id = selectBuffer[ iHits*4 + 3 ] - 1;
+			}
+		}
+//debug // cout << "Min depth: " << uiDepthMin << endl;
+		ruiL = id / _uiCityWidth;
+		ruiW = id % _uiCityWidth;
+		return true;
+	}
+
+	return false; // couldn't determine the W & L values
+}
+*/
 
 
    /*=====================================================================*/

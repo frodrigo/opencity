@@ -777,53 +777,73 @@ BuildingLayer::ContainStructureOnly(
 
 
    /*=====================================================================*/
-GUIContainer*
-BuildingLayer::QueryStructure(
+GUIContainer* const
+BuildingLayer::QueryStructure
+(
 	const uint & w,
-	const uint & l ) const
+	const uint & l
+) const
 {
-	GUIContainer* pcontainer = new GUIContainer( 100, 100, 140, 140 );
 	Structure* pstruct = _tabpStructure[ l*_uiLayerWidth + w ];
-
 
 // Look for the RCI structures around and WEG properties
 	if ( pstruct != NULL ) {
 	// Check for RCI
-		if ( pstruct->IsSet( OC_STRUCTURE_R ) )
-			pcontainer->Add( Layer::pbtnQRo );
-		else
-			pcontainer->Add( Layer::pbtnQRf );
+		if ( pstruct->IsSet( OC_STRUCTURE_R ) ) {
+			Layer::pbtnQRo->Set( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQRf->Unset( OC_GUIMAIN_VISIBLE );
+		}
+		else {
+			Layer::pbtnQRo->Unset( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQRf->Set( OC_GUIMAIN_VISIBLE );
+		}
 
-		if ( pstruct->IsSet( OC_STRUCTURE_C ) )
-			pcontainer->Add( Layer::pbtnQCo );
-		else
-			pcontainer->Add( Layer::pbtnQCf );
+		if ( pstruct->IsSet( OC_STRUCTURE_C ) ) {
+			Layer::pbtnQCo->Set( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQCf->Unset( OC_GUIMAIN_VISIBLE );
+		}
+		else {
+			Layer::pbtnQCo->Unset( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQCf->Set( OC_GUIMAIN_VISIBLE );
+		}
 
-		if ( pstruct->IsSet( OC_STRUCTURE_I ) )
-			pcontainer->Add( Layer::pbtnQIo );
-		else
-			pcontainer->Add( Layer::pbtnQIf );
+		if ( pstruct->IsSet( OC_STRUCTURE_I ) ) {
+			Layer::pbtnQIo->Set( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQIf->Unset( OC_GUIMAIN_VISIBLE );
+		}
+		else {
+			Layer::pbtnQIo->Unset( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQIf->Set( OC_GUIMAIN_VISIBLE );
+		}
 
 	// We check only the E bit, WG are NOT implemented yet
-		pcontainer->Add( Layer::pbtnQWf );
-		if ( pstruct->IsSet( OC_STRUCTURE_E ) )
-			pcontainer->Add( Layer::pbtnQEo );
-		else
-			pcontainer->Add( Layer::pbtnQEf );
-
-		pcontainer->Add( Layer::pbtnQGf );
+		if ( pstruct->IsSet( OC_STRUCTURE_E ) ) {
+			Layer::pbtnQEo->Set( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQEf->Unset( OC_GUIMAIN_VISIBLE );
+		}
+		else {
+			Layer::pbtnQEo->Unset( OC_GUIMAIN_VISIBLE );
+			Layer::pbtnQEf->Set( OC_GUIMAIN_VISIBLE );
+		}
 	}
 	else {
-	// Add all the controls with their off state
-		pcontainer->Add( Layer::pbtnQRf );
-		pcontainer->Add( Layer::pbtnQCf );
-		pcontainer->Add( Layer::pbtnQIf );
-		pcontainer->Add( Layer::pbtnQWf );
-		pcontainer->Add( Layer::pbtnQEf );
-		pcontainer->Add( Layer::pbtnQGf );
+	// Put all the controls in their off state
+		Layer::pbtnQRf->Set( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQCf->Set( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQIf->Set( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQWf->Set( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQEf->Set( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQGf->Set( OC_GUIMAIN_VISIBLE );
+
+		Layer::pbtnQRo->Unset( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQCo->Unset( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQIo->Unset( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQWo->Unset( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQEo->Unset( OC_GUIMAIN_VISIBLE );
+		Layer::pbtnQGo->Unset( OC_GUIMAIN_VISIBLE );
 	}
 
-	return pcontainer;
+	return Layer::pctrQ;
 }
 
 

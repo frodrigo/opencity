@@ -2,7 +2,7 @@
 						buildinglayer.h  -  description
 							-------------------
 	begin                : september 20th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -212,7 +212,7 @@ linear index of a structure is calculated by this formula:
 //========================================================================
 /** see "layer.h" for more informations
 */
-	GUIContainer*
+	GUIContainer* const
 	QueryStructure(
 		const uint & w,
 		const uint & l ) const;
