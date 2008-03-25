@@ -337,7 +337,7 @@ void City::Display()
 	if ((_bLMBPressed == true) && (_eCurrentTool != OC_TOOL_NONE )) {
 	// IF the user is dragging with the left mouse button THEN
 		if ( SDL_GetMouseState( &iMouseX, &iMouseY ) & SDL_BUTTON(1) ) {
-			gVars.gpRenderer->GetSelectedWHFrom(
+			gVars.gpRenderer->GetSelectedWLFrom(
 				iMouseX, iMouseY,
 				_uiMapW2, _uiMapL2,
 				gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
@@ -727,11 +727,10 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 		case SDL_PRESSED: {
 			_bLMBPressed = false;
 			if ((rcsMBE.button == SDL_BUTTON_LEFT)
-				&& (gVars.gpRenderer->GetSelectedWHFrom(
-					rcsMBE.x, rcsMBE.y,
-					_uiMapW1, _uiMapL1,
-					gVars.gpMapMgr,
-					_apLayer[ _eCurrentLayer ] ) == true ))
+				and
+				(gVars.gpRenderer->GetSelectedWLFrom(
+					rcsMBE.x, rcsMBE.y, _uiMapW1, _uiMapL1,
+					gVars.gpMapMgr, _apLayer[ _eCurrentLayer ]) == true))
 			{
 				_bLMBPressed = true;
 			} //if
@@ -794,13 +793,13 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 
 	   //-------------------------------------------------------
 		case SDL_RELEASED: {
-			// If Ctrl not pressed, 
-			// AND dragging enabled 
+			// IF Ctrl not pressed,
+			// AND dragging enabled
 			// AND mouse button was correctly released in the map
 			// THEN do tool
-			if (!(SDL_GetModState() & KMOD_CTRL)
-				&& (_bLMBPressed == true)
-				&& gVars.gpRenderer->GetSelectedWHFrom(
+			if (not (SDL_GetModState() & KMOD_CTRL)
+				and _bLMBPressed
+				and gVars.gpRenderer->GetSelectedWLFrom(
 					rcsMBE.x, rcsMBE.y,
 					_uiMapW2, _uiMapL2,
 					gVars.gpMapMgr,

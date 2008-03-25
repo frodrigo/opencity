@@ -864,7 +864,7 @@ Renderer::DisplayText(
 
    /*=====================================================================*/
 const bool
-Renderer::GetSelectedWHFrom
+Renderer::GetSelectedWLFrom
 (
 	const uint & rcuiMouseX,
 	const uint & rcuiMouseY,
@@ -875,7 +875,7 @@ Renderer::GetSelectedWHFrom
 )
 {
 // call the right method with appropriate values
-	return GetSelectedWHFrom(
+	return GetSelectedWLFrom(
 		rcuiMouseX,
 		rcuiMouseY,
 		ruiW,
@@ -892,7 +892,7 @@ Renderer::GetSelectedWHFrom
 // Old version, kept for reference, march 24th, 2008
 /*
 const bool
-Renderer::GetSelectedWHFrom
+Renderer::GetSelectedWLFrom
 (
 	const uint & rcuiMouseX,
 	const uint & rcuiMouseY,
@@ -1009,7 +1009,7 @@ Renderer::GetSelectedWHFrom
 
    /*=====================================================================*/
 const bool
-Renderer::GetSelectedWHFrom
+Renderer::GetSelectedWLFrom
 (
 	const uint & rcuiMouseX,
 	const uint & rcuiMouseY,
@@ -1033,6 +1033,16 @@ Renderer::GetSelectedWHFrom
 	static GLuint uiDepthMin;
 	static GLint iHits;
 	static GLint viewport[4] = {0, 0, 0, 0};
+
+// Prepare the world for rendering: calculate the view volume, culling
+	_PrepareView();
+
+// Calculate the culling grid and the culled models if it's requested
+	if (_bCalculateCulling) {
+		_CalculateCulledGrid( 0, 0, _uiCityWidth+1, _uiCityLength+1, true);
+		_bCalculateCulling = false;
+	}
+	_CalculateCulledModel( pcLayer );
 
 // Prepare the select buffer and enter selection mode
 	glSelectBuffer( OC_SELECT_BUFFER_SIZE, selectBuffer );
@@ -1072,20 +1082,24 @@ Renderer::GetSelectedWHFrom
 // calculating the culling with the pick matrix gives unpredictable results
 	_PrepareView();
 
-// Now let's display all the structures in selection mode
+	// Display the structures
+	glTranslatef( 0., 0.05, 0. );
 	linear = 0;
 	for (l = 0; l < _uiCityLength; l++) {
-		for (w = 0; w < _uiCityWidth; w++) {
-			pStructure = pcLayer->GetLinearStructure( linear );
+		for (w = 0; w < _uiCityWidth; w++, linear++) {
 		// Display the correction structure/terrain with "linear" as objectID
 		// Note:
 		//		linear = 0 is not used since it means blank
 		//		blank = there's no structure under the selection
-			if ( pStructure == NULL)
-				gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, ++linear );
-			else
-				gVars.gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, ++linear );
-			//ATTENTION: "linear++;" already done !
+		// In any case, let the user select the terrain square
+			gVars.gpGraphicMgr->DisplayTerrainSelection( w, l, linear+1 );
+			if (!_baCulledModel[linear])
+				continue;
+
+		// The structure is not NULL here (see _CalculateCulledModel)
+			pStructure = pcLayer->GetLinearStructure( linear );
+			assert( pStructure != NULL );
+			gVars.gpGraphicMgr->DisplayStructureSelection( pStructure, w, l, linear+1 );
 		}
 	}
 

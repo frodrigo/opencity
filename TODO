@@ -11,6 +11,9 @@ Remove unused OCM model               (done)
 Add 1 state button                    (done)
 Add new query icons                   (done)
 Improved query circle                 (done)
+Improved selection calculation        (done)
+Improved selection hot zone           (done)
+XML parameters accessors
 Save file version check
 Crime
 Review the message system
@@ -19,7 +22,6 @@ Police agent system
 Mouse cursor support
 Unblocking networking layer
 ZeN online map loading
-XML parameters accessors
 Earthquake
 
 
