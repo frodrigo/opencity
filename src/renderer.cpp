@@ -124,9 +124,9 @@ _uiCityLength( cityL )
 	OPENCITY_DEBUG( "Renderer ctor" );
 
 // Load frequently used textures
-	_uiCloudTex = Texture::Load( ocDataDirPrefix( "texture/cloud.png" ));
-	_uiTerrainTex = Texture::Load3D( ocDataDirPrefix( "texture/terrain_64x4096_texture.png" ));
-	_uiWaterTex = Texture::Load( ocDataDirPrefix( "graphism/water/texture/blue_water_512.png" ));
+	_uiCloudTex = Texture::Load( ocDataDirPrefix( "graphism/texture/cloud.png" ));
+	_uiTerrainTex = Texture::Load3D( ocDataDirPrefix( "graphism/texture/terrain_64x4096_texture.png" ));
+	_uiWaterTex = Texture::Load( ocDataDirPrefix( "graphism/texture/blue_water_512.png" ));
 
 // Initialize the culled grid
 	uint size = (_uiCityWidth+1) * (_uiCityLength+1);
