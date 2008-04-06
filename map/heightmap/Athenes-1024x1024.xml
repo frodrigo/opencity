@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="fr">Athènes</name>
+	<name lang="el">Αθήνα</name>
+	<name lang="en">Athens</name>
+	<description lang="fr">Athènes fut fondée formellement vers 800 avant notre ère par le synœcisme de plusieurs villages.</description>
+	<description lang="en">The history of ancient Athens is one of the longest of any city in Europe or the world.</description>
+	<map type="ground" file="Athenes-1024x1024.png" width="1024" length="1024" meter-per-pixel="90">
+		<place x="584" y="490" radius="100">
+			<name lang="fr">Athènes</name>
+			<name lang="el">Αθήνα</name>
+			<name lang="en">Athenes</name>
+		</place>
+		<place x="380" y="380" radius="40">
+			<name lang="en">Eleusina</name>
+			<name lang="el">Ελευσίνα</name>
+			<name lang="fr">Elfesis</name>
+		</place>
+	</map>
+	<source>
+		<name>STRM3</name>
+		<author>CIAT SRTM</author>
+		<licence>Users are prohibited from any commercial, non-free resale, or redistribution without explicit written permission from CIAT. Users should acknowledge CIAT as the source used in the creation of any reports, publications, new data sets, derived products, or services resulting from the use of this data set. CIAT also request reprints of any publications and notification of any redistributing efforts.</licence>
+		<copyright>Jarvis A., H.I. Reuter, A. Nelson, E. Guevara</copyright>
+		<year>2006</year>
+		<url>http://srtm.csi.cgiar.org/</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

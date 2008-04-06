@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="fr">Strasbourg</name>
+	<name lang="en">Strasbourg</name>
+	<name lang="de">Straßburg</name>
+	<description lang="fr">Strasbourg est une ville située dans l’Est de la France, sur la rive gauche du Rhin.</description>
+	<description lang="en">Strasbourg is a city of France. Located close to the border with Germany. </description>
+	<map type="ground" file="Strasbourg-1025x1025.png" width="1025" length="1025" meter-per-pixel="90">
+	</map>
+	<source>
+		<name>STRM3</name>
+		<author>CIAT SRTM</author>
+		<licence>Users are prohibited from any commercial, non-free resale, or redistribution without explicit written permission from CIAT. Users should acknowledge CIAT as the source used in the creation of any reports, publications, new data sets, derived products, or services resulting from the use of this data set. CIAT also request reprints of any publications and notification of any redistributing efforts.</licence>
+		<copyright>Jarvis A., H.I. Reuter, A. Nelson, E. Guevara</copyright>
+		<year>2006</year>
+		<url>http://srtm.csi.cgiar.org/</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="en">Ibiza</name>
+	<name lang="fr">Ibiza</name>
+	<name lang="es">Ibiza</name>
+	<name lang="ca">Eivissa</name>
+	<description lang="en">Ibiza is one of the Balearic Islands located in the Mediterranean Sea (38.98° N 1.43° E), belonging to Balearic Islands, Spain.</description>
+	<description lang="fr">Ibiza est une île espagnole de l'archipel des Baléares, en mer Méditerranée.</description>
+	<map type="ground" file="Ibiza-101x101.png" width="101" length="101" meter-per-pixel="1000">
+	</map>
+	<source>
+		<name>GTOPO30</name>
+		<author>U.S. Geological Survey's EROS Data Center</author>
+		<licence>Public</licence>
+		<copyright>U.S. Geological Survey</copyright>
+		<year>1993</year>
+		<url>http://edc.usgs.gov/products/elevation/gtopo30/gtopo30.html</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

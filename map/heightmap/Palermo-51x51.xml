@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="en">Palermo</name>
+	<name lang="fr">Palerme</name>
+	<name lang="it">Palermo</name>
+	<description lang="en">Palermo is the principal city of Sicily.</description>
+	<description lang="fr">Palerme la plus grande ville de la Sicile.</description>
+	<map type="ground" file="Palermo-51x51.png" width="51" length="51" meter-per-pixel="1000">
+		<place x="22" y="23" radius="9">
+			<name lang="en">Palermo</name>
+			<name lang="fr">Palerme</name>
+			<name lang="it">Palermo</name>
+		</place>
+	</map>
+	<source>
+		<name>GTOPO30</name>
+		<author>U.S. Geological Survey's EROS Data Center</author>
+		<licence>Public</licence>
+		<copyright>U.S. Geological Survey</copyright>
+		<year>1993</year>
+		<url>http://edc.usgs.gov/products/elevation/gtopo30/gtopo30.html</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

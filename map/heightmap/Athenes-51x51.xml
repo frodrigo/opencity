@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="fr">Athènes</name>
+	<name lang="el">Αθήνα</name>
+	<name lang="en">Athens</name>
+	<description lang="fr">Athènes fut fondée formellement vers 800 avant notre ère par le synœcisme de plusieurs villages.</description>
+	<description lang="en">The history of ancient Athens is one of the longest of any city in Europe or the world.</description>
+	<map type="ground" file="Athenes-51x51.png" width="51" length="51" meter-per-pixel="30">
+	</map>
+	<source>
+		<name>DEM/250</name>
+		<author>Defense Mapping Agency</author>
+		<licence>Public</licence>
+		<copyright>U.S. Geological Survey</copyright>
+		<year>2005</year>
+		<url>http://edcftp.cr.usgs.gov/pub/data/DEM/250/</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

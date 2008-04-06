@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="fr">İstanbul</name>
+	<name lang="en">Istanbul</name>
+	<name lang="tr">İstanbul</name>
+	<description lang="fr">İstanbul, historiquement Byzance et plus tard Constantinople, est la plus grande ville de Turquie. Située à cheval sur l’Europe et l’Asie, de part et d’autre du détroit du Bosphore.</description>
+	<description lang="en">Istanbul, historically Byzantium and later Constantinople, is Turkey's most populous city. It is located on the Bosphorus strait between Europe and Asia.</description>
+	<map type="ground" file="Istanbul-1025x1024.png" width="1025" length="1025" meter-per-pixel="90">
+		<place x="511" y="448" radius="200">
+			<name lang="fr">İstanbul</name>
+			<name lang="en">Istanbul</name>
+			<name lang="tr">İstanbul</name>
+		</place>
+		<place x="618" y="630" radius="60">
+			<name lang="en">Princes' Islands</name>
+			<name lang="tr">Adalar</name>
+		</place>
+	</map>
+	<source>
+		<name>STRM3</name>
+		<author>CIAT SRTM</author>
+		<licence>Users are prohibited from any commercial, non-free resale, or redistribution without explicit written permission from CIAT. Users should acknowledge CIAT as the source used in the creation of any reports, publications, new data sets, derived products, or services resulting from the use of this data set. CIAT also request reprints of any publications and notification of any redistributing efforts.</licence>
+		<copyright>Jarvis A., H.I. Reuter, A. Nelson, E. Guevara</copyright>
+		<year>2006</year>
+		<url>http://srtm.csi.cgiar.org/</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="en">Woodstock</name>
+	<description lang="fr">Le Festival de Woodstock est un concert de musique rock, organisé du 15 au 17 août 1969. Il constitue le paroxysme de la culture hippie des années 1960.</description>
+	<description lang="en">The Woodstock Music and Art Fair was an event from August 15 to August 18, 1969. For many, it exemplified the counterculture of the 1960s and the "hippie era."</description>
+	<map type="ground" file="Woodstock-51x51.png" width="51" length="51" meter-per-pixel="30">
+	</map>
+	<source>
+		<name>DEM/250</name>
+		<author>Defense Mapping Agency</author>
+		<licence>Public</licence>
+		<copyright>U.S. Geological Survey</copyright>
+		<year>2005</year>
+		<url>http://edcftp.cr.usgs.gov/pub/data/DEM/250/</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>

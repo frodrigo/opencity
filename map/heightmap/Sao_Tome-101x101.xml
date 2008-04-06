@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<heightmap xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='urn:oc:heightmap http://www.opencity.info/xml/heightmap-0.0.6.xsd' xmlns='urn:oc:heightmap'>
+	<name lang="fr">Sao Tomé</name>
+	<name lang="en">São Tomé</name>
+	<description lang="fr">Sao Tomé est à la fois l'île principale de Sao Tomé-et-Principe, la capitale et la plus grande ville du pays, fondée par les Portugais en 1485.</description>
+	<description lang="en">São Tomé is the capital city of São Tomé and Príncipe and is by far the nation's largest town. It was founded by Portugal in 1485</description>
+	<map type="ground" file="Sao_Tome-101x101.png" width="101" length="101" meter-per-pixel="90">
+	</map>
+	<source>
+		<name>STRM3</name>
+		<author>CIAT SRTM</author>
+		<licence>Users are prohibited from any commercial, non-free resale, or redistribution without explicit written permission from CIAT. Users should acknowledge CIAT as the source used in the creation of any reports, publications, new data sets, derived products, or services resulting from the use of this data set. CIAT also request reprints of any publications and notification of any redistributing efforts.</licence>
+		<copyright>Jarvis A., H.I. Reuter, A. Nelson, E. Guevara</copyright>
+		<year>2006</year>
+		<url>http://srtm.csi.cgiar.org/</url>
+		<object>Land heightmap</object>
+	</source>
+	<author>
+		<name>Frédéric Rodrigo</name>
+		<email>f.rodrigo free.fr</email>
+		<license>GPL</license>
+		<year>2007</year>
+	</author>
+</heightmap>
