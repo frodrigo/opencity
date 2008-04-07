@@ -10,7 +10,7 @@ SUBDIRS = \
 # See the install-data-local target for more information
 #==============================================================================
 EXTRA_DIST = \
-	graphism sound \
+	graphism map sound \
 	opencity.desktop opencity.png \
 	autopackage/opencity.apspec
 
@@ -33,7 +33,8 @@ install-data-local:
 	for data in $(EXTRA_DIST); do \
 		if [ -d $(srcdir)/$$data ]; then \
 			$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/$$data && \
-			find $(srcdir)/$$data -not -wholename "*/.svn*" -not -type d | xargs cp --parents -t $(DESTDIR)$(pkgdatadir)/; \
+			find $(srcdir)/$$data -not -wholename "*/.svn*" -not -type d | \
+			xargs cp --parents --target-directory $(DESTDIR)$(pkgdatadir)/; \
 		fi; \
 	done;
 

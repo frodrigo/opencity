@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl $Id: configure.ac,v 1.22 2006/04/17 09:37:33 neoneurone Exp $
 dnl ===========================================================================
 
-AC_INIT(OpenCity, 0.0.6dev)
+AC_INIT(OpenCity, 0.0.6dev1)
 AC_CONFIG_SRCDIR(src/main.cpp)
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST

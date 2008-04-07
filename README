@@ -229,6 +229,32 @@ generator in OpenCity will crop the picture if it's too big.
 
 
 ------------------------------------------------------------------------------
+Heightmap package
+------------------------------------------------------------------------------
+	OpenCity is packaged with few heightmaps which are generated from
+satellite's data. Here is the full list:
+
+	Athenes-1024x1024.png
+	Athenes-51x51.png
+	Dakar-51x51.png
+	Ibiza-101x101.png
+	Istanbul-1025x1025.png
+	Mallorca-93x61.png
+	Palermo-51x51.png
+	Sao_Tome-101x101.png
+	Strasbourg-1025x1025.png
+	Woodstock-51x51.png
+
+	In order to load those heightmaps, you have to give a command-line option
+to OpenCity. For example:
+
+	opencity --generator-height-map map/heightmap/Athenes-51x51.png
+
+	Currently, heightmap loading still is an experimental feature, try 
+at your own risks.
+
+
+------------------------------------------------------------------------------
 Save/Load issues
 ------------------------------------------------------------------------------
 	The following directory is used for save/load
