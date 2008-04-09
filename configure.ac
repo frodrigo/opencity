@@ -188,6 +188,9 @@ dnl ===========================================================================
 
 AC_CONFIG_FILES([config/Makefile])
 AC_CONFIG_FILES([docs/Makefile])
+AC_CONFIG_FILES([map/Makefile])
+AC_CONFIG_FILES([map/heightmap/Makefile])
+AC_CONFIG_FILES([sound/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/binreloc/Makefile])
 AC_CONFIG_FILES([src/enum/Makefile])

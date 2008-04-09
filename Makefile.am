@@ -2,7 +2,7 @@
 # OpenCity's main automake file
 #==============================================================================
 SUBDIRS = \
-	config docs src viewer
+	config docs map sound src viewer
 
 
 #==============================================================================
@@ -10,7 +10,7 @@ SUBDIRS = \
 # See the install-data-local target for more information
 #==============================================================================
 EXTRA_DIST = \
-	graphism map sound \
+	graphism \
 	opencity.desktop opencity.png \
 	autopackage/opencity.apspec
 
@@ -26,15 +26,13 @@ pixmap_DATA = opencity.png
 
 
 #==============================================================================
-# Install all the EXTRA_DIST directories
+# Install all the graphism directory
 #==============================================================================
 install-data-local:
-	$(mkinstalldirs) $(DESTDIR)$(pkgdatadir);
+	test -z "$(pkgdatadir)" || $(mkdir_p) "$(pkgdatadir)"
 	for data in $(EXTRA_DIST); do \
 		if [ -d $(srcdir)/$$data ]; then \
-			$(mkinstalldirs) $(DESTDIR)$(pkgdatadir)/$$data && \
-			find $(srcdir)/$$data -not -wholename "*/.svn*" -not -type d | \
-			xargs cp --parents --target-directory $(DESTDIR)$(pkgdatadir)/; \
+			cp -r $(srcdir)/$$data $(DESTDIR)$(pkgdatadir)/; \
 		fi; \
 	done;
 
