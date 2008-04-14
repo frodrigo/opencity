@@ -1,10 +1,10 @@
 ------------------------------------------------------------------------------
-README per OpenCity 0.0.5stable
+README per OpenCity 0.0.6dev
 ------------------------------------------------------------------------------
 Last modified:
 	$Id$
 Last translated:
-	2007/11/20 morpheus
+	2008/04/11 morpheus
 
 Destinatari:
 	# Utenti finali:
@@ -32,8 +32,9 @@ INDICE
 7)	Comandi del mouse
 8)	File di configurazione principale "opencity.xml"
 9)	Opzioni della linea di comando
-10)	Note sul salvataggio / caricamento
-11)	Problemi noti
+10)	Mappe altimetriche
+11)	Note sul salvataggio / caricamento
+12)	Problemi noti
 
 
 ------------------------------------------------------------------------------
@@ -240,7 +241,33 @@ sia in forma estesa sia in forma compatta.
 
 
 ------------------------------------------------------------------------------
-10) Note sul salvataggio / caricamento 
+10) Mappe altimetriche
+------------------------------------------------------------------------------
+	OpenCity è distribuito con alcune mappe altimetriche generate da
+dati satellitari. Questa è la lista completa:
+
+	Athenes-1024x1024.png
+	Athenes-51x51.png
+	Dakar-51x51.png
+	Ibiza-101x101.png
+	Istanbul-1025x1025.png
+	Mallorca-93x61.png
+	Palermo-51x51.png
+	Sao_Tome-101x101.png
+	Strasbourg-1025x1025.png
+	Woodstock-51x51.png
+
+	Per caricare queste mappe, devi usare un'opzione della linea di comando.
+Per esempio:
+
+	opencity --generator-height-map map/heightmap/Athenes-51x51.png
+
+	Attualmente, il caricamento di queste mappe è una caratteristica ancora
+sperimentale, provala a tuo richio e pericolo.
+
+
+------------------------------------------------------------------------------
+11) Note sul salvataggio / caricamento 
 ------------------------------------------------------------------------------
 	La seguente directory è usata per salvare/caricare
 
@@ -253,7 +280,7 @@ essere diverso.
 
 
 ------------------------------------------------------------------------------
-11) Problemi noti
+12) Problemi noti
 ------------------------------------------------------------------------------
 	1) Ho una ATI Radeon 9000M. Quando provo il gioco con "EnablePageFlip"
 (vedi man radeon) il gioco viene eseguito stranamente. Se riscontri lo stesso
