@@ -2,6 +2,7 @@ AM_CPPFLAGS = \
 	-I@top_srcdir@/src/mapgen/ \
 	-I@top_srcdir@/src/mapgen/filter \
 	-I@top_srcdir@/src/mapgen/generator \
+	-I@top_srcdir@/src/pngfuncs \
 	-I@top_srcdir@/src
 
 
@@ -11,7 +12,6 @@ noinst_LIBRARIES = libmapgen.a
 libmapgen_a_SOURCES = \
 map.cpp \
 mapmaker.cpp \
-pngfuncs.c \
 filter/choper.cpp \
 filter/context.cpp \
 filter/contextOnlyPositive.cpp \
@@ -34,7 +34,6 @@ generator/heightMap.cpp
 noinst_HEADERS = \
 map.h \
 mapmaker.h \
-pngfuncs.h \
 filter/choper.h \
 filter/context.h \
 filter/contextOnlyPositive.h \

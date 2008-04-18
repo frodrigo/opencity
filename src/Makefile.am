@@ -1,4 +1,4 @@
-SUBDIRS = binreloc enum mapgen mas model networking simulator structure tinyxml tinyxpath triangulation
+SUBDIRS = binreloc enum mapgen mas model networking pngfuncs simulator structure tinyxml tinyxpath triangulation
 AM_CPPFLAGS = \
 	-I@top_srcdir@/src/ \
 	-I@top_srcdir@/src/binreloc/ \
@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	-I@top_srcdir@/src/mapgen/ \
 	-I@top_srcdir@/src/model/ \
 	-I@top_srcdir@/src/networking/ \
+	-I@top_srcdir@/src/pngfuncs/ \
 	-I@top_srcdir@/src/simulator/ \
 	-I@top_srcdir@/src/structure/ \
 	-I@top_srcdir@/src/tinyxml/ \
@@ -39,6 +40,7 @@ mapgen/libmapgen.a \
 mas/libmas.a \
 model/libmodel.a \
 networking/libnet.a \
+pngfuncs/libpngfuncs.a \
 simulator/libsim.a \
 structure/libstruct.a \
 tinyxml/libtinyxml.a \
@@ -128,6 +130,7 @@ mapgen/libmapgen.a \
 mas/libmas.a \
 model/libmodel.a \
 networking/libnet.a \
+pngfuncs/libpngfuncs.a \
 simulator/libsim.a \
 structure/libstruct.a \
 tinyxml/libtinyxml.a \
