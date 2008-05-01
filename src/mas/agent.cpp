@@ -35,7 +35,7 @@
 
 
 /*=====================================================================*/
-Agent::Agent(Kernel& kernel, Environment &env, int x, int y, Role_t role):
+Agent::Agent(Kernel& kernel, Environment &env, int x, int y, MAS_ROLE role):
 m_kernel(kernel),
 m_environment(env),
 m_x(x),
@@ -47,7 +47,7 @@ m_id(kernel.getAgentUniqId())
 	MAS_DEBUG( "ctor " << *this );
 
 	m_move_speed = 1;
-	m_direction = (direction_t)randomInt(0, 3);
+	m_direction = (MAS_DIRECTION)randomInt(0, 3);
 }
 
 
@@ -59,7 +59,7 @@ Agent::~Agent()
 
 
 /*=====================================================================*/
-Role_t Agent::getRole() const
+MAS_ROLE Agent::getRole() const
 {
 	return m_role;
 }
@@ -81,7 +81,7 @@ void Agent::processMessage()
 
 
 /*=====================================================================*/
-void Agent::sendMessage(Role_t role, const Message& msg)
+void Agent::sendMessage(MAS_ROLE role, const Message& msg)
 {
 	m_kernel.sendMessage(role, msg);
 }
@@ -95,7 +95,7 @@ void Agent::sendMessageToAgent(AgentID_t agent, const Message& msg)
 
 
 /*=====================================================================*/
-Agent* Agent::lookForAgent(direction_t dir, unsigned long max_distance)
+Agent* Agent::lookForAgent(MAS_DIRECTION dir, unsigned long max_distance)
 {
 	int x = m_x, y = m_y;
 	int dx=0, dy=0;
@@ -149,7 +149,7 @@ bool Agent::doRandomMove(int turn_percent)
 			return true;
 
 		// Try left/right
-		direction_t dir;
+		MAS_DIRECTION dir;
 		unsigned char rotate = randomBool();
 		if (rotate)
 			dir = rotateLeft(m_direction);
@@ -173,7 +173,7 @@ bool Agent::doRandomMove(int turn_percent)
 	else {
 		// Try left/right
 		unsigned char rotate = randomBool();
-		direction_t dir;
+		MAS_DIRECTION dir;
 		if (rotate)
 			dir = rotateLeft(m_direction);
 		else
@@ -321,7 +321,7 @@ Agent::canMove(int x, int y) const
 
 /*=====================================================================*/
 bool
-Agent::canMove(direction_t dir) const
+Agent::canMove(MAS_DIRECTION dir) const
 {
 	int x, y;
 	return canMove(dir, x, y);
@@ -330,7 +330,7 @@ Agent::canMove(direction_t dir) const
 
 /*=====================================================================*/
 bool
-Agent::canMove(direction_t dir, int &x, int &y) const
+Agent::canMove(MAS_DIRECTION dir, int &x, int &y) const
 {
 	x = static_cast<int>(m_x);
 	y = static_cast<int>(m_y);

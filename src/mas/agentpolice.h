@@ -57,7 +57,7 @@ protected:
 	unsigned int m_pursue;
 	unsigned int m_lost_pursue;
 	
-	Agent* SeeBadGuy(direction_t dir);
+	Agent* SeeBadGuy(MAS_DIRECTION dir);
 	void Look();
 	void Pursue();
 	void Collaborate();

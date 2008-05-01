@@ -1,11 +1,11 @@
 /***************************************************************************
 					agentdemonstrator.cpp  -  description
 						-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	begin                : nov 29th, 2005
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -26,7 +26,12 @@
 #define MAX_TTL 15					///< Maximum time to live
 
    /*=====================================================================*/
-AgentDemonstrator::AgentDemonstrator(Kernel& kernel, Environment& env, int x, int y):
+AgentDemonstrator::AgentDemonstrator
+(
+	Kernel& kernel,
+	Environment& env,
+	int x, int y
+):
 Agent(kernel, env, x, y, ROLE_DEMONSTRATOR)
 {
 	this->born();		// Warning: see superclass
@@ -45,7 +50,8 @@ AgentDemonstrator::~AgentDemonstrator()
 
 
    /*=====================================================================*/
-void AgentDemonstrator::processMessage()
+void
+AgentDemonstrator::processMessage()
 {
 	static Message msg;
 
@@ -54,7 +60,7 @@ void AgentDemonstrator::processMessage()
 		msg = m_messages.front();
 		MAS_DEBUG( *this << " processes " << msg );
 
-		if (msg.getType() == Message::MSG_AGENT_DIE)
+		if (msg.getType() == MSG_AGENT_DIE)
 			m_agent_state = AGENT_DIE;
 		m_messages.pop_front();
 	}
@@ -62,7 +68,8 @@ void AgentDemonstrator::processMessage()
 
 
    /*=====================================================================*/
-void AgentDemonstrator::born()
+void
+AgentDemonstrator::born()
 {
 	m_ttl = MAX_TTL;			// Set m_ttl to maximum time to live
 	processMessage();
@@ -73,7 +80,8 @@ void AgentDemonstrator::born()
 
 
    /*=====================================================================*/
-void AgentDemonstrator::live()
+void
+AgentDemonstrator::live()
 {
 // Process all the received messages
 	processMessage();
@@ -104,7 +112,8 @@ void AgentDemonstrator::live()
 
 
    /*=====================================================================*/
-void AgentDemonstrator::die()
+void
+AgentDemonstrator::die()
 {
 	processMessage();
 	Agent::die();
@@ -113,7 +122,8 @@ void AgentDemonstrator::die()
 
 
    /*=====================================================================*/
-void AgentDemonstrator::output(std::ostream& os) const
+void
+AgentDemonstrator::output(std::ostream& os) const
 {
 	os << "AgentDemonstrator " << getId();
 }

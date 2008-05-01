@@ -1,8 +1,8 @@
 /***************************************************************************
 						message.cpp  -  description
 							-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	begin                : nov 29th, 2005
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
 	
@@ -33,14 +33,15 @@ m_type(MSG_UNDEFINED)
 
 
    /*=====================================================================*/
-Message::Message(Message_t type, Agent *sender):
+Message::Message( MAS_MESSAGE_TYPE type, Agent *sender ):
 m_sender(sender),
 m_type(type)
 {}
 
 
    /*=====================================================================*/
-Message::Message_t Message::getType() const
+MAS_MESSAGE_TYPE
+Message::getType() const
 {
 	return m_type;
 }
@@ -70,54 +71,66 @@ unsigned int Message::size() const
 
 
    /*=====================================================================*/
-Message& Message::operator<< (int value)
+Message&
+Message::operator<< (int value)
 {
-	arguments.push_back(Any(value)); return *this;
+	arguments.push_back(Any(value));
+	return *this;
 }
 
 
    /*=====================================================================*/
-Message& Message::operator<< (unsigned int value)
+Message&
+Message::operator<< (unsigned int value)
 {
-	arguments.push_back(Any(value)); return *this;
+	arguments.push_back(Any(value));
+	return *this;
 }
 
 
    /*=====================================================================*/
-Message& Message::operator<< (double value)
+Message&
+Message::operator<< (double value)
 {
-	arguments.push_back(Any(value)); return *this;
+	arguments.push_back(Any(value));
+	return *this;
 }
 
 
    /*=====================================================================*/
-Message& Message::operator<< (const std::string &value)
+Message&
+Message::operator<< (const std::string &value)
 {
-	arguments.push_back(Any(value)); return *this;
+	arguments.push_back(Any(value));
+	return *this;
 }
 
 
    /*=====================================================================*/
-Any& Message::operator[] (unsigned int index)
+Any&
+Message::operator[] (unsigned int index)
 {
 	return arguments.at(index);
 }
 
 
    /*=====================================================================*/
-const Any& Message::operator[] (unsigned int index) const
+const Any&
+Message::operator[] (unsigned int index) const
 {
 	return arguments.at(index);
 }
 
 
    /*=====================================================================*/
-std::ostream& operator<< (std::ostream& os, const Message &msg)
+std::ostream&
+operator<< (std::ostream& os, const Message &msg)
 {
 	std::vector<Any>::const_iterator
-		it=msg.arguments.begin(),
-		end=msg.arguments.end();
-	bool separator=false;
+		it = msg.arguments.begin(),
+		end = msg.arguments.end();
+	bool separator = false;
+
 	os << "Message <type=" << msg.getType() << ", args={";
 	for (; it != end; ++it)
 	{
@@ -128,6 +141,7 @@ std::ostream& operator<< (std::ostream& os, const Message &msg)
 		os << *it;
 	}
 	os << "}>";
+
 	return os;
 }
 

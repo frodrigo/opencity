@@ -1,8 +1,8 @@
 /***************************************************************************
 						kernel.cpp  -  description
 							-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
+	begin                : nov 29th, 2005
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Duong-Khang NGUYEN and Victor STINNER
 
@@ -55,14 +55,16 @@ Kernel::~Kernel()
 
 
    /*=====================================================================*/
-unsigned long Kernel::getStep() const
+unsigned long
+Kernel::getStep() const
 {
 	return m_step;
 }
 
 
    /*=====================================================================*/
-void Kernel::live()
+void
+Kernel::live()
 {
 // debug
 	++m_step;
@@ -95,14 +97,16 @@ Kernel::getSingleton()
 
 
    /*=====================================================================*/
-AgentID_t Kernel::getAgentUniqId()
+AgentID_t
+Kernel::getAgentUniqId()
 {
 	return m_agent_uniq_id++;
 }
 
 
    /*=====================================================================*/
-void Kernel::registerAgent(Agent *agent)
+void
+Kernel::registerAgent(Agent *agent)
 {
 	m_white_pages[agent->getId()] = agent;
 }
@@ -117,7 +121,11 @@ Kernel::unregisterAgent(Agent *agent)
 
 
    /*=====================================================================*/
-void Kernel::registerRole(Agent* agent, Role_t role)
+void Kernel::registerRole
+(
+	Agent* agent,
+	MAS_ROLE role
+)
 {
 	m_yellow_pages[role].push_back(agent);
 }
@@ -125,7 +133,11 @@ void Kernel::registerRole(Agent* agent, Role_t role)
 
    /*=====================================================================*/
 void
-Kernel::unregisterRole(Agent* agent, Role_t role)
+Kernel::unregisterRole
+(
+	Agent* agent,
+	MAS_ROLE role
+)
 {
 	m_agent_set_it iter = find( m_yellow_pages[role].begin(), m_yellow_pages[role].end(), agent);
 	if (iter != m_yellow_pages[role].end())
@@ -137,7 +149,7 @@ Kernel::unregisterRole(Agent* agent, Role_t role)
 void
 Kernel::killAgent(Agent* agent)
 {
-	Message msg = Message( Message::MSG_AGENT_DIE );
+	Message msg = Message( MSG_AGENT_DIE );
 
 	this->sendMessageToAgent(agent->getId(), msg);
 	m_agent_dying.push_back(agent);
@@ -145,22 +157,29 @@ Kernel::killAgent(Agent* agent)
 
 
    /*=====================================================================*/
-void Kernel::sendMessage(Role_t role, const Message &msg)
+void
+Kernel::sendMessage
+(
+	MAS_ROLE role,
+	const Message &msg
+)
 {
-	m_yellow_pages_it set_it=m_yellow_pages.find(role);
-	if (set_it == m_yellow_pages.end()) return;
+	m_yellow_pages_it set_it = m_yellow_pages.find(role);
+	if (set_it == m_yellow_pages.end())
+		return;
+
 	m_agent_set_it
 		it = (*set_it).second.begin(),
 		end = (*set_it).second.end();
-	for (; it != end; ++it)
-	{
+	for (; it != end; ++it) {
 		(**it).receiveMessage(msg);
 	}
 }
 
 
    /*=====================================================================*/
-Agent& Kernel::getAgentById(AgentID_t agent)
+Agent&
+Kernel::getAgentById(AgentID_t agent)
 {
 	assert (m_white_pages.find(agent) != m_white_pages.end());
 	return *m_white_pages[agent];
@@ -168,7 +187,8 @@ Agent& Kernel::getAgentById(AgentID_t agent)
 
 
    /*=====================================================================*/
-void Kernel::sendMessageToAgent(AgentID_t agent, const Message &msg)
+void
+Kernel::sendMessageToAgent(AgentID_t agent, const Message &msg)
 {
 	getAgentById(agent).receiveMessage(msg);
 }

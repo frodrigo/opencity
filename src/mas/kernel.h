@@ -59,9 +59,9 @@ otherwise null
 	static Kernel* getSingleton();
 
 	void registerAgent(Agent* agent);
-	void registerRole(Agent *agent, Role_t role);
+	void registerRole(Agent *agent, MAS_ROLE role);
 	void unregisterAgent(Agent* agent);
-	void unregisterRole(Agent *agent, Role_t role);
+	void unregisterRole(Agent *agent, MAS_ROLE role);
 
 //========================================================================
 /** First, remove the agent either from the yellow or the white pages.
@@ -70,7 +70,7 @@ Then, physically destroy it.
 */
 	void killAgent(Agent* agent);
 
-	void sendMessage(Role_t role, const Message& msg);
+	void sendMessage(MAS_ROLE role, const Message& msg);
 	void sendMessageToAgent(AgentID_t agent, const Message& msg);
 
 	
@@ -80,8 +80,8 @@ private:
 	unsigned long m_step;
 	std::map<AgentID_t, Agent*> m_white_pages;
 	typedef std::map<AgentID_t, Agent*>::iterator m_white_pages_it;
-	std::map<Role_t, std::list<Agent*> > m_yellow_pages;
-	typedef std::map<Role_t, std::list<Agent*> >::iterator m_yellow_pages_it;
+	std::map<MAS_ROLE, std::list<Agent*> > m_yellow_pages;
+	typedef std::map<MAS_ROLE, std::list<Agent*> >::iterator m_yellow_pages_it;
 	typedef std::list<Agent*>::iterator m_agent_set_it;
 	std::list<Agent*> m_agent_dying;
 	typedef std::list<Agent*>::iterator m_agent_dying_it;

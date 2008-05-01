@@ -24,6 +24,7 @@ noinst_HEADERS = \
 agent.h \
 agentdemonstrator.h \
 agentpolice.h \
+agentposition.h \
 agentrobber.h \
 any.h \
 environment.h \

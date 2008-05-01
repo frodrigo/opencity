@@ -58,11 +58,11 @@ public:
 		AGENT_DIE
 	} agent_state_t;
 
-	Agent(Kernel& kernel, Environment& env, int x, int y, Role_t role);
+	Agent(Kernel& kernel, Environment& env, int x, int y, MAS_ROLE role);
 	virtual ~Agent();
 
 	void receiveMessage(const Message& msg);
-	void sendMessage(Role_t role, const Message& msg);
+	void sendMessage(MAS_ROLE role, const Message& msg);
 	void sendMessageToAgent(AgentID_t agent, const Message& msg);
 	virtual void processMessage();
 	
@@ -73,10 +73,10 @@ public:
 	unsigned int getX() const;
 	unsigned int getY() const;
 	
-	Agent* lookForAgent(direction_t dir, unsigned long max_distance);
+	Agent* lookForAgent(MAS_DIRECTION dir, unsigned long max_distance);
 	
 	AgentID_t getId() const;
-    Role_t getRole() const;
+    MAS_ROLE getRole() const;
 
 //========================================================================
 /** Move the agent accordingly to the current direction
@@ -86,8 +86,8 @@ public:
 	bool move(int x, int y);
 
 	bool canMove(int x, int y) const;
-	bool canMove(direction_t dir, int &x, int &y) const;
-	bool canMove(direction_t dir) const;
+	bool canMove(MAS_DIRECTION dir, int &x, int &y) const;
+	bool canMove(MAS_DIRECTION dir) const;
 
 //========================================================================
 /** Move the agent randomly
@@ -117,9 +117,9 @@ protected:
 	Kernel& m_kernel;
 	Environment& m_environment;
 	int m_x, m_y;
-	direction_t m_direction;
+	MAS_DIRECTION m_direction;
 	unsigned int m_move_speed;
-	Role_t m_role;
+	MAS_ROLE m_role;
 	agent_state_t m_agent_state;
 	std::list<Message> m_messages;
 

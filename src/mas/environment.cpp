@@ -1,8 +1,8 @@
 /***************************************************************************
 						environment.h  -  description
 							-------------------
-	begin                : dec 11th 2005
-	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	begin                : dec 11th, 2005
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
 
@@ -53,7 +53,7 @@ int randomInt(int min, int max)
 
 
 	/*=====================================================================*/
-direction_t rotate180(direction_t dir)
+MAS_DIRECTION rotate180(MAS_DIRECTION dir)
 {
 	switch (dir)
 	{
@@ -70,7 +70,7 @@ direction_t rotate180(direction_t dir)
 
 
 	/*=====================================================================*/
-direction_t rotateLeft(direction_t dir)
+MAS_DIRECTION rotateLeft(MAS_DIRECTION dir)
 {
 	switch (dir)
 	{
@@ -87,7 +87,7 @@ direction_t rotateLeft(direction_t dir)
 
 
 	/*=====================================================================*/
-direction_t rotateRight(direction_t dir)
+MAS_DIRECTION rotateRight(MAS_DIRECTION dir)
 {
 	switch (dir)
 	{

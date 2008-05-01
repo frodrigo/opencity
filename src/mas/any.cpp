@@ -1,8 +1,8 @@
 /***************************************************************************
 						any.cpp  -  description
 							-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	begin                : nov 29th, 2005
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
 	
@@ -27,32 +27,35 @@
 
 
    /*=====================================================================*/
-Any::Any(int value)
-  : m_type(ANY_INT), m_int_value(value)
+Any::Any( int value ):
+m_type(ANY_INT),
+m_int_value(value)
 {}
 
 
    /*=====================================================================*/
-Any::Any(unsigned int value)
-  : m_type(ANY_UINT), m_uint_value(value)
+Any::Any( unsigned int value ):
+m_type(ANY_UINT),
+m_uint_value(value)
 {}
 
 
    /*=====================================================================*/
-Any::Any(double value)
-  : m_type(ANY_DOUBLE), m_double_value(value)
+Any::Any( double value ):
+m_type(ANY_DOUBLE),
+m_double_value(value)
 {}
 
 
    /*=====================================================================*/
-Any::Any(const std::string& value):
+Any::Any( const std::string& value ):
 m_type(ANY_STRING),
 m_string_value(value)
 {}
 
 
    /*=====================================================================*/
-Any_t
+MAS_ANY_TYPE
 Any::getType() const
 {
 	return m_type;
@@ -61,7 +64,8 @@ Any::getType() const
 
    /*=====================================================================*/
 int
-Any::getInt() const {
+Any::getInt() const
+{
 	assert (m_type == ANY_INT);
 	return m_int_value;
 }
@@ -69,7 +73,8 @@ Any::getInt() const {
 
    /*=====================================================================*/
 unsigned int
-Any::getUInt() const {
+Any::getUInt() const
+{
 	assert (m_type == ANY_UINT);
 	return m_uint_value;
 }

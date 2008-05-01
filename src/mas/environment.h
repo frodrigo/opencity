@@ -2,10 +2,10 @@
 						environment.h  -  description
 							-------------------
 	begin                : dec 11th, 2005
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -25,6 +25,7 @@
 #include <vector>
 #include <map>
 #include "agent.h"
+#include "agentposition.h"
 
 #define MAX_PATH_LENGTH 20
 
@@ -35,24 +36,9 @@ class Layer;
    /*=====================================================================*/
 unsigned char randomBool();
 int randomInt(int min, int max);
-direction_t rotate180(direction_t dir);
-direction_t rotateLeft(direction_t dir);
-direction_t rotateRight(direction_t dir);
-
-
-//========================================================================
-/** Utility class used to handle each agent's position
-*/
-class AgentPosition
-{
-public:
-	int x, y;				///< 2D coordinates of the agent on the map
-	unsigned long step;
-
-	AgentPosition() : x(-1), y(-1), step(0) {}
-	AgentPosition(int xx, int yy, unsigned long xstep) : x(xx), y(yy), step(xstep) {}
-	AgentPosition(const AgentPosition &p) : x(p.x), y(p.y), step(p.step) {}
-};
+MAS_DIRECTION rotate180(MAS_DIRECTION dir);
+MAS_DIRECTION rotateLeft(MAS_DIRECTION dir);
+MAS_DIRECTION rotateRight(MAS_DIRECTION dir);
 
 
 //========================================================================

@@ -1,10 +1,9 @@
 /***************************************************************************
-						role.h  -  description
+						agentposition.h  -  description
 							-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
+	begin                : may 1st, 2008
+	copyright            : (C) 2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	author               : Victor STINNER
 
 	$Id$
  ***************************************************************************/
@@ -19,57 +18,22 @@
  ***************************************************************************/
 
 
-#ifndef _OPENCITY_ROLE_H_
-#define _OPENCITY_ROLE_H_ 1
+#ifndef _OPENCITY_AGENTPOSITION_H_
+#define _OPENCITY_AGENTPOSITION_H_ 1
 
 
-   /*=====================================================================*/
-typedef enum {
-	ROLE_POLICE = 0,
-	ROLE_DEMONSTRATOR,
-	ROLE_ROBBER
-} MAS_ROLE;
-
-
-   /*=====================================================================*/
-typedef enum
+//========================================================================
+/** Utility class used to handle each agent's position
+*/
+class AgentPosition
 {
-	NORTH = 0,
-	WEST,
-	SOUTH,
-	EAST
-} MAS_DIRECTION;
+public:
+	int x, y;				///< 2D coordinates of the agent on the map
+	unsigned long step;
+
+	AgentPosition() : x(-1), y(-1), step(0) {}
+	AgentPosition(int xx, int yy, unsigned long xstep) : x(xx), y(yy), step(xstep) {}
+	AgentPosition(const AgentPosition &p) : x(p.x), y(p.y), step(p.step) {}
+};
+
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

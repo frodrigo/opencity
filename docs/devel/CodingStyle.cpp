@@ -42,7 +42,8 @@ extern GlobalVar gVars;
 CodingStyle::CodingStyle
 (
 	const bool & rcUseDL = true
-)
+):
+_bABool(false)
 {
 	_boolABool = rcUseDL;
 	OPENCITY_DEBUG( "ctor: some debug value:" << _boolABool );

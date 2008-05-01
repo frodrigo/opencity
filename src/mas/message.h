@@ -1,8 +1,8 @@
 /***************************************************************************
 						message.h  -  description
 							-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	begin                : nov 29th, 2005
+	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
 	
@@ -29,8 +29,17 @@
 #include <string>
 #include <ostream>
 
+typedef enum {
+	MSG_UNDEFINED = 0,
+	MSG_NEW_DEMONSTRATOR,
+	MSG_NEW_ROBBER,
+	MSG_KILL_AGENT,
+	MSG_AGENT_DIE
+} MAS_MESSAGE_TYPE;
+
 // Forward declarations
 class Agent;
+
 
    /*=====================================================================*/
 /** The agents send "messages" to each other
@@ -39,22 +48,14 @@ class Agent;
 class Message
 {
 public:
-	typedef enum {
-		MSG_UNDEFINED = 0,
-		MSG_NEW_DEMONSTRATOR,
-		MSG_NEW_ROBBER,
-		MSG_KILL_AGENT,
-		MSG_AGENT_DIE
-	} Message_t;
-
 	Message();
-	Message(Message_t type, Agent *sender=NULL);
+	Message(MAS_MESSAGE_TYPE type, Agent* sender = NULL);
 	Message& operator<< (int value);
 	Message& operator<< (unsigned int value);
 	Message& operator<< (double value);
 	Message& operator<< (const std::string& value);
 	
-	Message_t getType() const;
+	MAS_MESSAGE_TYPE getType() const;
 	Agent* getSender() const;
 	Message& setSender(Agent* sender);
 	unsigned int size() const;
@@ -65,7 +66,7 @@ public:
 
 private:
 	Agent* m_sender;
-	Message_t m_type;
+	MAS_MESSAGE_TYPE m_type;
 	std::vector<Any> arguments;
 };
 

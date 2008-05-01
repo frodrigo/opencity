@@ -25,15 +25,16 @@
 #include <string>
 
 typedef enum {
-	ANY_INT=0,
+	ANY_INT = 0,
 	ANY_UINT,
 	ANY_DOUBLE,
 	ANY_STRING
-} Any_t;
+} MAS_ANY_TYPE;
 
 
    /*=====================================================================*/
-/**
+/** Any class is used to serialize data in order to send message from
+an agent to another
 	@author Victor STINNER
 */
 class Any
@@ -44,16 +45,16 @@ public:
 	explicit Any(double value);
 	explicit Any(const std::string& value);
 
-	Any_t getType() const;
+	MAS_ANY_TYPE getType() const;
 	int getInt() const;
 	unsigned int getUInt() const;
-	double getDouble() const;	
+	double getDouble() const;
 	const std::string& getString() const;
 
 	friend std::ostream& operator<<(std::ostream& os, const Any& any);
 
 private:
-	Any_t m_type;
+	MAS_ANY_TYPE m_type;
 	int m_int_value;
 	unsigned int m_uint_value;
 	double m_double_value;

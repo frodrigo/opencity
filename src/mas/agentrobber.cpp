@@ -1,8 +1,8 @@
 /***************************************************************************
 					agentrobber.cpp  -  description
 						-------------------
-	begin                : nov 29th 2005
-	copyright            : (C) 2005 by Duong-Khang NGUYEN
+	begin                : nov 29th, 2005
+	copyright            : (C) 2005-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	author               : Victor STINNER
 
@@ -25,7 +25,12 @@
 
 
    /*=====================================================================*/
-AgentRobber::AgentRobber(Kernel& kernel, Environment& env, int x, int y):
+AgentRobber::AgentRobber
+(
+	Kernel& kernel,
+	Environment& env,
+	int x, int y
+):
 Agent(kernel, env, x, y, ROLE_ROBBER)
 {
 	this->born();		// Warning: see superclass
@@ -44,13 +49,15 @@ AgentRobber::~AgentRobber()
 
 
    /*=====================================================================*/
-void AgentRobber::processMessage()
+void
+AgentRobber::processMessage()
 {
 }
 
 
    /*=====================================================================*/
-void AgentRobber::born()
+void
+AgentRobber::born()
 {
 	Agent::born();
 	m_kernel.registerRole(this, ROLE_ROBBER);
@@ -58,21 +65,21 @@ void AgentRobber::born()
 
 
    /*=====================================================================*/
-void AgentRobber::live()
+void
+AgentRobber::live()
 {
 	static bool first = true;
-	if (first)
-	{
-		sendMessage(
-				ROLE_POLICE, 
-				Message( Message::MSG_NEW_ROBBER ) << 10 << 5);
+
+	if (first) {
+		sendMessage( ROLE_POLICE, Message( MSG_NEW_ROBBER ) << 10 << 5);
 		first = false;
 	}
 }
 
 
    /*=====================================================================*/
-void AgentRobber::die()
+void
+AgentRobber::die()
 {
 	Agent::die();
 	m_kernel.unregisterRole(this, this->getRole());
@@ -80,7 +87,8 @@ void AgentRobber::die()
 
 
    /*=====================================================================*/
-void AgentRobber::output (std::ostream& os) const
+void
+AgentRobber::output (std::ostream& os) const
 {
 	os << "AgentRobber " << getId();
 }
