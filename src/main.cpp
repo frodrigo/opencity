@@ -4,7 +4,7 @@
 	project              : OpenCity
 	codename             : Delphine
 	begin                : may 28th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	details              :
@@ -73,6 +73,7 @@ extern GlobalVar gVars;
 #include <ctime>				// For time
 
 // Test XPath
+#include "property.h"
 #include "propertymanager2.h"
 
 
@@ -1172,10 +1173,13 @@ int main(int argc, char *argv[])
 	}
 
 // Test XPath
-//	PropertyManager2* pPropertyMgr = new PropertyManager2();
-//	delete pPropertyMgr;
-//	abort();
-
+// 	PropertyManager2* pPropertyMgr = new PropertyManager2();
+// 	const Property* myProperty = pPropertyMgr->Get( 1 );
+// 	OPENCITY_DEBUG( "Build cost 1: " << myProperty->uiDestroyCost );
+// 	const Property* myProperty2 = pPropertyMgr->Get( "graphism/residential/little_house/little_house.ac" );
+// 	OPENCITY_DEBUG( "Build cost 2: " << myProperty2->uiIncome );
+// 	delete pPropertyMgr;
+// 	abort();
 
 // Initialization of global variables
 	uipCurrentUI = NULL;

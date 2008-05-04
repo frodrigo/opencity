@@ -58,7 +58,7 @@
 	<file>graphism/electricity/line_n_w_e/line_n_w_e.ac</file>
 	<file>graphism/electricity/line_s_n_w_e/line_s_n_w_e.ac</file>
 
-	<!-- OCM ROAD model files -->
+	<!-- Road model files -->
 	<file>graphism/path/road/road_o_n/road_o_n.ac</file>
 	<file>graphism/path/road/road_o_e/road_o_e.ac</file>
 	<file>graphism/path/road/road_o_s/road_o_s.ac</file>

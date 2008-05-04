@@ -71,10 +71,13 @@ PropertyManager2::PropertyManager2()
 	assert( nbFile > 0 );
 	OPENCITY_DEBUG( "Number of files expected: " << nbFile );
 
+// Allocate memory to store the property array
+	_uiNumberProperty = nbFile;
+	_aProperty = new Property* [_uiNumberProperty];
+
 // FOR each <file> node DO
 	uint i = 0;
 	string strAc = string(".ac");
-	string strOcm = string(".ocm");
 	string strXml = string(".xml");
 	string fileGraphism, fileXml;
 	string::size_type pos;
@@ -84,25 +87,23 @@ PropertyManager2::PropertyManager2()
 		fileGraphism = pElement->GetText();
 		fileXml = fileGraphism;
 
-		// Replace ".ac" and ".ocm" by ".xml"
+		// Replace ".ac" by ".xml"
 		pos = fileXml.rfind( strAc );
 		if (pos != fileXml.npos) {
 			fileXml.replace( pos, strXml.size(), strXml );
 		}
-		else {
-			pos = fileXml.rfind( strOcm );
-			if (pos != fileXml.npos) {
-				fileXml.replace( pos, strXml.size(), strXml );
-			}
-		}
 
 	// Load the properties at the index i
-		if (_mapProperty.find(fileGraphism) != _mapProperty.end()) {
-			OPENCITY_DEBUG( "XML file already exists" );
+		if (_mapIndex.find(fileGraphism) != _mapIndex.end()) {
+			OPENCITY_DEBUG(
+				"XML file \"" << fileGraphism <<
+				"\" already exists at : " << _mapIndex[fileGraphism]
+			);
 			continue;
 		}
 
-		_mapProperty[fileGraphism] = _LoadProperties( i, ocDataDirPrefix(fileXml) );
+		_aProperty[i] = _LoadProperties( ocDataDirPrefix(fileXml) );
+		_mapIndex[fileGraphism] = i;
 	}
 
 // Clean up
@@ -116,16 +117,16 @@ PropertyManager2::~PropertyManager2()
 {
 	OPENCITY_DEBUG( "dtor" );
 
-// Copy the pointers from the map
-	Property* pProperty = NULL;
-	std::map<string, Property*>::iterator curr, previous;
-	curr = _mapProperty.begin();
-	while (curr != _mapProperty.end()) {
-		previous = curr++;
-		pProperty = previous->second;
-		_mapProperty.erase(previous);
-		delete pProperty;
-	}
+// Delete the whole property array
+	delete [] _aProperty;
+}
+
+
+   /*=====================================================================*/
+const uint
+PropertyManager2::GetNumberProperty() const
+{
+	return _uiNumberProperty;
 }
 
 
@@ -133,8 +134,16 @@ PropertyManager2::~PropertyManager2()
 const Property* const
 PropertyManager2::Get(const string& key) const
 {
-	std::map<string, Property*>::const_iterator cit = _mapProperty.find(key);
-	return cit != _mapProperty.end() ? cit->second : NULL;
+	std::map<string, uint>::const_iterator cit = _mapIndex.find(key);
+	return cit != _mapIndex.end() ? _aProperty[cit->second] : NULL;
+}
+
+
+   /*=====================================================================*/
+const Property* const
+PropertyManager2::Get(const uint index) const
+{
+	return _aProperty[index];
 }
 
 
@@ -142,15 +151,10 @@ PropertyManager2::Get(const string& key) const
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
 Property*
-PropertyManager2::_LoadProperties
-(
-	uint index,
-	string filename
-)
+PropertyManager2::_LoadProperties( string filename )
 {
 // Parameters checking
 	OPENCITY_DEBUG( "Loading file: " << filename );
-	assert( index >= 0 );
 	assert( filename != "" );
 
 // Load the XML metadata file

@@ -40,27 +40,46 @@ public:
 	PropertyManager2();
 	~PropertyManager2();
 
+
+	const uint GetNumberProperty() const;
+
+
 //========================================================================
 /** Get the Property of the graphism file given as the key. If the
 requested Property for the given key is not found then NULL is returned.
 	\return The pointer to the requested Property of NULL if not found
+	\remarks Use the indexed version instead for better performance
 */
 	const Property* const
 	Get(const string& key) const;
 
 
+//========================================================================
+/** Get the Property of the graphism file given as the key. If the
+requested Property for the given key is not found then NULL is returned.
+	\param index The index of the requested Property
+	\return The pointer to the requested Property of NULL if not found
+	\remarks There is not out of index checking ! Please call
+GetNumberProperty() to determine the upper bound of the index
+*/
+	const Property* const
+	Get(const uint index) const;
+
+
 private:
-	std::map<string, Property*> _mapProperty;		/// The property map
+	uint					_uiNumberProperty;	/// The total number of properties
+	Property** 				_aProperty;			/// The property array
+	std::map<string, uint>	_mapIndex;			/// The property index map
 
 
 //========================================================================
 // Private methods
 //========================================================================
+/** Load the property XML file from mass storage
+	\return The pointer loaded property object
+*/
 	Property*
-	_LoadProperties(
-		uint index,
-		string filename
-	);
+	_LoadProperties( string filename );
 
 
 	const OPENCITY_DIRECTION
