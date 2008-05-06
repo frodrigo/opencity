@@ -2,7 +2,7 @@
 						globalvar.h    -  description
 							-------------------
 	begin                : october 17th, 2006
-	copyright            : (C) 2006-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -36,7 +36,7 @@
 // The current OpenCity version
 #define OC_VERSION				0
 #define OC_PATCHLEVEL			0
-#define OC_SUBLEVEL				5
+#define OC_SUBLEVEL				6
 
 
 //========================================================================

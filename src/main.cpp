@@ -751,6 +751,12 @@ static int clientMode()
 	// Restart with a new city from scratch
 	// WARNING: code duplication
 		if (bRestart) {
+		// Lock the simulator
+			SDL_LockMutex( gVars.gpmutexSim );
+
+		// Remove all moving objects
+			gVars.gpMoveMgr->Remove();
+
 			delete pNewCity;
 			delete gVars.gpMapMgr;
 			delete gVars.gpMapMaker;
@@ -773,6 +779,9 @@ static int clientMode()
 			}
 			gVars.gpRenderer->bHeightChange = true;
 			gVars.gpRenderer->bMinimapChange = true;
+
+		// Unlock the simulator
+			SDL_UnlockMutex( gVars.gpmutexSim );
 
 			bRestart = false;
 		}

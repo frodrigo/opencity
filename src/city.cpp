@@ -2,7 +2,7 @@
 						city.cpp  -  description
 							-------------------
 	begin                : may 28th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -2227,13 +2227,8 @@ City::_Save( const string& strFilename )
 	}
 
 // Save the signature and version
-	string strSignature = "";
-	strSignature = "OpenCity_" + ocStrVersion();
-	long lVersion = ocLongVersion();
-
-// FIXME: we use "space" to end a string
-	fs << strSignature << " ";
-	fs << lVersion << std::ends;
+	fs << "OpenCity_" << ocStrVersion() << std::endl;
+	fs << ocLongVersion() << std::ends;
 
 // Lock the simulator
 	SDL_LockMutex( gVars.gpmutexSim );
@@ -2276,12 +2271,14 @@ City::_Load( const string& strFilename )
 	long currentVersion = ocLongVersion();
 	long lVersion;
 
-	fs >> strSignature; fs.ignore();
+	getline( fs, strSignature );
 	fs >> lVersion; fs.ignore();
 
 // Version checking
 	if (lVersion > currentVersion) {
-		OPENCITY_INFO( "File version error in: " << strFilename );
+		OPENCITY_INFO( "Failed to load a more recent save file: " << strFilename );
+		OPENCITY_INFO( "Current OpenCity version is: " << currentVersion );
+		OPENCITY_INFO( "The save file version is : " << lVersion );
 		return false;
 	}
 
@@ -2292,6 +2289,7 @@ City::_Load( const string& strFilename )
 	gVars.gpMoveMgr->Remove();
 
 // Load city data
+	OPENCITY_INFO( "Loading save file from " << strSignature );
 	this->LoadFrom( fs );
 
 // Load map data
