@@ -2,9 +2,9 @@
 						zen.cpp  -  description
 							-------------------
 	project              : OpenCity
-	codename             : Zen server
-	begin                : 26th nov, 2006
-	copyright            : (C) 2006 by Duong-Khang NGUYEN
+	codename             : ZeN server
+	begin                : november 26th, 2006
+	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -704,7 +704,7 @@ ocSaveDirPrefix( const string& s )
    /*=====================================================================*/
 string ocStrVersion()
 {
-	ostringstream oss;
+	std::ostringstream oss;
 
 	oss << OC_VERSION << "." << OC_PATCHLEVEL << "." << OC_SUBLEVEL;
 	return oss.str();

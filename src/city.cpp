@@ -42,7 +42,9 @@ extern GlobalVar gVars;
 // Standard headers
 #include <sstream>					// For text output with data conversion
 
+using namespace std;
 
+// Local defines
 #define OC_ACTION_FACTOR 10
 #define GUIBUTTON_POSITION_TOOL		85, 4, 24, 24
 

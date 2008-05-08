@@ -1233,7 +1233,7 @@ ocSaveDirPrefix( const string& s )
    /*=====================================================================*/
 string ocStrVersion()
 {
-	ostringstream oss;
+	std::ostringstream oss;
 
 	oss << OC_VERSION << "." << OC_PATCHLEVEL << "." << OC_SUBLEVEL;
 	return oss.str();

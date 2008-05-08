@@ -2,7 +2,7 @@
 						audiomanager.h  -  description
 							-------------------
 	begin                : december 26th, 2003
-	copyright            : (C) 2003 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -22,26 +22,23 @@
 
 // IF we have not included this file already THEN
 #ifndef _OPENCITY_AUDIOMANAGER_H_
-
 #define _OPENCITY_AUDIOMANAGER_H_ 1
 
-	#include "main.h"
+#include "main.h"
 
-	#define OC_AUDIO_FREQUENCY  44100         // CD quality
-	#define OC_AUDIO_FORMAT     AUDIO_S16SYS  // host system signed byte order
-	#define OC_AUDIO_CHANNELS   2             // 2 channels for stereo
-	#define OC_AUDIO_CHUNK_SIZE 4096          // mixer's sample chunk size
+#define OC_AUDIO_FREQUENCY  44100         // CD quality
+#define OC_AUDIO_FORMAT     AUDIO_S16SYS  // host system signed byte order
+#define OC_AUDIO_CHANNELS   2             // 2 channels for stereo
+#define OC_AUDIO_CHUNK_SIZE 4096          // mixer's sample chunk size
 
-	#define OC_AUDIO_MIX_CHANNELS 8           // total number of mix channels
-	#define OC_AUDIO_RESERVED_CHANNELS 4      // reserved channels for sound effects
+#define OC_AUDIO_MIX_CHANNELS 8           // total number of mix channels
+#define OC_AUDIO_RESERVED_CHANNELS 4      // reserved channels for sound effects
 
-	#define OC_AUDIO_VOLUME_MIN 0
-	#define OC_AUDIO_VOLUME_MAX MIX_MAX_VOLUME
+#define OC_AUDIO_VOLUME_MIN 0
+#define OC_AUDIO_VOLUME_MAX MIX_MAX_VOLUME
 
-	#define OC_MAX_FILENAME_LENGTH 255
+#define OC_MAX_FILENAME_LENGTH 255
 
-
-using namespace std;
 
 //========================================================================
 /** This is a void audio manager. It is used whenever the SDL_mixer library

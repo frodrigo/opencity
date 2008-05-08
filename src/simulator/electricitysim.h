@@ -2,7 +2,7 @@
 						electricitysim.h  -  description
 							-------------------
 	begin                : march 3rd, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 	internal sim version : 0.0.2
 
@@ -27,11 +27,11 @@
 #include <deque>
 #include <vector>
 
-using namespace std;
 
-   /** This class is a threaded mini-simulator which handles the transmission
-       of electricity in the game
-   */
+//========================================================================
+/** This class is a threaded mini-simulator which handles the transmission
+of electricity in the game
+*/
 class ElectricitySim : public Simulator  {
 public:
 	ElectricitySim(
@@ -83,14 +83,14 @@ public:
 
 
 private:
-	uint	_uiNumberEPlant;
-	int		_iValueMax;
-	deque<pair<uint, uint> >	dequepairui;
-	vector<pair<uint, uint> >	vectorpairuiEPlant;
+	uint								_uiNumberEPlant;
+	int									_iValueMax;
+	std::deque<std::pair<uint, uint> >	_dequepairui;
+	std::vector<std::pair<uint, uint> >	_vectorpairuiEPlant;
 
    /*=====================================================================*/
 	bool
-	dequeContain( const pair<uint, uint> &);
+	dequeContain( const std::pair<uint, uint> &);
 
 };
 

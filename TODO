@@ -15,11 +15,12 @@ Improved selection calculation        (done)
 Improved selection hot zone           (done)
 Add heightmap into the release        (done)
 Fix string save format                (done)
+Save file version check               (done)
+Fix vehicle display bug on restart    (done)
+Remove std namespace from header      (done)
 XML parameters accessors              (wip)
 XML handling in construction process  (wip)
 XML handling in the simulation engine (wip)
-Save file version check               (done)
-Fix vehicle display bug on restart    (done)
 Crime
 Review the message system
 Review the agent creation process

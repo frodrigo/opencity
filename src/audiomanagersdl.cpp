@@ -471,7 +471,7 @@ AudioManager::VolumeSound(
 OPENCITY_ERR_CODE
 AudioManager::ParseM3UList(
 	const string & csrFilename,
-	vector<string> & vectorFilename,
+	std::vector<string> & vectorFilename,
 	uint & uiNumberFiles )
 {
 //debug	cout << (string)ccaFilename << endl;
@@ -484,7 +484,7 @@ AudioManager::ParseM3UList(
 // If we are here, uiNumberFiles must be 0
 
 // Open the ifstream for reading
-	ifstream listFile( csrFilename.c_str() );
+	std::ifstream listFile( csrFilename.c_str() );
 	if (listFile == NULL) {
 		OPENCITY_DEBUG( "Audio file list open error" );
 		return OC_ERR_SOMETHING;

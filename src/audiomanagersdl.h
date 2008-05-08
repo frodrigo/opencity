@@ -2,7 +2,7 @@
 						audiomanagersdl.h  -  description
 							-------------------
 	begin                : december 26th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
 	$Id$
@@ -20,30 +20,29 @@
 #ifndef _OPENCITY_AUDIOMANAGERSDL_H_
 #define _OPENCITY_AUDIOMANAGERSDL_H_ 1
 
-	#include "main.h"
+#include "main.h"
 
-	#include "SDL_mixer.h"
-	#include <vector>
+#include "SDL_mixer.h"
+#include <vector>
 
-	#define OC_AUDIO_FREQUENCY  44100         // CD quality
-	#define OC_AUDIO_FORMAT     AUDIO_S16SYS  // host system signed byte order
-	#define OC_AUDIO_CHANNELS   2             // 2 channels for stereo
-	#define OC_AUDIO_CHUNK_SIZE 4096          // mixer's sample chunk size
+#define OC_AUDIO_FREQUENCY  44100         // CD quality
+#define OC_AUDIO_FORMAT     AUDIO_S16SYS  // host system signed byte order
+#define OC_AUDIO_CHANNELS   2             // 2 channels for stereo
+#define OC_AUDIO_CHUNK_SIZE 4096          // mixer's sample chunk size
 
-	#define OC_AUDIO_MIX_CHANNELS 8           // total number of mix channels
-	#define OC_AUDIO_RESERVED_CHANNELS 4      // reserved channels for sound effects
+#define OC_AUDIO_MIX_CHANNELS 8           // total number of mix channels
+#define OC_AUDIO_RESERVED_CHANNELS 4      // reserved channels for sound effects
 
-	#define OC_AUDIO_VOLUME_MIN 0
-	#define OC_AUDIO_VOLUME_MAX MIX_MAX_VOLUME
+#define OC_AUDIO_VOLUME_MIN 0
+#define OC_AUDIO_VOLUME_MAX MIX_MAX_VOLUME
 
-	#define OC_MAX_FILENAME_LENGTH 255
+#define OC_MAX_FILENAME_LENGTH 255
 
 
-using namespace std;
-
-	/** Handles audio aspect of OpenCity. Thanks to SDL_Mixer, it can play
-		most popular types of sound and music files.
-	*/
+//========================================================================
+/** Handles audio aspect of OpenCity. Thanks to SDL_Mixer, it can play
+most popular types of sound and music files.
+*/
 class AudioManager {
 public:
 /// This is for LR panning effects
@@ -137,12 +136,12 @@ private:
 	bool boolRandomMusic;
 
 	string strSoundList;
-	vector<string> _vSoundFilename;
-	vector<Mix_Chunk*> _vpSoundChunk;
+	std::vector<string> _vSoundFilename;
+	std::vector<Mix_Chunk*> _vpSoundChunk;
 	uint uiNumberSound;
 
 	string strMusicList;
-	vector<string> vectorMusicFilename;
+	std::vector<string> vectorMusicFilename;
 	uint uiNumberMusic;
 	uint uiCurrentMusic;
 	bool boolShuffleMusic;
@@ -155,7 +154,7 @@ private:
 	OPENCITY_ERR_CODE
 	ParseM3UList(
 		const string & csrFilename,
-		vector<string> & vectorFilename,
+		std::vector<string> & vectorFilename,
 		uint & uiNumberFiles );
 
 };
