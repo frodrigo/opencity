@@ -24,9 +24,7 @@
 
 #include <map>
 
-enum OPENCITY_DIRECTION;
-enum OPENCITY_STRUCTURE_TYPE;
-struct Property;				// Forward declaration
+#include "property.h"
 
 
 //========================================================================
@@ -72,22 +70,6 @@ private:
 	std::map<string, uint>	_mapIndex;			/// The property index map
 
 
-//========================================================================
-// Private methods
-//========================================================================
-/** Load the property XML file from mass storage
-	\return The pointer loaded property object
-*/
-	Property*
-	_LoadProperties( string filename );
-
-
-	const OPENCITY_DIRECTION
-	_Str2Direction(const string& rcstrDir);
-
-
-	const OPENCITY_STRUCTURE_TYPE
-	_Str2Type(const string& rcstrType);
 };
 
 #endif

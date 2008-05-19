@@ -20,7 +20,13 @@
 #ifndef _OPENCITY_PROPERTY_H_
 #define _OPENCITY_PROPERTY_H_ 1
 
+#include "main.h"
+
 #include <climits>								// INT_MAX
+
+// Useful enumerations
+#include "opencity_direction.h"
+#include "opencity_structure_type.h"
 
 
 // Object's properties XPath expressions
@@ -140,6 +146,24 @@ values.
 	{
 		//OPENCITY_DEBUG( "dtor" );
 	}
+
+
+/** Load the property XML file from mass storage
+	\return The pointer loaded property object
+*/
+	static Property*
+	LoadProperties( string filename );
+
+
+//========================================================================
+// Private methods
+//========================================================================
+	static const OPENCITY_DIRECTION
+	_Str2Direction(const string& rcstrDir);
+
+
+	static const OPENCITY_STRUCTURE_TYPE
+	_Str2Type(const string& rcstrType);
 };
 
 #endif

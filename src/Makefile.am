@@ -78,6 +78,7 @@ renderer.cpp \
 ui.cpp \
 pathfinder.cpp \
 persistence.cpp \
+property.cpp \
 propertymanager.cpp \
 propertymanager2.cpp \
 texture.cpp \
@@ -160,6 +161,7 @@ renderer.cpp \
 ui.cpp \
 pathfinder.cpp \
 persistence.cpp \
+property.cpp \
 propertymanager.cpp \
 propertymanager2.cpp \
 texture.cpp \

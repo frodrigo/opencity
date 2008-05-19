@@ -26,6 +26,7 @@
 #include "model.h"
 #include "structure.h"
 #include "texture.h"
+#include "property.h"
 
 // Standard headers
 #include <string>
@@ -173,6 +174,13 @@ Conf *loadConf( const string &acFile )
     return pConf;
 }
 
+Property *loadProperty( const string &acFile )
+{
+	string propertyFile = acFile.substr( 0, acFile.length()-3 ) + ".xml";
+	Property* pProperty = Property::LoadProperties( propertyFile );
+	OPENCITY_DEBUG( "load propertyFile = " << propertyFile );
+    return pProperty;
+}
 
 string parseArgLine( int argc, char **argv, bool *shot )
 {
@@ -273,16 +281,15 @@ Model *loadModel( const string &modelFile, float *width, float *length, float *h
 		*length = 1;
 		*height = 1;
 
-		Conf *pConf = loadConf( modelFile );
-		if( pConf != NULL )
+		Property *pProperty = loadProperty( modelFile );
+		if( pProperty != NULL )
 		{
-			pConf->GetFloat( "width", *width, 1 );
-		        pConf->GetFloat( "length", *length, 1 );
-		        pConf->GetFloat( "height", *height, 1 );
-		        OPENCITY_DEBUG( "Model : " << *width << "x" << *length << "x" << *height );
-		        pConf->Close();
-		        delete pConf;
-	    	}
+			*width = pProperty->uiWidth;
+			*length = pProperty->uiLength;
+			*height = pProperty->fHeight;
+			OPENCITY_DEBUG( "Model : " << *width << "x" << *length << "x" << *height );
+			delete pProperty;
+		}
 
 		// heuristic
 	    	zoom = ( (*width) + (*length) )/2*1.5 + .5;
