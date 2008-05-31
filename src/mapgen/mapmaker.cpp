@@ -38,10 +38,6 @@
 #include <cstdlib>
 #include <ctime>
 
-// log2 workaround
-#if defined(__WIN32__) && !defined(log2)
-	#define log2(value) (log((double)value)/log(2.0))
-#endif
 
 namespace MapGen
 {

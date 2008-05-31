@@ -78,7 +78,8 @@ using std::cerr;
 		#if !defined(strcasecmp)
 			#define strcasecmp _stricmp
 		#endif
-	/*
+
+	/* C99 standard has this
 	// log2 workaround
 		#if !defined(log2)
 			#define log2(value) log((double)value)/log(2.0)
