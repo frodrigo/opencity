@@ -135,11 +135,13 @@ AC_ARG_ENABLE(mingw,
 dnl ===========================================================================
 dnl Set the compiler and the linker options
 dnl ===========================================================================
-CXXFLAGS="-Wall -Wmissing-braces -Wparentheses -ansi -pedantic-errors $CXXFLAGS"
+CXXFLAGS="-Wall -Wmissing-braces -Wparentheses -pedantic-errors $CXXFLAGS"
 
 CXXFLAGS="-I$with_gl_prefix/include $enable_gprof $enable_debug $CXXFLAGS"
 
-CFLAGS="$CXXFLAGS"
+CFLAGS="-std=c99 $CXXFLAGS"
+
+CXXFLAGS="-std=c++98 $CXXFLAGS"
 
 LDFLAGS="-L$with_gl_prefix/lib $enable_gprof $LDFLAGS"
 
