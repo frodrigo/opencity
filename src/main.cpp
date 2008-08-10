@@ -288,16 +288,16 @@ void getFullScreenResolution(uint & w, uint & h)
 {
 	SDL_Rect **modes;
 	int i;
-	
+
 // Get available fullscreen/hardware modes
 	modes = SDL_ListModes(NULL, flags);
-	
+
 // Check if there are any modes available
 	if(modes == (SDL_Rect **)0) {
 		OPENCITY_FATAL( "No fullscreen mode available !" );
 		exit( OC_SDL_FULLSCREEN_ERROR );
 	}
-	
+
 // Check if our resolution is restricted
 	if(modes == (SDL_Rect **)-1) {
 	// Use the default fullscreen size
@@ -365,8 +365,8 @@ int initSDL()
 	// This could happen for a variety of reasons,
 	// including DISPLAY not being set, the specified
 	// resolution not being available, etc.
-		OPENCITY_ERROR( 
-			"Initialization of 32 bpp video mode failed: " << SDL_GetError() 
+		OPENCITY_ERROR(
+			"Initialization of 32 bpp video mode failed: " << SDL_GetError()
 		);
 		OPENCITY_INFO( "Trying 16 bpp... " );
 		gVars.guiVideoBpp = OC_WINDOW_BPP_16;
@@ -451,7 +451,7 @@ void parseArg(int argc, char *argv[])
 
 	CSimpleOpt::SOption g_rgOptions[] = {
 		{ OPT_GL_VERSION,				(char*)"--gl-version",				SO_NONE		},
-		{ OPT_FULLSCREEN,				(char*)"--glv",						SO_NONE		},
+		{ OPT_GL_VERSION,				(char*)"-glv",						SO_NONE		},
 		{ OPT_FULLSCREEN,				(char*)"--fullscreen",				SO_NONE		},
 		{ OPT_FULLSCREEN,				(char*)"-fs",						SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"--no-audio",				SO_NONE		},
@@ -652,13 +652,14 @@ static int clientMode()
 	int errCode = 0;
 
 // Initialize SDL
-	errCode = initSDL();
-	if (errCode != 0) {
-		return errCode;
+	if (gVars.gpVideoSrf == NULL) {
+		errCode = initSDL();
+		if (errCode != 0) {
+			return errCode;
+		}
 	}
 
-
-// set the window's caption
+// Set the window's caption
 	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
 	SDL_WM_SetIcon( IMG_Load(ocDataDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
 
@@ -885,7 +886,7 @@ char* findSaveDir()
 // dll: shell32.dll
 
 	TCHAR szPath[MAX_PATH];
-	
+
 	if(SUCCEEDED(
 		SHGetFolderPath(NULL, CSIDL_APPDATA|CSIDL_FLAG_CREATE, NULL, 0, szPath)
 		)) {
@@ -968,7 +969,7 @@ void detectProgramPath()
 #else
 	// Win32 uses \ as directory separtor
 		sSaveDir += "\\opencity\\";
-        CreateDirectory( sSaveDir.c_str(), NULL );		
+        CreateDirectory( sSaveDir.c_str(), NULL );
     // Replace \ by /
 	    string::size_type pos;
 	    while ( (pos = sSaveDir.find( '\\' )) != sSaveDir.npos ) {

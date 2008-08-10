@@ -49,7 +49,7 @@ using std::cerr;
 	#define OPENCITY_FATAL( msg ) { \
 		cerr << "<FATAL> " << __FILE__ << " " << __LINE__ << " : " << msg << endl; \
 	}
-	
+
 // Swap two variables so that a <= b
 	#define OPENCITY_SWAP( a, b, type ) \
 	{\
@@ -58,7 +58,7 @@ using std::cerr;
 			c = a; a = b; b = c;\
 		}\
 	}
-	
+
 // We use "uint" for "unsigned int"
 	#ifndef uint
 		typedef unsigned int uint;
@@ -70,10 +70,13 @@ using std::cerr;
 			#define __PRETTY_FUNCTION__ __FUNCTION__
 		#endif
 
-	// Include the text operator "and"
-		#if !defined(and)
-			#include <ciso646>
+	// and operator workaround for MSVC2005
+		#if !defined(__MINGW32_VERSION)
+			#if !defined(and)
+				#include <ciso646>
+			#endif
 		#endif
+
 	// strcasecmp workaround
 		#if !defined(strcasecmp)
 			#define strcasecmp _stricmp
