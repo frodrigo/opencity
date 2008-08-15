@@ -82,6 +82,8 @@ The second line of description goes here.
 private:
 /** Variable prefixes:
 	_:		private member
+	g:		global variable
+
 	a:		array
 	b:		boolean
 	c:		constant
