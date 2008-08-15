@@ -61,6 +61,7 @@ buildinglayer.cpp \
 city.cpp \
 conf.cpp \
 destination.cpp \
+extensionmanager.cpp \
 globalvar.cpp \
 graphicmanager.cpp \
 gui3dview.cpp \
@@ -93,6 +94,7 @@ city.h \
 conf.h \
 destination.h \
 enum.h \
+extensionmanager.h \
 font_8x8.h \
 globalvar.h \
 graphicmanager.h \
