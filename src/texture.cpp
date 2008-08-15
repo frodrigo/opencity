@@ -1,10 +1,10 @@
 /***************************************************************************
-						texture.cpp    -  description
+						texture.cpp  -  description
 							-------------------
 	begin                : july 2nd, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -355,18 +355,14 @@ Texture::Surface2Texture3D
 	GLint format
 )
 {
-/* old code, non portable
-#ifdef __WIN32__
-	PFNGLTEXIMAGE3DPROC glTexImage3D;
-	glTexImage3D = (PFNGLTEXIMAGE3DPROC) wglGetProcAddress("glTexImage3D");
-#endif
-*/
-
-	PFNGLTEXIMAGE3DEXTPROC glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC) SDL_GL_GetProcAddress("glTexImage3D");
+/*
+// Dynamically look up the glTexImage3D extension
+	PFNGLTEXIMAGE3DEXTPROC glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC) SDL_GL_GetProcAddress("glTexImage3DEXT");
 	if (glTexImage3D == NULL) {
 		OPENCITY_FATAL( "glTexImage3D function not found" );
 		abort();
 	}
+*/
 
 // Delete the existing texture
 	if (glIsTexture( ruiTexture ) == GL_TRUE)
@@ -380,7 +376,7 @@ Texture::Surface2Texture3D
 // If the image doesn't have the correct size then scale it before converting
 // Convert the surface to the OpenGL texture
 // NOTE: the texture internal format is the same as the pixels' one
-	glTexImage3D(
+	gVars.gpExtensionMgr->glTexImage3D(
 		GL_TEXTURE_3D,		// texture 3D
 		0,					// base image
 		format,				// internal format

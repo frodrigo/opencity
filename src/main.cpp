@@ -94,30 +94,31 @@ extern GlobalVar gVars;
 	#define OC_WINDOW_POS_Y			20
 	#define OC_WINDOW_WIDTH			750
 	#define OC_WINDOW_HEIGHT		560
-	#define OC_WINDOW_BPP_DEFAULT	32				// OC uses this by default
+	#define OC_WINDOW_BPP_DEFAULT	32			// OC uses this by default
 	#define OC_WINDOW_BPP_16		16
 	#define OC_FULLSCREEN_WIDTH		1024
 	#define OC_FULLSCREEN_HEIGHT	768
 
 // Exit code. This is not an exhaustive list.
-	#define OC_CONFIG_NOT_FOUND			-1
-	#define OC_CONFIG_PARSE_ERROR		-2
-	#define OC_ARGUMENT_ERROR			-3
+	#define OC_ERROR_NOT_FOUND			-1		///< Config files not found
+	#define OC_ERROR_PARSE_CONFIG		-2		///< Config parsing error
+	#define OC_ERROR_ARGUMENT			-3		///< Command line argument error
 
-	#define OC_OUT_OF_MEMORY			-10
+	#define OC_ERROR_MEMORY				-10		///< Out of memory
 
-	#define OC_SDL_INIT_ERROR			-20
-	#define OC_SDL_BPP_ERROR			-21
-	#define OC_SDL_DOUBLEBUFFER_ERROR	-22
-	#define OC_SDL_VIDEORESIZE_ERROR	-23
-	#define OC_SDL_FULLSCREEN_ERROR		-24
+	#define OC_ERROR_SDL_INIT			-20		///< SDL initialization failed
+	#define OC_ERROR_SDL_BPP			-21		///< Bits per pixel selection failed
+	#define OC_ERROR_SDL_DOUBLEBUFFER	-22		///< Video double buffer unsupported
+	#define OC_ERROR_SDL_VIDEORESIZE	-23		///< Unable to resize the window
+	#define OC_ERROR_SDL_FULLSCREEN		-24		///< Unable to go fullscreen
+	#define OC_ERROR_SDL_OPENGL			-25		///< Unable to load OpenGL library dynamically
 
 // Settings file
 	#define OC_CONFIG_FILE_FILENAME		"config/opencity.xml"
 
 // Others macros
 	#define OC_WINDOW_NAME PACKAGE VERSION
-	#define OC_PROGRAM_NAME			"OpenCity standalone/client application"
+	#define OC_PROGRAM_NAME				"OpenCity standalone/client application"
 
 
 
@@ -203,7 +204,7 @@ void ocResize( const SDL_ResizeEvent& rcsResizeEvent)
 		rcsResizeEvent.w, rcsResizeEvent.h,
 		gVars.guiVideoBpp, flags ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
-		exit( OC_SDL_VIDEORESIZE_ERROR );
+		exit( OC_ERROR_SDL_VIDEORESIZE );
 	}
 	gVars.gpVideoSrf = SDL_GetVideoSurface();
 #endif
@@ -295,7 +296,7 @@ void getFullScreenResolution(uint & w, uint & h)
 // Check if there are any modes available
 	if(modes == (SDL_Rect **)0) {
 		OPENCITY_FATAL( "No fullscreen mode available !" );
-		exit( OC_SDL_FULLSCREEN_ERROR );
+		exit( OC_ERROR_SDL_FULLSCREEN );
 	}
 
 // Check if our resolution is restricted
@@ -331,7 +332,7 @@ int initSDL()
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
 		// Failed, exit.
 		OPENCITY_FATAL( "SDL video initialization failed: " << SDL_GetError() );
-		return OC_SDL_INIT_ERROR;
+		return OC_ERROR_SDL_INIT;
 	}
 
 // Set the SDL_GL_DoubleBuffer ON for smoother rendering
@@ -345,6 +346,12 @@ int initSDL()
 	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
  	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
 	flags = SDL_OPENGL | SDL_RESIZABLE | SDL_HWSURFACE;
+
+// Dynamically load the default OpenGL implementation library
+	if (SDL_GL_LoadLibrary(NULL) < 0) {
+		OPENCITY_FATAL( "Failed to load OpenGL library: " << SDL_GetError() );
+		return OC_ERROR_SDL_OPENGL;
+	}
 
 // Will we go for fullscreen ?
 	if (gVars.gboolFullScreen == true) {
@@ -380,7 +387,7 @@ int initSDL()
 
 		if (gVars.gpVideoSrf == NULL) {
 			OPENCITY_FATAL( "16 bpp mode has failed: " << SDL_GetError() );
-			return OC_SDL_BPP_ERROR;
+			return OC_ERROR_SDL_BPP;
 		}
 		else {
 			OPENCITY_INFO( "16 bpp works." );
@@ -389,14 +396,13 @@ int initSDL()
 
 //debug cout << "W: " << gVars.gpVideoSrf->w << " /H: " << gVars.gpVideoSrf->h << endl;
 
-
 // Test for DoubleBuffer
 	int iDblBuff = 0;
 	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &iDblBuff );
 	if ( iDblBuff == 0 ) {
 		OPENCITY_INFO( "Checking video doublebuffer: failed !" );
 		OPENCITY_FATAL( "We need the video doublebuffer." );
-		return OC_SDL_DOUBLEBUFFER_ERROR;
+		return OC_ERROR_SDL_DOUBLEBUFFER;
 	}
 	else {
 		OPENCITY_INFO( "Checking video doublebuffer: OK !" );
@@ -502,7 +508,7 @@ void parseArg(int argc, char *argv[])
 		// Exit the program on error
 		if (args.LastError() != SO_SUCCESS) {
 			cout << "Try " << argv[0] << " --help for usage information" << endl;
-			exit( OC_ARGUMENT_ERROR );
+			exit( OC_ERROR_ARGUMENT );
 		}
 
 		switch (args.OptionId()) {
@@ -613,7 +619,7 @@ void parseArg(int argc, char *argv[])
 				<< endl;
 			cout << "Warning: the command option overwrite the config file settings."
 				<< endl;
-			exit( OC_ARGUMENT_ERROR );
+			exit( OC_ERROR_ARGUMENT );
 			break;
 		}	// switch (args.OptionId())
 	} // while (args.Next())
@@ -634,6 +640,8 @@ void displaySplash()
    /*=====================================================================*/
 static void displayStatus( const string & str )
 {
+	assert( gVars.gpRenderer != NULL );
+
 	uint x, y;
 
 	displaySplash();
@@ -659,6 +667,7 @@ static int clientMode()
 		}
 	}
 
+
 // Set the window's caption
 	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
 	SDL_WM_SetIcon( IMG_Load(ocDataDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
@@ -666,6 +675,14 @@ static int clientMode()
 
 // Create the mutex first
 	gVars.gpmutexSim = SDL_CreateMutex();
+
+
+// Load OpenGL extensions
+	gVars.gpExtensionMgr = new ExtensionManager();
+	if (gVars.gpExtensionMgr == NULL or !gVars.gpExtensionMgr->Load()) {
+		OPENCITY_FATAL( "Failed to load OpenGL extensions" );
+		return OC_ERROR_SDL_OPENGL;
+	}
 
 
 // Create the global renderer in order to use its text rendering functions
@@ -678,10 +695,10 @@ static int clientMode()
 
 	if ( gVars.gpAudioMgr == NULL ) {
 		OPENCITY_FATAL( "Error while creating the audio manager" );
-		return OC_OUT_OF_MEMORY;
+		return OC_ERROR_MEMORY;
 	} else
 	if ( (gVars.gboolUseAudio == true)
-	  && (gVars.gpAudioMgr->OpenAudio() != OC_ERR_FREE))
+	  and (gVars.gpAudioMgr->OpenAudio() != OC_ERR_FREE))
 	{
 	// try to open the audio device IF we have successfully created an audio object
 		OPENCITY_INFO( "Audio open error ! OpenCity continues happily." );
@@ -728,7 +745,7 @@ static int clientMode()
 	City* pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength );
 	if (pNewCity == NULL) {
 		OPENCITY_FATAL( "Error while creating new city" );
-		return OC_OUT_OF_MEMORY;
+		return OC_ERROR_MEMORY;
 	}
 	displayStatus( "Almost done...");
 
@@ -776,7 +793,7 @@ static int clientMode()
 			pNewCity = new City( gVars.guiCityWidth, gVars.guiCityLength );
 			if (pNewCity == NULL) {
 				OPENCITY_FATAL( "Error while creating new city" );
-				return OC_OUT_OF_MEMORY;
+				return OC_ERROR_MEMORY;
 			}
 			gVars.gpRenderer->bHeightChange = true;
 			gVars.gpRenderer->bMinimapChange = true;
@@ -835,6 +852,7 @@ static int clientMode()
 	delete gVars.gpAudioMgr;
 
 	delete gVars.gpRenderer;
+	delete gVars.gpExtensionMgr;
 
 // delete the simulators' mutex now
 	SDL_DestroyMutex( gVars.gpmutexSim );
@@ -989,8 +1007,8 @@ void detectProgramPath()
 /** Read the OpenCity's main settings file "opencity.xml"
 	\return "" if OK, otherwise the error description
 		0: if OK
-		OC_CONFIG_NOT_FOUND: the config file has not been found
-		OC_CONFIG_PARSE_ERROR: the was a parse error
+		OC_ERROR_NOT_FOUND: the config file has not been found
+		OC_ERROR_PARSE_CONFIG: the was a parse error
 */
 string readSettings()
 {
@@ -1147,9 +1165,9 @@ void initGlobalVar()
 
 
    /*=====================================================================*/
-#ifdef __WIN32__
-extern "C"
-#endif
+//#ifdef __WIN32__
+//extern "C"
+//#endif
 int main(int argc, char *argv[])
 {
 // Initialize the global settings variable to the default values
@@ -1179,7 +1197,7 @@ int main(int argc, char *argv[])
 			<< "    " << argv[0] << " --datadir \"../relative/path/to/opencity/data\" "
 			<< "--confdir \"../relative/path/to/opencity/conf\"" << endl
 		);
-		exit(OC_CONFIG_NOT_FOUND);
+		exit(OC_ERROR_NOT_FOUND);
 	}
 
 // Test XPath

@@ -20,23 +20,24 @@
 #ifndef _OPENCITY_GLOBALVAR_H_
 #define _OPENCITY_GLOBALVAR_H_ 1
 
-#include "main.h"
+#include "main.h"				// Main defines
 #include "audiomanager.h"		// Audio support
-#include "graphicmanager.h"
-#include "map.h"
-#include "propertymanager.h"
-#include "renderer.h"
+#include "extensionmanager.h"	// OpenGL extension manager
+#include "graphicmanager.h"		// Graphic object manager
+#include "map.h"				// Height map handling
+#include "propertymanager.h"	// Structure properties manager
+#include "renderer.h"			// Video renderer
 #include "networking.h"			// Networking support
-#include "movementmanager.h"
+#include "movementmanager.h"	// Moving object manager
 #include "kernel.h"				// MAS kernel
 #include "environment.h"		// MAS environment
-#include "pathfinder.h"
+#include "pathfinder.h"			// Path finding algorithm
 #include "mapgen/mapmaker.h"	// Map generator
 
 // The current OpenCity version
-#define OC_VERSION				0
-#define OC_PATCHLEVEL			0
-#define OC_SUBLEVEL				6
+#define OC_VERSION			0
+#define OC_PATCHLEVEL		0
+#define OC_SUBLEVEL			6
 
 
 //========================================================================
@@ -75,9 +76,10 @@ struct GlobalVar
 // The famous renderer
 	Renderer* gpRenderer;
 
-// Datamanagers
+// Data managers
 	AudioManager* gpAudioMgr;
 	GraphicManager* gpGraphicMgr;
+	ExtensionManager* gpExtensionMgr;
 	PropertyManager* gpPropertyMgr;
 	MapGen::MapMaker* gpMapMaker;	///< The MapMaker is used to create the height map
 	Map* gpMapMgr;
