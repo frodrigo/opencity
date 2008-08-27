@@ -40,8 +40,11 @@ ExtensionManager::Load()
 
 	glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC)SDL_GL_GetProcAddress("glTexImage3DEXT");
 	if (glTexImage3D == NULL) {
-		OPENCITY_ERROR( "glTexImage3D function not found" );
+		OPENCITY_ERROR( "GL_EXT_texture3D extension unsupported by your video driver" );
 		ok = false;
+	}
+	else {
+		OPENCITY_INFO( "GL_EXT_texture3D supported" );
 	}
 
 	_bInitialized = ok;

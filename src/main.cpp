@@ -94,8 +94,7 @@ extern GlobalVar gVars;
 	#define OC_WINDOW_POS_Y			20
 	#define OC_WINDOW_WIDTH			750
 	#define OC_WINDOW_HEIGHT		560
-	#define OC_WINDOW_BPP_DEFAULT	32			// OC uses this by default
-	#define OC_WINDOW_BPP_16		16
+	#define OC_WINDOW_BPP_DEFAULT	0			///< Use the current video bpp
 	#define OC_FULLSCREEN_WIDTH		1024
 	#define OC_FULLSCREEN_HEIGHT	768
 
@@ -107,8 +106,8 @@ extern GlobalVar gVars;
 	#define OC_ERROR_MEMORY				-10		///< Out of memory
 
 	#define OC_ERROR_SDL_INIT			-20		///< SDL initialization failed
-	#define OC_ERROR_SDL_BPP			-21		///< Bits per pixel selection failed
-	#define OC_ERROR_SDL_DOUBLEBUFFER	-22		///< Video double buffer unsupported
+	#define OC_ERROR_SDL_DOUBLEBUFFER	-21		///< Video double buffer unsupported
+	#define OC_ERROR_SDL_ACCELERATED	-22		///< Accelerated display unsupported
 	#define OC_ERROR_SDL_VIDEORESIZE	-23		///< Unable to resize the window
 	#define OC_ERROR_SDL_FULLSCREEN		-24		///< Unable to go fullscreen
 	#define OC_ERROR_SDL_OPENGL			-25		///< Unable to load OpenGL library dynamically
@@ -133,12 +132,15 @@ extern GlobalVar gVars;
 	static bool bRestart		= false;
 
 /// Flags we will pass into SDL_SetVideoMode.
-	static int flags			= 0;
+	static int iVideoFlag		= SDL_OPENGL;
 
 /// The paths are static so that the others can not access this
 	static string sDataDir		= "";
 	static string sSaveDir		= "";
 	static string sConfigDir	= "";
+
+/// Set to true if OpenGL version string is requested from command line
+	static bool bGLVersion		= false;
 
 
    /*=====================================================================*/
@@ -202,7 +204,7 @@ void ocResize( const SDL_ResizeEvent& rcsResizeEvent)
 // Set the new window's size
 	if( SDL_SetVideoMode(
 		rcsResizeEvent.w, rcsResizeEvent.h,
-		gVars.guiVideoBpp, flags ) == 0 ) {
+		gVars.guiVideoBpp, iVideoFlag ) == 0 ) {
 		OPENCITY_FATAL( "Video mode reset failed: " << SDL_GetError( ) );
 		exit( OC_ERROR_SDL_VIDEORESIZE );
 	}
@@ -285,45 +287,7 @@ void ocProcessSDLEvents( void )
 
 
    /*=====================================================================*/
-void getFullScreenResolution(uint & w, uint & h)
-{
-	SDL_Rect **modes;
-	int i;
-
-// Get available fullscreen/hardware modes
-	modes = SDL_ListModes(NULL, flags);
-
-// Check if there are any modes available
-	if(modes == (SDL_Rect **)0) {
-		OPENCITY_FATAL( "No fullscreen mode available !" );
-		exit( OC_ERROR_SDL_FULLSCREEN );
-	}
-
-// Check if our resolution is restricted
-	if(modes == (SDL_Rect **)-1) {
-	// Use the default fullscreen size
-		OPENCITY_INFO( "All fullscreen resolutions available. ");
-		w = OC_FULLSCREEN_WIDTH;
-		h = OC_FULLSCREEN_HEIGHT;
-	}
-	else {
-	// Print valid modes
-		//printf("Available Modes\n");
-		w = 0; h = 0;
-		for (i = 0; modes[i]; ++i) {
-			//printf("  %d x %d\n", modes[i]->w, modes[i]->h);
-			if (modes[i]->w > w) {
-				w = modes[i]->w;
-				h = modes[i]->h;
-			}
-		} // for
-		OPENCITY_INFO( "The autodetected resolution of " << w << "x" << h << " pixels is used." );
-	} // else
-}
-
-
-   /*=====================================================================*/
-int initSDL()
+static int initSDL()
 {
 // Initialization of the SDL library
 	OPENCITY_DEBUG( "SDL Initialization" );
@@ -335,17 +299,9 @@ int initSDL()
 		return OC_ERROR_SDL_INIT;
 	}
 
-// Set the SDL_GL_DoubleBuffer ON for smoother rendering
-// in addition, this is required for the implemented selection method
+// Set the SDL_GL_DOUBLEBUFFER ON for smoother rendering
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-
-// Set 8 bits for each color component
-	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 8 );
-	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 8 );
-	SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 8 );
-	SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
- 	SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
-	flags = SDL_OPENGL | SDL_RESIZABLE | SDL_HWSURFACE;
+	SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
 
 // Dynamically load the default OpenGL implementation library
 	if (SDL_GL_LoadLibrary(NULL) < 0) {
@@ -355,57 +311,78 @@ int initSDL()
 
 // Will we go for fullscreen ?
 	if (gVars.gboolFullScreen == true) {
-		flags |= SDL_FULLSCREEN;
-	// IF autodetect THEN
-		if (gVars.guiScreenWidth == 0 or gVars.guiScreenHeight == 0)
-			getFullScreenResolution( gVars.guiScreenWidth, gVars.guiScreenHeight );
+		iVideoFlag |= SDL_FULLSCREEN;
+
+	// Use the current desktop video resolution
+		gVars.guiScreenWidth	= 0;
+		gVars.guiScreenHeight	= 0;
 	}
 	else {
-	// Use the default screen size
-		gVars.guiScreenWidth	= OC_WINDOW_WIDTH;
-		gVars.guiScreenHeight	= OC_WINDOW_HEIGHT;
+		iVideoFlag |= SDL_RESIZABLE;
 	}
 
 // OK, go for the video settings now
-	gVars.gpVideoSrf = SDL_SetVideoMode( gVars.guiScreenWidth, gVars.guiScreenHeight, gVars.guiVideoBpp, flags );
+	gVars.gpVideoSrf = SDL_SetVideoMode( gVars.guiScreenWidth, gVars.guiScreenHeight, gVars.guiVideoBpp, iVideoFlag );
 	if ( gVars.gpVideoSrf == NULL ) {
-	// This could happen for a variety of reasons,
-	// including DISPLAY not being set, the specified
-	// resolution not being available, etc.
+	// This could happen for a variety of reasons, including DISPLAY
+	// not being set, the specified resolution not being available, etc.
 		OPENCITY_ERROR(
-			"Initialization of 32 bpp video mode failed: " << SDL_GetError()
+			"Initialization of " << gVars.guiVideoBpp <<
+			" bpp video mode failed: " << SDL_GetError()
 		);
-		OPENCITY_INFO( "Trying 16 bpp... " );
-		gVars.guiVideoBpp = OC_WINDOW_BPP_16;
+		return OC_ERROR_SDL_INIT;
+	}
+	else {
+		OPENCITY_INFO(
+			"Using " << (uint)gVars.gpVideoSrf->w <<
+			"x" << (uint)gVars.gpVideoSrf->h <<
+			" at " << (uint)gVars.gpVideoSrf->format->BitsPerPixel << " bpp"
+		);
 
-	// Set 5 bits for each color component
-		SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );
-		SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 6 );
-		SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
-		SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 0 );
-		gVars.gpVideoSrf = SDL_SetVideoMode( gVars.guiScreenWidth, gVars.guiScreenHeight, gVars.guiVideoBpp, flags );
-
-		if (gVars.gpVideoSrf == NULL) {
-			OPENCITY_FATAL( "16 bpp mode has failed: " << SDL_GetError() );
-			return OC_ERROR_SDL_BPP;
-		}
-		else {
-			OPENCITY_INFO( "16 bpp works." );
+	// Store the fullscreen resolution for later use
+		if (gVars.gboolFullScreen == true) {
+			gVars.guiScreenWidth	= (uint)gVars.gpVideoSrf->w;
+			gVars.guiScreenHeight	= (uint)gVars.gpVideoSrf->h;
 		}
 	}
 
-//debug cout << "W: " << gVars.gpVideoSrf->w << " /H: " << gVars.gpVideoSrf->h << endl;
+// Retrieve the video driver name
+	#define BUFFER_SIZE 256
+	char myBuffer[BUFFER_SIZE];
+	if (SDL_VideoDriverName(myBuffer, BUFFER_SIZE) != NULL) {
+		OPENCITY_INFO( "Current video driver: " << myBuffer );
+	}
+	else {
+		OPENCITY_ERROR( "Failed to retrieve the video driver name" );
+	}
 
-// Test for DoubleBuffer
-	int iDblBuff = 0;
-	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &iDblBuff );
-	if ( iDblBuff == 0 ) {
-		OPENCITY_INFO( "Checking video doublebuffer: failed !" );
-		OPENCITY_FATAL( "We need the video doublebuffer." );
+// Display the OpenGL version string
+	if (bGLVersion == true) {
+		OPENCITY_INFO( "GL vendor: "	 << glGetString( GL_VENDOR ) );
+		OPENCITY_INFO( "GL renderer: "	 << glGetString( GL_RENDERER ) );
+		OPENCITY_INFO( "GL version: "	 << glGetString( GL_VERSION ) );
+		OPENCITY_INFO( "GL extensions: " << glGetString( GL_EXTENSIONS ) );
+	}
+
+// Double buffer available ?
+	int iValue = 0;
+	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &iValue );
+	if ( iValue == 0 ) {
+		OPENCITY_FATAL( "Video double buffer unsupported" );
 		return OC_ERROR_SDL_DOUBLEBUFFER;
 	}
 	else {
-		OPENCITY_INFO( "Checking video doublebuffer: OK !" );
+		OPENCITY_INFO( "Video double buffer supported" );
+	}
+
+// Accelerated display available ?
+	SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL, &iValue );
+	if ( iValue == 0 ) {
+		OPENCITY_FATAL( "Accelerated visual unsupported" );
+		return OC_ERROR_SDL_ACCELERATED;
+	}
+	else {
+		OPENCITY_INFO( "Accelerated visual supported" );
 	}
 
 	return 0;
@@ -413,8 +390,7 @@ int initSDL()
 
 
    /*=====================================================================*/
-string
-formatPath(const string& rcsPath)
+static string formatPath(const string& rcsPath)
 {
 	string result = rcsPath;
 
@@ -437,7 +413,7 @@ formatPath(const string& rcsPath)
 
 
    /*=====================================================================*/
-void parseArg(int argc, char *argv[])
+static int parseArg(int argc, char *argv[])
 {
 // Command-line options definition
 	enum {
@@ -458,13 +434,13 @@ void parseArg(int argc, char *argv[])
 	CSimpleOpt::SOption g_rgOptions[] = {
 		{ OPT_GL_VERSION,				(char*)"--gl-version",				SO_NONE		},
 		{ OPT_GL_VERSION,				(char*)"-glv",						SO_NONE		},
-		{ OPT_FULLSCREEN,				(char*)"--fullscreen",				SO_NONE		},
+		{ OPT_FULLSCREEN,				(char*)"--full-screen",				SO_NONE		},
 		{ OPT_FULLSCREEN,				(char*)"-fs",						SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"--no-audio",				SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"-na",						SO_NONE		},
-		{ OPT_DATADIR,					(char*)"--datadir",					SO_REQ_SEP	},
+		{ OPT_DATADIR,					(char*)"--data-dir",				SO_REQ_SEP	},
 		{ OPT_DATADIR,					(char*)"-dd",						SO_REQ_SEP	},
-		{ OPT_CONFDIR,					(char*)"--confdir",					SO_REQ_SEP	},
+		{ OPT_CONFDIR,					(char*)"--conf-dir",				SO_REQ_SEP	},
 		{ OPT_CONFDIR,					(char*)"-cd",						SO_REQ_SEP	},
 		{ OPT_GENERATOR_HEIGHT_MAP,		(char*)"--generator-height-map",	SO_REQ_SEP	},
 		{ OPT_GENERATOR_SEED,			(char*)"--generator-seed",			SO_REQ_SEP	},
@@ -513,13 +489,7 @@ void parseArg(int argc, char *argv[])
 
 		switch (args.OptionId()) {
 		case OPT_GL_VERSION:
-			if (gVars.gpVideoSrf == NULL) {
-				(void)initSDL();
-			}
-			cout << "GL Vendor: " << glGetString( GL_VENDOR ) << endl;
-			cout << "GL Renderer: " << glGetString( GL_RENDERER ) << endl;
-			cout << "GL Version: " << glGetString( GL_VERSION ) << endl;
-			cout << "GL Extensions: " << glGetString( GL_EXTENSIONS ) << endl;
+			bGLVersion = true;
 			break;
 
 		case OPT_FULLSCREEN:
@@ -605,8 +575,8 @@ void parseArg(int argc, char *argv[])
 
 		case OPT_HELP:
 			cout << "Usage: " << argv[0]
-				<< " [-fs|--fullscreen] [-glv|--gl-version]"
-				<< " [-dd|--datadir newDataPath] [-cd|--confdir newConfigPath]"
+				<< " [-fs|--full-screen] [-glv|--gl-version]"
+				<< " [-dd|--data-dir newDataPath] [-cd|--conf-dir newConfigPath]"
 				<< " [-na|--no-audio] [--generator-height-map heightMapPicture |"
 				<< " (--generator-seed seed [--generator-map MAP-TYPE] [--generator-water WATER-TYPE]"
 				<< " [--generator-map-shape MAP-SHAPE-TYPE] [--generator-tree-density TREE-DENSITY-TYPE])]"
@@ -623,11 +593,13 @@ void parseArg(int argc, char *argv[])
 			break;
 		}	// switch (args.OptionId())
 	} // while (args.Next())
+
+	return 0;
 }
 
 
    /*=====================================================================*/
-void displaySplash()
+static void displaySplash()
 {
 	#define OC_SPLASH_CLEAR_COLOR		.15, .15, .3, 1.0
 
@@ -657,13 +629,11 @@ static void displayStatus( const string & str )
    /*=====================================================================*/
 static int clientMode()
 {
-	int errCode = 0;
-
 // Initialize SDL
 	if (gVars.gpVideoSrf == NULL) {
-		errCode = initSDL();
-		if (errCode != 0) {
-			return errCode;
+		int errorCode = initSDL();
+		if (errorCode != 0) {
+			return errorCode;
 		}
 	}
 
@@ -861,12 +831,13 @@ static int clientMode()
 	gVars.gpVideoSrf = NULL;
 
 	SDL_Quit();					// WARNING: Calls free() on an invalid pointer. Detected by glibc
-	return errCode;
+
+	return 0;
 }
 
 
    /*=====================================================================*/
-void printCopyright() {
+static void printCopyright() {
 // Output the copyright text
 	cout << "Welcome to " << PACKAGE << " version " << VERSION << endl;
 	cout << "Copyright (C) by Duong-Khang NGUYEN. All rights reserved." << endl;
@@ -885,7 +856,7 @@ void printCopyright() {
 	\return The pointer to the absolute directory. The caller must free
 the pointer if it's not used anymore.
 */
-char* findSaveDir()
+static char* findSaveDir()
 {
 	char* ret = NULL;
 
@@ -927,7 +898,7 @@ char* findSaveDir()
 /** Try to detect and set the datadir, the confdir and the savedir using
 BinReloc library and win32 standard function
 */
-void detectProgramPath()
+static void detectProgramPath()
 {
 	char* pTemp = NULL;
 	BrInitError brError;
@@ -1010,7 +981,7 @@ void detectProgramPath()
 		OC_ERROR_NOT_FOUND: the config file has not been found
 		OC_ERROR_PARSE_CONFIG: the was a parse error
 */
-string readSettings()
+static string readSettings()
 {
 	string errorString = "";
 	TiXmlDocument settings;
@@ -1113,7 +1084,7 @@ string readSettings()
 
 
    /*=====================================================================*/
-void initGlobalVar()
+static void initGlobalVar()
 {
 // Config file and command line options
 	gVars.gboolUseAudio				= true;
@@ -1177,7 +1148,10 @@ int main(int argc, char *argv[])
 	printCopyright();
 
 // Parse the command-line options
-	parseArg( argc, argv );
+	int returnCode = parseArg( argc, argv );
+	if (returnCode != 0) {
+		return returnCode;
+	}
 
 // Detect the main path: sDataDir and sSaveDir
 	detectProgramPath();
@@ -1217,7 +1191,7 @@ int main(int argc, char *argv[])
 	srand( time(NULL) );
 
 // Launch the game
-	int returnCode = clientMode();
+	returnCode = clientMode();
 
 	return returnCode;
 }

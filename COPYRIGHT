@@ -1,22 +1,26 @@
 ===============================================================================
-                     O P E N C I T Y     C O P Y R I G H T
+                     O P E N C I T Y     C O P Y R I G H T S
 ===============================================================================
 
 Description:
     OpenCity is another 3D city simulation game.
+
+Home site:
     http://www.opencity.info
+
+Email contact:
     neoneurone _at_ users _dot_ sourceforge _dot_ net
 
 Authors:
-    * Duong-Khang NGUYEN <neoneurone at users sf net>
-    * Frédéric RODRIGO <f.rodrigo at free fr>
+    * Duong-Khang NGUYEN <neoneurone _at_ users _dot_ sourceforge _dot_ net>
+    * Frédéric RODRIGO <f _dot_ rodrigo _at_ free _dot_ fr>
 
     Minor parts are from Victor Stinner, Hongli Lai, Jeff Molofee, Sam Lantinga,
     Brodie Thiesfield, Angelo "Encelo" Theodorou, Yves Berquin, Lee Thomason
     and Tyge Løvset.
 
 Graphist:
-    * Frédéric RODRIGO <f.rodrigo at free fr>
+    * Frédéric RODRIGO <f _dot_ rodrigo _at_ free _dot_ fr>
 
 Contributors:
     * Bartosz DEBSKI
@@ -27,8 +31,8 @@ Contributors:
     * Jacopo SIRIANNI
 
 OpenCity copyrights:
-    Copyright (C) 2003-2007 Duong-Khang NGUYEN
-    Copyright (C) 2003-2007 Frédéric RODRIGO
+    Copyright (C) 2003-2008 Duong-Khang NGUYEN
+    Copyright (C) 2003-2008 Frédéric RODRIGO
     Copyright (C) 2006-2007 Brodie THIESFIELD
     Copyright (C) 2006 Angelo "Encelo" THEODOROU
     Copyright (C) 2002-2004 Yves BERQUIN
@@ -52,9 +56,9 @@ OpenCity copyrights:
 
 BinReloc copyright:
     The files under "src/binreloc/" directory have been put in the public
-    domain by Hongli Lai <h.lai@chello.nl>: This source code is public
-    domain. You can relicense this code under whatever license you want.
-    For more information, see http://autopackage.org/.
+    domain by Hongli Lai <h _dot_ lai _at_ chello _dot_ nl>: This source
+	code is public domain. You can relicense this code under whatever 
+	license you want. For more information, see http://autopackage.org/.
 
 SimpleOpt copyright:
     The file "src/SimpleOpt.h" is licensed under the terms of the "MIT Licence"
@@ -68,7 +72,7 @@ TinyXML copyrights:
     for more information.
 
 TinyXPath copyright:
-    Copyright (c) 2002-2004 Yves Berquin (yvesb@users.sourceforge.net)
+    Copyright (c) 2002-2004 Yves Berquin <yvesb _at_ users _dot_ sourceforge _dot_ net>
 
     The files under "src/tinyxpath/" are licensed under the terms of a GNU GPL
     compatible license and copyrighted by Yves Berquin. Please refer to the

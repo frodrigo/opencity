@@ -19,6 +19,13 @@ Save file version check               (done)
 Fix vehicle display bug on restart    (done)
 Remove std namespace from header      (done)
 Improve OpenGL extension handling     (done)
+Remove DOS window on launch           (done)
+Simplify video setup code             (done)
+Add SDL accelerated visual            (done)
+Fix full-screen and gl-version order  (done)
+Fix full-screen resolution detection  (done)
+Fix texture cache
+Dynamically load libpng
 XML parameters accessors              (wip)
 XML handling in construction process  (wip)
 XML handling in the simulation engine (wip)
