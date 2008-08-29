@@ -2,9 +2,9 @@
 						modelloader.cpp  -  description
 							-------------------
 	begin                : may 22th, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
+	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -18,22 +18,16 @@
  ***************************************************************************/
 
 #include "modelloader.h"
-
-#include "ocm.h"
 #include "model.h"
-
 #include "ac3dmodel.h"			// For AC3D structure manipulation
 #include "ac3dobject.h"			// For normal calculation
-
 #include "texture.h"			// for texture manipulation
-
 #include "star.h"				// Triangulation algorithms
 
 #include <vector>
 #include <fstream>
 #include <cstring>
 
-#define OC_OCM_MAX_LINE_LENGTH	80
 #define OC_AC3D_MAX_LINE_LENGTH	1024
 
 using std::vector;
@@ -58,120 +52,18 @@ ModelLoader::Load(
 {
 	OPENCITY_DEBUG( rcsFileName.c_str() );
 
-// IF it's an OCM file THEN
-	if (rcsFileName.rfind(".ocm") != rcsFileName.npos)
-		return ModelLoader::LoadOCM(rcsFileName);
-	else
-// IF it's an AC3D file THEN
-	if (rcsFileName.rfind(".ac") != rcsFileName.npos)
+// File extension checking
+	if (rcsFileName.rfind(".ac") != rcsFileName.npos) {
 		return ModelLoader::LoadAC3D(rcsFileName);
-
-// otherwise, return NULL
-	assert(0);
-	return NULL;
-}
-
-
-   /*=====================================================================*/
-Model* const
-ModelLoader::LoadOCM(
-	const string & rcsFileName )
-{
-	vector<GLfloat> vf;
-	vector<GLuint> vui;
-	GLfloat fValue, fValue2, fValue3, fValue4;
-	char tempStr [OC_OCM_MAX_LINE_LENGTH];
-
-// model's parameter
-	GLfloat* ftab;
-
-// open the stream for reading
-	ifstream ocmFile( rcsFileName.c_str() );
-	if (ocmFile == NULL) {
-		OPENCITY_DEBUG( "can not load file" );
-		cerr << "Error loading model: " << rcsFileName << endl;
-		assert(ocmFile != NULL);
+	}
+	else {
+		OPENCITY_ERROR( "Unable to load model file: " << rcsFileName );
 		return NULL;
 	}
 
-// read the first line
-	ocmFile.getline( tempStr, OC_OCM_MAX_LINE_LENGTH );
-
-// while not EOF do processing
-	while (!ocmFile.eof()) {
-//debug printf("tempstr: '%s' \n", tempStr );
-	// if not NULL nor commented out then
-		if ((strlen(tempStr) != 0) and (tempStr[0] != '#')) {
-			fValue = atof( tempStr );
-
-		// WARNING no error checking below here, tired of this :)
-		// store the OCM value type code
-			if ( fValue != OC_OCM_TEXFILE )
-				vf.push_back( fValue );
-
-		// read the primitive's values
-			ocmFile.getline( tempStr, OC_OCM_MAX_LINE_LENGTH );
-
-			if (fValue == OC_OCM_VERTEX) {
-			// read 3 floats
-				sscanf( tempStr, "%f %f %f", &fValue, &fValue2, &fValue3 );
-				vf.push_back( fValue );
-				vf.push_back( fValue2 );
-				vf.push_back( fValue3 );
-			} else
-			if (fValue == OC_OCM_COLOR) {
-			// read 4 floats
-				sscanf( tempStr, "%f %f %f %f", &fValue, &fValue2, &fValue3, &fValue4 );
-				vf.push_back( fValue );
-				vf.push_back( fValue2 );
-				vf.push_back( fValue3 );
-				vf.push_back( fValue4 );
-			} else
-			if (fValue == OC_OCM_TEXCOOR) {
-			// read 3 floats
-				sscanf( tempStr, "%f %f %f", &fValue, &fValue2, &fValue3 );
-				vf.push_back( fValue );
-				vf.push_back( fValue2 );
-				vf.push_back( fValue3 );
-			} else
-			if (fValue == OC_OCM_TEXFILE) {
-			//	OPENCITY_DEBUG( "Loading texture file: " << ocDataDirPrefix( tempStr ) );
-				vui.push_back( Texture::Load( ocDataDirPrefix( tempStr )) );
-//debug cout << "Texture id got: " << vui.back() << endl;
-			} else
-			if (fValue == OC_OCM_TEXBIND) {
-			// read 1 float
-				fValue = atof( tempStr );
-			// WARNING: no error checking
-			// it's quite dangerous
-			// 0 is a default texture in OpenGL
-			// however in OCM it's -1
-				if ( fValue != -1 )
-					vf.push_back( vui[(GLuint)fValue] );
-				else
-					vf.push_back( .0 );
-			}
-			else {
-				OPENCITY_DEBUG( "can not understand model file" );
-				assert(0);
-			}
-
-		} // if not commented out then
-	// read the next line
-		ocmFile.getline( tempStr, OC_OCM_MAX_LINE_LENGTH );
-	}
-
-//debug cout << "vector size: " << vf.size() << endl;
-
-// convert vector<GLfloat> to GLfloat bla []
-	ftab = new GLfloat [vf.size()];
-	for (uint i = 0; i < vf.size(); i++) {
-		ftab[i] = vf[i];
-//debug cout << ftab[i] << " / ";
-	}
-
-	ocmFile.close();
-	return new Model( ftab, vf.size() );
+// Otherwise, return NULL
+	assert(0);
+	return NULL;
 }
 
 

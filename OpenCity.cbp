@@ -7,7 +7,7 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
+			<Target title="MinGW_Debug">
 				<Option output="bin\Debug\OpenCity" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="bin\Debug\" />
 				<Option object_output="obj\Debug\" />
@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-march=i386" />
 					<Add option="-g" />
+					<Add option="-Wall -Wmissing-braces -Wparentheses -pedantic-errors" />
 					<Add directory="src\binreloc" />
 					<Add directory="src\enum" />
 					<Add directory="src\mapgen\filter" />
@@ -45,7 +46,7 @@
 					<Add library="..\libpng-1.2.18\bin\Release\libpng.a" />
 				</Linker>
 			</Target>
-			<Target title="Release">
+			<Target title="MinGW_Release">
 				<Option platforms="Windows;" />
 				<Option output="bin\Release\OpenCity" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="bin\Release\" />
@@ -55,6 +56,7 @@
 				<Compiler>
 					<Add option="-march=i386" />
 					<Add option="-O2" />
+					<Add option="-Wall -Wmissing-braces -Wparentheses -pedantic-errors" />
 					<Add directory="src\binreloc" />
 					<Add directory="src\enum" />
 					<Add directory="src\mapgen\filter" />
@@ -202,7 +204,6 @@
 		<Unit filename="src\model\model.h" />
 		<Unit filename="src\model\modelloader.cpp" />
 		<Unit filename="src\model\modelloader.h" />
-		<Unit filename="src\model\ocm.h" />
 		<Unit filename="src\movement.cpp" />
 		<Unit filename="src\movement.h" />
 		<Unit filename="src\movementmanager.cpp" />

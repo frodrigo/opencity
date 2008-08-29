@@ -4,7 +4,7 @@
 	begin                : may 22th, 2004
 	copyright            : (C) 2003-2005 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -51,31 +51,6 @@ public:
 		GLuint tex );
 
 	~Model();
-
-
-//========================================================================
-/** Issue the necessary gl commands to display the model. Be careful, you
-	should call this method in the glBegin( GL_QUADS ) / glEnd() block;
-\param rcfW = GL x
-\param rcfH = GL z
-\param rcfY = GL y
-*/
-	void
-	Display(
-		const OC_FLOAT & rcfW = 0,
-		const OC_FLOAT & rcfH = 0,
-		const OC_FLOAT & rcfY = 0 ) const;
-
-
-//========================================================================
-/** Same as modelDisplay but automatically add Y coordinates
-\sa modelDisplay()
-*/
-	void
-	Display2(
-		const OC_FLOAT & rcfW,
-		const OC_FLOAT & rcfH,
-		const OC_BYTE tabY []) const;
 
 
 //========================================================================
