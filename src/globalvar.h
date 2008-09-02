@@ -20,19 +20,24 @@
 #ifndef _OPENCITY_GLOBALVAR_H_
 #define _OPENCITY_GLOBALVAR_H_ 1
 
-#include "main.h"				// Main defines
-#include "audiomanager.h"		// Audio support
-#include "extensionmanager.h"	// OpenGL extension manager
-#include "graphicmanager.h"		// Graphic object manager
-#include "map.h"				// Height map handling
-#include "propertymanager.h"	// Structure properties manager
-#include "renderer.h"			// Video renderer
-#include "networking.h"			// Networking support
-#include "movementmanager.h"	// Moving object manager
-#include "kernel.h"				// MAS kernel
-#include "environment.h"		// MAS environment
-#include "pathfinder.h"			// Path finding algorithm
-#include "mapgen/mapmaker.h"	// Map generator
+#ifdef OPENCITY_SDL_MIXER
+	#include "audiomanagersdl.h"	// SDL_mixer audio support
+#else
+	#include "audiomanager.h"		// Dummy audio support
+#endif
+
+#include "main.h"					// Main defines
+#include "extensionmanager.h"		// OpenGL extension manager
+#include "graphicmanager.h"			// Graphic object manager
+#include "map.h"					// Height map handling
+#include "propertymanager.h"		// Structure properties manager
+#include "renderer.h"				// Video renderer
+#include "networking.h"				// Networking support
+#include "movementmanager.h"		// Moving object manager
+#include "kernel.h"					// MAS kernel
+#include "environment.h"			// MAS environment
+#include "pathfinder.h"				// Path finding algorithm
+#include "mapgen/mapmaker.h"		// Map generator
 
 // The current OpenCity version
 #define OC_VERSION			0

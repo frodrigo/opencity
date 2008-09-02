@@ -17,9 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// IF we don't use SDL_mixer THEN
-#ifndef AUDIO_SDL
-
 // IF we have not included this file already THEN
 #ifndef _OPENCITY_AUDIOMANAGER_H_
 #define _OPENCITY_AUDIOMANAGER_H_ 1
@@ -140,25 +137,5 @@ private:
 	uint uiCurrentMusic;
 };
 
-// ELSE, we have included this file already
-#else
-#endif
-
-// ELSE, we use SDL_mixer
-#else
-#include "audiomanagersdl.h"
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif			// _OPENCITY_AUDIOMANAGER_H_
 

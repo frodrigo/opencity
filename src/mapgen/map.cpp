@@ -4,7 +4,7 @@
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006-2007 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -23,9 +23,11 @@
 #include <fstream>
 #include <assert.h>
 
-// Libraries headers
-#include "SDL.h"
-#include "pngfuncs.h"
+// Conditional libraries headers
+#ifdef OPENCITY_PNG_SAVE
+	#include "SDL.h"
+	#include "pngfuncs.h"
+#endif
 
 using namespace std;
 
@@ -92,6 +94,7 @@ Map::getAt(
 
 
    /*=====================================================================*/
+#ifdef OPENCITY_PNG_SAVE
 bool Map::save(	const string &file )
 {
 	Uint8* buffer = new Uint8[_w*_h*3];
@@ -133,6 +136,7 @@ bool Map::save(	const string &file )
 
 	return retValue;
 }
+#endif			// #ifdef OPENCITY_PNG_SAVE
 
    /*=====================================================================*/
 Map* Map::crop(

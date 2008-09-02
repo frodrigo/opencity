@@ -4,7 +4,7 @@
 	begin                : july 2nd, 2006
 	copyright            : (C) 2006-2007 by Frédéric RODRIGO
 	email                : f.rodrigo free.fr
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -66,8 +66,9 @@ public:
 		int x,
 		int y ) const;
 
-
+#ifdef OPENCITY_PNG_SAVE
 	bool save( const string &file );
+#endif
 
 	inline uint getW() const { return _w; }
 

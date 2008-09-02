@@ -63,7 +63,7 @@ if test "x$enable_sdl_mixer" = "x"; then
         if test "x$SDL_mixer_h" = "xyes"; then
                 if test "x$SDL_mixer_lib" = "xyes"; then
                         LDFLAGS="$LDFLAGS -lSDL_mixer"
-                        AC_DEFINE(AUDIO_SDL, 1, [SDL_Mixer support])
+                        AC_DEFINE(OPENCITY_SDL_MIXER, 1, [SDL_Mixer support])
                         AC_MSG_RESULT(yes)
                 else
                         AC_MSG_RESULT([no, found header but not the SDL_mixer library.])
@@ -72,7 +72,7 @@ if test "x$enable_sdl_mixer" = "x"; then
                 AC_MSG_RESULT([no, audio system disabled.])
         fi
 fi
-AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer_h" = "xyes")
+AM_CONDITIONAL(OPENCITY_SDL_MIXER, test "x$SDL_mixer_h" = "xyes")
 
 
 dnl ===========================================================================

@@ -141,7 +141,7 @@ AudioManager::CloseAudio(void)
    /*====================================================================*/
 OPENCITY_ERR_CODE
 AudioManager::LoadMusicList(
-	const string & csrFilename,
+	const string& csrFilename,
 	const string& csrPrefix )
 {
 // Return immediatetly if the audio device is not yet initialized
@@ -369,7 +369,7 @@ AudioManager::LoadSoundList(
 			Mix_FreeChunk(_vpSoundChunk[i]);
 		} // for
 		_vpSoundChunk.clear();
-	} // if 
+	} // if
 
 // Then load all the new sounds
 	for (uint i = 0; i < this->uiNumberSound; i++) {
@@ -470,11 +470,11 @@ AudioManager::VolumeSound(
    /*====================================================================*/
 OPENCITY_ERR_CODE
 AudioManager::ParseM3UList(
-	const string & csrFilename,
-	std::vector<string> & vectorFilename,
-	uint & uiNumberFiles )
+	const string& csrFilename,
+	std::vector<string>& vectorFilename,
+	uint& uiNumberFiles )
 {
-//debug	cout << (string)ccaFilename << endl;
+//debug	cout << (string)csrFilename << endl;
 // If there's already an old list, free it
 	if (!vectorFilename.empty()) {
 		vectorFilename.clear();

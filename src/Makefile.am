@@ -48,7 +48,7 @@ tinyxpath/libtinyxpath.a \
 triangulation/libtriangulation.a
 
 
-if AUDIO_SDL
+if OPENCITY_SDL_MIXER
     AUDIO_CPP = audiomanagersdl.cpp
 else
     AUDIO_CPP = audiomanager.cpp

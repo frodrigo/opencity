@@ -1162,14 +1162,14 @@ int main(int argc, char *argv[])
 		OPENCITY_FATAL(
 			"The was an error while loading the settings file: \"" << errorDesc << "\"" << endl
 			<< "If the main config file \"" << OC_CONFIG_FILE_FILENAME << "\" has not been found then" << endl
-			<< "try to specify the data directory with ""--datadir"" "
-			<< "and the configuration directory with ""--confdir""." << endl
+			<< "try to specify the data directory with ""--data-dir"" "
+			<< "and the configuration directory with ""--conf-dir""." << endl
 			<< "For example:" << endl
-			<< "    " << argv[0] << " --datadir \"/absolute/path/to/opencity/data\" "
-			<< "--confdir \"/absolute/path/to/opencity/conf\"" << endl
+			<< "    " << argv[0] << " --data-dir \"/absolute/path/to/opencity/data\" "
+			<< "--conf-dir \"/absolute/path/to/opencity/conf\"" << endl
 			<< "or" << endl
-			<< "    " << argv[0] << " --datadir \"../relative/path/to/opencity/data\" "
-			<< "--confdir \"../relative/path/to/opencity/conf\"" << endl
+			<< "    " << argv[0] << " --data-dir \"../relative/path/to/opencity/data\" "
+			<< "--conf-dir \"../relative/path/to/opencity/conf\"" << endl
 		);
 		exit(OC_ERROR_NOT_FOUND);
 	}
