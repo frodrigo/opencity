@@ -48,7 +48,7 @@ uiTexture( 0 )
 
 
    /*=====================================================================*/
-Texture::Texture( const string & rcFile )
+Texture::Texture( const string& rcFile )
 {
 	OPENCITY_DEBUG("param ctor");
 	this->uiTexture = Texture::Load( rcFile, this->uiWidth, this->uiHeight );
@@ -121,9 +121,9 @@ Texture::Load3D( const string& rcFile )
 const GLuint
 Texture::Load
 (
-	const string & rcFile,
-	uint & ruiW,
-	uint & ruiH
+	const string& rcFile,
+	uint& ruiW,
+	uint& ruiH
 )
 {
 	SDL_Surface* pImage = NULL;
@@ -168,9 +168,9 @@ Texture::Load
 const GLuint
 Texture::Load3D
 (
-	const string & rcFile,
-	uint & ruiW,
-	uint & ruiH
+	const string& rcFile,
+	uint& ruiW,
+	uint& ruiH
 )
 {
 	OPENCITY_DEBUG( rcFile.c_str() );
@@ -260,7 +260,7 @@ Texture::HorizontalMirror(
 void
 Texture::Surface2Texture(
 	const SDL_Surface* const psurface,
-	GLuint & ruiTexture )
+	GLuint& ruiTexture )
 {
 // Delete the existing texture
 	if (glIsTexture( ruiTexture ) == GL_TRUE)
@@ -351,11 +351,11 @@ void
 Texture::Surface2Texture3D
 (
 	const SDL_Surface* const psurface,
-	GLuint & ruiTexture,
+	GLuint& ruiTexture,
 	GLint format
 )
 {
-/*
+/* old version, kept for reference, september 05th, 2008
 // Dynamically look up the glTexImage3D extension
 	PFNGLTEXIMAGE3DEXTPROC glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC) SDL_GL_GetProcAddress("glTexImage3DEXT");
 	if (glTexImage3D == NULL) {
@@ -434,6 +434,7 @@ Texture::Building2Texture
 	uint i = 0;
 	Structure* pStruct = NULL;
 	OC_UBYTE* pData = (OC_UBYTE*)malloc( gVars.guiCityWidth * gVars.guiCityLength * BYTE_PER_PIXEL );
+	assert( pData != NULL );
 	for (int l = gVars.guiCityLength-1; l >= 0; l--) {
 		for (uint w = 0; w < gVars.guiCityWidth; w++, i+=BYTE_PER_PIXEL) {
 			pStruct = pLayer->GetStructure( w, l );

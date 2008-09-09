@@ -37,7 +37,7 @@ class BuildingLayer;
 class Texture {
 public:
 	Texture();
-	Texture( const string & rcFile );
+	Texture( const string& rcFile );
 
 	~Texture();
 
@@ -52,10 +52,10 @@ checking right now.
 	\return The index of the new OpenGL texture (type const GLuint)
 */
 	static const GLuint
-	Load( const string & rcFile );
+	Load( const string& rcFile );
 
 	static const GLuint
-	Load3D( const string & rcFile );
+	Load3D( const string& rcFile );
 
 
 //========================================================================
@@ -67,16 +67,16 @@ checking right now.
 */
 	static const GLuint
 	Load(
-		const string & rcFile,
-		uint & ruiW,
-		uint & ruiH
+		const string& rcFile,
+		uint& ruiW,
+		uint& ruiH
 	);
 
 	static const GLuint
 	Load3D(
-		const string & rcFile,
-		uint & ruiW,
-		uint & ruiH
+		const string& rcFile,
+		uint& ruiW,
+		uint& ruiH
 	);
 
 
@@ -143,7 +143,7 @@ private:
 	static bool
 	_GetCorrectSize(
 		const uint w, const uint h,
-		uint & rW,    uint & rH );
+		uint& rW,    uint& rH );
 
 
 //========================================================================

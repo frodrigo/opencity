@@ -37,8 +37,8 @@ using namespace AC3D;
 
 
 // Local module static variables
-static float locAccu[3];		// Accumulate the locations command
-static bool bNeedAlpha;			// Alpha processing
+static float locAccu[3];		///< Accumulate the locations command
+static bool bNeedAlpha;			///< Alpha processing state
 
 // Debug variables
 //	unsigned int nbPoly;
@@ -74,7 +74,7 @@ ModelLoader::LoadAC3D(
 {
 	AC3DModel ac3dmodel( rcsFileName );
 	vector<AC3DMaterial> vMaterial;
-	GLuint tex =0, list = 0, listTwoSide = 0, listAlpha = 0;
+	GLuint tex = 0, list = 0, listTwoSide = 0, listAlpha = 0;
 	string strPath = "";
 
 	if (!ac3dmodel.IsGood())
@@ -120,9 +120,9 @@ ModelLoader::LoadAC3D(
 // Recursively load all the objects into the _opaque_ one side display list
 	list = glGenLists( 1 );
 	glNewList( list, GL_COMPILE );
-// Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_CULL_FACE );
+
 // Enable the texture target and bind the _first_ texture only
 	if ( glIsTexture(tex) == GL_TRUE ) {
 		glEnable( GL_TEXTURE_2D );
@@ -138,7 +138,7 @@ ModelLoader::LoadAC3D(
 	_AC3DVertexToGL( strPath, vMaterial, pObject, false, false );
 	glEnd();
 
-// Restore all enabled bits
+// Restore OpenGL attributes
 	glPopAttrib();
 	glEndList();
 
@@ -147,8 +147,8 @@ ModelLoader::LoadAC3D(
 // Recursively load all the objects into the _opaque_ two side display list
 	listTwoSide = glGenLists( 1 );
 	glNewList( listTwoSide, GL_COMPILE );
-// Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
+
 // Enable the texture target and bind the _first_ texture only
 	if ( glIsTexture(tex) == GL_TRUE ) {
 		glEnable( GL_TEXTURE_2D );
@@ -164,7 +164,7 @@ ModelLoader::LoadAC3D(
 	_AC3DVertexToGL( strPath, vMaterial, pObject, false, true );
 	glEnd();
 
-// Restore all enabled bits
+// Restore OpenGL attributes
 	glPopAttrib();
 	glEndList();
 
@@ -174,8 +174,8 @@ ModelLoader::LoadAC3D(
 // Recursively load all the objects into the _alpha_ display list
 	listAlpha = glGenLists( 1 );
 	glNewList( listAlpha, GL_COMPILE );
-// Save the all enabled GL bits
 	glPushAttrib( GL_ENABLE_BIT );
+
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	glEnable(GL_ALPHA_TEST);

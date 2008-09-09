@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-README for OpenCity 0.0.6dev
+README for OpenCity 0.0.6beta
 ------------------------------------------------------------------------------
 Last modified:
 	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
@@ -29,7 +29,7 @@ Speed:
 	whatever
 
 Graphic card:
-	3D accelerated card required.
+	3D accelerated card strongly recommended
 
 Sound card:
 	anything that can work with SDL_mixer
@@ -50,7 +50,7 @@ Operating System:
 Graphic User Interface:
 	X Windows with DRI activated (recommended)
 	or Darwin
-	or Microsotf Windows
+	or Microsotf Windows with OpenGL support
 	or Wine
 
 Libraries:
@@ -184,19 +184,21 @@ Command-line options
 	In OpenCity, you can overwrite the config file's options with the
 command-line options. Few options are available in both short and long format.
 
-	-fs | --fullscreen
-	Enable fullscreen mode
+	-fs | --full-screen
+	Enable fullscreen mode. The video resolution is read from the config.xml
+file. If the resolution width and height are both 0, OpenCity will try to
+autodetect the best available fullscreen resolution.
 
 	-glv | --gl-version
 	Show the informations of the current available OpenGL implementation
 on your machine then quit
 
-	-dd | --datadir newDataPath
+	-dd | --data-dir newDataPath
 	Specify to new path to OpenCity's data. For example:
 		Under linux: --datadir /home/foo/bar/share/opencity/
 		Under win32: --datadir "C:/Program Files/OpenCity/share"
 
-	-cd | --confdir newConfigPath
+	-cd | --conf-dir newConfigPath
 	Specify to new path to OpenCity's config. For example:
 		Under linux: --confdir /home/foo/bar/etc/opencity/
 		Under win32: --confdir "C:/Program Files/OpenCity/etc"

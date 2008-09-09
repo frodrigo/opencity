@@ -81,7 +81,8 @@ The second line of description goes here.
 
 private:
 /** Variable prefixes:
-	_:		private member
+	_:		private member (prefered prefix)
+	m:		private member
 	g:		global variable
 
 	a:		array
@@ -100,14 +101,16 @@ private:
 	str:	std::string
 	ui:		unsigned integer
 */
-	bool	_bABool;					///< _ (underscore) means something private
-	string	_strAString;				///< A member std::string
+	bool	_bABool;						///< _ (underscore) means something private
+	string	_strAString;					///< A member std::string
 	int		_iAnInt;
 	uint	_uiAnotherUInt;
 	double	_daADoubleArray[2];
 	MyStruct		_sSomething;
-	MyClass*		_pClassOne;			///< Use this
-	MyClass			*_pWrongClassOne;	///< Not this
+	MyClass*		_pClassOne;				///< Use this
+	MyClass			*_pWrongClassOne;		///< 			Not this
+	MyClass&		_rMyClassReference;		///< Use this
+	MyClass			&_rMyClassReference;	///< 			Not this
 	OPENCITY_ENUM	_eAnEnum;
 
 
