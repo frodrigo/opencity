@@ -167,7 +167,7 @@ _uiCityLength( cityL )
 
 // Select the flat rendering mode, default is GL_SMOOTH
 	glShadeModel( GL_FLAT );
-//	glShadeModel( GL_SMOOTH );
+
 
 //debug testing
 //the maximal number of lights we can set is: 8
@@ -234,7 +234,7 @@ _uiCityLength( cityL )
 	glColorMaterial( GL_FRONT, GL_AMBIENT_AND_DIFFUSE );
 	glEnable( GL_COLOR_MATERIAL );
 
-// this can help improving texture lighting
+// This can help improving texture lighting
 //	glLightModelf( GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR );
 
 // Enable depth test
@@ -565,7 +565,7 @@ Renderer::DisplaySplash(
 	glPopMatrix();
 	glMatrixMode( GL_MODELVIEW );
 	glPopMatrix();
-	glPopAttrib();	
+	glPopAttrib();
 }
 
 
@@ -734,7 +734,7 @@ Renderer::DisplayHighlight(
 	_PrepareView();
 
 // Now let's display all the structures in selection mode
-	glPushAttrib( GL_ENABLE_BIT );	
+	glPushAttrib( GL_ENABLE_BIT );
 	glDisable( GL_LIGHTING );
 	glPushMatrix();
 	glTranslatef( 0., 0.1, 0. );
@@ -1173,9 +1173,6 @@ Renderer::_DisplayTerrain() const
 {
 #define OC_TERRAIN_TEXTURE_DEPTH	64
 
-//	static const GLfloat envColor[4] = {.5, .5, .5, 1};
-//	static const GLfloat rPlane[4] = { 0, 0, .5, -.5 };
-
 	if (bHeightChange == false)
 		goto displayterrain_return;
 
@@ -1191,26 +1188,16 @@ Renderer::_DisplayTerrain() const
 	glNewList( _uiTerrainList, GL_COMPILE );
 
 // WARNING: this is used to calculated the final textured fragment.
-//	glColor4f( .3, .25, .2, 1. );
 	glColor4f( .8, .7, .6, .8 );
 
 // Enable terrain texturing
 	glPushAttrib( GL_ENABLE_BIT );
-//	glDisable( GL_LIGHTING );
-//	glDisable( GL_LIGHT0 );
-//	glEnable( GL_BLEND );
 	glEnable( GL_CULL_FACE );
 	glEnable( GL_TEXTURE_3D );
-//	glEnable( GL_TEXTURE_GEN_S );
-//	glEnable( GL_TEXTURE_GEN_T );
-//	glEnable( GL_TEXTURE_GEN_R );
 	glBindTexture( GL_TEXTURE_3D, _uiTerrainTex );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-//	glTexEnvfv( GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR, envColor );			// Used by TexEnvf - GL_BLEND
-//	glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR );
-//	glTexGenfv( GL_R, GL_EYE_PLANE, rPlane );
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE );

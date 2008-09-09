@@ -33,8 +33,8 @@ extern GlobalVar gVars;
 // Libraries headers
 #include "SDL_image.h"
 
-
-map<string, GLuint> Texture::mapTexture;		// Automanaged texture cache
+// Class static variable implementation
+map<string, GLuint> Texture::_mapTexture;		// Automanaged texture cache
 
 
    /*=====================================================================*/
@@ -75,17 +75,16 @@ Texture::Load( const string& rcFile )
 	GLuint tex = 0;
 	string filename = Texture::_ResolveRelativePath( rcFile );
 
-// IF the requested texture is not already in the cache
-// OR it's no more a valid texture THEN
-	if ((Texture::mapTexture.find( filename ) == Texture::mapTexture.end())
-		or (glIsTexture( Texture::mapTexture[ filename ] ) == GL_FALSE) )
+// IF the requested texture is in the cache AND valid THEN
+	if ((Texture::_mapTexture.find( filename ) != Texture::_mapTexture.end())
+		and (glIsTexture( Texture::_mapTexture[ filename ] ) == GL_TRUE) )
 	{
-		tex = Texture::Load( filename, w, h );
-		Texture::mapTexture[ filename ] = tex;
+//		OPENCITY_DEBUG( "Texture cache hit for: " << filename << " with name: " << tex);
+		tex = Texture::_mapTexture[ filename ];
 	}
 	else {
-//		OPENCITY_DEBUG( "Texture cache hit for: " << filename );
-		tex = Texture::mapTexture[ filename ];
+		tex = Texture::Load( filename, w, h );
+		Texture::_mapTexture[ filename ] = tex;
 	}
 
 	return tex;
@@ -102,15 +101,15 @@ Texture::Load3D( const string& rcFile )
 
 // IF the requested texture is not already in the cache
 // OR it's no more a valid texture THEN
-	if ((Texture::mapTexture.find( filename ) == Texture::mapTexture.end())
-		or (glIsTexture( Texture::mapTexture[ filename ] ) == GL_FALSE) )
+	if ((Texture::_mapTexture.find( filename ) == Texture::_mapTexture.end())
+		or (glIsTexture( Texture::_mapTexture[ filename ] ) == GL_FALSE) )
 	{
 		tex = Texture::Load3D( filename, w, h );
-		Texture::mapTexture[ filename ] = tex;
+		Texture::_mapTexture[ filename ] = tex;
 	}
 	else {
 //		OPENCITY_DEBUG( "3D texture cache hit for: " << filename );
-		tex = Texture::mapTexture[ filename ];
+		tex = Texture::_mapTexture[ filename ];
 	}
 
 	return tex;
@@ -269,11 +268,8 @@ Texture::Surface2Texture(
 // Create the texture to hold the image
 	glGenTextures( 1, &ruiTexture );
 	glBindTexture( GL_TEXTURE_2D, ruiTexture );
-//	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	SDL_LockSurface( const_cast<SDL_Surface*>(psurface) );
 
@@ -426,7 +422,6 @@ Texture::Building2Texture
 // Create the texture to hold the image
 	glGenTextures( 1, &ruiTexture );
 	glBindTexture( GL_TEXTURE_2D, ruiTexture );
-//	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

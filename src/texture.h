@@ -128,7 +128,7 @@ returned surface must be freed by the caller
    //========================================================================
 
 private:
-	static map<string, GLuint> mapTexture;		// Automanaged texture cache
+	static map<string, GLuint> _mapTexture;		// Automanaged texture cache
 
 	uint uiWidth, uiHeight;
 	GLuint uiTexture;
