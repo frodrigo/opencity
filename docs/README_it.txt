@@ -1,10 +1,10 @@
 ------------------------------------------------------------------------------
-README per OpenCity 0.0.6dev
+README per OpenCity 0.0.6beta
 ------------------------------------------------------------------------------
 Last modified:
 	$Id$
 Last translated:
-	2008/04/11 morpheus
+	2008/09/10 morpheus
 
 Destinatari:
 	# Utenti finali:
@@ -44,7 +44,7 @@ Processore:		non importa
 
 Velocità:		qualunque
 
-Scheda video:		qualunque scheda con accellerazione 3D
+Scheda video:		qualunque scheda con accellerazione 3D (altamente consigliata)
 
 Scheda audio:		qualunque scheda sia supportata da SDL_mixer
 
@@ -55,15 +55,15 @@ Rete:			supporto sperimentale
 2) Requisiti software
 ------------------------------------------------------------------------------
 Sistema operativo:
-	Linux
-	oppure Mac OS
-	oppure Win32
+	Linux (raccomandato)
+	oppure Mac OS o successivo
+	oppure Micorsoft Windows XP/2000 o successivo
 	oppure Wine
 
 Interfaccia grafica dell'utente:
 	X Windows con DRI attivo (raccomandato)
 	oppure Darwin
-	oppure MS Windows
+	oppure Microsoft Windows con supporto a OpenGL
 	oppure Wine
 
 Librerie:
@@ -109,16 +109,16 @@ Scorciatoie da tastiera:
 		e: 				centrale nucleare
 		x:				distruggi
 		q:				interroga
-		ctrl:			elimina l'azione dei tasti zona
-		u / d:			alza / abbassa terreno
+		ctrl:				elimina l'azione dei tasti zona
+		u / d:				alza / abbassa terreno
 
 Esplorazione:
 		su / giù / sinistra / destra:	scorri la mappa
-		pagina sù / pagina giù:			ruota la mappa
-		insert / delete:				zoom in / out
-		alt:							moltiplica per 10 l'effetto del comando
-		h:								torna alla cella iniziale
-		escape:							menu principale
+		pagina sù / pagina giù:		ruota la mappa
+		insert / delete:		zoom in / out
+		alt:				moltiplica per 10 l'effetto del comando
+		h:				torna alla cella iniziale
+		escape:				menu principale
 
 Opzioni:
 		b:				costruzioni on / off
@@ -130,7 +130,7 @@ Opzioni:
 		w:				acqua on / off
 
 Suono & musica:
-		< / >:			riproduci brano percedente / successivo
+		< / >:				riproduci brano percedente / successivo
 		m:				musica on / off
 		s:				suono on / off
 
@@ -161,7 +161,7 @@ e OpenCity riprodurrà la tua musica preferita. Se non trovi nessuna cartella
 
 	Ti avviso che SDL_mixer non è stabile e potrebbe bloccare OpenCity
 mentre riproduce certi file ".mp3". Prenditela con quelli di SDL_mixer,
-non con me ;) . Se rilevi problemi disabilita la musica (tasto 'm').
+non con me ;) Se rilevi problemi disabilita la musica (tasto 'm').
 
 
 ------------------------------------------------------------------------------
@@ -193,23 +193,26 @@ si sposterà in una direzione. Se premi 'Ctrl' la mappa si sposterà lungo un altr
 con le opzioni a riga di comando. Alcune opzioni possono essere espresse
 sia in forma estesa sia in forma compatta.
 
--fs | --fullscreen
-	Abilita la modalità a pieno schermo.
+-fs | --full-screen
+	Abilita la modalità a pieno schermo. La risoluzione video viene letta
+dal file "config.xml". Se i valori width (larghezza) e height (altezza)
+sono entrambi 0, OpenCity cercherà di rilevare automaticamente la migliore
+risoluzione a pieno schermo disponibile.
 
 -glv | --gl-version
 	Mostra informazioni sull'implementazione di OpenGL della tua macchina ed esce.
 
--dd | --datadir newDataPath
+-dd | --data-dir newDataPath
 	Specifica una nuova cartella per i dati di OpenCity.
 	Per esempio:
-	Sotto linux: --datadir /home/foo/bar/share/opencity/"
-	Sotto win32: --datadir "C:/Programmi/OpenCity/share"
+	Sotto linux: --data-dir /home/foo/bar/share/opencity/"
+	Sotto win32: --data-dir "C:/Programmi/OpenCity/share"
 
--cd | --confdir newConfigPath
+-cd | --conf-dir newConfigPath
 	Specifica una nuova cartella per la configurazione di OpenCity.
 	Per esempio:
-	Sotto linux: --confdir /home/foo/bar/etc/opencity/"
-	Sotto win32: --confdir "C:/Programmi/OpenCity/etc"
+	Sotto linux: --conf-dir /home/foo/bar/etc/opencity/"
+	Sotto win32: --conf-dir "C:/Programmi/OpenCity/etc"
 
 -na | --no-audio	
 	Disabilita l'audio.
@@ -282,7 +285,7 @@ essere diverso.
 ------------------------------------------------------------------------------
 12) Problemi noti
 ------------------------------------------------------------------------------
-	1) Ho una ATI Radeon 9000M. Quando provo il gioco con "EnablePageFlip"
+	1) Ho una ATI Radeon 9000M. Quando ho provato il gioco con "EnablePageFlip"
 (vedi man radeon) il gioco viene eseguito stranamente. Se riscontri lo stesso
 problema prova a disabilitare questa funzionalità del server Xfree
 (vedi man XF86Config)
@@ -310,4 +313,4 @@ www.opencity.info
 
 Duong-Khang (neoneurone) NGUYEN
 
-Translated by Jacopo (morpheus) SIRIANNI
+Traduzione italiana di Jacopo (morpheus) SIRIANNI

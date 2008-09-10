@@ -189,21 +189,21 @@ Opciones de la línea de comandos
 con las opciones de la línea de comandos. Algunas opciones están disponibles
 tanto en método abreviado como en completo.
 
-	-fs | --fullscreen
+	-fs | --full-screen
 	Habilita el modo pantalla completa
 
 	-glv | --gl-version
 	Muestra la información OpenGL de tu máquina y cierra
 
-	-dd | --datadir newDataPath
+	-dd | --data-dir newDataPath
 	Especifica la carpeta con los datos de OpenCity. Por ejemplo:
-		Bajo Linux: --datadir /home/foo/bar/share/opencity/
-		Bajo Win32: --datadir "C:/Archivos de programa/OpenCity/share"
+		Bajo Linux: --data-dir /home/foo/bar/share/opencity/
+		Bajo Win32: --data-dir "C:/Archivos de programa/OpenCity/share"
 
-	-cd | --confdir newConfigPath
+	-cd | --conf-dir newConfigPath
 	Especifica la carpeta con la configuración de OpenCity. Por ejemplo:
-		Bajo Linux: --confdir /home/foo/bar/etc/opencity/
-		Bajo Win32: --confdir "C:/Archivos de programa/OpenCity/etc"
+		Bajo Linux: --conf-dir /home/foo/bar/etc/opencity/
+		Bajo Win32: --conf-dir "C:/Archivos de programa/OpenCity/etc"
 
 	-na | --no-audio:
 	Deshabilita el sistema de audio

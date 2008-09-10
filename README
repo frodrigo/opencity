@@ -50,7 +50,7 @@ Operating System:
 Graphic User Interface:
 	X Windows with DRI activated (recommended)
 	or Darwin
-	or Microsotf Windows with OpenGL support
+	or Microsoft Windows with OpenGL support
 	or Wine
 
 Libraries:
@@ -195,13 +195,13 @@ on your machine then quit
 
 	-dd | --data-dir newDataPath
 	Specify to new path to OpenCity's data. For example:
-		Under linux: --datadir /home/foo/bar/share/opencity/
-		Under win32: --datadir "C:/Program Files/OpenCity/share"
+		Under linux: --data-dir /home/foo/bar/share/opencity/
+		Under win32: --data-dir "C:/Program Files/OpenCity/share"
 
 	-cd | --conf-dir newConfigPath
 	Specify to new path to OpenCity's config. For example:
-		Under linux: --confdir /home/foo/bar/etc/opencity/
-		Under win32: --confdir "C:/Program Files/OpenCity/etc"
+		Under linux: --conf-dir /home/foo/bar/etc/opencity/
+		Under win32: --conf-dir "C:/Program Files/OpenCity/etc"
 
 	-na | --no-audio:
 	Disable the audio system

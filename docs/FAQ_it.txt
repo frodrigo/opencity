@@ -1,10 +1,9 @@
 ---------------------------------------------------------------------
 FAQ di OpenCity
 ---------------------------------------------------------------------
-Last modified:
-	$Id$
+Last modified: $Id$
 Last translated:
-	2006/10/15 morpheus
+	2008/09/10 morpheus
 
 
 ---------------------------------------------------------------------
@@ -14,7 +13,7 @@ Prestazioni
 posso fare?
 
 	Risposta: OpenCity è un gioco 3d, quindi hai bisogno di una
-scheda grafica 3d :). Opencity è conosciuto per essere "fill-limited".
+scheda grafica 3d ;) Opencity è conosciuto per essere "fill-limited".
 Questo vuol dire che puoi avere performance migliori se riduci la
 dimensione della finestra del gioco. Puoi inoltre disabilitare la
 griglia con il tasto "g" e/o eseguire OpenCity a pieno schermo.
@@ -22,16 +21,18 @@ griglia con il tasto "g" e/o eseguire OpenCity a pieno schermo.
 
 	D: Quando lancio OpenCity, compare una finestra che scompare
 subito dopo. Cos'ho sbagliato?
-	R: Controlla il contenuto dei files "stderr.txt" e "stdout.txt".
-A volte succede perchè OpenCity non trova i suoi dati. Puoi usare
-l'opzione da riga di comando "--datadir" per specificare il percorso
-giusto. Leggi il file README_it.txt per maggiori informazioni sulle
-opzioni da linea di comando.
+	R: Controlla il contenuto dei files "stderr.txt" e "stdout.txt"
+contenuti nell cartella dove hai lanciato OpenCity. A volte succede
+perché OpenCity non trova i suoi dati e la configurazione. Puoi usare
+le opzioni da riga di comando "--datadir" e "--conf-dir" per specificare
+il percorso giusto. Leggi il file README_it.txt per maggiori informazioni
+sulle opzioni da linea di comando.
 
 
 	D: Ho problemi con la compilazione, qualcuno può aiutarmi?
-	R: Se non sei un programmatore abituato a compilare it Linux,
-la risposta è _NO_. Altrimenti dovresti riuscirci da solo.
+	R: Se non sei un programmatore familiare con il processo di
+compilazione in Linux/Windows, allora la risposta è _NO_. Siamo a corto
+di risorse e non possiamo aiutare i giocatori della domenica.
 
 
 ---------------------------------------------------------------------
@@ -41,14 +42,17 @@ Scarica e installa l'ultima versione delle librerie da
         http://www.libsdl.org
 
 Se compili OpenCity dai sorgenti, hai bisogno dei pacchetti per
-sviluppatori (devel) che contengonoi file header che sono necessari
-alla compilazione.
+sviluppatori (devel) che contengono i files header necessari per la
+compilazione.
 
-Se hai già installato le librerie necessarie, ti basterà indicarne il
-percorso corretto al linker.
+Se hai già installato le librerie necessarie da qualche parte,
+ti basterà indicarne il percorso corretto al linker.
 
 
 	D: Ho ricevuto questo errore: "/usr/include/SDL/SDL_net.h:416: error: extra ';'"
 	R: É un problema noto con SDL_net.h 1.2.5. Rimuovi il ';'
-extra o scarica e installa l'ultima versione per sviluppatori
+di troppo o scarica e installa l'ultima versione per sviluppatori
 della libreria SDL_net.
+
+
+Traduzione italiana di Jacopo (morpheus) SIRIANNI
