@@ -4,7 +4,7 @@
 	begin                : march 22th, 2004
 	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -17,18 +17,16 @@
  *                                                                         *
  ***************************************************************************/
 
+// OpenCity headers
 #include "guibutton.h"
 #include "guicontainer.h"
-
-#include "texture.h"		// textures loading
 
 
    /*=====================================================================*/
 GUIButton::GUIButton():
-_uiNumberState(0),
-_uiTexNormal(0),
-_uiTexOver(0)
+_uiNumberState(0)
 {
+	OPENCITY_DEBUG( "Dctor" );
 }
 
 
@@ -42,11 +40,9 @@ GUIButton::GUIButton
 	const string& strFile,
 	uint numberState
 ):
-_uiNumberState(numberState),
-_uiTexNormal(0),
-_uiTexOver(0)
+_uiNumberState(numberState)
 {
-	OPENCITY_DEBUG( "Ctor" );
+	OPENCITY_DEBUG( "Pctor" );
 
 // Safe
 	_pctr = NULL;
@@ -61,9 +57,9 @@ _uiTexOver(0)
 	_uiHeight = rcuiH;
 
 // Load the texture from the image
-	_uiTexNormal = Texture::Load( strFile + ".png" );
+	moTextureNormal = Texture( strFile + ".png" );
 	if (_uiNumberState == 2) {
-		_uiTexOver = Texture::Load( strFile + "_over.png" );
+		moTextureOver = Texture( strFile + "_over.png" );
 	}
 
 // Set the default colors
@@ -79,15 +75,6 @@ _uiTexOver(0)
 GUIButton::~GUIButton()
 {
 	OPENCITY_DEBUG( "Dtor" );
-
-// Free the associated texture if there is one
-	if (glIsTexture( _uiTexNormal ) == GL_TRUE) {
-		glDeleteTextures( 1, &_uiTexNormal );
-	}
-
-	if (glIsTexture( _uiTexOver ) == GL_TRUE) {
-		glDeleteTextures( 1, &_uiTexOver );
-	}
 }
 
 
@@ -116,7 +103,7 @@ GUIButton::Display() const
 		return;
 
 // IF there is nothing to display THEN return
-	if (!glIsTexture( _uiTexNormal ))
+	if (!glIsTexture( moTextureNormal.GetName() ))
 		return;
 
 // Translate the button to the correct position
@@ -147,9 +134,9 @@ GUIButton::Display() const
 // IF the mouse is over THEN choose the over texture
 // ELSE, use the normal texture
 	if ( IsSet(OC_GUIMAIN_MOUSEOVER) && _uiNumberState > 1 )
-		glBindTexture( GL_TEXTURE_2D, _uiTexOver );
+		glBindTexture( GL_TEXTURE_2D, moTextureOver.GetName() );
 	else
-		glBindTexture( GL_TEXTURE_2D, _uiTexNormal );
+		glBindTexture( GL_TEXTURE_2D, moTextureNormal.GetName() );
 
 	glBegin( GL_QUADS );
 	glTexCoord2i( 0, 0 );	glVertex2i( 0, 0 );

@@ -4,7 +4,7 @@
 	begin                : march 22th, 2004
 	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -21,6 +21,7 @@
 #define _OPENCITY_GUICONTAINER_H_ 1
 
 #include "guimain.h"
+#include "texture.h"
 
 #include <vector>
 
@@ -58,7 +59,7 @@ background.
 		const int ciY,
 		const uint cuiW,
 		const uint cuiH,
-		const string & rcsTexFile );
+		const string& rcsTexFile );
 
 
 	~GUIContainer();
@@ -84,9 +85,7 @@ background.
 	\param riWinW,riWinH The width and the height of the current window
 */
 	void
-	GetWinWH(
-		int & riWinW,
-		int & riWinH ) const;
+	GetWinWH( int& riWinW, int& riWinH ) const;
 
 
 //========================================================================
@@ -108,8 +107,8 @@ range because there is no error checking.
 */
 	void
 	Set(
-		const uint & rcuiIndex,
-		const OC_UBYTE & rcubAttribute ) const;
+		const uint& rcuiIndex,
+		const OC_UBYTE& rcubAttribute ) const;
 
 
 //========================================================================
@@ -118,7 +117,7 @@ range because there is no error checking.
 */
 	void
 	Set(
-		const OC_UBYTE & rcubAttribute ) {
+		const OC_UBYTE& rcubAttribute ) {
 		GUIMain::Set( rcubAttribute );
 	}
 
@@ -128,7 +127,7 @@ range because there is no error checking.
 	\param rcubAttr The attributes to unset
 */
 	void
-	ResetAttribute( const OC_UBYTE & rcubAttr ) const;
+	ResetAttribute( const OC_UBYTE& rcubAttr ) const;
 
 
 //========================================================================
@@ -151,7 +150,7 @@ range because there is no error checking.
 private:
 	uint	_uiWinWidth, _uiWinHeight;
 	std::vector<GUIMain*> vectorpguimain;
-	GLuint	_uiTexBackground;
+	Texture	moTextureBackground;
 };
 
 #endif

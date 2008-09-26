@@ -21,6 +21,7 @@
 #define _OPENCITY_GUIBUTTON_H_ 1
 
 #include "guimain.h"
+#include "texture.h"
 
 #define GUIBUTTON_POSITION_1		19, 73, 30, 30
 #define GUIBUTTON_POSITION_2		19, 33, 30, 30
@@ -74,11 +75,12 @@ public:
 
 
 private:
-	uint	_uiNumberState;				///< Number of state (default is 2)
-	GLuint	_uiTexNormal, _uiTexOver;
+	uint		_uiNumberState;				///< Number of state (default is 2)
+	Texture		moTextureNormal;			///< Inactive button texture
+	Texture		moTextureOver;				///< On mouse over button texture
 
-	Color	_cForeground;				///< Foreground color
-	Color	_cBackground;				///< Background color
+	Color		_cForeground;				///< Foreground color
+	Color		_cBackground;				///< Background color
 };
 
 #endif

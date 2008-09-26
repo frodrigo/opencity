@@ -21,6 +21,7 @@
 #define _OPENCITY_MODEL_H_ 1
 
 #include "main.h"
+#include "texture.h"
 
 // The constants used to select the display list
 #define OC_OPAQUE_ONESIDE_LIST		0x01
@@ -34,32 +35,19 @@
 class Model {
 public:
 	Model(
-		const GLfloat data [],
-		const GLuint & size );
-
-	Model(
-		const GLfloat data [],
-		const GLuint & size,
-		const GLfloat rgb [],
-		const GLfloat tcoord [],
-		const GLuint  tname [] );
+		GLuint dlOpaqueOneSide,
+		GLuint dlOpaqueTwoSide,
+		GLuint dlAlpha
+	);
 
 	Model(
 		GLuint dlOpaqueOneSide,
 		GLuint dlOpaqueTwoSide,
 		GLuint dlAlpha,
-		GLuint tex );
+		const string& rcsTextureFile
+	);
 
 	~Model();
-
-
-//========================================================================
-	void
-	DisplayPoly(
-		const OC_FLOAT & rcfW,
-		const OC_FLOAT & rcfH,
-		const OC_BYTE tabY []
-	) const;
 
 
 //========================================================================
@@ -93,17 +81,13 @@ public:
 
 
 private:
-	const GLfloat* ftabData;		// table of vertice
-	const GLfloat* ftabRGB;
-	const GLfloat* ftabTexCoord;
-	const GLuint*  uitabTexName;
-	GLuint uiTabSize;
-
 // Display lists used with AC3D model
-	GLuint _uiOpaqueOneSide;		///< One side opaque polygon display list
-	GLuint _uiOpaqueTwoSide;		///< Two side opaque polygon display list
-	GLuint _uiAlpha;				///< Alpha bleding polygon display list
-	GLuint _uiTexture;				///< The unique texture unit
+	GLuint	_uiOpaqueOneSide;		///< One side opaque polygon display list
+	GLuint	_uiOpaqueTwoSide;		///< Two side opaque polygon display list
+	GLuint	_uiAlpha;				///< Alpha bleding polygon display list
+
+/// This model texture object is used to keep the right texture reference count
+	Texture	moTexture;
 };
 
 

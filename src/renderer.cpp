@@ -59,7 +59,6 @@ for the first time:
 // OpenCity headers
 #include "renderer.h"
 #include "layer.h"
-#include "texture.h"					// Terrain texturing
 #include "font_8x8.h"					// 8x8 font definition
 #include "model.h"						// Display list mask definitions
 #include "structure.h"
@@ -114,9 +113,6 @@ _bDisplayCompass( true ),
 _bWireFrame( false ),
 _ubProjectionType( OC_PERSPECTIVE ),
 _uiMinimapTex( 0 ),
-_uiCloudTex( 0 ),
-_uiTerrainTex( 0 ),
-_uiSplashTex( 0 ),
 _bCalculateCulling( true ),
 _uiCityWidth( cityW ),
 _uiCityLength( cityL )
@@ -124,9 +120,9 @@ _uiCityLength( cityL )
 	OPENCITY_DEBUG( "Renderer ctor" );
 
 // Load frequently used textures
-	_uiCloudTex = Texture::Load( ocDataDirPrefix( "graphism/texture/cloud.png" ));
-	_uiTerrainTex = Texture::Load3D( ocDataDirPrefix( "graphism/texture/terrain_64x4096_texture.png" ));
-	_uiWaterTex = Texture::Load( ocDataDirPrefix( "graphism/texture/blue_water_512.png" ));
+	moTextureCloud = Texture( ocDataDirPrefix( "graphism/texture/cloud.png" ));
+	moTextureTerrain = Texture( ocDataDirPrefix( "graphism/texture/terrain_64x4096_texture.png" ), true);
+	moTextureWater = Texture( ocDataDirPrefix( "graphism/texture/blue_water_512.png" ));
 
 // Initialize the culled grid
 	uint size = (_uiCityWidth+1) * (_uiCityLength+1);
@@ -262,10 +258,6 @@ Renderer::~Renderer(  )
 		glDeleteLists( _uiWaterList, 1 );
 
 // Free textures
-	glDeleteTextures( 1, &_uiSplashTex );
-	glDeleteTextures( 1, &_uiWaterTex );
-	glDeleteTextures( 1, &_uiTerrainTex );
-	glDeleteTextures( 1, &_uiCloudTex );
 	glDeleteTextures( 1, &_uiMinimapTex );
 
 // Free the culled grid and the models grid
@@ -529,13 +521,15 @@ Renderer::ToggleWireFrame()
    /*=====================================================================*/
 void
 Renderer::DisplaySplash(
-	const uint & rcuiX,
-	const uint & rcuiY )
+	const uint& rcuiX,
+	const uint& rcuiY )
 {
 	static uint w, h;
 
-	if (!glIsTexture(_uiSplashTex))
-		_uiSplashTex = Texture::Load( ocDataDirPrefix( "graphism/gui/splash.png"), w, h );
+	if (!glIsTexture(moTextureSplash.GetName())) {
+		moTextureSplash = Texture( ocDataDirPrefix( "graphism/gui/splash.png") );
+		moTextureSplash.GetSize( w, h );
+	}
 
 // Store and translate the splash to the specified OpenGL coordinates
 	glPushAttrib( GL_ENABLE_BIT );
@@ -543,7 +537,7 @@ Renderer::DisplaySplash(
 	glEnable( GL_BLEND );
 	glEnable( GL_TEXTURE_2D );
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
-	glBindTexture( GL_TEXTURE_2D, _uiSplashTex );
+	glBindTexture( GL_TEXTURE_2D, moTextureSplash.GetName() );
 
 	glPushMatrix();
 	glLoadIdentity();
@@ -1194,7 +1188,7 @@ Renderer::_DisplayTerrain() const
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_CULL_FACE );
 	glEnable( GL_TEXTURE_3D );
-	glBindTexture( GL_TEXTURE_3D, _uiTerrainTex );
+	glBindTexture( GL_TEXTURE_3D, moTextureTerrain.GetName() );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	glTexParameteri( GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -1547,7 +1541,7 @@ Renderer::_DisplayWater() const
 	glPushAttrib( GL_ENABLE_BIT );
 	glEnable( GL_BLEND );
 	glEnable( GL_TEXTURE_2D );
-	glBindTexture( GL_TEXTURE_2D, _uiWaterTex );
+	glBindTexture( GL_TEXTURE_2D, moTextureWater.GetName() );
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
@@ -1695,7 +1689,7 @@ _displayCloud:
 	glDisable( GL_BLEND );
 	glEnable( GL_TEXTURE_2D );
 	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
-	glBindTexture( GL_TEXTURE_2D, _uiCloudTex );
+	glBindTexture( GL_TEXTURE_2D, moTextureCloud.GetName() );
 	glLoadIdentity();
 	glTranslatef( 0, 0, -1 );
 

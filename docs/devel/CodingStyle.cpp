@@ -47,13 +47,14 @@ _bABool(false)
 {
 	_boolABool = rcUseDL;
 	OPENCITY_DEBUG( "ctor: some debug value:" << _boolABool );
+	OPENCITY_DEBUG( "Pctor" );			// Parameterized constructor
 }
 
 
    /*=====================================================================*/
 CodingStyle::~CodingStyle()
 {
-	OPENCITY_DEBUG( "dtor" );
+	OPENCITY_DEBUG( "Dtor" );			// Destructor
 }
 
 

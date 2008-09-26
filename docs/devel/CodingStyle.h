@@ -24,7 +24,9 @@
 
 #include <vector>					///< Standard headers come after our headers
 
-#define OC_CODINGSTYLE_SOMECONST	1
+#define OC_CODINGSTYLE_SOMECONST		1
+#define OC_CODINGSTYLE_ONEMORECONST		2
+
 
 class GUIContainer;					///< Forward class declaration
 
@@ -67,13 +69,13 @@ The second line of description goes here.
 
 
 //========================================================================
-// Static attributes
+// STATIC ATTRIBUTES
 //========================================================================
 	static uint uiAttr;
 
 
 //========================================================================
-// Static methods
+// STATIC METHODS
 //========================================================================
 	static void
 	DoStaticThing();
@@ -91,13 +93,14 @@ private:
 	d:		double
 	dq:		deque (double queue)
 	e:		enumeration
-	i:		integer
 	f:		float
+	i:		integer
 	l:		long
+	o:		object
 	p:		pointer
 	q:		std::queue
 	r:		reference
-	s:		structure
+	s:		structure or string
 	str:	std::string
 	ui:		unsigned integer
 */
@@ -115,7 +118,7 @@ private:
 
 
 //========================================================================
-// Private methods
+// PRIVATE METHODS
 //========================================================================
 
 //========================================================================

@@ -29,7 +29,7 @@ using std::map;
 class BuildingLayer;
 
 
-   //========================================================================
+//========================================================================
 /** This class can be considered as a tool class for texture image loading.
 	Thanks to the SDL_image library, it can read all the file formats that
 	SDL_image supports.
@@ -38,46 +38,18 @@ class Texture {
 public:
 	Texture();
 	Texture( const string& rcFile );
+	Texture( const string& rcFile, bool b3d );		// quick hack
 
 	~Texture();
 
 
-   //========================================================================
-   //                         STATIC    METHODS
-   //========================================================================
-/** Open the specified image, read it into a SDL_surface then convert it
-to an OpenGL texture. Use it carefully because it doesn't handle error
-checking right now.
-	\param rcFile The path to the image.
-	\return The index of the new OpenGL texture (type const GLuint)
-*/
-	static const GLuint
-	Load( const string& rcFile );
-
-	static const GLuint
-	Load3D( const string& rcFile );
-
-
 //========================================================================
-/** Load the specified texture file into an OpenGL texture object
-	\param rcFile The path to the image.
-	\param ruiW,ruiH The size of the loaded texture
-	\return The index of the new OpenGL texture (type const GLuint)
-	\sa Load()
+/** Return the texture name
 */
-	static const GLuint
-	Load(
-		const string& rcFile,
-		uint& ruiW,
-		uint& ruiH
-	);
+	GLuint GetName() const;
 
-	static const GLuint
-	Load3D(
-		const string& rcFile,
-		uint& ruiW,
-		uint& ruiH
-	);
+	void GetSize( uint& ruiWidth, uint& ruiHeight ) const
+	{ ruiWidth = muiWidth; ruiHeight = muiHeight; }
 
 
 //========================================================================
@@ -123,16 +95,53 @@ returned surface must be freed by the caller
 	);
 
 
-   //========================================================================
-   //                       PRIVATE STATIC METHODS
-   //========================================================================
-
 private:
-	static map<string, GLuint> _mapTexture;		// Automanaged texture cache
+	static map<string, GLuint>	mmapTextureName;	///< Automanaged texture name cache
+	static map<string, uint>	mmapTextureCount;	///< Automanaged texture reference count
 
-	uint uiWidth, uiHeight;
-	GLuint uiTexture;
+	uint muiWidth, muiHeight;
+	GLuint muiTextureName;
+	string msTextureFile;
 
+
+//========================================================================
+// PRIVATE METHODS
+//========================================================================
+
+//========================================================================
+/** Open the specified image, read it into a SDL_surface then convert it
+to an OpenGL texture. Use it carefully because it doesn't handle error
+checking right now.
+	\param rcFile The path to the image.
+	\return The index of the new OpenGL texture (type const GLuint)
+*/
+	static const GLuint
+	_Load( const string& rcFile );
+
+	static const GLuint
+	_Load3D( const string& rcFile );
+
+
+//========================================================================
+/** Load the specified texture file into an OpenGL texture object
+	\param rcFile The path to the image.
+	\param ruiW,ruiH The size of the loaded texture
+	\return The index of the new OpenGL texture (type const GLuint)
+	\sa Load()
+*/
+	static const GLuint
+	_Load(
+		const string& rcFile,
+		uint& ruiW,
+		uint& ruiH
+	);
+
+	static const GLuint
+	_Load3D(
+		const string& rcFile,
+		uint& ruiW,
+		uint& ruiH
+	);
 
 //========================================================================
 /** Find the correct OpenGL dimensions for given width w and height h

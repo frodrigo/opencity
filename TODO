@@ -25,13 +25,13 @@ Simplify video setup code             (done)
 Add SDL accelerated visual            (done)
 Fix full-screen and gl-version order  (done)
 Fix full-screen resolution detection  (done)
-Improve texture class
-Create texture manager
-Reference counting texture cache
-Remove horizonal mirroring operation
+Improve texture class                 (done)
+Reference counting texture cache      (done)
+
 XML parameters accessors              (wip)
 XML handling in construction process  (wip)
 XML handling in the simulation engine (wip)
+Remove horizonal mirroring operation
 Crime
 Review the message system
 Review the agent creation process

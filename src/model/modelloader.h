@@ -4,7 +4,7 @@
 	begin                : may 22th, 2004
 	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -80,9 +80,8 @@ public:
 private:
 	static void
 	_AC3DTextureToGL(
-		const string& strPath,
 		const AC3D::AC3DObject* const pObject,
-		GLuint& tex
+		string& strTextureFile
 	);
 
 

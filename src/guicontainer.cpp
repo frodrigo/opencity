@@ -23,7 +23,6 @@
 
 // OpenCity headers
 #include "guicontainer.h"
-#include "texture.h"
 
 // Global settings
 #include "globalvar.h"
@@ -37,17 +36,17 @@ GUIContainer::GUIContainer()
 
 	_uiWinWidth = gVars.guiScreenWidth;
 	_uiWinHeight = gVars.guiScreenHeight;
-	_uiTexBackground = 0;
 }
 
 
    /*=====================================================================*/
-GUIContainer::GUIContainer(
+GUIContainer::GUIContainer
+(
 	const int ciX,
 	const int ciY,
 	const uint cuiW,
-	const uint cuiH ):
-_uiTexBackground( 0 )
+	const uint cuiH
+)
 {
 	OPENCITY_DEBUG( "Pctor 1" );
 
@@ -67,7 +66,7 @@ GUIContainer::GUIContainer(
 	const int ciY,
 	const uint cuiW,
 	const uint cuiH,
-	const string & rcsTexFile )
+	const string& rcsTexFile )
 {
 	OPENCITY_DEBUG( "Pctor 2" );
 
@@ -78,7 +77,7 @@ GUIContainer::GUIContainer(
 	_iY = ciY;
 	_uiWidth = cuiW;
 	_uiHeight = cuiH;
-	_uiTexBackground = Texture::Load( rcsTexFile );
+	moTextureBackground = Texture( rcsTexFile );
 }
 
 
@@ -99,13 +98,6 @@ GUIContainer::~GUIContainer()
 // Delete all the pointers in the "vector"
 // Note: the pointed memory is not freed
 	this->vectorpguimain.clear();
-
-
-// Free the associated texture eventually
-	if (glIsTexture( _uiTexBackground ) == GL_TRUE) {
-		glDeleteTextures( 1, &_uiTexBackground );
-		_uiTexBackground = 0;		// Safe
-	}
 }
 
 
@@ -218,13 +210,14 @@ GUIContainer::Display() const
 	glTranslatef( _iX, _iY, 0.0 );
 
 // Display the background
-	if (glIsTexture( _uiTexBackground ) == GL_TRUE) {
+	GLuint uiTexture = moTextureBackground.GetName();
+	if (glIsTexture( uiTexture ) == GL_TRUE) {
 		glPushAttrib( GL_ENABLE_BIT );
 		glDisable( GL_LIGHTING );
 		glEnable( GL_BLEND );
 		glEnable( GL_TEXTURE_2D );
 		glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE );
-		glBindTexture( GL_TEXTURE_2D, _uiTexBackground );
+		glBindTexture( GL_TEXTURE_2D, uiTexture );
 
 		glBegin( GL_QUADS );
 		glTexCoord2i( 0, 0 );	glVertex2i( 0, 0 );

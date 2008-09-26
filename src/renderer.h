@@ -21,6 +21,7 @@
 #define _OPENCITY_RENDERER_H_ 1
 
 #include "main.h"
+#include "texture.h"
 
 
 class Layer;
@@ -177,7 +178,7 @@ public:
 
 
 //========================================================================
-/** The City class use this to notify the renderer class that the 
+/** The City class use this to notify the renderer class that the
 	height of the map has changed and the current buffered informations
 	need to be recalculated
 */
@@ -205,11 +206,11 @@ private:
 	GLuint _uiWaterList;	///< GL list of the water texture
 
 // Frequently use textures
-	GLuint _uiMinimapTex;	///< Minimap texture
-	GLuint _uiCloudTex;		///< Cloud texture
-	GLuint _uiTerrainTex;	///< Terrain texture
-	GLuint _uiWaterTex;		///< Water texture
-	GLuint _uiSplashTex;	///< Splash texture
+	GLuint _uiMinimapTex;		///< Minimap texture
+	Texture moTextureCloud;		///< Cloud texture
+	Texture moTextureTerrain;	///< Terrain texture
+	Texture moTextureWater;		///< Water texture
+	Texture moTextureSplash;	///< Splash texture
 
 
 /** Contains the X value for the translation of the layer. It is used by

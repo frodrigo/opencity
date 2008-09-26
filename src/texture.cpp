@@ -34,24 +34,35 @@ extern GlobalVar gVars;
 #include "SDL_image.h"
 
 // Class static variable implementation
-map<string, GLuint> Texture::_mapTexture;		// Automanaged texture cache
+map<string, GLuint> Texture::mmapTextureName;
+map<string, uint>	Texture::mmapTextureCount;
 
 
    /*=====================================================================*/
 Texture::Texture():
-uiWidth( 0 ),
-uiHeight( 0 ),
-uiTexture( 0 )
+muiWidth( 0 ),
+muiHeight( 0 ),
+muiTextureName( 0 )
 {
-	OPENCITY_DEBUG("ctor");
+	OPENCITY_DEBUG("Ctor");
 }
 
 
    /*=====================================================================*/
 Texture::Texture( const string& rcFile )
 {
-	OPENCITY_DEBUG("param ctor");
-	this->uiTexture = Texture::Load( rcFile, this->uiWidth, this->uiHeight );
+	OPENCITY_DEBUG("Pctor 1");
+	msTextureFile = Texture::_ResolveRelativePath( rcFile );
+	muiTextureName = Texture::_Load( msTextureFile, muiWidth, muiHeight );
+}
+
+
+   /*=====================================================================*/
+Texture::Texture( const string& rcFile, bool b3d )
+{
+	OPENCITY_DEBUG("Pctor 2");
+	msTextureFile = Texture::_ResolveRelativePath( rcFile );
+	muiTextureName = Texture::_Load3D( msTextureFile, muiWidth, muiHeight );
 }
 
 
@@ -60,8 +71,20 @@ Texture::~Texture()
 {
 	OPENCITY_DEBUG("dtor");
 
-// Silently ignore invalid texture
-	glDeleteTextures( 1, &this->uiTexture );
+// Remove the unreferenced texture from cache
+	if (--Texture::mmapTextureCount[ msTextureFile ] <= 0) {
+		Texture::mmapTextureName.erase( msTextureFile );
+		Texture::mmapTextureCount.erase( msTextureFile );
+		glDeleteTextures( 1, &muiTextureName );
+	}
+}
+
+
+   /*=====================================================================*/
+GLuint
+Texture::GetName() const
+{
+	return muiTextureName;
 }
 
 
@@ -69,56 +92,57 @@ Texture::~Texture()
    //                       PRIVATE STATIC METHODS
    //========================================================================
 const GLuint
-Texture::Load( const string& rcFile )
+Texture::_Load( const string& rcFile )
 {
 	uint w, h;
-	GLuint tex = 0;
-	string filename = Texture::_ResolveRelativePath( rcFile );
+	GLuint uiName = 0;
 
 // IF the requested texture is in the cache AND valid THEN
-	if ((Texture::_mapTexture.find( filename ) != Texture::_mapTexture.end())
-		and (glIsTexture( Texture::_mapTexture[ filename ] ) == GL_TRUE) )
+	if ((Texture::mmapTextureName.find( rcFile ) != Texture::mmapTextureName.end())
+		and (glIsTexture( Texture::mmapTextureName[ rcFile ] ) == GL_TRUE) )
 	{
-//		OPENCITY_DEBUG( "Texture cache hit for: " << filename << " with name: " << tex);
-		tex = Texture::_mapTexture[ filename ];
+//		OPENCITY_DEBUG( "Texture cache hit for: " << rcFile << " with name: " << tex);
+		uiName = Texture::mmapTextureName[ rcFile ];
+		Texture::mmapTextureCount[ rcFile ]++;
 	}
 	else {
-		tex = Texture::Load( filename, w, h );
-		Texture::_mapTexture[ filename ] = tex;
+		uiName = Texture::_Load( rcFile, w, h );
+		Texture::mmapTextureName[ rcFile ] = uiName;
+		Texture::mmapTextureCount[ rcFile ] = 1;
 	}
 
-	return tex;
+	return uiName;
 }
 
 
    /*=====================================================================*/
 const GLuint
-Texture::Load3D( const string& rcFile )
+Texture::_Load3D( const string& rcFile )
 {
 	uint w, h;
-	GLuint tex = 0;
-	string filename = Texture::_ResolveRelativePath( rcFile );
+	GLuint uiName = 0;
 
-// IF the requested texture is not already in the cache
-// OR it's no more a valid texture THEN
-	if ((Texture::_mapTexture.find( filename ) == Texture::_mapTexture.end())
-		or (glIsTexture( Texture::_mapTexture[ filename ] ) == GL_FALSE) )
+// IF the requested texture is in the cache AND valid THEN
+	if ((Texture::mmapTextureName.find( rcFile ) != Texture::mmapTextureName.end())
+		and (glIsTexture( Texture::mmapTextureName[ rcFile ] ) == GL_TRUE) )
 	{
-		tex = Texture::Load3D( filename, w, h );
-		Texture::_mapTexture[ filename ] = tex;
+//		OPENCITY_DEBUG( "Texture cache hit for: " << rcFile << " with name: " << tex);
+		uiName = Texture::mmapTextureName[ rcFile ];
+		Texture::mmapTextureCount[ rcFile ]++;
 	}
 	else {
-//		OPENCITY_DEBUG( "3D texture cache hit for: " << filename );
-		tex = Texture::_mapTexture[ filename ];
+		uiName = Texture::_Load3D( rcFile, w, h );
+		Texture::mmapTextureName[ rcFile ] = uiName;
+		Texture::mmapTextureCount[ rcFile ] = 1;
 	}
 
-	return tex;
+	return uiName;
 }
 
 
    /*=====================================================================*/
 const GLuint
-Texture::Load
+Texture::_Load
 (
 	const string& rcFile,
 	uint& ruiW,
@@ -165,7 +189,7 @@ Texture::Load
 
    /*=====================================================================*/
 const GLuint
-Texture::Load3D
+Texture::_Load3D
 (
 	const string& rcFile,
 	uint& ruiW,
