@@ -34,8 +34,7 @@ extern GlobalVar gVars;
 #include "SDL_image.h"
 
 // Class static variable implementation
-map<string, GLuint> Texture::mmapTextureName;
-map<string, uint>	Texture::mmapTextureCount;
+map<string, pair<GLuint, uint> >	Texture::mmapTextureCache;
 
 
    /*=====================================================================*/
@@ -72,9 +71,8 @@ Texture::~Texture()
 	OPENCITY_DEBUG("dtor");
 
 // Remove the unreferenced texture from cache
-	if (--Texture::mmapTextureCount[ msTextureFile ] <= 0) {
-		Texture::mmapTextureName.erase( msTextureFile );
-		Texture::mmapTextureCount.erase( msTextureFile );
+	if (--Texture::mmapTextureCache[ msTextureFile ].first <= 0) {
+		Texture::mmapTextureCache.erase( msTextureFile );
 		glDeleteTextures( 1, &muiTextureName );
 	}
 }
@@ -98,17 +96,16 @@ Texture::_Load( const string& rcFile )
 	GLuint uiName = 0;
 
 // IF the requested texture is in the cache AND valid THEN
-	if ((Texture::mmapTextureName.find( rcFile ) != Texture::mmapTextureName.end())
-		and (glIsTexture( Texture::mmapTextureName[ rcFile ] ) == GL_TRUE) )
+	if ((Texture::mmapTextureCache.find( rcFile ) != Texture::mmapTextureCache.end())
+		and (glIsTexture( Texture::mmapTextureCache[ rcFile ].first )) )
 	{
 //		OPENCITY_DEBUG( "Texture cache hit for: " << rcFile << " with name: " << tex);
-		uiName = Texture::mmapTextureName[ rcFile ];
-		Texture::mmapTextureCount[ rcFile ]++;
+		uiName = Texture::mmapTextureCache[ rcFile ].first;
+		Texture::mmapTextureCache[ rcFile ].second++;
 	}
 	else {
 		uiName = Texture::_Load( rcFile, w, h );
-		Texture::mmapTextureName[ rcFile ] = uiName;
-		Texture::mmapTextureCount[ rcFile ] = 1;
+		Texture::mmapTextureCache[ rcFile ] = std::make_pair(uiName, 1);
 	}
 
 	return uiName;
@@ -123,17 +120,16 @@ Texture::_Load3D( const string& rcFile )
 	GLuint uiName = 0;
 
 // IF the requested texture is in the cache AND valid THEN
-	if ((Texture::mmapTextureName.find( rcFile ) != Texture::mmapTextureName.end())
-		and (glIsTexture( Texture::mmapTextureName[ rcFile ] ) == GL_TRUE) )
+	if ((Texture::mmapTextureCache.find( rcFile ) != Texture::mmapTextureCache.end())
+		and (glIsTexture( Texture::mmapTextureCache[ rcFile ].first )) )
 	{
 //		OPENCITY_DEBUG( "Texture cache hit for: " << rcFile << " with name: " << tex);
-		uiName = Texture::mmapTextureName[ rcFile ];
-		Texture::mmapTextureCount[ rcFile ]++;
+		uiName = Texture::mmapTextureCache[ rcFile ].first;
+		Texture::mmapTextureCache[ rcFile ].second++;
 	}
 	else {
 		uiName = Texture::_Load3D( rcFile, w, h );
-		Texture::mmapTextureName[ rcFile ] = uiName;
-		Texture::mmapTextureCount[ rcFile ] = 1;
+		Texture::mmapTextureCache[ rcFile ] = std::make_pair(uiName, 1);
 	}
 
 	return uiName;

@@ -23,8 +23,10 @@
 #include "main.h"
 
 #include <map>					// Used for automanaged texture loading cache
+#include <utility>
 
 using std::map;
+using std::pair;
 
 class BuildingLayer;
 
@@ -96,8 +98,7 @@ returned surface must be freed by the caller
 
 
 private:
-	static map<string, GLuint>	mmapTextureName;	///< Automanaged texture name cache
-	static map<string, uint>	mmapTextureCount;	///< Automanaged texture reference count
+	static map<string, pair<GLuint, uint> >	mmapTextureCache;	///< Automanaged texture name cache
 
 	uint muiWidth, muiHeight;
 	GLuint muiTextureName;
