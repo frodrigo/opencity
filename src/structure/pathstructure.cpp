@@ -4,7 +4,7 @@
 	begin                : june 17th, 2003
 	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -85,8 +85,8 @@ PathStructure::LoadFrom( std::fstream& rfs )
 	Structure::LoadFrom( rfs );
 	uint temp = 0;
 
-	rfs >> temp; rfs.ignore(); ubNumberNeighbour = (OC_UBYTE)temp; 
-	rfs >> temp; rfs.ignore(); ubTraffic		 = (OC_UBYTE)temp; 
+	rfs >> temp; rfs.ignore(); ubNumberNeighbour = (OC_UBYTE)temp;
+	rfs >> temp; rfs.ignore(); ubTraffic		 = (OC_UBYTE)temp;
 }
 
 
@@ -96,7 +96,7 @@ PathStructure::AddNeighbour(
 	const PathStructure & rcNeighbour,
 	const OPENCITY_DIRECTION & enumDir )
 {
-	OPENCITY_GRAPHIC_CODE baseGC;
+	OPENCITY_GRAPHIC_CODE baseGC = OC_EMPTY;
 	uint newGC;
 
 //debug cout << "adding 1 neighbour" << endl;
@@ -280,7 +280,7 @@ PathStructure::RemoveNeighbour(
 	const PathStructure & rcNeighbour,
 	const OPENCITY_DIRECTION & enumDir )
 {
-	OPENCITY_GRAPHIC_CODE baseGC;
+	OPENCITY_GRAPHIC_CODE baseGC = OC_EMPTY;
 	uint newGC;
 
    // note: we do nothing when number of neighbours is 0

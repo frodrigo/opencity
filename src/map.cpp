@@ -122,12 +122,13 @@ Map::ChangeHeight(
 	}
 
 	OC_BYTE tabH [4];
-	OC_BYTE refH;
-	uint i;
-	uint linear;
+	OC_BYTE refH = 0;
+	uint i = 0;
+	uint linear = 0;
 
 	GetSquareHeight( rcuiW, rcuiH, tabH );
-   // check for maximum variation
+
+// Check for maximum variation
 	switch (enumVar) {
 		case OC_MAP_UP:
 			refH = GetSquareMinHeight( rcuiW, rcuiH );
@@ -139,6 +140,8 @@ Map::ChangeHeight(
 			if (refH == OC_MAP_HEIGHT_MIN )
 				return OC_ERR_SOMETHING;
 			break;
+		default:
+			break;		// Keep GCC happy
 	}
 
 	for (i = 0; i < 4; i++)

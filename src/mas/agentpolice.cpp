@@ -84,9 +84,9 @@ void AgentPolice::SetState(police_state_t state)
 {
 	m_index = 0;
 	m_path.clear();
-	
+
 	if (state == m_state) return;
-	
+
 	m_state = state;
 	switch(m_state)
 	{
@@ -128,7 +128,7 @@ void
 AgentPolice::NoticePursue(Agent *agent)
 {
 // Create a new alert message for other police agents
-	MAS_MESSAGE_TYPE msgt;
+	MAS_MESSAGE_TYPE msgt = MSG_UNDEFINED;
 	switch (agent->getRole()) {
 		case ROLE_DEMONSTRATOR:
 			msgt = MSG_NEW_DEMONSTRATOR;
@@ -180,7 +180,7 @@ void AgentPolice::Pursue()
 	if (agent != NULL) {
 		MAS_DEBUG( *this << "(is pursuing agent " << agent->getId() << ")" );
 		m_lost_pursue = 0;
-	
+
 		// Notice pursue if needed
 		m_pursue++;
 		if (1<m_pursue and (m_pursue % 5) == 0)
@@ -353,7 +353,7 @@ AgentPolice::Collaborate()
 
 	if (agent != NULL) {
 //        NoticePursue(agent);
-		randomMove(-1);      
+		randomMove(-1);
 		SetState(POLICE_PURSUE);
 		return;
 	}

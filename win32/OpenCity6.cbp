@@ -13,7 +13,6 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-march=i386" />
 					<Add option="-g" />
 					<Add option="-Wmissing-braces -Wparentheses -pedantic-errors" />
 					<Add option="-DOPENCITY_SDL_MIXER" />
@@ -54,10 +53,39 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-march=i586" />
 					<Add option="-O2" />
+					<Add option="-Wmissing-braces -Wparentheses -pedantic-errors" />
+					<Add option="-DOPENCITY_SDL_MIXER" />
+					<Add directory="..\src\binreloc" />
+					<Add directory="..\src\enum" />
+					<Add directory="..\src\mapgen\filter" />
+					<Add directory="..\src\mapgen\generator" />
+					<Add directory="..\src\mapgen" />
+					<Add directory="..\src\mas" />
+					<Add directory="..\src\model" />
+					<Add directory="..\src\networking" />
+					<Add directory="..\src\pngfuncs" />
+					<Add directory="..\src\simulator" />
+					<Add directory="..\src\structure" />
+					<Add directory="..\src\tinyxml" />
+					<Add directory="..\src\tinyxpath" />
+					<Add directory="..\src\triangulation" />
+					<Add directory="..\src" />
+					<Add directory="D:\Programs\CodeBlocks\SDL\include\SDL" />
+					<Add directory="D:\Programs\CodeBlocks\SDL\include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-Wl,-subsystem,windows" />
+					<Add library="D:\Programs\CodeBlocks\MinGW\lib\libmingw32.a" />
+					<Add library="D:\Programs\CodeBlocks\SDL\lib\libSDLmain.a" />
+					<Add library="D:\Programs\CodeBlocks\SDL\lib\libSDL.dll.a" />
+					<Add library="D:\Programs\CodeBlocks\SDL\lib\SDL_image.lib" />
+					<Add library="D:\Programs\CodeBlocks\SDL\lib\SDL_mixer.lib" />
+					<Add library="D:\Programs\CodeBlocks\SDL\lib\SDL_net.lib" />
+					<Add library="D:\Programs\CodeBlocks\MinGW\lib\libopengl32.a" />
+					<Add library="D:\Programs\CodeBlocks\MinGW\lib\libglu32.a" />
 				</Linker>
 			</Target>
 		</Build>
