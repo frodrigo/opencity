@@ -18,7 +18,14 @@ DefaultGroupName=Open City
 LicenseFile=..\COPYING
 SolidCompression=yes
 VersionInfoVersion=0.0.6
-WindowVisible=Yes
+;WindowVisible=no
+
+[Languages]
+Name: "de"; MessagesFile: "compiler:Languages\German.isl"
+Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
+Name: "it"; MessagesFile: "compiler:Languages\Italian.isl"
 
 [Files]
 Source: "bin\Release\OpenCity-0.0.6beta.exe"; DestDir: "{app}\bin";
