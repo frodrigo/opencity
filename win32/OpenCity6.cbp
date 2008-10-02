@@ -57,6 +57,7 @@
 					<Add option="-O2" />
 					<Add option="-Wmissing-braces -Wparentheses -pedantic-errors" />
 					<Add option="-DOPENCITY_SDL_MIXER" />
+					<Add option="-DNDEBUG" />
 					<Add directory="..\src\binreloc" />
 					<Add directory="..\src\enum" />
 					<Add directory="..\src\mapgen\filter" />

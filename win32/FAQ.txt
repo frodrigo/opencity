@@ -1,0 +1,46 @@
+OpenCity's FAQ
+=====================================================================
+Last modified: $Id: FAQ.txt 361 2008-09-09 09:05:41Z neoneurone $
+
+
+Performance
+=====================================================================
+Q: OpenCity runs very slowly on my machine, what can I do ?
+A: OpenCity is a 3D game, that's why you probably need a 3D video
+card ;) OpenCity is also known to be "fill-limited". It means that
+you can have better graphic performance if you reduce the game
+window's size. You can also disable the grid with the "g" key and/or
+run OpenCity in fullscreen mode.
+
+
+Q: When I launch OpenCity, a window shows up then disappears, what's wrong ?
+A: Please check the content of the files "stderr.txt" and "stdout.txt".
+They are located in the directory where OpenCity is launched. Often
+it's because OpenCity couldn't find its data and configuration. You can
+use the command-line options "--data-dir" and "--conf-dir" to specify
+the right paths to OpenCity. Please refer to the README file for more
+information concerning those command-line options.
+
+
+Q: I have some compilation troubles, can someone help me ?
+A: If you are not a developer who is familar with Linux/Windows
+application compilation process then the answer is _NO_. We are low
+on resources and we can not help all sunday gamers to achieve that.
+
+
+SDL, SDL_mixer, SDL_image, SDL_net errors:
+=====================================================================
+Please download and install the lastest SDL libraries from
+        http://www.libsdl.org
+
+If you compile OpenCity from sources, you will need the development
+packages of those libraries. They contain the header files which
+are necessary for the compilation process.
+
+If you have those libraries intalled already somewhere on you system,
+then try to indicate the correct path to those libraries to the linker.
+
+
+Q: I have this error: "/usr/include/SDL/SDL_net.h:416: error: extra ';'"
+A: It's a known issue with SDL_net.h 1.2.5. Remove that extra ';' or
+download and install the latest SDL_net development library.

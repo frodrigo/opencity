@@ -14,7 +14,7 @@ AppVerName=OpenCity 0.0.6 beta
 AppVersion=OpenCity 0.0.6 beta
 Compression=lzma
 DefaultDirName={pf}\OpenCity
-DefaultGroupName=Open City
+DefaultGroupName=OpenCity
 LicenseFile=..\COPYING
 SolidCompression=yes
 VersionInfoVersion=0.0.6
@@ -34,7 +34,8 @@ Source: "..\config\*"; DestDir: "{app}\etc\opencity\config"; Excludes: ".svn"
 Source: "..\docs\*.txt"; DestDir: "{app}\share\opencity\docs";
 Source: "..\graphism\*"; DestDir: "{app}\share\opencity\graphism"; Excludes: ".svn"; Flags: recursesubdirs createallsubdirs
 Source: "..\sound\*"; DestDir: "{app}\share\opencity\sound"; Excludes: ".svn"
-Source: "..\README.txt"; DestDir: "{app}"; Flags: isreadme
+Source: "FAQ.txt"; DestDir: "{app}"
+Source: "README.txt"; DestDir: "{app}"; Flags: isreadme
 ; MSVC C runtime manifest
 ;Source: "Release\Microsoft.VC80.CRT.manifest"; DestDir: "{app}\bin"
 
@@ -45,9 +46,10 @@ Name: "{userappdata}\opencity\"
 Name: "{group}\OpenCity 0.0.6beta - window"; Filename: "{app}\bin\OpenCity-0.0.6beta.exe"; IconFilename: "{app}\share\opencity\graphism\icon\OpenCity32.ico"; Parameters: "--data-dir ""{app}\share\opencity"" --conf-dir ""{app}\etc\opencity"""; WorkingDir: "{app}"
 Name: "{group}\OpenCity 0.0.6beta - fullscreen (autodetect mode)"; Filename: "{app}\bin\OpenCity-0.0.6beta.exe"; IconFilename: "{app}\share\opencity\graphism\icon\OpenCity32.ico"; Parameters: "--data-dir ""{app}\share\opencity"" --conf-dir ""{app}\etc\opencity"" --full-screen"; WorkingDir: "{app}"
 Name: "{group}\Configuration file"; Filename: "{app}\etc\opencity\config\opencity.xml"
-Name: "{group}\FAQ"; Filename: "{app}\share\opencity\docs\FAQ.txt"
+Name: "{group}\FAQ"; Filename: "{app}\FAQ.txt"
 Name: "{group}\ReadMe"; Filename: "{app}\README.txt";
 Name: "{group}\Save folder"; Filename: "{userappdata}\opencity\"
+Name: "{group}\Homepage"; Filename: "http://www.opencity.info"
 Name: "{group}\Documentation\FAQ in Italian"; Filename: "{app}\share\opencity\docs\FAQ_it.txt"
 Name: "{group}\Documentation\INSTALL in Italian"; Filename: "{app}\share\opencity\docs\INSTALL_it.txt"
 Name: "{group}\Documentation\README in Italian"; Filename: "{app}\share\opencity\docs\README_it.txt"
