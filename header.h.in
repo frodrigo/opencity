@@ -1,8 +1,5 @@
 /* header.h.in.  Generated from configure.ac by autoheader.  */
 
-/* SDL_Mixer support */
-#undef AUDIO_SDL
-
 /* Include pthread support for binary relocation? */
 #undef BR_PTHREAD
 
@@ -53,6 +50,9 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* SDL_Mixer support */
+#undef OPENCITY_SDL_MIXER
 
 /* Name of package */
 #undef PACKAGE
