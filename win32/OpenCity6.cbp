@@ -292,6 +292,9 @@
 		<Unit filename="..\src\ui.h" />
 		<Unit filename="..\src\vehicle.cpp" />
 		<Unit filename="..\src\vehicle.h" />
+		<Unit filename="resource.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />
