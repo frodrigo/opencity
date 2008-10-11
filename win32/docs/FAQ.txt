@@ -1,6 +1,6 @@
 OpenCity's FAQ
 =====================================================================
-Last modified: $Id: FAQ.txt 361 2008-09-09 09:05:41Z neoneurone $
+Last modified: $Id$
 
 
 Performance

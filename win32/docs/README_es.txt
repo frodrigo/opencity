@@ -2,7 +2,7 @@
 LÉEME para OpenCity 0.0.5stable
 ------------------------------------------------------------------------------
 Última modificación:
-	$Id: README_es.txt 294 2007-12-01 14:47:10Z neoneurone $
+	$Id$
 
 Orientado a:
 	# Usuarios Finales:

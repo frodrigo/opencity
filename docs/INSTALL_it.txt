@@ -2,7 +2,7 @@
 Istruzioni per l'INSTALLAZIONE/COMPILAZIONE di OpenCity 0.0.5stable
 ------------------------------------------------------------------------------
 Last modified:
-	$Id: INSTALL_it.txt 291 2007-11-27 21:09:32Z neoneurone $
+	$Id$
 Last translated:
 	2007/11/18 morpheus
 

@@ -2,7 +2,7 @@
 README for OpenCity 0.0.6beta
 ------------------------------------------------------------------------------
 Last modified:
-	$Id: README,v 1.26 2006/01/26 10:53:18 neoneurone Exp $
+	$Id$
 
 Audience:
 	# End-users:

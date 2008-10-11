@@ -5,7 +5,7 @@
 	copyright            : (C) 2008 by Duong-Khang NGUYEN
 	email                : neoneurone @ users sourceforge net
 
-	$Id: propertymanager2.cpp 348 2008-05-04 11:03:48Z neoneurone $
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************

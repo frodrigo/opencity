@@ -2,7 +2,7 @@
 README per OpenCity 0.0.6beta
 ------------------------------------------------------------------------------
 Last modified:
-	$Id: README_it.txt 363 2008-09-10 20:19:22Z neoneurone $
+	$Id$
 Last translated:
 	2008/09/10 morpheus
 
