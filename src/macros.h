@@ -40,6 +40,11 @@ using std::cerr;
 		cout << "<INFO> " << msg << endl; \
 	}
 
+// Option message macro
+	#define OPENCITY_OPTION( msg ) { \
+		cout << "<OPTION> " << msg << endl; \
+	}
+
 // Error message macro
 	#define OPENCITY_ERROR( msg ) { \
 		cerr << "<ERROR> " << msg << endl; \

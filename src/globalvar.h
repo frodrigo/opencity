@@ -61,6 +61,7 @@ struct GlobalVar
 	uint guiScreenWidth;
 	uint guiScreenHeight;
 	uint guiVideoBpp;
+	string gsOpenGLDriver;
 
 	uint guiGeneratorSeed;
 	string gsGeneratorHeightMap;

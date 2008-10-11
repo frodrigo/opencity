@@ -1,0 +1,58 @@
+---------------------------------------------------------------------
+FAQ di OpenCity
+---------------------------------------------------------------------
+Last modified: $Id: FAQ_it.txt 363 2008-09-10 20:19:22Z neoneurone $
+Last translated:
+	2008/09/10 morpheus
+
+
+---------------------------------------------------------------------
+Prestazioni
+---------------------------------------------------------------------
+	Domanda: OpenCity è molto lento sulla mia macchina, cosa
+posso fare?
+
+	Risposta: OpenCity è un gioco 3d, quindi hai bisogno di una
+scheda grafica 3d ;) Opencity è conosciuto per essere "fill-limited".
+Questo vuol dire che puoi avere performance migliori se riduci la
+dimensione della finestra del gioco. Puoi inoltre disabilitare la
+griglia con il tasto "g" e/o eseguire OpenCity a pieno schermo.
+
+
+	D: Quando lancio OpenCity, compare una finestra che scompare
+subito dopo. Cos'ho sbagliato?
+	R: Controlla il contenuto dei files "stderr.txt" e "stdout.txt"
+contenuti nell cartella dove hai lanciato OpenCity. A volte succede
+perché OpenCity non trova i suoi dati e la configurazione. Puoi usare
+le opzioni da riga di comando "--datadir" e "--conf-dir" per specificare
+il percorso giusto. Leggi il file README_it.txt per maggiori informazioni
+sulle opzioni da linea di comando.
+
+
+	D: Ho problemi con la compilazione, qualcuno può aiutarmi?
+	R: Se non sei un programmatore familiare con il processo di
+compilazione in Linux/Windows, allora la risposta è _NO_. Siamo a corto
+di risorse e non possiamo aiutare i giocatori della domenica.
+
+
+---------------------------------------------------------------------
+Errori di SDL, SDL_mixer, SDL_image e SDL_net:
+---------------------------------------------------------------------
+Scarica e installa l'ultima versione delle librerie da
+        http://www.libsdl.org
+
+Se compili OpenCity dai sorgenti, hai bisogno dei pacchetti per
+sviluppatori (devel) che contengono i files header necessari per la
+compilazione.
+
+Se hai già installato le librerie necessarie da qualche parte,
+ti basterà indicarne il percorso corretto al linker.
+
+
+	D: Ho ricevuto questo errore: "/usr/include/SDL/SDL_net.h:416: error: extra ';'"
+	R: É un problema noto con SDL_net.h 1.2.5. Rimuovi il ';'
+di troppo o scarica e installa l'ultima versione per sviluppatori
+della libreria SDL_net.
+
+
+Traduzione italiana di Jacopo (morpheus) SIRIANNI

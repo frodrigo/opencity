@@ -190,8 +190,11 @@ file. If the resolution width and height are both 0, OpenCity will try to
 autodetect the best available fullscreen resolution.
 
 	-glv | --gl-version
-	Show the informations of the current available OpenGL implementation
-on your machine then quit
+	Show the OpenGL driver information (vendor, renderer, version and extension)
+
+	-gld | --gl-driver openGLDriverName
+	Try to load the given driver name. Under Windows, it should be something
+like opengl32.dll	
 
 	-dd | --data-dir newDataPath
 	Specify to new path to OpenCity's data. For example:

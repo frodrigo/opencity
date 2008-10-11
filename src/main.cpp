@@ -303,8 +303,19 @@ static int initSDL()
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 	SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
 
+// Get the OpenGL driver name
+	const char* glDriver;
+	if (gVars.gsOpenGLDriver != "") {
+		OPENCITY_INFO( "Loading OpenGL driver: " << gVars.gsOpenGLDriver );
+		glDriver = gVars.gsOpenGLDriver.c_str();
+	}
+	else {
+		OPENCITY_INFO( "Loading default OpenGL driver..." );
+		glDriver = NULL;
+	}
+
 // Dynamically load the default OpenGL implementation library
-	if (SDL_GL_LoadLibrary(NULL) < 0) {
+	if (SDL_GL_LoadLibrary(glDriver) < 0) {
 		OPENCITY_FATAL( "Failed to load OpenGL library: " << SDL_GetError() );
 		return OC_ERROR_SDL_OPENGL;
 	}
@@ -418,10 +429,11 @@ static int parseArg(int argc, char *argv[])
 // Command-line options definition
 	enum {
 		OPT_GL_VERSION,
-		OPT_FULLSCREEN,
+		OPT_GL_DRIVER,
+		OPT_FULL_SCREEN,
 		OPT_NO_AUDIO,
-		OPT_DATADIR,
-		OPT_CONFDIR,
+		OPT_DATA_DIR,
+		OPT_CONF_DIR,
 		OPT_GENERATOR_HEIGHT_MAP,
 		OPT_GENERATOR_SEED,
 		OPT_GENERATOR_MAP,
@@ -434,14 +446,16 @@ static int parseArg(int argc, char *argv[])
 	CSimpleOpt::SOption g_rgOptions[] = {
 		{ OPT_GL_VERSION,				(char*)"--gl-version",				SO_NONE		},
 		{ OPT_GL_VERSION,				(char*)"-glv",						SO_NONE		},
-		{ OPT_FULLSCREEN,				(char*)"--full-screen",				SO_NONE		},
-		{ OPT_FULLSCREEN,				(char*)"-fs",						SO_NONE		},
+		{ OPT_GL_DRIVER,				(char*)"--gl-driver",				SO_REQ_SEP	},
+		{ OPT_GL_DRIVER,				(char*)"-gld",						SO_REQ_SEP	},
+		{ OPT_FULL_SCREEN,				(char*)"--full-screen",				SO_NONE		},
+		{ OPT_FULL_SCREEN,				(char*)"-fs",						SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"--no-audio",				SO_NONE		},
 		{ OPT_NO_AUDIO,					(char*)"-na",						SO_NONE		},
-		{ OPT_DATADIR,					(char*)"--data-dir",				SO_REQ_SEP	},
-		{ OPT_DATADIR,					(char*)"-dd",						SO_REQ_SEP	},
-		{ OPT_CONFDIR,					(char*)"--conf-dir",				SO_REQ_SEP	},
-		{ OPT_CONFDIR,					(char*)"-cd",						SO_REQ_SEP	},
+		{ OPT_DATA_DIR,					(char*)"--data-dir",				SO_REQ_SEP	},
+		{ OPT_DATA_DIR,					(char*)"-dd",						SO_REQ_SEP	},
+		{ OPT_CONF_DIR,					(char*)"--conf-dir",				SO_REQ_SEP	},
+		{ OPT_CONF_DIR,					(char*)"-cd",						SO_REQ_SEP	},
 		{ OPT_GENERATOR_HEIGHT_MAP,		(char*)"--generator-height-map",	SO_REQ_SEP	},
 		{ OPT_GENERATOR_SEED,			(char*)"--generator-seed",			SO_REQ_SEP	},
 		{ OPT_GENERATOR_MAP,			(char*)"--generator-map",			SO_REQ_SEP	},
@@ -459,31 +473,31 @@ static int parseArg(int argc, char *argv[])
 	while (args.Next()) {
 		switch (args.LastError()) {
 		case SO_OPT_INVALID:
-			cout << "<OPTION> " << args.OptionText() << " unrecognized" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " unrecognized" );
 			break;
 		case SO_OPT_MULTIPLE:
-			cout << "<OPTION> " << args.OptionText() << " matched multiple options" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " matched multiple options" );
 			break;
 		case SO_ARG_INVALID:
-			cout << "<OPTION> " << args.OptionText() << " does not accept any argument" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " does not accept any argument" );
 			break;
 		case SO_ARG_INVALID_TYPE:
-			cout << "<OPTION> " << args.OptionText() << " has an invalid argument format" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " has an invalid argument format" );
 			break;
 		case SO_ARG_MISSING:
-			cout << "<OPTION> " << args.OptionText() << " requires an argument" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " requires an argument" );
 			break;
 		case SO_ARG_INVALID_DATA:
-			cout << "<OPTION> " << args.OptionText() << " has an invalid argument data" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " has an invalid argument data" );
 			break;
 		case SO_SUCCESS:
-			cout << "<OPTION> " << args.OptionText() << " detected" << endl;
+			OPENCITY_OPTION( "" << args.OptionText() << " detected" );
 			break;
 		} // switch (args.LastError())
 
 		// Exit the program on error
 		if (args.LastError() != SO_SUCCESS) {
-			cout << "Try " << argv[0] << " --help for usage information" << endl;
+			OPENCITY_OPTION( "Try " << argv[0] << " --help for more usage information" );
 			exit( OC_ERROR_ARGUMENT );
 		}
 
@@ -492,7 +506,11 @@ static int parseArg(int argc, char *argv[])
 			bGLVersion = true;
 			break;
 
-		case OPT_FULLSCREEN:
+		case OPT_GL_DRIVER:
+			gVars.gsOpenGLDriver = args.OptionArg();
+			break;
+
+		case OPT_FULL_SCREEN:
 			gVars.gboolFullScreen = true;
 			break;
 
@@ -500,14 +518,14 @@ static int parseArg(int argc, char *argv[])
 			gVars.gboolUseAudio = false;
 			break;
 
-		case OPT_DATADIR:
+		case OPT_DATA_DIR:
 			sDataDir = formatPath(args.OptionArg());
-			cout << "<OPTION> DataDir is: \"" << sDataDir << "\"" << endl;
+			OPENCITY_OPTION( "The data directory is: \"" << sDataDir << "\"" );
 			break;
 
-		case OPT_CONFDIR:
+		case OPT_CONF_DIR:
 			sConfigDir = formatPath(args.OptionArg());
-			cout << "<OPTION> ConfDir is: \"" << sConfigDir << "\"" << endl;
+			OPENCITY_OPTION( "The configuration directory is: \"" << sConfigDir << "\"" );
 			break;
 
 		case OPT_GENERATOR_HEIGHT_MAP:
@@ -575,7 +593,7 @@ static int parseArg(int argc, char *argv[])
 
 		case OPT_HELP:
 			cout << "Usage: " << argv[0]
-				<< " [-fs|--full-screen] [-glv|--gl-version]"
+				<< " [-fs|--full-screen] [-glv|--gl-version] [-gld|--gl-driver openGLDriverName]"
 				<< " [-dd|--data-dir newDataPath] [-cd|--conf-dir newConfigPath]"
 				<< " [-na|--no-audio] [--generator-height-map heightMapPicture |"
 				<< " (--generator-seed seed [--generator-map MAP-TYPE] [--generator-water WATER-TYPE]"
@@ -1096,6 +1114,7 @@ static void initGlobalVar()
 	gVars.guiScreenWidth			= OC_WINDOW_WIDTH;
 	gVars.guiScreenHeight			= OC_WINDOW_HEIGHT;
 	gVars.guiVideoBpp				= OC_WINDOW_BPP_DEFAULT;
+	gVars.gsOpenGLDriver			= "";
 
 	gVars.gsGeneratorHeightMap			= "";
 	gVars.guiGeneratorSeed				= time(NULL);
