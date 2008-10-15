@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-Istruzioni per l'INSTALLAZIONE/COMPILAZIONE di OpenCity 0.0.5stable
+Istruzioni per l'INSTALLAZIONE/COMPILAZIONE di OpenCity
 ------------------------------------------------------------------------------
 Last modified:
 	$Id$
@@ -88,4 +88,4 @@ Buona fortuna!
 
 Duong-Khang (neoneurone) NGUYEN.
 
-Translated by Jacopo (morpheus) SIRIANNI
+Traduzione italiana di Jacopo (morpheus) SIRIANNI

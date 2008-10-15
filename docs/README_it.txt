@@ -4,7 +4,7 @@ README per OpenCity 0.0.6beta
 Last modified:
 	$Id$
 Last translated:
-	2008/09/10 morpheus
+	2008/10/13 morpheus
 
 Destinatari:
 	# Utenti finali:
@@ -201,6 +201,10 @@ risoluzione a pieno schermo disponibile.
 
 -glv | --gl-version
 	Mostra informazioni sull'implementazione di OpenGL della tua macchina ed esce.
+
+-gld | --gl-driver openGLDriverName
+	Prova a caricare il driver dato. Sotto Windows dovrebbe essere qualcosa
+	tipo opengl32.dll
 
 -dd | --data-dir newDataPath
 	Specifica una nuova cartella per i dati di OpenCity.
