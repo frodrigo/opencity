@@ -219,5 +219,5 @@ echo "  To install OpenCity, do 'make install'"
 echo "  To remove OpenCity, do 'make uninstall'"
 echo
 echo "  After compiling, to run OpenCity from here without installation, do: "
-echo "  'src/opencity --datadir /path/to/share/opencity --confdir /path/to/etc/opencity'"
+echo "  'src/opencity --data-dir /path/to/share/opencity --conf-dir /path/to/etc/opencity'"
 echo "==============================================================================="

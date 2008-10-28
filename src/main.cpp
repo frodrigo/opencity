@@ -41,8 +41,8 @@
 	AudioManager, Conf, ModelLoader, and MapGen::MapMaker without major
 	modifications.
 
-	\author Duong Khang NGUYEN &lt;neoneurone @ gmail com&gt;
-	\author Frédéric RODRIGO
+	\author Duong-Khang NGUYEN (email: duongkhang.nguyen gmail.com)
+	\author FrÃ©dÃ©ric RODRIGO
 */
 
 // Useful enumerations
@@ -998,7 +998,7 @@ static void detectProgramPath()
 	\return "" if OK, otherwise the error description
 		0: if OK
 		OC_ERROR_NOT_FOUND: the config file has not been found
-		OC_ERROR_PARSE_CONFIG: the was a parse error
+		OC_ERROR_PARSE_CONFIG: there was a parse error
 */
 static string readSettings()
 {
@@ -1180,7 +1180,7 @@ int main(int argc, char *argv[])
 	string errorDesc = readSettings();
 	if (errorDesc != "") {
 		OPENCITY_FATAL(
-			"The was an error while loading the settings file: \"" << errorDesc << "\"" << endl
+			"There was an error while loading the settings file: \"" << errorDesc << "\"" << endl
 			<< "If the main config file \"" << OC_CONFIG_FILE_FILENAME << "\" has not been found then" << endl
 			<< "try to specify the data directory with ""--data-dir"" "
 			<< "and the configuration directory with ""--conf-dir""." << endl
@@ -1261,27 +1261,3 @@ long ocLongVersion()
 	lVersion = OC_VERSION*65536 + OC_PATCHLEVEL*256 + OC_SUBLEVEL;
 	return lVersion;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -38,8 +38,8 @@ ExtensionManager::Load()
 {
 	bool ok = true;
 
-	glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC)SDL_GL_GetProcAddress("glTexImage3DEXT");
-	if (glTexImage3D == NULL) {
+	this->glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC)SDL_GL_GetProcAddress("glTexImage3DEXT");
+	if (this->glTexImage3D == NULL) {
 		OPENCITY_ERROR( "GL_EXT_texture3D extension unsupported by your video driver" );
 		ok = false;
 	}

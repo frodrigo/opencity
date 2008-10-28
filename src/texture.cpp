@@ -149,12 +149,14 @@ Texture::_Load
 	SDL_Surface* pMirror = NULL;
 	GLuint uiTexture = 0;	// tell glIsTexture that this is not a texture name
 
-	OPENCITY_DEBUG( "Loading texture file: " << rcFile.c_str() );
+	OPENCITY_DEBUG( "Loading texture file: " << rcFile );
 
-// TODO: error checking
-// load the image to the SDL surface
+// Load the image to the SDL surface
 	pImage = IMG_Load( rcFile.c_str() );
-	assert( pImage != NULL );
+	if (pImage == NULL) {
+		OPENCITY_FATAL( "Texture file \"" << rcFile << "\" not found");
+		abort();
+	}
 
 // Return the width and height
 	ruiW = pImage->w;
