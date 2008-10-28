@@ -2,8 +2,8 @@
 						globalvar.h    -  description
 							-------------------
 	begin                : october 17th, 2006
-	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2006-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/
@@ -47,7 +47,7 @@
 
 //========================================================================
 /** This structure contain the global settings
-	\author Duong-Khang NGUYEN
+	\author Duong Khang NGUYEN
 */
 struct GlobalVar
 {

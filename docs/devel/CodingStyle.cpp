@@ -2,8 +2,8 @@
 						CodingStyle.cpp    -  description
 							-------------------
 	begin                : nov 14th 2005
-	copyright            : (C) 2005 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2005 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

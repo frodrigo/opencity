@@ -315,6 +315,6 @@ Se dovessi avere problemi prova a scrivere quanto sotto in una shell (bash) prim
 ------------------------------------------------------------------------------
 www.opencity.info
 
-Duong-Khang (neoneurone) NGUYEN
+Duong Khang (neoneurone) NGUYEN
 
 Traduzione italiana di Jacopo (morpheus) SIRIANNI

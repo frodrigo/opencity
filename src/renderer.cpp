@@ -2,8 +2,8 @@
 						renderer.cpp  -  description
 							-------------------
 	begin                : may 29th, 2003
-	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2003-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

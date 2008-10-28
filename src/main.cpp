@@ -4,8 +4,8 @@
 	project              : OpenCity
 	codename             : Delphine
 	begin                : may 28th, 2003
-	copyright            : (C) 2003-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2003-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	details              :
 			This is a game project which targets the ultimate city
@@ -41,7 +41,7 @@
 	AudioManager, Conf, ModelLoader, and MapGen::MapMaker without major
 	modifications.
 
-	\author Duong-Khang NGUYEN (email: neoneurone [at] users [dot] sf [dot] net)
+	\author Duong Khang NGUYEN &lt;neoneurone @ gmail com&gt;
 	\author Frédéric RODRIGO
 */
 
@@ -146,7 +146,8 @@ extern GlobalVar gVars;
    /*=====================================================================*/
 void ocQuit( const int quit_code )
 {
-	cout << "Quit requested, quit code is : " << quit_code
+	cout << endl
+		 << "Quit requested, quit code is : " << quit_code
 	     << endl
 	     << "Bye bye !"
 	     << endl;
@@ -278,7 +279,7 @@ void ocProcessSDLEvents( void )
 
 		case SDL_QUIT:
 		// Handle quit requests (like Ctrl-c).
-			cout << "Quit requested, stoping " << OC_PROGRAM_NAME << "..." << endl;
+			cout << endl << "Quit requested, stoping " << OC_PROGRAM_NAME << "..." << endl;
 			bQuit = true;
 			break;
 		}
@@ -858,9 +859,9 @@ static int clientMode()
 static void printCopyright() {
 // Output the copyright text
 	cout << "Welcome to " << PACKAGE << " version " << VERSION << endl;
-	cout << "Copyright (C) by Duong-Khang NGUYEN. All rights reserved." << endl;
+	cout << "Copyright (C) by Duong Khang NGUYEN. All rights reserved." << endl;
 	cout << "   web  : http://www.opencity.info" << endl;
-	cout << "   email: neoneurone @ users sf net" << endl << endl;
+	cout << "   email: neoneurone @ gmail com" << endl << endl;
 
 	cout << "This program is released under the terms of" << endl;
 	cout << "GNU General Public License (See the COPYING file for more details)" << endl << endl;

@@ -2,8 +2,8 @@
 						property.h  -  description
 							-------------------
 	begin                : january 28th, 2007
-	copyright            : (C) 2007 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2007 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

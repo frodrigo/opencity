@@ -1807,9 +1807,9 @@ otherwise, touch only the specified movement" isSpecification="false" isLeaf="fa
      <notewidget usesdiagramfillcolour="1" width="289" usesdiagramusefillcolour="1" x="1136" linecolour="none" y="985" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="1" fillcolour="none" height="111" usefillcolor="1" isinstance="0" xmi.id="509" text="OpenCity 0.0.5
 Main class diagram
 Updated on January 28th, 2007
-Copyright (C) by Duong-Khang NGUYEN
+Copyright (C) by Duong Khang NGUYEN
 web: www.opencity.info
-email: neoneurone@users.sf.net
+email: neoneurone @ gmail com
 All rights reserved." font="Helvetica,10,-1,5,50,0,0,0,0,0" />
      <classwidget usesdiagramfillcolour="0" width="54" showattsigs="601" usesdiagramusefillcolour="0" x="883" linecolour="#ff0000" y="746" showopsigs="601" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="0" fillcolour="#d4ffc9" height="29" usefillcolor="1" showpubliconly="0" showattributes="0" isinstance="0" xmi.id="511" showoperations="0" showpackage="0" showscope="1" showstereotype="0" font="Helvetica,10,-1,5,75,1,0,0,0,0" />
      <classwidget usesdiagramfillcolour="0" width="36" showattsigs="601" usesdiagramusefillcolour="0" x="852" linecolour="#ff0000" y="806" showopsigs="601" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="0" fillcolour="#d4ffc9" height="29" usefillcolor="1" showpubliconly="0" showattributes="0" isinstance="0" xmi.id="512" showoperations="0" showpackage="0" showscope="1" showstereotype="0" font="Helvetica,10,-1,5,75,0,0,0,0,0" />
@@ -2362,8 +2362,8 @@ Last updated on oct 23th 2003" type="401" showops="1" showpackage="0" name="ColD
      <notewidget usesdiagramfillcolour="1" width="289" usesdiagramusefillcolour="1" x="472" linecolour="none" y="360" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="1" fillcolour="none" height="111" usefillcolor="1" isinstance="0" xmi.id="540" text="OpenCity 0.0.2 beta
 GUI class diagram
 Updated on mar 28th, 04
-Copyright (C) by Duong-Khang NGUYEN
-neoneurone@users.sf.net
+Copyright (C) by Duong Khang NGUYEN
+neoneurone @ gmail com
 All rights reserved." font="Helvetica,10,-1,5,50,0,0,0,0,0" />
     </widgets>
     <messages/>
@@ -2463,8 +2463,8 @@ All rights reserved." font="Helvetica,10,-1,5,50,0,0,0,0,0" />
      <notewidget usesdiagramfillcolour="1" width="289" usesdiagramusefillcolour="1" x="357" linecolour="none" y="387" linewidth="none" usesdiagramlinewidth="1" usesdiagramlinecolour="1" fillcolour="none" height="111" usefillcolor="1" isinstance="0" xmi.id="10769" text="OpenCity 0.0.3stable
 AC3D structure class diagram
 Updated on July 14th, 05
-Copyright (C) by Duong-Khang NGUYEN
-neoneurone@users.sf.net
+Copyright (C) by Duong Khang NGUYEN
+neoneurone @ gmail com
 All rights reserved." font="Helvetica,10,-1,5,50,0,0,0,0,0" />
     </widgets>
     <messages/>

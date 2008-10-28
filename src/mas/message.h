@@ -2,8 +2,8 @@
 						message.h  -  description
 							-------------------
 	begin                : nov 29th, 2005
-	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2006-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 	author               : Victor STINNER
 	
 	$Id$

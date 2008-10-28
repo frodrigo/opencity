@@ -4,8 +4,8 @@
 	project              : OpenCity
 	codename             : ZeN server
 	begin                : november 26th, 2006
-	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2006-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/
@@ -364,9 +364,9 @@ int serverMode()
 void printCopyright() {
 // Output the copyright text
 	cout << "Welcome to " << PACKAGE << " version " << VERSION << endl;
-	cout << "Copyright (C) by Duong-Khang NGUYEN. All rights reserved." << endl;
+	cout << "Copyright (C) by Duong Khang NGUYEN. All rights reserved." << endl;
 	cout << "   web  : http://www.opencity.info" << endl;
-	cout << "   email: neoneurone @ users sf net" << endl << endl;
+	cout << "   email: neoneurone @ gmail com" << endl << endl;
 
 	cout << "This program is released under the terms of" << endl;
 	cout << "GNU General Public License (See the COPYING file for more details)" << endl << endl;

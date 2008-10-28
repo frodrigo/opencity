@@ -2,8 +2,8 @@
 						mainsim.h  -  description
 							-------------------
 	begin                : february 21th, 2006
-	copyright            : (C) 2006-2007 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2006-2007 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 	
 	$Id$
  ***************************************************************************/

@@ -2,8 +2,8 @@
 						guicontainer.h    -  description
 							-------------------
 	begin                : march 22th, 2004
-	copyright            : (C) 2004-2007 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2004-2007 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

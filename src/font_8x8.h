@@ -2,8 +2,8 @@
 						font_8x8.h  -  description
 							-------------------
 	begin                : nov 13th, 2005
-	copyright            : (C) 2005-2006 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2005-2006 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

@@ -2,8 +2,8 @@
 						simulator.h  -  description
 							-------------------
 	begin                : september 21th, 2003
-	copyright            : (C) 2003-2007 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2003-2007 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 	
 	$Id$
  ***************************************************************************/

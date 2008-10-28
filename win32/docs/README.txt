@@ -304,6 +304,6 @@ in the shell (bash) before launching OpenCity.
 
 
 ------------------------------------------------------------------------------
-Duong-Khang (neoneurone) NGUYEN
+Duong Khang (neoneurone) NGUYEN
 
 

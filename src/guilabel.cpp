@@ -2,8 +2,8 @@
 						guilabel.cpp   -   description
 							-------------------
 	begin                : december 10th, 2006
-	copyright            : (C) 2006-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2006-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

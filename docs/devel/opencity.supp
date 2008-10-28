@@ -1,5 +1,5 @@
 # Valgrind-3.2.3 suppressions file for OpenCity
-# by neoneurone at users sf net
+# by neoneurone @ gmail com
 #
 # usage:
 #  ../configure --enable-debug --enable-gdb

@@ -2,8 +2,8 @@
 						CodingStyle.h    -  description
 							-------------------
 	begin                : november 10th, 2005
-	copyright            : (C) 2005-2007 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2005-2007 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 	
 	$Id$
  ***************************************************************************/
@@ -34,7 +34,7 @@ class GUIContainer;					///< Forward class declaration
 //========================================================================
 /** Here is the description of the class.
 This is the second line of the description.
-	\author Duong-Khang NGUYEN
+	\author Duong Khang NGUYEN
 */
 class CodingStyle
 {

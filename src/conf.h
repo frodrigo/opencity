@@ -2,8 +2,8 @@
 						conf.h    -  description
 							-------------------
 	begin                : august 1st, 2004
-	copyright            : (C) 2004-2006 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2004-2006 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

@@ -5,8 +5,8 @@ DisplayName: OpenCity the 3D city simulation game
 RootName: @opencity.info/opencity:$SOFTWAREVERSION
 ShortName: opencity
 Summary: OpenCity is a 3D city simulator
-Maintainer: Duong-Khang NGUYEN <neoneurone at users dot sf dot net>
-Packager: Duong-Khang NGUYEN <neoneurone at users dot sf dot net>
+Maintainer: Duong Khang NGUYEN <neoneurone @ gmail com>
+Packager: Duong Khang NGUYEN <neoneurone @ gmail com>
 URL: http://www.opencity.info
 License: GNU General Public License, Version 2
 SoftwareVersion: 0.0.6

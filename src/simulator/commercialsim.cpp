@@ -2,8 +2,8 @@
 						commercialsim.cpp  -  description
 							-------------------
 	begin                : jan 31th, 2004
-	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2004-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 
 	$Id$
  ***************************************************************************/

@@ -278,5 +278,5 @@ antes de lanzar OpenCity.
 
 
 ------------------------------------------------------------------------------
-Duong-Khang (neoneurone) NGUYEN
+Duong Khang (neoneurone) NGUYEN
 Traducción al Español by: Cristian Deluxe (djcristiandeluxe at gmail.com)

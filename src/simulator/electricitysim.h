@@ -2,8 +2,8 @@
 						electricitysim.h  -  description
 							-------------------
 	begin                : march 3rd, 2004
-	copyright            : (C) 2004-2008 by Duong-Khang NGUYEN
-	email                : neoneurone @ users sourceforge net
+	copyright            : (C) 2004-2008 by Duong Khang NGUYEN
+	email                : neoneurone @ gmail com
 	internal sim version : 0.0.2
 
 	$Id$
