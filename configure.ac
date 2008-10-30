@@ -3,7 +3,7 @@ dnl Process this file with autoconf to produce a configure script.
 dnl $Id$
 dnl ===========================================================================
 
-AC_INIT(OpenCity, 0.0.6beta4)
+AC_INIT(OpenCity, 0.0.6stable)
 AC_CONFIG_SRCDIR(src/main.cpp)
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
@@ -26,7 +26,7 @@ AC_PROG_INSTALL
 dnl ===========================================================================
 dnl Detect the SDL path, with C language
 dnl ===========================================================================
-SDL_VERSION=1.2.9
+SDL_VERSION=1.2.12
 
 AC_LANG_C
 AM_PATH_SDL($SDL_VERSION, , AC_MSG_ERROR([SDL version $SDL_VERSION not found]))
