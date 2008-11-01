@@ -620,7 +620,7 @@ static int parseArg(int argc, char *argv[])
    /*=====================================================================*/
 static void displaySplash()
 {
-	#define OC_SPLASH_CLEAR_COLOR		.15, .15, .3, 1.0
+	#define OC_SPLASH_CLEAR_COLOR		.15, .4, .25, 1.0
 
 	glClearColor( OC_SPLASH_CLEAR_COLOR );
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
