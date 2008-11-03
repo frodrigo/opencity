@@ -84,6 +84,7 @@ extern GlobalVar gVars;
 	#include <sys/stat.h>		// mkdir
 #else
 // Win32 specifics
+	#include <windows.h>		// MessageBox
 	#include <shlobj.h>			// Windows shell technologies
 	#define DATADIR "C:/Program Files"
 	#define SYSCONFDIR DATADIR
@@ -299,6 +300,10 @@ static int initSDL()
 		OPENCITY_FATAL( "SDL video initialization failed: " << SDL_GetError() );
 		return OC_ERROR_SDL_INIT;
 	}
+
+// Set the window's caption
+	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
+	SDL_WM_SetIcon( IMG_Load(ocDataDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
 
 // Set the SDL_GL_DOUBLEBUFFER ON for smoother rendering
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
@@ -657,11 +662,6 @@ static int clientMode()
 	}
 
 
-// Set the window's caption
-	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
-	SDL_WM_SetIcon( IMG_Load(ocDataDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
-
-
 // Create the mutex first
 	gVars.gpmutexSim = SDL_CreateMutex();
 
@@ -670,6 +670,20 @@ static int clientMode()
 	gVars.gpExtensionMgr = new ExtensionManager();
 	if (gVars.gpExtensionMgr == NULL or !gVars.gpExtensionMgr->Load()) {
 		OPENCITY_FATAL( "Failed to load OpenGL extensions" );
+		SDL_Quit();
+
+#ifdef __WIN32__
+		MessageBox(
+			NULL,
+			"Failed to load OpenGL extensions. Please start a new \
+thread about your errror in the forum at http://www.opencity.info. Don't \
+forget to include the output from stdout.txt and stderr.txt files. They're \
+located in OpenCity executable directory.",
+			"OpenGL extensions loading error",
+			MB_ICONERROR | MB_OK | MB_SETFOREGROUND | MB_APPLMODAL
+		);
+#endif
+
 		return OC_ERROR_SDL_OPENGL;
 	}
 
