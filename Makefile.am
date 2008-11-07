@@ -29,10 +29,10 @@ pixmap_DATA = opencity.png
 # Install all the graphism directory
 #==============================================================================
 install-data-local:
-	test -z "$(pkgdatadir)" || $(mkdir_p) "$(pkgdatadir)"
+	test -z "$(pkgdatadir)" || $(mkdir_p) "$(DESTDIR)$(pkgdatadir)"
 	for data in $(EXTRA_DIST); do \
-		if [ -d $(srcdir)/$$data ]; then \
-			cp -r $(srcdir)/$$data $(DESTDIR)$(pkgdatadir)/; \
+		if [ -d "$(srcdir)/$$data" ]; then \
+			cp -r "$(srcdir)/$$data" "$(DESTDIR)$(pkgdatadir)"/; \
 		fi; \
 	done;
 
