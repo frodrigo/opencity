@@ -7,11 +7,11 @@
 
 [Setup]
 AppCopyright=Copyright (C) 2008 by Duong Khang NGUYEN
-AppName=OpenCity 0.0.6 beta4
+AppName=OpenCity 0.0.6 stable
 AppPublisher=Duong Khang NGUYEN
 AppPublisherURL=http://www.opencity.info
-AppVerName=OpenCity 0.0.6 beta4
-AppVersion=OpenCity 0.0.6 beta4
+AppVerName=OpenCity 0.0.6 stable
+AppVersion=OpenCity 0.0.6 stable
 Compression=lzma
 DefaultDirName={pf}\OpenCity
 DefaultGroupName=OpenCity
@@ -28,7 +28,7 @@ Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
 Name: "it"; MessagesFile: "compiler:Languages\Italian.isl"
 
 [Files]
-Source: "bin\Release\OpenCity-0.0.6beta.exe"; DestDir: "{app}\bin";
+Source: "bin\Release\OpenCity-0.0.6stable.exe"; DestDir: "{app}\bin";
 Source: "bin\Release\*.dll"; DestDir: "{app}\bin"
 Source: "..\config\*"; DestDir: "{app}\etc\opencity\config"; Excludes: ".svn"
 Source: "..\graphism\*"; DestDir: "{app}\share\opencity\graphism"; Excludes: ".svn"; Flags: recursesubdirs createallsubdirs
@@ -43,8 +43,8 @@ Source: "docs\README.txt"; DestDir: "{app}"; Flags: isreadme
 Name: "{userappdata}\opencity\"
 
 [Icons]
-Name: "{group}\OpenCity 0.0.6beta - window"; Filename: "{app}\bin\OpenCity-0.0.6beta.exe"; IconFilename: "{app}\share\opencity\graphism\icon\OpenCity32.ico"; Parameters: "--data-dir ""{app}\share\opencity"" --conf-dir ""{app}\etc\opencity"""; WorkingDir: "{app}"
-Name: "{group}\OpenCity 0.0.6beta - fullscreen (autodetect mode)"; Filename: "{app}\bin\OpenCity-0.0.6beta.exe"; IconFilename: "{app}\share\opencity\graphism\icon\OpenCity32.ico"; Parameters: "--data-dir ""{app}\share\opencity"" --conf-dir ""{app}\etc\opencity"" --full-screen"; WorkingDir: "{app}"
+Name: "{group}\OpenCity 0.0.6stable - window"; Filename: "{app}\bin\OpenCity-0.0.6stable.exe"; IconFilename: "{app}\share\opencity\graphism\icon\OpenCity32.ico"; Parameters: "-dd ""{app}\share\opencity"" -cd ""{app}\etc\opencity"" -glv"; WorkingDir: "{app}"
+Name: "{group}\OpenCity 0.0.6stable - fullscreen (autodetect mode)"; Filename: "{app}\bin\OpenCity-0.0.6stable.exe"; IconFilename: "{app}\share\opencity\graphism\icon\OpenCity32.ico"; Parameters: "-dd ""{app}\share\opencity"" -cd ""{app}\etc\opencity"" -fs -glv"; WorkingDir: "{app}"
 Name: "{group}\Configuration file"; Filename: "{app}\etc\opencity\config\opencity.xml"
 Name: "{group}\Save folder"; Filename: "{userappdata}\opencity\"
 Name: "{group}\Homepage"; Filename: "http://www.opencity.info"

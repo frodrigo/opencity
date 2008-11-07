@@ -13,6 +13,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-Wmissing-braces -Wparentheses -pedantic-errors" />
 					<Add option="-DOPENCITY_SDL_MIXER" />
@@ -55,6 +56,7 @@
 				<Compiler>
 					<Add option="-march=i586" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
 					<Add option="-Wmissing-braces -Wparentheses -pedantic-errors" />
 					<Add option="-DOPENCITY_SDL_MIXER" />
 					<Add option="-DNDEBUG" />
