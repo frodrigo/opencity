@@ -1,46 +1,8 @@
 ==============================================================================
-OpenCity TODO version 0.0.6 BETA
---------------------------------------
+OpenCity TODO version 0.0.7 BETA
+--------------------------------
 Last modified:
 	$Id$
-
-Use less triangles to render water    (done)
-Improve alpha display                 (done)
-Improve culling calculation           (done)
-Remove unused OCM model               (done)
-Remove OCM code                       (done)
-Add 1 state button                    (done)
-Add new query icons                   (done)
-Improved query circle                 (done)
-Improved selection calculation        (done)
-Improved selection hot zone           (done)
-Add heightmap into the release        (done)
-Fix string save format                (done)
-Save file version check               (done)
-Fix vehicle display bug on restart    (done)
-Remove std namespace from header      (done)
-Improve OpenGL extension handling     (done)
-Remove DOS window on launch           (done)
-Simplify video setup code             (done)
-Add SDL accelerated visual            (done)
-Fix full-screen and gl-version order  (done)
-Fix full-screen resolution detection  (done)
-Improve texture class                 (done)
-Reference counting texture cache      (done)
-
-XML parameters accessors              (wip)
-XML handling in construction process  (wip)
-XML handling in the simulation engine (wip)
-Remove horizonal mirroring operation
-Crime
-Review the message system
-Review the agent creation process
-Police agent system
-Mouse cursor support
-Unblocking networking layer
-ZeN online map loading
-Earthquake
-Add TTF support
 
 
 
@@ -92,12 +54,56 @@ Add the simulator accelerator key
 Make the simulator CPU independant
 Texture lighting
 
+XML parameters accessors              (wip)
+XML handling in construction process  (wip)
+XML handling in the simulation engine (wip)
+Remove horizonal mirroring operation
+Crime
+Review the message system
+Review the agent creation process
+Police agent system
+Mouse cursor support
+Unblocking networking layer
+ZeN online map loading
+Earthquake
+Add TTF support
+
+
+
+==============================================================================
+OpenCity TODO version 0.0.6 BETA - STABLE
+-----------------------------------------
+Last updated on november 11th, 2008
+
+Use less triangles to render water    (done)
+Improve alpha display                 (done)
+Improve culling calculation           (done)
+Remove unused OCM model               (done)
+Remove OCM code                       (done)
+Add 1 state button                    (done)
+Add new query icons                   (done)
+Improved query circle                 (done)
+Improved selection calculation        (done)
+Improved selection hot zone           (done)
+Add heightmap into the release        (done)
+Fix string save format                (done)
+Save file version check               (done)
+Fix vehicle display bug on restart    (done)
+Remove std namespace from header      (done)
+Improve OpenGL extension handling     (done)
+Remove DOS window on launch           (done)
+Simplify video setup code             (done)
+Add SDL accelerated visual            (done)
+Fix full-screen and gl-version order  (done)
+Fix full-screen resolution detection  (done)
+Improve texture class                 (done)
+Reference counting texture cache      (done)
 
 
 ==============================================================================
 OpenCity TODO version 0.0.5 BETA - STABLE
---------------------------------------
-Last updated dec 12th, 2007
+-----------------------------------------
+Last updated on dec 12th, 2007
 
 Remove -no-dl option                  (done)
 Fullscreen config variable support    (done)
@@ -162,7 +168,7 @@ Add the manual page                   (done)
 ==============================================================================
 OpenCity TODO version 0.0.4 BETA - STABLE
 -----------------------------------------
-Last updated oct 8th, 2006
+Last updated on oct 8th, 2006
 
 Implement the MAS library             (done)
 MAS integration                       (done)
@@ -198,7 +204,7 @@ Tell us save/load bug                 (pending)
 ==============================================================================
 OpenCity TODO version 0.0.3 BETA - STABLE
 -----------------------------------------
-Last updated jan 24th, 2006
+Last updated on jan 24th, 2006
 
 Create autopackage                    (done)
 Improve grass texture                 (done)

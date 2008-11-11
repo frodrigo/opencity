@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------
-README for OpenCity 0.0.6stable
+README for OpenCity 0.0.7dev
 ------------------------------------------------------------------------------
 Last modified:
 	$Id$
@@ -29,7 +29,10 @@ Speed:
 	whatever
 
 Graphic card:
-	3D accelerated card strongly recommended
+	3D accelerated card with OpenGL support is strongly recommended
+
+OpenGL extensions:
+	GL_EXT_texture3D
 
 Sound card:
 	anything that can work with SDL_mixer
