@@ -104,7 +104,6 @@ guibutton.h \
 guicontainer.h \
 guilabel.h \
 guimain.h \
-header_msvc.h \
 layer.h \
 macros.h \
 main.h \
