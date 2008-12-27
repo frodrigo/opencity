@@ -22,6 +22,7 @@
 #include "macros.h"		// debug macros
 #include "ac3dmacros.h"
 
+#include <cstdio>
 #include <cstring>
 
 namespace AC3D {

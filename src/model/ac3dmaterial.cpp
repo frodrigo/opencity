@@ -22,6 +22,7 @@
 #include "macros.h"				// for debugging macros
 #include "ac3dmacros.h"
 
+#include <cstdio>
 #include <sstream>
 
 using std::stringstream;
