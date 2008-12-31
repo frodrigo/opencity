@@ -17,14 +17,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "framework/System/CConsole.h"
-
-namespace System
-{
-	extern Console Terminal;
-}
+#include "System/CConsole.h"
+#include "System/CException.h"
+#include "System/Diagnostics/CDebug.h"
 
 int main()
 {
-	System::Terminal << "Hello world\n";
+	// System::Console test
+	System::Terminal << "OpenCity C++ framework test suite\n";
+	System::Terminal << System::String("System::Console System::String output test\n");
+
+	// System::String test
+	System::String s1 = System::String("String assignment test\n");
+	System::Terminal << s1;
+
+	// System::Exception test
+	try
+	{
+		throw System::Exception("System::Exception test\n");
+	}
+	catch (System::Exception& ex)
+	{
+		System::Terminal << ex;
+		System::String s = ex.GetMessage();
+		System::Terminal << s;
+		System::Terminal << ex.GetMessage();
+		System::Terminal << (System::String)ex.GetMessage();
+	}
+
+	// System::Diagnostics::Debug test
+	System::Diagnostics::Debug::Assert(false);
+	System::Diagnostics::Debug::Assert(0 == 1);
 }

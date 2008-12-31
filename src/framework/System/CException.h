@@ -26,7 +26,7 @@
 
 namespace System
 {
-	class Exception : Object
+	class Exception : public Object
 	{
 		public:
 			Exception();

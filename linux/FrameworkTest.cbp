@@ -13,7 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="../src" />
+					<Add directory="../src/framework" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,6 +26,7 @@
 					<Add directory="/home/neoneurone/projects/opencity-head/src/" />
 					<Add directory="../../src/" />
 					<Add directory="../src" />
+					<Add directory="../src/framework" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

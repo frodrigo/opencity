@@ -27,10 +27,16 @@ namespace System
 	String::String() {}
 
 
-	String::String(const char* s) : msString(s) {}
+	String::String(char const* s) : msString(s) {}
 
 
 	String::~String() {}
+
+
+	String String::ToString() const
+	{
+		return *this;
+	}
 
 
    /*=====================================================================*/

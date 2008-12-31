@@ -29,12 +29,14 @@
 
 namespace System
 {
-	class String : Object
+	class String : public Object
 	{
 		public:
 			String();
-			String(const char*);
+			String(char const*);
 			virtual ~String();
+
+			virtual String ToString() const;
 
 			friend std::ostream& operator<<(std::ostream& os, const String& value);
 

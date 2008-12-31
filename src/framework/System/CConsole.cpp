@@ -17,6 +17,9 @@
  *                                                                         *
  ***************************************************************************/
 
+// Do not include "extern Console Terminal"
+#define _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_CPP_ 1
+
 // Framework headers
 #include "CConsole.h"			// System::Console class
 #include "CString.h"			// System::String class
@@ -58,7 +61,15 @@ namespace System
 
 
    /*=====================================================================*/
-	Console& Console::operator<<(const char* s)
+	Console& Console::operator<<(const Object& value)
+	{
+		std::cout << value.ToString();
+		return *this;
+	}
+
+
+   /*=====================================================================*/
+	Console& Console::operator<<(char const* s)
 	{
 		std::cout << s;
 		return *this;

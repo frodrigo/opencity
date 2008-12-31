@@ -51,14 +51,24 @@ namespace System
 
 			virtual String ToString() const;
 
+			/**
+				Writes the text representation of the specified object to the standard output stream.
+				\param value The Object value to write.
+				\return The modified Console reference.
+			*/
+			Console& operator<<(const Object& value);
 
 			/**
 				Writes the character string to the standard output stream.
 				\param s The character string to write.
 				\return The modified Console reference.
 			*/
-			Console& operator<<(const char* s);
+			Console& operator<<(char const* s);
 	}; // class System::Console
+
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_CPP_
+	extern Console Terminal;
+#endif
 } // namespace System
 
 #endif

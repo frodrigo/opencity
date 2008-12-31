@@ -26,9 +26,6 @@
    /*=====================================================================*/
 namespace System
 {
-	/// Predefined System::Console instance
-	extern Console Terminal;
-
 namespace Diagnostics
 {
 	Debug::Debug() {}
@@ -38,12 +35,12 @@ namespace Diagnostics
 
 
    /*=====================================================================*/
-	void Assert(bool condition)
+	void Debug::Assert(bool condition)
 	{
 		if (condition)
 			return;
 
-		Terminal << "Assertion failed\n";
+		System::Terminal << "Assertion failed\n";
 	}
 
 
