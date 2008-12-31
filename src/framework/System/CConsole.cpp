@@ -1,7 +1,7 @@
 /***************************************************************************
-                        CString.cpp  -  description
+                        CConsole.cpp  -  description
 							-------------------
-	begin                : December 29th, 2008
+	begin                : December 31th, 2008
 	copyright            : (C) 2008 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -18,25 +18,49 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CString.h"
+#include "CConsole.h"			// System::Console class
+#include "CString.h"			// System::String class
+
+// Standard C++ headers
+#include <iostream>				// cout, cerr, cin
 
 
    /*=====================================================================*/
 namespace System
 {
-	String::String() {}
+	Console Terminal;
 
 
-	String::String(const char* s) : msString(s) {}
+	Console::Console() {}
 
 
-	String::~String() {}
+	Console::~Console() {}
 
 
    /*=====================================================================*/
-	std::ostream& operator<<(std::ostream& os, const String& value)
+	void Console::Write(const Object& value)
 	{
-		return os << value.msString;
+		std::cout << value.ToString();
 	}
 
+
+	void Console::Write(const String& value)
+	{
+		std::cout << value;
+	}
+
+
+   /*=====================================================================*/
+	String Console::ToString() const
+	{
+		return String("System.Console");
+	}
+
+
+   /*=====================================================================*/
+	Console& Console::operator<<(const char* s)
+	{
+		std::cout << s;
+		return *this;
+	}
 } // namespace System

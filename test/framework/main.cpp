@@ -1,7 +1,7 @@
 /***************************************************************************
-                        CString.cpp  -  description
+                        main.cpp  -  description
 							-------------------
-	begin                : December 29th, 2008
+	begin                : December 31th, 2008
 	copyright            : (C) 2008 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,26 +17,14 @@
  *                                                                         *
  ***************************************************************************/
 
-// Framework headers
-#include "CString.h"
+#include "framework/System/CConsole.h"
 
-
-   /*=====================================================================*/
 namespace System
 {
-	String::String() {}
+	extern Console Terminal;
+}
 
-
-	String::String(const char* s) : msString(s) {}
-
-
-	String::~String() {}
-
-
-   /*=====================================================================*/
-	std::ostream& operator<<(std::ostream& os, const String& value)
-	{
-		return os << value.msString;
-	}
-
-} // namespace System
+int main()
+{
+	System::Terminal << "Hello world\n";
+}

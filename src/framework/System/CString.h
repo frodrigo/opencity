@@ -25,6 +25,7 @@
 
 // Standard C++ headers
 #include <string>
+#include <ostream>
 
 namespace System
 {
@@ -35,6 +36,7 @@ namespace System
 			String(const char*);
 			virtual ~String();
 
+			friend std::ostream& operator<<(std::ostream& os, const String& value);
 
 		private:
 			std::string msString;

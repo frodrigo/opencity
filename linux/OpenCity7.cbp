@@ -91,12 +91,16 @@
 		<Unit filename="../src/extensionmanager.cpp" />
 		<Unit filename="../src/extensionmanager.h" />
 		<Unit filename="../src/font_8x8.h" />
+		<Unit filename="../src/framework/System/CConsole.cpp" />
+		<Unit filename="../src/framework/System/CConsole.h" />
 		<Unit filename="../src/framework/System/CException.cpp" />
 		<Unit filename="../src/framework/System/CException.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
 		<Unit filename="../src/framework/System/CString.cpp" />
 		<Unit filename="../src/framework/System/CString.h" />
+		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
+		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />

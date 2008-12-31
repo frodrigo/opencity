@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CString.cpp  -  description
+                        CDebug.cpp  -  description
 							-------------------
 	begin                : December 29th, 2008
 	copyright            : (C) 2008 by Duong Khang NGUYEN
@@ -18,25 +18,40 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CString.h"
+#include "CDebug.h"				// System::Diagnostics::Debug class
+#include "../CConsole.h"		// System::Console class
+#include "../CString.h"			// System::String class
 
 
    /*=====================================================================*/
 namespace System
 {
-	String::String() {}
+	/// Predefined System::Console instance
+	extern Console Terminal;
+
+namespace Diagnostics
+{
+	Debug::Debug() {}
 
 
-	String::String(const char* s) : msString(s) {}
-
-
-	String::~String() {}
+	Debug::~Debug() {}
 
 
    /*=====================================================================*/
-	std::ostream& operator<<(std::ostream& os, const String& value)
+	void Assert(bool condition)
 	{
-		return os << value.msString;
+		if (condition)
+			return;
+
+		Terminal << "Assertion failed\n";
 	}
 
+
+   /*=====================================================================*/
+	String Debug::ToString() const
+	{
+		return String("System.Diagnostics.Debug");
+	}
+
+} // namespace System::Diagnostics
 } // namespace System

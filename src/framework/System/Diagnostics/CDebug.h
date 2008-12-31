@@ -1,7 +1,7 @@
 /***************************************************************************
-                        CString.cpp  -  description
+                        CDebug.h  -  description
 							-------------------
-	begin                : December 29th, 2008
+	begin                : December 31th, 2008
 	copyright            : (C) 2008 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,26 +17,31 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_DIAGNOSTICS_CDEBUG_H_
+#define _OPENCITY_FRAMEWORK_SYSTEM_DIAGNOSTICS_CDEBUG_H_ 1
+
 // Framework headers
-#include "CString.h"
+#include "../CObject.h"			// Object class
 
-
-   /*=====================================================================*/
 namespace System
 {
-	String::String() {}
+	// Forward System::String class declaration
+	class String;
 
-
-	String::String(const char* s) : msString(s) {}
-
-
-	String::~String() {}
-
-
-   /*=====================================================================*/
-	std::ostream& operator<<(std::ostream& os, const String& value)
+namespace Diagnostics
+{
+	class Debug : Object
 	{
-		return os << value.msString;
-	}
+		public:
+			Debug();
+			virtual ~Debug();
 
+			static void Assert(bool condition);
+
+			virtual String ToString() const;
+	}; // class System::Diagnostics::Debug
+
+} // namespace System::Diagnostics
 } // namespace System
+
+#endif

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="FrameworkTest" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/FrameworkTest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="../src" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/FrameworkTest" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="/home/neoneurone/projects/opencity-head/src/" />
+					<Add directory="../../src/" />
+					<Add directory="../src" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="../src/framework/System/CConsole.cpp" />
+		<Unit filename="../src/framework/System/CConsole.h" />
+		<Unit filename="../src/framework/System/CException.cpp" />
+		<Unit filename="../src/framework/System/CException.h" />
+		<Unit filename="../src/framework/System/CObject.cpp" />
+		<Unit filename="../src/framework/System/CObject.h" />
+		<Unit filename="../src/framework/System/CString.cpp" />
+		<Unit filename="../src/framework/System/CString.h" />
+		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
+		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
+		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
+		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
+		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />
+		<Unit filename="../src/framework/System/Xml/CXmlElement.h" />
+		<Unit filename="../src/framework/System/Xml/CXmlLinkedNode.cpp" />
+		<Unit filename="../src/framework/System/Xml/CXmlLinkedNode.h" />
+		<Unit filename="../src/framework/System/Xml/CXmlNode.cpp" />
+		<Unit filename="../src/framework/System/Xml/CXmlNode.h" />
+		<Unit filename="../src/framework/System/Xml/CXmlNodeList.cpp" />
+		<Unit filename="../src/framework/System/Xml/CXmlNodeList.h" />
+		<Unit filename="../test/framework/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
