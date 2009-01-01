@@ -20,6 +20,10 @@
 #ifndef _OPENCITY_FRAMEWORK_SYSTEM_CEXCEPTION_H_
 #define _OPENCITY_FRAMEWORK_SYSTEM_CEXCEPTION_H_ 1
 
+#ifndef __EXCEPTIONS
+	#error "C++ exception support required."
+#endif
+
 // Framework headers
 #include "CObject.h"			// Object class
 #include "CString.h"			// String class

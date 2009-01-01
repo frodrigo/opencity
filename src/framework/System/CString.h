@@ -33,11 +33,13 @@ namespace System
 	{
 		public:
 			String();
-			String(char const*);
+			String(char const* value);
+			String(std::string value);
 			virtual ~String();
 
 			virtual String ToString() const;
 
+			String& operator+(const String& value);
 			friend std::ostream& operator<<(std::ostream& os, const String& value);
 
 		private:

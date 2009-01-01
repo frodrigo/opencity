@@ -27,7 +27,10 @@ namespace System
 	String::String() {}
 
 
-	String::String(char const* s) : msString(s) {}
+	String::String(char const* value) : msString(value) {}
+
+
+	String::String(std::string value) : msString(value) {}
 
 
 	String::~String() {}
@@ -35,6 +38,14 @@ namespace System
 
 	String String::ToString() const
 	{
+		return *this;
+	}
+
+
+   /*=====================================================================*/
+	String& String::operator+(const String& value)
+	{
+		*this = this->msString + value.msString;
 		return *this;
 	}
 

@@ -20,10 +20,17 @@
 #ifndef _OPENCITY_FRAMEWORK_SYSTEM_COBJECT_H_
 #define _OPENCITY_FRAMEWORK_SYSTEM_COBJECT_H_ 1
 
+#ifndef __GXX_RTTI
+	#error "GCC RTTI support required."
+#endif
+
 namespace System
 {
 	// Framework System::String class forward declaration
 	class String;
+
+	// Framework System::Type class forward declaration
+	class Type;
 
 	class Object
 	{
@@ -32,6 +39,7 @@ namespace System
 			virtual ~Object();
 
 			virtual String ToString() const;
+			virtual Type GetType() const;
 	}; // class Object
 } // namespace System
 

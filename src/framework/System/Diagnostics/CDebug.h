@@ -30,7 +30,7 @@ namespace System
 
 namespace Diagnostics
 {
-	class Debug : Object
+	class Debug : public Object
 	{
 		public:
 			Debug();

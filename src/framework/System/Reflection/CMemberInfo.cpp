@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CXmlNodeList.cpp  -  description
+                        CMemberInfo.cpp  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 1st, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -18,22 +18,38 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CXmlNodeList.h"
-#include "../CString.h"
+#include "CMemberInfo.h"
 
 
    /*=====================================================================*/
 namespace System
 {
-namespace Xml
+namespace Reflection
 {
-	XmlNodeList::XmlNodeList() {}
+	MemberInfo::MemberInfo() {}
 
-	XmlNodeList::~XmlNodeList() {}
 
-	String XmlNodeList::ToString() const
+	MemberInfo::MemberInfo(const String& name) : msName(name) {}
+
+
+	MemberInfo::~MemberInfo() {}
+
+
+   /*=====================================================================*/
+	const String& MemberInfo::GetName() const
 	{
-		return String("System::Xml::XmlNodeList");
+		return msName;
 	}
-} // namespace Xml
+
+
+   /*=====================================================================*/
+	String MemberInfo::ToString() const
+	{
+		return String("System::Reflection::MemberInfo");
+	}
+
+
+   /*=====================================================================*/
+
+} // namespace System::Reflection
 } // namespace System

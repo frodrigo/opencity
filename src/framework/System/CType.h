@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CXmlNodeList.cpp  -  description
+                        CType.h  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 1st, 2000
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,23 +17,31 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CTYPE_H_
+#define _OPENCITY_FRAMEWORK_SYSTEM_CTYPE_H_ 1
+
 // Framework headers
-#include "CXmlNodeList.h"
-#include "../CString.h"
+#include "Reflection/CMemberInfo.h"		// System::Reflection::MemberInfo class
 
-
-   /*=====================================================================*/
 namespace System
 {
-namespace Xml
-{
-	XmlNodeList::XmlNodeList() {}
-
-	XmlNodeList::~XmlNodeList() {}
-
-	String XmlNodeList::ToString() const
+	class Type : public Reflection::MemberInfo
 	{
-		return String("System::Xml::XmlNodeList");
-	}
-} // namespace Xml
+		public:
+			Type();
+			Type(const String& name);
+			Type(const String& name, const String& space);
+			virtual ~Type();
+
+			const String& GetNamespace() const;
+			const String& GetFullName() const;
+
+			virtual String ToString() const;
+
+		private:
+			String msNamespace;
+			String msFullName;
+	}; // class System::String
 } // namespace System
+
+#endif

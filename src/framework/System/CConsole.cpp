@@ -56,7 +56,7 @@ namespace System
    /*=====================================================================*/
 	String Console::ToString() const
 	{
-		return String("System.Console");
+		return String("System::Console");
 	}
 
 

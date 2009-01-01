@@ -35,7 +35,7 @@ namespace Xml
 
 	String XmlDocument::ToString() const
 	{
-		return String("System.Xml.XmlDocument");
+		return String("System::Xml::XmlDocument");
 	}
 } // namespace Xml
 } // namespace System

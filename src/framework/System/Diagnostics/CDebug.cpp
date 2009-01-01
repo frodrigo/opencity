@@ -47,7 +47,7 @@ namespace Diagnostics
    /*=====================================================================*/
 	String Debug::ToString() const
 	{
-		return String("System.Diagnostics.Debug");
+		return String("System::Diagnostics::Debug");
 	}
 
 } // namespace System::Diagnostics

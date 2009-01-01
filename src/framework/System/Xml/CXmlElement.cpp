@@ -38,7 +38,7 @@ namespace Xml
 
 	String XmlElement::ToString() const
 	{
-		return String("System.Xml.XmlElement");
+		return String("System::Xml::XmlElement");
 	}
 } // namespace Xml
 } // namespace System

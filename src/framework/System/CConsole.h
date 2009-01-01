@@ -28,7 +28,7 @@ namespace System
 	// Forward System::String class declaration
 	class String;
 
-	class Console : Object
+	class Console : public Object
 	{
 		public:
 			Console();

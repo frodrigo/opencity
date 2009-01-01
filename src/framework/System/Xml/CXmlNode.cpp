@@ -43,7 +43,7 @@ namespace Xml
 
 	String XmlNode::ToString() const
 	{
-		return String("System.Xml.XmlNode");
+		return String("System::Xml::XmlNode");
 	}
 } // namespace Xml
 } // namespace System

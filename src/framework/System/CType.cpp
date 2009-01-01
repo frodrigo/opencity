@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CXmlNodeList.cpp  -  description
+                        CType.cpp  -  description
 							-------------------
 	begin                : December 29th, 2008
 	copyright            : (C) 2008 by Duong Khang NGUYEN
@@ -18,22 +18,47 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CXmlNodeList.h"
-#include "../CString.h"
+#include "CType.h"			// System::Type class
 
 
    /*=====================================================================*/
 namespace System
 {
-namespace Xml
-{
-	XmlNodeList::XmlNodeList() {}
+	Type::Type() {}
 
-	XmlNodeList::~XmlNodeList() {}
 
-	String XmlNodeList::ToString() const
+	Type::Type(const String& name) : System::Reflection::MemberInfo(name) {}
+
+
+	Type::Type(const String& name, const String& space) :
+		System::Reflection::MemberInfo(name),
+		msNamespace( space )
 	{
-		return String("System::Xml::XmlNodeList");
+		msFullName = msNamespace + "::" + msName;
 	}
-} // namespace Xml
+
+
+	Type::~Type() {}
+
+
+   /*=====================================================================*/
+	const String& Type::GetNamespace() const
+	{
+		return msNamespace;
+	}
+
+
+   /*=====================================================================*/
+	const String& Type::GetFullName() const
+	{
+		return msFullName;
+	}
+
+
+   /*=====================================================================*/
+	String Type::ToString() const
+	{
+		return String("System::Type");
+	}
+
 } // namespace System

@@ -44,8 +44,12 @@
 		<Unit filename="../src/framework/System/CObject.h" />
 		<Unit filename="../src/framework/System/CString.cpp" />
 		<Unit filename="../src/framework/System/CString.h" />
+		<Unit filename="../src/framework/System/CType.cpp" />
+		<Unit filename="../src/framework/System/CType.h" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
+		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
+		<Unit filename="../src/framework/System/Reflection/CMemberInfo.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />
