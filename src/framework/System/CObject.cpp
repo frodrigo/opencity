@@ -26,6 +26,7 @@
 #include "cxxabi.h"
 
 // Standard C++ headers
+#include "cstdlib"				// free()
 #include "typeinfo"				// Standard C++ type_info class
 
 
@@ -48,9 +49,11 @@ namespace System
 	{
 		int iStatus;
 		const std::type_info& oTypeInfo = typeid(*this);
-		const char* sRealName = abi::__cxa_demangle(oTypeInfo.name(), 0, 0, &iStatus);
+		char* sRealName = abi::__cxa_demangle(oTypeInfo.name(), 0, 0, &iStatus);
 
-		// Implicit conversion from "const char*" to "System::String"
-		return Type(sRealName);
+		Type oType = Type(sRealName);
+		free(sRealName);
+
+		return oType;
 	}
 } // namespace System
