@@ -38,14 +38,20 @@
 		</Compiler>
 		<Unit filename="../src/framework/System/CConsole.cpp" />
 		<Unit filename="../src/framework/System/CConsole.h" />
+		<Unit filename="../src/framework/System/CEnum.cpp" />
+		<Unit filename="../src/framework/System/CEnum.h" />
 		<Unit filename="../src/framework/System/CException.cpp" />
 		<Unit filename="../src/framework/System/CException.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
 		<Unit filename="../src/framework/System/CString.cpp" />
 		<Unit filename="../src/framework/System/CString.h" />
+		<Unit filename="../src/framework/System/CStringSplitOptions.cpp" />
+		<Unit filename="../src/framework/System/CStringSplitOptions.h" />
 		<Unit filename="../src/framework/System/CType.cpp" />
 		<Unit filename="../src/framework/System/CType.h" />
+		<Unit filename="../src/framework/System/CValueType.cpp" />
+		<Unit filename="../src/framework/System/CValueType.h" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
