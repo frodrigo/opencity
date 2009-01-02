@@ -23,25 +23,28 @@
 // Framework headers
 #include "../CObject.h"			// Object class
 
-namespace System
+SPF_NAMESPACE_BEGIN(System)
+
+// Forward System::String class declaration
+class String;
+
+SPF_NAMESPACE_BEGIN(Diagnostics)
+
+class Debug : public Object
 {
-	// Forward System::String class declaration
-	class String;
+	public:
+		Debug();
+		virtual ~Debug();
 
-namespace Diagnostics
-{
-	class Debug : public Object
-	{
-		public:
-			Debug();
-			virtual ~Debug();
+		static void Assert(bool condition);
 
-			static void Assert(bool condition);
+		virtual String ToString() const;
+}; // class System::Diagnostics::Debug
 
-			virtual String ToString() const;
-	}; // class System::Diagnostics::Debug
+// namespace System::Diagnostics
+SPF_NAMESPACE_END
 
-} // namespace System::Diagnostics
-} // namespace System
+// namespace System
+SPF_NAMESPACE_END
 
 #endif

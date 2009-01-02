@@ -23,24 +23,27 @@
 // Framework headers
 #include "CXmlNode.h"
 
+SPF_NAMESPACE_BEGIN(System)
 
-namespace System
+// Forward System::String class declaration
+class String;
+
+SPF_NAMESPACE_BEGIN(Xml)
+
+class XmlDocument : XmlNode
 {
-namespace Xml
-{
-	using namespace System;
+	public:
+		XmlDocument();
+		virtual ~XmlDocument();
 
+		virtual String ToString() const;
 
-	class XmlDocument : XmlNode
-	{
-		public:
-			XmlDocument();
-			virtual ~XmlDocument();
+}; // class System::Xml::XmlDocument
 
-			virtual String ToString() const;
+// namespace System::Xml
+SPF_NAMESPACE_END
 
-	}; // class System::String
-} // namespace Xml
-} // namespace System
+// namespace System
+SPF_NAMESPACE_END
 
 #endif

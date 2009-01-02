@@ -23,16 +23,17 @@
 // Framework headers
 #include "CValueType.h"			// System::ValueType class
 
-namespace System
-{
-	class Enum : public ValueType
-	{
-		public:
-			Enum();
-			virtual ~Enum();
+SPF_NAMESPACE_BEGIN(System)
 
-			virtual String ToString() const;
-	}; // class System::String
-} // namespace System
+class Enum : public ValueType
+{
+	public:
+		Enum();
+		virtual ~Enum();
+
+		virtual String ToString() const;
+}; // class System::String
+
+SPF_NAMESPACE_END
 
 #endif

@@ -21,29 +21,30 @@
 #include "CXmlNode.h"
 
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
+
+
    /*=====================================================================*/
-namespace System
+XmlNode::XmlNode() {}
+
+
+XmlNode::XmlNode(const String& name) : msName(name) {}
+
+
+XmlNode::~XmlNode() {}
+
+
+   /*=====================================================================*/
+String XmlNode::GetName() const
 {
-namespace Xml
+	return msName;
+}
+
+
+String XmlNode::ToString() const
 {
-	XmlNode::XmlNode() {}
+	return String("System::Xml::XmlNode");
+}
 
 
-	XmlNode::XmlNode(const String& name) : msName(name) {}
-
-
-	XmlNode::~XmlNode() {}
-
-
-	String XmlNode::GetName() const
-	{
-		return msName;
-	}
-
-
-	String XmlNode::ToString() const
-	{
-		return String("System::Xml::XmlNode");
-	}
-} // namespace Xml
-} // namespace System
+SPF_NAMESPACE_NESTED_END

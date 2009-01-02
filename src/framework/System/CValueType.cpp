@@ -22,19 +22,21 @@
 #include "CString.h"			// System::String class
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
    /*=====================================================================*/
-namespace System
+ValueType::ValueType() {}
+
+
+ValueType::~ValueType() {}
+
+
+   /*=====================================================================*/
+String ValueType::ToString() const
 {
-	ValueType::ValueType() {}
+	return String("System::ValueType");
+}
 
 
-	ValueType::~ValueType() {}
-
-
-   /*=====================================================================*/
-	String ValueType::ToString() const
-	{
-		return String("System::ValueType");
-	}
-
-} // namespace System
+SPF_NAMESPACE_END

@@ -22,20 +22,20 @@
 #include "../CString.h"
 
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
+
+
    /*=====================================================================*/
-namespace System
+XmlDocument::XmlDocument() {}
+
+
+XmlDocument::~XmlDocument() {}
+
+
+String XmlDocument::ToString() const
 {
-namespace Xml
-{
-	XmlDocument::XmlDocument() {}
+	return String("System::Xml::XmlDocument");
+}
 
 
-	XmlDocument::~XmlDocument() {}
-
-
-	String XmlDocument::ToString() const
-	{
-		return String("System::Xml::XmlDocument");
-	}
-} // namespace Xml
-} // namespace System
+SPF_NAMESPACE_NESTED_END

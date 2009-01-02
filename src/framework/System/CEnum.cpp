@@ -22,19 +22,21 @@
 #include "CString.h"		// System::String class
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
    /*=====================================================================*/
-namespace System
+Enum::Enum() {}
+
+
+Enum::~Enum() {}
+
+
+   /*=====================================================================*/
+String Enum::ToString() const
 {
-	Enum::Enum() {}
+	return String("System::Enum");
+}
 
 
-	Enum::~Enum() {}
-
-
-   /*=====================================================================*/
-	String Enum::ToString() const
-	{
-		return String("System::Enum");
-	}
-
-} // namespace System
+SPF_NAMESPACE_END

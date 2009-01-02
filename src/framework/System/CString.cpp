@@ -21,39 +21,40 @@
 #include "CString.h"
 
 
+SPF_NAMESPACE_BEGIN(System)
+
    /*=====================================================================*/
-namespace System
+String::String() {}
+
+
+String::String(char const* value) : msString(value) {}
+
+
+String::String(std::string value) : msString(value) {}
+
+
+String::~String() {}
+
+
+String String::ToString() const
 {
-	String::String() {}
-
-
-	String::String(char const* value) : msString(value) {}
-
-
-	String::String(std::string value) : msString(value) {}
-
-
-	String::~String() {}
-
-
-	String String::ToString() const
-	{
-		return *this;
-	}
+	return *this;
+}
 
 
    /*=====================================================================*/
-	String& String::operator+(const String& value)
-	{
-		*this = this->msString + value.msString;
-		return *this;
-	}
+String& String::operator+(const String& value)
+{
+	*this = this->msString + value.msString;
+	return *this;
+}
 
 
    /*=====================================================================*/
-	std::ostream& operator<<(std::ostream& os, const String& value)
-	{
-		return os << value.msString;
-	}
+std::ostream& operator<<(std::ostream& os, const String& value)
+{
+	return os << value.msString;
+}
 
-} // namespace System
+
+SPF_NAMESPACE_END

@@ -23,25 +23,26 @@
 // Framework headers
 #include "Reflection/CMemberInfo.h"		// System::Reflection::MemberInfo class
 
-namespace System
+SPF_NAMESPACE_BEGIN(System)
+
+class Type : public Reflection::MemberInfo
 {
-	class Type : public Reflection::MemberInfo
-	{
-		public:
-			Type();
-			Type(const String& name);
-			Type(const String& name, const String& space);
-			virtual ~Type();
+	public:
+		Type();
+		Type(const String& name);
+		Type(const String& name, const String& space);
+		virtual ~Type();
 
-			const String& GetNamespace() const;
-			const String& GetFullName() const;
+		const String& GetNamespace() const;
+		const String& GetFullName() const;
 
-			virtual String ToString() const;
+		virtual String ToString() const;
 
-		private:
-			String msNamespace;
-			String msFullName;
-	}; // class System::String
-} // namespace System
+	private:
+		String msNamespace;
+		String msFullName;
+}; // class System::String
+
+SPF_NAMESPACE_END
 
 #endif

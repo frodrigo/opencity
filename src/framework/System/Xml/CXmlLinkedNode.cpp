@@ -21,23 +21,23 @@
 #include "CXmlLinkedNode.h"
 
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
+
+
    /*=====================================================================*/
-namespace System
+XmlLinkedNode::XmlLinkedNode() {}
+
+
+XmlLinkedNode::XmlLinkedNode(const String& name) : XmlNode(name) {}
+
+
+XmlLinkedNode::~XmlLinkedNode() {}
+
+
+String XmlLinkedNode::ToString() const
 {
-namespace Xml
-{
-	XmlLinkedNode::XmlLinkedNode() {}
+	return String("System::Xml::XmlLinkedNode");
+}
 
 
-	XmlLinkedNode::XmlLinkedNode(const String& name) : XmlNode(name) {}
-
-
-	XmlLinkedNode::~XmlLinkedNode() {}
-
-
-	String XmlLinkedNode::ToString() const
-	{
-		return String("System::Xml::XmlLinkedNode");
-	}
-} // namespace Xml
-} // namespace System
+SPF_NAMESPACE_NESTED_END

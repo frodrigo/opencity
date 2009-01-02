@@ -27,26 +27,27 @@
 #include <string>
 #include <ostream>
 
-namespace System
+SPF_NAMESPACE_BEGIN(System)
+
+class String : public Object
 {
-	class String : public Object
-	{
-		public:
-			String();
-			String(char const* value);
-			String(std::string value);
-			virtual ~String();
+	public:
+		String();
+		String(char const* value);
+		String(std::string value);
+		virtual ~String();
 
-//			String[] Split(String[] separator, const int options = StringSplitOptions::None);
+//		String[] Split(String[] separator, const int options = StringSplitOptions::None);
 
-			virtual String ToString() const;
+		virtual String ToString() const;
 
-			String& operator+(const String& value);
-			friend std::ostream& operator<<(std::ostream& os, const String& value);
+		String& operator+(const String& value);
+		friend std::ostream& operator<<(std::ostream& os, const String& value);
 
-		private:
-			std::string msString;
-	}; // class System::String
-} // namespace System
+	private:
+		std::string msString;
+}; // class System::String
+
+SPF_NAMESPACE_END
 
 #endif

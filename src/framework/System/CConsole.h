@@ -23,52 +23,53 @@
 // Framework headers
 #include "CObject.h"			// Object class
 
-namespace System
+SPF_NAMESPACE_BEGIN(System)
+
+// Forward System::String class declaration
+class String;
+
+class Console : public Object
 {
-	// Forward System::String class declaration
-	class String;
+	public:
+		Console();
+		virtual ~Console();
 
-	class Console : public Object
-	{
-		public:
-			Console();
-			virtual ~Console();
+		/**
+			Writes the text representation of the specified object to the standard output stream.
+			\param value The Object value to write.
+			\return Nothing.
+		*/
+		static void Write(const Object& value);
 
-			/**
-				Writes the text representation of the specified object to the standard output stream.
-				\param value The Object value to write.
-				\return Nothing.
-			*/
-			static void Write(const Object& value);
-
-			/**
-				Writes the specified string value to the standard output stream.
-				\param value The String value to write.
-				\return Nothing.
-			*/
-			static void Write(const String& value);
+		/**
+			Writes the specified string value to the standard output stream.
+			\param value The String value to write.
+			\return Nothing.
+		*/
+		static void Write(const String& value);
 
 
-			virtual String ToString() const;
+		virtual String ToString() const;
 
-			/**
-				Writes the text representation of the specified object to the standard output stream.
-				\param value The Object value to write.
-				\return The modified Console reference.
-			*/
-			Console& operator<<(const Object& value);
+		/**
+			Writes the text representation of the specified object to the standard output stream.
+			\param value The Object value to write.
+			\return The modified Console reference.
+		*/
+		Console& operator<<(const Object& value);
 
-			/**
-				Writes the character string to the standard output stream.
-				\param s The character string to write.
-				\return The modified Console reference.
-			*/
-			Console& operator<<(char const* s);
-	}; // class System::Console
+		/**
+			Writes the character string to the standard output stream.
+			\param s The character string to write.
+			\return The modified Console reference.
+		*/
+		Console& operator<<(char const* s);
+}; // class System::Console
 
 #ifndef _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_CPP_
 	extern Console Terminal;
 #endif
-} // namespace System
+
+SPF_NAMESPACE_END
 
 #endif

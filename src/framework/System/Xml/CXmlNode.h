@@ -24,32 +24,29 @@
 #include "../CObject.h"
 #include "../CString.h"
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 
-namespace System
+using namespace System;
+
+class XmlNode : Object
 {
-namespace Xml
-{
-	using namespace System;
+	public:
+		XmlNode();
+		XmlNode(const String& name);
+		virtual ~XmlNode();
 
-	class XmlNode : Object
-	{
-		public:
-			XmlNode();
-			XmlNode(const String& name);
-			virtual ~XmlNode();
+		virtual String GetName() const;
 
-			virtual String GetName() const;
-
-			// Inherited from System::Object
-			virtual String ToString() const;
+		// Inherited from System::Object
+		virtual String ToString() const;
 
 
-		private:
-			/// XmlNode name
-			String msName;
+	private:
+		/// XmlNode name
+		String msName;
+}; // class System::Xml::XmlNode
 
-	}; // class System::String
-} // namespace Xml
-} // namespace System
+// namespace System::Xml
+SPF_NAMESPACE_NESTED_END
 
 #endif

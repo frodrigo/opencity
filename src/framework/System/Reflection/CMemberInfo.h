@@ -24,29 +24,27 @@
 #include "../CObject.h"			// System::Object class
 #include "../CString.h"			// System::String class
 
-namespace System
+SPF_NAMESPACE_NESTED_BEGIN(System, Reflection)
+
+class MemberInfo : public Object
 {
-namespace Reflection
-{
-	class MemberInfo : public Object
-	{
-		public:
-			MemberInfo();
-			MemberInfo(const String& name);
-			virtual ~MemberInfo();
+	public:
+		MemberInfo();
+		MemberInfo(const String& name);
+		virtual ~MemberInfo();
 
-			/**
-				Gets the name of the current member.
-				\return A System::String containing the name of this member.
-			*/
-			const String& GetName() const;
+		/**
+			Gets the name of the current member.
+			\return A System::String containing the name of this member.
+		*/
+		const String& GetName() const;
 
-			virtual String ToString() const;
+		virtual String ToString() const;
 
-		protected:
-			String msName;
-	}; // class System::Reflection::MemberInfo
-} // namespace System::Reflection
-} // namespace System
+	protected:
+		String msName;
+}; // class System::Reflection::MemberInfo
+
+SPF_NAMESPACE_NESTED_END
 
 #endif

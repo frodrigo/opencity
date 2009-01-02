@@ -23,22 +23,23 @@
 // Framework headers
 #include "CEnum.h"			// System::Enum class
 
-namespace System
+SPF_NAMESPACE_BEGIN(System)
+
+class StringSplitOptions : public Enum
 {
-	class StringSplitOptions : public Enum
-	{
-		public:
-			enum
-			{
-				None				= 0x0000,
-				RemoveEmptyEntries	= 0x0001
-			};
+	public:
+		enum
+		{
+			None				= 0x0000,
+			RemoveEmptyEntries	= 0x0001
+		};
 
-			StringSplitOptions();
-			virtual ~StringSplitOptions();
+		StringSplitOptions();
+		virtual ~StringSplitOptions();
 
-			virtual String ToString() const;
-	}; // class System::StringSplitOptions
-} // namespace System
+		virtual String ToString() const;
+}; // class System::StringSplitOptions
+
+SPF_NAMESPACE_END
 
 #endif

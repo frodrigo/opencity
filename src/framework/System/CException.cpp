@@ -21,28 +21,30 @@
 #include "CException.h"			// Exception class
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
    /*=====================================================================*/
-namespace System
+Exception::Exception() {}
+
+
+Exception::Exception(const String& message) : msMessage(message) {}
+
+
+Exception::~Exception() {}
+
+
+   /*=====================================================================*/
+const String& Exception::GetMessage() const
 {
-	Exception::Exception() {}
-
-
-	Exception::Exception(const String& message) : msMessage(message) {}
-
-
-	Exception::~Exception() {}
-
+	return msMessage;
+}
 
    /*=====================================================================*/
-	const String& Exception::GetMessage() const
-	{
-		return msMessage;
-	}
+String Exception::ToString() const
+{
+	return msMessage;
+}
 
-   /*=====================================================================*/
-	String Exception::ToString() const
-	{
-		return msMessage;
-	}
 
-} // namespace System
+SPF_NAMESPACE_END

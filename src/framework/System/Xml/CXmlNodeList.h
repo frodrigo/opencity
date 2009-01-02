@@ -27,28 +27,25 @@
 // Standard C++ headers
 #include <vector>
 
-namespace System
+SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
+
+using namespace System;
+
+class XmlNodeList : Object
 {
-namespace Xml
-{
-	using namespace System;
+	public:
+		XmlNodeList();
+		virtual ~XmlNodeList();
 
-	class XmlNodeList : Object
-	{
-		public:
-			XmlNodeList();
-			virtual ~XmlNodeList();
+		// Inherited from System::Object
+		virtual String ToString() const;
 
+	private:
+		std::vector<XmlNode> mvNode;
 
-			// Inherited from System::Object
-			virtual String ToString() const;
+}; // class System::Xml::XmlNodeList
 
-
-		private:
-			std::vector<XmlNode> mvNode;
-
-	}; // class System::Xml::XmlNodeList
-} // namespace System::Xml
-} // namespace System
+// namespace System::Xml
+SPF_NAMESPACE_NESTED_END
 
 #endif

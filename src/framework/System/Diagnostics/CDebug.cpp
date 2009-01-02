@@ -23,32 +23,31 @@
 #include "../CString.h"			// System::String class
 
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Diagnostics)
+
+
    /*=====================================================================*/
-namespace System
+Debug::Debug() {}
+
+
+Debug::~Debug() {}
+
+
+   /*=====================================================================*/
+void Debug::Assert(bool condition)
 {
-namespace Diagnostics
+	if (condition)
+		return;
+
+	System::Terminal << "Assertion failed\n";
+}
+
+
+   /*=====================================================================*/
+String Debug::ToString() const
 {
-	Debug::Debug() {}
+	return String("System::Diagnostics::Debug");
+}
 
 
-	Debug::~Debug() {}
-
-
-   /*=====================================================================*/
-	void Debug::Assert(bool condition)
-	{
-		if (condition)
-			return;
-
-		System::Terminal << "Assertion failed\n";
-	}
-
-
-   /*=====================================================================*/
-	String Debug::ToString() const
-	{
-		return String("System::Diagnostics::Debug");
-	}
-
-} // namespace System::Diagnostics
-} // namespace System
+SPF_NAMESPACE_NESTED_END

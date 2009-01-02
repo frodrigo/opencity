@@ -20,35 +20,32 @@
 #ifndef _OPENCITY_FRAMEWORK_SYSTEM_CEXCEPTION_H_
 #define _OPENCITY_FRAMEWORK_SYSTEM_CEXCEPTION_H_ 1
 
-#ifndef __EXCEPTIONS
-	#error "C++ exception support required."
-#endif
-
 // Framework headers
 #include "CObject.h"			// Object class
 #include "CString.h"			// String class
 
-namespace System
+SPF_NAMESPACE_BEGIN(System)
+
+class Exception : public Object
 {
-	class Exception : public Object
-	{
-		public:
-			Exception();
-			Exception(const String& message);
-			virtual ~Exception();
+	public:
+		Exception();
+		Exception(const String& message);
+		virtual ~Exception();
 
-			/**
-				Gets a message that describes the current exception.
-				\return The error message that explains the reason for the exception, or an empty string("").
-			*/
-			const String& GetMessage() const;
+		/**
+			Gets a message that describes the current exception.
+			\return The error message that explains the reason for the exception, or an empty string("").
+		*/
+		const String& GetMessage() const;
 
 
-			virtual String ToString() const;
+		virtual String ToString() const;
 
-		private:
-			String msMessage;
-	}; // class System::String
-} // namespace System
+	private:
+		String msMessage;
+}; // class System::String
+
+SPF_NAMESPACE_END
 
 #endif

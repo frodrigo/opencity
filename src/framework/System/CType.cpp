@@ -21,44 +21,46 @@
 #include "CType.h"			// System::Type class
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
    /*=====================================================================*/
-namespace System
+Type::Type() {}
+
+
+Type::Type(const String& name) : System::Reflection::MemberInfo(name) {}
+
+
+Type::Type(const String& name, const String& space) :
+	System::Reflection::MemberInfo(name),
+	msNamespace( space )
 {
-	Type::Type() {}
+	msFullName = msNamespace + "::" + msName;
+}
 
 
-	Type::Type(const String& name) : System::Reflection::MemberInfo(name) {}
-
-
-	Type::Type(const String& name, const String& space) :
-		System::Reflection::MemberInfo(name),
-		msNamespace( space )
-	{
-		msFullName = msNamespace + "::" + msName;
-	}
-
-
-	Type::~Type() {}
+Type::~Type() {}
 
 
    /*=====================================================================*/
-	const String& Type::GetNamespace() const
-	{
-		return msNamespace;
-	}
+const String& Type::GetNamespace() const
+{
+	return msNamespace;
+}
 
 
    /*=====================================================================*/
-	const String& Type::GetFullName() const
-	{
-		return msFullName;
-	}
+const String& Type::GetFullName() const
+{
+	return msFullName;
+}
 
 
    /*=====================================================================*/
-	String Type::ToString() const
-	{
-		return String("System::Type");
-	}
+String Type::ToString() const
+{
+	return String("System::Type");
+}
 
-} // namespace System
+
+SPF_NAMESPACE_END

@@ -22,19 +22,21 @@
 #include "CString.h"					// System::String class
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
    /*=====================================================================*/
-namespace System
+StringSplitOptions::StringSplitOptions() {}
+
+
+StringSplitOptions::~StringSplitOptions() {}
+
+
+   /*=====================================================================*/
+String StringSplitOptions::ToString() const
 {
-	StringSplitOptions::StringSplitOptions() {}
+	return String("System::StringSplitOptions");
+}
 
 
-	StringSplitOptions::~StringSplitOptions() {}
-
-
-   /*=====================================================================*/
-	String StringSplitOptions::ToString() const
-	{
-		return String("System::StringSplitOptions");
-	}
-
-} // namespace System
+SPF_NAMESPACE_END

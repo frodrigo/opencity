@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CXmlElement.h  -  description
+                     SharpPlusFramework.h  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 2nd, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,34 +17,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_XML_CXMLELEMENT_H_
-#define _OPENCITY_FRAMEWORK_XML_CXMLELEMENT_H_ 1
+#ifndef _OPENCITY_FRAMEWORK_SHARPPLUSFRAMEWORK_H_
+#define _OPENCITY_FRAMEWORK_SHARPPLUSFRAMEWORK_H_ 1
 
-// Framework headers
-#include "CXmlLinkedNode.h"
+#ifndef __GXX_RTTI
+	#error "GCC RTTI support required."
+#endif
 
-SPF_NAMESPACE_BEGIN(System)
+#ifndef __EXCEPTIONS
+	#error "C++ exception support required."
+#endif
 
-// Forward System::String class declaration
-class String;
-
-SPF_NAMESPACE_BEGIN(Xml)
-
-class XmlElement : XmlLinkedNode
-{
-	public:
-		XmlElement();
-		XmlElement(const String& name);
-		virtual ~XmlElement();
-
-		virtual String ToString() const;
-
-}; // class System::Xml::XmlElement
-
-// namespace System::Xml
-SPF_NAMESPACE_END
-
-// namespace System
-SPF_NAMESPACE_END
+#define SPF_NAMESPACE_SEPARATOR				"::"
+#define SPF_NAMESPACE_BEGIN(X)				namespace X {
+#define SPF_NAMESPACE_END					}
+#define SPF_NAMESPACE_NESTED_BEGIN(X, Y)	namespace X { namespace Y {
+#define SPF_NAMESPACE_NESTED_END			} }
 
 #endif

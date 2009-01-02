@@ -30,30 +30,35 @@
 #include "typeinfo"				// Standard C++ type_info class
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
    /*=====================================================================*/
-namespace System
+Object::Object() {}
+
+
+Object::~Object() {}
+
+
+   /*=====================================================================*/
+String Object::ToString() const
 {
-	Object::Object() {}
+	return String("System::Object");
+}
 
 
-	Object::~Object() {}
+   /*=====================================================================*/
+Type Object::GetType() const
+{
+	int iStatus;
+	const std::type_info& oTypeInfo = typeid(*this);
+	char* sRealName = abi::__cxa_demangle(oTypeInfo.name(), 0, 0, &iStatus);
+
+	Type oType = Type(sRealName);
+	free(sRealName);
+
+	return oType;
+}
 
 
-	String Object::ToString() const
-	{
-		return String("System::Object");
-	}
-
-
-	Type Object::GetType() const
-	{
-		int iStatus;
-		const std::type_info& oTypeInfo = typeid(*this);
-		char* sRealName = abi::__cxa_demangle(oTypeInfo.name(), 0, 0, &iStatus);
-
-		Type oType = Type(sRealName);
-		free(sRealName);
-
-		return oType;
-	}
-} // namespace System
+SPF_NAMESPACE_END

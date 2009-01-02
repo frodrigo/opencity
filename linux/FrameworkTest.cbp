@@ -56,6 +56,7 @@
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.h" />
+		<Unit filename="../src/framework/System/SharpPlus.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />

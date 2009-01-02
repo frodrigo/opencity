@@ -28,50 +28,53 @@
 #include <iostream>				// cout, cerr, cin
 
 
+SPF_NAMESPACE_BEGIN(System)
+
+
+Console Terminal;
+
+
    /*=====================================================================*/
-namespace System
+Console::Console() {}
+
+
+Console::~Console() {}
+
+
+   /*=====================================================================*/
+void Console::Write(const Object& value)
 {
-	Console Terminal;
+	std::cout << value.ToString();
+}
 
 
-	Console::Console() {}
-
-
-	Console::~Console() {}
-
-
-   /*=====================================================================*/
-	void Console::Write(const Object& value)
-	{
-		std::cout << value.ToString();
-	}
-
-
-	void Console::Write(const String& value)
-	{
-		std::cout << value;
-	}
+void Console::Write(const String& value)
+{
+	std::cout << value;
+}
 
 
    /*=====================================================================*/
-	String Console::ToString() const
-	{
-		return String("System::Console");
-	}
+String Console::ToString() const
+{
+	return String("System::Console");
+}
 
 
    /*=====================================================================*/
-	Console& Console::operator<<(const Object& value)
-	{
-		std::cout << value.ToString();
-		return *this;
-	}
+Console& Console::operator<<(const Object& value)
+{
+	std::cout << value.ToString();
+	return *this;
+}
 
 
    /*=====================================================================*/
-	Console& Console::operator<<(char const* s)
-	{
-		std::cout << s;
-		return *this;
-	}
-} // namespace System
+Console& Console::operator<<(char const* s)
+{
+	std::cout << s;
+	return *this;
+}
+
+
+SPF_NAMESPACE_END

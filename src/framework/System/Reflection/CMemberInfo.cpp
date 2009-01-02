@@ -21,35 +21,31 @@
 #include "CMemberInfo.h"
 
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Reflection)
+
+
    /*=====================================================================*/
-namespace System
+MemberInfo::MemberInfo() {}
+
+
+MemberInfo::MemberInfo(const String& name) : msName(name) {}
+
+
+MemberInfo::~MemberInfo() {}
+
+
+   /*=====================================================================*/
+const String& MemberInfo::GetName() const
 {
-namespace Reflection
+	return msName;
+}
+
+
+   /*=====================================================================*/
+String MemberInfo::ToString() const
 {
-	MemberInfo::MemberInfo() {}
+	return String("System::Reflection::MemberInfo");
+}
 
 
-	MemberInfo::MemberInfo(const String& name) : msName(name) {}
-
-
-	MemberInfo::~MemberInfo() {}
-
-
-   /*=====================================================================*/
-	const String& MemberInfo::GetName() const
-	{
-		return msName;
-	}
-
-
-   /*=====================================================================*/
-	String MemberInfo::ToString() const
-	{
-		return String("System::Reflection::MemberInfo");
-	}
-
-
-   /*=====================================================================*/
-
-} // namespace System::Reflection
-} // namespace System
+SPF_NAMESPACE_NESTED_END

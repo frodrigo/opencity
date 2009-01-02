@@ -22,23 +22,23 @@
 #include "../CString.h"
 
 
+SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
+
+
    /*=====================================================================*/
-namespace System
+XmlElement::XmlElement() {}
+
+
+XmlElement::XmlElement(const String& name) : XmlLinkedNode(name) {}
+
+
+XmlElement::~XmlElement() {}
+
+
+String XmlElement::ToString() const
 {
-namespace Xml
-{
-	XmlElement::XmlElement() {}
+	return String("System::Xml::XmlElement");
+}
 
 
-	XmlElement::XmlElement(const String& name) : XmlLinkedNode(name) {}
-
-
-	XmlElement::~XmlElement() {}
-
-
-	String XmlElement::ToString() const
-	{
-		return String("System::Xml::XmlElement");
-	}
-} // namespace Xml
-} // namespace System
+SPF_NAMESPACE_NESTED_END

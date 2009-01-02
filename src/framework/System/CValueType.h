@@ -23,16 +23,17 @@
 // Framework headers
 #include "CObject.h"			// System::Object class
 
-namespace System
-{
-	class ValueType : public Object
-	{
-		public:
-			ValueType();
-			virtual ~ValueType();
+SPF_NAMESPACE_BEGIN(System)
 
-			virtual String ToString() const;
-	}; // class System::ValueType
-} // namespace System
+class ValueType : public Object
+{
+	public:
+		ValueType();
+		virtual ~ValueType();
+
+		virtual String ToString() const;
+}; // class System::ValueType
+
+SPF_NAMESPACE_END
 
 #endif
