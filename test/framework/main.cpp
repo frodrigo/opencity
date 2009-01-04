@@ -17,10 +17,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "System/CBoolean.h"
 #include "System/CType.h"
 #include "System/CConsole.h"
 #include "System/CException.h"
 #include "System/Diagnostics/CDebug.h"
+
 
 // System::String test
 int TestString()
@@ -62,6 +64,41 @@ int TestException()
 }
 
 
+// System::Boolean test
+int TestBoolean()
+{
+	System::Terminal << "System::Boolean test suite\n";
+
+	System::Boolean b = System::Boolean(false);
+	System::Terminal << b << "\n";
+	b = true;
+	System::Terminal << b << "\n";
+
+	// Primitive type bool comparison
+	if (b == false)
+		System::Terminal << "b is false\n";
+	else
+		System::Terminal << "b is true\n";
+
+	// Boolean type comparison
+	System::Boolean a(false);
+	if (a == b)
+		System::Terminal << "a == b == " << a << "\n";
+	if (a != b)
+		System::Terminal << "a != b\n";
+
+	a = true;
+	if (a == b)
+		System::Terminal << "a == b == " << a << "\n";
+	if (a != b)
+		System::Terminal << "a != b\n";
+
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
 // System::Type test
 int TestType()
 {
@@ -73,6 +110,9 @@ int TestType()
 	System::Terminal << t.GetType().GetName() << "\n";
 
 	System::Terminal << System::Terminal.GetType().GetName() << "\n";
+
+	System::Boolean b = System::Boolean(false);
+	System::Terminal << b.GetType().GetName() << "\n";
 
 	System::String s = System::String("String object");
 	System::Terminal << s.GetType().GetName() << "\n";
@@ -94,6 +134,9 @@ int main()
 	// System::Console test
 	System::Terminal << "OpenCity C++ framework test suite\n";
 	System::Terminal << System::String("System::Console System::String output test\n");
+
+	// System::Boolean test
+	TestBoolean();
 
 	// System::String test
 	TestString();
