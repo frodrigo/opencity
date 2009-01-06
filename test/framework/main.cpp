@@ -17,12 +17,29 @@
  *                                                                         *
  ***************************************************************************/
 
+// Test header
+#include "main.h"
+
+// Sharp Plus Framework header
+#include "System/CSmartPointer.h"
 #include "System/CBoolean.h"
 #include "System/CType.h"
 #include "System/CConsole.h"
 #include "System/CException.h"
+
 #include "System/Diagnostics/CDebug.h"
 
+
+// System::SmartPointer test
+int TestSmartPointer()
+{
+	System::Terminal << "System::SmartPointer test suite\n";
+
+	System::SmartPointer<Test::Car> pCarA( new Test::Car("A") );
+
+	System::Terminal << "End of System::SmartPointer test suite\n";
+	return 0;
+}
 
 // System::String test
 int TestString()
@@ -134,6 +151,11 @@ int main()
 	// System::Console test
 	System::Terminal << "OpenCity C++ framework test suite\n";
 	System::Terminal << System::String("System::Console System::String output test\n");
+	System::Terminal << "\n";
+
+	// System::SmartPointer test
+	TestSmartPointer();
+	System::Terminal << "\n";
 
 	// System::Boolean test
 	TestBoolean();

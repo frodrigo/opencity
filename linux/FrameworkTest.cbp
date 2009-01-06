@@ -47,6 +47,8 @@
 		<Unit filename="../src/framework/System/CException.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
+		<Unit filename="../src/framework/System/CSmartPointer.h" />
+		<Unit filename="../src/framework/System/CSmartPointer.tcc" />
 		<Unit filename="../src/framework/System/CString.cpp" />
 		<Unit filename="../src/framework/System/CString.h" />
 		<Unit filename="../src/framework/System/CStringSplitOptions.cpp" />
@@ -75,6 +77,7 @@
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.h" />
 		<Unit filename="../test/framework/main.cpp" />
+		<Unit filename="../test/framework/main.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
