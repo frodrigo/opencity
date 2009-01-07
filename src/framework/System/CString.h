@@ -33,7 +33,7 @@ class String : public Object
 {
 	public:
 		String();
-		String(char const* value);
+		String(const char* const value);
 		String(std::string value);
 		virtual ~String();
 
@@ -41,6 +41,8 @@ class String : public Object
 
 		virtual String ToString() const;
 
+		String& operator=(const char* const value);
+		String& operator+(const char* const value);
 		String& operator+(const String& value);
 		friend std::ostream& operator<<(std::ostream& os, const String& value);
 

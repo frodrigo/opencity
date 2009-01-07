@@ -29,17 +29,21 @@
 
 #include "System/Diagnostics/CDebug.h"
 
+#include "System/Collections/Generic/CList.h"
+#include "System/Collections/Generic/CLinkedList.h"
+
 
 // System::SmartPointer test
 int TestSmartPointer()
 {
 	System::Terminal << "System::SmartPointer test suite\n";
 
-	System::SmartPointer<Test::Car> pCarA( new Test::Car("A") );
+	System::SmartPointer<Test::Car> pCarA( new Test::Car(System::String("A")) );
 
 	System::Terminal << "End of System::SmartPointer test suite\n";
 	return 0;
 }
+
 
 // System::String test
 int TestString()
@@ -145,6 +149,27 @@ int TestType()
 }
 
 
+// System::Collections::Generic test
+int TestCollectionsGeneric()
+{
+	System::Terminal << "System::Collections::Generic test suite\n";
+
+	System::Collections::Generic::LinkedList<System::Object> llObject;
+	System::Object objA, objB;
+	llObject.AddLast(objA);
+	llObject.AddLast(objB);
+	System::Terminal << llObject.ToString() << " has " << llObject.GetCount() << " objects\n";
+
+	System::Collections::Generic::List<System::Object> lObject;
+	lObject.Add(objA);
+	lObject.Add(objB);
+	System::Terminal << lObject.ToString() << " has " << lObject.GetCount() << " objects\n";
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
 // Main test procedure
 int main()
 {
@@ -169,7 +194,11 @@ int main()
 	// System::Type test
 	TestType();
 
+	// System::Collections::Generic test
+	TestCollectionsGeneric();
+
 	// System::Diagnostics::Debug test
+	System::Diagnostics::Debug::Assert(true);
 	System::Diagnostics::Debug::Assert(false);
 	System::Diagnostics::Debug::Assert(0 == 1);
 

@@ -1,5 +1,5 @@
 /***************************************************************************
-                     CSmartPointer.cpp  -  description
+                     CSmartPointer.tcc  -  description
 							-------------------
 	begin                : January 6th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN

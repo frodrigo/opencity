@@ -1,5 +1,5 @@
 /***************************************************************************
-                      CLinkedList.cpp  -  description
+                      CLinkedList.tcc  -  description
 							-------------------
 	begin                : January 4th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -17,8 +17,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CLINKEDLIST_TCC_
+#define _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CLINKEDLIST_TCC_ 1
+
 // Framework headers
-#include "CLinkedList.h"			// System::Collections::Generic::LinkedList class
 #include "../../CString.h"			// System::String class
 
 
@@ -61,3 +63,5 @@ String LinkedList<T>::ToString() const
 
 SPF_NAMESPACE_END
 SPF_NAMESPACE_NESTED_END
+
+#endif

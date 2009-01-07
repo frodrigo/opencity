@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CList.cpp  -  description
+                        CList.tcc  -  description
 							-------------------
 	begin                : January 4th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -17,8 +17,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CLIST_TCC_
+#define _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CLIST_TCC_ 1
+
 // Framework headers
-#include "CList.h"				// System::Collections::Generic::List class
 #include "../../CString.h"		// System::String class
 
 
@@ -79,3 +81,5 @@ const T& List<T>::operator[](int index) const
 
 SPF_NAMESPACE_END
 SPF_NAMESPACE_NESTED_END
+
+#endif

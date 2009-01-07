@@ -59,4 +59,8 @@ class List : public Object
 SPF_NAMESPACE_END
 SPF_NAMESPACE_NESTED_END
 
+#ifndef _GLIBCXX_EXPORT_TEMPLATE
+	#include "CList.tcc"
+#endif
+
 #endif

@@ -70,9 +70,16 @@ Console& Console::operator<<(const Object& value)
 
 
    /*=====================================================================*/
-Console& Console::operator<<(char const* s)
+Console& Console::operator<<(const char* const s)
 {
 	std::cout << s;
+	return *this;
+}
+
+
+Console& Console::operator<<(const int i)
+{
+	std::cout << i;
 	return *this;
 }
 

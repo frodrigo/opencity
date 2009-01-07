@@ -27,7 +27,7 @@ SPF_NAMESPACE_BEGIN(System)
 String::String() {}
 
 
-String::String(char const* value) : msString(value) {}
+String::String(const char* const value) : msString(value) {}
 
 
 String::String(std::string value) : msString(value) {}
@@ -43,9 +43,23 @@ String String::ToString() const
 
 
    /*=====================================================================*/
+String& String::operator=(const char* const value)
+{
+	this->msString = value;
+	return *this;
+}
+
+
+String& String::operator+(const char* const value)
+{
+	this->msString += value;
+	return *this;
+}
+
+
 String& String::operator+(const String& value)
 {
-	*this = this->msString + value.msString;
+	this->msString += value.msString;
 	return *this;
 }
 

@@ -57,10 +57,10 @@
 		<Unit filename="../src/framework/System/CType.h" />
 		<Unit filename="../src/framework/System/CValueType.cpp" />
 		<Unit filename="../src/framework/System/CValueType.h" />
-		<Unit filename="../src/framework/System/Collections/Generic/CLinkedList.cpp" />
 		<Unit filename="../src/framework/System/Collections/Generic/CLinkedList.h" />
-		<Unit filename="../src/framework/System/Collections/Generic/CList.cpp" />
+		<Unit filename="../src/framework/System/Collections/Generic/CLinkedList.tcc" />
 		<Unit filename="../src/framework/System/Collections/Generic/CList.h" />
+		<Unit filename="../src/framework/System/Collections/Generic/CList.tcc" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />

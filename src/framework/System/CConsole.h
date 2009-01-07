@@ -63,7 +63,8 @@ class Console : public Object
 			\param s The character string to write.
 			\return The modified Console reference.
 		*/
-		Console& operator<<(char const* s);
+		Console& operator<<(const char* const s);
+		Console& operator<<(const int i);
 }; // class System::Console
 
 #ifndef _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_CPP_
