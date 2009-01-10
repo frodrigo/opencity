@@ -24,6 +24,14 @@ AC_PROG_INSTALL
 
 
 dnl ===========================================================================
+dnl Check for pkg-config
+dnl ===========================================================================
+AC_PATH_PROGS([PACKAGE_CONFIG], [$host_alias-pkg-config pkg-config], [none])
+if test "x$PACKAGE_CONFIG" = "xnone"; then
+  AC_MSG_ERROR([*** pkg-config, needed to check for libpng and libxml2 existence has not been found.])
+fi
+
+dnl ===========================================================================
 dnl Detect the SDL path, with C language
 dnl ===========================================================================
 SDL_VERSION=1.2.12
@@ -173,9 +181,22 @@ AC_CHECK_LIB(SDL_net, SDLNet_Init, ,
         AC_MSG_ERROR([SDL_net library required. See FAQ for more information]))
 
 # Need for viewer, also dependency of SDL_image
-AC_CHECK_LIB(png, png_create_write_struct, ,
-        AC_MSG_ERROR([PNG library required. See FAQ for more information]))
+AC_MSG_CHECKING(for libpng)
+for PNG in png png12 png13 dummypng; do
+	if $PACKAGE_CONFIG --exists lib$PNG > /dev/null 2>&1 ; then
+		CXXFLAGS="$CXXFLAGS `$PACKAGE_CONFIG --cflags lib$PNG`"
+		LDFLAGS="$LDFLAGS `$PACKAGE_CONFIG --libs lib$PNG`"
+	break
+	fi
+done
+if test "$PNG" = "dummypng"; then
+	AC_MSG_ERROR([*** libpng not found])
+else
+	AC_MSG_RESULT(lib$PNG)
+fi
 
+#AC_CHECK_LIB(png, png_create_write_struct, ,
+#        AC_MSG_ERROR([PNG library required. See FAQ for more information]))
 
 dnl ===========================================================================
 dnl Checks for header files.
