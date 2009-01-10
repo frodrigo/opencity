@@ -141,20 +141,6 @@ AC_ARG_ENABLE(mingw,
 
 
 dnl ===========================================================================
-dnl Set the compiler and the linker options
-dnl ===========================================================================
-CXXFLAGS="-Wall -Wmissing-braces -Wparentheses -pedantic-errors $CXXFLAGS"
-
-CXXFLAGS="-I$with_gl_prefix/include $enable_gprof $enable_debug $CXXFLAGS"
-
-CFLAGS="-std=c99 $CXXFLAGS"
-
-CXXFLAGS="-std=c++98 $CXXFLAGS"
-
-LDFLAGS="-L$with_gl_prefix/lib $enable_gprof $LDFLAGS"
-
-
-dnl ===========================================================================
 dnl Checks for libraries.
 dnl ===========================================================================
 if test "x$enable_mingw" = "xyes"; then
@@ -195,8 +181,20 @@ else
 	AC_MSG_RESULT(lib$PNG)
 fi
 
-#AC_CHECK_LIB(png, png_create_write_struct, ,
-#        AC_MSG_ERROR([PNG library required. See FAQ for more information]))
+
+dnl ===========================================================================
+dnl Set the compiler and the linker options
+dnl ===========================================================================
+CXXFLAGS="-Wall -Wmissing-braces -Wparentheses -pedantic-errors $CXXFLAGS"
+
+CXXFLAGS="-I$with_gl_prefix/include $enable_gprof $enable_debug $CXXFLAGS"
+
+CFLAGS="-std=c99 $CXXFLAGS"
+
+CXXFLAGS="-std=c++98 $CXXFLAGS"
+
+LDFLAGS="-L$with_gl_prefix/lib $enable_gprof $LDFLAGS"
+
 
 dnl ===========================================================================
 dnl Checks for header files.
