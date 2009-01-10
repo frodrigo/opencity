@@ -12,6 +12,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add option="-D_GLIBCXX_CONCEPT_CHECKS" />
 					<Add directory="../src/framework" />
@@ -24,6 +25,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add option="-D_GLIBCXX_CONCEPT_CHECKS" />
 					<Add directory="/home/neoneurone/projects/opencity-head/src/" />
 					<Add directory="../../src/" />
 					<Add directory="../src" />
