@@ -34,7 +34,7 @@ class String : public Object
 	public:
 		String();
 		String(const char* const value);
-		String(std::string value);
+		explicit String(std::string value);
 		virtual ~String();
 
 //		String[] Split(String[] separator, const int options = StringSplitOptions::None);

@@ -29,6 +29,7 @@
 
 #include "System/Diagnostics/CDebug.h"
 
+#include "System/Collections/Generic/CArray.h"
 #include "System/Collections/Generic/CList.h"
 #include "System/Collections/Generic/CLinkedList.h"
 
@@ -154,8 +155,14 @@ int TestCollectionsGeneric()
 {
 	System::Terminal << "System::Collections::Generic test suite\n";
 
-	System::Collections::Generic::LinkedList<System::Object> llObject;
+	System::Collections::Generic::Array<System::Object, 2> aObject;
 	System::Object objA, objB;
+	aObject[0] = objA;
+	aObject[1] = objB;
+	// aObject[2] = objB;	// out of range assertion failed
+	System::Terminal << aObject.ToString() << " has " << aObject.GetLength() << " objects\n";
+
+	System::Collections::Generic::LinkedList<System::Object> llObject;
 	llObject.AddLast(objA);
 	llObject.AddLast(objB);
 	System::Terminal << llObject.ToString() << " has " << llObject.GetCount() << " objects\n";

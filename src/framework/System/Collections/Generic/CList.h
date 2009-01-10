@@ -31,6 +31,11 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Collections)
 SPF_NAMESPACE_BEGIN(Generic)
 
 
+/**
+	Represents a strongly typed list of items that can be accessed by index.
+Provides methods to search, sort, and manipulate lists.
+	\see Array
+*/
 template<typename T>
 class List : public Object
 {

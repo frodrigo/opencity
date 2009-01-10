@@ -1,7 +1,7 @@
 /***************************************************************************
-                          CLinkedList.h  -  description
+                          CArray.h  -  description
 							-------------------
-	begin                : January 4th, 2009
+	begin                : January 10th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,49 +17,61 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CLINKEDLIST_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CLINKEDLIST_H_ 1
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CARRAY_H_
+#define _OPENCITY_FRAMEWORK_SYSTEM_COLLECTIONS_GENERIC_CARRAY_H_ 1
 
 // Framework headers
 #include "../../CObject.h"			// System::Object class
 
-// Standard C++ headers
-#include <list>
+// boost::array template
+#include <boost/array.hpp>
 
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Collections)
 SPF_NAMESPACE_BEGIN(Generic)
 
+
 /**
-	Represents a strongly typed doubly linked list.
+	Represents a strongly typed array of fixed length.
+	\see List
 */
-template<typename T>
-class LinkedList : public Object
+template<typename T, int size>
+class Array : public Object
 {
 	public:
-		LinkedList();
-		virtual ~LinkedList();
+		Array();
+		virtual ~Array();
 
 		/**
-			Adds an object to the end of the LinkedList.
-			\param T The object to be added to the end of the LinkedList.
+			Gets the number of elements contained in the Array. It's always equal
+		to the value returned by the GetLength() method.
+			\see GetLength()
 		*/
-		void AddLast(const T& item);
-
 		int GetCount() const;
+
+		/**
+			Gets a 32-bit integer that represents the total number of elements in
+		all the dimensions of the Array. It's always equal to the value returned
+		by the GetCount() method.
+			\see GetCount()
+		*/
+		const int GetLength() const;
 
 		virtual String ToString() const;
 
+		T& operator[](int index);
+		const T& operator[](int index) const;
+
 	protected:
-		std::list<T> mlCollection;
-}; // class System::String
+		boost::array<T, size> maCollection;
+}; // class System::Collections::Generic::Array
 
 
 SPF_NAMESPACE_END
 SPF_NAMESPACE_NESTED_END
 
 #ifndef _GLIBCXX_EXPORT_TEMPLATE
-	#include "CLinkedList.tcc"
+	#include "CArray.tcc"
 #endif
 
 #endif

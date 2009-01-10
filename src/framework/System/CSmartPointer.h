@@ -23,7 +23,7 @@
 // System::Object class
 #include "CObject.h"
 
-// Boost::share_ptr class
+// boost::share_ptr template
 #include <boost/shared_ptr.hpp>
 
 
