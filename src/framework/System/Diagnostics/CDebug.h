@@ -30,6 +30,10 @@ class String;
 
 SPF_NAMESPACE_BEGIN(Diagnostics)
 
+/**
+	Provides a set of methods and properties that help debug your code
+built with the Sharp Plus Framework.
+*/
 class Debug : public Object
 {
 	public:

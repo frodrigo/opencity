@@ -26,6 +26,9 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+/**
+	Represents errors that occur during application execution
+*/
 class Exception : public Object
 {
 	public:

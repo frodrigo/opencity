@@ -25,6 +25,11 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+/**
+	Represents type declarations: class types, interface types, array types,
+value types, enumeration types, type parameters, generic type definitions,
+and open or closed constructed generic types.
+*/
 class Type : public Reflection::MemberInfo
 {
 	public:

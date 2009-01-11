@@ -26,6 +26,9 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+/**
+	Represents a Boolean value.
+*/
 class Boolean : public Object
 {
 	public:

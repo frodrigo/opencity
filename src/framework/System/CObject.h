@@ -31,6 +31,10 @@ class String;
 // Framework System::Type class forward declaration
 class Type;
 
+/**
+	Supports all classes in the Sharp Plus Framework class hierarchy
+and provides low-level services to derived classes.
+*/
 class Object
 {
 	public:

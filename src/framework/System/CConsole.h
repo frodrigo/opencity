@@ -28,6 +28,11 @@ SPF_NAMESPACE_BEGIN(System)
 // Forward System::String class declaration
 class String;
 
+/**
+	Represents the standard input, output, and error streams for console
+applications. By default, the input, output and error streams are connected
+to the C++ standard streams.
+*/
 class Console : public Object
 {
 	public:

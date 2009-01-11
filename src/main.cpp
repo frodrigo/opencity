@@ -41,7 +41,7 @@
 	AudioManager, Conf, ModelLoader, and MapGen::MapMaker without major
 	modifications.
 
-	\author Duong-Khang NGUYEN (email: duongkhang.nguyen gmail.com)
+	\author Duong-Khang NGUYEN (email: neoneurone gmail com)
 	\author Frédéric RODRIGO
 */
 

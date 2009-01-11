@@ -29,6 +29,10 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+/**
+	Wraps a pointer to any object type. When a SmartPointer instance goes out
+of scope, the wrapped pointer is automatically deleted.
+*/
 template<typename T>
 class SmartPointer : public Object
 {

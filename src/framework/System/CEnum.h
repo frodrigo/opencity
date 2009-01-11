@@ -25,6 +25,9 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+/**
+	Provides the base class for enumerations.
+*/
 class Enum : public ValueType
 {
 	public:
