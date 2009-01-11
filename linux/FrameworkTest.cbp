@@ -48,6 +48,8 @@
 		<Unit filename="../src/framework/System/CEnum.h" />
 		<Unit filename="../src/framework/System/CException.cpp" />
 		<Unit filename="../src/framework/System/CException.h" />
+		<Unit filename="../src/framework/System/CMarshalByRefObject.cpp" />
+		<Unit filename="../src/framework/System/CMarshalByRefObject.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
 		<Unit filename="../src/framework/System/CSmartPointer.h" />
@@ -68,6 +70,10 @@
 		<Unit filename="../src/framework/System/Collections/Generic/CList.tcc" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
+		<Unit filename="../src/framework/System/IO/CFileStream.cpp" />
+		<Unit filename="../src/framework/System/IO/CFileStream.h" />
+		<Unit filename="../src/framework/System/IO/CStream.cpp" />
+		<Unit filename="../src/framework/System/IO/CStream.h" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.h" />
 		<Unit filename="../src/framework/System/SharpPlus.h" />

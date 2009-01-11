@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CXmlDocument.h  -  description
+                    CMarshalByRefObject.h  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 11th, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,36 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_XML_CXMLDOCUMENT_H_
-#define _OPENCITY_FRAMEWORK_XML_CXMLDOCUMENT_H_ 1
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CMARSHALBYREFOBJECT_H_
+#define _OPENCITY_FRAMEWORK_SYSTEM_CMARSHALBYREFOBJECT_H_ 1
 
 // Framework headers
-#include "CXmlNode.h"
+#include "CObject.h"
+
 
 SPF_NAMESPACE_BEGIN(System)
 
-// Forward System::String class declaration
-class String;
 
-SPF_NAMESPACE_BEGIN(Xml)
-
-/**
-	Represents a XML document
-*/
-class XmlDocument : XmlNode
+class MarshalByRefObject : public Object
 {
 	public:
-		XmlDocument();
-		virtual ~XmlDocument();
+		MarshalByRefObject();
+		virtual ~MarshalByRefObject();
 
 		virtual String ToString() const;
 
-}; // class System::Xml::XmlDocument
+}; // class System::MarshalByRefObject
 
-// namespace System::Xml
-SPF_NAMESPACE_END
-
-// namespace System
 SPF_NAMESPACE_END
 
 #endif
