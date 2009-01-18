@@ -39,6 +39,18 @@ class XmlDocument : XmlNode
 		XmlDocument();
 		virtual ~XmlDocument();
 
+		/**
+			Gets the root XmlElement for the document.
+		*/
+		//XmlElement GetDocumentElement() const;
+
+		/**
+			Loads the XML document from the specified URL.
+			\param url URL for the file containing the XML document to load.
+		The URL can be either a local file or an HTTP URL (a Web address).
+		*/
+		virtual void Load(String url);
+
 		virtual String ToString() const;
 
 }; // class System::Xml::XmlDocument

@@ -26,24 +26,70 @@
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 
+// Framework System::NullValue class forward declaration
+class XmlDocument;
+
 using namespace System;
 
-class XmlNode : Object
+
+/**
+	Represents a single node in the XML document.
+*/
+class XmlNode : public Object
 {
 	public:
 		XmlNode();
-		XmlNode(const String& name);
 		virtual ~XmlNode();
 
+
+		/**
+			Gets the name of the node with the prefix removed.
+		*/
+		virtual const String& GetLocalName() const;
+
+		/**
+			Gets the qualified name of the node.
+		The name returned is dependent on the NodeType of the node.
+			\return The qualified name of the node.
+		*/
 		virtual String GetName() const;
+
+		/**
+			Gets the namespace URI of this node.
+		*/
+		virtual const String& GetNamespaceURI() const;
+
+		/**
+			Gets the XmlDocument to which this node belongs.
+		*/
+		virtual const XmlDocument& GetOwnerDocument() const;
+
+		/**
+			Gets the the namespace prefix of this node.
+		*/
+		virtual const String& GetPrefix() const;
+
+		/**
+			Sets the the namespace prefix of this node.
+		*/
+		virtual void SetPrefix(const String& value);
+
 
 		// Inherited from System::Object
 		virtual String ToString() const;
 
+	protected:
+		XmlNode(
+			const String& prefix,
+			const String& localName,
+			const String& namespaceURI,
+			XmlDocument& doc
+		);
 
-	private:
-		/// XmlNode name
-		String msName;
+		String msPrefix;
+		String msLocalName;
+		String msNamespaceURI;
+		XmlDocument* poOwnerDocument;
 }; // class System::Xml::XmlNode
 
 // namespace System::Xml

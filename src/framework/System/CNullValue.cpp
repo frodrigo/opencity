@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CXmlDocument.cpp  -  description
+                       CNullValue.cpp  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 18th, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,56 +17,47 @@
  *                                                                         *
  ***************************************************************************/
 
+// Do not include "extern NullValue Null"
+#define _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_CPP_ 1
+
 // Framework headers
-#include "CXmlDocument.h"
-#include "../CString.h"
-#include "../CException.h"				// FIXME: file not found exception
+#include "CNullValue.h"				// System::NullValue class
+#include "CString.h"				// System::String class
 
-// libxml headers
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#ifndef LIBXML_TREE_ENABLED
-	#error "LibXml tree support required."
-#endif
 
-SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
+SPF_NAMESPACE_BEGIN(System)
+
+
+NullValue Null;
 
 
    /*=====================================================================*/
-XmlDocument::XmlDocument() {}
+NullValue::NullValue() : mbNullValue(true) {}
 
 
-XmlDocument::~XmlDocument() {}
+NullValue::NullValue(bool value) : mbNullValue(value) {}
+
+
+NullValue::NullValue(const NullValue& value) { mbNullValue = value.mbNullValue; }
+
+
+NullValue::~NullValue() {}
 
 
    /*=====================================================================*/
-void XmlDocument::Load(String url)
+bool NullValue::IsNullValue() const
 {
-	xmlDoc* psXmlDoc = xmlReadFile(url, NULL, 0);
-
-	if (psXmlDoc == NULL) {
-		throw Exception("File not found");
-	}
-
-	// Get the root element node
-/*
-	root_element = xmlDocGetRootElement(psXmlDoc);
-	print_element_names(root_element);
-*/
-
-	xmlFreeDoc(psXmlDoc);
-	xmlCleanupParser();
+	return mbNullValue;
 }
 
 
-   /*=====================================================================*/
-String XmlDocument::ToString() const
+String NullValue::ToString() const
 {
-	return String("System::Xml::XmlDocument");
+	return String("System::NullValue");
 }
 
 
    /*=====================================================================*/
 
 
-SPF_NAMESPACE_NESTED_END
+SPF_NAMESPACE_END

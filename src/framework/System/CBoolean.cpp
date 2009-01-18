@@ -1,8 +1,8 @@
 /***************************************************************************
                         CBoolean.cpp  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 4th, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -44,33 +44,33 @@ String Boolean::ToString() const
    /*=====================================================================*/
 Boolean& Boolean::operator=(const bool& value)
 {
-	this->mbValue = value;
+	mbValue = value;
 	return *this;
 }
 
 
 bool Boolean::operator==(const Boolean& value)
 {
-	return (bool)(this->mbValue == value.mbValue);
+	return (bool)(mbValue == value.mbValue);
 }
 
 
 bool Boolean::operator!=(const Boolean& value)
 {
-	return (bool)(this->mbValue != value.mbValue);
+	return (bool)(mbValue != value.mbValue);
 }
 
 
    /*=====================================================================*/
 bool Boolean::operator==(const bool& value)
 {
-	return (bool)(this->mbValue == value);
+	return (bool)(mbValue == value);
 }
 
 
 bool Boolean::operator!=(const bool& value)
 {
-	return (bool)(this->mbValue != value);
+	return (bool)(mbValue != value);
 }
 
 

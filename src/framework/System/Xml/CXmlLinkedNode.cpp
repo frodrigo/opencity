@@ -28,7 +28,14 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 XmlLinkedNode::XmlLinkedNode() {}
 
 
-XmlLinkedNode::XmlLinkedNode(const String& name) : XmlNode(name) {}
+XmlLinkedNode::XmlLinkedNode
+(
+	const String& prefix, const String& localName, const String& namespaceURI,
+	XmlDocument& doc
+) :
+XmlNode( prefix, localName, namespaceURI, doc )
+{
+}
 
 
 XmlLinkedNode::~XmlLinkedNode() {}

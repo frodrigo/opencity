@@ -21,6 +21,7 @@
 #include "CObject.h"			// System::Object class
 #include "CString.h"			// System::String class
 #include "CType.h"				// System::Type class
+#include "CNullValue.h"			// System::NullValue class
 
 // GCC headers					// GCC demangle functionality
 #include "cxxabi.h"
@@ -34,10 +35,29 @@ SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-Object::Object() {}
+Object::Object()
+{
+	poNullValue = new NullValue(false);
+}
 
 
-Object::~Object() {}
+Object::Object(const NullValue& null)
+{
+	poNullValue = new NullValue(null);
+}
+
+
+Object::~Object()
+{
+	delete poNullValue;
+}
+
+
+   /*=====================================================================*/
+bool Object::IsNull() const
+{
+	return poNullValue->IsNull();
+}
 
 
    /*=====================================================================*/
@@ -59,6 +79,17 @@ Type Object::GetType() const
 
 	return oType;
 }
+
+
+   /*=====================================================================*/
+Object& Object::operator=(const NullValue& null)
+{
+	*poNullValue = null;
+	return *this;
+}
+
+
+   /*=====================================================================*/
 
 
 SPF_NAMESPACE_END

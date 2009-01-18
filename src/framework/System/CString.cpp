@@ -36,6 +36,13 @@ String::String(std::string value) : msString(value) {}
 String::~String() {}
 
 
+   /*=====================================================================*/
+int String::GetLength() const
+{
+	return msString.size();
+}
+
+
 String String::ToString() const
 {
 	return *this;
@@ -43,24 +50,37 @@ String String::ToString() const
 
 
    /*=====================================================================*/
+String::operator const char*() const
+{
+	return msString.c_str();
+}
+
+
 String& String::operator=(const char* const value)
 {
-	this->msString = value;
+	msString = value;
 	return *this;
 }
 
 
 String& String::operator+(const char* const value)
 {
-	this->msString += value;
+	msString += value;
 	return *this;
 }
 
 
 String& String::operator+(const String& value)
 {
-	this->msString += value.msString;
+	msString += value.msString;
 	return *this;
+}
+
+
+String String::operator+(const String& value) const
+{
+	String result = *this + value;
+	return result;
 }
 
 

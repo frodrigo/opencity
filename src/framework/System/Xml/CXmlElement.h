@@ -30,11 +30,23 @@ class String;
 
 SPF_NAMESPACE_BEGIN(Xml)
 
-class XmlElement : XmlLinkedNode
+/**
+	Represents a XML element.
+*/
+class XmlElement : public XmlLinkedNode
 {
 	public:
-		XmlElement();
-		XmlElement(const String& name);
+		/**
+			Initializes a new instance of the XmlElement class. This constructor
+		supports the Sharp Plus Framework infrastructure and is not intended to
+		be used directly from your code.
+		*/
+		XmlElement(
+			const String& prefix,
+			const String& localName,
+			const String& namespaceURI,
+			XmlDocument& doc
+		);
 		virtual ~XmlElement();
 
 		virtual String ToString() const;

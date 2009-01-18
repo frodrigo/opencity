@@ -25,6 +25,7 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+
 /**
 	Provides the base class for value types.
 */

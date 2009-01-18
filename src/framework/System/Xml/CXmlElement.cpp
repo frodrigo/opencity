@@ -26,10 +26,14 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 
 
    /*=====================================================================*/
-XmlElement::XmlElement() {}
-
-
-XmlElement::XmlElement(const String& name) : XmlLinkedNode(name) {}
+XmlElement::XmlElement
+(
+	const String& prefix, const String& localName, const String& namespaceURI,
+	XmlDocument& doc
+) :
+XmlLinkedNode( prefix, localName, namespaceURI, doc )
+{
+}
 
 
 XmlElement::~XmlElement() {}

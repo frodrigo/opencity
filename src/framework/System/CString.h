@@ -42,11 +42,19 @@ class String : public Object
 
 //		String[] Split(String[] separator, const int options = StringSplitOptions::None);
 
+		/**
+			Gets the number of characters in the current String object.
+		*/
+		int GetLength() const;
+
+
 		virtual String ToString() const;
 
+		operator const char*() const;
 		String& operator=(const char* const value);
 		String& operator+(const char* const value);
 		String& operator+(const String& value);
+		String operator+(const String& value) const;
 		friend std::ostream& operator<<(std::ostream& os, const String& value);
 
 	private:

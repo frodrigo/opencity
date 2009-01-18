@@ -31,7 +31,8 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 
 using namespace System;
 
-class XmlNodeList : Object
+
+class XmlNodeList : public Object
 {
 	public:
 		XmlNodeList();

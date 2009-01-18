@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CXmlLinkedNode.h  -  description
+                       CNullValue.h  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : January 18th, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,45 +17,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_XML_CXMLLINKEDNODE_H_
-#define _OPENCITY_FRAMEWORK_XML_CXMLLINKEDNODE_H_ 1
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_H_
+#define _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_H_ 1
 
 // Framework headers
-#include "CXmlNode.h"
+#include "CValueType.h"
+
 
 SPF_NAMESPACE_BEGIN(System)
 
-// Forward System::String class declaration
-class String;
-
-SPF_NAMESPACE_BEGIN(Xml)
-
-
 /**
-	Represents a linked XML node.
+	Represents a NullValue object. In C++, a reference can not be assigned
+a null value. In this Sharp Plus Framework, the C# null reference is emulated
+by the System::NullValue class.
 */
-class XmlLinkedNode : public XmlNode
+class NullValue : public ValueType
 {
 	public:
-		XmlLinkedNode();
-		virtual ~XmlLinkedNode();
+		NullValue();
+		NullValue(bool value);
+		NullValue(const NullValue& value);
+		virtual ~NullValue();
+
+		bool IsNullValue() const;
 
 		virtual String ToString() const;
 
-	protected:
-		XmlLinkedNode(
-			const String& prefix,
-			const String& localName,
-			const String& namespaceURI,
-			XmlDocument& doc
-		);
+	private:
+		bool mbNullValue;
+}; // class System::NullValue
 
-}; // class System::Xml::XmlElement
+#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_CPP_
+	extern NullValue Null;
+#endif
 
-// namespace System::Xml
-SPF_NAMESPACE_END
-
-// namespace System
 SPF_NAMESPACE_END
 
 #endif

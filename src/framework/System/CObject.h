@@ -23,6 +23,7 @@
 // Sharp Plus Framework definitions
 #include "SharpPlus.h"
 
+
 SPF_NAMESPACE_BEGIN(System)
 
 // Framework System::String class forward declaration
@@ -30,6 +31,10 @@ class String;
 
 // Framework System::Type class forward declaration
 class Type;
+
+// Framework System::NullValue class forward declaration
+class NullValue;
+
 
 /**
 	Supports all classes in the Sharp Plus Framework class hierarchy
@@ -39,10 +44,18 @@ class Object
 {
 	public:
 		Object();
+		Object(const NullValue& null);
 		virtual ~Object();
 
+		bool IsNull() const;
 		virtual String ToString() const;
 		virtual Type GetType() const;
+
+		virtual Object& operator=(const NullValue& null);
+
+	protected:
+		// We use pointer here to avoid circular include problem
+		NullValue* poNullValue;
 }; // class Object
 
 SPF_NAMESPACE_END

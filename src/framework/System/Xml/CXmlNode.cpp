@@ -28,19 +28,60 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 XmlNode::XmlNode() {}
 
 
-XmlNode::XmlNode(const String& name) : msName(name) {}
+XmlNode::XmlNode
+(
+	const String& prefix, const String& localName, const String& namespaceURI,
+	XmlDocument& doc
+) :
+msPrefix( prefix ),
+msLocalName( localName ),
+msNamespaceURI( namespaceURI ),
+poOwnerDocument( &doc )
+{
+}
 
 
 XmlNode::~XmlNode() {}
 
 
    /*=====================================================================*/
-String XmlNode::GetName() const
+const String& XmlNode::GetLocalName() const
 {
-	return msName;
+	return msLocalName;
 }
 
 
+String XmlNode::GetName() const
+{
+	return (msPrefix.GetLength() > 0) ? msPrefix + ":" + msLocalName : msLocalName ;
+}
+
+
+const String& XmlNode::GetNamespaceURI() const
+{
+	return msNamespaceURI;
+}
+
+
+const XmlDocument& XmlNode::GetOwnerDocument() const
+{
+	return *poOwnerDocument;
+}
+
+
+const String& XmlNode::GetPrefix() const
+{
+	return msPrefix;
+}
+
+
+void XmlNode::SetPrefix(const String& value)
+{
+	msPrefix = value;
+}
+
+
+   /*=====================================================================*/
 String XmlNode::ToString() const
 {
 	return String("System::Xml::XmlNode");
