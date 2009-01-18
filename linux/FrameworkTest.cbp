@@ -55,9 +55,7 @@
 		<Unit filename="../src/framework/System/CMarshalByRefObject.h" />
 		<Unit filename="../src/framework/System/CNullValue.cpp" />
 		<Unit filename="../src/framework/System/CNullValue.h" />
-		<Unit filename="../src/framework/System/CObject.cpp">
-			<Option virtualFolder="src/framework/System/" />
-		</Unit>
+		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
 		<Unit filename="../src/framework/System/CSmartPointer.h" />
 		<Unit filename="../src/framework/System/CSmartPointer.tcc" />
