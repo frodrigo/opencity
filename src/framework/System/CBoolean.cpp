@@ -19,6 +19,7 @@
 
 // Framework headers
 #include "CBoolean.h"			// System::Boolean class
+#include "CNullValue.h"			// System::NullValue class
 #include "CString.h"			// System::String class
 
 
@@ -71,6 +72,14 @@ bool Boolean::operator==(const bool& value)
 bool Boolean::operator!=(const bool& value)
 {
 	return (bool)(mbValue != value);
+}
+
+
+   /*=====================================================================*/
+Boolean& Boolean::operator=(const NullValue& null)
+{
+	mbIsNull = null.IsNull();
+	return *this;
 }
 
 

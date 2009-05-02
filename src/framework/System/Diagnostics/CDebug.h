@@ -40,7 +40,12 @@ class Debug : public Object
 		Debug();
 		virtual ~Debug();
 
-		static void Assert(bool condition);
+		static void Assert(const bool condition);
+
+		/**
+			Checks for a condition and displays a message if the condition is false.
+		*/
+		static void Assert(const bool condition, const String& message);
 
 		virtual String ToString() const;
 }; // class System::Diagnostics::Debug

@@ -21,11 +21,12 @@
 #include "main.h"
 
 // Sharp Plus Framework header
-#include "System/CSmartPointer.h"
 #include "System/CBoolean.h"
-#include "System/CType.h"
 #include "System/CConsole.h"
 #include "System/CException.h"
+#include "System/CNullValue.h"
+#include "System/CSmartPointer.h"
+#include "System/CType.h"
 
 #include "System/Diagnostics/CDebug.h"
 
@@ -177,11 +178,34 @@ int TestCollectionsGeneric()
 }
 
 
+int TestNullValue()
+{
+	System::Terminal << "System::NullValue test suite\n";
+
+	System::Object objA;
+	System::Terminal << "Before null assignment, is null : " << objA.IsNull() << "\n";
+
+	objA = System::Null;
+	System::Terminal << "After null assignment, is null : " << objA.IsNull() << "\n";
+
+	System::Boolean boolA;
+	boolA = System::Null;
+	System::Diagnostics::Debug::Assert( boolA.IsNull(), "Null bool assertion failed.\n" );
+
+	System::String strA;
+	strA = System::Null;
+	System::Diagnostics::Debug::Assert( strA.IsNull(), "Null string assertion failed.\n" );
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
 // Main test procedure
 int main()
 {
 	// System::Console test
-	System::Terminal << "OpenCity C++ framework test suite\n";
+	System::Terminal << "SharpPlus framework test suite - begin\n";
 	System::Terminal << System::String("System::Console System::String output test\n");
 	System::Terminal << "\n";
 
@@ -201,6 +225,9 @@ int main()
 	// System::Type test
 	TestType();
 
+	// System::NullValue test
+	TestNullValue();
+
 	// System::Collections::Generic test
 	TestCollectionsGeneric();
 
@@ -209,4 +236,6 @@ int main()
 	System::Diagnostics::Debug::Assert(false);
 	System::Diagnostics::Debug::Assert(0 == 1);
 
+	System::Terminal << "SharpPlus framework test suite - end\n";
+	return 0;
 }

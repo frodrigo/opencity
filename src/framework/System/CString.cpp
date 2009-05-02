@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 // Framework headers
+#include "CNullValue.h"			// System::NullValue class
 #include "CString.h"
 
 
@@ -81,6 +82,14 @@ String String::operator+(const String& value) const
 {
 	String result = *this + value;
 	return result;
+}
+
+
+   /*=====================================================================*/
+String& String::operator=(const NullValue& null)
+{
+	mbIsNull = null.IsNull();
+	return *this;
 }
 
 

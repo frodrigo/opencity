@@ -54,8 +54,8 @@ class Object
 		virtual Object& operator=(const NullValue& null);
 
 	protected:
-		// We use pointer here to avoid circular include problem
-		NullValue* poNullValue;
+		bool mbIsNull;		/// Avoids circular dependency
+
 }; // class Object
 
 SPF_NAMESPACE_END

@@ -35,20 +35,17 @@ class NullValue : public ValueType
 {
 	public:
 		NullValue();
-		NullValue(bool value);
 		NullValue(const NullValue& value);
 		virtual ~NullValue();
 
-		bool IsNullValue() const;
+		bool IsNull() const;
 
 		virtual String ToString() const;
 
-	private:
-		bool mbNullValue;
 }; // class System::NullValue
 
 #ifndef _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_CPP_
-	extern NullValue Null;
+	extern const NullValue Null;
 #endif
 
 SPF_NAMESPACE_END

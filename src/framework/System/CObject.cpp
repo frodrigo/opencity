@@ -18,10 +18,10 @@
  ***************************************************************************/
 
 // Framework headers
+#include "CNullValue.h"			// System::NullValue class
 #include "CObject.h"			// System::Object class
 #include "CString.h"			// System::String class
 #include "CType.h"				// System::Type class
-#include "CNullValue.h"			// System::NullValue class
 
 // GCC headers					// GCC demangle functionality
 #include "cxxabi.h"
@@ -35,28 +35,27 @@ SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-Object::Object()
+Object::Object():
+	mbIsNull(false)
 {
-	poNullValue = new NullValue(false);
 }
 
 
 Object::Object(const NullValue& null)
 {
-	poNullValue = new NullValue(null);
+	mbIsNull = null.IsNull();
 }
 
 
 Object::~Object()
 {
-	delete poNullValue;
 }
 
 
    /*=====================================================================*/
 bool Object::IsNull() const
 {
-	return poNullValue->IsNull();
+	return mbIsNull;
 }
 
 
@@ -84,7 +83,7 @@ Type Object::GetType() const
    /*=====================================================================*/
 Object& Object::operator=(const NullValue& null)
 {
-	*poNullValue = null;
+	mbIsNull = null.IsNull();
 	return *this;
 }
 

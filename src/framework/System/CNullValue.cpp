@@ -32,22 +32,25 @@ NullValue Null;
 
 
    /*=====================================================================*/
-NullValue::NullValue() : mbNullValue(true) {}
+NullValue::NullValue()
+{
+	mbIsNull = true;
+}
 
 
-NullValue::NullValue(bool value) : mbNullValue(value) {}
-
-
-NullValue::NullValue(const NullValue& value) { mbNullValue = value.mbNullValue; }
+NullValue::NullValue(const NullValue& value)
+{
+	mbIsNull = value.mbIsNull;
+}
 
 
 NullValue::~NullValue() {}
 
 
    /*=====================================================================*/
-bool NullValue::IsNullValue() const
+bool NullValue::IsNull() const
 {
-	return mbNullValue;
+	return mbIsNull;
 }
 
 

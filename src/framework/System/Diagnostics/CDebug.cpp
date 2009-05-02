@@ -34,12 +34,18 @@ Debug::~Debug() {}
 
 
    /*=====================================================================*/
-void Debug::Assert(bool condition)
+void Debug::Assert(const bool condition)
+{
+	Debug::Assert(condition, "Assertion failed\n");
+}
+
+
+void Debug::Assert(const bool condition, const String& message)
 {
 	if (condition)
 		return;
 
-	System::Terminal << "Assertion failed\n";
+	System::Terminal << message;
 }
 
 

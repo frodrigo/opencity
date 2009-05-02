@@ -45,6 +45,7 @@ class Boolean : public Object
 		bool operator==(const bool& value);
 		bool operator!=(const bool& value);
 
+		Boolean& operator=(const NullValue& null);
 
 	private:
 		bool mbValue;
