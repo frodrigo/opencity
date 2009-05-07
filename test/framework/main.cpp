@@ -54,10 +54,14 @@ int TestString()
 
 	System::String s1 = System::String("String assignment test\n");
 	System::Terminal << s1;
+
 	System::String sA = "String A ";
 	System::String sB = System::String("String B\n");
+
 	System::String sC = sA + sB;
 	System::Terminal << sC;
+
+	System::Diagnostics::Debug::Assert(sC == sA + sB, "Assertion failed: sC != sA + sB\n" );
 
 	System::Terminal << "\n";
 	return 0;

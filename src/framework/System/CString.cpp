@@ -21,6 +21,7 @@
 #include "CNullValue.h"			// System::NullValue class
 #include "CString.h"
 
+#include "CConsole.h"
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -64,32 +65,28 @@ String& String::operator=(const char* const value)
 }
 
 
-String& String::operator+(const char* const value)
-{
-	msString += value;
-	return *this;
-}
-
-
-String& String::operator+(const String& value)
-{
-	msString += value.msString;
-	return *this;
-}
-
-
-String String::operator+(const String& value) const
-{
-	String result = *this + value;
-	return result;
-}
-
-
-   /*=====================================================================*/
 String& String::operator=(const NullValue& null)
 {
 	mbIsNull = null.IsNull();
 	return *this;
+}
+
+
+const String String::operator+(const char* const value) const
+{
+	return String(msString + value);
+}
+
+
+const String String::operator+(const String& value) const
+{
+	return String(msString + value.msString);
+}
+
+
+bool String::operator==(const String& value) const
+{
+	return (msString == value.msString);
 }
 
 

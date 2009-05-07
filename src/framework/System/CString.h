@@ -52,12 +52,12 @@ class String : public Object
 
 		operator const char*() const;
 		String& operator=(const char* const value);
-		String& operator+(const char* const value);
-
-		String& operator+(const String& value);
-		String operator+(const String& value) const;
-
 		String& operator=(const NullValue& null);
+
+		const String operator+(const char* const value) const;
+		const String operator+(const String& value) const;
+
+		bool operator==(const String& value) const;
 
 		friend std::ostream& operator<<(std::ostream& os, const String& value);
 
