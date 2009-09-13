@@ -23,6 +23,12 @@
 // Framework headers
 #include "CXmlNode.h"
 
+// libxml headers
+#include <libxml/tree.h>
+#ifndef LIBXML_TREE_ENABLED
+	#error "LibXml tree support required."
+#endif
+
 SPF_NAMESPACE_BEGIN(System)
 
 // Forward System::String class declaration
@@ -52,6 +58,13 @@ class XmlDocument : XmlNode
 		virtual void Load(String url);
 
 		virtual String ToString() const;
+
+		virtual const String GetOuterXml() const;
+
+	private:
+		void Unload();
+
+		xmlDocPtr mpXmlDocument;		///< Holds the pointer to the libxml xmlDoc
 
 }; // class System::Xml::XmlDocument
 

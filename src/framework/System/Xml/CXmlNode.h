@@ -60,6 +60,11 @@ class XmlNode : public Object
 		virtual const String& GetNamespaceURI() const;
 
 		/**
+			Gets the markup representing this node and all its child nodes.
+		*/
+		virtual const String GetOuterXml() const;
+
+		/**
 			Gets the XmlDocument to which this node belongs.
 		*/
 		virtual const XmlDocument& GetOwnerDocument() const;

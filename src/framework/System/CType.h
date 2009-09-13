@@ -38,6 +38,7 @@ class Type : public Reflection::MemberInfo
 		Type(const String& name, const String& space);
 		virtual ~Type();
 
+		// Properties
 		const String& GetNamespace() const;
 		const String& GetFullName() const;
 

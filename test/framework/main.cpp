@@ -61,7 +61,10 @@ int TestString()
 	System::String sC = sA + sB;
 	System::Terminal << sC;
 
-	System::Diagnostics::Debug::Assert(sC == sA + sB, "Assertion failed: sC != sA + sB\n" );
+	System::Diagnostics::Debug::Assert(sC == sA + sB, "Assertion failed: sC != sA + sB.\n" );
+	System::Diagnostics::Debug::Assert(System::String::Empty == "", "String.Empty assertion failed.\n");
+	System::String sEmpty = System::String::Empty;
+	System::Diagnostics::Debug::Assert(sEmpty == "", "String.Empty assignment assertion failed.\n");
 
 	System::Terminal << "\n";
 	return 0;
@@ -236,6 +239,7 @@ int main()
 	TestCollectionsGeneric();
 
 	// System::Diagnostics::Debug test
+	System::Terminal << "There should be 2 failed assertions preceding the ending message:\n";
 	System::Diagnostics::Debug::Assert(true);
 	System::Diagnostics::Debug::Assert(false);
 	System::Diagnostics::Debug::Assert(0 == 1);

@@ -63,6 +63,12 @@ const String& XmlNode::GetNamespaceURI() const
 }
 
 
+const String XmlNode::GetOuterXml() const
+{
+	return String::Empty;
+}
+
+
 const XmlDocument& XmlNode::GetOwnerDocument() const
 {
 	return *poOwnerDocument;

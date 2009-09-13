@@ -17,19 +17,28 @@
  *                                                                         *
  ***************************************************************************/
 
+// Do not include "extern const String Empty"
+#define _OPENCITY_FRAMEWORK_SYSTEM_STRING_CPP_ 1
+
 // Framework headers
 #include "CNullValue.h"			// System::NullValue class
 #include "CString.h"
-
 #include "CConsole.h"
 
 SPF_NAMESPACE_BEGIN(System)
+
+
+const String String::Empty;		// Default String.Empty value
+
 
    /*=====================================================================*/
 String::String() {}
 
 
-String::String(const char* const value) : msString(value) {}
+String::String(const char* const& value) : msString(value) {}
+
+
+String::String(const unsigned char* const& value) : msString((const char* const&)value) {}
 
 
 String::String(std::string value) : msString(value) {}
@@ -81,6 +90,12 @@ const String String::operator+(const char* const value) const
 const String String::operator+(const String& value) const
 {
 	return String(msString + value.msString);
+}
+
+
+bool String::operator==(const char* const value) const
+{
+	return (msString == value);
 }
 
 

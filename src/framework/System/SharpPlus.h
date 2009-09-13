@@ -21,11 +21,11 @@
 #define _OPENCITY_FRAMEWORK_SHARPPLUSFRAMEWORK_H_ 1
 
 #ifndef __GXX_RTTI
-	#error "GCC RTTI support required."
+	#error "The GCC RTTI support is required."
 #endif
 
 #ifndef __EXCEPTIONS
-	#error "C++ exception support required."
+	#error "The C++ exception support is required."
 #endif
 
 #define SPF_NAMESPACE_SEPARATOR				"::"

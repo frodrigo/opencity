@@ -29,27 +29,32 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+
 /**
 	Represents text string instance
 */
 class String : public Object
 {
 	public:
+// Constructors and destructor
 		String();
-		String(const char* const value);
+		String(const char* const& value);
+		String(const unsigned char* const& value);
 		explicit String(std::string value);
 		virtual ~String();
 
 //		String[] Split(String[] separator, const int options = StringSplitOptions::None);
 
+// Methods
+		virtual String ToString() const;
+
+// Properties
 		/**
 			Gets the number of characters in the current String object.
 		*/
 		int GetLength() const;
 
-
-		virtual String ToString() const;
-
+// Operators
 		operator const char*() const;
 		String& operator=(const char* const value);
 		String& operator=(const NullValue& null);
@@ -57,13 +62,20 @@ class String : public Object
 		const String operator+(const char* const value) const;
 		const String operator+(const String& value) const;
 
+		bool operator==(const char* const value) const;
 		bool operator==(const String& value) const;
 
 		friend std::ostream& operator<<(std::ostream& os, const String& value);
 
+
+		static const String Empty;
+
+
 	private:
 		std::string msString;
+
 }; // class System::String
+
 
 SPF_NAMESPACE_END
 

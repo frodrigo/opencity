@@ -24,29 +24,43 @@
 
 // libxml headers
 #include <libxml/parser.h>
-#include <libxml/tree.h>
-#ifndef LIBXML_TREE_ENABLED
-	#error "LibXml tree support required."
-#endif
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 
 
    /*=====================================================================*/
-XmlDocument::XmlDocument() {}
+XmlDocument::XmlDocument() :
+	mpXmlDocument(NULL)
+{
+}
 
 
-XmlDocument::~XmlDocument() {}
+XmlDocument::~XmlDocument()
+{
+	this->Unload();
+}
 
 
    /*=====================================================================*/
 void XmlDocument::Load(String url)
 {
-	xmlDoc* psXmlDoc = xmlReadFile(url, NULL, 0);
+	// Unloads previously loaded XML document
+	this->Unload();
 
-	if (psXmlDoc == NULL) {
+	// Loads the new XML document
+	mpXmlDocument = xmlReadFile(url, NULL, 0);
+	if (mpXmlDocument == NULL) {
 		throw Exception("File not found");
 	}
+
+	/*
+	 * this initialize the library and check potential ABI mismatches
+	 * between the version it was compiled for and the actual shared
+	 * library used.
+	 */
+	//TODO
+	//LIBXML_TEST_VERSION
+
 
 	// Get the root element node
 /*
@@ -54,7 +68,7 @@ void XmlDocument::Load(String url)
 	print_element_names(root_element);
 */
 
-	xmlFreeDoc(psXmlDoc);
+	// Free the global variables that may have been allocated by the parser.
 	xmlCleanupParser();
 }
 
@@ -67,6 +81,34 @@ String XmlDocument::ToString() const
 
 
    /*=====================================================================*/
+const String XmlDocument::GetOuterXml() const
+{
+	if (mpXmlDocument == NULL)
+		return String::Empty;
+
+	// Dumps the XML document to memory
+	xmlChar* lpBuffer	= NULL;
+	int liBufferSize	= 0;
+	xmlDocDumpMemory(mpXmlDocument, &lpBuffer, &liBufferSize);
+
+	// Converts the character buffer to the String type
+	String lsDump(lpBuffer);
+	xmlFree(lpBuffer);
+	lpBuffer = NULL;
+
+	return lsDump;
+}
+
+
+   /*=====================================================================*/
+void XmlDocument::Unload()
+{
+	if (mpXmlDocument != NULL)
+	{
+		xmlFreeDoc(mpXmlDocument);
+		mpXmlDocument = NULL;
+	}
+}
 
 
 SPF_NAMESPACE_NESTED_END
