@@ -305,9 +305,15 @@ static int initSDL()
 	SDL_WM_SetCaption( PACKAGE " " VERSION, NULL );
 	SDL_WM_SetIcon( IMG_Load(ocDataDirPrefix("graphism/icon/OpenCity32.png").c_str()), NULL );
 
-// Set the SDL_GL_DOUBLEBUFFER ON for smoother rendering
+// Set the SDL_GL_DOUBLEBUFFER attribute for smoother rendering
 	SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-	SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
+
+// Set the SDL_GL_ACCELERATED_VISUAL attribute if enabled
+// Note: This can lead to software rendering on Windows system with recent ATI Catalyst driver.
+	if (gVars.gboolAcceleratedVisual == true)
+	{
+		SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1 );
+	}
 
 // Get the OpenGL driver name
 	const char* glDriver;
@@ -381,7 +387,7 @@ static int initSDL()
 		OPENCITY_INFO( "GL extensions: " << glGetString( GL_EXTENSIONS ) );
 	}
 
-// Double buffer available ?
+// Is doublebuffer feature available ?
 	int iValue = 0;
 	SDL_GL_GetAttribute( SDL_GL_DOUBLEBUFFER, &iValue );
 	if ( iValue == 0 ) {
@@ -392,14 +398,17 @@ static int initSDL()
 		OPENCITY_INFO( "Video double buffer supported" );
 	}
 
-// Accelerated display available ?
-	SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL, &iValue );
-	if ( iValue == 0 ) {
-		OPENCITY_FATAL( "Accelerated visual unsupported" );
-		return OC_ERROR_SDL_ACCELERATED;
-	}
-	else {
-		OPENCITY_INFO( "Accelerated visual supported" );
+// Is GL accelerated display available ?
+	if (gVars.gboolAcceleratedVisual == true)
+	{
+		SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL, &iValue );
+		if ( iValue == 0 ) {
+			OPENCITY_FATAL( "Accelerated visual unsupported" );
+			return OC_ERROR_SDL_ACCELERATED;
+		}
+		else {
+			OPENCITY_INFO( "Accelerated visual supported" );
+		}
 	}
 
 	return 0;
@@ -872,7 +881,7 @@ located in OpenCity executable directory.",
    /*=====================================================================*/
 static void printCopyright() {
 // Output the copyright text
-	cout << "Welcome to " << PACKAGE << " version " << VERSION << endl;
+	cout << "Welcome to " << PACKAGE << "-" << ocStrVersion() << endl;
 	cout << "Copyright (C) by Duong Khang NGUYEN. All rights reserved." << endl;
 	cout << "   web  : http://www.opencity.info" << endl;
 	cout << "   email: neoneurone @ gmail com" << endl << endl;
@@ -1075,6 +1084,17 @@ static string readSettings()
 				}
 			}
 		}
+	// "acceleratedVisual" element
+		else if (pElement->ValueStr() == "acceleratedVisual") {
+			str = pElement->Attribute("enable");
+
+		// Eventually ignore relative command-line option.
+			if (str != NULL && strcmp(str, "true") == 0) {
+				gVars.gboolAcceleratedVisual = true;
+			} else {
+				gVars.gboolAcceleratedVisual = false;
+			}
+		}
 	// "audio" element
 		else if (pElement->ValueStr() == "audio") {
 			str = pElement->Attribute("enable");
@@ -1121,6 +1141,7 @@ static void initGlobalVar()
 {
 // Config file and command line options
 	gVars.gboolUseAudio				= true;
+	gVars.gboolAcceleratedVisual	= false;
 	gVars.gboolFullScreen			= false;
 	gVars.gboolServerMode			= false;
 	gVars.guiCityWidth				= OC_CITY_W;

@@ -137,7 +137,18 @@ class UI;
 */
 	string ocSaveDirPrefix( const string& s );
 
+
+//========================================================================
+/** Get the current version of the application as a string value.
+	\return The string value of the current version.
+*/
 	string ocStrVersion();
+
+
+//========================================================================
+/** Get the current version of the application as a long value.
+	\return The long value of the current version.
+*/
 	long ocLongVersion();
 
 

@@ -7,6 +7,7 @@ Last modified:
 Audience:
 	# End-users:
 		You can find a lot of useful information in this file. So read it !
+
 	# Packagers:
 		This file contains useful information about command line options.
 		For compilation and installation notes please refer to the
@@ -31,7 +32,7 @@ Speed:
 Graphic card:
 	3D accelerated card with OpenGL support is strongly recommended
 
-OpenGL extensions:
+Required OpenGL extensions:
 	GL_EXT_texture3D
 
 Sound card:
@@ -277,6 +278,19 @@ Save/Load issues
 
 		* Windows Vista:
 			C:\Users\username\AppData\Roaming\OpenCity\
+
+
+------------------------------------------------------------------------------
+Known issues
+------------------------------------------------------------------------------
+	In the ExtentensionManager, GCC complains about the ISO C++ casting
+with the following message:
+
+	"warning: ISO C++ forbids casting between pointer-to-function and
+pointer-to-object"
+
+	Currently, there's nothing that we can do about this because it's a
+limitation of the C++ standards.
 
 
 ------------------------------------------------------------------------------

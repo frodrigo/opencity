@@ -8,6 +8,9 @@
 		<height value="0" />
 	</fullscreen>
 
+	<!-- SDL GL accelerated visual: it's safe to leave it disabled. -->
+	<acceleratedVisual enable="false" />
+
 	<!-- Audio device: "true" to enable or anything else to disable -->
 	<audio enable="true" />
 

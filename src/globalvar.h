@@ -42,7 +42,7 @@
 // The current OpenCity version
 #define OC_VERSION			0
 #define OC_PATCHLEVEL		0
-#define OC_SUBLEVEL			6
+#define OC_SUBLEVEL			7
 
 
 //========================================================================
@@ -52,16 +52,17 @@
 struct GlobalVar
 {
 // Config file and command line options
-	bool gboolUseAudio;
-	bool gboolFullScreen;
-	bool gboolServerMode;
-	uint guiCityWidth;
-	uint guiCityLength;
-	uint guiMsPerFrame;
-	uint guiScreenWidth;
-	uint guiScreenHeight;
-	uint guiVideoBpp;
-	string gsOpenGLDriver;
+	bool gboolUseAudio;				///< Is audio enabled ?
+	bool gboolAcceleratedVisual;	///< Is GL accelerated visual enabled ?
+	bool gboolFullScreen;			///< Are we in fullscreen mode ?
+	bool gboolServerMode;			///< Are we running in the server mode ?
+	uint guiCityWidth;				///< The current city's width
+	uint guiCityLength;				///< The current city's length
+	uint guiMsPerFrame;				///< The number of milliseconds to wait between each frame.
+	uint guiScreenWidth;			///< The current screen's width
+	uint guiScreenHeight;			///< The current screen's height
+	uint guiVideoBpp;				///< The current video bits-per-plane
+	string gsOpenGLDriver;			///< The name of the OpenGL driver
 
 	uint guiGeneratorSeed;
 	string gsGeneratorHeightMap;
@@ -74,7 +75,7 @@ struct GlobalVar
 	string gsZenServer;
 
 // Application status
-	bool gboolActive;				///< Is the application is active
+	bool gboolActive;				///< Is the application active ?
 
 // The mutex that all the simulators depend on
 	SDL_mutex* gpmutexSim;
