@@ -13,7 +13,11 @@
 #ifndef __BINRELOC_C__
 #define __BINRELOC_C__
 
-#include "header.h"
+#ifndef __WIN32__
+	#include "header.h"
+#else
+	#include "../win32/header.h"
+#endif
 
 #ifdef ENABLE_BINRELOC
 	#include <sys/types.h>
