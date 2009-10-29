@@ -20,6 +20,17 @@ dnl We need ranlib to build index for accelerating symbols searching
 dnl in archive files.
 dnl ===========================================================================
 AC_PROG_RANLIB
+
+
+dnl ===========================================================================
+dnl We use libtool to build convenience libraries
+dnl ===========================================================================
+AC_PROG_LIBTOOL
+
+
+dnl ===========================================================================
+dnl We use install to install the program
+dnl ===========================================================================
 AC_PROG_INSTALL
 
 
@@ -215,6 +226,8 @@ AC_CONFIG_FILES([sound/Makefile])
 AC_CONFIG_FILES([src/Makefile])
 AC_CONFIG_FILES([src/binreloc/Makefile])
 AC_CONFIG_FILES([src/enum/Makefile])
+AC_CONFIG_FILES([src/framework/Makefile])
+AC_CONFIG_FILES([src/framework/System/Makefile])
 AC_CONFIG_FILES([src/mapgen/Makefile])
 AC_CONFIG_FILES([src/mas/Makefile])
 AC_CONFIG_FILES([src/model/Makefile])

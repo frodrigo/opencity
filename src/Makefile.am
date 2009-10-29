@@ -1,4 +1,10 @@
-SUBDIRS = binreloc enum mapgen mas model networking pngfuncs simulator structure tinyxml tinyxpath triangulation
+#==============================================================================
+# Makefile.am for the source root.
+# $Id$
+#==============================================================================
+SUBDIRS = binreloc enum framework mapgen mas model networking pngfuncs \
+	simulator structure tinyxml tinyxpath triangulation
+
 AM_CPPFLAGS = \
 	-I@top_srcdir@/src/ \
 	-I@top_srcdir@/src/binreloc/ \
@@ -36,6 +42,7 @@ noinst_PROGRAMS = oczen
 #==============================================================================
 opencity_LDADD = \
 binreloc/libbinreloc.a \
+framework/libsharpplus.la \
 mapgen/libmapgen.a \
 mas/libmas.a \
 model/libmodel.a \
