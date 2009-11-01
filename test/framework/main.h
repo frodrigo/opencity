@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_TEST_MAIN_H_
-#define _OPENCITY_FRAMEWORK_TEST_MAIN_H_
+#ifndef _SPF_TEST_MAIN_H_
+#define _SPF_TEST_MAIN_H_
 
 // Shar Plus Framework headers
 #include "System/CString.h"

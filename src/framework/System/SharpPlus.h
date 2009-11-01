@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SHARPPLUSFRAMEWORK_H_
-#define _OPENCITY_FRAMEWORK_SHARPPLUSFRAMEWORK_H_ 1
+#ifndef _SPF_SHARPPLUSFRAMEWORK_H_
+#define _SPF_SHARPPLUSFRAMEWORK_H_ 1
 
 #ifndef __GXX_RTTI
 	#error "The GCC RTTI support is required."

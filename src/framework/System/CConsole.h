@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_H_ 1
+#ifndef _SPF_SYSTEM_CCONSOLE_H_
+#define _SPF_SYSTEM_CCONSOLE_H_ 1
 
 // Framework headers
 #include "CObject.h"			// Object class
@@ -72,7 +72,7 @@ class Console : public Object
 		Console& operator<<(const int i);
 }; // class System::Console
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_CPP_
+#ifndef _SPF_SYSTEM_CCONSOLE_CPP_
 	extern Console Terminal;
 #endif
 

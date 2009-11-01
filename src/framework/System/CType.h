@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CTYPE_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_CTYPE_H_ 1
+#ifndef _SPF_SYSTEM_CTYPE_H_
+#define _SPF_SYSTEM_CTYPE_H_ 1
 
 // Framework headers
 #include "Reflection/CMemberInfo.h"		// System::Reflection::MemberInfo class

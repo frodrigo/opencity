@@ -1,7 +1,7 @@
 /***************************************************************************
-                       CNullValue.cpp  -  description
+                        CSdl.cpp  -  description
 							-------------------
-	begin                : January 18th, 2009
+	begin                : November 1st, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,50 +17,57 @@
  *                                                                         *
  ***************************************************************************/
 
-// Do not include "extern NullValue Null"
-#define _SPF_SYSTEM_CNULLVALUE_CPP_ 1
-
 // Framework headers
-#include "CNullValue.h"				// System::NullValue class
-#include "CString.h"				// System::String class
+#include "CSdl.h"				// System::Sdl class
+#include "../../CString.h"		// System::String class
 
+// libsdl headers
+#include "SDL.h"				// SDL_Version, SDL_Linked_Version, SDL_VERSION macro
 
 SPF_NAMESPACE_BEGIN(System)
-
-
-NullValue Null;
-
-
-   /*=====================================================================*/
-NullValue::NullValue()
-{
-	mbIsNull = true;
-}
-
-
-NullValue::NullValue(const NullValue& value)
-{
-	mbIsNull = value.mbIsNull;
-}
-
-
-NullValue::~NullValue() {}
+SPF_NAMESPACE_NESTED_BEGIN(Information, Software)
 
 
    /*=====================================================================*/
-bool NullValue::IsNull() const
-{
-	return mbIsNull;
-}
+Sdl::Sdl() {}
 
 
-String NullValue::ToString() const
+Sdl::~Sdl() {}
+
+
+String Sdl::ToString() const
 {
-	return String("System::NullValue");
+	return String("System::Information::Software::Sdl");
 }
 
 
    /*=====================================================================*/
+const String Sdl::GetCompiletimeVersion()
+{
+	SDL_version lsVersion;
+	SDL_VERSION(&lsVersion);
+
+	String lsStringVersion;
+	lsStringVersion << (short)lsVersion.major << "." << (short)lsVersion.minor << "." << (short)lsVersion.patch;
+
+	return lsStringVersion;
+}
 
 
+const String Sdl::GetRuntimeVersion()
+{
+	const SDL_version* lpVersion = SDL_Linked_Version();
+	//assert(lpVersion != NULL);
+
+	String lsStringVersion;
+	lsStringVersion << (short)lpVersion->major << "." << (short)lpVersion->minor << "." << (short)lpVersion->patch;
+
+	return lsStringVersion;
+}
+
+
+   /*=====================================================================*/
+
+
+SPF_NAMESPACE_NESTED_END
 SPF_NAMESPACE_END

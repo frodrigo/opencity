@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 // Do not include "extern Console Terminal"
-#define _OPENCITY_FRAMEWORK_SYSTEM_CCONSOLE_CPP_ 1
+#define _SPF_SYSTEM_CCONSOLE_CPP_ 1
 
 // Framework headers
 #include "CConsole.h"			// System::Console class

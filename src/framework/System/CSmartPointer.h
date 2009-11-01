@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CSMARTPOINTER_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_CSMARTPOINTER_H_ 1
+#ifndef _SPF_SYSTEM_CSMARTPOINTER_H_
+#define _SPF_SYSTEM_CSMARTPOINTER_H_ 1
 
 // System::Object class
 #include "CObject.h"

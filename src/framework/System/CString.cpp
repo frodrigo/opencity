@@ -18,12 +18,15 @@
  ***************************************************************************/
 
 // Do not include "extern const String Empty"
-#define _OPENCITY_FRAMEWORK_SYSTEM_STRING_CPP_ 1
+#define _SPF_SYSTEM_STRING_CPP_ 1
 
 // Framework headers
 #include "CNullValue.h"			// System::NullValue class
 #include "CString.h"
 #include "CConsole.h"
+
+// Standard C++ headers
+#include <sstream>				// stringstream
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -105,10 +108,34 @@ bool String::operator==(const String& value) const
 }
 
 
+String& String::operator<<(const unsigned char value)
+{
+	msString += value;
+	return *this;
+}
+
+
+String& String::operator<<(const int value)
+{
+	std::stringstream loStream;
+	loStream << value;
+
+	msString += loStream.str();
+	return *this;
+}
+
+
+String& String::operator<<(const char* const value)
+{
+	msString += value;
+	return *this;
+}
+
+
    /*=====================================================================*/
 std::ostream& operator<<(std::ostream& os, const String& value)
 {
-	return os << value.msString;
+	return (os << value.msString);
 }
 
 

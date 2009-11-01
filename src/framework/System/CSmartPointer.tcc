@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CSMARTPOINTER_TCC_
-#define _OPENCITY_FRAMEWORK_SYSTEM_CSMARTPOINTER_TCC_ 1
+#ifndef _SPF_SYSTEM_CSMARTPOINTER_TCC_
+#define _SPF_SYSTEM_CSMARTPOINTER_TCC_ 1
 
 // Framework headers
 #include "CString.h"				// System::String class

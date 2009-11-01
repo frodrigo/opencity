@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CObject.h  -  description
+                        CSdl.h  -  description
 							-------------------
-	begin                : December 29th, 2008
-	copyright            : (C) 2008 by Duong Khang NGUYEN
+	begin                : November 1st, 2009
+	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,47 +17,44 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_COBJECT_H_
-#define _SPF_SYSTEM_COBJECT_H_ 1
+#ifndef _SPF_SYSTEM_INFORMATION_SOFTWARE_CSDL_H_
+#define _SPF_SYSTEM_INFORMATION_SOFTWARE_CSDL_H_ 1
 
-// Sharp Plus Framework definitions
-#include "SharpPlus.h"
-
+// Framework headers
+#include "../../CObject.h"
 
 SPF_NAMESPACE_BEGIN(System)
 
-// Framework System::String class forward declaration
+// Forward System::String class declaration
 class String;
 
-// Framework System::Type class forward declaration
-class Type;
-
-// Framework System::NullValue class forward declaration
-class NullValue;
-
+SPF_NAMESPACE_NESTED_BEGIN(Information, Software)
 
 /**
-	Supports all classes in the Sharp Plus Framework class hierarchy
-and provides low-level services to derived classes.
+	Provides the information about the linked SDL library.
 */
-class Object
+class Sdl : public Object
 {
 	public:
-		Object();
-		Object(const NullValue& null);
-		virtual ~Object();
+		Sdl();
+		virtual ~Sdl();
 
-		bool IsNull() const;
 		virtual String ToString() const;
-		virtual Type GetType() const;
 
-		virtual Object& operator=(const NullValue& null);
+		/**
+			Gets the SDL library's compile-time version.
+		*/
+		static const String GetCompiletimeVersion();
 
-	protected:
-		bool mbIsNull;		/// Avoids circular dependency
+		/**
+			Gets the SDL library's run-time version.
+		*/
+		static const String GetRuntimeVersion();
 
-}; // class Object
 
+}; // class System::Sdl
+
+SPF_NAMESPACE_NESTED_END
 SPF_NAMESPACE_END
 
 #endif

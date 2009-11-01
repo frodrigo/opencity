@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_H_ 1
+#ifndef _SPF_SYSTEM_CNULLVALUE_H_
+#define _SPF_SYSTEM_CNULLVALUE_H_ 1
 
 // Framework headers
 #include "CValueType.h"
@@ -44,7 +44,7 @@ class NullValue : public ValueType
 
 }; // class System::NullValue
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CNULLVALUE_CPP_
+#ifndef _SPF_SYSTEM_CNULLVALUE_CPP_
 	extern const NullValue Null;
 #endif
 

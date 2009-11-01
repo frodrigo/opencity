@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_DIAGNOSTICS_CDEBUG_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_DIAGNOSTICS_CDEBUG_H_ 1
+#ifndef _SPF_SYSTEM_DIAGNOSTICS_CDEBUG_H_
+#define _SPF_SYSTEM_DIAGNOSTICS_CDEBUG_H_ 1
 
 // Framework headers
 #include "../CObject.h"			// Object class

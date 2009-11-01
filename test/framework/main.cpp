@@ -34,6 +34,8 @@
 #include "System/Collections/Generic/CList.h"
 #include "System/Collections/Generic/CLinkedList.h"
 
+#include "System/Information/Software/CSdl.h"
+
 
 // System::SmartPointer test
 int TestSmartPointer()
@@ -208,6 +210,18 @@ int TestNullValue()
 }
 
 
+int TestSystemInformationSoftware()
+{
+	System::Terminal << "System::Information::Software::Sdl test suite\n";
+
+	System::Terminal << "Compile-time version: " << System::Information::Software::Sdl::GetCompiletimeVersion() << "\n";
+	System::Terminal << "Run-time version: " << System::Information::Software::Sdl::GetRuntimeVersion() << "\n";
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
 // Main test procedure
 int main()
 {
@@ -237,6 +251,9 @@ int main()
 
 	// System::Collections::Generic test
 	TestCollectionsGeneric();
+
+	// System::Information::Software test
+	TestSystemInformationSoftware();
 
 	// System::Diagnostics::Debug test
 	System::Terminal << "There should be 2 failed assertions preceding the ending message:\n";

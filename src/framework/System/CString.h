@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_SYSTEM_CSTRING_H_
-#define _OPENCITY_FRAMEWORK_SYSTEM_CSTRING_H_ 1
+#ifndef _SPF_SYSTEM_CSTRING_H_
+#define _SPF_SYSTEM_CSTRING_H_ 1
 
 // Framework headers
 #include "CObject.h"
@@ -65,8 +65,11 @@ class String : public Object
 		bool operator==(const char* const value) const;
 		bool operator==(const String& value) const;
 
-		friend std::ostream& operator<<(std::ostream& os, const String& value);
+		String& operator<<(const unsigned char value);
+		String& operator<<(const int value);
+		String& operator<<(const char* const value);
 
+		friend std::ostream& operator<<(std::ostream& os, const String& value);
 
 		static const String Empty;
 

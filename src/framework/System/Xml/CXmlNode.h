@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _OPENCITY_FRAMEWORK_XML_CXMLNODE_H_
-#define _OPENCITY_FRAMEWORK_XML_CXMLNODE_H_ 1
+#ifndef _SPF_XML_CXMLNODE_H_
+#define _SPF_XML_CXMLNODE_H_ 1
 
 // Framework headers
 #include "../CObject.h"
