@@ -31,8 +31,8 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="datadir" value='&quot;/usr/local/share&quot;' />
 				<Variable name="sysconfdir" value='&quot;/usr/local/etc&quot;' />
+				<Variable name="datadir" value='&quot;/usr/local/share&quot;' />
 			</Environment>
 		</Build>
 		<Compiler>
@@ -57,16 +57,18 @@
 			<Add directory="../src/triangulation" />
 			<Add directory="../src" />
 			<Add directory="/usr/include/SDL" />
+			<Add directory="/usr/include/libxml2" />
 			<Add directory="./" />
 		</Compiler>
 		<Linker>
-			<Add option="-lSDL" />
 			<Add option="-lSDL_image" />
 			<Add option="-lSDL_mixer" />
 			<Add option="-lSDL_net" />
 			<Add option="-lGL" />
 			<Add option="-lGLU" />
 			<Add option="-lpng" />
+			<Add library="libSDL" />
+			<Add library="libxml2" />
 		</Linker>
 		<Unit filename="header.h" />
 		<Unit filename="../src/SimpleOpt.h" />
@@ -91,16 +93,37 @@
 		<Unit filename="../src/extensionmanager.cpp" />
 		<Unit filename="../src/extensionmanager.h" />
 		<Unit filename="../src/font_8x8.h" />
+		<Unit filename="../src/framework/System/CBoolean.cpp" />
+		<Unit filename="../src/framework/System/CBoolean.h" />
 		<Unit filename="../src/framework/System/CConsole.cpp" />
 		<Unit filename="../src/framework/System/CConsole.h" />
+		<Unit filename="../src/framework/System/CEnum.cpp" />
+		<Unit filename="../src/framework/System/CEnum.h" />
 		<Unit filename="../src/framework/System/CException.cpp" />
 		<Unit filename="../src/framework/System/CException.h" />
+		<Unit filename="../src/framework/System/CMarshalByRefObject.cpp" />
+		<Unit filename="../src/framework/System/CMarshalByRefObject.h" />
+		<Unit filename="../src/framework/System/CNullValue.cpp" />
+		<Unit filename="../src/framework/System/CNullValue.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
+		<Unit filename="../src/framework/System/CSmartPointer.h" />
+		<Unit filename="../src/framework/System/CSmartPointer.tcc" />
 		<Unit filename="../src/framework/System/CString.cpp" />
 		<Unit filename="../src/framework/System/CString.h" />
+		<Unit filename="../src/framework/System/CStringSplitOptions.cpp" />
+		<Unit filename="../src/framework/System/CStringSplitOptions.h" />
+		<Unit filename="../src/framework/System/CType.cpp" />
+		<Unit filename="../src/framework/System/CType.h" />
+		<Unit filename="../src/framework/System/CValueType.cpp" />
+		<Unit filename="../src/framework/System/CValueType.h" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
+		<Unit filename="../src/framework/System/Information/Software/CSdl.cpp" />
+		<Unit filename="../src/framework/System/Information/Software/CSdl.h" />
+		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
+		<Unit filename="../src/framework/System/Reflection/CMemberInfo.h" />
+		<Unit filename="../src/framework/System/SharpPlus.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />

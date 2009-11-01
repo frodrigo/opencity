@@ -76,6 +76,10 @@ extern GlobalVar gVars;
 #include "property.h"
 #include "propertymanager2.h"
 
+// Test Sharp Plus Framework
+#include "framework/System/CString.h"
+#include "framework/System/Information/Software/CSdl.h"
+
 
    /*=====================================================================*/
    /*                           LOCAL     MACROS                          */
@@ -293,6 +297,10 @@ static int initSDL()
 {
 // Initialization of the SDL library
 	OPENCITY_DEBUG( "SDL Initialization" );
+
+// Test Sharp Plus Framework
+	OPENCITY_INFO( "SDL compile-time version: " << System::Information::Software::Sdl::GetCompiletimeVersion() );
+	OPENCITY_INFO( "SDL run-time version: " << System::Information::Software::Sdl::GetRuntimeVersion() );
 
 // First, initialize SDL's video subsystem.
 	if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {

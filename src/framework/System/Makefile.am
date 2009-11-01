@@ -2,6 +2,8 @@
 # Makefile.am for libSystem.la
 # $Id$
 #==============================================================================
+SUBDIRS = Information Reflection
+
 AM_CPPFLAGS = -I@top_srcdir@/src/framework/System
 
 noinst_LTLIBRARIES = libSystem.la
@@ -11,7 +13,8 @@ CConsole.cpp \
 CNullValue.cpp \
 CObject.cpp \
 CString.cpp \
-CType.cpp
+CType.cpp \
+CValueType.cpp
 
 noinst_HEADERS = \
 CConsole.h \
@@ -19,5 +22,10 @@ CNullValue.h \
 CObject.h \
 CString.h \
 CType.h \
+CValueType.h \
 SharpPlus.h
+
+libSystem_la_LIBADD = \
+	Information/libInformation.la \
+	Reflection/libReflection.la
 
