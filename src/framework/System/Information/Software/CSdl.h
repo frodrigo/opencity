@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_INFORMATION_SOFTWARE_CSDL_H_ 1
 
 // Framework headers
-#include "../../CObject.h"
+#include "System/CObject.h"
 
 SPF_NAMESPACE_BEGIN(System)
 

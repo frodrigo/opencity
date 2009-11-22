@@ -18,9 +18,9 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CDebug.h"				// System::Diagnostics::Debug class
-#include "../CConsole.h"		// System::Console class
-#include "../CString.h"			// System::String class
+#include "CDebug.h"					// System::Diagnostics::Debug class
+#include "System/CConsole.h"		// System::Console class
+#include "System/CString.h"			// System::String class
 
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Diagnostics)

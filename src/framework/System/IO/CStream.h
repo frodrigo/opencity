@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_IO_CSTREAM_H_ 1
 
 // Framework headers
-#include "../CMarshalByRefObject.h"			// System::MarshalByRefObject class
+#include "System/CMarshalByRefObject.h"			// System::MarshalByRefObject class
 
 SPF_NAMESPACE_BEGIN(System)
 

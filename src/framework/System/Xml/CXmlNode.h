@@ -21,8 +21,8 @@
 #define _SPF_XML_CXMLNODE_H_ 1
 
 // Framework headers
-#include "../CObject.h"
-#include "../CString.h"
+#include "System/CObject.h"			// System::Object class
+#include "System/CString.h"			// System::String class
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Xml)
 

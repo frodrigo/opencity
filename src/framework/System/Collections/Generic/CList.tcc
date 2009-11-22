@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_COLLECTIONS_GENERIC_CLIST_TCC_ 1
 
 // Framework headers
-#include "../../CString.h"		// System::String class
+#include "System/CString.h"					// System::String class
 
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Collections)

@@ -19,8 +19,8 @@
 
 // Framework headers
 #include "CXmlDocument.h"
-#include "../CString.h"
-#include "../CException.h"				// FIXME: file not found exception
+#include "System/CString.h"
+#include "System/CException.h"				// FIXME: file not found exception
 
 // libxml headers
 #include <libxml/parser.h>

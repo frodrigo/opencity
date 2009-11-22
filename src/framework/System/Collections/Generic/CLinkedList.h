@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_COLLECTIONS_GENERIC_CLINKEDLIST_H_ 1
 
 // Framework headers
-#include "../../CObject.h"			// System::Object class
+#include "System/CObject.h"			// System::Object class
 
 // Standard C++ headers
 #include <list>

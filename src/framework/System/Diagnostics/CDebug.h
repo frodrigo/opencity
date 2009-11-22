@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_DIAGNOSTICS_CDEBUG_H_ 1
 
 // Framework headers
-#include "../CObject.h"			// Object class
+#include "System/CObject.h"			// Object class
 
 SPF_NAMESPACE_BEGIN(System)
 

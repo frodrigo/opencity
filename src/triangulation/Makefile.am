@@ -1,16 +1,18 @@
-AM_CPPFLAGS = \
-	-I@top_srcdir@/src/triangulation/ \
+#==============================================================================
+# Makefile.am for the libtriangulation.a
+# $Id$
+#==============================================================================
+AM_CXXFLAGS = \
+	-I@top_srcdir@/src/triangulation \
 	-I@top_srcdir@/src
-
 
 noinst_LIBRARIES = libtriangulation.a
 
-
 libtriangulation_a_SOURCES = \
-star.cpp
+	star.cpp
 
 noinst_HEADERS = \
-geometry.h \
-star.h \
-triangulation.h
+	geometry.h \
+	star.h \
+	triangulation.h
 

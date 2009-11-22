@@ -19,7 +19,7 @@
 
 // Framework headers
 #include "CXmlElement.h"
-#include "../CString.h"
+#include "System/CString.h"
 
 
 SPF_NAMESPACE_NESTED_BEGIN(System, Xml)

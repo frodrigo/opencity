@@ -82,7 +82,6 @@
 		<Unit filename="../src/framework/System/Information/Software/CSdl.h" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.h" />
-		<Unit filename="../src/framework/System/SharpPlus.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />
@@ -93,6 +92,8 @@
 		<Unit filename="../src/framework/System/Xml/CXmlNode.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.h" />
+		<Unit filename="../src/framework/UnitTesting/CAssert.cpp" />
+		<Unit filename="../src/framework/UnitTesting/CAssert.h" />
 		<Unit filename="../test/framework/main.cpp" />
 		<Unit filename="../test/framework/main.h" />
 		<Extensions>

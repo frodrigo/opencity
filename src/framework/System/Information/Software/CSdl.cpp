@@ -19,7 +19,7 @@
 
 // Framework headers
 #include "CSdl.h"				// System::Sdl class
-#include "../../CString.h"		// System::String class
+#include "System/CString.h"		// System::String class
 
 // libsdl headers
 #include "SDL.h"				// SDL_Version, SDL_Linked_Version, SDL_VERSION macro

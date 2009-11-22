@@ -1,15 +1,15 @@
-AM_CPPFLAGS = -I@top_srcdir@/src/
-
+#==============================================================================
+# Makefile.am for the libnet.a
+# $Id$
+#==============================================================================
+AM_CXXFLAGS = -I@top_srcdir@/src/
 
 noinst_LIBRARIES = libnet.a
 
-
 libnet_a_SOURCES = \
-networking.cpp
-
+	networking.cpp
 
 noinst_HEADERS = \
-netnode.h \
-networking.h
-
+	netnode.h \
+	networking.h
 

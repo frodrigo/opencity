@@ -21,7 +21,7 @@
 #define _SPF_XML_CXMLNODELIST_H_ 1
 
 // Framework headers
-#include "../CObject.h"
+#include "System/CObject.h"
 #include "CXmlNode.h"
 
 // Standard C++ headers

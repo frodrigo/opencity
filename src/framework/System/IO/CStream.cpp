@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CStream.h"			// System::IO::Stream class
-#include "../CString.h"			// System::String class
+#include "CStream.h"				// System::IO::Stream class
+#include "System/CString.h"			// System::String class
 
 
 SPF_NAMESPACE_NESTED_BEGIN(System, IO)
