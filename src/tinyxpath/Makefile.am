@@ -2,7 +2,7 @@
 # Makefile.am for the libtinyxpath.a
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = \
+AM_CPPFLAGS = \
 	-I@top_srcdir@/src/tinyxml/
 
 noinst_LIBRARIES = libtinyxpath.a

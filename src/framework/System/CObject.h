@@ -48,10 +48,21 @@ class Object
 		virtual ~Object();
 
 		bool IsNull() const;
+
+/**
+	Determines whether the specified Object is equal to the current Object.
+
+	\param	obj	The Object to compare with the current Object.
+	\return true if the specified Object is equal to the current Object;
+otherwise, false.
+*/
+		virtual bool Equals(const Object& obj) const;
+
 		virtual String ToString() const;
 		virtual Type GetType() const;
 
 		virtual Object& operator=(const NullValue& null);
+		virtual bool operator==(const Object& obj) const;
 
 	protected:
 		bool mbIsNull;		/// Avoids circular dependency

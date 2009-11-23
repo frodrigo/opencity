@@ -60,6 +60,13 @@ bool Object::IsNull() const
 
 
    /*=====================================================================*/
+bool Object::Equals(const Object& obj) const
+{
+	return (this == &obj);
+}
+
+
+   /*=====================================================================*/
 String Object::ToString() const
 {
 	return String("System::Object");
@@ -85,6 +92,12 @@ Object& Object::operator=(const NullValue& null)
 {
 	mbIsNull = null.IsNull();
 	return *this;
+}
+
+
+bool Object::operator==(const Object& obj) const
+{
+	return (this == &obj);
 }
 
 

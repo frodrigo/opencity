@@ -2,7 +2,7 @@
 # Makefile.am for libReflection.la
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = -I@top_srcdir@/src/framework
+AM_CPPFLAGS = -I@top_srcdir@/src/framework
 
 noinst_LTLIBRARIES = libReflection.la
 

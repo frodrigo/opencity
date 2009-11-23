@@ -4,7 +4,7 @@
 #==============================================================================
 SUBDIRS = Information Reflection
 
-AM_CXXFLAGS = -I@top_srcdir@/src/framework
+AM_CPPFLAGS = -I@top_srcdir@/src/framework
 
 noinst_LTLIBRARIES = libSystem.la
 

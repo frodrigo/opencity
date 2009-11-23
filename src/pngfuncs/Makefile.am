@@ -2,7 +2,7 @@
 # Makefile.am for the libpngfuncs.a
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = \
+AM_CPPFLAGS = \
 	-I@top_srcdir@/src/pngfuncs \
 	-I@top_srcdir@/src
 

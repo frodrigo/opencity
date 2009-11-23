@@ -5,7 +5,7 @@
 SUBDIRS = binreloc enum framework mapgen mas model networking pngfuncs \
 	simulator structure tinyxml tinyxpath triangulation
 
-AM_CXXFLAGS = \
+AM_CPPFLAGS = \
 	-I@top_srcdir@/src \
 	-I@top_srcdir@/src/binreloc \
 	-I@top_srcdir@/src/enum \

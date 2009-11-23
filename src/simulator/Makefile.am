@@ -2,7 +2,7 @@
 # Makefile.am for the libsim.a
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = \
+AM_CPPFLAGS = \
 	-I@top_srcdir@/src \
 	-I@top_srcdir@/src/enum \
 	-I@top_srcdir@/src/mas \

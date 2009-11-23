@@ -37,6 +37,23 @@
 #include "System/Information/Software/CSdl.h"
 
 
+// System::Object test
+int TestObject()
+{
+	System::Terminal << "System::Object test suite\n";
+	System::Terminal << "There should be 2 failed assertions:\n";
+
+	System::Object object;
+	System::Diagnostics::Debug::Assert(object == object);
+	System::Diagnostics::Debug::Assert(object.Equals(object));
+	System::Diagnostics::Debug::Assert(!(object == object));
+	System::Diagnostics::Debug::Assert(!object.Equals(object));
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
 // System::SmartPointer test
 int TestSmartPointer()
 {
@@ -229,6 +246,9 @@ int main()
 	System::Terminal << "SharpPlus framework test suite - begin\n";
 	System::Terminal << System::String("System::Console System::String output test\n");
 	System::Terminal << "\n";
+
+	// System::SmartPointer test
+	TestObject();
 
 	// System::SmartPointer test
 	TestSmartPointer();

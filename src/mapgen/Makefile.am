@@ -2,7 +2,7 @@
 # Makefile.am for the libmapgen.a
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = \
+AM_CPPFLAGS = \
 	-I@top_srcdir@/src/mapgen \
 	-I@top_srcdir@/src/mapgen/filter \
 	-I@top_srcdir@/src/mapgen/generator \

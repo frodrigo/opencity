@@ -2,7 +2,7 @@
 # Makefile.am for the libmodel.a
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = \
+AM_CPPFLAGS = \
 	-I@top_srcdir@/src/triangulation \
 	-I@top_srcdir@/src
 

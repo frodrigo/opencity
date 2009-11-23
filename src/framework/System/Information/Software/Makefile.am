@@ -2,7 +2,7 @@
 # Makefile.am for libSoftware.la
 # $Id$
 #==============================================================================
-AM_CXXFLAGS = -I@top_srcdir@/src/framework
+AM_CPPFLAGS = -I@top_srcdir@/src/framework
 
 noinst_LTLIBRARIES = libSoftware.la
 
