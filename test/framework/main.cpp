@@ -43,9 +43,11 @@ int TestObject()
 	System::Terminal << "System::Object test suite\n";
 	System::Terminal << "There should be 2 failed assertions:\n";
 
-	System::Object object;
+	System::Object object, otherObject;
 	System::Diagnostics::Debug::Assert(object == object);
 	System::Diagnostics::Debug::Assert(object.Equals(object));
+	System::Diagnostics::Debug::Assert(!object.Equals(otherObject));
+	System::Diagnostics::Debug::Assert(!otherObject.Equals(object));
 	System::Diagnostics::Debug::Assert(!(object == object));
 	System::Diagnostics::Debug::Assert(!object.Equals(object));
 

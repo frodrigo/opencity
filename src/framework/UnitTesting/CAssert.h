@@ -48,6 +48,17 @@ unit test produced.
 		static void AreEqual(const Object& expected, const Object& actual);
 
 /**
+	Verifies that two specified object variables refer to the same object.
+The assertion fails if they refer to different objects.
+
+	\param	expected	The first object to compare. This is the object the
+unit test expects.
+	\param	actual		The second object to compare. This is the object the
+unit test produced.
+*/
+		static void AreSame(const Object& expected, const Object& actual);
+
+/**
 	Verifies that the specified condition is false. The assertion fails if the
 condition is true.
 */

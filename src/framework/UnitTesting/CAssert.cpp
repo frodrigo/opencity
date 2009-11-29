@@ -45,6 +45,16 @@ void Assert::AreEqual(const Object& expected, const Object& actual)
 }
 
 
+void Assert::AreSame(const Object& expected, const Object& actual)
+{
+	if (&expected == &actual)
+		return;
+
+	// TODO: AssertFailedException
+	throw System::Exception("The expected object does not refer to the same object as the actual object.");
+}
+
+
    /*=====================================================================*/
 void Assert::IsFalse(const bool condition)
 {
