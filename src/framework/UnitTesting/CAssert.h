@@ -5,7 +5,7 @@
 	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
-	$Id: CAssert.h 424 2009-11-01 15:59:02Z neoneurone $
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -48,8 +48,24 @@ unit test produced.
 		static void AreEqual(const Object& expected, const Object& actual);
 
 /**
-	Verifies that two specified object variables refer to the same object.
-The assertion fails if they refer to different objects.
+	Verifies that two specified objects are equal. The assertion fails if the
+objects are not equal.
+
+	\param	expected	The first object to compare. This is the object the
+unit test expects.
+	\param	actual		The second object to compare. This is the object the
+unit test produced.
+	\param	message		A message to display if the assertion fails. This
+message can be seen in the unit test results.
+	\see	Object
+*/
+		static void AreEqual(
+			const Object& expected, const Object& actual,
+			const System::String& message);
+
+/**
+	Verifies that two specified object variables refer to the same object. The
+assertion fails if they refer to different objects.
 
 	\param	expected	The first object to compare. This is the object the
 unit test expects.
@@ -57,6 +73,22 @@ unit test expects.
 unit test produced.
 */
 		static void AreSame(const Object& expected, const Object& actual);
+
+/**
+	Verifies that two specified object variables refer to the same object. The
+assertion fails if they refer to different objects. Displays a message if the
+assertion fails.
+
+	\param	expected	The first object to compare. This is the object the
+unit test expects.
+	\param	actual		The second object to compare. This is the object the
+unit test produced.
+	\param	message		A message to display if the assertion fails. This
+message can be seen in the unit test results.
+*/
+		static void AreSame(
+			const Object& expected, const Object& actual,
+			const System::String& message);
 
 /**
 	Verifies that the specified condition is false. The assertion fails if the

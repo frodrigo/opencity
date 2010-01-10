@@ -57,7 +57,6 @@
 		<Unit filename="../src/framework/System/CObject.cpp" />
 		<Unit filename="../src/framework/System/CObject.h" />
 		<Unit filename="../src/framework/System/CSmartPointer.h" />
-		<Unit filename="../src/framework/System/CSmartPointer.tcc" />
 		<Unit filename="../src/framework/System/CString.cpp" />
 		<Unit filename="../src/framework/System/CString.h" />
 		<Unit filename="../src/framework/System/CStringSplitOptions.cpp" />
@@ -92,8 +91,14 @@
 		<Unit filename="../src/framework/System/Xml/CXmlNode.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.h" />
+		<Unit filename="../src/framework/UnitTesting/ATestClass.cpp" />
+		<Unit filename="../src/framework/UnitTesting/ATestClass.h" />
+		<Unit filename="../src/framework/UnitTesting/ATestRunner.cpp" />
+		<Unit filename="../src/framework/UnitTesting/ATestRunner.h" />
 		<Unit filename="../src/framework/UnitTesting/CAssert.cpp" />
 		<Unit filename="../src/framework/UnitTesting/CAssert.h" />
+		<Unit filename="../src/framework/UnitTesting/CTestContext.cpp" />
+		<Unit filename="../src/framework/UnitTesting/CTestContext.h" />
 		<Unit filename="../test/framework/main.cpp" />
 		<Unit filename="../test/framework/main.h" />
 		<Extensions>

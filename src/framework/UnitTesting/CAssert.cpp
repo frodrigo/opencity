@@ -5,7 +5,7 @@
 	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
-	$Id: CAssert.cpp 418 2009-05-02 09:59:12Z neoneurone $
+	$Id$
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,9 +19,9 @@
 
 // Framework headers
 #include "CAssert.h"				// UnitTesting::Assert class
+#include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
 #include "System/CConsole.h"		// System::Console class
 #include "System/CString.h"			// System::String class
-#include "System/CException.h"		// System::Exception class
 
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
@@ -37,28 +37,39 @@ Assert::~Assert() {}
    /*=====================================================================*/
 void Assert::AreEqual(const Object& expected, const Object& actual)
 {
-	if (expected == actual)
-		return;
-
-	// TODO: AssertFailedException
-	throw System::Exception("The expected value is not equal to the actual value.");
+	Assert::AreEqual(expected, actual, "The expected value is not equal to the actual value.");
 }
 
 
+void Assert::AreEqual(const Object& expected, const Object& actual, const System::String& message)
+{
+	if (expected == actual)
+		return;
+
+	throw AssertFailedException(message);
+}
+
+
+   /*=====================================================================*/
 void Assert::AreSame(const Object& expected, const Object& actual)
+{
+	Assert::AreSame(expected, actual, "The expected object does not refer to the same object as the actual object.");
+}
+
+
+void Assert::AreSame(const Object& expected, const Object& actual, const System::String& message)
 {
 	if (&expected == &actual)
 		return;
 
-	// TODO: AssertFailedException
-	throw System::Exception("The expected object does not refer to the same object as the actual object.");
+	throw AssertFailedException(message);
 }
 
 
    /*=====================================================================*/
 void Assert::IsFalse(const bool condition)
 {
-	Assert::IsFalse(condition, "Assertion failed\n");
+	Assert::IsFalse(condition, "The expected false condition is evaluated to true.");
 }
 
 
@@ -67,14 +78,14 @@ void Assert::IsFalse(const bool condition, const System::String& message)
 	if (!condition)
 		return;
 
-	System::Terminal << message;
+	throw AssertFailedException(message);
 }
 
 
    /*=====================================================================*/
 void Assert::IsTrue(const bool condition)
 {
-	Assert::IsTrue(condition, "Assertion failed\n");
+	Assert::IsTrue(condition, "The expected true condition is evaluated to false.");
 }
 
 
@@ -83,7 +94,7 @@ void Assert::IsTrue(const bool condition, const System::String& message)
 	if (condition)
 		return;
 
-	System::Terminal << message;
+	throw AssertFailedException(message);
 }
 
 
