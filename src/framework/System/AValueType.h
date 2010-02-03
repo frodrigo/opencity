@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CValueType.cpp  -  description
+                        AValueType.h  -  description
 							-------------------
 	begin                : January 2nd, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -17,26 +17,28 @@
  *                                                                         *
  ***************************************************************************/
 
-// Framework headers
-#include "CValueType.h"			// System::ValueType class
-#include "CString.h"			// System::String class
+#ifndef _SPF_SYSTEM_AVALUETYPE_H_
+#define _SPF_SYSTEM_AVALUETYPE_H_ 1
 
+// Framework headers
+#include "CObject.h"			// System::Object class
 
 SPF_NAMESPACE_BEGIN(System)
 
 
-   /*=====================================================================*/
-ValueType::ValueType() {}
-
-
-ValueType::~ValueType() {}
-
-
-   /*=====================================================================*/
-String ValueType::ToString() const
+/**
+	Provides the base class for value types.
+*/
+class ValueType : public Object
 {
-	return String("System::ValueType");
-}
+	public:
+		virtual String ToString() const;
 
+	protected:
+		ValueType();
+		virtual ~ValueType();
+}; // class System::ValueType
 
 SPF_NAMESPACE_END
+
+#endif

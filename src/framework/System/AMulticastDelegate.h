@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CType.h  -  description
+                    AMulticastDelegate.h  -  description
 							-------------------
-	begin                : January 1st, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 3rd, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,37 +17,34 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CTYPE_H_
-#define _SPF_SYSTEM_CTYPE_H_ 1
+#ifndef _SPF_SYSTEM_AMULTICASTDELEGATE_H_
+#define _SPF_SYSTEM_AMULTICASTDELEGATE_H_ 1
 
 // Framework headers
-#include "Reflection/CMemberInfo.h"		// System::Reflection::MemberInfo class
+#include "ADelegate.h"		// System::Delegate class
 
 SPF_NAMESPACE_BEGIN(System)
 
+
 /**
-	Represents type declarations: class types, interface types, array types,
-value types, enumeration types, type parameters, generic type definitions,
-and open or closed constructed generic types.
+	A platform-specific type that is used to represent a pointer or a handle.
 */
-class Type : public Reflection::MemberInfo
+class MulticastDelegate : public Delegate
 {
 	public:
-		Type();
-		Type(const String& name);
-		Type(const String& name, const String& space);
-		virtual ~Type();
-
-		// Properties
-		const String& GetNamespace() const;
-		const String& GetFullName() const;
-
+/**
+	Converts the numeric value of the current MulticastDelegate object to its equivalent
+string representation.
+*/
 		virtual String ToString() const;
 
-	private:
-		String msNamespace;
-		String msFullName;
-}; // class System::String
+	protected:
+
+// Constructors and destructor
+		MulticastDelegate();
+		virtual ~MulticastDelegate();
+
+}; // class System::MulticastDelegate
 
 SPF_NAMESPACE_END
 

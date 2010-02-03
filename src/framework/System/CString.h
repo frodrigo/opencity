@@ -49,9 +49,9 @@ class String : public Object
 		virtual String ToString() const;
 
 // Properties
-		/**
-			Gets the number of characters in the current String object.
-		*/
+/**
+	Gets the number of characters in the current String object.
+*/
 		int GetLength() const;
 
 // Operators

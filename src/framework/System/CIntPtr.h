@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CType.h  -  description
+                        CIntPtr.h  -  description
 							-------------------
-	begin                : January 1st, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : January 23th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,37 +17,47 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CTYPE_H_
-#define _SPF_SYSTEM_CTYPE_H_ 1
+#ifndef _SPF_SYSTEM_CINTPTR_H_
+#define _SPF_SYSTEM_CINTPTR_H_ 1
 
 // Framework headers
-#include "Reflection/CMemberInfo.h"		// System::Reflection::MemberInfo class
+#include "CValueType.h"		// System::ValueType class
 
 SPF_NAMESPACE_BEGIN(System)
 
+
 /**
-	Represents type declarations: class types, interface types, array types,
-value types, enumeration types, type parameters, generic type definitions,
-and open or closed constructed generic types.
+	A platform-specific type that is used to represent a pointer or a handle.
 */
-class Type : public Reflection::MemberInfo
+class IntPtr : public ValueType
 {
 	public:
-		Type();
-		Type(const String& name);
-		Type(const String& name, const String& space);
-		virtual ~Type();
 
-		// Properties
-		const String& GetNamespace() const;
-		const String& GetFullName() const;
+// Constructors and destructor
+/**
+	Initializes a new instance of IntPtr using the specified pointer to an
+unspecified type.
+	\param	value	A pointer to an unspecified type.
+*/
+		IntPtr(void* value);
+		virtual ~IntPtr();
 
+/**
+	Converts the value of this instance to a pointer to an unspecified type.
+	\return	A pointer to Void; that is, a pointer to memory containing data of
+an unspecified type.
+*/
+		void* const ToPointer() const;
+
+/**
+	Converts the numeric value of the current IntPtr object to its equivalent
+string representation.
+*/
 		virtual String ToString() const;
 
 	private:
-		String msNamespace;
-		String msFullName;
-}; // class System::String
+		void*	mpValue;
+}; // class System::IntPtr
 
 SPF_NAMESPACE_END
 

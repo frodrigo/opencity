@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CType.h  -  description
+                    AMulticastDelegate.cpp  -  description
 							-------------------
-	begin                : January 1st, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 3rd, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,38 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CTYPE_H_
-#define _SPF_SYSTEM_CTYPE_H_ 1
-
 // Framework headers
-#include "Reflection/CMemberInfo.h"		// System::Reflection::MemberInfo class
+#include "AMulticastDelegate.h"		// System::MulticastDelegate class
+#include "CString.h"				// System::String class
+
 
 SPF_NAMESPACE_BEGIN(System)
 
-/**
-	Represents type declarations: class types, interface types, array types,
-value types, enumeration types, type parameters, generic type definitions,
-and open or closed constructed generic types.
-*/
-class Type : public Reflection::MemberInfo
+
+   /*=====================================================================*/
+MulticastDelegate::MulticastDelegate() {}
+
+
+MulticastDelegate::~MulticastDelegate() {}
+
+
+   /*=====================================================================*/
+String MulticastDelegate::ToString() const
 {
-	public:
-		Type();
-		Type(const String& name);
-		Type(const String& name, const String& space);
-		virtual ~Type();
+	return String("System::MulticastDelegate");
+}
 
-		// Properties
-		const String& GetNamespace() const;
-		const String& GetFullName() const;
-
-		virtual String ToString() const;
-
-	private:
-		String msNamespace;
-		String msFullName;
-}; // class System::String
 
 SPF_NAMESPACE_END
-
-#endif
