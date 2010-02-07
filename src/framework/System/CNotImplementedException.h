@@ -1,8 +1,8 @@
 /***************************************************************************
-                    CMarshalByRefObject.h  -  description
+                  CNotImplementedException.h  -  description
 							-------------------
-	begin                : January 11th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 7th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,29 +17,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CMARSHALBYREFOBJECT_H_
-#define _SPF_SYSTEM_CMARSHALBYREFOBJECT_H_ 1
+#ifndef _SPF_SYSTEM_CNOTIMPLEMENTEDEXCEPTION_H_
+#define _SPF_SYSTEM_CNOTIMPLEMENTEDEXCEPTION_H_ 1
 
 // Framework headers
-#include "CObject.h"			// System::Object class
+#include "CException.h"			// System::Exception class
 
 
 SPF_NAMESPACE_BEGIN(System)
 
 
 /**
-	Enables access to objects across application domain boundaries in
-applications that support remoting.
+	The exception that is thrown when a requested method or operation is not
+implemented.
 */
-class MarshalByRefObject : public Object
+class NotImplementedException : public Exception
 {
 	public:
-		MarshalByRefObject();
-		virtual ~MarshalByRefObject();
+/**
+	Initializes a new instance of the NotImplementedException class with
+default properties.
+*/
+		NotImplementedException();
+		NotImplementedException(const String& message);
+		virtual ~NotImplementedException();
 
-		virtual String ToString() const;
-
-}; // class System::MarshalByRefObject
+}; // class System::NotImplementedException
 
 SPF_NAMESPACE_END
 

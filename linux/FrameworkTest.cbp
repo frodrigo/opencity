@@ -60,6 +60,8 @@
 		<Unit filename="../src/framework/System/CIntPtr.h" />
 		<Unit filename="../src/framework/System/CMarshalByRefObject.cpp" />
 		<Unit filename="../src/framework/System/CMarshalByRefObject.h" />
+		<Unit filename="../src/framework/System/CNotImplementedException.cpp" />
+		<Unit filename="../src/framework/System/CNotImplementedException.h" />
 		<Unit filename="../src/framework/System/CNullValue.cpp" />
 		<Unit filename="../src/framework/System/CNullValue.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />

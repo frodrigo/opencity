@@ -21,8 +21,8 @@
 #define _SPF_SYSTEM_CEXCEPTION_H_ 1
 
 // Framework headers
-#include "CObject.h"			// Object class
-#include "CString.h"			// String class
+#include "CObject.h"			// System::Object class
+#include "CString.h"			// System::String class
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -47,7 +47,7 @@ class Exception : public Object
 
 	private:
 		String msMessage;
-}; // class System::String
+}; // class System::Exception
 
 SPF_NAMESPACE_END
 

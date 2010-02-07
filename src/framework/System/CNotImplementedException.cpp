@@ -1,7 +1,7 @@
 /***************************************************************************
-                        ADelegate.cpp  -  description
+                  CNotImplementedException.cpp  -  description
 							-------------------
-	begin                : February 3rd, 2010
+	begin                : February 7th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -18,45 +18,23 @@
  ***************************************************************************/
 
 // Framework headers
-#include "ADelegate.h"			// System::Delegate class
-#include "CString.h"			// System::String class
-#include "CNullValue.h"			// System::NullValue class
-
-#include "CNotImplementedException.h"	// Testing
+#include "CNotImplementedException.h"	// System::NotImplementedException class
 
 
 SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-Delegate::Delegate() {}
+NotImplementedException::NotImplementedException() {}
 
 
-Delegate::~Delegate() {}
+NotImplementedException::NotImplementedException(const String& message) :
+Exception(message)
+{}
 
 
-   /*=====================================================================*/
-Object Delegate::DynamicInvoke(const IntPtr& intPtr) const
-{
-	return this->DynamicInvokeImpl(intPtr);
-}
-
-
-   /*=====================================================================*/
-String Delegate::ToString() const
-{
-	return String("System::Delegate");
-}
+NotImplementedException::~NotImplementedException() {}
 
 
    /*=====================================================================*/
-Object Delegate::DynamicInvokeImpl(const IntPtr& intPtr) const
-{
-	throw NotImplementedException();
-
-	//return Null;
-}
-
-
-
 SPF_NAMESPACE_END

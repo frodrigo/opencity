@@ -25,6 +25,9 @@
 
 SPF_NAMESPACE_BEGIN(System)
 
+// Framework System::IntPtr class forward declaration
+class IntPtr;
+
 
 /**
 	A platform-specific type that is used to represent a pointer or a handle.
@@ -32,6 +35,16 @@ SPF_NAMESPACE_BEGIN(System)
 class Delegate : public Object
 {
 	public:
+
+/**
+	Dynamically invokes (late-bound) the method represented by the current
+delegate.
+	\param	intPtr	A pointer to the object that is the argument to pass to the
+method represented by the current delegate.
+*/
+		Object DynamicInvoke(const IntPtr& intPtr) const;
+
+
 /**
 	Converts the numeric value of the current Delegate object to its equivalent
 string representation.
@@ -43,6 +56,15 @@ string representation.
 // Constructors and destructor
 		Delegate();
 		virtual ~Delegate();
+
+/**
+	Dynamically invokes (late-bound) the method represented by the current
+delegate.
+	\param	intPtr	A pointer to the object that is the argument to pass to the
+method represented by the current delegate.
+*/
+		virtual Object DynamicInvokeImpl(const IntPtr& intPtr) const;
+
 
 }; // class System::Delegate
 
