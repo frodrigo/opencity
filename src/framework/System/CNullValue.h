@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_CNULLVALUE_H_ 1
 
 // Framework headers
-#include "CValueType.h"
+#include "AValueType.h"
 
 
 SPF_NAMESPACE_BEGIN(System)

@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_CINTPTR_H_ 1
 
 // Framework headers
-#include "CValueType.h"		// System::ValueType class
+#include "AValueType.h"		// System::ValueType class
 
 SPF_NAMESPACE_BEGIN(System)
 
