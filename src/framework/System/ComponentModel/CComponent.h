@@ -1,8 +1,8 @@
 /***************************************************************************
-                    CMarshalByRefObject.h  -  description
+                        CComponent.h  -  description
 							-------------------
-	begin                : January 11th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 9th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,30 +17,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CMARSHALBYREFOBJECT_H_
-#define _SPF_SYSTEM_CMARSHALBYREFOBJECT_H_ 1
+#ifndef _SPF_SYSTEM_COMPONENTMODEL_CCOMPONENT_H_
+#define _SPF_SYSTEM_COMPONENTMODEL_CCOMPONENT_H_ 1
 
 // Framework headers
-#include "CObject.h"			// System::Object class
-
+#include "System/AMarshalByRefObject.h"		// System::MarshalByRefObject abstract class
+#include "IComponent.h"						// System::IComponent interface
 
 SPF_NAMESPACE_BEGIN(System)
 
+// Forward System::String class declaration
+class String;
+
+SPF_NAMESPACE_BEGIN(ComponentModel)
+
 
 /**
-	Enables access to objects across application domain boundaries in
-applications that support remoting.
+	Provides the base implementation for the IComponent interface and enables
+object sharing between applications.
 */
-class MarshalByRefObject : public Object
+class Component : public MarshalByRefObject, public IComponent
 {
 	public:
-		MarshalByRefObject();
-		virtual ~MarshalByRefObject();
-
 		virtual String ToString() const;
 
-}; // class System::MarshalByRefObject
+	protected:
+		Component();
+		virtual ~Component();
+}; // class System::ComponentModel::Component
 
+
+// namespace System::ComponentModel
+SPF_NAMESPACE_END
+
+// namespace System
 SPF_NAMESPACE_END
 
 #endif

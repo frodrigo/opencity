@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CStream.h  -  description
+                    AMarshalByRefObject.cpp  -  description
 							-------------------
 	begin                : January 11th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -17,36 +17,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_IO_CSTREAM_H_
-#define _SPF_SYSTEM_IO_CSTREAM_H_ 1
-
 // Framework headers
-#include "System/AMarshalByRefObject.h"			// System::MarshalByRefObject class
+#include "AMarshalByRefObject.h"	// System::MarshalByRefObject abstract class
+#include "CString.h"				// System::String class
+
 
 SPF_NAMESPACE_BEGIN(System)
 
-// Forward System::String class declaration
-class String;
 
-SPF_NAMESPACE_BEGIN(IO)
+   /*=====================================================================*/
+MarshalByRefObject::MarshalByRefObject() {}
 
-/**
-	Provides a generic view of a sequence of bytes.
-*/
-class Stream : public MarshalByRefObject
+
+MarshalByRefObject::~MarshalByRefObject() {}
+
+
+String MarshalByRefObject::ToString() const
 {
-	public:
-		Stream();
-		virtual ~Stream();
+	return String("System::MarshalByRefObject");
+}
 
-		virtual String ToString() const;
 
-}; // class System::IO::Stream
+   /*=====================================================================*/
 
-// namespace System::IO
+
 SPF_NAMESPACE_END
-
-// namespace System
-SPF_NAMESPACE_END
-
-#endif

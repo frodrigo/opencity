@@ -44,6 +44,8 @@
 		</Linker>
 		<Unit filename="../src/framework/System/ADelegate.cpp" />
 		<Unit filename="../src/framework/System/ADelegate.h" />
+		<Unit filename="../src/framework/System/AMarshalByRefObject.cpp" />
+		<Unit filename="../src/framework/System/AMarshalByRefObject.h" />
 		<Unit filename="../src/framework/System/AMulticastDelegate.cpp" />
 		<Unit filename="../src/framework/System/AMulticastDelegate.h" />
 		<Unit filename="../src/framework/System/AValueType.cpp" />
@@ -58,8 +60,6 @@
 		<Unit filename="../src/framework/System/CException.h" />
 		<Unit filename="../src/framework/System/CIntPtr.cpp" />
 		<Unit filename="../src/framework/System/CIntPtr.h" />
-		<Unit filename="../src/framework/System/CMarshalByRefObject.cpp" />
-		<Unit filename="../src/framework/System/CMarshalByRefObject.h" />
 		<Unit filename="../src/framework/System/CNotImplementedException.cpp" />
 		<Unit filename="../src/framework/System/CNotImplementedException.h" />
 		<Unit filename="../src/framework/System/CNullValue.cpp" />
@@ -79,8 +79,12 @@
 		<Unit filename="../src/framework/System/Collections/Generic/CLinkedList.tcc" />
 		<Unit filename="../src/framework/System/Collections/Generic/CList.h" />
 		<Unit filename="../src/framework/System/Collections/Generic/CList.tcc" />
+		<Unit filename="../src/framework/System/ComponentModel/CComponent.cpp" />
+		<Unit filename="../src/framework/System/ComponentModel/CComponent.h" />
+		<Unit filename="../src/framework/System/ComponentModel/IComponent.h" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
+		<Unit filename="../src/framework/System/IDisposable.h" />
 		<Unit filename="../src/framework/System/IO/CFileStream.cpp" />
 		<Unit filename="../src/framework/System/IO/CFileStream.h" />
 		<Unit filename="../src/framework/System/IO/CStream.cpp" />

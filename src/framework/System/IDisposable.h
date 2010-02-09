@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CStream.h  -  description
+                        IDisposable.h  -  description
 							-------------------
-	begin                : January 11th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 9th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,36 +17,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_IO_CSTREAM_H_
-#define _SPF_SYSTEM_IO_CSTREAM_H_ 1
+#ifndef _SPF_SYSTEM_IDISPOSABLE_H_
+#define _SPF_SYSTEM_IDISPOSABLE_H_ 1
 
-// Framework headers
-#include "System/AMarshalByRefObject.h"			// System::MarshalByRefObject class
 
 SPF_NAMESPACE_BEGIN(System)
 
-// Forward System::String class declaration
-class String;
-
-SPF_NAMESPACE_BEGIN(IO)
 
 /**
-	Provides a generic view of a sequence of bytes.
+	Defines a method to release allocated resources.
 */
-class Stream : public MarshalByRefObject
+class IDisposable
 {
 	public:
-		Stream();
-		virtual ~Stream();
 
-		virtual String ToString() const;
+/**
+	Performs application-defined tasks associated with freeing, releasing,
+or resetting unmanaged resources.
+*/
+		virtual void Dispose() = 0;
 
-}; // class System::IO::Stream
+	protected:
+		IDisposable() {}
+		virtual ~IDisposable() {}
 
-// namespace System::IO
-SPF_NAMESPACE_END
+}; // class System::IDisposable
 
-// namespace System
 SPF_NAMESPACE_END
 
 #endif

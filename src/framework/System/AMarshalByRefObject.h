@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CStream.h  -  description
+                    AMarshalByRefObject.h  -  description
 							-------------------
 	begin                : January 11th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -17,36 +17,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_IO_CSTREAM_H_
-#define _SPF_SYSTEM_IO_CSTREAM_H_ 1
+#ifndef _SPF_SYSTEM_AMARSHALBYREFOBJECT_H_
+#define _SPF_SYSTEM_AMARSHALBYREFOBJECT_H_ 1
 
 // Framework headers
-#include "System/AMarshalByRefObject.h"			// System::MarshalByRefObject class
+#include "CObject.h"			// System::Object class
+
 
 SPF_NAMESPACE_BEGIN(System)
 
-// Forward System::String class declaration
-class String;
-
-SPF_NAMESPACE_BEGIN(IO)
 
 /**
-	Provides a generic view of a sequence of bytes.
+	Enables access to objects across application domain boundaries in
+applications that support remoting.
 */
-class Stream : public MarshalByRefObject
+class MarshalByRefObject : public Object
 {
 	public:
-		Stream();
-		virtual ~Stream();
-
 		virtual String ToString() const;
 
-}; // class System::IO::Stream
+	protected:
+		MarshalByRefObject();
+		virtual ~MarshalByRefObject();
 
-// namespace System::IO
-SPF_NAMESPACE_END
+}; // class System::MarshalByRefObject
 
-// namespace System
 SPF_NAMESPACE_END
 
 #endif

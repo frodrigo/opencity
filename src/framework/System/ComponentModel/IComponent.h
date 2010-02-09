@@ -1,8 +1,8 @@
 /***************************************************************************
-                    CMarshalByRefObject.cpp  -  description
+                        IComponent.h  -  description
 							-------------------
-	begin                : January 11th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 9th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,28 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _SPF_SYSTEM_COMPONENTMODEL_ICOMPONENT_H_
+#define _SPF_SYSTEM_COMPONENTMODEL_ICOMPONENT_H_ 1
+
 // Framework headers
-#include "CMarshalByRefObject.h"		// System::MarshalByRefObject class
-#include "CString.h"					// System::String class
+#include "System/IDisposable.h"		// System::IDisposable interface
+
+SPF_NAMESPACE_NESTED_BEGIN(System, ComponentModel)
 
 
-SPF_NAMESPACE_BEGIN(System)
-
-
-   /*=====================================================================*/
-MarshalByRefObject::MarshalByRefObject() {}
-
-
-MarshalByRefObject::~MarshalByRefObject() {}
-
-
-String MarshalByRefObject::ToString() const
+/**
+	Provides functionality required by all components.
+*/
+class IComponent : public System::IDisposable
 {
-	return String("System::MarshalByRefObject");
-}
+	protected:
+		IComponent() {}
+		virtual ~IComponent() {}
 
+}; // class System::ComponentModel::IComponent
 
-   /*=====================================================================*/
+SPF_NAMESPACE_NESTED_END
 
-
-SPF_NAMESPACE_END
+#endif

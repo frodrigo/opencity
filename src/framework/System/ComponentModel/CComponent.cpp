@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CStream.h  -  description
+                        CComponent.cpp  -  description
 							-------------------
-	begin                : January 11th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : February 9th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,36 +17,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_IO_CSTREAM_H_
-#define _SPF_SYSTEM_IO_CSTREAM_H_ 1
-
 // Framework headers
-#include "System/AMarshalByRefObject.h"			// System::MarshalByRefObject class
+#include "CComponent.h"			// System::ComponentModel::Component class
+#include "System/CString.h"		// System::String class
 
-SPF_NAMESPACE_BEGIN(System)
 
-// Forward System::String class declaration
-class String;
+SPF_NAMESPACE_NESTED_BEGIN(System, ComponentModel)
 
-SPF_NAMESPACE_BEGIN(IO)
 
-/**
-	Provides a generic view of a sequence of bytes.
-*/
-class Stream : public MarshalByRefObject
+   /*=====================================================================*/
+Component::Component() {}
+
+
+Component::~Component() {}
+
+
+   /*=====================================================================*/
+String Component::ToString() const
 {
-	public:
-		Stream();
-		virtual ~Stream();
+	return String("System::ComponentModel::Component");
+}
 
-		virtual String ToString() const;
 
-}; // class System::IO::Stream
-
-// namespace System::IO
-SPF_NAMESPACE_END
-
-// namespace System
-SPF_NAMESPACE_END
-
-#endif
+SPF_NAMESPACE_NESTED_END
