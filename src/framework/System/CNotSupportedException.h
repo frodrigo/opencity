@@ -1,7 +1,7 @@
 /***************************************************************************
-                  CNotImplementedException.cpp  -  description
+                  CNotSupportedException.h  -  description
 							-------------------
-	begin                : February 7th, 2010
+	begin                : February 16th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,24 +17,34 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef _SPF_SYSTEM_CNOTSUPPORTEDEXCEPTION_H_
+#define _SPF_SYSTEM_CNOTSUPPORTEDEXCEPTION_H_ 1
+
 // Framework headers
-#include "CNotImplementedException.h"	// System::NotImplementedException class
+#include "CSystemException.h"			// System::SystemException class
 
 
 SPF_NAMESPACE_BEGIN(System)
 
 
-   /*=====================================================================*/
-NotImplementedException::NotImplementedException() {}
+/**
+	The exception that is thrown when an invoked method is not supported, or
+when there is an attempt to read, seek, or write to a stream that does not
+support the invoked functionality.
+*/
+class NotSupportedException : public SystemException
+{
+	public:
+/**
+	Initializes a new instance of the NotSupportedException class with
+default properties.
+*/
+		NotSupportedException();
+		NotSupportedException(const String& message);
+		virtual ~NotSupportedException();
 
+}; // class System::NotSupportedException
 
-NotImplementedException::NotImplementedException(const String& message) :
-SystemException(message)
-{}
-
-
-NotImplementedException::~NotImplementedException() {}
-
-
-   /*=====================================================================*/
 SPF_NAMESPACE_END
+
+#endif

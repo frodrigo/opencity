@@ -42,6 +42,8 @@
 			<Add library="libSDL" />
 			<Add library="libxml2" />
 		</Linker>
+		<Unit filename="../src/framework/System/AApplication.cpp" />
+		<Unit filename="../src/framework/System/AApplication.h" />
 		<Unit filename="../src/framework/System/ADelegate.cpp" />
 		<Unit filename="../src/framework/System/ADelegate.h" />
 		<Unit filename="../src/framework/System/AMarshalByRefObject.cpp" />
@@ -62,6 +64,8 @@
 		<Unit filename="../src/framework/System/CIntPtr.h" />
 		<Unit filename="../src/framework/System/CNotImplementedException.cpp" />
 		<Unit filename="../src/framework/System/CNotImplementedException.h" />
+		<Unit filename="../src/framework/System/CNotSupportedException.cpp" />
+		<Unit filename="../src/framework/System/CNotSupportedException.h" />
 		<Unit filename="../src/framework/System/CNullValue.cpp" />
 		<Unit filename="../src/framework/System/CNullValue.h" />
 		<Unit filename="../src/framework/System/CObject.cpp" />
@@ -71,6 +75,8 @@
 		<Unit filename="../src/framework/System/CString.h" />
 		<Unit filename="../src/framework/System/CStringSplitOptions.cpp" />
 		<Unit filename="../src/framework/System/CStringSplitOptions.h" />
+		<Unit filename="../src/framework/System/CSystemException.cpp" />
+		<Unit filename="../src/framework/System/CSystemException.h" />
 		<Unit filename="../src/framework/System/CType.cpp" />
 		<Unit filename="../src/framework/System/CType.h" />
 		<Unit filename="../src/framework/System/Collections/Generic/CArray.h" />

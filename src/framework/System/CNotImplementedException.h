@@ -21,7 +21,7 @@
 #define _SPF_SYSTEM_CNOTIMPLEMENTEDEXCEPTION_H_ 1
 
 // Framework headers
-#include "CException.h"			// System::Exception class
+#include "CSystemException.h"			// System::SystemException class
 
 
 SPF_NAMESPACE_BEGIN(System)
@@ -31,7 +31,7 @@ SPF_NAMESPACE_BEGIN(System)
 	The exception that is thrown when a requested method or operation is not
 implemented.
 */
-class NotImplementedException : public Exception
+class NotImplementedException : public SystemException
 {
 	public:
 /**

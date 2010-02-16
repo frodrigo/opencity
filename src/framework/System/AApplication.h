@@ -1,7 +1,7 @@
 /***************************************************************************
-                  CNotImplementedException.cpp  -  description
+                       AApplication.h  -  description
 							-------------------
-	begin                : February 7th, 2010
+	begin                : February 16th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,24 +17,30 @@
  *                                                                         *
  ***************************************************************************/
 
-// Framework headers
-#include "CNotImplementedException.h"	// System::NotImplementedException class
+#ifndef _SPF_SYSTEM_AAPPLICATION_H_
+#define _SPF_SYSTEM_AAPPLICATION_H_ 1
 
+// Framework headers
+#include "CObject.h"			// System::Object class
 
 SPF_NAMESPACE_BEGIN(System)
 
 
-   /*=====================================================================*/
-NotImplementedException::NotImplementedException() {}
+/**
+	Provides static methods and properties to manage an application, such
+as methods to start and stop an application, to process messages, and
+properties to get information about an application.
+*/
+class Application : public Object
+{
+	public:
+		virtual String ToString() const;
 
+	protected:
+		Application();
+		virtual ~Application();
+}; // class System::Application
 
-NotImplementedException::NotImplementedException(const String& message) :
-SystemException(message)
-{}
-
-
-NotImplementedException::~NotImplementedException() {}
-
-
-   /*=====================================================================*/
 SPF_NAMESPACE_END
+
+#endif

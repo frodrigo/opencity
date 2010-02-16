@@ -1,7 +1,7 @@
 /***************************************************************************
-                  CNotImplementedException.cpp  -  description
+                        AApplication.cpp  -  description
 							-------------------
-	begin                : February 7th, 2010
+	begin                : February 16th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -18,23 +18,25 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CNotImplementedException.h"	// System::NotImplementedException class
+#include "AApplication.h"			// System::Application class
+#include "CString.h"				// System::String class
 
 
 SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-NotImplementedException::NotImplementedException() {}
+Application::Application() {}
 
 
-NotImplementedException::NotImplementedException(const String& message) :
-SystemException(message)
-{}
-
-
-NotImplementedException::~NotImplementedException() {}
+Application::~Application() {}
 
 
    /*=====================================================================*/
+String Application::ToString() const
+{
+	return String("System::Application");
+}
+
+
 SPF_NAMESPACE_END

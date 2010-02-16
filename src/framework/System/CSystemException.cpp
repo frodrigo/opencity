@@ -1,7 +1,7 @@
 /***************************************************************************
-                  CNotImplementedException.cpp  -  description
+                     CSystemException.cpp  -  description
 							-------------------
-	begin                : February 7th, 2010
+	begin                : February 16th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -18,23 +18,23 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CNotImplementedException.h"	// System::NotImplementedException class
+#include "CSystemException.h"			// System::SystemException class
 
 
 SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-NotImplementedException::NotImplementedException() {}
+SystemException::SystemException() {}
 
 
-NotImplementedException::NotImplementedException(const String& message) :
-SystemException(message)
-{}
+SystemException::SystemException(const String& message) : Exception(message) {}
 
 
-NotImplementedException::~NotImplementedException() {}
+SystemException::~SystemException() {}
 
 
    /*=====================================================================*/
+
+
 SPF_NAMESPACE_END
