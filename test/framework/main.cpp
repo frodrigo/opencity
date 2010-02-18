@@ -28,6 +28,8 @@
 #include "System/CSmartPointer.h"
 #include "System/CType.h"
 
+#include "System/ADelegate.h"
+
 #include "System/Diagnostics/CDebug.h"
 
 #include "System/Collections/Generic/CArray.h"
@@ -50,6 +52,20 @@ int TestObject()
 	System::Diagnostics::Debug::Assert(!otherObject.Equals(object));
 	System::Diagnostics::Debug::Assert(!(object == object));
 	System::Diagnostics::Debug::Assert(!object.Equals(object));
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
+// System::Delegate test
+int TestDelegate()
+{
+	System::Terminal << "System::Delegate test suite\n";
+
+	Test::CarObject car("NumberOne");
+	System::Delegate delegate(car, (System::MemberPointer0)&Test::CarObject::PrintName);
+	delegate.DynamicInvoke();
 
 	System::Terminal << "\n";
 	return 0;
@@ -251,6 +267,9 @@ int main()
 
 	// System::SmartPointer test
 	TestObject();
+
+	// System::Delegate test
+	TestDelegate();
 
 	// System::SmartPointer test
 	TestSmartPointer();

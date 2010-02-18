@@ -21,8 +21,9 @@
 #define _SPF_TEST_MAIN_H_
 
 // Shar Plus Framework headers
-#include "System/CString.h"
+#include "System/CObject.h"
 #include "System/CConsole.h"
+#include "System/CString.h"
 
 
 namespace Test
@@ -35,12 +36,28 @@ namespace Test
 			{ System::Terminal << "Car " << msName << " ctor\n"; }
 
 
-			~Car()
+			virtual ~Car()
 			{ System::Terminal << "Car " << msName << " dtor\n"; }
 
 
-		private:
+		protected:
 			System::String msName;
+	};
+
+
+	class CarObject : public System::Object, public Car
+	{
+		public:
+			CarObject(const System::String& name) : Car(name)
+			{}
+
+			virtual ~CarObject()
+			{}
+
+			void PrintName()
+			{
+				System::Terminal << "CarObject name is: " << msName;
+			}
 	};
 }
 

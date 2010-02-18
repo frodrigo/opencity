@@ -69,6 +69,13 @@ otherwise, false.
 
 }; // class Object
 
+// Defines the member pointer types. They are used to build the delegate system.
+typedef void	(Object::* MemberPointer0)();
+typedef void	(Object::* MemberPointer1)(Object);
+typedef Object	(Object::* ObjectMemberPointer0)();
+typedef Object	(Object::* ObjectMemberPointer1)(Object);
+
+
 SPF_NAMESPACE_END
 
 #endif

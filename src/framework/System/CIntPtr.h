@@ -47,7 +47,7 @@ unspecified type.
 	\return	A pointer to Void; that is, a pointer to memory containing data of
 an unspecified type.
 */
-		void* const ToPointer() const;
+		void* ToPointer() const;
 
 /**
 	Converts the numeric value of the current IntPtr object to its equivalent

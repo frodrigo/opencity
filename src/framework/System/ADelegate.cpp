@@ -19,26 +19,41 @@
 
 // Framework headers
 #include "ADelegate.h"			// System::Delegate class
-#include "CString.h"			// System::String class
-#include "CNullValue.h"			// System::NullValue class
+//#include "CString.h"			// System::String class
+#include "CIntPtr.h"			// System::IntPtr
+//#include "CNullValue.h"			// System::NullValue class
 
 #include "CNotImplementedException.h"	// Testing
+
+// Standard C++ headers
+#include <functional>			// mem_fun, mem_fun_t
 
 
 SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-Delegate::Delegate() {}
+Delegate::Delegate() :
+mpTarget(NULL),
+mpTargetMethod(NULL)
+{
+}
+
+
+Delegate::Delegate(const Object& target, const MemberPointer0 pointer) :
+mpTarget(&target),
+mpTargetMethod(pointer)
+{
+}
 
 
 Delegate::~Delegate() {}
 
 
    /*=====================================================================*/
-Object Delegate::DynamicInvoke(const IntPtr& intPtr) const
+void Delegate::DynamicInvoke() const
 {
-	return this->DynamicInvokeImpl(intPtr);
+	return this->DynamicInvokeImpl();
 }
 
 
@@ -50,13 +65,13 @@ String Delegate::ToString() const
 
 
    /*=====================================================================*/
-Object Delegate::DynamicInvokeImpl(const IntPtr& intPtr) const
+void Delegate::DynamicInvokeImpl() const
 {
-	throw NotImplementedException();
-
-	//return Null;
+	(const_cast<Object*>(mpTarget)->*mpTargetMethod)();
 }
 
+
+   /*=====================================================================*/
 
 
 SPF_NAMESPACE_END

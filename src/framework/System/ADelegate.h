@@ -36,14 +36,16 @@ class Delegate : public Object
 {
 	public:
 
+// Constructors and destructor
+		Delegate();
+		Delegate(const Object& target, const MemberPointer0 pointer);
+		virtual ~Delegate();
+
 /**
 	Dynamically invokes (late-bound) the method represented by the current
 delegate.
-	\param	intPtr	A pointer to the object that is the argument to pass to the
-method represented by the current delegate.
 */
-		Object DynamicInvoke(const IntPtr& intPtr) const;
-
+		void DynamicInvoke() const;
 
 /**
 	Converts the numeric value of the current Delegate object to its equivalent
@@ -51,19 +53,18 @@ string representation.
 */
 		virtual String ToString() const;
 
-	protected:
 
-// Constructors and destructor
-		Delegate();
-		virtual ~Delegate();
+	protected:
 
 /**
 	Dynamically invokes (late-bound) the method represented by the current
 delegate.
-	\param	intPtr	A pointer to the object that is the argument to pass to the
-method represented by the current delegate.
 */
-		virtual Object DynamicInvokeImpl(const IntPtr& intPtr) const;
+		virtual void DynamicInvokeImpl() const;
+
+	private:
+		const Object* mpTarget;
+		MemberPointer0 mpTargetMethod;
 
 
 }; // class System::Delegate

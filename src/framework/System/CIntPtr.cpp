@@ -33,7 +33,7 @@ IntPtr::~IntPtr() {}
 
 
    /*=====================================================================*/
-void* const IntPtr::ToPointer() const
+void* IntPtr::ToPointer() const
 {
 	return mpValue;
 }
