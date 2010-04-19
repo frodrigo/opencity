@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CTestClass.h  -  description
+                        CTestMethod.h  -  description
 							-------------------
-	begin                : November 29th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : April 19th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,33 +17,39 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_UNITTESTING_ATESTCLASS_H_
-#define _SPF_UNITTESTING_ATESTCLASS_H_ 1
+#ifndef _SPF_UNITTESTING_CTESTMETHOD_H_
+#define _SPF_UNITTESTING_CTESTMETHOD_H_ 1
 
 // Framework headers
-#include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
-#include "CTestMethod.h"						// UnitTesting::TestMethod
+#include "System/CString.h"			// System::String class
+#include "System/ADelegate.h"		// System::Delegate abstract class
+#include "CTestResult.h"			// UnitTesting::TestResult enumeration
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
 /**
-	Represents a unit test class.
+	Represents a unit test method.
 */
-class TestClass : public System::Object
+class TestMethod : public System::Object
 {
 	public:
-		TestClass();
-		virtual ~TestClass();
+		TestMethod(const TestResult& expectedResult, const System::Delegate& delegate);
+		TestMethod(const TestResult& expectedResult, const System::Delegate& delegate, const System::String& description);
+		virtual ~TestMethod();
 
-		virtual void Add(const TestMethod& method);
-		virtual void Run();
+		const TestResult GetExpectedTestResult() const;
+		const System::String GetDescription() const;
+		void Run() const;
 
 		virtual System::String ToString() const;
 
 	private:
-		System::Collections::Generic::List<TestMethod> mcTestMethods;
+		TestResult meExpectedResult;
+		System::Delegate moDelegate;
+		System::String msDescription;
 
-}; // class UnitTesting::TestClass
+
+}; // class UnitTesting::TestMethod
 
 // namespace UnitTesting
 SPF_NAMESPACE_END

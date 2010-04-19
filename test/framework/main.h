@@ -25,6 +25,7 @@
 #include "System/CConsole.h"
 #include "System/CString.h"
 
+#include "UnitTesting/ATestClass.h"
 
 namespace Test
 {
@@ -57,6 +58,47 @@ namespace Test
 			void PrintName()
 			{
 				System::Terminal << "CarObject name is: " << msName;
+			}
+	};
+
+
+	class Calculator : public System::Object
+	{
+
+		public:
+			Calculator():miRegister(0)
+			{}
+
+			const int GetRegister() const { return miRegister; }
+
+			void Add(const int value) { miRegister += value; }
+
+		private:
+			int miRegister;
+	};
+
+
+	class CalculatorTestClass : public UnitTesting::TestClass
+	{
+		public:
+			CalculatorTestClass()
+			{
+			}
+
+		private:
+			void Initialize()
+			{
+				/*
+				TestMethod(const TestResult& expectedResult, const System::Delegate& delegate);
+
+				Calculator calculator;
+				System::Delegate delegate(calculator,  );
+				TestMethod method1 = TestMethod();
+
+				Test::CarObject car("NumberOne");
+				System::Delegate delegate(car, (System::MemberPointer0)&Test::CarObject::PrintName);
+				delegate.DynamicInvoke();
+				*/
 			}
 	};
 }

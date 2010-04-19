@@ -31,7 +31,7 @@ SPF_NAMESPACE_BEGIN(System)
 
 
 /**
-	Represents text string instance
+	Represents text string instance.
 */
 class String : public Object
 {

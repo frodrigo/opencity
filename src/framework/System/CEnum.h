@@ -32,9 +32,14 @@ class Enum : public ValueType
 {
 	public:
 		Enum();
+		Enum(int value);
 		virtual ~Enum();
 
 		virtual String ToString() const;
+
+	private:
+		int miValue;
+
 }; // class System::String
 
 SPF_NAMESPACE_END

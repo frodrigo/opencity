@@ -19,6 +19,7 @@
 
 // Framework headers
 #include "ATestRunner.h"			// UnitTesting::TestRunner abstract class
+#include "ATestClass.h"				// UnitTesting::TestClass class
 #include "System/CString.h"			// System::String class
 
 
@@ -30,6 +31,25 @@ TestRunner::TestRunner() {}
 
 
 TestRunner::~TestRunner() {}
+
+
+   /*=====================================================================*/
+void TestRunner::Add(const TestClass& testClass)
+{
+	mcTestClasses.Add(testClass);
+}
+
+
+void TestRunner::Run()
+{
+	int count = mcTestClasses.GetCount();
+	for (int i = 0; i < count; i++) {
+		TestClass testClass = mcTestClasses[i];
+
+		// TODO: catch exception here
+		testClass.Run();
+	} // for
+}
 
 
    /*=====================================================================*/

@@ -1,7 +1,7 @@
 /***************************************************************************
-                        ADelegate.cpp  -  description
+                        CTestMethod.cpp  -  description
 							-------------------
-	begin                : February 3rd, 2010
+	begin                : April 19th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -18,58 +18,57 @@
  ***************************************************************************/
 
 // Framework headers
-#include "ADelegate.h"			// System::Delegate class
-#include "CIntPtr.h"			// System::IntPtr
-
-#include "CNotImplementedException.h"	// Testing
-
-// Standard C++ headers
-#include <functional>			// mem_fun, mem_fun_t
+#include "CTestMethod.h"			// UnitTesting::TestMethod class
 
 
-SPF_NAMESPACE_BEGIN(System)
+SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-Delegate::Delegate() :
-mpTarget(NULL),
-mpTargetMethod(NULL)
+TestMethod::TestMethod(const TestResult& expectedResult, const System::Delegate& delegate):
+meExpectedResult(expectedResult),
+moDelegate(delegate)
 {
 }
 
 
-Delegate::Delegate(const Object& target, const MemberPointer0 pointer) :
-mpTarget(&target),
-mpTargetMethod(pointer)
+TestMethod::TestMethod(const TestResult& expectedResult, const System::Delegate& delegate, const System::String& description):
+meExpectedResult(expectedResult),
+moDelegate(delegate),
+msDescription(description)
 {
 }
 
 
-Delegate::~Delegate() {}
-
-
-   /*=====================================================================*/
-void Delegate::DynamicInvoke() const
+TestMethod::~TestMethod()
 {
-	return this->DynamicInvokeImpl();
 }
 
 
    /*=====================================================================*/
-String Delegate::ToString() const
+const TestResult TestMethod::GetExpectedTestResult() const
 {
-	return String("System::Delegate");
+	return meExpectedResult;
+}
+
+
+const System::String TestMethod::GetDescription() const
+{
+	return msDescription;
+}
+
+
+void TestMethod::Run() const
+{
+	moDelegate.DynamicInvoke();
 }
 
 
    /*=====================================================================*/
-void Delegate::DynamicInvokeImpl() const
+System::String TestMethod::ToString() const
 {
-	(const_cast<Object*>(mpTarget)->*mpTargetMethod)();
+	return System::String("UnitTesting::TestMethod");
 }
-
-
-   /*=====================================================================*/
 
 
 SPF_NAMESPACE_END

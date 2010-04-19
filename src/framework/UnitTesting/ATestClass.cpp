@@ -19,7 +19,8 @@
 
 // Framework headers
 #include "ATestClass.h"				// UnitTesting::TestClass abstract class
-#include "System/CString.h"			// System::String class
+#include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
+#include "System/CConsole.h"			// System::Console class
 
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
@@ -30,6 +31,33 @@ TestClass::TestClass() {}
 
 
 TestClass::~TestClass() {}
+
+
+   /*=====================================================================*/
+void TestClass::Add(const TestMethod& method)
+{
+	mcTestMethods.Add(method);
+}
+
+
+void TestClass::Run()
+{
+	int count = mcTestMethods.GetCount();
+	for (int i = 0; i < count; i++) {
+		TestResult result;
+		TestMethod method = mcTestMethods[i];
+
+		try {
+			method.Run();
+			result = TestResult::Passed;
+			System::Terminal << method.GetDescription() + " passed. \n";
+		}
+		catch (AssertFailedException exception) {
+			result = TestResult::Failed;
+			System::Terminal << method.GetDescription() + " failed. \n";
+		}
+	} // for
+}
 
 
    /*=====================================================================*/

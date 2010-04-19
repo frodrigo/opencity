@@ -1,7 +1,7 @@
 /***************************************************************************
-                        ADelegate.cpp  -  description
+                      CTestResult.cpp  -  description
 							-------------------
-	begin                : February 3rd, 2010
+	begin                : April 19th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -18,58 +18,35 @@
  ***************************************************************************/
 
 // Framework headers
-#include "ADelegate.h"			// System::Delegate class
-#include "CIntPtr.h"			// System::IntPtr
-
-#include "CNotImplementedException.h"	// Testing
-
-// Standard C++ headers
-#include <functional>			// mem_fun, mem_fun_t
+#include "CTestResult.h"		// UnitTesting::TestResult class
+#include "System/CString.h"		// System::String class
 
 
-SPF_NAMESPACE_BEGIN(System)
+SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-Delegate::Delegate() :
-mpTarget(NULL),
-mpTargetMethod(NULL)
-{
-}
-
-
-Delegate::Delegate(const Object& target, const MemberPointer0 pointer) :
-mpTarget(&target),
-mpTargetMethod(pointer)
-{
-}
-
-
-Delegate::~Delegate() {}
+const TestResult TestResult::Passed = TestResult(0x0000);
+const TestResult TestResult::Failed = TestResult(0x0001);
 
 
    /*=====================================================================*/
-void Delegate::DynamicInvoke() const
-{
-	return this->DynamicInvokeImpl();
-}
+TestResult::TestResult() {}
+
+
+TestResult::TestResult(int value):
+Enum(value)
+{}
+
+
+TestResult::~TestResult() {}
 
 
    /*=====================================================================*/
-String Delegate::ToString() const
+System::String TestResult::ToString() const
 {
-	return String("System::Delegate");
+	return System::String("System::TestResult");
 }
-
-
-   /*=====================================================================*/
-void Delegate::DynamicInvokeImpl() const
-{
-	(const_cast<Object*>(mpTarget)->*mpTargetMethod)();
-}
-
-
-   /*=====================================================================*/
 
 
 SPF_NAMESPACE_END

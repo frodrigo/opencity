@@ -21,10 +21,12 @@
 #define _SPF_UNITTESTING_CTESTRUNNER_H_ 1
 
 // Framework headers
-#include "System/CObject.h"
+#include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
+// Framework UnitTesting::TestClass class forward declaration
+class TestClass;
 
 /**
 */
@@ -34,7 +36,13 @@ class TestRunner : public System::Object
 		TestRunner();
 		virtual ~TestRunner();
 
+		virtual void Add(const TestClass& testClass);
+		virtual void Run();
+
 		virtual System::String ToString() const;
+
+	private:
+		System::Collections::Generic::List<TestClass> mcTestClasses;
 
 }; // class UnitTesting::TestRunner
 
