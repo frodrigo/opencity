@@ -110,12 +110,12 @@
 		<Unit filename="../src/framework/System/Xml/CXmlNode.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlNodeList.h" />
+		<Unit filename="../src/framework/UnitTesting/AAssert.cpp" />
+		<Unit filename="../src/framework/UnitTesting/AAssert.h" />
 		<Unit filename="../src/framework/UnitTesting/ATestClass.cpp" />
 		<Unit filename="../src/framework/UnitTesting/ATestClass.h" />
 		<Unit filename="../src/framework/UnitTesting/ATestRunner.cpp" />
 		<Unit filename="../src/framework/UnitTesting/ATestRunner.h" />
-		<Unit filename="../src/framework/UnitTesting/CAssert.cpp" />
-		<Unit filename="../src/framework/UnitTesting/CAssert.h" />
 		<Unit filename="../src/framework/UnitTesting/CAssertFailedException.cpp" />
 		<Unit filename="../src/framework/UnitTesting/CAssertFailedException.h" />
 		<Unit filename="../src/framework/UnitTesting/CTestContext.cpp" />

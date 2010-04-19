@@ -26,6 +26,8 @@
 #include "System/CString.h"
 
 #include "UnitTesting/ATestClass.h"
+#include "UnitTesting/CTestResult.h"
+#include "UnitTesting/AAssert.h"
 
 namespace Test
 {
@@ -83,22 +85,33 @@ namespace Test
 		public:
 			CalculatorTestClass()
 			{
+				this->Initialize();
 			}
+
+
+			void AddTest()
+			{
+				Calculator calculator;
+				int expected = 3;
+				int actual = 0;
+
+				calculator.Add(expected);
+				actual = calculator.GetRegister();
+				UnitTesting::Assert::AreEqual(expected, actual);		// passed
+
+				calculator.Add(expected);
+				actual = calculator.GetRegister();
+				//UnitTesting::Assert::AreEqual(expected, actual);		// failed
+				UnitTesting::Assert::AreNotEqual(expected, actual);		// passed
+			}
+
 
 		private:
 			void Initialize()
 			{
-				/*
-				TestMethod(const TestResult& expectedResult, const System::Delegate& delegate);
-
-				Calculator calculator;
-				System::Delegate delegate(calculator,  );
-				TestMethod method1 = TestMethod();
-
-				Test::CarObject car("NumberOne");
-				System::Delegate delegate(car, (System::MemberPointer0)&Test::CarObject::PrintName);
-				delegate.DynamicInvoke();
-				*/
+				System::Delegate addTest(*this, (System::MemberPointer0)&CalculatorTestClass::AddTest);
+				UnitTesting::TestMethod addMethodTest(UnitTesting::TestResult::Passed, addTest, "AddTest");
+				this->Add(addMethodTest);
 			}
 	};
 }

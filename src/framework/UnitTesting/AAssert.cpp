@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CAssert.cpp  -  description
+                        AAssert.cpp  -  description
 							-------------------
 	begin                : November 15th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 // Framework headers
-#include "CAssert.h"				// UnitTesting::Assert class
+#include "AAssert.h"				// UnitTesting::Assert class
 #include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
 #include "System/CConsole.h"		// System::Console class
 #include "System/CString.h"			// System::String class
@@ -28,13 +28,22 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-Assert::Assert() {}
+void Assert::AreEqual(const int expected, const int actual)
+{
+	Assert::AreEqual(expected, actual, "The expected value is not equal to the actual value.");
+}
 
 
-Assert::~Assert() {}
+void Assert::AreEqual(const int expected, const int actual, const System::String& message)
+{
+	if (expected == actual)
+		return;
+
+	throw AssertFailedException(message);
+}
 
 
-   /*=====================================================================*/
+	/*=====================================================================*/
 void Assert::AreEqual(const Object& expected, const Object& actual)
 {
 	Assert::AreEqual(expected, actual, "The expected value is not equal to the actual value.");
@@ -44,6 +53,22 @@ void Assert::AreEqual(const Object& expected, const Object& actual)
 void Assert::AreEqual(const Object& expected, const Object& actual, const System::String& message)
 {
 	if (expected == actual)
+		return;
+
+	throw AssertFailedException(message);
+}
+
+
+   /*=====================================================================*/
+void Assert::AreNotEqual(const int expected, const int actual)
+{
+	Assert::AreNotEqual(expected, actual, "The expected value is equal to the actual value.");
+}
+
+
+void Assert::AreNotEqual(const int expected, const int actual, const System::String& message)
+{
+	if (expected != actual)
 		return;
 
 	throw AssertFailedException(message);
@@ -99,10 +124,6 @@ void Assert::IsTrue(const bool condition, const System::String& message)
 
 
    /*=====================================================================*/
-System::String Assert::ToString() const
-{
-	return System::String("UnitTesting::Assert");
-}
 
 
 SPF_NAMESPACE_END

@@ -38,6 +38,8 @@
 
 #include "System/Information/Software/CSdl.h"
 
+#include "UnitTesting/ATestRunner.h"
+
 
 // System::Object test
 int TestObject()
@@ -257,6 +259,20 @@ int TestSystemInformationSoftware()
 }
 
 
+int TestTestRunner()
+{
+	System::Terminal << "UnitTesting::TestRunner test suite\n";
+
+	UnitTesting::TestClass testClass = Test::CalculatorTestClass();
+	UnitTesting::TestRunner runner;
+	runner.Add(testClass);
+	runner.Run();
+
+	System::Terminal << "\n";
+	return 0;
+}
+
+
 // Main test procedure
 int main()
 {
@@ -295,6 +311,9 @@ int main()
 
 	// System::Information::Software test
 	TestSystemInformationSoftware();
+
+	// UnitTesting::TestRunner
+	TestTestRunner();
 
 	// System::Diagnostics::Debug test
 	System::Terminal << "There should be 2 failed assertions preceding the ending message:\n";

@@ -1,5 +1,5 @@
 /***************************************************************************
-                        CAssert.h  -  description
+                        AAssert.h  -  description
 							-------------------
 	begin                : November 15th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_UNITTESTING_CASSERT_H_
-#define _SPF_UNITTESTING_CASSERT_H_ 1
+#ifndef _SPF_UNITTESTING_AASSERT_H_
+#define _SPF_UNITTESTING_AASSERT_H_ 1
 
 // Framework headers
 #include "System/CObject.h"
@@ -32,8 +32,8 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 class Assert : public System::Object
 {
 	public:
-		Assert();
-		virtual ~Assert();
+		static void AreEqual(const int expected, const int actual);
+		static void AreEqual(const int expected, const int actual, const System::String& message);
 
 /**
 	Verifies that two specified objects are equal. The assertion fails if the
@@ -62,6 +62,11 @@ message can be seen in the unit test results.
 		static void AreEqual(
 			const Object& expected, const Object& actual,
 			const System::String& message);
+
+
+		static void AreNotEqual(const int expected, const int actual);
+		static void AreNotEqual(const int expected, const int actual, const System::String& message);
+
 
 /**
 	Verifies that two specified object variables refer to the same object. The
@@ -114,8 +119,6 @@ condition is false. Displays a message if the assertion fails.
 */
 		static void IsTrue(const bool condition, const System::String& message);
 
-
-		virtual System::String ToString() const;
 
 }; // class UnitTesting::Assert
 
