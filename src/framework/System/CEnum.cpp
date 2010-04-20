@@ -21,6 +21,7 @@
 #include "CEnum.h"			// System::Enum class
 #include "CString.h"		// System::String class
 
+//#include <iostream>			// Debugging
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -40,10 +41,52 @@ Enum::~Enum() {}
 
 
    /*=====================================================================*/
+bool Enum::Equals(const Enum& ref) const
+{
+	return (this->miValue == ref.miValue);
+}
+
+
+   /*=====================================================================*/
 String Enum::ToString() const
 {
 	return String("System::Enum");
 }
+
+
+   /*=====================================================================*/
+Enum& Enum::operator=(const Enum& ref)
+{
+	//std::cout << "= operator" << std::endl;
+
+	this->miValue = ref.miValue;
+	return *this;
+}
+
+
+   /*=====================================================================*/
+bool Enum::operator==(const Enum& ref) const
+{
+	//std::cout << "== operator" << std::endl;
+
+	return (this->miValue == ref.miValue);
+}
+
+
+bool Enum::operator==(const Object& obj) const
+{
+	//std::cout << "== operator obj" << std::endl;
+
+	// FIXME: type checking
+	Object& constlessObj = const_cast<Object&>(obj);
+	const Enum& enumRef = dynamic_cast<Enum&>(constlessObj);
+
+	return (this->miValue == enumRef.miValue);
+}
+
+
+   /*=====================================================================*/
+
 
 
 SPF_NAMESPACE_END

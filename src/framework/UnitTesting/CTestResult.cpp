@@ -26,8 +26,8 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-const TestResult TestResult::Passed = TestResult(0x0000);
-const TestResult TestResult::Failed = TestResult(0x0001);
+const TestResult TestResult::Passed(0x0000);
+const TestResult TestResult::Failed(0x0001);
 
 
    /*=====================================================================*/

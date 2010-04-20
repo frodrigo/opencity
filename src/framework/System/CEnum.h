@@ -35,7 +35,13 @@ class Enum : public ValueType
 		Enum(int value);
 		virtual ~Enum();
 
+		virtual bool Equals(const Enum& ref) const;
 		virtual String ToString() const;
+
+		virtual Enum& operator=(const Enum& ref);
+
+		virtual bool operator==(const Enum& ref) const;
+		virtual bool operator==(const Object& obj) const;
 
 	private:
 		int miValue;

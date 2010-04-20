@@ -20,8 +20,11 @@
 // Framework headers
 #include "ATestRunner.h"			// UnitTesting::TestRunner abstract class
 #include "ATestClass.h"				// UnitTesting::TestClass class
-#include "System/CString.h"			// System::String class
+#include "System/CConsole.h"		// System::Console class
+#include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
 
+
+using namespace System::Collections::Generic;
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
@@ -47,7 +50,22 @@ void TestRunner::Run()
 		TestClass testClass = mcTestClasses[i];
 
 		// TODO: catch exception here
-		testClass.Run();
+		List<TestResult> runResults = testClass.Run();
+
+		// Test: display the results
+		List<TestMethod> testMethods = testClass.GetTestMethods();
+		int numberMethods = testMethods.GetCount();
+		for (int j = 0; j < numberMethods; j++) {
+			TestResult runResult = runResults[j];
+			TestMethod testMethod = testMethods[j];
+
+			if (runResult == TestResult::Passed) {
+				System::Terminal << testMethod.GetDescription() << " passed.\n";
+			}
+			else {
+				System::Terminal << testMethod.GetDescription() << " failed.\n";
+			}
+		}
 	} // for
 }
 

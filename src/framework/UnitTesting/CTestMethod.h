@@ -39,7 +39,7 @@ class TestMethod : public System::Object
 
 		const TestResult GetExpectedTestResult() const;
 		const System::String GetDescription() const;
-		void Run() const;
+		const TestResult Run() const;
 
 		virtual System::String ToString() const;
 

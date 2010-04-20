@@ -19,6 +19,7 @@
 
 // Framework headers
 #include "CTestMethod.h"			// UnitTesting::TestMethod class
+#include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
 
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
@@ -58,9 +59,19 @@ const System::String TestMethod::GetDescription() const
 }
 
 
-void TestMethod::Run() const
+const TestResult TestMethod::Run() const
 {
-	moDelegate.DynamicInvoke();
+	TestResult result;
+
+	try {
+		moDelegate.DynamicInvoke();
+		result = TestResult::Passed;
+	}
+	catch (AssertFailedException exception) {
+		result = TestResult::Failed;
+	}
+
+	return result;
 }
 
 

@@ -24,6 +24,7 @@
 #include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
 #include "CTestMethod.h"						// UnitTesting::TestMethod
 
+
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
 /**
@@ -35,8 +36,10 @@ class TestClass : public System::Object
 		TestClass();
 		virtual ~TestClass();
 
+		virtual const System::Collections::Generic::List<TestMethod>& GetTestMethods() const;
+
 		virtual void Add(const TestMethod& method);
-		virtual void Run();
+		virtual const System::Collections::Generic::List<TestResult> Run() const;
 
 		virtual System::String ToString() const;
 

@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 // Framework headers
-#include "ATestClass.h"				// UnitTesting::TestClass abstract class
-#include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
+#include "ATestClass.h"					// UnitTesting::TestClass abstract class
+#include "CAssertFailedException.h"		// UnitTesting::AssertFailedException class
 #include "System/CConsole.h"			// System::Console class
 
 
@@ -34,29 +34,43 @@ TestClass::~TestClass() {}
 
 
    /*=====================================================================*/
+const System::Collections::Generic::List<TestMethod>&
+TestClass::GetTestMethods() const
+{
+	return this->mcTestMethods;
+}
+
+
+   /*=====================================================================*/
 void TestClass::Add(const TestMethod& method)
 {
 	mcTestMethods.Add(method);
 }
 
 
-void TestClass::Run()
+const System::Collections::Generic::List<TestResult> TestClass::Run() const
 {
+	TestResult finalResult;
+	System::Collections::Generic::List<TestResult> results;
+
 	int count = mcTestMethods.GetCount();
 	for (int i = 0; i < count; i++) {
-		TestResult result;
 		TestMethod method = mcTestMethods[i];
+		TestResult runResult = method.Run();
 
-		try {
-			method.Run();
-			result = TestResult::Passed;
-			System::Terminal << method.GetDescription() + " passed. \n";
+		// Compare the run result to the expected test result.
+		if (runResult == method.GetExpectedTestResult()) {
+			finalResult = TestResult::Passed;
 		}
-		catch (AssertFailedException exception) {
-			result = TestResult::Failed;
-			System::Terminal << method.GetDescription() + " failed. \n";
+		else {
+			finalResult = TestResult::Failed;
 		}
+
+		// Store the final result;
+		results.Add(finalResult);
 	} // for
+
+	return results;
 }
 
 

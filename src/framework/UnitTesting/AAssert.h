@@ -32,7 +32,29 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 class Assert : public System::Object
 {
 	public:
+
+/**
+	Verifies that two specified integers are equal. The assertion fails if the
+integers are not equal.
+
+	\param	expected	The first integer to compare. This is the integer the
+unit test expects.
+	\param	actual		The second integer to compare. This is the integer the
+unit test produced.
+*/
 		static void AreEqual(const int expected, const int actual);
+
+/**
+	Verifies that two specified integers are equal. The assertion fails if the
+integers are not equal.
+
+	\param	expected	The first integer to compare. This is the integer the
+unit test expects.
+	\param	actual		The second integer to compare. This is the integer the
+unit test produced.
+	\param	message		A message to display if the assertion fails. This
+message can be seen in the unit test results.
+*/
 		static void AreEqual(const int expected, const int actual, const System::String& message);
 
 /**
