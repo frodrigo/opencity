@@ -32,6 +32,11 @@ miValue(0)
 {}
 
 
+Enum::Enum(const Enum& original):
+miValue(original.miValue)
+{}
+
+
 Enum::Enum(int value):
 miValue(value)
 {}
@@ -48,6 +53,12 @@ bool Enum::Equals(const Enum& ref) const
 
 
    /*=====================================================================*/
+const int Enum::ToInt() const
+{
+	return miValue;
+}
+
+
 String Enum::ToString() const
 {
 	return String("System::Enum");

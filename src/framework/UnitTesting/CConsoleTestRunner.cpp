@@ -1,11 +1,11 @@
 /***************************************************************************
-                      ATestRunner.cpp  -  description
+                      CConsoleTestRunner.cpp  -  description
 							-------------------
 	begin                : November 29th, 2009
 	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
-	$Id$
+	$Id: AConsoleTestRunner.cpp 440 2010-04-20 15:30:32Z neoneurone $
  ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 // Framework headers
-#include "ATestRunner.h"			// UnitTesting::TestRunner abstract class
+#include "CConsoleTestRunner.h"		// UnitTesting::ConsoleTestRunner abstract class
 #include "ATestClass.h"				// UnitTesting::TestClass class
 #include "System/CConsole.h"		// System::Console class
 #include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
@@ -30,42 +30,48 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-TestRunner::TestRunner() {}
+ConsoleTestRunner::ConsoleTestRunner() {}
 
 
-TestRunner::~TestRunner() {}
-
-
-   /*=====================================================================*/
-const List<TestClass>& TestRunner::GetTestClasses() const
-{
-	return this->mcTestClasses;
-}
+ConsoleTestRunner::~ConsoleTestRunner() {}
 
 
    /*=====================================================================*/
-void TestRunner::Add(const TestClass& testClass)
-{
-	mcTestClasses.Add(testClass);
-}
-
-
-void TestRunner::Run()
+void ConsoleTestRunner::DisplayResults()
 {
 	int count = mcTestClasses.GetCount();
 	for (int i = 0; i < count; i++) {
-		TestClass& testClass = mcTestClasses[i];
+		// TODO: display test class description
+		const TestClass& testClass = mcTestClasses[i];
 
-		// TODO: catch exception here
-		testClass.Run();
-	} // for
+		// Test: display the results
+		const List<TestMethod>& testMethods = testClass.GetTestMethods();
+		int numberMethods = testMethods.GetCount();
+		for (int j = 0; j < numberMethods; j++) {
+			const TestMethod& testMethod = testMethods[j];
+
+			System::String message = testMethod.GetDescription();
+			const TestResult& finalResult = testMethod.GetFinalResult();
+			if (finalResult == TestResult::Passed) {
+				message += " passed.\n";
+			} else
+			if (finalResult == TestResult::Failed) {
+				message += " failed.\n";
+			}
+			else {
+				message += " undefined.\n";
+			}
+
+			System::Terminal << message;
+		} // for method
+	} // for class
 }
 
 
    /*=====================================================================*/
-System::String TestRunner::ToString() const
+System::String ConsoleTestRunner::ToString() const
 {
-	return System::String("UnitTesting::TestRunner");
+	return System::String("UnitTesting::ConsoleTestRunner");
 }
 
 

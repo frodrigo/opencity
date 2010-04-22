@@ -28,10 +28,12 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 class TestResult : public System::Enum
 {
 	public:
+		static const TestResult Undefined;
 		static const TestResult Passed;
 		static const TestResult Failed;
 
 		TestResult();
+		TestResult(const TestResult& original);
 		virtual ~TestResult();
 
 		virtual System::String ToString() const;

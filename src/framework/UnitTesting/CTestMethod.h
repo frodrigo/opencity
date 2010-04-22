@@ -37,14 +37,21 @@ class TestMethod : public System::Object
 		TestMethod(const TestResult& expectedResult, const System::Delegate& delegate, const System::String& description);
 		virtual ~TestMethod();
 
-		const TestResult GetExpectedTestResult() const;
+		const TestResult GetRunResult() const;
+
+		const TestResult GetExpectedResult() const;
+		void SetExpectedResult(const TestResult& expectedResult);
+
+		const TestResult GetFinalResult() const;
 		const System::String GetDescription() const;
-		const TestResult Run() const;
+		const TestResult Run();
 
 		virtual System::String ToString() const;
 
 	private:
+		TestResult meRunResult;
 		TestResult meExpectedResult;
+		TestResult meFinalResult;
 		System::Delegate moDelegate;
 		System::String msDescription;
 

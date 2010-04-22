@@ -118,6 +118,8 @@
 		<Unit filename="../src/framework/UnitTesting/ATestRunner.h" />
 		<Unit filename="../src/framework/UnitTesting/CAssertFailedException.cpp" />
 		<Unit filename="../src/framework/UnitTesting/CAssertFailedException.h" />
+		<Unit filename="../src/framework/UnitTesting/CConsoleTestRunner.cpp" />
+		<Unit filename="../src/framework/UnitTesting/CConsoleTestRunner.h" />
 		<Unit filename="../src/framework/UnitTesting/CTestContext.cpp" />
 		<Unit filename="../src/framework/UnitTesting/CTestContext.h" />
 		<Unit filename="../src/framework/UnitTesting/CTestMethod.cpp" />

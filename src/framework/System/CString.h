@@ -62,6 +62,8 @@ class String : public Object
 		const String operator+(const char* const value) const;
 		const String operator+(const String& value) const;
 
+		String& operator+=(const String& value);
+
 		bool operator==(const char* const value) const;
 		bool operator==(const String& value) const;
 

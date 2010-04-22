@@ -21,6 +21,8 @@
 #include "CTestMethod.h"			// UnitTesting::TestMethod class
 #include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
 
+// Debug
+#include "System/CConsole.h"		// System::Console class
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
@@ -38,18 +40,38 @@ meExpectedResult(expectedResult),
 moDelegate(delegate),
 msDescription(description)
 {
+//	System::Terminal << "ctor + desc.\n";
 }
 
 
 TestMethod::~TestMethod()
 {
+//	System::Terminal << "dtor.\n";
 }
 
 
    /*=====================================================================*/
-const TestResult TestMethod::GetExpectedTestResult() const
+const TestResult TestMethod::GetRunResult() const
+{
+	return meRunResult;
+}
+
+
+const TestResult TestMethod::GetExpectedResult() const
 {
 	return meExpectedResult;
+}
+
+
+void TestMethod::SetExpectedResult(const TestResult& expectedResult)
+{
+	meExpectedResult = expectedResult;
+}
+
+
+const TestResult TestMethod::GetFinalResult() const
+{
+	return meFinalResult;
 }
 
 
@@ -59,19 +81,28 @@ const System::String TestMethod::GetDescription() const
 }
 
 
-const TestResult TestMethod::Run() const
+const TestResult TestMethod::Run()
 {
-	TestResult result;
-
+	// Try to execute the delegate.
 	try {
 		moDelegate.DynamicInvoke();
-		result = TestResult::Passed;
+		meRunResult = TestResult::Passed;
 	}
 	catch (AssertFailedException exception) {
-		result = TestResult::Failed;
+		meRunResult = TestResult::Failed;
 	}
 
-	return result;
+	// Compare the run result to the expected test result.
+	if (meRunResult == meExpectedResult) {
+//		System::Terminal << "passed.\n";
+		meFinalResult = TestResult::Passed;
+	}
+	else {
+//		System::Terminal << "failed.\n";
+		meFinalResult = TestResult::Failed;
+	}
+
+	return meFinalResult;
 }
 
 

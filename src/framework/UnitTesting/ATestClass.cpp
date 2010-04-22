@@ -23,6 +23,8 @@
 #include "System/CConsole.h"			// System::Console class
 
 
+using namespace System::Collections::Generic;
+
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
@@ -48,25 +50,14 @@ void TestClass::Add(const TestMethod& method)
 }
 
 
-const System::Collections::Generic::List<TestResult> TestClass::Run() const
+const List<TestResult> TestClass::Run()
 {
-	TestResult finalResult;
-	System::Collections::Generic::List<TestResult> results;
+	List<TestResult> results;
 
 	int count = mcTestMethods.GetCount();
 	for (int i = 0; i < count; i++) {
-		TestMethod method = mcTestMethods[i];
-		TestResult runResult = method.Run();
-
-		// Compare the run result to the expected test result.
-		if (runResult == method.GetExpectedTestResult()) {
-			finalResult = TestResult::Passed;
-		}
-		else {
-			finalResult = TestResult::Failed;
-		}
-
-		// Store the final result;
+		TestMethod& method = mcTestMethods[i];
+		const TestResult& finalResult = method.Run();
 		results.Add(finalResult);
 	} // for
 

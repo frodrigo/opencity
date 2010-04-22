@@ -96,6 +96,15 @@ const String String::operator+(const String& value) const
 }
 
 
+String& String::operator+=(const String& value)
+{
+	msString += value.msString;
+	return *this;
+}
+
+
+   /*=====================================================================*/
+
 bool String::operator==(const char* const value) const
 {
 	return (msString == value);

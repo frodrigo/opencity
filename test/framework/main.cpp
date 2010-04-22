@@ -38,7 +38,7 @@
 
 #include "System/Information/Software/CSdl.h"
 
-#include "UnitTesting/ATestRunner.h"
+#include "UnitTesting/CConsoleTestRunner.h"
 
 
 // System::Object test
@@ -263,10 +263,11 @@ int TestTestRunner()
 {
 	System::Terminal << "UnitTesting::TestRunner test suite\n";
 
-	UnitTesting::TestClass testClass = Test::CalculatorTestClass();
-	UnitTesting::TestRunner runner;
+	const UnitTesting::TestClass& testClass = Test::CalculatorTestClass();
+	UnitTesting::ConsoleTestRunner runner;
 	runner.Add(testClass);
 	runner.Run();
+	runner.DisplayResults();
 
 	System::Terminal << "\n";
 	return 0;

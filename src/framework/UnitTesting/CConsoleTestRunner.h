@@ -1,7 +1,7 @@
 /***************************************************************************
-                       ATestRunner.h  -  description
+                      CConsoleTestRunner.h  -  description
 							-------------------
-	begin                : November 29th, 2009
+	begin                : April 22th, 2010
 	copyright            : (C) 2009 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,39 +17,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_UNITTESTING_ATESTRUNNER_H_
-#define _SPF_UNITTESTING_ATESTRUNNER_H_ 1
+#ifndef _SPF_UNITTESTING_CCONSOLETESTRUNNER_H_
+#define _SPF_UNITTESTING_CCONSOLETESTRUNNER_H_ 1
 
 // Framework headers
-#include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
-#include "CTestResult.h"						// UnitTesting::TestResult
+#include "ATestRunner.h"			// UnitTesting::TestRunner abstract class
 
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
-// Framework UnitTesting::TestClass class forward declaration
-class TestClass;
-
 /**
+	Represents a console test runner.
 */
-class TestRunner : public System::Object
+class ConsoleTestRunner : public TestRunner
 {
 	public:
-		TestRunner();
-		virtual ~TestRunner();
+		ConsoleTestRunner();
+		virtual ~ConsoleTestRunner();
 
-		virtual const System::Collections::Generic::List<TestClass>& GetTestClasses() const;
-
-		virtual void Add(const TestClass& testClass);
-		virtual void Run();
-		virtual void DisplayResults() = 0;
+/**
+	Displays the test results to the console.
+*/
+		void DisplayResults();
 
 		virtual System::String ToString() const;
 
-	protected:
-		System::Collections::Generic::List<TestClass> mcTestClasses;
-
-}; // class UnitTesting::TestRunner
+}; // class UnitTesting::ConsoleTestRunner
 
 // namespace UnitTesting
 SPF_NAMESPACE_END

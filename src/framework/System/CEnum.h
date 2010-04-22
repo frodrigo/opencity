@@ -32,10 +32,12 @@ class Enum : public ValueType
 {
 	public:
 		Enum();
+		Enum(const Enum& original);
 		Enum(int value);
 		virtual ~Enum();
 
 		virtual bool Equals(const Enum& ref) const;
+		virtual const int ToInt() const;
 		virtual String ToString() const;
 
 		virtual Enum& operator=(const Enum& ref);

@@ -26,12 +26,20 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
+const TestResult TestResult::Undefined(-1);
 const TestResult TestResult::Passed(0x0000);
 const TestResult TestResult::Failed(0x0001);
 
 
    /*=====================================================================*/
-TestResult::TestResult() {}
+TestResult::TestResult():
+Enum(TestResult::Undefined)
+{}
+
+
+TestResult::TestResult(const TestResult& original):
+Enum(original)
+{}
 
 
 TestResult::TestResult(int value):

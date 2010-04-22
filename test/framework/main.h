@@ -91,6 +91,8 @@ namespace Test
 
 			void AddTest()
 			{
+				//System::Terminal << "AddTest called.\n";
+
 				Calculator calculator;
 				int expected = 3;
 				int actual = 0;
@@ -111,6 +113,9 @@ namespace Test
 			{
 				System::Delegate addTest(*this, (System::MemberPointer0)&CalculatorTestClass::AddTest);
 				UnitTesting::TestMethod addMethodTest(UnitTesting::TestResult::Passed, addTest, "AddTest");
+				this->Add(addMethodTest);
+
+				addMethodTest.SetExpectedResult(UnitTesting::TestResult::Failed);
 				this->Add(addMethodTest);
 			}
 	};
