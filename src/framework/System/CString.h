@@ -36,6 +36,11 @@ SPF_NAMESPACE_BEGIN(System)
 class String : public Object
 {
 	public:
+/**
+	Represents an empty string.
+*/
+		static const String Empty;
+
 // Constructors and destructor
 		String();
 		String(const char* const& value);
@@ -72,9 +77,6 @@ class String : public Object
 		String& operator<<(const char* const value);
 
 		friend std::ostream& operator<<(std::ostream& os, const String& value);
-
-		static const String Empty;
-
 
 	private:
 		std::string msString;

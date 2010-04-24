@@ -22,7 +22,7 @@
 #include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
 
 // Debug
-#include "System/CConsole.h"		// System::Console class
+//#include "System/CConsole.h"		// System::Console class
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 

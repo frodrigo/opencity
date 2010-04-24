@@ -37,6 +37,7 @@
 			<Add directory="/usr/include/libxml2" />
 			<Add directory="/usr/include/SDL" />
 			<Add directory="../src/framework" />
+			<Add directory="../test/framework" />
 		</Compiler>
 		<Linker>
 			<Add library="libSDL" />
@@ -128,6 +129,8 @@
 		<Unit filename="../src/framework/UnitTesting/CTestResult.h" />
 		<Unit filename="../src/framework/UnitTesting/CUnitTestAssertException.cpp" />
 		<Unit filename="../src/framework/UnitTesting/CUnitTestAssertException.h" />
+		<Unit filename="../test/framework/System/CStringTest.cpp" />
+		<Unit filename="../test/framework/System/CStringTest.h" />
 		<Unit filename="../test/framework/main.cpp" />
 		<Unit filename="../test/framework/main.h" />
 		<Extensions>

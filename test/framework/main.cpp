@@ -38,6 +38,7 @@
 
 #include "System/Information/Software/CSdl.h"
 
+#include "System/CStringTest.h"
 #include "UnitTesting/CConsoleTestRunner.h"
 
 
@@ -82,30 +83,6 @@ int TestSmartPointer()
 	System::SmartPointer<Test::Car> pCarA( new Test::Car(System::String("A")) );
 
 	System::Terminal << "End of System::SmartPointer test suite\n";
-	return 0;
-}
-
-
-// System::String test
-int TestString()
-{
-	System::Terminal << "System::String test suite\n";
-
-	System::String s1 = System::String("String assignment test\n");
-	System::Terminal << s1;
-
-	System::String sA = "String A ";
-	System::String sB = System::String("String B\n");
-
-	System::String sC = sA + sB;
-	System::Terminal << sC;
-
-	System::Diagnostics::Debug::Assert(sC == sA + sB, "Assertion failed: sC != sA + sB.\n" );
-	System::Diagnostics::Debug::Assert(System::String::Empty == "", "String.Empty assertion failed.\n");
-	System::String sEmpty = System::String::Empty;
-	System::Diagnostics::Debug::Assert(sEmpty == "", "String.Empty assignment assertion failed.\n");
-
-	System::Terminal << "\n";
 	return 0;
 }
 
@@ -266,6 +243,10 @@ int TestTestRunner()
 	const UnitTesting::TestClass& testClass = Test::CalculatorTestClass();
 	UnitTesting::ConsoleTestRunner runner;
 	runner.Add(testClass);
+
+	Test::StringTest stringTest;
+	runner.Add(stringTest);
+
 	runner.Run();
 	runner.DisplayResults();
 
@@ -294,9 +275,6 @@ int main()
 
 	// System::Boolean test
 	TestBoolean();
-
-	// System::String test
-	TestString();
 
 	// System::Exception test
 	TestException();

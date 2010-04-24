@@ -17,16 +17,15 @@
  *                                                                         *
  ***************************************************************************/
 
-// Do not include "extern const String Empty"
-#define _SPF_SYSTEM_STRING_CPP_ 1
-
 // Framework headers
 #include "CNullValue.h"			// System::NullValue class
 #include "CString.h"
-#include "CConsole.h"
 
 // Standard C++ headers
 #include <sstream>				// stringstream
+
+// Debugging
+//#include "CConsole.h"
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -120,6 +119,7 @@ bool String::operator==(const String& value) const
 String& String::operator<<(const unsigned char value)
 {
 	msString += value;
+//	System::Terminal << *this;
 	return *this;
 }
 
