@@ -37,6 +37,8 @@ class StringTest : public UnitTesting::TestClass
 
 		void StringEmptyTest() const;
 
+		void GetLengthTest() const;
+
 		void EqualOperatorTest() const;
 		void AssignmentOperatorTest() const;
 		void PlusOperatorTest() const;

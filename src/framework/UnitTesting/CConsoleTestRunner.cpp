@@ -43,6 +43,10 @@ void ConsoleTestRunner::DisplayResults()
 	for (int i = 0; i < count; i++) {
 		// TODO: display test class description
 		const TestClass& testClass = mcTestClasses[i];
+		System::String description = testClass.GetDescription();
+		if (description.GetLength() > 0) {
+			System::Terminal << description;
+		}
 
 		// Test: display the results
 		const List<TestMethod>& testMethods = testClass.GetTestMethods();

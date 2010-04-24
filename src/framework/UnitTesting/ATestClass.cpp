@@ -29,13 +29,21 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-TestClass::TestClass() {}
+TestClass::TestClass(const System::String& description):
+msDescription(description)
+{}
 
 
 TestClass::~TestClass() {}
 
 
    /*=====================================================================*/
+const System::String& TestClass::GetDescription() const
+{
+	return msDescription;
+}
+
+
 const System::Collections::Generic::List<TestMethod>&
 TestClass::GetTestMethods() const
 {

@@ -21,8 +21,8 @@
 #define _SPF_UNITTESTING_ATESTCLASS_H_ 1
 
 // Framework headers
-#include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
 #include "CTestMethod.h"						// UnitTesting::TestMethod
+#include "System/Collections/Generic/CList.h"	// System::Collections::Generic::List
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
@@ -32,9 +32,10 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 class TestClass : public System::Object
 {
 	public:
-		TestClass();
+		TestClass(const System::String& description = System::String::Empty);
 		virtual ~TestClass();
 
+		const System::String& GetDescription() const;
 		virtual const System::Collections::Generic::List<TestMethod>& GetTestMethods() const;
 
 		virtual void Add(const TestMethod& method);
@@ -43,6 +44,7 @@ class TestClass : public System::Object
 		virtual System::String ToString() const;
 
 	private:
+		System::String msDescription;
 		System::Collections::Generic::List<TestMethod> mcTestMethods;
 
 }; // class UnitTesting::TestClass

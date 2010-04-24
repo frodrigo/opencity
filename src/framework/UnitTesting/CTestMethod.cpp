@@ -28,14 +28,14 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
 
    /*=====================================================================*/
-TestMethod::TestMethod(const TestResult& expectedResult, const System::Delegate& delegate):
+TestMethod::TestMethod(const System::Delegate& delegate, const TestResult& expectedResult):
 meExpectedResult(expectedResult),
 moDelegate(delegate)
 {
 }
 
 
-TestMethod::TestMethod(const TestResult& expectedResult, const System::Delegate& delegate, const System::String& description):
+TestMethod::TestMethod(const System::Delegate& delegate, const System::String& description, const TestResult& expectedResult):
 meExpectedResult(expectedResult),
 moDelegate(delegate),
 msDescription(description)
@@ -51,13 +51,13 @@ TestMethod::~TestMethod()
 
 
    /*=====================================================================*/
-const TestResult TestMethod::GetRunResult() const
+const TestResult& TestMethod::GetRunResult() const
 {
 	return meRunResult;
 }
 
 
-const TestResult TestMethod::GetExpectedResult() const
+const TestResult& TestMethod::GetExpectedResult() const
 {
 	return meExpectedResult;
 }
@@ -69,19 +69,19 @@ void TestMethod::SetExpectedResult(const TestResult& expectedResult)
 }
 
 
-const TestResult TestMethod::GetFinalResult() const
+const TestResult& TestMethod::GetFinalResult() const
 {
 	return meFinalResult;
 }
 
 
-const System::String TestMethod::GetDescription() const
+const System::String& TestMethod::GetDescription() const
 {
 	return msDescription;
 }
 
 
-const TestResult TestMethod::Run()
+const TestResult& TestMethod::Run()
 {
 	// Try to execute the delegate.
 	try {

@@ -27,33 +27,39 @@ SPF_NAMESPACE_BEGIN(Test)
 
 
    /*=====================================================================*/
-StringTest::StringTest()
+StringTest::StringTest():
+TestClass("System::String test suite.\n")
 {
 	// Static variable test
 	System::Delegate stringEmptyTest(*this, (System::MemberPointer0)&StringTest::StringEmptyTest);
-	UnitTesting::TestMethod stringEmptyTestMethod(UnitTesting::TestResult::Passed, stringEmptyTest, "StringEmptyTest");
+	UnitTesting::TestMethod stringEmptyTestMethod(stringEmptyTest, "StringEmptyTest");
 	this->Add(stringEmptyTestMethod);
+
+	// Accessor test
+	System::Delegate getLengthTest(*this, (System::MemberPointer0)&StringTest::GetLengthTest);
+	UnitTesting::TestMethod getLengthTestMethod(getLengthTest, "GetLengthTest");
+	this->Add(getLengthTestMethod);
 
 	// Standard operators tests
 	System::Delegate equalOperatorTest(*this, (System::MemberPointer0)&StringTest::EqualOperatorTest);
-	UnitTesting::TestMethod equalOperatorTestMethod(UnitTesting::TestResult::Passed, equalOperatorTest, "EqualOperatorTest");
+	UnitTesting::TestMethod equalOperatorTestMethod(equalOperatorTest, "EqualOperatorTest");
 	this->Add(equalOperatorTestMethod);
 
 	System::Delegate assignmentOperatorTest(*this, (System::MemberPointer0)&StringTest::AssignmentOperatorTest);
-	UnitTesting::TestMethod assignmentOperatorTestMethod(UnitTesting::TestResult::Passed, assignmentOperatorTest, "AssignmentOperatorTest");
+	UnitTesting::TestMethod assignmentOperatorTestMethod(assignmentOperatorTest, "AssignmentOperatorTest");
 	this->Add(assignmentOperatorTestMethod);
 
 	System::Delegate plusOperatorTest(*this, (System::MemberPointer0)&StringTest::PlusOperatorTest);
-	UnitTesting::TestMethod plusOperatorTestMethod(UnitTesting::TestResult::Passed, plusOperatorTest, "PlusOperatorTest");
+	UnitTesting::TestMethod plusOperatorTestMethod(plusOperatorTest, "PlusOperatorTest");
 	this->Add(plusOperatorTestMethod);
 
 	System::Delegate plusEqualOperatorTest(*this, (System::MemberPointer0)&StringTest::PlusEqualOperatorTest);
-	UnitTesting::TestMethod plusEqualOperatorTestMethod(UnitTesting::TestResult::Passed, plusEqualOperatorTest, "PlusEqualOperatorTest");
+	UnitTesting::TestMethod plusEqualOperatorTestMethod(plusEqualOperatorTest, "PlusEqualOperatorTest");
 	this->Add(plusEqualOperatorTestMethod);
 
 	// Output operator tests
 	System::Delegate leftShiftOperatorTest(*this, (System::MemberPointer0)&StringTest::LeftShiftOperatorTest);
-	UnitTesting::TestMethod leftShiftOperatorTestMethod(UnitTesting::TestResult::Passed, leftShiftOperatorTest, "LeftShiftOperatorTest");
+	UnitTesting::TestMethod leftShiftOperatorTestMethod(leftShiftOperatorTest, "LeftShiftOperatorTest");
 	this->Add(leftShiftOperatorTestMethod);
 }
 
@@ -69,6 +75,21 @@ void StringTest::StringEmptyTest() const
 
 	bool expected = true;
 	bool actual = (str1 == str2);
+	UnitTesting::Assert::AreEqual(expected, actual);
+}
+
+
+   /*=====================================================================*/
+void StringTest::GetLengthTest() const
+{
+	System::String str1;
+	int expected = 0;
+	int actual = str1.GetLength();
+	UnitTesting::Assert::AreEqual(expected, actual);
+
+	str1 = "abc";
+	expected = 3;
+	actual = str1.GetLength();
 	UnitTesting::Assert::AreEqual(expected, actual);
 }
 

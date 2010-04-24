@@ -112,7 +112,7 @@ namespace Test
 			void Initialize()
 			{
 				System::Delegate addTest(*this, (System::MemberPointer0)&CalculatorTestClass::AddTest);
-				UnitTesting::TestMethod addMethodTest(UnitTesting::TestResult::Passed, addTest, "AddTest");
+				UnitTesting::TestMethod addMethodTest(addTest, "AddTest");
 				this->Add(addMethodTest);
 
 				addMethodTest.SetExpectedResult(UnitTesting::TestResult::Failed);

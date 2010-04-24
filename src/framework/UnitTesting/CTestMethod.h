@@ -33,18 +33,18 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 class TestMethod : public System::Object
 {
 	public:
-		TestMethod(const TestResult& expectedResult, const System::Delegate& delegate);
-		TestMethod(const TestResult& expectedResult, const System::Delegate& delegate, const System::String& description);
+		TestMethod(const System::Delegate& delegate, const TestResult& expectedResult = TestResult::Passed);
+		TestMethod(const System::Delegate& delegate, const System::String& description, const TestResult& expectedResult = TestResult::Passed);
 		virtual ~TestMethod();
 
-		const TestResult GetRunResult() const;
+		const TestResult& GetRunResult() const;
 
-		const TestResult GetExpectedResult() const;
+		const TestResult& GetExpectedResult() const;
 		void SetExpectedResult(const TestResult& expectedResult);
 
-		const TestResult GetFinalResult() const;
-		const System::String GetDescription() const;
-		const TestResult Run();
+		const TestResult& GetFinalResult() const;
+		const System::String& GetDescription() const;
+		const TestResult& Run();
 
 		virtual System::String ToString() const;
 
@@ -54,7 +54,6 @@ class TestMethod : public System::Object
 		TestResult meFinalResult;
 		System::Delegate moDelegate;
 		System::String msDescription;
-
 
 }; // class UnitTesting::TestMethod
 
