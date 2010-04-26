@@ -63,6 +63,7 @@ otherwise, false.
 
 		virtual Object& operator=(const NullValue& null);
 		virtual bool operator==(const Object& obj) const;
+		virtual bool operator!=(const Object& obj) const;
 
 	protected:
 		bool mbIsNull;		/// Avoids circular dependency

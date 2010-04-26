@@ -1,7 +1,7 @@
 /***************************************************************************
-                        CStringTest.h  -  description
+                        CBooleanTest.h  -  description
 							-------------------
-	begin                : April 23th, 2010
+	begin                : April 26th, 2010
 	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
@@ -17,8 +17,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_TEST_CSTRINGTEST_H_
-#define _SPF_TEST_CSTRINGTEST_H_ 1
+#ifndef _SPF_TEST_CBOOLEANTEST_H_
+#define _SPF_TEST_CBOOLEANTEST_H_ 1
 
 // Framework headers
 #include "UnitTesting/ATestClass.h"
@@ -27,28 +27,21 @@ SPF_NAMESPACE_BEGIN(Test)
 
 
 /**
-	Contains the System::String unit tests.
+	Contains the System::Boolean unit tests.
 */
-class StringTest : public UnitTesting::TestClass
+class BooleanTest : public UnitTesting::TestClass
 {
 	public:
-		StringTest();
-		virtual ~StringTest();
+		BooleanTest();
+		virtual ~BooleanTest();
 
-		void StringEmptyTest() const;
-
-		void GetLengthTest() const;
-
-		void EqualOperatorTest() const;
 		void AssignmentOperatorTest() const;
-		void PlusOperatorTest() const;
-		void PlusEqualOperatorTest() const;
-
-		void LeftShiftOperatorTest() const;
+		void EqualOperatorTest() const;
+		void InequalOperatorTest() const;
 
 		virtual System::String ToString() const;
 
-}; // class Test::StringTest
+}; // class Test::BooleanTest
 
 // namespace Test
 SPF_NAMESPACE_END

@@ -54,7 +54,8 @@ void ConsoleTestRunner::DisplayResults()
 		for (int j = 0; j < numberMethods; j++) {
 			const TestMethod& testMethod = testMethods[j];
 
-			System::String message = testMethod.GetDescription();
+			System::String message = "\t";
+			message += testMethod.GetDescription();
 			const TestResult& finalResult = testMethod.GetFinalResult();
 			if (finalResult == TestResult::Passed) {
 				message += " passed.\n";

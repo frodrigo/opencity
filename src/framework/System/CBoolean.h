@@ -38,12 +38,18 @@ class Boolean : public Object
 
 		virtual String ToString() const;
 
-		Boolean& operator=(const bool& value);
-		bool operator==(const Boolean& value);
-		bool operator!=(const Boolean& value);
+		operator bool() const;
 
-		bool operator==(const bool& value);
-		bool operator!=(const bool& value);
+		Boolean& operator=(const bool& value);
+
+		bool operator==(const Boolean& value) const;
+		virtual bool operator==(const Object& obj) const;
+
+		bool operator!=(const Boolean& value) const;
+		virtual bool operator!=(const Object& obj) const;
+
+		bool operator==(const bool& value) const;
+		bool operator!=(const bool& value) const;
 
 		Boolean& operator=(const NullValue& null);
 

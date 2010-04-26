@@ -60,6 +60,21 @@ void Assert::AreEqual(const Object& expected, const Object& actual, const System
 
 
    /*=====================================================================*/
+void Assert::AreNotEqual(const Object& expected, const Object& actual)
+{
+	Assert::AreNotEqual(expected, actual, "The expected value is equal to the actual value.");
+}
+
+
+void Assert::AreNotEqual(const Object& expected, const Object& actual, const System::String& message)
+{
+	if (expected != actual)
+		return;
+
+	throw AssertFailedException(message);
+}
+
+
 void Assert::AreNotEqual(const int expected, const int actual)
 {
 	Assert::AreNotEqual(expected, actual, "The expected value is equal to the actual value.");

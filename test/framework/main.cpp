@@ -38,8 +38,9 @@
 
 #include "System/Information/Software/CSdl.h"
 
-#include "System/CStringTest.h"
 #include "UnitTesting/CConsoleTestRunner.h"
+#include "System/CBooleanTest.h"
+#include "System/CStringTest.h"
 
 
 // System::Object test
@@ -104,41 +105,6 @@ int TestException()
 		System::Terminal << ex.GetMessage();
 		System::Terminal << (System::String)ex.GetMessage();
 	}
-
-	System::Terminal << "\n";
-	return 0;
-}
-
-
-// System::Boolean test
-int TestBoolean()
-{
-	System::Terminal << "System::Boolean test suite\n";
-
-	System::Boolean b = System::Boolean(false);
-	System::Terminal << b << "\n";
-	b = true;
-	System::Terminal << b << "\n";
-
-	// Primitive type bool comparison
-	if (b == false)
-		System::Terminal << "b is false\n";
-	else
-		System::Terminal << "b is true\n";
-
-	// Boolean type comparison
-	System::Boolean a(false);
-	if (a == b)
-		System::Terminal << "a == b == " << a << "\n";
-	if (a != b)
-		System::Terminal << "a != b\n";
-
-	a = true;
-	if (a == b)
-		System::Terminal << "a == b == " << a << "\n";
-	if (a != b)
-		System::Terminal << "a != b\n";
-
 
 	System::Terminal << "\n";
 	return 0;
@@ -244,6 +210,9 @@ int TestTestRunner()
 	UnitTesting::ConsoleTestRunner runner;
 	runner.Add(testClass);
 
+	Test::BooleanTest booleanTest;
+	runner.Add(booleanTest);
+
 	Test::StringTest stringTest;
 	runner.Add(stringTest);
 
@@ -272,9 +241,6 @@ int main()
 	// System::SmartPointer test
 	TestSmartPointer();
 	System::Terminal << "\n";
-
-	// System::Boolean test
-	TestBoolean();
 
 	// System::Exception test
 	TestException();

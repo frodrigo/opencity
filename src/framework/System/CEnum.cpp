@@ -80,7 +80,7 @@ bool Enum::operator==(const Enum& ref) const
 {
 	//std::cout << "== operator" << std::endl;
 
-	return (this->miValue == ref.miValue);
+	return (bool)(this->miValue == ref.miValue);
 }
 
 
@@ -92,7 +92,7 @@ bool Enum::operator==(const Object& obj) const
 	Object& constlessObj = const_cast<Object&>(obj);
 	const Enum& enumRef = dynamic_cast<Enum&>(constlessObj);
 
-	return (this->miValue == enumRef.miValue);
+	return (bool)(*this == enumRef);
 }
 
 

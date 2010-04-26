@@ -27,18 +27,29 @@ SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-Boolean::Boolean() {}
+Boolean::Boolean():
+mbValue(false)
+{}
 
 
-Boolean::Boolean(bool value) : mbValue(value) {}
+Boolean::Boolean(bool value):
+mbValue(value)
+{}
 
 
 Boolean::~Boolean() {}
 
 
+   /*=====================================================================*/
 String Boolean::ToString() const
 {
 	return mbValue ? String("true") : String("false");
+}
+
+
+Boolean::operator bool() const
+{
+	return mbValue;
 }
 
 
@@ -50,26 +61,46 @@ Boolean& Boolean::operator=(const bool& value)
 }
 
 
-bool Boolean::operator==(const Boolean& value)
+bool Boolean::operator==(const Boolean& value) const
 {
 	return (bool)(mbValue == value.mbValue);
 }
 
 
-bool Boolean::operator!=(const Boolean& value)
+bool Boolean::operator==(const Object& obj) const
+{
+	// FIXME: type checking
+	Object& constlessObj = const_cast<Object&>(obj);
+	const Boolean& booleanRef = dynamic_cast<Boolean&>(constlessObj);
+
+	return (bool)(*this == booleanRef);
+}
+
+
+bool Boolean::operator!=(const Boolean& value) const
 {
 	return (bool)(mbValue != value.mbValue);
 }
 
 
+bool Boolean::operator!=(const Object& obj) const
+{
+	// FIXME: type checking
+	Object& constlessObj = const_cast<Object&>(obj);
+	const Boolean& booleanRef = dynamic_cast<Boolean&>(constlessObj);
+
+	return (bool)(*this != booleanRef);
+}
+
+
    /*=====================================================================*/
-bool Boolean::operator==(const bool& value)
+bool Boolean::operator==(const bool& value) const
 {
 	return (bool)(mbValue == value);
 }
 
 
-bool Boolean::operator!=(const bool& value)
+bool Boolean::operator!=(const bool& value) const
 {
 	return (bool)(mbValue != value);
 }

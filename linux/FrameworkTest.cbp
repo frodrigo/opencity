@@ -129,6 +129,8 @@
 		<Unit filename="../src/framework/UnitTesting/CTestResult.h" />
 		<Unit filename="../src/framework/UnitTesting/CUnitTestAssertException.cpp" />
 		<Unit filename="../src/framework/UnitTesting/CUnitTestAssertException.h" />
+		<Unit filename="../test/framework/System/CBooleanTest.cpp" />
+		<Unit filename="../test/framework/System/CBooleanTest.h" />
 		<Unit filename="../test/framework/System/CStringTest.cpp" />
 		<Unit filename="../test/framework/System/CStringTest.h" />
 		<Unit filename="../test/framework/main.cpp" />

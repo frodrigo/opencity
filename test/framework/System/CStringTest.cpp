@@ -19,9 +19,7 @@
 
 // Framework headers
 #include "CStringTest.h"			// Test::StringTest class
-//#include "System/CString.h"			// System::String class
 #include "UnitTesting/AAssert.h"	// UnitTesting::Assert class
-
 
 SPF_NAMESPACE_BEGIN(Test)
 

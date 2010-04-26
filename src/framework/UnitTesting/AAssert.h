@@ -85,6 +85,8 @@ message can be seen in the unit test results.
 			const Object& expected, const Object& actual,
 			const System::String& message);
 
+		static void AreNotEqual(const Object& expected, const Object& actual);
+		static void AreNotEqual(const Object& expected, const Object& actual, const System::String& message);
 
 		static void AreNotEqual(const int expected, const int actual);
 		static void AreNotEqual(const int expected, const int actual, const System::String& message);

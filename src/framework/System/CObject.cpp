@@ -101,6 +101,12 @@ bool Object::operator==(const Object& obj) const
 }
 
 
+bool Object::operator!=(const Object& obj) const
+{
+	return (this != &obj);
+}
+
+
    /*=====================================================================*/
 
 
