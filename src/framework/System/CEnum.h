@@ -37,8 +37,9 @@ class Enum : public ValueType
 		virtual ~Enum();
 
 		virtual bool Equals(const Enum& ref) const;
-		virtual const int ToInt() const;
 		virtual String ToString() const;
+
+		operator int() const;
 
 		virtual Enum& operator=(const Enum& ref);
 
