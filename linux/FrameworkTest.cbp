@@ -92,7 +92,11 @@
 		<Unit filename="../src/framework/System/ComponentModel/IComponent.h" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.cpp" />
 		<Unit filename="../src/framework/System/Diagnostics/CDebug.h" />
+		<Unit filename="../src/framework/System/Globalization/CCultureInfo.cpp" />
+		<Unit filename="../src/framework/System/Globalization/CCultureInfo.h" />
+		<Unit filename="../src/framework/System/ICloneable.h" />
 		<Unit filename="../src/framework/System/IDisposable.h" />
+		<Unit filename="../src/framework/System/IFormatProvider.h" />
 		<Unit filename="../src/framework/System/IO/CFileStream.cpp" />
 		<Unit filename="../src/framework/System/IO/CFileStream.h" />
 		<Unit filename="../src/framework/System/IO/CStream.cpp" />

@@ -1,8 +1,8 @@
 /***************************************************************************
-                     CSmartPointer.h  -  description
+                        CCultureInfo.h  -  description
 							-------------------
-	begin                : January 6th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : April 28th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,41 +17,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CSMARTPOINTER_H_
-#define _SPF_SYSTEM_CSMARTPOINTER_H_ 1
+#ifndef _SPF_SYSTEM_GLOBALIZATION_CCULTUREINFO_H_
+#define _SPF_SYSTEM_GLOBALIZATION_CCULTUREINFO_H_ 1
 
 // Framework headers
-#include "CObject.h"
+#include "System/CObject.h"				// System::Object class
+#include "System/ICloneable.h"			// System::ICloneable interface
+#include "System/IFormatProvider.h"		// System::IFormatProvider interface
 
-// boost::share_ptr template
-#include <boost/shared_ptr.hpp>
-
-
-SPF_NAMESPACE_BEGIN(System)
+SPF_NAMESPACE_NESTED_BEGIN(System, Globalization)
 
 /**
-	Wraps a pointer to any object type. When a SmartPointer instance goes out
-of scope, the wrapped pointer is automatically deleted.
 */
-template<typename T>
-class SmartPointer : public Object
+class CultureInfo : public System::Object, public System::ICloneable, public System::IFormatProvider
 {
 	public:
-		SmartPointer();
-		SmartPointer(T* const pointer);
-		virtual ~SmartPointer();
-
 		virtual String ToString() const;
 
-	private:
-		boost::shared_ptr<T> mpObject;
-}; // class System::SmartPointer
+	protected:
+		CultureInfo();
+		virtual ~CultureInfo();
 
-SPF_NAMESPACE_END
+}; // class System::Globalization::CultureInfo
 
-
-#ifndef _GLIBCXX_EXPORT_TEMPLATE
-	#include "CSmartPointer.tcc"
-#endif
+// namespace System::Globalization
+SPF_NAMESPACE_NESTED_END
 
 #endif

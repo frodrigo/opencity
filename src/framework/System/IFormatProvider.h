@@ -1,8 +1,8 @@
 /***************************************************************************
-                     CSmartPointer.h  -  description
+                        IFormatProvider.h  -  description
 							-------------------
-	begin                : January 6th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : April 28th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,41 +17,35 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CSMARTPOINTER_H_
-#define _SPF_SYSTEM_CSMARTPOINTER_H_ 1
-
-// Framework headers
-#include "CObject.h"
-
-// boost::share_ptr template
-#include <boost/shared_ptr.hpp>
-
+#ifndef _SPF_SYSTEM_IFORMATPROVIDER_H_
+#define _SPF_SYSTEM_IFORMATPROVIDER_H_ 1
 
 SPF_NAMESPACE_BEGIN(System)
 
 /**
-	Wraps a pointer to any object type. When a SmartPointer instance goes out
-of scope, the wrapped pointer is automatically deleted.
+	Provides a mechanism for retrieving an object to control formatting.
 */
-template<typename T>
-class SmartPointer : public Object
+class IFormatProvider
 {
 	public:
-		SmartPointer();
-		SmartPointer(T* const pointer);
-		virtual ~SmartPointer();
 
-		virtual String ToString() const;
+/**
+	Returns an object that provides formatting services for the specified type.
 
-	private:
-		boost::shared_ptr<T> mpObject;
-}; // class System::SmartPointer
+	\param	formatType	An object that specifies the type of format object
+to return.
+	\return	An instance of the object specified by formatType, if the
+IFormatProvider implementation can supply that type of object; otherwise,
+null reference.
+*/
+		virtual Object GetFormat(const Type& formatType) const = 0;
+
+	protected:
+		IFormatProvider() {}
+		virtual ~IFormatProvider() {}
+
+}; // class System::IFormatProvider
 
 SPF_NAMESPACE_END
-
-
-#ifndef _GLIBCXX_EXPORT_TEMPLATE
-	#include "CSmartPointer.tcc"
-#endif
 
 #endif

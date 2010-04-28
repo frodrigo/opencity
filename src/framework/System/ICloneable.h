@@ -1,8 +1,8 @@
 /***************************************************************************
-                     CSmartPointer.h  -  description
+                        ICloneable.h  -  description
 							-------------------
-	begin                : January 6th, 2009
-	copyright            : (C) 2009 by Duong Khang NGUYEN
+	begin                : April 28th, 2010
+	copyright            : (C) 2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,41 +17,30 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_CSMARTPOINTER_H_
-#define _SPF_SYSTEM_CSMARTPOINTER_H_ 1
-
-// Framework headers
-#include "CObject.h"
-
-// boost::share_ptr template
-#include <boost/shared_ptr.hpp>
-
+#ifndef _SPF_SYSTEM_ICLONEABLE_H_
+#define _SPF_SYSTEM_ICLONEABLE_H_ 1
 
 SPF_NAMESPACE_BEGIN(System)
 
 /**
-	Wraps a pointer to any object type. When a SmartPointer instance goes out
-of scope, the wrapped pointer is automatically deleted.
+	Supports cloning, which creates a new instance of a class with
+the same value as an existing instance.
 */
-template<typename T>
-class SmartPointer : public Object
+class ICloneable
 {
 	public:
-		SmartPointer();
-		SmartPointer(T* const pointer);
-		virtual ~SmartPointer();
 
-		virtual String ToString() const;
+/**
+	Creates a new object that is a copy of the current instance.
+*/
+		virtual Object Clone() = 0;
 
-	private:
-		boost::shared_ptr<T> mpObject;
-}; // class System::SmartPointer
+	protected:
+		ICloneable() {}
+		virtual ~ICloneable() {}
+
+}; // class System::ICloneable
 
 SPF_NAMESPACE_END
-
-
-#ifndef _GLIBCXX_EXPORT_TEMPLATE
-	#include "CSmartPointer.tcc"
-#endif
 
 #endif

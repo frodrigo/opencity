@@ -20,9 +20,7 @@
 #ifndef _SPF_SYSTEM_IDISPOSABLE_H_
 #define _SPF_SYSTEM_IDISPOSABLE_H_ 1
 
-
 SPF_NAMESPACE_BEGIN(System)
-
 
 /**
 	Defines a method to release allocated resources.
