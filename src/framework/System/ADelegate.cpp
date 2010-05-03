@@ -31,16 +31,16 @@ SPF_NAMESPACE_BEGIN(System)
 
 
    /*=====================================================================*/
-Delegate::Delegate() :
-mpTarget(NULL),
-mpTargetMethod(NULL)
+Delegate::Delegate():
+	mpTarget(NULL),
+	mpTargetMethod(NULL)
 {
 }
 
 
-Delegate::Delegate(const Object& target, const MemberPointer0 pointer) :
-mpTarget(&target),
-mpTargetMethod(pointer)
+Delegate::Delegate(const Object& target, const MemberPointer0 pointer):
+	mpTarget(&target),
+	mpTargetMethod(pointer)
 {
 }
 

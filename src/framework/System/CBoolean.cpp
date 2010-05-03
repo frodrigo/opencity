@@ -28,12 +28,12 @@ SPF_NAMESPACE_BEGIN(System)
 
    /*=====================================================================*/
 Boolean::Boolean():
-mbValue(false)
+	mbValue(false)
 {}
 
 
 Boolean::Boolean(bool value):
-mbValue(value)
+	mbValue(value)
 {}
 
 

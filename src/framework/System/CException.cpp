@@ -28,7 +28,9 @@ SPF_NAMESPACE_BEGIN(System)
 Exception::Exception() {}
 
 
-Exception::Exception(const String& message) : msMessage(message) {}
+Exception::Exception(const String& message):
+	msMessage(message)
+{}
 
 
 Exception::~Exception() {}

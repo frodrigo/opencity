@@ -28,17 +28,17 @@ SPF_NAMESPACE_BEGIN(System)
 
    /*=====================================================================*/
 Enum::Enum():
-miValue(0)
+	miValue(0)
 {}
 
 
 Enum::Enum(const Enum& original):
-miValue(original.miValue)
+	miValue(original.miValue)
 {}
 
 
 Enum::Enum(int value):
-miValue(value)
+	miValue(value)
 {}
 
 

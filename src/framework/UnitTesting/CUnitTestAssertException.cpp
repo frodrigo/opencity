@@ -28,7 +28,7 @@ UnitTestAssertException::UnitTestAssertException() {}
 
 
 UnitTestAssertException::UnitTestAssertException(const System::String& message) :
-Exception(message)
+	Exception(message)
 {}
 
 

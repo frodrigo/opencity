@@ -29,16 +29,16 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
    /*=====================================================================*/
 TestMethod::TestMethod(const System::Delegate& delegate, const TestResult& expectedResult):
-meExpectedResult(expectedResult),
-moDelegate(delegate)
+	meExpectedResult(expectedResult),
+	moDelegate(delegate)
 {
 }
 
 
 TestMethod::TestMethod(const System::Delegate& delegate, const System::String& description, const TestResult& expectedResult):
-meExpectedResult(expectedResult),
-moDelegate(delegate),
-msDescription(description)
+	meExpectedResult(expectedResult),
+	moDelegate(delegate),
+	msDescription(description)
 {
 //	System::Terminal << "ctor + desc.\n";
 }

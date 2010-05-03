@@ -31,7 +31,7 @@ Type::Type() {}
 Type::Type(const String& name) : System::Reflection::MemberInfo(name) {}
 
 
-Type::Type(const String& name, const String& space) :
+Type::Type(const String& name, const String& space):
 	System::Reflection::MemberInfo(name),
 	msNamespace( space )
 {

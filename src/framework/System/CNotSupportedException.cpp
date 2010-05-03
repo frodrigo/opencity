@@ -28,8 +28,8 @@ SPF_NAMESPACE_BEGIN(System)
 NotSupportedException::NotSupportedException() {}
 
 
-NotSupportedException::NotSupportedException(const String& message) :
-SystemException(message)
+NotSupportedException::NotSupportedException(const String& message):
+	SystemException(message)
 {}
 
 

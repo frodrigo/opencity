@@ -33,17 +33,17 @@ const TestResult TestResult::Failed(0x0001);
 
    /*=====================================================================*/
 TestResult::TestResult():
-Enum(TestResult::Undefined)
+	Enum(TestResult::Undefined)
 {}
 
 
 TestResult::TestResult(const TestResult& original):
-Enum(original)
+	Enum(original)
 {}
 
 
 TestResult::TestResult(int value):
-Enum(value)
+	Enum(value)
 {}
 
 

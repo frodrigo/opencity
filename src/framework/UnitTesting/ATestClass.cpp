@@ -30,7 +30,7 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 
    /*=====================================================================*/
 TestClass::TestClass(const System::String& description):
-msDescription(description)
+	msDescription(description)
 {}
 
 

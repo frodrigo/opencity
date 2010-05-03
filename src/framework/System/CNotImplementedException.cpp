@@ -28,8 +28,8 @@ SPF_NAMESPACE_BEGIN(System)
 NotImplementedException::NotImplementedException() {}
 
 
-NotImplementedException::NotImplementedException(const String& message) :
-SystemException(message)
+NotImplementedException::NotImplementedException(const String& message):
+	SystemException(message)
 {}
 
 
