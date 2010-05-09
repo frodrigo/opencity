@@ -2,7 +2,7 @@
 						environment.h  -  description
 							-------------------
 	begin                : dec 11th, 2005
-	copyright            : (C) 2005-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2005-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 	author               : Victor STINNER
 
@@ -19,11 +19,12 @@
  ***************************************************************************/
 
 
-#ifndef _OPENCITY_ENVIRONMENT_H_
-#define _OPENCITY_ENVIRONMENT_H_ 1
+#ifndef _OPENCITY_MAS_ENVIRONMENT_H_
+#define _OPENCITY_MAS_ENVIRONMENT_H_ 1
 
 #include <vector>
 #include <map>
+
 #include "agent.h"
 #include "agentposition.h"
 
@@ -44,6 +45,7 @@ MAS_DIRECTION rotateRight(MAS_DIRECTION dir);
 //========================================================================
 /** This is the environment of the Multi-Agent System.
 	@author Victor STINNER
+	@author Duong Khang NGUYEN
 */
 class Environment
 {
@@ -101,49 +103,16 @@ is limited to MAX_PATH_LENGTH
 
 
 private:
-	unsigned int m_width;			///< Width of the map
-	unsigned int m_height;			///< Height of the map
-    Kernel *m_kernel;
-	Layer* m_pBuildingLayer;
-	std::map<Agent*, AgentPosition> m_last_pos;
-	typedef std::map<Agent*, AgentPosition>::iterator m_last_pos_it;
-	std::vector<Agent*> m_vector;
-	typedef std::vector<Agent*>::iterator m_vector_it;
-	typedef std::vector<Agent*>::const_iterator m_vector_cit;
+	unsigned int _width;			///< Width of the map
+	unsigned int _height;			///< Height of the map
+    Kernel* _pKernel;
+	Layer* _pBuildingLayer;
+
+	std::map<Agent*, AgentPosition> _last_pos;
+	typedef std::map<Agent*, AgentPosition>::iterator _last_pos_it;
+	std::vector<Agent*> _vector;
+	typedef std::vector<Agent*>::iterator _vector_it;
+	typedef std::vector<Agent*>::const_iterator _vector_cit;
 };
 
-
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

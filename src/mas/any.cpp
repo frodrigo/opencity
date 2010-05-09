@@ -1,11 +1,11 @@
 /***************************************************************************
-						any.cpp  -  description
+                          any.cpp  -  description
 							-------------------
 	begin                : nov 29th, 2005
-	copyright            : (C) 2005-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2005-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 	author               : Victor STINNER
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -28,29 +28,29 @@
 
    /*=====================================================================*/
 Any::Any( int value ):
-m_type(ANY_INT),
-m_int_value(value)
+_type(ANY_INT),
+_intValue(value)
 {}
 
 
    /*=====================================================================*/
 Any::Any( unsigned int value ):
-m_type(ANY_UINT),
-m_uint_value(value)
+_type(ANY_UINT),
+_uintValue(value)
 {}
 
 
    /*=====================================================================*/
 Any::Any( double value ):
-m_type(ANY_DOUBLE),
-m_double_value(value)
+_type(ANY_DOUBLE),
+_doubleValue(value)
 {}
 
 
    /*=====================================================================*/
 Any::Any( const std::string& value ):
-m_type(ANY_STRING),
-m_string_value(value)
+_type(ANY_STRING),
+_stringValue(value)
 {}
 
 
@@ -58,7 +58,7 @@ m_string_value(value)
 MAS_ANY_TYPE
 Any::getType() const
 {
-	return m_type;
+	return _type;
 }
 
 
@@ -66,8 +66,8 @@ Any::getType() const
 int
 Any::getInt() const
 {
-	assert (m_type == ANY_INT);
-	return m_int_value;
+	assert (_type == ANY_INT);
+	return _intValue;
 }
 
 
@@ -75,8 +75,8 @@ Any::getInt() const
 unsigned int
 Any::getUInt() const
 {
-	assert (m_type == ANY_UINT);
-	return m_uint_value;
+	assert (_type == ANY_UINT);
+	return _uintValue;
 }
 
 
@@ -84,8 +84,8 @@ Any::getUInt() const
 double
 Any::getDouble() const
 {
-	assert (m_type == ANY_DOUBLE);
-	return m_double_value;
+	assert (_type == ANY_DOUBLE);
+	return _doubleValue;
 }
 
 
@@ -93,8 +93,8 @@ Any::getDouble() const
 const std::string&
 Any::getString() const
 {
-	assert (m_type == ANY_STRING);
-	return m_string_value;
+	assert (_type == ANY_STRING);
+	return _stringValue;
 }
 
 
@@ -123,35 +123,3 @@ operator<< (std::ostream &os, const Any &any)
 	}
 	return os;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

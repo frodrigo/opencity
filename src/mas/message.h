@@ -1,11 +1,11 @@
 /***************************************************************************
-						message.h  -  description
+                        message.h  -  description
 							-------------------
 	begin                : nov 29th, 2005
-	copyright            : (C) 2006-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2006-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 	author               : Victor STINNER
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -19,8 +19,8 @@
  ***************************************************************************/
 
 
-#ifndef _OPENCITY_MESSAGE_H_
-#define _OPENCITY_MESSAGE_H_ 1
+#ifndef _OPENCITY_MAS_MESSAGE_H_
+#define _OPENCITY_MAS_MESSAGE_H_ 1
 
 #include "any.h"
 
@@ -54,7 +54,7 @@ public:
 	Message& operator<< (unsigned int value);
 	Message& operator<< (double value);
 	Message& operator<< (const std::string& value);
-	
+
 	MAS_MESSAGE_TYPE getType() const;
 	Agent* getSender() const;
 	Message& setSender(Agent* sender);
@@ -65,42 +65,9 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Message& msg);
 
 private:
-	Agent* m_sender;
-	MAS_MESSAGE_TYPE m_type;
-	std::vector<Any> arguments;
+	Agent* _sender;
+	MAS_MESSAGE_TYPE _type;
+	std::vector<Any> _arguments;
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

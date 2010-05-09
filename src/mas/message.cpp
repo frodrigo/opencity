@@ -1,11 +1,11 @@
 /***************************************************************************
-						message.cpp  -  description
+                        message.cpp  -  description
 							-------------------
 	begin                : nov 29th, 2005
-	copyright            : (C) 2005-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2005-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 	author               : Victor STINNER
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -27,15 +27,15 @@
 
    /*=====================================================================*/
 Message::Message():
-m_sender(NULL),
-m_type(MSG_UNDEFINED)
+_sender(NULL),
+_type(MSG_UNDEFINED)
 {}
 
 
    /*=====================================================================*/
 Message::Message( MAS_MESSAGE_TYPE type, Agent *sender ):
-m_sender(sender),
-m_type(type)
+_sender(sender),
+_type(type)
 {}
 
 
@@ -43,14 +43,14 @@ m_type(type)
 MAS_MESSAGE_TYPE
 Message::getType() const
 {
-	return m_type;
+	return _type;
 }
 
 
    /*=====================================================================*/
 Agent* Message::getSender() const
 {
-	return m_sender;
+	return _sender;
 }
 
 
@@ -58,7 +58,7 @@ Agent* Message::getSender() const
 Message&
 Message::setSender(Agent* sender)
 {
-	m_sender = sender;
+	_sender = sender;
     return *this;
 }
 
@@ -66,7 +66,7 @@ Message::setSender(Agent* sender)
    /*=====================================================================*/
 unsigned int Message::size() const
 {
-	return arguments.size();
+	return _arguments.size();
 }
 
 
@@ -74,7 +74,7 @@ unsigned int Message::size() const
 Message&
 Message::operator<< (int value)
 {
-	arguments.push_back(Any(value));
+	_arguments.push_back(Any(value));
 	return *this;
 }
 
@@ -83,7 +83,7 @@ Message::operator<< (int value)
 Message&
 Message::operator<< (unsigned int value)
 {
-	arguments.push_back(Any(value));
+	_arguments.push_back(Any(value));
 	return *this;
 }
 
@@ -92,7 +92,7 @@ Message::operator<< (unsigned int value)
 Message&
 Message::operator<< (double value)
 {
-	arguments.push_back(Any(value));
+	_arguments.push_back(Any(value));
 	return *this;
 }
 
@@ -101,7 +101,7 @@ Message::operator<< (double value)
 Message&
 Message::operator<< (const std::string &value)
 {
-	arguments.push_back(Any(value));
+	_arguments.push_back(Any(value));
 	return *this;
 }
 
@@ -110,7 +110,7 @@ Message::operator<< (const std::string &value)
 Any&
 Message::operator[] (unsigned int index)
 {
-	return arguments.at(index);
+	return _arguments.at(index);
 }
 
 
@@ -118,7 +118,7 @@ Message::operator[] (unsigned int index)
 const Any&
 Message::operator[] (unsigned int index) const
 {
-	return arguments.at(index);
+	return _arguments.at(index);
 }
 
 
@@ -127,8 +127,8 @@ std::ostream&
 operator<< (std::ostream& os, const Message &msg)
 {
 	std::vector<Any>::const_iterator
-		it = msg.arguments.begin(),
-		end = msg.arguments.end();
+		it = msg._arguments.begin(),
+		end = msg._arguments.end();
 	bool separator = false;
 
 	os << "Message <type=" << msg.getType() << ", args={";
@@ -144,37 +144,3 @@ operator<< (std::ostream& os, const Message &msg)
 
 	return os;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

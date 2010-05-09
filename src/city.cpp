@@ -118,17 +118,17 @@ _pctrMenu( NULL )
 		boolPathGo = false;
 		uiPathStartW = 0; uiPathStartH = 0;
 		uiPathStopW = 0; uiPathStopH = 0;
-		pctrPath = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ));
+		_pctrPath = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ));
 		pbtnPathStart = new GUIButton( 20,  20,  30, 30, ocDataDirPrefix( "graphism/gui/raise" ));
 		pbtnPathStop1 = new GUIButton( 60,  0,   30, 30, ocDataDirPrefix( "graphism/gui/lower" ));
 		pbtnPathStop2 = new GUIButton( 100, 20,  30, 30, ocDataDirPrefix( "graphism/gui/lower" ));
 		pbtnTestBuilding = new GUIButton(  20,  70, 30, 30, ocDataDirPrefix( "graphism/gui/residential" ));
-		pctrPath->Add( pbtnPathStart );
-		pctrPath->Add( pbtnPathStop1 );
-		pctrPath->Add( pbtnPathStop2 );
-		pctrPath->Add( pbtnTestBuilding );
+		_pctrPath->Add( pbtnPathStart );
+		_pctrPath->Add( pbtnPathStop1 );
+		_pctrPath->Add( pbtnPathStop2 );
+		_pctrPath->Add( pbtnTestBuilding );
 		pvehicle = NULL;
-	
+
 	// Create the GUI
 		_CreateGUI();
 	}
@@ -136,15 +136,16 @@ _pctrMenu( NULL )
 
 
    /*=====================================================================*/
-City::~City(){
+City::~City()
+{
 	OPENCITY_DEBUG( "City dtor" );
 
 	if (_bGUIEnabled) {
 	// Delete the GUI
 		_DeleteGUI();
-	
+
 	// testing, delete the pathfinder
-		delete pctrPath;
+		delete _pctrPath;
 		delete pbtnTestBuilding;
 		delete pbtnPathStart;
 		delete pbtnPathStop1;
@@ -245,7 +246,7 @@ void City::Run()
 {
 	static uint uiNumberFrame = 0;
 
-// Send the movement manager the move order 
+// Send the movement manager the move order
 	gVars.gpMoveMgr->Move();
 
 // IF the audio is enable THEN autoplay the background music
@@ -332,7 +333,7 @@ void City::Display()
 // NOTE: unused at the moment because it disturbs the GUI
 //	_HandleMouseXY();
 
-// NOTE: We can move the following part to City::uiMouseMotion 
+// NOTE: We can move the following part to City::uiMouseMotion
 // however, in this case City::uiMouseMotion is called each time
 // when the mouse moves, and this is no good.
 // The user is dragging
@@ -389,7 +390,7 @@ cityrun_swap:
 	_pctrStatus->Display();
 
 // Display the current container
-	pctr->Display();
+	_pctr->Display();
 
 // Display the menu
 	if (_pctrMenu != NULL)
@@ -595,33 +596,33 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 #ifndef NDEBUG
 	// Testing PathFinder
 		case SDLK_a:
-			pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+			_pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 
 		// Toggle Main <-> Pathfinding toolcircle
-			if ( pctr == pctrPath ) {
-				pctr = pctrMain;
+			if (_pctr == _pctrPath ) {
+				_pctr = _pctrMain;
 			}
 			else {
-				pctr = pctrPath;
+				_pctr = _pctrPath;
 			}
-			if ( pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
-				pctr->Set( OC_GUIMAIN_VISIBLE );
+			if ( _pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
+				_pctr->Set( OC_GUIMAIN_VISIBLE );
 			}
 			break;
 
 	// MAS test toolcircle
 		case SDLK_v:
-			pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+			_pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
 
 		// Toggle Main <-> MAS toolcircle
-			if ( pctr == pctrMAS ) {
-				pctr = pctrMain;
+			if ( _pctr == _pctrMAS ) {
+				_pctr = _pctrMain;
 			}
 			else {
-				pctr = pctrMAS;
+				_pctr = _pctrMAS;
 			}
-			if ( pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
-				pctr->Set( OC_GUIMAIN_VISIBLE );
+			if ( _pctr->IsSet( OC_GUIMAIN_VISIBLE ) == false ) {
+				_pctr->Set( OC_GUIMAIN_VISIBLE );
 			}
 			break;
 #endif
@@ -686,7 +687,7 @@ City::MouseMotion( const SDL_MouseMotionEvent& rcEvent )
 		_pctrMenu->MouseMotion( rcEvent );
 	}
 	else {
-		pctr->MouseMotion( rcEvent );
+		_pctr->MouseMotion( rcEvent );
 		_pctrStatus->MouseMotion( rcEvent );
 	}
 }
@@ -717,8 +718,8 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 	}
 
 // Process the click concerning the GUI
-	pctr->MouseButton( rcsMBE );
-	if ( pctr->GetClick() != 0 ) {
+	_pctr->MouseButton( rcsMBE );
+	if ( _pctr->GetClick() != 0 ) {
 		_HandleGUIClick();
 		_bLMBPressed = false;
 		return;
@@ -744,47 +745,47 @@ City::MouseButton( const SDL_MouseButtonEvent& rcsMBE )
 		// RMB (right mouse button) close/open the toolcircle
 			if (rcsMBE.button == SDL_BUTTON_RIGHT) {
 			// IF the user has invoked "Query" THEN we destroy it first
-				if (pctr == pctrQ) {
-					pctr = pctrMain;
+				if (_pctr == _pctrQ) {
+					_pctr = _pctrMain;
 				// Enable the visible bit since, it is disabled later
 				// the main toolcircle won't be displayed
-					pctr->Set( OC_GUIMAIN_VISIBLE );
+					_pctr->Set( OC_GUIMAIN_VISIBLE );
 				}
-	
-				if (pctr->IsSet( OC_GUIMAIN_VISIBLE ) == true) {
-					pctr->Unset( OC_GUIMAIN_VISIBLE );
+
+				if (_pctr->IsSet( OC_GUIMAIN_VISIBLE ) == true) {
+					_pctr->Unset( OC_GUIMAIN_VISIBLE );
 				}
 				else {
-					pctr->SetLocation( rcsMBE.x - 70, _iWinHeight - rcsMBE.y - 70 );
-					pctr->Set( OC_GUIMAIN_VISIBLE );
+					_pctr->SetLocation( rcsMBE.x - 70, _iWinHeight - rcsMBE.y - 70 );
+					_pctr->Set( OC_GUIMAIN_VISIBLE );
 				}
 			}
-	
+
 		// Wheel button forward
 			if (rcsMBE.button == 4) {
 			// move right if CTRL pressed
 				if (SDL_GetModState() & KMOD_CTRL)
 					gVars.gpRenderer->MoveRight();
-	
+
 			// move up if SHIFT pressed
 				if (SDL_GetModState() & KMOD_SHIFT)
 					gVars.gpRenderer->MoveUp();
-	
+
 			// zoom in if nothing pressed
 				if (!(SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL)))
 					gVars.gpRenderer->ZoomIn();
 			}
-	
+
 		// Wheel button backward
 			if (rcsMBE.button == 5) {
 			// move right if CTRL pressed
 				if (SDL_GetModState() & KMOD_CTRL)
 					gVars.gpRenderer->MoveLeft();
-	
+
 			// move up if SHIFT pressed
 				if (SDL_GetModState() & KMOD_SHIFT)
 					gVars.gpRenderer->MoveDown();
-	
+
 			// zoom in if nothing pressed
 				if (!(SDL_GetModState() & (KMOD_SHIFT | KMOD_CTRL)))
 					gVars.gpRenderer->ZoomOut();
@@ -830,7 +831,7 @@ City::Expose( const SDL_ExposeEvent& rcEvent )
 	OPENCITY_DEBUG( "Expose event received" );
 
 	gVars.gpRenderer->Display( gVars.gpMapMgr, _apLayer[ _eCurrentLayer ] );
-	pctr->Expose( rcEvent );
+	_pctr->Expose( rcEvent );
 	_pctrStatus->Expose( rcEvent );
 	if (_pctrMenu != NULL) {
 		_pctrMenu->Expose( rcEvent );
@@ -855,15 +856,15 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 	_pctrStatus->SetLocation( (_iWinWidth-512)/2, 0 );
 
 // Tell the containers about the event
-	pctrMain->Resize( rcEvent );
-	pctrL->Resize( rcEvent );
-	pctrT->Resize( rcEvent );
-	pctrZ->Resize( rcEvent );
-	pctrG->Resize( rcEvent );
-	pctrN->Resize( rcEvent );
-	pctrS->Resize( rcEvent );
-	pctrPath->Resize( rcEvent );
-	pctrMAS->Resize( rcEvent );
+	_pctrMain->Resize( rcEvent );
+	_pctrL->Resize( rcEvent );
+	_pctrT->Resize( rcEvent );
+	_pctrZ->Resize( rcEvent );
+	_pctrG->Resize( rcEvent );
+	_pctrN->Resize( rcEvent );
+	_pctrS->Resize( rcEvent );
+	_pctrPath->Resize( rcEvent );
+	_pctrMAS->Resize( rcEvent );
 
 	if (_pctrMenu != NULL) {
 		_pctrMenu->Resize( rcEvent );
@@ -872,8 +873,8 @@ void City::Resize( const SDL_ResizeEvent& rcEvent )
 	}
 
 // IF the query tool is displayed THEN invoke the resize event
-	if (pctrQ != NULL) {
-		pctrQ->Resize( rcEvent );
+	if (_pctrQ != NULL) {
+		_pctrQ->Resize( rcEvent );
 	}
 }
 
@@ -991,7 +992,7 @@ City::_CreateGUI()
 		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/tree" ));
 	_apbtnCurrentTool[OC_TOOL_FIRE]
 		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/fire" ));
-	
+
 	_apbtnCurrentTool[OC_TOOL_POLICE]
 		= new GUIButton( GUIBUTTON_POSITION_TOOL, ocDataDirPrefix( "graphism/gui/status/police" ));
 	_apbtnCurrentTool[OC_TOOL_HOSPITAL]
@@ -1072,13 +1073,13 @@ City::_CreateGUI()
 	pbtnX = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/bulldozer" ));
 	pbtnG = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/government" ));
 
-	pctrMain = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrMain->Add( pbtnZ );
-	pctrMain->Add( pbtnS );
-	pctrMain->Add( pbtnL );
-	pctrMain->Add( pbtnP );
-	pctrMain->Add( pbtnX );
-	pctrMain->Add( pbtnG );
+	_pctrMain = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrMain->Add( pbtnZ );
+	_pctrMain->Add( pbtnS );
+	_pctrMain->Add( pbtnL );
+	_pctrMain->Add( pbtnP );
+	_pctrMain->Add( pbtnX );
+	_pctrMain->Add( pbtnG );
 
 
 // GUI Z toolcircle for RCI buttons
@@ -1087,11 +1088,11 @@ City::_CreateGUI()
 	pbtnZC = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/commercial" ));
 	pbtnZI = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/industrial" ));
 
-	pctrZ = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrZ->Add( pbtnZB );
-	pctrZ->Add( pbtnZR );
-	pctrZ->Add( pbtnZC );
-	pctrZ->Add( pbtnZI );
+	_pctrZ = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrZ->Add( pbtnZB );
+	_pctrZ->Add( pbtnZR );
+	_pctrZ->Add( pbtnZC );
+	_pctrZ->Add( pbtnZI );
 
 
 // GUI L toolcircle ( electric lines, electric plants )
@@ -1100,11 +1101,11 @@ City::_CreateGUI()
 	pbtnLN = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/power_plant_nuclear" ));
 	pbtnLC = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/power_plant_coal" ));
 
-	pctrL = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrL->Add( pbtnLB );
-	pctrL->Add( pbtnLL );
-	pctrL->Add( pbtnLN );
-	pctrL->Add( pbtnLC );
+	_pctrL = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrL->Add( pbtnLB );
+	_pctrL->Add( pbtnLL );
+	_pctrL->Add( pbtnLN );
+	_pctrL->Add( pbtnLC );
 
 
 // GUI T toolcircle ( raise, lower terrain )
@@ -1114,12 +1115,12 @@ City::_CreateGUI()
 	pbtnTX = new GUIButton( GUIBUTTON_POSITION_1, ocDataDirPrefix( "graphism/gui/destroy" ));
 	pbtnTQ = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/query" ));
 
-	pctrT = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrT->Add( pbtnTB );
-	pctrT->Add( pbtnTU );
-	pctrT->Add( pbtnTD );
-	pctrT->Add( pbtnTX );
-	pctrT->Add( pbtnTQ );
+	_pctrT = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrT->Add( pbtnTB );
+	_pctrT->Add( pbtnTU );
+	_pctrT->Add( pbtnTD );
+	_pctrT->Add( pbtnTX );
+	_pctrT->Add( pbtnTQ );
 
 
 // GUI Gouvernement toolcircle ( park, education, hospital, police and fire )
@@ -1130,13 +1131,13 @@ City::_CreateGUI()
 	pbtnGL = new GUIButton( GUIBUTTON_POSITION_3, ocDataDirPrefix( "graphism/gui/police" ));
 	pbtnGF = new GUIButton( GUIBUTTON_POSITION_4, ocDataDirPrefix( "graphism/gui/fire" ));
 
-	pctrG = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrG->Add( pbtnGB );
-	pctrG->Add( pbtnGP );
-	pctrG->Add( pbtnGE );
-	pctrG->Add( pbtnGH );
-	pctrG->Add( pbtnGL );
-	pctrG->Add( pbtnGF );
+	_pctrG = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrG->Add( pbtnGB );
+	_pctrG->Add( pbtnGP );
+	_pctrG->Add( pbtnGE );
+	_pctrG->Add( pbtnGH );
+	_pctrG->Add( pbtnGL );
+	_pctrG->Add( pbtnGF );
 
 
 // Create the nature container
@@ -1144,10 +1145,10 @@ City::_CreateGUI()
 	pbtnNP = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/park_city" ));
 	pbtnNT = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/tree" ));
 
-	pctrN = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrN->Add( pbtnNB );
-	pctrN->Add( pbtnNP );
-	pctrN->Add( pbtnNT );
+	_pctrN = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrN->Add( pbtnNB );
+	_pctrN->Add( pbtnNP );
+	_pctrN->Add( pbtnNT );
 
 
 // Create save/load buttons and the container
@@ -1155,28 +1156,28 @@ City::_CreateGUI()
 	pbtnSS = new GUIButton( GUIBUTTON_POSITION_6, ocDataDirPrefix( "graphism/gui/save_save" ));
 	pbtnSB = new GUIButton( GUIBUTTON_POSITION_5, ocDataDirPrefix( "graphism/gui/back" ));
 
-	pctrS = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
-	pctrS->Add( pbtnSB );
-	pctrS->Add( pbtnSS );
-	pctrS->Add( pbtnSL );
+	_pctrS = new GUIContainer( 100, 100, 140, 140, ocDataDirPrefix( "graphism/gui/toolcircle_bg.png" ) );
+	_pctrS->Add( pbtnSB );
+	_pctrS->Add( pbtnSS );
+	_pctrS->Add( pbtnSL );
 
 
 // MAS toolcircle
-	pctrMAS = new GUIContainer( 100, 100, 140, 140 );
+	_pctrMAS = new GUIContainer( 100, 100, 140, 140 );
 	pbtnMASPolice = new GUIButton( 20,  20,  30, 30, ocDataDirPrefix( "graphism/gui/police" ));
 	pbtnMASDemonstrator = new GUIButton( 60,  0,   30, 30, ocDataDirPrefix( "graphism/gui/demonstrator" ));
 	pbtnMASRobber = new GUIButton( 100, 20,  30, 30, ocDataDirPrefix( "graphism/gui/robber" ));
-	pctrMAS->Add( pbtnMASPolice );
-	pctrMAS->Add( pbtnMASDemonstrator );
-	pctrMAS->Add( pbtnMASRobber );
+	_pctrMAS->Add( pbtnMASPolice );
+	_pctrMAS->Add( pbtnMASDemonstrator );
+	_pctrMAS->Add( pbtnMASRobber );
 
 	pbtnMASRobber->Unset( OC_GUIMAIN_VISIBLE );
 
-// the current pctr points to the MAIN one
-	pctr = pctrMain;
+// the current _pctr points to the MAIN one
+	_pctr = _pctrMain;
 
 // there isn't a query container
-	pctrQ = NULL;
+	_pctrQ = NULL;
 }
 
 
@@ -1184,28 +1185,28 @@ City::_CreateGUI()
 void
 City::_DeleteGUI()
 {
-	pctrQ = NULL;
+	_pctrQ = NULL;
 
 // MAS toolcircle
-	delete pctrMAS;
+	delete _pctrMAS;
 	delete pbtnMASRobber;
 	delete pbtnMASDemonstrator;
 	delete pbtnMASPolice;
 
 // Load/save toolcircle
-	delete pctrS;
+	delete _pctrS;
 	delete pbtnSB;
 	delete pbtnSS;
 	delete pbtnSL;
 
 // Nature toolcircle
-	delete pctrN;
+	delete _pctrN;
 	delete pbtnNB;
 	delete pbtnNP;
 	delete pbtnNT;
 
 // GUI G toolcircle ( park, education, hospital, police and fire )
-	delete pctrG;
+	delete _pctrG;
 	delete pbtnGB;
 	delete pbtnGP;
 	delete pbtnGE;
@@ -1214,7 +1215,7 @@ City::_DeleteGUI()
 	delete pbtnGF;
 
 // GUI T toolcircle ( raise, lower terrain )
-	delete pctrT;
+	delete _pctrT;
 	delete pbtnTB;
 	delete pbtnTU;
 	delete pbtnTD;
@@ -1222,21 +1223,21 @@ City::_DeleteGUI()
 	delete pbtnTQ;
 
 // GUI L toolcircle ( electric lines, electric plants )
-	delete pctrL;
+	delete _pctrL;
 	delete pbtnLB;
 	delete pbtnLL;
 	delete pbtnLN;
 	delete pbtnLC;
 
 // GUI Z toolcircle
-	delete pctrZ;
+	delete _pctrZ;
 	delete pbtnZB;
 	delete pbtnZR;
 	delete pbtnZC;
 	delete pbtnZI;
 
 // GUI main toolcircle
-	delete pctrMain;
+	delete _pctrMain;
 	delete pbtnZ;
 	delete pbtnS;
 	delete pbtnL;
@@ -1420,7 +1421,7 @@ City::_DoTool(
 
 	case OC_TOOL_ELINE:
 		if ((enumErrCode = _apLayer[ _eCurrentLayer ]->
-			BuildStructure( 
+			BuildStructure(
 				_uiMapW1, _uiMapL1, _uiMapW2, _uiMapL2,
 				OC_STRUCTURE_ELINE, cost )) == OC_ERR_FREE) {
 			gVars.gpAudioMgr->PlaySound( OC_SOUND_ELINE );
@@ -1559,16 +1560,16 @@ City::_DoTool(
 
 	case OC_TOOL_QUERY:
 	// Get the new query container
-		pctrQ = _apLayer[ _eCurrentLayer ]->QueryStructure( _uiMapW1, _uiMapL1 );
+		_pctrQ = _apLayer[ _eCurrentLayer ]->QueryStructure( _uiMapW1, _uiMapL1 );
 
 	// Reset the old container
-		pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
-		pctr->Unset( OC_GUIMAIN_VISIBLE );
+		_pctr->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+		_pctr->Unset( OC_GUIMAIN_VISIBLE );
 
 	// Show the informations queried
-		pctr = pctrQ;
-		pctr->SetLocation( sdlMBEvent.x - 70, _iWinHeight - sdlMBEvent.y - 70 );
-		pctr->Set( OC_GUIMAIN_VISIBLE );
+		_pctr = _pctrQ;
+		_pctr->SetLocation( sdlMBEvent.x - 70, _iWinHeight - sdlMBEvent.y - 70 );
+		_pctr->Set( OC_GUIMAIN_VISIBLE );
 		enumErrCode = OC_ERR_SOMETHING;		// avoid to calculate the cost
 		break;
 
@@ -1799,37 +1800,37 @@ void
 City::_HandleGUIClick()
 {
 	uint uiObject;
-	GUIContainer* pctrOld;
+	GUIContainer* pOldContainer;
 	int iX, iY;
 
-	pctrOld = pctr;
-	uiObject = this->pctr->GetClick();
+	pOldContainer = _pctr;
+	uiObject = _pctr->GetClick();
 
 // is this the main container ?
-	if (pctr == pctrMain)
+	if (_pctr == _pctrMain)
 	switch (uiObject) {
 		case 1: // switch to Z toolcircle
-			pctr = pctrZ;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrZ;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2: // load/save toolcircle
-			pctr = pctrS;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrS;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 3:  // L button, open the L toolcircle
-			pctr = pctrL;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrL;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 4:  // P button, set tool for "building road"
 			_SetCurrentTool( OC_TOOL_ROAD );
 			break;
 		case 5: // T button, open the "Terrain" toolcircle
-			pctr = pctrT;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrT;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 6: // G button, open the government toolcircle
-			pctr = pctrG;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrG;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 
 		default: // never reached
@@ -1839,11 +1840,11 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the Zone toolcircle
-	else if (pctr == pctrZ )
+	else if (_pctr == _pctrZ )
 	switch (uiObject) {
 		case 1: // back button, open the main toolcircle
-			pctr = pctrMain;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrMain;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2: // R button
 			_SetCurrentTool( OC_TOOL_ZONE_RES );
@@ -1862,12 +1863,12 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the eLectric toolcircle
-	else if (pctr == pctrL)
+	else if (_pctr == _pctrL)
 	switch (uiObject) {
 		case 1: // back button, open the main toolcircle
-			pctr = pctrMain;
+			_pctr = _pctrMain;
 		// highlight the previous button under the mouse cursor
-			pctr->Set( 3, OC_GUIMAIN_MOUSEOVER );
+			_pctr->Set( 3, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // L button, set tool for building electric lines
 			_SetCurrentTool( OC_TOOL_ELINE );
@@ -1886,11 +1887,11 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the Terrain toolcircle
-	else if (pctr == pctrT)
+	else if (_pctr == _pctrT)
 	switch (uiObject) {
 		case 1: // back button, open the main toolcircle
-			pctr = pctrMain;
-			pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrMain;
+			_pctr->Set( 5, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // height up
 			_SetCurrentTool( OC_TOOL_HEIGHT_UP );
@@ -1912,15 +1913,15 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the government toolcircle
-	else if (pctr == pctrG)
+	else if (_pctr == _pctrG)
 	switch (uiObject) {
 		case 1: // back button, open the main toolcircle
-			pctr = pctrMain;
-			pctr->Set( 6, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrMain;
+			_pctr->Set( 6, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // nature toolcircle
-			pctr = pctrN;
-			pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrN;
+			_pctr->Set( 1, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 3:
 			_SetCurrentTool( OC_TOOL_EDUCATION );
@@ -1942,11 +1943,11 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the "nature" toolcircle
-	else if (pctr == pctrN)
+	else if (_pctr == _pctrN)
 	switch (uiObject) {
 		case 1: // back button, open the government toolcircle
-			pctr = pctrG;
-			pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrG;
+			_pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // build park
 			_SetCurrentTool( OC_TOOL_PARK );
@@ -1962,11 +1963,11 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the load/save toolcircle
-	else if (pctr == pctrS)
+	else if (_pctr == _pctrS)
 	switch (uiObject) {
 		case 1: // back button, open the main toolcircle
-			pctr = pctrMain;
-			pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
+			_pctr = _pctrMain;
+			_pctr->Set( 2, OC_GUIMAIN_MOUSEOVER );
 			break;
 		case 2:  // save
 			_Save( ocSaveDirPrefix( "opencity.save" ) );
@@ -1982,7 +1983,7 @@ City::_HandleGUIClick()
 	}
 
 // the user clicked on the Path toolcircle
-	else if (pctr == pctrPath)
+	else if (_pctr == _pctrPath)
 	switch (uiObject) {
 		case 1: // start button
 			_SetCurrentTool( OC_TOOL_NONE );
@@ -2008,7 +2009,7 @@ City::_HandleGUIClick()
 	}
 
 // The user has clicked on the MAS toolcircle
-	else if (pctr == pctrMAS)
+	else if (_pctr == _pctrMAS)
 	switch (uiObject) {
 		case 1: // start button
 			_SetCurrentTool( OC_TOOL_AGENT_POLICE );
@@ -2028,16 +2029,16 @@ City::_HandleGUIClick()
 // IF the container has been changed then we reset
 // the MouseOver & Clicked attributes
 // otherwise we reset only the Clicked attribute
-	if (pctr != pctrOld) {
-		pctrOld->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
-		pctrOld->GetLocation( iX, iY );
-		pctr->SetLocation( iX, iY );
-		pctr->Set( OC_GUIMAIN_VISIBLE );
+	if (_pctr != pOldContainer) {
+		pOldContainer->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+		pOldContainer->GetLocation( iX, iY );
+		_pctr->SetLocation( iX, iY );
+		_pctr->Set( OC_GUIMAIN_VISIBLE );
 	}
 	else {
-		pctrOld->ResetAttribute( OC_GUIMAIN_CLICKED );
+		pOldContainer->ResetAttribute( OC_GUIMAIN_CLICKED );
 	}
-	pctrOld->Unset( OC_GUIMAIN_VISIBLE );
+	pOldContainer->Unset( OC_GUIMAIN_VISIBLE );
 }
 
 
@@ -2081,7 +2082,7 @@ City::_HandleMouseXY()
    /*=====================================================================*/
 void
 City::_TestPathfinding() {
-	if (pctr == pctrPath) {
+	if (_pctr == _pctrPath) {
 		if (this->boolPathGo == false) {
 			this->uiPathStartW = _uiMapW2;
 			this->uiPathStartH = _uiMapL2;
@@ -2089,10 +2090,10 @@ City::_TestPathfinding() {
 		else {
 		//TODO: put this somewhere else
 			vector<Destination> vdest;
-	
+
 			this->uiPathStopW = _uiMapW2;
 			this->uiPathStopH = _uiMapL2;
-	
+
 		// Buses prefer short distance
 			if (this->uiVehicleType == Vehicle::VEHICLE_BUS) {
 				gVars.gpPathFinder->findShortestPath(
@@ -2109,7 +2110,7 @@ City::_TestPathfinding() {
 					vdest,
 					PathFinder::OC_TRAFFIC );
 			}
-	
+
 		// Now create the new vehicle if a path was found
 			if ( vdest.size() > 0 ) {
 				pvehicle = new Vehicle(
@@ -2157,7 +2158,7 @@ City::_BuildPreview()
 				break;
 			case OC_TOOL_ROAD:
 				scode = OC_STRUCTURE_ROAD;
-				break;	
+				break;
 			case OC_TOOL_ELINE:
 				scode = OC_STRUCTURE_ELINE;
 				break;
@@ -2187,7 +2188,7 @@ City::_BuildPreview()
 			case OC_TOOL_EDUCATION:
 				scode = OC_STRUCTURE_EDUCATIONDEPT;
 				break;
-		
+
 			case OC_TOOL_TEST_BUILDING:
 				scode = OC_STRUCTURE_TEST;
 				break;

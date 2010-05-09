@@ -40,7 +40,7 @@ class Layer;
 class BuildingLayer;
 
 class GUIBar;			// GUI, toolcircle
-class GUIButton;	
+class GUIButton;
 class GUILabel;
 class GUIContainer;
 
@@ -163,7 +163,7 @@ private:
 	bool		boolPathGo;
 	uint		uiPathStartW, uiPathStartH;
 	uint		uiPathStopW, uiPathStopH;
-	GUIContainer* pctrPath;
+	GUIContainer*_pctrPath;
 	GUIButton*	pbtnPathStart;
 	GUIButton*	pbtnPathStop1;
 	GUIButton*	pbtnPathStop2;
@@ -172,7 +172,7 @@ private:
 	uint		uiVehicleType;
 
 // Testing MAS
-	GUIContainer* pctrMAS;
+	GUIContainer*_pctrMAS;
 	GUIButton*	pbtnMAS;
 	GUIButton*	pbtnMASPolice;
 	GUIButton*	pbtnMASDemonstrator;
@@ -202,15 +202,15 @@ private:
 	GUIButton*		_pbtnPlay;			///< Play button
 
 // GUI containers for main, zone, eLectric and Terrain toolcircles
-	GUIContainer* pctr;
-	GUIContainer* pctrMain;
-	GUIContainer* pctrL;		// electricic tool
-	GUIContainer* pctrT;		// terrain tool
-	GUIContainer* pctrQ;		// query tool
-	GUIContainer* pctrZ;		// zone tool
-	GUIContainer* pctrG;		// Government tool circle
-	GUIContainer* pctrN;		// Nature tool circle
-	GUIContainer* pctrS;		// Save tool circle
+	GUIContainer* _pctr;
+	GUIContainer* _pctrMain;
+	GUIContainer* _pctrL;		// electricic tool
+	GUIContainer* _pctrT;		// terrain tool
+	GUIContainer* _pctrQ;		// query tool
+	GUIContainer* _pctrZ;		// zone tool
+	GUIContainer* _pctrG;		// Government tool circle
+	GUIContainer* _pctrN;		// Nature tool circle
+	GUIContainer* _pctrS;		// Save tool circle
 
 // Main container, Z, LPX buttons
 	GUIButton* pbtnZ;		// RCI zoning tools

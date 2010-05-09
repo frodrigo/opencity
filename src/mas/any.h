@@ -1,8 +1,8 @@
 /***************************************************************************
-							any.h  -  description
+                           any.h  -  description
 							-------------------
 	begin                : nov 29th 2005
-	copyright            : (C) 2005 by Duong Khang NGUYEN
+	copyright            : (C) 2005-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 	author               : Victor STINNER
 
@@ -19,10 +19,11 @@
  ***************************************************************************/
 
 
-#ifndef _OPENCITY_ANY_H_
-#define _OPENCITY_ANY_H_ 1
+#ifndef _OPENCITY_MAS_ANY_H_
+#define _OPENCITY_MAS_ANY_H_ 1
 
 #include <string>
+
 
 typedef enum {
 	ANY_INT = 0,
@@ -54,42 +55,11 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const Any& any);
 
 private:
-	MAS_ANY_TYPE m_type;
-	int m_int_value;
-	unsigned int m_uint_value;
-	double m_double_value;
-	std::string m_string_value;
+	MAS_ANY_TYPE _type;
+	int _intValue;
+	unsigned int _uintValue;
+	double _doubleValue;
+	std::string _stringValue;
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
