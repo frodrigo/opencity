@@ -30,6 +30,7 @@ SPF_NAMESPACE_BEGIN(System)
 	Represents a NullValue object. In C++, a reference can not be assigned
 a null value. In this Sharp Plus Framework, the C# null reference is emulated
 by the System::NullValue class.
+	To assign a null value to an object, use the System::Null constant.
 */
 class NullValue : public ValueType
 {

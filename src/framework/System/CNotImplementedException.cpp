@@ -34,7 +34,7 @@ NotImplementedException::NotImplementedException(const String& message):
 
 
 NotImplementedException::~NotImplementedException() {}
-
-
    /*=====================================================================*/
+
+
 SPF_NAMESPACE_END

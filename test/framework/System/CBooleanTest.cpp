@@ -21,6 +21,7 @@
 #include "CBooleanTest.h"			// Test::BooleanTest class
 #include "UnitTesting/AAssert.h"	// UnitTesting::Assert class
 #include "System/CBoolean.h"		// System::Boolean class
+#include "System/CNotImplementedException.h"	// System::NotImplementedException class
 
 
 SPF_NAMESPACE_BEGIN(Test)
@@ -42,6 +43,10 @@ TestClass("System::Boolean test suite.\n")
 	System::Delegate inequalOperatorTest(*this, (System::MemberPointer0)&BooleanTest::InequalOperatorTest);
 	UnitTesting::TestMethod inequalOperatorTestMethod(equalOperatorTest, "InequalOperatorTest");
 	this->Add(inequalOperatorTestMethod);
+
+	System::Delegate notImplementedExceptionTest(*this, (System::MemberPointer0)&BooleanTest::NotImplementedExceptionTest);
+	UnitTesting::TestMethod notImplementedExceptionTestMethod(notImplementedExceptionTest, "NotImplementedExceptionTest", typeid(System::NotImplementedException));
+	this->Add(notImplementedExceptionTestMethod);
 }
 
 
@@ -106,6 +111,12 @@ void BooleanTest::InequalOperatorTest() const
 	UnitTesting::Assert::IsFalse(b1 != true);
 	UnitTesting::Assert::IsFalse(true != b1);
 	UnitTesting::Assert::IsFalse(b1 != b2);
+}
+
+
+void BooleanTest::NotImplementedExceptionTest() const
+{
+	throw new System::NotImplementedException();
 }
 
 

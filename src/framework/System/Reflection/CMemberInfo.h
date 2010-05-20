@@ -31,6 +31,7 @@ class MemberInfo : public Object
 {
 	public:
 		MemberInfo();
+		MemberInfo(const NullValue& null);
 		MemberInfo(const String& name);
 		virtual ~MemberInfo();
 

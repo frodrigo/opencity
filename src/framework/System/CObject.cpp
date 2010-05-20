@@ -23,13 +23,6 @@
 #include "CString.h"			// System::String class
 #include "CType.h"				// System::Type class
 
-// GCC headers					// GCC demangle functionality
-#include "cxxabi.h"
-
-// Standard C++ headers
-#include "cstdlib"				// free()
-#include "typeinfo"				// Standard C++ type_info class
-
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -76,14 +69,7 @@ String Object::ToString() const
    /*=====================================================================*/
 Type Object::GetType() const
 {
-	int iStatus;
-	const std::type_info& oTypeInfo = typeid(*this);
-	char* sRealName = abi::__cxa_demangle(oTypeInfo.name(), 0, 0, &iStatus);
-
-	Type oType = Type(sRealName);
-	free(sRealName);
-
-	return oType;
+	return typeid(*this);
 }
 
 

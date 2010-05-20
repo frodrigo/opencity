@@ -38,6 +38,7 @@ class BooleanTest : public UnitTesting::TestClass
 		void AssignmentOperatorTest() const;
 		void EqualOperatorTest() const;
 		void InequalOperatorTest() const;
+		void NotImplementedExceptionTest() const;
 
 		virtual System::String ToString() const;
 

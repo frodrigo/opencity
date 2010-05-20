@@ -34,8 +34,8 @@ class Type : public Reflection::MemberInfo
 {
 	public:
 		Type();
-		Type(const String& name);
-		Type(const String& name, const String& space);
+		Type(const NullValue& null);
+		Type(const std::type_info& typeInfo);
 		virtual ~Type();
 
 		// Properties
@@ -43,6 +43,10 @@ class Type : public Reflection::MemberInfo
 		const String& GetFullName() const;
 
 		virtual String ToString() const;
+
+		// Operators
+		virtual Type& operator=(const Type& type);
+		virtual bool operator==(const Type& type) const;
 
 	private:
 		String msNamespace;

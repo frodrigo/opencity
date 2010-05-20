@@ -20,6 +20,12 @@
 // Framework headers
 #include "CType.h"			// System::Type class
 
+// GCC headers				// GCC demangle functionality
+#include "cxxabi.h"
+
+// Standard C++ headers
+#include <cstdlib>			// free()
+
 
 SPF_NAMESPACE_BEGIN(System)
 
@@ -28,14 +34,17 @@ SPF_NAMESPACE_BEGIN(System)
 Type::Type() {}
 
 
-Type::Type(const String& name) : System::Reflection::MemberInfo(name) {}
+Type::Type(const NullValue& null): Reflection::MemberInfo(null) {}
 
 
-Type::Type(const String& name, const String& space):
-	System::Reflection::MemberInfo(name),
-	msNamespace( space )
+Type::Type(const std::type_info& typeInfo)
 {
-	msFullName = msNamespace + "::" + msName;
+	int iStatus;
+	char* sRealName = abi::__cxa_demangle(typeInfo.name(), 0, 0, &iStatus);
+
+	msName = sRealName;
+	msFullName = sRealName;
+	free(sRealName);
 }
 
 
@@ -60,6 +69,23 @@ const String& Type::GetFullName() const
 String Type::ToString() const
 {
 	return String("System::Type");
+}
+
+
+   /*=====================================================================*/
+Type& Type::operator=(const Type& type)
+{
+	msName = type.msName;
+	msNamespace = type.msNamespace;
+	msFullName = type.msFullName;
+
+	return *this;
+}
+
+
+bool Type::operator==(const Type& type) const
+{
+	return (msFullName == type.msFullName);
 }
 
 

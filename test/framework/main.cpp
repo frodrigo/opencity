@@ -42,6 +42,8 @@
 #include "System/CBooleanTest.h"
 #include "System/CStringTest.h"
 
+#include "System/CNotImplementedException.h"
+
 
 // System::Object test
 int TestObject()
@@ -131,6 +133,10 @@ int TestType()
 
 	System::Exception ex;
 	System::Terminal << ex.GetType().GetName() << "\n";
+
+	System::Object* pObj = new System::NotImplementedException();
+	System::Terminal << pObj->GetType().GetName() << "\n";
+	delete pObj;
 
 	System::Diagnostics::Debug debug;
 	System::Terminal << debug.GetType().GetName() << "\n";

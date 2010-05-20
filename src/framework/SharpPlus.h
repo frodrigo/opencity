@@ -28,6 +28,9 @@
 	#error "The C++ exception support is required."
 #endif
 
+// Standard C++ headers
+#include <typeinfo>				// Standard C++ type_info class and typeid operator
+
 #define SPF_NAMESPACE_SEPARATOR				"::"
 #define SPF_NAMESPACE_BEGIN(X)				namespace X {
 #define SPF_NAMESPACE_END					}

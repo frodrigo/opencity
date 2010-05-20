@@ -20,9 +20,11 @@
 // Framework headers
 #include "CTestMethod.h"			// UnitTesting::TestMethod class
 #include "CAssertFailedException.h"	// UnitTesting::AssertFailedException class
+#include "System/CNullValue.h"		// System::NullValue
 
 // Debug
 //#include "System/CConsole.h"		// System::Console class
+#include "System/CNotImplementedException.h"
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
@@ -30,6 +32,7 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
    /*=====================================================================*/
 TestMethod::TestMethod(const System::Delegate& delegate, const TestResult& expectedResult):
 	meExpectedResult(expectedResult),
+	moExpectedType(System::Null),
 	moDelegate(delegate)
 {
 }
@@ -37,10 +40,20 @@ TestMethod::TestMethod(const System::Delegate& delegate, const TestResult& expec
 
 TestMethod::TestMethod(const System::Delegate& delegate, const System::String& description, const TestResult& expectedResult):
 	meExpectedResult(expectedResult),
+	moExpectedType(System::Null),
 	moDelegate(delegate),
 	msDescription(description)
 {
 //	System::Terminal << "ctor + desc.\n";
+}
+
+
+TestMethod::TestMethod(const System::Delegate& delegate, const System::String& description, const System::Type& expectedType):
+	meExpectedResult(TestResult::Failed),
+	moExpectedType(expectedType),
+	moDelegate(delegate),
+	msDescription(description)
+{
 }
 
 
@@ -69,6 +82,18 @@ void TestMethod::SetExpectedResult(const TestResult& expectedResult)
 }
 
 
+const System::Type& TestMethod::GetExpectedType() const
+{
+	return moExpectedType;
+}
+
+
+void TestMethod::SetExpectedType(const System::Type& expectedType)
+{
+	moExpectedType = expectedType;
+}
+
+
 const TestResult& TestMethod::GetFinalResult() const
 {
 	return meFinalResult;
@@ -83,6 +108,18 @@ const System::String& TestMethod::GetDescription() const
 
 const TestResult& TestMethod::Run()
 {
+	if (moExpectedType.GetFullName() == System::String::Empty)
+		meFinalResult = this->RunWithExpectedResult();
+	else
+		meFinalResult = this->RunWithExpectedType();
+
+	return meFinalResult;
+}
+
+
+   /*=====================================================================*/
+TestResult TestMethod::RunWithExpectedResult()
+{
 	// Try to execute the delegate.
 	try {
 		moDelegate.DynamicInvoke();
@@ -93,16 +130,53 @@ const TestResult& TestMethod::Run()
 	}
 
 	// Compare the run result to the expected test result.
+	TestResult result;
 	if (meRunResult == meExpectedResult) {
 //		System::Terminal << "passed.\n";
-		meFinalResult = TestResult::Passed;
+		result = TestResult::Passed;
 	}
 	else {
 //		System::Terminal << "failed.\n";
-		meFinalResult = TestResult::Failed;
+		result = TestResult::Failed;
 	}
 
-	return meFinalResult;
+	return result;
+}
+
+
+TestResult TestMethod::RunWithExpectedType()
+{
+	System::Type exceptionType;
+
+	// Try to execute the delegate.
+	try {
+		moDelegate.DynamicInvoke();
+		meRunResult = TestResult::Passed;
+	}
+	catch (System::Exception* pException) {
+		exceptionType = pException->GetType();
+		delete pException;
+		meRunResult = TestResult::Failed;
+	}
+
+	// Compare the run result to the expected test result.
+	// The expected result for an exception unit test method is always TestResult::Failed
+	TestResult result;
+	if (meRunResult == meExpectedResult) {
+		if (exceptionType == moExpectedType) {
+//			System::Terminal << "passed.\n";
+			result = TestResult::Passed;
+		}
+		else {
+			result = TestResult::Failed;
+		}
+	}
+	else {
+//		System::Terminal << "failed.\n";
+		result = TestResult::Failed;
+	}
+
+	return result;
 }
 
 

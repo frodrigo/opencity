@@ -28,6 +28,9 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Reflection)
 MemberInfo::MemberInfo() {}
 
 
+MemberInfo::MemberInfo(const NullValue& null): System::Object(null) {}
+
+
 MemberInfo::MemberInfo(const String& name) : msName(name) {}
 
 

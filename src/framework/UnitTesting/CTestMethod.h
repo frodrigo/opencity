@@ -23,6 +23,7 @@
 // Framework headers
 #include "System/CString.h"			// System::String class
 #include "System/ADelegate.h"		// System::Delegate abstract class
+#include "System/CType.h"			// System::Type class
 #include "CTestResult.h"			// UnitTesting::TestResult enumeration
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
@@ -35,12 +36,24 @@ class TestMethod : public System::Object
 	public:
 		TestMethod(const System::Delegate& delegate, const TestResult& expectedResult = TestResult::Passed);
 		TestMethod(const System::Delegate& delegate, const System::String& description, const TestResult& expectedResult = TestResult::Passed);
+
+/**
+	Initializes a new TestMethod instance with the specified delegate and
+expected exception type.
+	\param	delegate		The test delegate.
+	\param	description		The description of the test method.
+	\param	expectedType	The expected exception type.
+*/
+		TestMethod(const System::Delegate& delegate, const System::String& description, const System::Type& expectedType);
 		virtual ~TestMethod();
 
 		const TestResult& GetRunResult() const;
 
 		const TestResult& GetExpectedResult() const;
 		void SetExpectedResult(const TestResult& expectedResult);
+
+		const System::Type& GetExpectedType() const;
+		void SetExpectedType(const System::Type& expectedType);
 
 		const TestResult& GetFinalResult() const;
 		const System::String& GetDescription() const;
@@ -52,8 +65,12 @@ class TestMethod : public System::Object
 		TestResult meRunResult;
 		TestResult meExpectedResult;
 		TestResult meFinalResult;
+		System::Type moExpectedType;
 		System::Delegate moDelegate;
 		System::String msDescription;
+
+		TestResult RunWithExpectedResult();
+		TestResult RunWithExpectedType();
 
 }; // class UnitTesting::TestMethod
 

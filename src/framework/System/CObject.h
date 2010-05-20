@@ -61,12 +61,13 @@ otherwise, false.
 		virtual String ToString() const;
 		virtual Type GetType() const;
 
+		// Operators
 		virtual Object& operator=(const NullValue& null);
 		virtual bool operator==(const Object& obj) const;
 		virtual bool operator!=(const Object& obj) const;
 
 	protected:
-		bool mbIsNull;		/// Avoids circular dependency
+		bool mbIsNull;	/// Avoids circular dependency from System::NullValue
 
 }; // class Object
 
