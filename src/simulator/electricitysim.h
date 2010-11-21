@@ -32,7 +32,8 @@
 /** This class is a threaded mini-simulator which handles the transmission
 of electricity in the game
 */
-class ElectricitySim : public Simulator  {
+class ElectricitySim : public Simulator
+{
 public:
 	ElectricitySim(
 		SDL_mutex* mutex,
@@ -90,41 +91,8 @@ private:
 
    /*=====================================================================*/
 	bool
-	dequeContain( const std::pair<uint, uint> &);
+	DequeContain( const std::pair<uint, uint> &);
 
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

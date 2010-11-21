@@ -415,7 +415,7 @@ BuildingLayer::ResizeStructure(
 		ow, 0,
 		ol, 0,
 		oh, 0 );
-	assert((ow != 0) && (ol != 0));		// not used yet: && (oh != 0) 
+	assert((ow != 0) && (ol != 0));		// not used yet: && (oh != 0)
 
 // Get the new WLH
 	gVars.gpPropertyMgr->GetWLH(
@@ -423,7 +423,7 @@ BuildingLayer::ResizeStructure(
 		nw, 0,
 		nl, 0,
 		nh, 0 );
-	assert((nw != 0) && (nl != 0));		// not used yet: && (nh != 0) 
+	assert((nw != 0) && (nl != 0));		// not used yet: && (nh != 0)
 
 // Remove all existing marks on the old surface used by the structure
 	for (dl = l; dl < l + ol; dl++) {
@@ -448,7 +448,7 @@ BuildingLayer::ResizeStructure(
 				pTemp = new RCIStructure( OC_STRUCTURE_PART, pStruct );
 				_tabpStructure[ linearIndex ] = pTemp;
 			}
-		// ELSE IF there is something 
+		// ELSE IF there is something
 		// AND it's not the current structure
 		// AND it's not the current structure's part neither THEN remove it
 			else if (pTemp != pStruct and pTemp->GetMain() != pStruct) {
@@ -481,7 +481,7 @@ BuildingLayer::ResizeStructure(
 		}
 	}
 
-// Remove the unmarked structures on the old surface 
+// Remove the unmarked structures on the old surface
 // then build the first level structures on it
 	for (dl = l; dl < l + ol; dl++) {
 		linearIndex = (dl*_uiLayerWidth) + w;
@@ -878,15 +878,16 @@ BuildingLayer::_IsPathConstructive(
 	const uint& h,
 	const OPENCITY_STRUCTURE_CODE& enumStructCode ) const
 {
-	OC_BYTE tabH[4];
-	OC_BYTE minH = 127;
-	OC_BYTE maxH = -127;
-	OC_BYTE deltaH = 0;
+	signed char tabH[4];
+	signed char minH = 127;
+	signed char maxH = -127;
+	signed char deltaH = 0;
+	signed char minHNb = 0;
+
 	uint uiIndex = 0;
-	OC_BYTE minHNb = 0;
 	Structure* pStruct = NULL;
 
-// Return immediatly if there's already 
+// Return immediatly if there's already
 // something different than enumStructCode built on it
 	pStruct = this->GetStructure(w,h);
 	if ((pStruct != NULL) && (pStruct->GetCode() != enumStructCode))
@@ -1281,7 +1282,7 @@ BuildingLayer::_LoadStructure(
 				_tabpStructure[linearIndex] = new Structure( OC_STRUCTURE_PART, pMainStruct );
 			}
 		}
-	
+
 	// Delete the part structure at the coordinates W1, L1
 		delete _tabpStructure[ (l1*_uiLayerWidth) + w1 ];
 	}

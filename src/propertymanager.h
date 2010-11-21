@@ -2,9 +2,9 @@
 					propertymanager.h  -  description
 							-------------------
 	begin                : feb 06th, 2004
-	copyright            : (C) 2003-2006 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -52,13 +52,13 @@ public:
 */
 	const int
 	Get(
-		const OPENCITY_PROPERTY_CODE & pCode,
-		const OPENCITY_STRUCTURE_CODE & sCode,
+		const OPENCITY_PROPERTY_CODE& pCode,
+		const OPENCITY_STRUCTURE_CODE& sCode,
 		const Structure* pcStruct = NULL ) const;
 
 
 //========================================================================
-/** Return the _first_ level graphic code for the corresponding 
+/** Return the _first_ level graphic code for the corresponding
 	structure code
 	\param scode The structure code of the structure that you want to
 		retrieve the graphic code.
@@ -90,16 +90,13 @@ for serialization.
 */
 	void
 	GetWLH(
-		const OPENCITY_GRAPHIC_CODE & gcode,
-		uint & w, const uint defw,
-		uint & l, const uint defl,
-		uint & h, const uint defh);
-
+		const OPENCITY_GRAPHIC_CODE gcode,
+		uint& w, const uint defw,
+		uint& l, const uint defl,
+		uint& h, const uint defh);
 
 private:
-	std::vector<Conf*>	vpConf;			///< Models' configuration files
-
-
+	std::vector<Conf*>	_vpConf;		///< The vector containing the model's configuration files
 
 
 //========================================================================
@@ -108,54 +105,22 @@ private:
 	\param gcode The OpenCity graphic code of the structure that you want to
 				retrieve the parameter
 	\param key The key of the element that you what to retrieve the value
-	\param def Default value
+	\param defaultValue The default value
 	\return the value pointed by the given "key"
 */
 	const string
 	propertymanagerGetStr(
-		const OPENCITY_GRAPHIC_CODE & gcode,
-		const string & key,
-		const string & def = "");
+		const OPENCITY_GRAPHIC_CODE gcode,
+		const string& key,
+		const string& defaultValue = "");
 
 
 	const OPENCITY_ERR_CODE
 	propertymanagerGetLint(
-		const OPENCITY_GRAPHIC_CODE & gcode,
-		const string & key,
-		OC_LINT & rlint,
-		const OC_LINT & def = 0);
+		const OPENCITY_GRAPHIC_CODE gcode,
+		const string& key,
+		OC_LINT& rlint,
+		const OC_LINT defaultValue = 0);
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

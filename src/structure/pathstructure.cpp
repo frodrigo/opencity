@@ -85,8 +85,8 @@ PathStructure::LoadFrom( std::fstream& rfs )
 	Structure::LoadFrom( rfs );
 	uint temp = 0;
 
-	rfs >> temp; rfs.ignore(); ubNumberNeighbour = (OC_UBYTE)temp;
-	rfs >> temp; rfs.ignore(); ubTraffic		 = (OC_UBYTE)temp;
+	rfs >> temp; rfs.ignore(); ubNumberNeighbour = (OC_BYTE)temp;
+	rfs >> temp; rfs.ignore(); ubTraffic		 = (OC_BYTE)temp;
 }
 
 
@@ -592,7 +592,7 @@ cout << "number neighbour == 1" << endl;
 
 
    /*======================================================================*/
-const OC_UBYTE &
+const OC_BYTE &
 PathStructure::GetTraffic() const
 {
 	return this->ubTraffic;
@@ -602,7 +602,7 @@ PathStructure::GetTraffic() const
    /*======================================================================*/
 void
 PathStructure::SetTraffic(
-	const OC_UBYTE & rubTraffic )
+	const OC_BYTE & rubTraffic )
 {
 	this->ubTraffic = rubTraffic;
 }
@@ -623,35 +623,3 @@ PathStructure::SetLength(
 {
 	this->uiLength = rcuiValue;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -32,12 +32,12 @@ it is far away. Do not use pointers here !
 */
 class Destination {
 public:
-	OPENCITY_DIRECTION _eDir	;	///< Which direction ?
+	OPENCITY_DIRECTION _eDir;		///< Which direction ?
 	uint _uiW;						///< The OC W, L coordinates
 	uint _uiL;
 	int _iHMin, _iHMax;				///< The height of the current square (on the Oy axis)
 	uint _uiTime;					///< How many time do I have to move in this direction ?
-	OC_UBYTE _ubTraffic;			///< Local traffic at this WL
+	OC_BYTE _ubTraffic;				///< Local traffic at this WL
 
 
 	Destination();

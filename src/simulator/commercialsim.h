@@ -1,10 +1,10 @@
 /***************************************************************************
-						commercialsim.h  -  description
+					  commercialsim.h  -  description
 							-------------------
 	begin                : jan 31th, 2004
-	copyright            : (C) 2004 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -20,17 +20,15 @@
 #ifndef _OPENCITY_COMMERCIALSIM_H_
 #define _OPENCITY_COMMERCIALSIM_H_ 1
 
-	#include "main.h"
+#include "main.h"
+#include "simulator.h"
 
-	#include "simulator.h"
 
-//TOKILL: see TrafficSim for more informations
-//int funcCSim(void*);
-
-   //========================================================================
-   /** Handle the simulation of the commercial sub-system.
-   */
-class CommercialSim : public Simulator  {
+//========================================================================
+/** Handle the simulation of the commercial sub-system.
+*/
+class CommercialSim : public Simulator
+{
 public:
 	CommercialSim(
 		SDL_mutex* mutex,
@@ -51,36 +49,3 @@ public:
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

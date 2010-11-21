@@ -2,7 +2,7 @@
 						electricitysim.cpp  -  description
 							-------------------
 	begin                : march 2nd, 2004
-	copyright            : (C) 2004-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -102,19 +102,19 @@ ElectricitySim::Main()
 	static uint nW, nH;
 
 // IF the simulators are not running THEN return
-	if (this->enumSimState != SIMULATOR_RUNNING)
+	if (_eSimState != SIMULATOR_RUNNING)
 		return 0;
 
-	SDL_LockMutex( this->mutexMain );
+	SDL_LockMutex( _pMutexMain );
 
 // clear the mark and E bit of ALL structure
-	pbuildlayer->StructureUnset( (OC_BYTE)( OC_STRUCTURE_MARK | OC_STRUCTURE_E ) );
+	_pBuildLayer->StructureUnset( (OC_BYTE)( OC_STRUCTURE_MARK | OC_STRUCTURE_E ) );
 
 // for each EPLANT do
 	iter = _vectorpairuiEPlant.begin();
 	while ( iter != _vectorpairuiEPlant.end() ) {
 		pairstructWH = *iter;
-		pstruct = pbuildlayer->GetStructure( pairstructWH.first, pairstructWH.second );
+		pstruct = _pBuildLayer->GetStructure( pairstructWH.first, pairstructWH.second );
 
 	// only process the EPLANT if it is not marked yet
 		if (pstruct != NULL)
@@ -126,7 +126,7 @@ ElectricitySim::Main()
 			pairstructWH = _dequepairui.front();
 			_dequepairui.pop_front();
 		// process the front structure
-			pstruct = pbuildlayer->GetStructure( pairstructWH.first, pairstructWH.second );
+			pstruct = _pBuildLayer->GetStructure( pairstructWH.first, pairstructWH.second );
 		// WARNING: pstruct is never NULL here !
 			switch (pstruct->GetCode()) {
 		// turn the E bit of the following structures on
@@ -188,39 +188,39 @@ ElectricitySim::Main()
 
 		// Put all the neighbour into the deque if they are not yet marked (processed)
 		// look for the neighour in the NORTH
-			if ((pmapOfCity->GetNeighbourWH(
+			if ((_pMapCity->GetNeighbourWH(
 				pairstructWH.first, pairstructWH.second,
 				nW, nH, OC_DIR_O_N ) == true )
-				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
-				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-				&& (dequeContain(make_pair(nW, nH)) == false))
+				and (pstruct = _pBuildLayer->GetStructure( nW, nH ))
+				and (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				and (this->DequeContain(make_pair(nW, nH)) == false))
 				_dequepairui.push_back( pair<uint,uint>( nW, nH) );
 
 		// look for the neighour in the EAST
-			if ((pmapOfCity->GetNeighbourWH(
+			if ((_pMapCity->GetNeighbourWH(
 				pairstructWH.first, pairstructWH.second,
 				nW, nH, OC_DIR_O_E ) == true )
-				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
-				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-				&& (dequeContain(make_pair(nW, nH)) == false))
+				and (pstruct = _pBuildLayer->GetStructure( nW, nH ))
+				and (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				and (this->DequeContain(make_pair(nW, nH)) == false))
 				_dequepairui.push_back( pair<uint,uint>( nW, nH) );
 
 		// look for the neighour in the SOUTH
-			if ((pmapOfCity->GetNeighbourWH(
+			if ((_pMapCity->GetNeighbourWH(
 				pairstructWH.first, pairstructWH.second,
 				nW, nH, OC_DIR_O_S ) == true )
-				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
-				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-				&& (dequeContain(make_pair(nW, nH)) == false))
+				and (pstruct = _pBuildLayer->GetStructure( nW, nH ))
+				and (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				and (this->DequeContain(make_pair(nW, nH)) == false))
 				_dequepairui.push_back( pair<uint,uint>( nW, nH) );
 
 		// look for the neighour in the WEST
-			if ((pmapOfCity->GetNeighbourWH(
+			if ((_pMapCity->GetNeighbourWH(
 				pairstructWH.first, pairstructWH.second,
 				nW, nH, OC_DIR_O_W ) == true )
-				&& (pstruct = pbuildlayer->GetStructure( nW, nH ))
-				&& (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
-				&& (dequeContain(make_pair(nW, nH)) == false))
+				and (pstruct = _pBuildLayer->GetStructure( nW, nH ))
+				and (pstruct->IsSet(OC_STRUCTURE_MARK) == false )
+				and (this->DequeContain(make_pair(nW, nH)) == false))
 				_dequepairui.push_back( pair<uint,uint>( nW, nH) );
 		} // while
 
@@ -228,7 +228,7 @@ ElectricitySim::Main()
 		iter++;
 	} // while _vectorpairuiEPlant
 
-	SDL_UnlockMutex( this->mutexMain );
+	SDL_UnlockMutex( _pMutexMain );
 
 	return 0;
 }
@@ -245,7 +245,7 @@ ElectricitySim::AddStructure(
 {
 	Structure* pstruct;
 
-	pstruct = pbuildlayer->GetStructure( w1, h1 );
+	pstruct = _pBuildLayer->GetStructure( w1, h1 );
 	if ( pstruct == NULL )
 		return;
 
@@ -286,7 +286,7 @@ ElectricitySim::RemoveStructure(
 // Remove the w, h of the main structure
 	vector< pair<uint, uint> >::iterator iter;
 
-	pstruct = pbuildlayer->GetStructure( mainW, mainH );
+	pstruct = _pBuildLayer->GetStructure( mainW, mainH );
 	if ( pstruct == NULL )
 		return;
 
@@ -302,15 +302,15 @@ ElectricitySim::RemoveStructure(
 			gVars.gpPropertyMgr->GetWLH( pstruct->GetGraphicCode(), sw, 4, sl, 4, sh, 1 );
 			sw--; sl--;
 			// now look for the main w, h
-			this->pmapOfCity->GetPossibleWH( mainW1, mainH1, -sw, -sl );
-			this->pmapOfCity->GetPossibleWH( mainW2, mainH2,  sw,  sl );
+			_pMapCity->GetPossibleWH( mainW1, mainH1, -sw, -sl );
+			_pMapCity->GetPossibleWH( mainW2, mainH2,  sw,  sl );
 			mainH = mainH1;
-			while ( (boolFound == false) && (mainH <= mainH2) ) {
+			while ( (boolFound == false) and (mainH <= mainH2) ) {
 				mainW = mainW1;
-				while ( (boolFound == false) && (mainW <= mainW2) ) {
+				while ( (boolFound == false) and (mainW <= mainW2) ) {
 				// IF the current structure at mainW, mainH
 				// is the main structure THEN we found it
-					if ( pbuildlayer->GetStructure( mainW, mainH ) == pstruct )
+					if ( _pBuildLayer->GetStructure( mainW, mainH ) == pstruct )
 						boolFound = true;
 					else
 						mainW++;
@@ -379,7 +379,7 @@ ElectricitySim::GetMaxValue() const
 
    /*=====================================================================*/
 bool
-ElectricitySim::dequeContain( const pair<uint, uint> & pairui )
+ElectricitySim::DequeContain( const pair<uint, uint> & pairui )
 {
 	if (find( _dequepairui.begin(), _dequepairui.end(), pairui )
 		!= _dequepairui.end())
@@ -387,36 +387,3 @@ ElectricitySim::dequeContain( const pair<uint, uint> & pairui )
 	else
 		return false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

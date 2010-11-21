@@ -38,6 +38,8 @@ ExtensionManager::Load()
 {
 	bool ok = true;
 
+	// warning: ISO C++ forbids casting between pointer-to-function and pointer-to-object
+	// There's no other solution at the time of writing.
 	this->glTexImage3D = (PFNGLTEXIMAGE3DEXTPROC)SDL_GL_GetProcAddress("glTexImage3DEXT");
 	if (this->glTexImage3D == NULL) {
 		OPENCITY_ERROR( "GL_EXT_texture3D extension unsupported by your video driver" );

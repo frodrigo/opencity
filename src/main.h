@@ -66,13 +66,22 @@ class UI;
 
 
 // OpenCity's types --> for future releases and porting work
-	#define OC_LINT long int
-	#define OC_ULINT unsigned long int
-	#define OC_SUINT short unsigned int
-	#define OC_FLOAT float
-	#define OC_BYTE char
-	#define OC_UBYTE unsigned char
-	#define OC_DATE int
+	#define OC_SHORT	short int
+	#define OC_USHORT	short unsigned int
+
+	#define OC_INT		int
+	#define OC_UINT		unsigned int
+
+	#define OC_LINT		long int
+	#define OC_ULINT	unsigned long int
+
+	#define OC_CHAR		char
+	#define OC_UCHAR	unsigned char
+	#define OC_BYTE		unsigned char
+
+	#define OC_FLOAT	float
+
+	#define OC_DATE		int
 
 // game default parameters
 	#define OC_FUND_START 15000

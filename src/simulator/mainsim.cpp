@@ -100,8 +100,8 @@ MainSim::Main()
 //	ostringstream oss;
 
 // Call the Main method of each micro simulator
-	while (this->enumSimState != SIMULATOR_RETURN) {
-		if (this->enumSimState == SIMULATOR_RUNNING) {
+	while (_eSimState != SIMULATOR_RETURN) {
+		if (_eSimState == SIMULATOR_RUNNING) {
 			for (uint ui = 0; ui < Simulator::OC_SIMULATOR_NUMBER; ui++) {
 				_tpSimulator[ui]->Main();
 //				oss << ui << "=" << (int)Simulator::_tiVariation[ui] << " ";
@@ -113,7 +113,7 @@ MainSim::Main()
 	// Refresh the simulator values every 5 turns
 		if (times == 0)
 			RefreshSimValue();
-	
+
 	// Wait a bit
 		Simulator::RCIDelay();
 // debug
@@ -216,9 +216,9 @@ fluctuations in between.
 
 
 // FOR each structre DO
-	maxLinear = pbuildlayer->GetMaxLinear();
+	maxLinear = _pBuildLayer->GetMaxLinear();
 	for ( linear = 0; linear <= maxLinear; linear++ ) {
-		pstruct = pbuildlayer->GetLinearStructure(linear);
+		pstruct = _pBuildLayer->GetLinearStructure(linear);
 		if (pstruct == NULL)
 			continue;
 
@@ -300,38 +300,3 @@ MainSim::GetMaxValue
 {
 	return _tpSimulator[sim]->GetMaxValue();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

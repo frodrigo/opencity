@@ -2,9 +2,9 @@
 						simulator.cpp  -  description
 							-------------------
 	begin                : september 21th, 2003
-	copyright            : (C) 2003-2007 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -43,8 +43,8 @@ volatile int Simulator::_tiVariation[Simulator::OC_SIMULATOR_NUMBER];
 Simulator::Simulator():
 _iVariation( 0 ),
 _iValue( 0 ),
-enumSimState( SIMULATOR_STOPED ),
-mutexMain( NULL )
+_eSimState( SIMULATOR_STOPED ),
+_pMutexMain( NULL )
 {
 	OPENCITY_DEBUG( "Sim ctor , do not use" );
 }
@@ -54,10 +54,10 @@ mutexMain( NULL )
 Simulator::Simulator( SDL_mutex* mutex, BuildingLayer* pblayer, Map* pmap ):
 _iVariation( 0 ),
 _iValue( 0 ),
-enumSimState( SIMULATOR_STOPED ),
-mutexMain( mutex ),
-pbuildlayer( pblayer ),
-pmapOfCity( pmap )
+_eSimState( SIMULATOR_STOPED ),
+_pMutexMain( mutex ),
+_pBuildLayer( pblayer ),
+_pMapCity( pmap )
 {
 	OPENCITY_DEBUG( "Sim param ctor" );
 
@@ -70,7 +70,7 @@ pmapOfCity( pmap )
 Simulator::~Simulator()
 {
 	OPENCITY_DEBUG( "Sim dtor" );
-	mutexMain = NULL;
+	_pMutexMain = NULL;
 }
 
 
@@ -100,7 +100,7 @@ Simulator::LoadFrom( std::fstream& rfs )
 void
 Simulator::Run()
 {
-	this->enumSimState = SIMULATOR_RUNNING;
+	_eSimState = SIMULATOR_RUNNING;
 }
 
 
@@ -108,7 +108,7 @@ Simulator::Run()
 void
 Simulator::Stop()
 {
-	this->enumSimState = SIMULATOR_STOPED;
+	_eSimState = SIMULATOR_STOPED;
 }
 
 
@@ -116,28 +116,28 @@ Simulator::Stop()
 void
 Simulator::Return()
 {
-	this->enumSimState = SIMULATOR_RETURN;
+	_eSimState = SIMULATOR_RETURN;
 }
 
 
    /*======================================================================*/
 const bool
 Simulator::CheckRange(
-	const uint & w,
-	const uint & l,
-	const uint & range,
-	const OPENCITY_STRUCTURE_CODE & enumStructCode ) const
+	const uint& w,
+	const uint& l,
+	const uint& range,
+	const OPENCITY_STRUCTURE_CODE enumStructCode ) const
 {
 	static uint W1, L1, W2, L2;
 
-   // calculate the possible W1,L1 and W2, L2
+// Calculate the possible W1,L1 and W2, L2
 	W1 = w; L1 = l;
 	W2 = w; L2 = l;
-	pmapOfCity->GetPossibleWH( W1, L1, -range, -range );
-	pmapOfCity->GetPossibleWH( W2, L2,  range,  range );
+	_pMapCity->GetPossibleWH( W1, L1, -range, -range );
+	_pMapCity->GetPossibleWH( W2, L2,  range,  range );
 
-   // check if the requested structure is within the range
-	return this->pbuildlayer->ContainStructure(
+// Check if the requested structure is within the range
+	return _pBuildLayer->ContainStructure(
 		W1, L1, W2, L2, enumStructCode );
 }
 
@@ -149,22 +149,24 @@ Simulator::CheckLevelUp(
 	const uint l,
 	const Structure* pStruct ) const
 {
-	static OPENCITY_GRAPHIC_CODE nextGC;
+	static OPENCITY_GRAPHIC_CODE nextGC, currentGC;
 	static uint ow = 0, ol = 0, oh = 0, nw = 0, nl = 0, nh = 0;		// Old, and New WLH
 	static uint w2 = 0, l2 = 0;
 	static uint layerW = 0, layerL = 0;
 
+// Get the next graphic code.
 	assert( pStruct != NULL );			// Ya, we need it !
 	nextGC = pStruct->GetNextLevelGraphicCode();
 
-// IF it's the same THEN ok
-	if (nextGC == pStruct->GetGraphicCode()) {
+// IF the next graphic code is the same as the current graphic code THEN ok
+	currentGC = pStruct->GetGraphicCode();
+	if (nextGC == currentGC) {
 		return true;
 	}
 
 // Get the old WLH
 	gVars.gpPropertyMgr->GetWLH(
-		pStruct->GetGraphicCode(),
+		currentGC,
 		ow, 0,
 		ol, 0,
 		oh, 0 );
@@ -179,7 +181,7 @@ Simulator::CheckLevelUp(
 	assert( nw != 0 );
 
 // IF they are the same THEN ok
-	if ((ow == nw) && (ol == nl) && (oh == nh)) {
+	if ((ow == nw) and (ol == nl) and (oh == nh)) {
 		return true;
 	}
 
@@ -193,7 +195,7 @@ Simulator::CheckLevelUp(
 // IF the new structure is out of the map THEN
 	w2 = w + nw - 1;
 	l2 = l + nl - 1;
-	pbuildlayer->GetLayerSize( layerW, layerL );
+	_pBuildLayer->GetLayerSize( layerW, layerL );
 	if ( w2 >= layerW || l2 >= layerL ) {
 //		OPENCITY_DEBUG( "Sorry, it's out of the map !" );
 		return false;
@@ -206,7 +208,7 @@ Simulator::CheckLevelUp(
 
 // The old WLH are smaller
 // IF the new required surface does not contains only the required structure THEN
-	if (this->pbuildlayer->ContainStructureOnly(
+	if (_pBuildLayer->ContainStructureOnly(
 		w, l, w2, l2, pStruct->GetCode()) == false ) {
 //		OPENCITY_DEBUG( "ContainStructureOnly failed - W/L/W2/L2 "
 //			<< w << "/" << l << "/" << w2 << "/" << l2 );
@@ -226,22 +228,24 @@ Simulator::CheckLevelDown(
 	const uint l,
 	const Structure* pStruct ) const
 {
-	static OPENCITY_GRAPHIC_CODE prevGC;
+	static OPENCITY_GRAPHIC_CODE prevGC, currentGC;
 	static uint ow = 0, ol = 0, oh = 0, nw = 0, nl = 0, nh = 0;		// Old, and New WLH
 	static uint w2 = 0, l2 = 0;
 	static uint layerW = 0, layerL = 0;
 
+// Get the previous graphic code.
 	assert( pStruct != NULL );			// Ya, we need it !
 	prevGC = pStruct->GetPreviousLevelGraphicCode();
 
 // IF it's the same THEN ok
-	if (prevGC == pStruct->GetGraphicCode()) {
+	currentGC = pStruct->GetGraphicCode();
+	if (prevGC == currentGC ) {
 		return true;
 	}
 
 // Get the old WLH
 	gVars.gpPropertyMgr->GetWLH(
-		pStruct->GetGraphicCode(),
+		currentGC,
 		ow, 0,
 		ol, 0,
 		oh, 0 );
@@ -256,7 +260,7 @@ Simulator::CheckLevelDown(
 	assert( nw != 0 );
 
 // IF they are the same THEN ok
-	if ((ow == nw) && (ol == nl) && (oh == nh)) {
+	if ((ow == nw) and (ol == nl) and (oh == nh)) {
 		return true;
 	}
 
@@ -268,7 +272,7 @@ Simulator::CheckLevelDown(
 // IF the new structure is out of the map THEN
 	w2 = w + nw - 1;
 	l2 = l + nl - 1;
-	pbuildlayer->GetLayerSize( layerW, layerL );
+	_pBuildLayer->GetLayerSize( layerW, layerL );
 	if ( w2 >= layerW || l2 >= layerL ) {
 		return false;
 	}
@@ -280,7 +284,7 @@ Simulator::CheckLevelDown(
 
 // The old WLH are bigger
 // IF the new required surface does not contains only the required structure THEN
-	if (this->pbuildlayer->ContainStructureOnly(
+	if (_pBuildLayer->ContainStructureOnly(
 		w, l, w2, l2,
 		pStruct->GetCode()) == false ) {
 		return false;
@@ -293,10 +297,10 @@ Simulator::CheckLevelDown(
 
 
    /*======================================================================*/
-const int &
+const int&
 Simulator::GetVariation() const
 {
-	return this->_iVariation;
+	return _iVariation;
 }
 
 
@@ -355,21 +359,3 @@ Simulator::RCIDelay( void )
 		*OC_MS_STRUCTURE_LOG_FACTOR )
 		);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

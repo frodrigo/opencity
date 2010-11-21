@@ -2,7 +2,7 @@
 						trafficsim.cpp  -  description
                              -------------------
 	begin                : may 1st, 2004
-	copyright            : (C) 2003-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -39,8 +39,8 @@ TrafficSim::TrafficSim(
 	PathFinder* pf,
 	MovementManager* mm ):
 Simulator( mutex, pblayer, pmap ),
-ppf( pf ),
-pmm( mm )
+_pPathFinder( pf ),
+_pMovementManager( mm )
 {
 	OPENCITY_DEBUG( "TSim param ctor" );
 }
@@ -66,18 +66,17 @@ TrafficSim::Main()
 	static int iNumberPath;
 
 
-	if (this->enumSimState != SIMULATOR_RUNNING)
+	if (_eSimState != SIMULATOR_RUNNING)
 		return 0;
 
-
 // get a random road structure
-	pstruct = pbuildlayer->GetRandomStructure(w, h, OC_STRUCTURE_ROAD );
+	pstruct = _pBuildLayer->GetRandomStructure(w, h, OC_STRUCTURE_ROAD );
 	if (pstruct == NULL)
 		return 0;
 
 // Try to lock the mutex to prevent the others from deleting the structure
 // pointed by "pstruct" while we're playing with
-	SDL_LockMutex( this->mutexMain );
+	SDL_LockMutex( _pMutexMain );
 
 // Save the starting point for pathfinding
 	startW = w;	startH = h;
@@ -87,10 +86,10 @@ TrafficSim::Main()
 
 // Get the surface around the structure we have
 	w1 = w; h1 = h;
-	this->pmapOfCity->GetPossibleWH(
+	_pMapCity->GetPossibleWH(
 		w1, h1, -OC_P_RCIP_RANGE, -OC_P_RCIP_RANGE );
 	w2 = w; h2 = h;
-	this->pmapOfCity->GetPossibleWH(
+	_pMapCity->GetPossibleWH(
 		w2, h2,  OC_P_RCIP_RANGE,  OC_P_RCIP_RANGE );
 
 // Calculate the traffic
@@ -99,7 +98,7 @@ TrafficSim::Main()
 	for ( w = w1; w <= w2; w++ ) {
 		for ( h = h1; h <= h2; h++ ) {
 		// we reuse the "pstruct" variable here
-			pstruct = pbuildlayer->GetStructure( w, h );
+			pstruct = _pBuildLayer->GetStructure( w, h );
 			if (pstruct != NULL)
 			switch (pstruct->GetCode()) {
 				case OC_STRUCTURE_ROAD:
@@ -124,15 +123,15 @@ TrafficSim::Main()
 // give the current path structure the traffic value
 // it's always >= 0 since
 // since the structure's level is always >= 0
-	ppathstruct->SetTraffic((OC_UBYTE)iTrafficValue );
+	ppathstruct->SetTraffic((OC_BYTE)iTrafficValue );
 
 // let the others run !
-	SDL_UnlockMutex( this->mutexMain );
+	SDL_UnlockMutex( _pMutexMain );
 
 // WARNING: the pathfinderShortestPath() need the unlocked mutex !
 // Are we going to create a new vehicle ?
 	if ((iTrafficValue > OC_TSIM_TRAFFIC_MIN) and ((rand() % 100) < OC_TSIM_VEHICLE_CHANCE )) {
-		trafficsimNewVehicle(startW, startH);
+		this->CreateNewVehicle(startW, startH);
 		_tiVariation[Simulator::OC_TRAFFIC]--;
 	}
 
@@ -141,7 +140,7 @@ TrafficSim::Main()
 
 
    /*=====================================================================*/
-void TrafficSim::trafficsimNewVehicle(
+void TrafficSim::CreateNewVehicle(
 	const uint& w,
 	const uint& h )
 {
@@ -152,28 +151,28 @@ void TrafficSim::trafficsimNewVehicle(
 	Vehicle* pvehicle;
 
 // IF the manager is full THEN
-	if (pmm->IsFull())
+	if (_pMovementManager->IsFull())
 		return;
 
 // try to get a destination
 // NOTE: here we are sure that GetRandomStructure() returns
 //       a PathStructure* or NULL
 //       That's why whe doesn't need to use dynamic_cast<>
-	pstruct = (PathStructure*)pbuildlayer->GetRandomStructure(w2, h2, OC_STRUCTURE_ROAD );
+	pstruct = (PathStructure*)_pBuildLayer->GetRandomStructure(w2, h2, OC_STRUCTURE_ROAD );
 	if (pstruct == NULL)
 		return;
 
 // buses prefer short distance
 	iRandom = rand() % Vehicle::VEHICLE_NUMBER;
 	if ( iRandom == Vehicle::VEHICLE_BUS) {
-		this->ppf->findShortestPath(
+		_pPathFinder->findShortestPath(
 			w, h, w2, h2,
 			vdest,
 			PathFinder::OC_DISTANCE );
 	}
 // sport vehicle prefer less traffic
 	else if ( (iRandom == Vehicle::VEHICLE_SPORT) || (iRandom == Vehicle::VEHICLE_STD) ) {
-		this->ppf->findShortestPath(
+		_pPathFinder->findShortestPath(
 			w, h, w2, h2,
 			vdest,
 			PathFinder::OC_TRAFFIC );
@@ -184,35 +183,9 @@ void TrafficSim::trafficsimNewVehicle(
 		pvehicle = new Vehicle((Vehicle::VEHICLE_TYPE)iRandom );
 		pvehicle->SetPath( vdest );		// path init
 		pvehicle->Start();				// vehicle init
-		if (pmm->Add( pvehicle ) < 0) {
+		if (_pMovementManager->Add( pvehicle ) < 0) {
 			OPENCITY_DEBUG("WARNING: The movement manager is full");
 			delete pvehicle;
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1170,7 +1170,7 @@ Renderer::_DisplayTerrain() const
 	if (bHeightChange == false)
 		goto displayterrain_return;
 
-	static OC_BYTE tabH[4];				// Terrain height
+	static signed char tabH[4];			// Terrain height
 	static GLfloat tabR[4];				// Texture R (depth) coordinate
 	static GLfloat ax, ay, az;
 	static GLfloat bx, by, bz;

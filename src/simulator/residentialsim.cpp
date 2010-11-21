@@ -2,7 +2,7 @@
 						residentialsim.cpp  -  description
 							-------------------
 	begin                : sep 21th, 2003
-	copyright            : (C) 2003-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -73,11 +73,11 @@ ResidentialSim::Main()
 	static OPENCITY_GRAPHIC_CODE oldGC;
 
 
-	if (this->enumSimState != SIMULATOR_RUNNING)
+	if (_eSimState != SIMULATOR_RUNNING)
 		return 0;
 
 // Get a random residential structure
-	pstruct = pbuildlayer->GetRandomStructure(w, l, OC_STRUCTURE_RES );
+	pstruct = _pBuildLayer->GetRandomStructure(w, l, OC_STRUCTURE_RES );
 	if (pstruct == NULL)
 		return 0;
 
@@ -86,7 +86,7 @@ ResidentialSim::Main()
 
 // Try to lock the mutex to prevent the others from deleting the structure
 // pointed by "pstruct" while we're playing with
-	SDL_LockMutex( this->mutexMain );
+	SDL_LockMutex( _pMutexMain );
 
 	pstruct->Unset(
 		OC_STRUCTURE_W                  | OC_STRUCTURE_G |
@@ -126,7 +126,7 @@ ResidentialSim::Main()
 		if (iRandom < OC_SIMULATOR_UP) {
 			if ((this->CheckLevelUp(w, l, pstruct) == true)
 				and (pstruct->LevelUp() == true)) {
-				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_pBuildLayer->ResizeStructure( w, l, oldGC );
 				_iValue++;
 				_tiVariation[Simulator::OC_RESIDENTIAL]--;
 			}
@@ -137,14 +137,14 @@ ResidentialSim::Main()
 		if (iRandom < OC_SIMULATOR_DOWN)
 			if ((this->CheckLevelDown(w, l, pstruct) == true)
 			&&  (pstruct->LevelDown() == true)) {
-				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_pBuildLayer->ResizeStructure( w, l, oldGC );
 				_iValue--;
 				_tiVariation[Simulator::OC_RESIDENTIAL]++;
 			}
 	}
 
 // Let the other simulators run
-	SDL_UnlockMutex( this->mutexMain );
+	SDL_UnlockMutex( _pMutexMain );
 
 //	OPENCITY_DEBUG( "End - ResidentialSim - w/l: " << w << "/" << l );
 
@@ -160,7 +160,7 @@ ResidentialSim::RemoveStructure(
 	const uint & w2,
 	const uint & h2 )
 {
-	Structure* pstruct = pbuildlayer->GetStructure( w1, h1 );
+	Structure* pstruct = _pBuildLayer->GetStructure( w1, h1 );
 
    // if this is a R zone
    // and it has a positive value according to its level
@@ -170,26 +170,3 @@ ResidentialSim::RemoveStructure(
 	if (pstruct->GetLevel() - 1 > 0)
 		_iValue -= pstruct->GetLevel()-1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

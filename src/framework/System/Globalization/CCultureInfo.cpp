@@ -26,10 +26,20 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Globalization)
 
 
    /*=====================================================================*/
-CultureInfo::CultureInfo() {}
+CultureInfo::CultureInfo(const int culture):
+	miLCID(culture)
+{
+}
 
 
 CultureInfo::~CultureInfo() {}
+
+
+   /*=====================================================================*/
+const int CultureInfo::GetLCID() const
+{
+	return miLCID;
+}
 
 
    /*=====================================================================*/

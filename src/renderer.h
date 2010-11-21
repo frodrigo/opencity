@@ -194,7 +194,7 @@ private:
 	bool _bDisplayCompass;		///< Display the GUI / compass
 	bool _bWireFrame;			///< Wireframe mode
 
-	OC_UBYTE _ubProjectionType;
+	OC_BYTE _ubProjectionType;
 	GLfloat _fScaleRatio;
 	GLfloat _fXTransDelta;	///< The delta used for translation in the X direction
 	GLfloat _fZTransDelta;

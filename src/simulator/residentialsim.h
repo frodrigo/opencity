@@ -2,7 +2,7 @@
 						residentialsim.h  -  description
 							-------------------
 	begin                : sep 21th, 2003
-	copyright            : (C) 2003-2005 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -18,17 +18,17 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_RESIDENTIALSIM_H_
-	#define _OPENCITY_RESIDENTIALSIM_H_ 1
+#define _OPENCITY_RESIDENTIALSIM_H_ 1
 
-	#include "main.h"
+#include "main.h"
+#include "simulator.h"
 
-	#include "simulator.h"
 
-
-   /** This class handles the simulation of residential zones
-   */
-class ResidentialSim : public Simulator  {
-public: 
+/** This class handles the simulation of residential zones
+*/
+class ResidentialSim : public Simulator
+{
+public:
 	ResidentialSim(
 		SDL_mutex* mutex,
 		BuildingLayer* pblayer,
@@ -49,25 +49,3 @@ public:
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

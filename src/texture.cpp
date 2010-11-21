@@ -450,7 +450,7 @@ Texture::Building2Texture
 // Create the minimap data
 	uint i = 0;
 	Structure* pStruct = NULL;
-	OC_UBYTE* pData = (OC_UBYTE*)malloc( gVars.guiCityWidth * gVars.guiCityLength * BYTE_PER_PIXEL );
+	OC_BYTE* pData = (OC_BYTE*)malloc( gVars.guiCityWidth * gVars.guiCityLength * BYTE_PER_PIXEL );
 	assert( pData != NULL );
 	for (int l = gVars.guiCityLength-1; l >= 0; l--) {
 		for (uint w = 0; w < gVars.guiCityWidth; w++, i+=BYTE_PER_PIXEL) {

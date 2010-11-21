@@ -4,7 +4,7 @@
 	begin                : june 17th, 2003
 	copyright            : (C) 2003-2007 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -66,12 +66,12 @@ public:
 		const OPENCITY_DIRECTION & enumDir );
 
 
-	const OC_UBYTE &
+	const OC_BYTE &
 	GetTraffic() const;
 
 	void
 	SetTraffic(
-		const OC_UBYTE & rubTraffic );
+		const OC_BYTE & rubTraffic );
 
 	const uint &
 	GetLength() const;
@@ -82,40 +82,10 @@ public:
 
 
 private:
-	OC_UBYTE ubNumberNeighbour;
-	OC_UBYTE ubTraffic;
+	OC_BYTE ubNumberNeighbour;
+	OC_BYTE ubTraffic;
 
 	uint uiLength;		// for pathfinding purpose
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

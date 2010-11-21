@@ -161,7 +161,7 @@ GUIContainer::GetClick() const
 void
 GUIContainer::Set(
 	const uint & rcuiIndex,
-	const OC_UBYTE & rcubAttribute ) const
+	const OC_BYTE & rcubAttribute ) const
 {
 	assert( rcuiIndex <= vectorpguimain.size() );
 
@@ -172,7 +172,7 @@ GUIContainer::Set(
    /*=====================================================================*/
 void
 GUIContainer::ResetAttribute(
-	const OC_UBYTE & rcubAttr ) const
+	const OC_BYTE & rcubAttr ) const
 {
 	std::vector<GUIMain*>::size_type stvector;
 	GUIMain* pguimain;

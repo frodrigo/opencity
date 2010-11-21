@@ -195,7 +195,7 @@ Networking::Reject( const uint id )
 
    /*=====================================================================*/
 const OPENCITY_NET_CODE
-Networking::StartServer( const OC_SUINT port )
+Networking::StartServer( const OC_USHORT port )
 {
 // IF the server is already running THEN error
 	if (_pServerSocket != NULL) {
@@ -308,7 +308,7 @@ Networking::ProcessServerData()
 const OPENCITY_NET_CODE
 Networking::Open(
 	const string serverHost,
-	const OC_SUINT port )
+	const OC_USHORT port )
 {
 // IF we are already connected THEN
 	if (this->_pServerSocket != NULL)

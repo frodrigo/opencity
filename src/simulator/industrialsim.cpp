@@ -4,7 +4,7 @@
 	begin                : feb 1st, 2004
 	copyright            : (C) 2004-2008 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -55,11 +55,11 @@ IndustrialSim::Main()
 	static OPENCITY_GRAPHIC_CODE oldGC;
 
 
-	if (this->enumSimState != SIMULATOR_RUNNING)
+	if (_eSimState != SIMULATOR_RUNNING)
 		return 0;
 
 // Get a random industrial structure
-	pstruct = pbuildlayer->GetRandomStructure(w, l, OC_STRUCTURE_IND);
+	pstruct = _pBuildLayer->GetRandomStructure(w, l, OC_STRUCTURE_IND);
 	if (pstruct == NULL)
 		return 0;
 
@@ -67,7 +67,7 @@ IndustrialSim::Main()
 
 // Try to lock the mutex to prevent the others from deleting the structure
 // pointed by "pstruct" while we're playing with
-	SDL_LockMutex( this->mutexMain );
+	SDL_LockMutex( _pMutexMain );
 
 	pstruct->Unset(
 		OC_STRUCTURE_W                  | OC_STRUCTURE_G |
@@ -107,7 +107,7 @@ IndustrialSim::Main()
 		if (iRandom < OC_SIMULATOR_UP) {
 			if ((this->CheckLevelUp(w, l, pstruct) == true)
 			&&  (pstruct->LevelUp() == true)) {
-				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_pBuildLayer->ResizeStructure( w, l, oldGC );
 				_iValue++;
 				_tiVariation[Simulator::OC_INDUSTRIAL]--;
 			}
@@ -118,13 +118,13 @@ IndustrialSim::Main()
 		if (iRandom < OC_SIMULATOR_DOWN)
 			if ((this->CheckLevelDown(w, l, pstruct) == true)
 			&&  (pstruct->LevelDown() == true)) {
-				pbuildlayer->ResizeStructure( w, l, oldGC );
+				_pBuildLayer->ResizeStructure( w, l, oldGC );
 				_iValue--;
 				_tiVariation[Simulator::OC_INDUSTRIAL]++;
 			}
 	}
 
-	SDL_UnlockMutex( this->mutexMain );
+	SDL_UnlockMutex( _pMutexMain );
 
 	return 0;
 }
@@ -138,7 +138,7 @@ IndustrialSim::RemoveStructure(
 	const uint & w2,
 	const uint & h2 )
 {
-	Structure* pstruct = pbuildlayer->GetStructure( w1, h1 );
+	Structure* pstruct = _pBuildLayer->GetStructure( w1, h1 );
 
    // if this is a I zone
    // and it has a positive value according to its level
@@ -148,36 +148,3 @@ IndustrialSim::RemoveStructure(
 	if (pstruct->GetLevel() - 1 > 0)
 		_iValue -= pstruct->GetLevel()-1;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

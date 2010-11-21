@@ -4,7 +4,7 @@
 	begin                : february 21th, 2006
 	copyright            : (C) 2006-2007 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -21,14 +21,15 @@
 #define _OPENCITY_MAINSIM_H_ 1
 
 #include "main.h"
-
 #include "simulator.h"
 
 
 //========================================================================
 /** Handles the simulation of the commercial sub-system.
 */
-class MainSim : public Simulator  {
+class MainSim : public Simulator
+{
+
 public:
 
 
@@ -160,36 +161,3 @@ private:
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

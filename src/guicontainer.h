@@ -108,7 +108,7 @@ range because there is no error checking.
 	void
 	Set(
 		const uint& rcuiIndex,
-		const OC_UBYTE& rcubAttribute ) const;
+		const OC_BYTE& rcubAttribute ) const;
 
 
 //========================================================================
@@ -117,7 +117,7 @@ range because there is no error checking.
 */
 	void
 	Set(
-		const OC_UBYTE& rcubAttribute ) {
+		const OC_BYTE& rcubAttribute ) {
 		GUIMain::Set( rcubAttribute );
 	}
 
@@ -127,7 +127,7 @@ range because there is no error checking.
 	\param rcubAttr The attributes to unset
 */
 	void
-	ResetAttribute( const OC_UBYTE& rcubAttr ) const;
+	ResetAttribute( const OC_BYTE& rcubAttr ) const;
 
 
 //========================================================================

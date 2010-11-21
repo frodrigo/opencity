@@ -2,9 +2,9 @@
 						simulator.h  -  description
 							-------------------
 	begin                : september 21th, 2003
-	copyright            : (C) 2003-2007 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -41,8 +41,8 @@
 
 #define OC_P_RCIP_RANGE 2	// for traffic simulation
 
-// simulators' defines.
-// bad values can block your system, don't change them !
+// The simulators' contants.
+// Bad values can block your system, don't change them !
 #define OC_SIMULATOR_UP   70			///< 70% of levelup will be done 30% left mean leveldown
 #define OC_SIMULATOR_DOWN 40			///< 40% of leveldown will be done only
 
@@ -63,9 +63,10 @@ class Structure;
 /** The class from which all the simulators derive. It contains common
 	tests used by the micro simulators
 */
-class Simulator : public Persistence {
-public:
+class Simulator : public Persistence
+{
 
+public:
 
 //========================================================================
 /** Each enumeration corresponds to a specific micro simulator
@@ -149,7 +150,7 @@ public:
 		const uint & w,
 		const uint & l,
 		const uint & range,
-		const OPENCITY_STRUCTURE_CODE & enumStructCode ) const;
+		const OPENCITY_STRUCTURE_CODE enumStructCode ) const;
 
 
 //========================================================================
@@ -192,12 +193,12 @@ this method works only on the electricity micro simulator.
 	virtual const int
 	GetMaxValue() const;
 
-	
+
 	void
 	SetVariation(
 		const int rcVariation );
 
-		
+
 	void
 	SetValue(
 		const int rcValue );
@@ -210,7 +211,7 @@ this method works only on the electricity micro simulator.
 	ThreadWrapper(
 		void* pSim );
 
-		
+
 //========================================================================
 /** Each RCI (residential, commercial, industrial) micro simulator should
 	call this at the end of each treatement so that the main thread can
@@ -224,10 +225,10 @@ protected:
 	int _iVariation;	///< The average variation of the structures stimulated
 	int _iValue;		///< The current global value of the simulator
 
-	SIMULATOR_STATE		enumSimState;			///< The current state of the simulator
-	SDL_mutex*			mutexMain;				///< Points to the global mutex
-	BuildingLayer*		pbuildlayer;
-	Map*				pmapOfCity;
+	SIMULATOR_STATE		_eSimState;		///< The current state of the simulator
+	SDL_mutex*			_pMutexMain;	///< The global mutex
+	BuildingLayer*		_pBuildLayer;	///< The building layer
+	Map*				_pMapCity;		///< The city map
 
 	static volatile int _tiVariation[Simulator::OC_SIMULATOR_NUMBER];
 };

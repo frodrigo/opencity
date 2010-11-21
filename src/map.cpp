@@ -42,7 +42,7 @@ _pclayer( NULL )
 	OPENCITY_DEBUG("ctor");
 
 	uint size = (width + 1) * (height + 1);
-	_btabSquareHeight = new OC_BYTE [ size ];
+	_btabSquareHeight = new signed char[ size ];
 
 	assert(gVars.gpMapMaker != NULL);
 	int* heightMap = gVars.gpMapMaker->getMap();
@@ -74,7 +74,7 @@ Map::SaveTo( std::fstream& rfs )
 	uint size = (_uiMapWidth + 1) * (_uiMapHeight + 1);
 
 	for (uint i = 0; i < size; i++)
-		rfs << (uint)_btabSquareHeight[i] << std::ends;
+		rfs << (int)_btabSquareHeight[i] << std::ends;
 }
 
 
@@ -89,21 +89,22 @@ Map::LoadFrom( std::fstream& rfs )
 	uint size = (_uiMapWidth + 1) * (_uiMapHeight + 1);
 
 	delete [] _btabSquareHeight;
-	_btabSquareHeight = new OC_BYTE [size];
-	uint temp = 0;
+	_btabSquareHeight = new signed char [size];
+
+	int temp = 0;
 	for (uint i = 0; i < size; i++) {
 		rfs >> temp; rfs.ignore();
-		_btabSquareHeight[i] = (OC_BYTE)temp;
-	}
+		_btabSquareHeight[i] = (signed char)temp;
+	} // for
 }
 
 
    /*=====================================================================*/
 OPENCITY_ERR_CODE
 Map::ChangeHeight(
-	const uint & rcuiW,
-	const uint & rcuiH,
-	const OPENCITY_MAP_VARIATION & enumVar )
+	const uint& rcuiW,
+	const uint& rcuiH,
+	const OPENCITY_MAP_VARIATION& enumVar )
 {
    // debugging
 	assert(_pclayer!= NULL);
@@ -121,12 +122,12 @@ Map::ChangeHeight(
 				return OC_ERR_SOMETHING;
 	}
 
-	OC_BYTE tabH [4];
-	OC_BYTE refH = 0;
+	signed char tabH[4];
+	char refH = 0;
 	uint i = 0;
 	uint linear = 0;
 
-	GetSquareHeight( rcuiW, rcuiH, tabH );
+	this->GetSquareHeight( rcuiW, rcuiH, tabH );
 
 // Check for maximum variation
 	switch (enumVar) {
@@ -170,8 +171,8 @@ Map::SetLayer( const Layer*  layer )
 
 
    /*=====================================================================*/
-const OC_BYTE &
-Map::GetLinearHeight( const uint & rcuiIndex ) const
+const char
+Map::GetLinearHeight( const uint& rcuiIndex ) const
 {
 	return _btabSquareHeight[rcuiIndex];
 }
@@ -188,9 +189,9 @@ Map::GetMaxLinear() const
    /*=====================================================================*/
 void
 Map::GetSquareHeight(
-	const uint & rcuiW,
-	const uint & rcuiH,
-	OC_BYTE btabH[] ) const
+	const uint& rcuiW,
+	const uint& rcuiH,
+	signed char btabH[] ) const
 {
 	uint linear;
 
@@ -208,17 +209,20 @@ Map::GetSquareHeight(
    /*=====================================================================*/
 const signed char
 Map::GetSquareMinHeight(
-	const uint & rcuiW,
-	const uint & rcuiL ) const
+	const uint& rcuiW,
+	const uint& rcuiL ) const
 {
-	OC_BYTE btabH [4];
-	OC_BYTE minH = 127;
+	signed char btabH[4];
+	signed char minH = 127;
 
-	GetSquareHeight( rcuiW, rcuiL, btabH );
-	for (uint i = 0; i < 4; i++)
+	this->GetSquareHeight( rcuiW, rcuiL, btabH );
+	for (int i = 0; i < 4; i++) {
 		if (btabH[i] < minH)
 			minH = btabH[i];
+
 //debug cout << "minH : " << (int)minH << endl;
+	} // for
+
 	return minH;
 }
 
@@ -226,16 +230,17 @@ Map::GetSquareMinHeight(
    /*=====================================================================*/
 const signed char
 Map::GetSquareMaxHeight(
-	const uint & rcuiW,
-	const uint & rcuiH ) const
+	const uint& rcuiW,
+	const uint& rcuiH ) const
 {
-	OC_BYTE btabH [4];
+	signed char btabH[4];
 	signed char maxH = -127;
 
-	GetSquareHeight( rcuiW, rcuiH, btabH );
-	for (uint i = 0; i < 4; i++)
+	this->GetSquareHeight( rcuiW, rcuiH, btabH );
+	for (int i = 0; i < 4; i++) {
 		if (btabH[i] > maxH)
 			maxH = btabH[i];
+	} // for
 
 	return maxH;
 }
@@ -247,11 +252,12 @@ Map::IsSquarePlane(
 	const uint w,
 	const uint l ) const
 {
-	OC_BYTE btabH[4];
+	signed char btabH[4];
 
-	GetSquareHeight( w, l, btabH );
+	this->GetSquareHeight( w, l, btabH );
+	bool isPlane = (btabH[0] == btabH[1]) and (btabH[0] == btabH[2]) and (btabH[0] == btabH[3]);
 
-	return (btabH[0] == btabH[1]) && (btabH[0] == btabH[2]) &&(btabH[0] == btabH[3]);
+	return isPlane;
 }
 
 
@@ -261,43 +267,43 @@ Map::IsSurfacePlane(
 	const uint w1, const uint l1,
 	const uint w2, const uint l2 ) const
 {
-	bool plane = true;
+	bool isPlane = true;
 	uint w = w1, l = l1;
 
-	while (plane and l <= l2) {
+	while (isPlane and l <= l2) {
 		w = w1;
-		while (plane and w <= w2) {
-			plane = IsSquarePlane( w, l );
+		while (isPlane and w <= w2) {
+			isPlane = this->IsSquarePlane( w, l );
 			w++;
-		}
+		} // while
 		l++;
-	}
+	} // while
 
-	return plane;
+	return isPlane;
 }
 
 
    /*=====================================================================*/
 const bool
 Map::IsSquareLinearPlane(
-	const uint & rcuiLinearIndex )
+	const uint& rcuiLinearIndex )
 {
 	uint w, h;
 
 	_Linear2WH( rcuiLinearIndex, w, h );
 
-	return IsSquarePlane( w, h );
+	return this->IsSquarePlane( w, h );
 }
 
 
    /*=====================================================================*/
 const bool
 Map::GetNeighbourWH(
-	const uint & rcuiMapW,
-	const uint & rcuiMapH,
-	uint & ruiNbrW,
-	uint & ruiNbrH,
-	const OPENCITY_DIRECTION & enumDir ) const
+	const uint& rcuiMapW,
+	const uint& rcuiMapH,
+	uint& ruiNbrW,
+	uint& ruiNbrH,
+	const OPENCITY_DIRECTION& enumDir ) const
 {
 	int w = rcuiMapW;
 	int h = rcuiMapH;
@@ -339,10 +345,10 @@ Map::GetNeighbourWH(
    /*=====================================================================*/
 void
 Map::GetPossibleWH(
-	uint & rW,
-	uint & rH,
-	const int & deltaW,
-	const int & deltaH ) const
+	uint& rW,
+	uint& rH,
+	const int& deltaW,
+	const int& deltaH ) const
 {
 	int newW = rW + deltaW;
 	int newH = rH + deltaH;
@@ -363,9 +369,9 @@ Map::GetPossibleWH(
 
    /*=====================================================================*/
 void
-Map::_Linear2WH( const uint & linear,
-		      uint & w,
-		      uint & h ) const
+Map::_Linear2WH( const uint& linear,
+		      uint& w,
+		      uint& h ) const
 {
 //debug
 cout << "not implemented yet " << endl;
@@ -376,9 +382,9 @@ assert(0);
    /*=====================================================================*/
 inline uint
 Map::_WH2Linear(
-	const uint & w,
-	const uint & h,
-	uint & linear ) const
+	const uint& w,
+	const uint& h,
+	uint& linear ) const
 {
 	return (linear = h * (_uiMapWidth + 1) + w);
 }

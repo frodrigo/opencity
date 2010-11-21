@@ -18,16 +18,16 @@
  ***************************************************************************/
 
 #ifndef _OPENCITY_INDUSTRIALSIM_H_
-	#define _OPENCITY_INDUSTRIALSIM_H_ 1
+#define _OPENCITY_INDUSTRIALSIM_H_ 1
 
-	#include "main.h"
+#include "main.h"
+#include "simulator.h"
 
-	#include "simulator.h"
 
-
-   /** This class handles the simulation of industrial zones
-   */
-class IndustrialSim : public Simulator  {
+/** This class handles the simulation of industrial zones
+*/
+class IndustrialSim : public Simulator
+{
 public:
 	IndustrialSim(
 		SDL_mutex* mutex,
@@ -49,38 +49,3 @@ public:
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

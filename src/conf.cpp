@@ -2,7 +2,7 @@
 						conf.cpp  -  description
 							-------------------
 	begin                : august 1st, 2004
-	copyright            : (C) 2004-2007 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -27,14 +27,14 @@
 
    /*=====================================================================*/
 const OPENCITY_ERR_CODE
-Conf::Open( const string& fname )
+Conf::Open( const string& fileName )
 {
-	std::ifstream inFile( fname.c_str() );
+	std::ifstream inFile( fileName.c_str() );
 
-// is the file opened ?
+// Is the file opened ?
 	if ( inFile == NULL ) {
 		OPENCITY_DEBUG( "WARNING: File open error, see below: " );
-		OPENCITY_DEBUG( fname.c_str() );
+		OPENCITY_DEBUG( fileName.c_str() );
 		return OC_ERR_FILE;
 	}
 
@@ -44,7 +44,7 @@ Conf::Open( const string& fname )
 	char* strSecond;
 	char* strEmpty = (char*)"";
 
-// read the first line
+// Read the first line
 	inFile.getline( strTemp, OC_MAX_CONF_LINE );
 	if ( !inFile.good() ) {
 		inFile.close();
@@ -52,15 +52,19 @@ Conf::Open( const string& fname )
 		return OC_ERR_FILE;
 	}
 
-// now process the file
+// Process the file
 	while ( inFile.good() ) {
 		if ( (strlen(strTemp) != 0)
-		  && (strTemp[0] != '#') ) {
+		  && (strTemp[0] != OC_CONF_COMMENT_START) ) {
+
 			strNew = strTemp;
-		// get the first token, it's the name of the parameter
-			strFirst = strtok( strNew, "=" );
-		// get the second token, it's the value of the parameter
-			strSecond = strtok( NULL, "=" );
+
+		// Get the first token, it's the name of the parameter
+			strFirst = strtok( strNew, OC_CONF_KEY_VALUE_SEPARATOR );
+
+		// Get the second token, it's the value of the parameter
+			strSecond = strtok( NULL, OC_CONF_KEY_VALUE_SEPARATOR );
+
 		// Trim out spaces from the datas if applicable
 			(strFirst != NULL) ? strFirst = Conf::RTrim( strFirst ) : strFirst = strEmpty;
 			(strSecond != NULL) ? strSecond = Conf::LTrim( strSecond ) : strSecond = strEmpty;
@@ -80,20 +84,22 @@ cout << "new" << (long) strNew << endl;
 			delete strNew;
 */
 		}
-	// read the next line
+
+	// Read the next line
 		inFile.getline( strTemp, OC_MAX_CONF_LINE );
 	}
 
+	// Close the file.
 	if (inFile.eof()) {
 		inFile.close();
 		return OC_ERR_FREE;
 	}
-	else {
-		inFile.close();
-		OPENCITY_DEBUG("FATAL: out of buffer ?");
-		assert( 0 );
-		return OC_ERR_SOMETHING;
-	}
+
+	// Close the file on error.
+	inFile.close();
+	OPENCITY_DEBUG("FATAL: out of buffer ?");
+	assert( 0 );
+	return OC_ERR_SOMETHING;
 }
 
 
@@ -116,7 +122,7 @@ for ( iter = _mapData.begin(); iter != _mapData.end(); iter++ ) {
 const string &
 Conf::GetValue(
 	const string& key,
-	const string& def )
+	const string& defaultValue )
 {
 //debug
 /*cout << "key is : '" << key << "', data is : '" << _mapData[ key ] << "'" << endl;
@@ -127,7 +133,7 @@ Conf::GetValue(
 
 // IF the key is not in the hash_map THEN return the default value
 	if (_mapData.find( key ) == _mapData.end())
-		return def;
+		return defaultValue;
 	else
 		return _mapData[ key ];
 }
@@ -138,11 +144,11 @@ const OPENCITY_ERR_CODE
 Conf::GetBool(
 	const string & key,
 	bool & rbool,
-	const bool def )
+	const bool defaultValue )
 {
 // IF the key is not in the hash_map THEN return the default value
 	if (_mapData.find( key ) == _mapData.end()) {
-		rbool = def;
+		rbool = defaultValue;
 		return OC_ERR_FREE;
 	}
 
@@ -170,7 +176,7 @@ const OPENCITY_ERR_CODE
 Conf::GetLint(
 	const string & key,
 	OC_LINT & rlint,
-	const OC_LINT def )
+	const OC_LINT defaultValue )
 {
 /* debug
 for (__gnu_cxx::hash_map<string, string, myHash>::iterator i = _mapData.begin();
@@ -182,27 +188,25 @@ i != _mapData.end(); i++) {
 // IF the key is not in the hash_map THEN return the default value
 	if (_mapData.find( key ) == _mapData.end()) {
 //debug cout << "key: " << key << "/ default: " << def << endl;
-		rlint = def;
+		rlint = defaultValue;
 		return OC_ERR_FREE;
 	}
 
+	errno = 0;		// Reset the errno integer
 	rlint = strtol(_mapData[key].c_str(), NULL, 0);
 
 //debug cout << __PRETTY_FUNCTION__ << "read: " << (long int)rlint << endl;
 
-/* FIXME: better check
-	int myerr = errno;
-	if (myerr != 0) {
-//debug cout << "Errno: " << myerr << "/ Str: " << strerror(myerr) << endl;
-		assert(0);
+// FIXME: better check
+	if (errno != 0) {
+		OPENCITY_DEBUG( "Errno: " << errno << "/ Str: " << strerror(errno) );
 		return OC_ERR_INVALID;
 	}
 	else {
 		return OC_ERR_FREE;
 	}
-*/
 
-	return OC_ERR_FREE;
+//	return OC_ERR_FREE;
 }
 
 
@@ -211,11 +215,11 @@ const OPENCITY_ERR_CODE
 Conf::GetFloat(
 	const string& key,
 	float& rfloat,
-	const float def )
+	const float defaultValue )
 {
 // IF the key is not in the hash_map THEN return the default value
 	if (_mapData.find( key ) == _mapData.end()) {
-		rfloat = def;
+		rfloat = defaultValue;
 		return OC_ERR_FREE;
 	}
 

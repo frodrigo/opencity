@@ -87,7 +87,7 @@ Model::DisplayList
 (
 	const OC_FLOAT & rcfW,
 	const OC_FLOAT & rcfL,
-	const OC_BYTE tabY []
+	const signed char tabY[]
 ) const
 {
 	assert( tabY != NULL );
@@ -112,7 +112,7 @@ Model::DisplayList
 (
 	const OC_FLOAT & rcfW,
 	const OC_FLOAT & rcfL,
-	const OC_BYTE tabY [],
+	const signed char tabY[],
 	const uint dlMask
 ) const
 {

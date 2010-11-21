@@ -32,11 +32,30 @@ SPF_NAMESPACE_NESTED_BEGIN(System, Globalization)
 class CultureInfo : public System::Object, public System::ICloneable, public System::IFormatProvider
 {
 	public:
+/**
+	Initializes a new instance of the CultureInfo class based on the culture
+specified by the culture identifier.
+
+	\param	culture	A predefined CultureInfo identifier or LCID property of an
+existing CultureInfo object.
+*/
+		CultureInfo(const int culture);
+
+/**
+	Gets the culture identifier for the current CultureInfo.
+
+	\return	The culture identifier for the current CultureInfo.
+*/
+		const virtual int GetLCID() const;
+
 		virtual String ToString() const;
 
 	protected:
 		CultureInfo();
 		virtual ~CultureInfo();
+
+	private:
+		int miLCID;
 
 }; // class System::Globalization::CultureInfo
 

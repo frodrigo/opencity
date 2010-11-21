@@ -2,7 +2,7 @@
 						propertymanager.cpp  -  description
 							-------------------
 	begin                : feb 6th, 2004
-	copyright            : (C) 2004-2007 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -31,54 +31,58 @@
 
    /*=====================================================================*/
 PropertyManager::PropertyManager():
-vpConf(OC_GRAPHIC_CODE_MAX, NULL)
+_vpConf(OC_GRAPHIC_CODE_MAX, NULL)
 {
-	uint i;
-	string str;
-	string::size_type pos;
-	string strAc = string(".ac");
-	string strConf = string(".conf");
-	std::stringstream ss;
-	Conf* pconfFile;
-
 	OPENCITY_DEBUG( "ctor" );
 
-// read the main config file
+	string strAc = string(".ac");
+	string strConf = string(".conf");
+
+// Read the main graphism configuration file
 	Conf* pConf = new Conf();
-	if (pConf->Open( ocConfigDirPrefix(OC_GRAPHISM_FILE_FILENAME) ) != OC_ERR_FREE) {
-		cerr << "WARNING: Error opening graphism config file." << endl;
+	string fileName = ocConfigDirPrefix(OC_GRAPHISM_FILE_FILENAME);
+	if (pConf->Open( fileName ) != OC_ERR_FREE) {
+		cerr << "WARNING: Error opening graphism config file: " << fileName << endl;
 		delete pConf;
 		pConf = NULL;
 		abort();
 	}
 
-// initialize the Conf* vector
-	for (i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
+// Initialize the Conf* vector
+	string strValue;
+	string::size_type pos;
+	std::stringstream ss;
+	Conf* pconfFile;
+	for (uint i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
 		ss << i;
-		str = pConf->GetValue(ss.str(), "");
+		strValue = pConf->GetValue(ss.str(), "");
 		ss.str("");
 
 	// IF the key is not defined in the config file THEN
-		if (str != "") {
-		// Reverse search for the ".ac" file extension
-			pos = str.rfind( strAc );
-			if (pos != str.npos ) {
-			// Replace ".ac" by ".conf"
-				str.replace( pos, strConf.size(), strConf );
-			}
+		if (strValue == "")
+			continue;
 
-			pconfFile = new Conf();
-			if (pconfFile->Open( ocDataDirPrefix(str) ) == OC_ERR_FREE) {
-				this->vpConf[i] = pconfFile;
-			}
-			else {
-				delete pconfFile;
-			}
-		} // if (str=="")
+	// Reverse search for the ".ac" file extension
+		pos = strValue.rfind( strAc );
+		if (pos != strValue.npos ) {
+		// Replace the file extension ".ac" by ".conf"
+			strValue.replace( pos, strConf.size(), strConf );
+		}
+
+		pconfFile = new Conf();
+		fileName = ocDataDirPrefix(strValue);
+		if (pconfFile->Open( fileName ) == OC_ERR_FREE) {
+			_vpConf[i] = pconfFile;
+		}
+		else {
+			delete pconfFile;
+			pconfFile = NULL;
+		}
 	} // for
 
 	pConf->Close();
 	delete pConf;
+	pConf = NULL;
 }
 
 
@@ -89,9 +93,9 @@ PropertyManager::~PropertyManager()
 
 // delete the Conf* vector
 	for (int i = 0; i < OC_GRAPHIC_CODE_MAX; i++ ) {
-		if (this->vpConf[i] != NULL) {
-			this->vpConf[i]->Close();		// Close the file
-			delete this->vpConf[i];			// NOTE: delete NULL pointer has no effect
+		if (_vpConf[i] != NULL) {
+			_vpConf[i]->Close();		// Close the file
+			delete _vpConf[i];			// NOTE: delete NULL pointer has no effect
 		}
 	}
 }
@@ -220,7 +224,7 @@ PropertyManager::Get(
 #ifndef NDEBUG
 // Debug code
 	if ( value == 0 ) {
-		cerr << "pCode: " << pCode << "/ sCode: " << sCode 
+		cerr << "pCode: " << pCode << "/ sCode: " << sCode
 			 << "/ pcStruct: " << pcStruct << endl;
 		assert( 0 );
 	}
@@ -365,19 +369,19 @@ PropertyManager::GetST(
    /*=====================================================================*/
 void
 PropertyManager::GetWLH(
-	const OPENCITY_GRAPHIC_CODE & gcode,
-	uint & w, const uint defw,
-	uint & l, const uint defl,
-	uint & h, const uint defh)
+	const OPENCITY_GRAPHIC_CODE gcode,
+	uint& w, const uint defw,
+	uint& l, const uint defl,
+	uint& h, const uint defh)
 {
-	static OC_LINT lint;
+	static OC_LINT width, length, height;
 
-	propertymanagerGetLint( gcode, "width", lint, defw );
-	w = lint;
-	propertymanagerGetLint( gcode, "length", lint, defl );
-	l = lint;
-	propertymanagerGetLint( gcode, "height", lint, defh );
-	h = lint;
+	propertymanagerGetLint( gcode, "width", width, defw );
+	w = (uint)width;
+	propertymanagerGetLint( gcode, "length", length, defl );
+	l = (uint)length;
+	propertymanagerGetLint( gcode, "height", height, defh );
+	h = (uint)height;
 
 /* debug
 	cout << "code: " << gcode
@@ -396,9 +400,9 @@ PropertyManager::GetWLH(
    /*=====================================================================*/
 const string
 PropertyManager::propertymanagerGetStr(
-	const OPENCITY_GRAPHIC_CODE & gcode,
-	const string & key,
-	const string & def)
+	const OPENCITY_GRAPHIC_CODE gcode,
+	const string& key,
+	const string& defaultValue)
 {
 	return "";
 }
@@ -407,42 +411,17 @@ PropertyManager::propertymanagerGetStr(
    /*=====================================================================*/
 const OPENCITY_ERR_CODE
 PropertyManager::propertymanagerGetLint(
-	const OPENCITY_GRAPHIC_CODE & gcode,
-	const string & key,
-	OC_LINT & rlint,
-	const OC_LINT & def)
+	const OPENCITY_GRAPHIC_CODE gcode,
+	const string& key,
+	OC_LINT& rlint,
+	const OC_LINT defaultValue)
 {
-// Avoid developers' mistakes
-	assert( (uint)gcode < this->vpConf.size() );
-	assert( this->vpConf[gcode] != NULL );
+// Preconditions
+	assert( (uint)gcode < _vpConf.size() );
 
-	return this->vpConf[gcode]->GetLint( key, rlint, def );
+// Get the configuration pointer.
+	Conf* pConf = _vpConf[gcode];
+	assert( pConf != NULL );
+
+	return pConf->GetLint( key, rlint, defaultValue );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

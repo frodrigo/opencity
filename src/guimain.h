@@ -164,7 +164,7 @@ operations here.
 */
 	void
 	Set(
-		const OC_UBYTE & rcubAttribute ) {
+		const OC_BYTE & rcubAttribute ) {
 		_ubAttribute |= rcubAttribute;
 	}
 
@@ -176,7 +176,7 @@ operations here.
 */
 	void
 	Unset(
-		const OC_UBYTE & rcubAttribute ) {
+		const OC_BYTE & rcubAttribute ) {
 		_ubAttribute &= ~rcubAttribute;
 	}
 
@@ -190,7 +190,7 @@ otherwise
 */
 	const bool
 	IsSet(
-		const OC_UBYTE & rcubAttribute ) const {
+		const OC_BYTE & rcubAttribute ) const {
 		if ( (_ubAttribute & rcubAttribute) == rcubAttribute )
 			return true;
 		else
@@ -207,7 +207,7 @@ protected:
 	GUIMain*	_pctr;					///< points to the container of the control
 	int 		_iX, _iY;				///< the upper left corner of the GUI control
 	uint		_uiWidth, _uiHeight;	///< width, height
-	OC_UBYTE	_ubAttribute;			///< visible, clicked, mouseover
+	OC_BYTE		_ubAttribute;			///< visible, clicked, mouseover
 
 };
 

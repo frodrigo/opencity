@@ -36,10 +36,11 @@ class Exception : public Object
 		Exception(const String& message);
 		virtual ~Exception();
 
-		/**
-			Gets a message that describes the current exception.
-			\return The error message that explains the reason for the exception, or an empty string("").
-		*/
+/**
+	Gets a message that describes the current exception.
+	\return The error message that explains the reason for the exception,
+or an empty string("").
+*/
 		const String& GetMessage() const;
 
 

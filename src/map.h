@@ -2,7 +2,7 @@
 						map.h  -  description
 							-------------------
 	begin                : january 24th, 2004
-	copyright            : (C) 2004-2007 Duong Khang NGUYEN
+	copyright            : (C) 2004-2010 Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -64,9 +64,9 @@ public:
 */
 	OPENCITY_ERR_CODE
 	ChangeHeight(
-		const uint & rcuiW,
-		const uint & rcuiH,
-		const OPENCITY_MAP_VARIATION & enumVar );
+		const uint& rcuiW,
+		const uint& rcuiH,
+		const OPENCITY_MAP_VARIATION& enumVar );
 
 
 	void
@@ -74,9 +74,9 @@ public:
 		const Layer*  layer );
 
 
-	const OC_BYTE &
+	const char
 	GetLinearHeight(
-		const uint & rcuiIndex ) const;
+		const uint& rcuiIndex ) const;
 
 
 	const uint
@@ -84,29 +84,29 @@ public:
 
 
 //========================================================================
-/** Get all the 4 heights of a square designated by its W,H.
-The corner's height is returned in the following order:
+/** Get all the 4 heights of a square designated by its W,H. The corner's
+height is returned in the following order:
 left-up, left-down, right-down, right-up
 	\param rcuiW,rcuiH The W, L (x, y) map coordinates
 	\param tabH The height table
 */
 	void
 	GetSquareHeight(
-		const uint & rcuiW,
-		const uint & rcuiH,
-		OC_BYTE tabH [] ) const;
+		const uint& rcuiW,
+		const uint& rcuiH,
+		signed char tabH[] ) const;
 
 
 	const signed char
 	GetSquareMinHeight(
-		const uint & rcuiW,
-		const uint & rcuiL ) const;
+		const uint& rcuiW,
+		const uint& rcuiL ) const;
 
 
 	const signed char
 	GetSquareMaxHeight(
-		const uint & rcuiW,
-		const uint & rcuiH ) const;
+		const uint& rcuiW,
+		const uint& rcuiH ) const;
 
 
 //========================================================================
@@ -128,7 +128,7 @@ left-up, left-down, right-down, right-up
 
 	const bool
 	IsSquareLinearPlane(
-		const uint & rcuiLinearIndex );
+		const uint& rcuiLinearIndex );
 
 
 //========================================================================
@@ -138,31 +138,31 @@ left-up, left-down, right-down, right-up
 */
 	const bool
 	GetNeighbourWH(
-		const uint & rcuiMapW,
-		const uint & rcuiMapH,
-		uint & ruiNbrW,
-		uint & ruiNbrH,
-		const OPENCITY_DIRECTION & enumDir ) const;
+		const uint& rcuiMapW,
+		const uint& rcuiMapH,
+		uint& ruiNbrW,
+		uint& ruiNbrH,
+		const OPENCITY_DIRECTION& enumDir ) const;
 
 
 //========================================================================
-/** Calculate the new possible WH given the changes. If the delta values 
-are too big to be incorporated in the new WH, the new WH values are 
+/** Calculate the new possible WH given the changes. If the delta values
+are too big to be incorporated in the new WH, the new WH values are
 cliped to the map edges
 */
 	void
 	GetPossibleWH(
-		uint & rW,
-		uint & rH,
-		const int & deltaW,
-		const int & deltaH ) const;
+		uint& rW,
+		uint& rH,
+		const int& deltaW,
+		const int& deltaH ) const;
 
 
 private:
 	uint _uiMapWidth;
 	uint _uiMapHeight;
 
-	OC_BYTE* _btabSquareHeight;
+	signed char* _btabSquareHeight;
 
 /// we need this to know if a square can be safely raised up or lowered down
 	const Layer* _pclayer;
@@ -178,21 +178,21 @@ private:
 */
 	void
 	_Linear2WH(
-		const uint & linear,
-		uint & w,
-		uint & h ) const;
+		const uint& linear,
+		uint& w,
+		uint& h ) const;
 
 
 //========================================================================
-/** Convert the W,H coordinates to the linear index according to the 
+/** Convert the W,H coordinates to the linear index according to the
 datas stocked inside the class
 	\note Must be dishtinguished from structure linear index
 */
 	inline uint
 	_WH2Linear(
-		const uint & w,
-		const uint & h,
-		uint & linear ) const;
+		const uint& w,
+		const uint& h,
+		uint& linear ) const;
 };
 
 #endif

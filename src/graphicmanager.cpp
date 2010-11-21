@@ -137,7 +137,7 @@ GraphicManager::DisplayTerrain(
 	const uint & rcuiW,
 	const uint & rcuiL ) const
 {
-	static OC_BYTE tabH [4];
+	static signed char tabH [4];
 	static GLfloat ax, ay, az;
 	static GLfloat bx, by, bz;
 	static GLfloat nx, ny, nz;
@@ -191,7 +191,7 @@ GraphicManager::DisplayStructure
 ) const
 {
 	static OPENCITY_GRAPHIC_CODE enumGC;
-	static OC_BYTE tabH [4];
+	static signed char tabH [4];
 	static GLfloat delta;
 
 
@@ -331,7 +331,7 @@ GraphicManager::DisplayGC(
 	const uint & rcuiW,
 	const uint & rcuiL ) const
 {
-	static OC_BYTE tabH [4];
+	static signed char tabH [4];
 
 // Get the heights from the map manager
 	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
@@ -349,7 +349,7 @@ GraphicManager::DisplayTerrainHighlight(
 	const uint & rcuiL,
 	const OPENCITY_TOOL_CODE & enumTool ) const
 {
-	OC_BYTE tabH [4];
+	signed char tabH[4];
 
 // warning: see warning in DisplayTerrain
 	gVars.gpMapMgr->GetSquareHeight( rcuiW, rcuiL, tabH );
@@ -416,7 +416,7 @@ GraphicManager::DisplayTerrainSelection
 	const uint & rcuiID
 ) const
 {
-	static OC_BYTE tabH [4];
+	static signed char tabH [4];
 
 // Warning: we draw the polygon counter-clock wise
 //          however, the polygon OY heights are
@@ -519,7 +519,7 @@ GraphicManager::SetListMask( const uint mask )
 void
 GraphicManager::DisplayAgent(float x, float y, const Agent* const pAgent) const
  {
-	static OC_BYTE tabH [4];
+	static signed char tabH[4];
 
 	assert(pAgent != NULL);
 

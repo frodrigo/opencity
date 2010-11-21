@@ -226,7 +226,7 @@ public:
 		OC_SERVER_STARTED
 */
 	const OPENCITY_NET_CODE
-	StartServer( const OC_SUINT port = OC_NET_SERVER_PORT );
+	StartServer( const OC_USHORT port = OC_NET_SERVER_PORT );
 
 
 //========================================================================
@@ -258,7 +258,7 @@ public:
 	const OPENCITY_NET_CODE
 	Open(
 		const string serverHost,
-		const OC_SUINT port = OC_NET_SERVER_PORT );
+		const OC_USHORT port = OC_NET_SERVER_PORT );
 
 
 //========================================================================

@@ -2,7 +2,7 @@
 						trafficsim.h  -  description
 							-------------------
 	begin                : may 1st, 2004
-	copyright            : (C) 2003-2007 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -39,7 +39,8 @@ class MovementManager;
 /** This class generates an artificial traffic in the game. The traffic level
 	of each unit (square) depends on the structures' level around it
 */
-class TrafficSim : public Simulator  {
+class TrafficSim : public Simulator
+{
 public:
 	TrafficSim(
 		SDL_mutex* mutex,
@@ -54,37 +55,15 @@ public:
 
 
 private:
-	PathFinder* ppf;
-	MovementManager* pmm;
+	PathFinder* _pPathFinder;
+	MovementManager* _pMovementManager;
 
    /*=====================================================================*/
    /*                        PRIVATE     METHODS                          */
    /*=====================================================================*/
-	void trafficsimNewVehicle(
+	void CreateNewVehicle(
 		const uint& w,
 		const uint& h );
 };
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

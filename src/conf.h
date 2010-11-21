@@ -2,7 +2,7 @@
 						conf.h    -  description
 							-------------------
 	begin                : august 1st, 2004
-	copyright            : (C) 2004-2006 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2010 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -26,8 +26,14 @@
 
 using std::map;
 
+// Contain the maximum length of each line in the .conf files.
+#define OC_MAX_CONF_LINE			1024
 
-#define OC_MAX_CONF_LINE	1024
+// Contain the key-value pair separator string.
+#define OC_CONF_KEY_VALUE_SEPARATOR	"="
+
+// Contain the comment start character.
+#define OC_CONF_COMMENT_START		'#'
 
 //========================================================================
 /** Manage the ".conf" file. The parser automatically trim out the spaces
@@ -51,37 +57,44 @@ using std::map;
 	delete pConf;
 \endcode
 */
-class Conf {
+class Conf
+{
+
 public:
 	Conf() { OPENCITY_DEBUG("ctor"); }
+
 	~Conf() { OPENCITY_DEBUG("dtor"); }
 
 
 //========================================================================
-/** Open the .conf file specified by its filename
-\param fname The name of the .conf file that you want to open
-\return Error code
+/** Open the .conf file specified by its filename then load its content.
+\param fileName The name of the .conf file that you want to open
+\return the error code
 \sa main.h
 */
 	const OPENCITY_ERR_CODE
 	Open(
-		const string& fname );
+		const string& fileName );
 
+//========================================================================
+/** Close the previously opened .conf file and clear its content from
+	memory.
+*/
 	void
 	Close();
 
 
 //========================================================================
 /** Return the string which represents the value part of the (key-value)
-	pair
+	pair.
 \param key The key of the element that you what to retrieve the value
-\param def Default value
+\param defaultValue The default value
 \return the value pointed by the given "key"
 */
 	const string&
 	GetValue(
 		const string& key,
-		const string& def = "");
+		const string& defaultValue = "");
 
 //========================================================================
 /** Empty value causes the method to return OC_ERR_INVALID and
@@ -90,14 +103,14 @@ public:
 	Anything other than space is interpreted as true
 \param key The key of the element that you what to retrieve the value
 \param rbool The reference to the boolean variable that holds the value
-\param def Default value
+\param defaultValue The default value
 \return the value pointed by the given "key"
 */
 	const OPENCITY_ERR_CODE
 	GetBool(
 		const string& key,
 		bool& rbool,
-		const bool def = false );
+		const bool defaultValue = false );
 
 
 //========================================================================
@@ -108,7 +121,7 @@ public:
 	GetLint(
 		const string& key,
 		OC_LINT& rlint,
-		const OC_LINT def = 0 );
+		const OC_LINT defaultValue = 0 );
 
 
 //========================================================================
@@ -119,20 +132,23 @@ public:
 	GetFloat(
 		const string& key,
 		float& rfloat,
-		const float def = 0 );
+		const float defaultValue = 0 );
 
 
 //========================================================================
-/** Static right and left trim tool
+/** Static right string trim function.
 */
 	static char* const
 	RTrim( char* const str );
 
+/** Static left string trim function.
+*/
 	static char* const
 	LTrim( char* const str );
 
 
 private:
+
 /* TOKILL, kept for future reference
 //========================================================================
 This is our hash function. In fact, it's just a wrapper
@@ -155,38 +171,6 @@ This is our hash function. In fact, it's just a wrapper
 */
 
 	map<string, string> _mapData;
-};
+}; // class
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
