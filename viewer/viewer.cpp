@@ -76,7 +76,7 @@ int initGL( const int width, const int height )	        // We call this right af
 /* The main drawing function. */
 void DrawGLScene( float width, float length, float height, const Model *model )
 {
-	OC_BYTE tabY [] = { 0, 0, 0, 0};
+	signed char tabY [] = { 0, 0, 0, 0};
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear The Screen And The Depth Buffer
 	glLoadIdentity();				// Reset The View
