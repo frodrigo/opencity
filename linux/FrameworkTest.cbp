@@ -105,6 +105,14 @@
 		<Unit filename="../src/framework/System/Information/Software/CSdl.h" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.cpp" />
 		<Unit filename="../src/framework/System/Reflection/CMemberInfo.h" />
+		<Unit filename="../src/framework/System/Windows/Forms/CContainerControl.cpp" />
+		<Unit filename="../src/framework/System/Windows/Forms/CContainerControl.h" />
+		<Unit filename="../src/framework/System/Windows/Forms/CControl.cpp" />
+		<Unit filename="../src/framework/System/Windows/Forms/CControl.h" />
+		<Unit filename="../src/framework/System/Windows/Forms/CForm.cpp" />
+		<Unit filename="../src/framework/System/Windows/Forms/CForm.h" />
+		<Unit filename="../src/framework/System/Windows/Forms/CScrollableControl.cpp" />
+		<Unit filename="../src/framework/System/Windows/Forms/CScrollableControl.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.cpp" />
 		<Unit filename="../src/framework/System/Xml/CXmlDocument.h" />
 		<Unit filename="../src/framework/System/Xml/CXmlElement.cpp" />

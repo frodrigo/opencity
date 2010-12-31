@@ -44,6 +44,20 @@
 
 #include "System/CNotImplementedException.h"
 
+// Test GNU gettext
+#include <libintl.h>
+
+int TestGnuGettext()
+{
+	#define PACKAGE "opencity"
+	#define LOCALEDIR "/usr/share/locale"
+
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
+
+	return 0;
+}
 
 // System::Object test
 int TestObject()
@@ -233,6 +247,9 @@ int TestTestRunner()
 // Main test procedure
 int main()
 {
+	// Test GNU Gettext
+	TestGnuGettext();
+
 	// System::Console test
 	System::Terminal << "SharpPlus framework test suite - begin\n";
 	System::Terminal << System::String("System::Console System::String output test\n");

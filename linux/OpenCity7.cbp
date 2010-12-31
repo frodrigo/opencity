@@ -59,6 +59,7 @@
 			<Add directory="/usr/include/SDL" />
 			<Add directory="/usr/include/libxml2" />
 			<Add directory="./" />
+			<Add directory="../src/framework" />
 		</Compiler>
 		<Linker>
 			<Add option="-lSDL_image" />
@@ -93,6 +94,8 @@
 		<Unit filename="../src/extensionmanager.cpp" />
 		<Unit filename="../src/extensionmanager.h" />
 		<Unit filename="../src/font_8x8.h" />
+		<Unit filename="../src/framework/System/AValueType.cpp" />
+		<Unit filename="../src/framework/System/AValueType.h" />
 		<Unit filename="../src/framework/System/CBoolean.cpp" />
 		<Unit filename="../src/framework/System/CBoolean.h" />
 		<Unit filename="../src/framework/System/CConsole.cpp" />
