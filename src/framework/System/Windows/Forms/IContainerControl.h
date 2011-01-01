@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CContainerControl.h  -  description
+                        IContainerControl.h  -  description
 							-------------------
-	begin                : December 31th, 2010
-	copyright            : (C) 2010 by Duong Khang NGUYEN
+	begin                : January 1st, 2011
+	copyright            : (C) 2011 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,29 +17,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_WINDOWS_FORMS_CCONTAINERCONTROL_H_
-#define _SPF_SYSTEM_WINDOWS_FORMS_CCONTAINERCONTROL_H_ 1
-
-// Framework headers
-#include "CScrollableControl.h"			// ScrollableControl base class
-#include "IContainerControl.h"			// IContainerControl interface
+#ifndef _SPF_SYSTEM_WINDOWS_FORMS_ICONTAINERCONTROL_H_
+#define _SPF_SYSTEM_WINDOWS_FORMS_ICONTAINERCONTROL_H_ 1
 
 SPF_NAMESPACE_BEGIN(System)
 SPF_NAMESPACE_NESTED_BEGIN(Windows, Forms)
 
+// Forward System::Windows::Forms::Control class declaration
+//class Control;
+
 /**
-	Provides focus-management functionality for controls that can function
-as a container for other controls.
+	Provides the functionality for a control to act as a parent for other
+controls.
 */
-class ContainerControl : public ScrollableControl, public IContainerControl
+class IContainerControl
 {
 	public:
-		ContainerControl();
-		virtual ~ContainerControl();
+/**
+	Gets the control that is active on the container control.
+*/
+		const Control& GetActiveControl() { return *mpActiveControl; }
 
-		virtual String ToString() const;
+/**
+	Sets the control that is active on the container control.
+*/
+		void SetActiveControl(const Control& activeControl) { mpActiveControl = &activeControl; }
 
-}; // class System::Windows::Forms::ContainerControl
+	protected:
+		IContainerControl() {}
+		virtual ~IContainerControl() {}
+
+	private:
+		// FIXME: uninitialized variable because NULL is not defined yet.
+		const Control* mpActiveControl;
+
+}; // class System::Windows::Forms::IContainerControl
 
 // namespace Windows::Forms
 SPF_NAMESPACE_NESTED_END

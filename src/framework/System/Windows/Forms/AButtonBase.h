@@ -1,8 +1,8 @@
 /***************************************************************************
-                        CContainerControl.h  -  description
+                        AButtonBase.h  -  description
 							-------------------
-	begin                : December 31th, 2010
-	copyright            : (C) 2010 by Duong Khang NGUYEN
+	begin                : January 1st, 2011
+	copyright            : (C) 2011 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -17,29 +17,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SPF_SYSTEM_WINDOWS_FORMS_CCONTAINERCONTROL_H_
-#define _SPF_SYSTEM_WINDOWS_FORMS_CCONTAINERCONTROL_H_ 1
+#ifndef _SPF_SYSTEM_WINDOWS_FORMS_ABUTTONBASE_H_
+#define _SPF_SYSTEM_WINDOWS_FORMS_ABUTTONBASE_H_ 1
 
 // Framework headers
-#include "CScrollableControl.h"			// ScrollableControl base class
-#include "IContainerControl.h"			// IContainerControl interface
+#include "CControl.h"
 
 SPF_NAMESPACE_BEGIN(System)
 SPF_NAMESPACE_NESTED_BEGIN(Windows, Forms)
 
 /**
-	Provides focus-management functionality for controls that can function
-as a container for other controls.
+	Implements the basic functionality common to button controls.
 */
-class ContainerControl : public ScrollableControl, public IContainerControl
+class ButtonBase : public Control
 {
 	public:
-		ContainerControl();
-		virtual ~ContainerControl();
+		ButtonBase();
+		virtual ~ButtonBase();
 
 		virtual String ToString() const;
 
-}; // class System::Windows::Forms::ContainerControl
+}; // class System::Windows::Forms::ButtonBase
 
 // namespace Windows::Forms
 SPF_NAMESPACE_NESTED_END
