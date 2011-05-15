@@ -25,11 +25,25 @@
 
 SPF_NAMESPACE_BEGIN(UnitTesting)
 
+/**
+	Specifies a result for a unit test.
+*/
 class TestResult : public System::Enum
 {
 	public:
+/**
+	Undefined test result.
+*/
 		static const TestResult Undefined;
+
+/**
+	The unit test has passed.
+*/
 		static const TestResult Passed;
+
+/**
+	The unit test has failed.
+*/
 		static const TestResult Failed;
 
 		TestResult();

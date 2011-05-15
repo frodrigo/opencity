@@ -38,6 +38,7 @@ class Exception : public Object
 
 /**
 	Gets a message that describes the current exception.
+
 	\return The error message that explains the reason for the exception,
 or an empty string("").
 */

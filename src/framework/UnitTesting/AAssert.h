@@ -55,7 +55,9 @@ unit test produced.
 	\param	message		A message to display if the assertion fails. This
 message can be seen in the unit test results.
 */
-		static void AreEqual(const int expected, const int actual, const System::String& message);
+		static void AreEqual(
+			const int expected, const int actual,
+			const System::String& message);
 
 /**
 	Verifies that two specified objects are equal. The assertion fails if the
@@ -85,12 +87,59 @@ message can be seen in the unit test results.
 			const Object& expected, const Object& actual,
 			const System::String& message);
 
-		static void AreNotEqual(const Object& expected, const Object& actual);
-		static void AreNotEqual(const Object& expected, const Object& actual, const System::String& message);
+/**
+	Verifies that two specified integers are not equal. The assertion fails if
+the integers are equal.
 
+	\param	expected	The first integer to compare. This is the integer the
+unit test expects.
+	\param	actual		The second integer to compare. This is the integer the
+unit test produced.
+*/
 		static void AreNotEqual(const int expected, const int actual);
-		static void AreNotEqual(const int expected, const int actual, const System::String& message);
 
+/**
+	Verifies that two specified integers are not equal. The assertion fails if
+the integers are equal.
+
+	\param	expected	The first integer to compare. This is the integer the
+unit test expects.
+	\param	actual		The second integer to compare. This is the integer the
+unit test produced.
+	\param	message		A message to display if the assertion fails. This
+message can be seen in the unit test results.
+*/
+		static void AreNotEqual(
+			const int expected, const int actual,
+			const System::String& message);
+
+/**
+	Verifies that two specified objects are not equal. The assertion fails if
+the objects are equal.
+
+	\param	expected	The first object to compare. This is the object the
+unit test expects.
+	\param	actual		The second object to compare. This is the object the
+unit test produced.
+	\see	Object
+*/
+		static void AreNotEqual(const Object& expected, const Object& actual);
+
+/**
+	Verifies that two specified objects are not equal. The assertion fails if
+the objects are equal.
+
+	\param	expected	The first object to compare. This is the object the
+unit test expects.
+	\param	actual		The second object to compare. This is the object the
+unit test produced.
+	\param	message		A message to display if the assertion fails. This
+message can be seen in the unit test results.
+	\see	Object
+*/
+		static void AreNotEqual(
+			const Object& expected, const Object& actual,
+			const System::String& message);
 
 /**
 	Verifies that two specified object variables refer to the same object. The

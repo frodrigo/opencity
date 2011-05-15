@@ -40,6 +40,7 @@ class TestMethod : public System::Object
 /**
 	Initializes a new TestMethod instance with the specified delegate and
 expected exception type.
+
 	\param	delegate		The test delegate.
 	\param	description		The description of the test method.
 	\param	expectedType	The expected exception type.

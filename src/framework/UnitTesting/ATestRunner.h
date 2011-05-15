@@ -31,6 +31,9 @@ SPF_NAMESPACE_BEGIN(UnitTesting)
 class TestClass;
 
 /**
+	Represents an abstract test runner class.
+
+	\see	ConsoleTestRunner
 */
 class TestRunner : public System::Object
 {
@@ -40,8 +43,22 @@ class TestRunner : public System::Object
 
 		virtual const System::Collections::Generic::List<TestClass>& GetTestClasses() const;
 
+/**
+	Adds the specified test class to this test runner.
+
+	\param	testClass	The test class to add.
+	\see	TestClass
+*/
 		virtual void Add(const TestClass& testClass);
+
+/**
+	Runs this all the tests contained in this runner.
+*/
 		virtual void Run();
+
+/**
+	Displays the test results to the output.
+*/
 		virtual void DisplayResults() = 0;
 
 		virtual System::String ToString() const;

@@ -52,9 +52,9 @@ TestClass::GetTestMethods() const
 
 
    /*=====================================================================*/
-void TestClass::Add(const TestMethod& method)
+void TestClass::Add(const TestMethod& testMethod)
 {
-	mcTestMethods.Add(method);
+	mcTestMethods.Add(testMethod);
 }
 
 

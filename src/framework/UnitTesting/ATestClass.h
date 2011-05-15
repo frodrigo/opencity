@@ -38,7 +38,20 @@ class TestClass : public System::Object
 		const System::String& GetDescription() const;
 		virtual const System::Collections::Generic::List<TestMethod>& GetTestMethods() const;
 
-		virtual void Add(const TestMethod& method);
+/**
+	Adds the specified test method to this test class.
+
+	\param	testMethod	The test method to add.
+	\see	TestMethod
+*/
+		virtual void Add(const TestMethod& testMethod);
+
+/**
+	Runs this test class.
+
+	\return	A collection containing the results of the tests.
+	\see	TestResult
+*/
 		virtual const System::Collections::Generic::List<TestResult> Run();
 
 		virtual System::String ToString() const;
