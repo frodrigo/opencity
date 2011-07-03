@@ -4,7 +4,7 @@
 	begin                : june 16th, 2003
 	copyright            : (C) 2003-2007 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
-	
+
 	$Id$
  ***************************************************************************/
 
@@ -179,7 +179,7 @@ Structure::GetGraphicCode() const
 const OPENCITY_GRAPHIC_CODE
 Structure::GetBaseGraphicCode() const
 {
-	OPENCITY_GRAPHIC_CODE tempGC;
+	OPENCITY_GRAPHIC_CODE tempGC = OC_EMPTY;
 
 	switch (_eSC) {
 		case OC_STRUCTURE_RES:
@@ -195,7 +195,7 @@ Structure::GetBaseGraphicCode() const
 			break;
 
 		default:
-			OPENCITY_DEBUG("Not implemented yet");
+			OPENCITY_DEBUG("Unrecognized graphic code enumeration.");
 			assert(0);
 			break;
 	}

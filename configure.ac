@@ -56,13 +56,13 @@ dnl We are doing checkings for a C++ program
 dnl ===========================================================================
 dnl CXX=g++ done by AC_PROG_CXX
 dnl AC_SUBST(CXX)
-dnl Set CXXFLAGS to disable -g -O2 and support the SDL libraries check
-
-CXXFLAGS="$SDL_CFLAGS"
-LDFLAGS="$LDFLAGS $SDL_LIBS"
+dnl Set CPPFLAGS to disable -g -O2 and support the SDL libraries check
 
 AC_PROG_CXX
 AC_LANG_CPLUSPLUS
+
+CPPFLAGS="$SDL_CFLAGS"
+LIBS="$SDL_LIBS"
 
 
 dnl Checks for programs.
@@ -81,7 +81,7 @@ if test "x$enable_sdl_mixer" = "x"; then
 
         if test "x$SDL_mixer_h" = "xyes"; then
                 if test "x$SDL_mixer_lib" = "xyes"; then
-                        LDFLAGS="$LDFLAGS -lSDL_mixer"
+						LIBS="$SDL_LIBS -lSDL_mixer"
                         AC_DEFINE(OPENCITY_SDL_MIXER, 1, [SDL_Mixer support])
                         AC_MSG_RESULT(yes)
                 else
@@ -155,7 +155,7 @@ dnl ===========================================================================
 dnl Checks for libraries.
 dnl ===========================================================================
 if test "x$enable_mingw" = "xyes"; then
-	LDFLAGS="-lmingw32 -lSDLmain -mwindows -lglu32 -lopengl32 $LDFLAGS"
+	LIBS="-lmingw32 -lSDLmain -mwindows -lglu32 -lopengl32 $LIBS"
 else
 	AC_CHECK_LIB(GL, glBegin, ,
 		AC_MSG_ERROR([OpenGL library required. See FAQ for more information]))
@@ -181,8 +181,8 @@ AC_CHECK_LIB(SDL_net, SDLNet_Init, ,
 AC_MSG_CHECKING(for libpng)
 for PNG in png png12 png13 dummypng; do
 	if $PACKAGE_CONFIG --exists lib$PNG > /dev/null 2>&1 ; then
-		CXXFLAGS="$CXXFLAGS `$PACKAGE_CONFIG --cflags lib$PNG`"
-		LDFLAGS="$LDFLAGS `$PACKAGE_CONFIG --libs lib$PNG`"
+		CPPFLAGS="$CPPFLAGS `$PACKAGE_CONFIG --cflags lib$PNG`"
+		LIBS="$LIBS `$PACKAGE_CONFIG --libs lib$PNG`"
 	break
 	fi
 done
@@ -194,17 +194,35 @@ fi
 
 
 dnl ===========================================================================
+dnl Optional linker --as-needed switch
+dnl ===========================================================================
+AC_ARG_ENABLE(as-needed,
+        [  --enable-as-needed      link with --as-needed flag])
+
+if test "x$enable_as_needed" = "xyes"; then
+        enable_as_needed="-Wl,--as-needed"
+else
+        enable_as_needed=""
+fi
+
+
+dnl ===========================================================================
 dnl Set the compiler and the linker options
 dnl ===========================================================================
-CXXFLAGS="-Wall -Wmissing-braces -Wparentheses -pedantic-errors $CXXFLAGS"
+dnl Set C / C++ compiler options
+CPPFLAGS="-Wall -Wmissing-braces -Wparentheses -pedantic-errors $CPPFLAGS"
 
-CXXFLAGS="-I$with_gl_prefix/include $enable_gprof $enable_debug $CXXFLAGS"
+dnl Set more C / C++ compiler options
+CPPFLAGS="-I$with_gl_prefix/include $enable_gprof $enable_debug $CPPFLAGS"
 
-CFLAGS="-std=c99 $CXXFLAGS"
+dnl Set specific C compiler flags
+CFLAGS="-std=c99 $CFLAGS"
 
+dnl Set specific C++ compiler flags
 CXXFLAGS="-std=c++98 $CXXFLAGS"
 
-LDFLAGS="-L$with_gl_prefix/lib $enable_gprof $LDFLAGS"
+dnl Set linker options 
+LDFLAGS="-L$with_gl_prefix/lib $enable_gprof $enable_as_needed $LDFLAGS"
 
 
 dnl ===========================================================================

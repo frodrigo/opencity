@@ -225,7 +225,7 @@ PathFinder::findShortestPath(
 	bool boolFound;
 
 // Dynamic compare functor
-	bool (*pFunctor)(const PathFinderNode&, const PathFinderNode&);
+	bool (*pFunctor)(const PathFinderNode&, const PathFinderNode&) = NULL;
 
 // Variables used to rebuild the "destination vector" from start to stop
 	int iFatherLinear;
@@ -247,8 +247,14 @@ PathFinder::findShortestPath(
 		case OC_DISTANCE:
 			pFunctor = pathfinderCompareDistance;
 			break;
+
 		case OC_TRAFFIC:
 			pFunctor = pathfinderCompareTraffic;
+			break;
+
+		default:
+			OPENCITY_DEBUG("Unrecognized path type enumeration.");
+			assert(0);
 			break;
 	}
 
