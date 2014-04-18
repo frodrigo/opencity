@@ -23,8 +23,13 @@ distribution.
 */
 
 #include "node_set.h"
+
+#ifdef HAVE_CONFIG_H
+	#include "config.h"
+#endif
+
 #ifdef HAVE_STDINT_H
-	#include "stdint.h"			// for intptr_t (32/64 bits void* pointer compatibility)
+	#include <stdint.h>			// for intptr_t (32/64 bits void* pointer compatibility)
 #endif
 
 namespace TinyXPath
@@ -32,7 +37,7 @@ namespace TinyXPath
 
 /// Copy constructor
 node_set::node_set (const node_set & ns2)
-{  
+{
    * this = ns2;
 }
 
@@ -97,9 +102,9 @@ void node_set::v_copy_selected_node_recursive (
       v_add_node_in_set (XNp_root);
    if (XNp_root -> Type () == TiXmlNode::ELEMENT)
    {
-      XAp_attrib = XNp_root -> ToElement () -> FirstAttribute ();      
+      XAp_attrib = XNp_root -> ToElement () -> FirstAttribute ();
       while (XAp_attrib)
-      {  
+      {
          v_add_attrib_in_set (XAp_attrib);
          XAp_attrib = XAp_attrib -> Next ();
       }
@@ -189,8 +194,8 @@ void node_set::v_add_base_in_set (
 
 /// Populate the node set with all following nodes.
 /// \n Exerpt : \n
-/// the following axis contains all nodes in the same document as the context 
-/// node that are after the context node in document order, excluding any 
+/// the following axis contains all nodes in the same document as the context
+/// node that are after the context node in document order, excluding any
 /// descendants and excluding attribute nodes and namespace nodes
 void node_set::v_add_all_foll_node (
    const TiXmlNode * XNp_node,   ///< base node
@@ -217,8 +222,8 @@ void node_set::v_add_all_foll_node (
 
 /// Populate the node set with all preceding nodes.
 /// \n Exerpt : \n
-/// the preceding axis contains all nodes in the same document as the context 
-/// node that are before the context node in document order, excluding any 
+/// the preceding axis contains all nodes in the same document as the context
+/// node that are before the context node in document order, excluding any
 /// ancestors and excluding attribute nodes and namespace nodes
 void node_set::v_add_all_prec_node (
    const TiXmlNode * XNp_node,      ///< base node

@@ -4,11 +4,12 @@ dnl $Id$
 dnl ===========================================================================
 
 AC_INIT(OpenCity, 0.0.7dev)
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_SRCDIR(src/main.cpp)
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
-AC_CONFIG_HEADERS([header.h])
+AC_CONFIG_HEADERS([config.h])
 
 
 AM_INIT_AUTOMAKE([1.7 dist-bzip2])
@@ -19,12 +20,14 @@ dnl ===========================================================================
 dnl We need ranlib to build index for accelerating symbols searching
 dnl in archive files.
 dnl ===========================================================================
-AC_PROG_RANLIB
+dnl libtoolize: `AC_PROG_RANLIB' is rendered obsolete by `LT_INIT'
+dnl AC_PROG_RANLIB
 
 
 dnl ===========================================================================
 dnl We use libtool to build convenience libraries
 dnl ===========================================================================
+LT_INIT
 AC_PROG_LIBTOOL
 
 

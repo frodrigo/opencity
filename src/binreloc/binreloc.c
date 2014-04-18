@@ -14,9 +14,11 @@
 #define __BINRELOC_C__
 
 #ifndef __WIN32__
-	#include "header.h"
+	#ifdef HAVE_CONFIG_H
+		#include "config.h"
+	#endif
 #else
-	#include "../win32/header.h"
+	#include "../win32/config.h"
 #endif
 
 #ifdef ENABLE_BINRELOC

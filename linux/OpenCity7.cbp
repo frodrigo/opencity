@@ -38,6 +38,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-Wmissing-braces -Wparentheses" />
+			<Add option="-DHAVE_CONFIG_H" />
 			<Add option="-DOPENCITY_SDL_MIXER" />
 			<Add option="-DDATADIR=\&apos;$(datadir)\&apos;" />
 			<Add option="-DSYSCONFDIR=\&apos;$(sysconfdir)\&apos;" />
@@ -71,7 +72,7 @@
 			<Add library="libSDL" />
 			<Add library="libxml2" />
 		</Linker>
-		<Unit filename="header.h" />
+		<Unit filename="config.h" />
 		<Unit filename="../src/SimpleOpt.h" />
 		<Unit filename="../src/audiomanager.h" />
 		<Unit filename="../src/audiomanagersdl.cpp" />

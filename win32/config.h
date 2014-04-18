@@ -1,11 +1,14 @@
-/* header.h.  Generated from header.h.in by configure.  */
-/* header.h.in.  Generated from configure.ac by autoheader.  */
+/* config.h.  Generated from config.h.in by configure.  */
+/* config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Include pthread support for binary relocation? */
 /* #undef BR_PTHREAD */
 
 /* Use binary relocation? */
 /* #undef ENABLE_BINRELOC */
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#define HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -15,9 +18,6 @@
 
 /* Define to 1 if you have the `GLU' library (-lGLU). */
 #define HAVE_LIBGLU 1
-
-/* Define to 1 if you have the `png' library (-lpng). */
-#define HAVE_LIBPNG 1
 
 /* Define to 1 if you have the `pthread' library (-lpthread). */
 /* #undef HAVE_LIBPTHREAD */
@@ -52,6 +52,10 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#define LT_OBJDIR ".libs/"
+
 /* SDL_Mixer support */
 #define OPENCITY_SDL_MIXER 1
 
@@ -69,6 +73,9 @@
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "opencity"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
 #define PACKAGE_VERSION "0.0.7dev"
