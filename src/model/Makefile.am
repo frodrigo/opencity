@@ -21,7 +21,7 @@ noinst_HEADERS = \
 	ac3dmaterial.h \
 	ac3dmodel.h \
 	ac3dobject.h \
-	ac3dsurface.h
+	ac3dsurface.h \
 	model.h \
 	modelloader.h
 
