@@ -12,7 +12,7 @@ AC_CANONICAL_TARGET
 AC_CONFIG_HEADERS([config.h])
 
 
-AM_INIT_AUTOMAKE([1.7 dist-bzip2])
+AM_INIT_AUTOMAKE([1.7 dist-bzip2 subdir-objects])
 AM_BINRELOC
 
 
