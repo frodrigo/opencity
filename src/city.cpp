@@ -2,7 +2,7 @@
 						city.cpp  -  description
 							-------------------
 	begin                : may 28th, 2003
-	copyright            : (C) 2003-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2015 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -584,9 +584,14 @@ void City::Keyboard( const SDL_KeyboardEvent& rcEvent )
 			break;
 
 
-		case SDLK_ESCAPE:	// Open/close the main menu
+		case SDLK_ESCAPE:	// Close toolcircle, quit tool, Open/close the main menu.
 			if (_pctrMenu == NULL) {
-				_LoadMenu();
+				if (_pctr->IsSet( OC_GUIMAIN_VISIBLE ))
+					_pctr->Unset( OC_GUIMAIN_VISIBLE );
+				else if (_eCurrentTool != OC_TOOL_NONE)
+					_SetCurrentTool( OC_TOOL_NONE );
+				else
+					_LoadMenu();
 			}
 			else {
 				_UnloadMenu();
