@@ -42,12 +42,12 @@ public:
 	~Renderer();
 
 
-	void RotateLeft( const uint & factor = 1 );
-	void RotateRight( const uint & factor = 1 );
-	void MoveLeft( const uint & factor = 1 );
-	void MoveRight( const uint & factor = 1 );
-	void MoveUp( const uint & factor = 1 );
-	void MoveDown( const uint & factor = 1 );
+	void RotateLeft( const float & factor = 1 );
+	void RotateRight( const float & factor = 1 );
+	void MoveLeft( const float & factor = 1 );
+	void MoveRight( const float & factor = 1 );
+	void MoveUp( const float & factor = 1 );
+	void MoveDown( const float & factor = 1 );
 
 
 //========================================================================

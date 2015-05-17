@@ -268,7 +268,7 @@ Renderer::~Renderer(  )
 
    /*=====================================================================*/
 void
-Renderer::RotateLeft( const uint & factor )
+Renderer::RotateLeft( const float & factor )
 {
 	GLdouble dYCurrentAngle = OC_Y_ROTATE_STEP*factor;
 	_dYRotateAngle = (GLint)(_dYRotateAngle + dYCurrentAngle) % 360;
@@ -300,7 +300,7 @@ Renderer::RotateLeft( const uint & factor )
 
    /*=====================================================================*/
 void
-Renderer::RotateRight( const uint & factor )
+Renderer::RotateRight( const float & factor )
 {
 	GLdouble dYCurrentAngle = -OC_Y_ROTATE_STEP*factor;
 	_dYRotateAngle = (GLint)(_dYRotateAngle + dYCurrentAngle) % 360;
@@ -332,7 +332,7 @@ Renderer::RotateRight( const uint & factor )
 
    /*=====================================================================*/
 void
-Renderer::MoveLeft( const uint & factor )
+Renderer::MoveLeft( const float & factor )
 {
 	_dDeltaX -= _fXTransDelta*factor;
 
@@ -343,7 +343,7 @@ Renderer::MoveLeft( const uint & factor )
 
    /*=====================================================================*/
 void
-Renderer::MoveRight( const uint & factor )
+Renderer::MoveRight( const float & factor )
 {
 	_dDeltaX += _fXTransDelta*factor;
 
@@ -354,7 +354,7 @@ Renderer::MoveRight( const uint & factor )
 
    /*=====================================================================*/
 void
-Renderer::MoveUp( const uint & factor )
+Renderer::MoveUp( const float & factor )
 {
 	_dDeltaZ -= _fZTransDelta*factor;
 
@@ -365,7 +365,7 @@ Renderer::MoveUp( const uint & factor )
 
    /*=====================================================================*/
 void
-Renderer::MoveDown( const uint & factor )
+Renderer::MoveDown( const float & factor )
 {
 	_dDeltaZ += _fZTransDelta*factor;
 
