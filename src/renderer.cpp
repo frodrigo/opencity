@@ -1167,8 +1167,10 @@ Renderer::_DisplayTerrain() const
 {
 #define OC_TERRAIN_TEXTURE_DEPTH	64
 
-	if (bHeightChange == false)
-		goto displayterrain_return;
+	if (!bHeightChange) {
+		glCallList( _uiTerrainList );
+		return;
+	}
 
 	static signed char tabH[4];			// Terrain height
 	static GLfloat tabR[4];				// Texture R (depth) coordinate
@@ -1349,7 +1351,6 @@ Renderer::_DisplayTerrain() const
 	glPopAttrib();
 	glEndList();
 
-displayterrain_return:
 	glCallList( _uiTerrainList );
 }
 
