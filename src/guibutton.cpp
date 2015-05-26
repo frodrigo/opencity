@@ -2,7 +2,7 @@
 						guibutton.cpp    -  description
 							-------------------
 	begin                : march 22th, 2004
-	copyright            : (C) 2004-2008 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2015 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -165,9 +165,11 @@ GUIButton::MouseMotion( const SDL_MouseMotionEvent& rcsMouseEvent )
 	static int winW, winH;
 	static int myX, myY;
 
+/* Always calculate the mouse over state.
 // Return immediatly if this is NOT visible
-	if ( IsSet( OC_GUIMAIN_VISIBLE ) == false )
+	if ( !IsSet( OC_GUIMAIN_VISIBLE ) )
 		return;
+*/
 
 // The button must be contained in a guicontainer !
 	assert( _pctr != NULL );
