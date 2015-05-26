@@ -1019,7 +1019,7 @@ City::_CreateGUI()
 // The status bar
 	_pbtnPause = new GUIButton( 54, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/speed_pause" ));
 	_pbtnPlay  = new GUIButton( 54, 4, 24, 24, ocDataDirPrefix( "graphism/gui/status/speed_play" ));
-	_pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
+	_pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
 
 	ossTemp << _liCityFund;
 	_plblFund = new GUILabel( 125, 11, 80, 10, ossTemp.str() );
@@ -1775,28 +1775,29 @@ City::_HandleStatusClick()
 
 // WARNING: the GUI button displays the current speed
 	switch (uiObject) {
-		case 1:		// Pause button
-			OPENCITY_DEBUG( "Normal speed mode" );
-			_pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
-			_pbtnPlay->Set( OC_GUIMAIN_VISIBLE );
-			_eSpeed = OC_SPEED_NORMAL;
-			_pMSim->Run();
-			break;
-		case 2:		// Play button
+		case 1:		// Click on Pause button
 			OPENCITY_DEBUG( "Pause mode" );
-			_pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
-			_pbtnPause->Set( OC_GUIMAIN_VISIBLE );
+			_pbtnPlay->Set( OC_GUIMAIN_VISIBLE );
+			_pbtnPause->Unset( OC_GUIMAIN_VISIBLE );
 			_eSpeed = OC_SPEED_PAUSE;
 			_pMSim->Stop();
 			break;
 
+		case 2:		// Click on Play button
+			OPENCITY_DEBUG( "Normal speed mode" );
+			_pbtnPause->Set( OC_GUIMAIN_VISIBLE );
+			_pbtnPlay->Unset( OC_GUIMAIN_VISIBLE );
+			_eSpeed = OC_SPEED_NORMAL;
+			_pMSim->Run();
+			break;
+
 		default:
-			OPENCITY_DEBUG( "WARNING: What's this control -> " << uiObject);
+			OPENCITY_DEBUG( "WARNING: What is this control -> " << uiObject);
 			//assert(0);
 			break;
-	}
+	} // switch
 
-	_pctrStatus->ResetAttribute( OC_GUIMAIN_CLICKED | OC_GUIMAIN_MOUSEOVER );
+	_pctrStatus->ResetAttribute( OC_GUIMAIN_CLICKED /*| OC_GUIMAIN_MOUSEOVER*/ );
 }
 
 
