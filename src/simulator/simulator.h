@@ -2,7 +2,7 @@
 						simulator.h  -  description
 							-------------------
 	begin                : september 21th, 2003
-	copyright            : (C) 2003-2010 by Duong Khang NGUYEN
+	copyright            : (C) 2003-2015 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -66,6 +66,10 @@ class Structure;
 class Simulator : public Persistence
 {
 
+private:
+
+	Simulator();
+
 public:
 
 //========================================================================
@@ -87,7 +91,6 @@ public:
 		SIMULATOR_RETURN
 	};
 
-	Simulator();		///< do NOT use this
 	Simulator(
 		SDL_mutex* mutex,
 		BuildingLayer* pblayer,
