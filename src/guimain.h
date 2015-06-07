@@ -2,7 +2,7 @@
 						guimain.h    -  description
 							-------------------
 	begin                : march 22th, 2004
-	copyright            : (C) 2004-2006 by Duong Khang NGUYEN
+	copyright            : (C) 2004-2015 by Duong Khang NGUYEN
 	email                : neoneurone @ gmail com
 
 	$Id$
@@ -195,6 +195,20 @@ otherwise
 			return true;
 		else
 			return false;
+	}
+
+
+//========================================================================
+/** Check if the specified 2D position is inside the control.
+	\param rciX,rciY The 2D position to check.
+	\return True if specified position is inside the control.
+*/
+	bool
+	IsInside(
+		const int& rciX,
+		const int& rciY ) {
+		bool isInside = (rciX >= _iX && rciX <= _iX+(int)_uiWidth) && (rciY >= _iY && rciY <= _iY+(int)_uiHeight);
+		return isInside;
 	}
 
 
